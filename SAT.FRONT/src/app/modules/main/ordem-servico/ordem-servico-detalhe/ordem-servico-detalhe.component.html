@@ -1,0 +1,396 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [mode]="'side'" [position]="'end'" #sidenav>
+        <ordem-servico-transferencia [os]="os" [sidenav]="sidenav"></ordem-servico-transferencia>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="dark bg-card dark:border-b">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                                            {{ t('chamados') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('chamado') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <h2
+                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                        {{ codOS }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                            <button class="fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                                [routerLink]="['/relatorio-atendimento/form/' + codOS]">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                                <span class="ml-2">{{ t('relatorio') }}</span>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded" mat-flat-button [color]="'primary'"
+                                [routerLink]="['/ordem-servico/form/' + codOS]">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                                <span class="ml-2">{{ t('editar') }}</span>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                                (click)="sidenav.toggle()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                                <span class="ml-2">{{ t('transferir') }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                <div class="w-full max-w-screen-xl mx-auto">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                        <mat-tab label="{{ t('detalhes') }}">
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{ t('chamado') }}</div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>{{ t('abertura') }}</div>
+                                                <div class="text-secondary text-md">{{ os?.dataHoraAberturaOS |
+                                                    date:'dd/MM/yyyy
+                                                    HH:mm' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="my-2">
+                                                <div>{{ t('agendamento') }}</div>
+                                                <div class="text-secondary text-md">01/02/2020 15:30
+                                                </div>
+                                            </div>
+
+                                            <div class="my-2">
+                                                <div>{{ t('os cliente') }}</div>
+                                                <div class="text-secondary text-md">{{ os?.numOSCliente || 'Não
+                                                    Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('os quarteirizada') }}</div>
+                                                <div class="text-secondary text-md">{{ os?.numOSQuarteirizada || 'Não
+                                                    Informado'
+                                                    }}</div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('status de servico') }}</div>
+                                                <div class="text-secondary text-md">{{
+                                                    os?.statusServico?.nomeStatusServico }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('defeito') }}</div>
+                                                <div class="text-secondary text-md">{{ os?.defeitoRelatado }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('observacao') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ ordemServico?.observacaoCliente || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('marcacao especial') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ ordemServico?.descMotivoMarcaEspecial || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('tecnico') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ ordemServico?.tecnico?.nome }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{ t('local') }}</div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>{{ t('cliente') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.cliente?.numBanco || '--' }}
+                                                    {{ os?.localAtendimento?.numAgencia || '--' }}/{{
+                                                    os?.localAtendimento?.dcPosto || '--' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('local de atendimento') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.localAtendimento?.nomeLocal | titlecase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('sla') }}</div>
+
+                                                <div class="text-secondary text-md">
+                                                    <span class="cursor-help"
+                                                        [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
+                                                        matTooltipPosition="above">
+                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não
+                                                        Informado' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('fim sla') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ (os?.statusSLAOSFechada?.dataHoraLimiteAtendimento ||
+                                                    os?.statusSLAOSAberta?.dataHoraLimiteAtendimento |
+                                                    date:'dd/MM/yyyy HH:mm') || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('contrato') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não
+                                                    Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('filial') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.filial?.nomeFilial || 'Não Informado'}}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('autorizada') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.autorizada?.nomeFantasia || 'Não Informado'}}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('regiao') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.regiao?.nomeRegiao || 'Não Informado'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{ t('equipamento') }}
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>{{ t('equipamento') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.equipamento?.nomeEquip || '--' }}
+                                                    {{ os?.equipamentoContrato?.numSerie || '--' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('distancia da pat') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('semat') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('reincidencia') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('codigo pai') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    ????
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('sugestao') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.sugestaoOS || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('exige laudo') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('fechadura') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('relatorios') }}
+
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">{{
+                                        os?.relatoriosAtendimento?.length }}</span>
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                                    <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+                                        *ngFor="let r of os.relatoriosAtendimento; let i=index;">
+
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{i+1}}&#xaa; RAT</div>
+                                            <div class="-mr-3">
+                                                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                                                    <button class="fuse-mat-button-rounded" mat-flat-button
+                                                        [routerLink]="['/relatorio-atendimento/form/' + r.codRAT]">
+                                                        <mat-icon class="icon-size-5"
+                                                            [svgIcon]="'heroicons_solid:pencil'">
+                                                        </mat-icon>
+                                                        <span class="ml-2">{{ t('editar') }}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>Número</div>
+                                                <div class="text-secondary text-md">{{ r.numRAT }}</div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Técnico</div>
+                                                <div class="text-secondary text-md">{{ r.tecnico?.nome | titlecase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Status</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.statusServico?.nomeStatusServico || 'Não Informado'}}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Solicitação</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.dataHoraSolicitacao ? (r.dataHoraSolicitacao | date:'dd/MM
+                                                    HH:mm') : 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Período</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.dataHoraInicio ? (r.dataHoraInicio | date:'dd/MM HH:mm') : 'Não
+                                                    Informado' }} - {{ r.dataHoraSolucao ? (r.dataHoraSolucao |
+                                                    date:'dd/MM HH:mm') : 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Horas Gastas</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.qtdHorasTecnicas || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Intervalo</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.horarioInicioIntervalo ? (r.horarioInicioIntervalo) : 'Não
+                                                    Informado' }} - {{ r.horarioTerminoIntervalo ?
+                                                    (r.horarioTerminoIntervalo) : 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Acompanhante</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.nomeAcompanhante || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="prose prose-sm max-w-3xl ml-5 mt-2"
+                                        *ngIf="!os?.relatoriosAtendimento?.length">
+                                        <p>
+                                            {{ t('nenhum registro encontrado') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('fotos') }}
+
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                        {{ os?.fotos?.length }}
+                                    </span>
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('mapa') }}
+                                </span>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('impressao') }}
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <app-ordem-servico-impressao [os]="os"></app-ordem-servico-impressao>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

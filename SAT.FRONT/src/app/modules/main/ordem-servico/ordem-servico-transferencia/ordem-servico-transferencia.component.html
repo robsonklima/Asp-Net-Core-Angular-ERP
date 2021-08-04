@@ -1,0 +1,51 @@
+<div class="flex-auto" *transloco="let t">
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
+        <div class="flex justify-between">
+            <div class="text-4xl font-extrabold tracking-tight leading-none">{{ t('transferir') }} {{ t('chamado') }}</div>
+
+            <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+        </div>
+
+        <div class="flex items-center sm:mt-0">
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full min-w-50">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                    <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="t('pesquisar')">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngFor="let tecnico of tecnicos; let i = index;">
+        <ng-container *ngIf="i === 0 || tecnico.nome.charAt(0) !== tecnicos[i - 1].nome.charAt(0)">
+            <div
+                class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
+                {{ tecnico.nome.charAt(0) }}
+            </div>
+        </ng-container>
+
+        <a class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b" (click)="transferir(tecnico)">
+            <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                <ng-container>
+                    <img
+                        class="object-cover w-full h-full"
+                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg'"
+                        onError="this.src='./assets/images/avatars/profile.jpg';"
+                        [alt]="tecnico.nome" />
+                </ng-container>
+            </div>
+            <div class="min-w-0 ml-4">
+                <div class="font-medium leading-5 truncate">{{ tecnico.nome }}</div>
+                <div class="leading-5 truncate text-secondary">{{ tecnico.apelido }}</div>
+            </div>
+        </a>
+    </ng-container>
+
+    <div class="prose prose-sm max-w-3xl ml-10 m-4" *ngIf="!tecnicos?.length">
+        <p>
+            {{ t('nenhum registro encontrado') }}
+        </p>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+<div class="text-center min-h-full" *transloco="let t">
+    <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+        <div
+            class="w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
+
+            <div class="flex items-start justify-between">
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div class="text-4xl tracking-tight text-secondary">{{ t('os') }}</div>
+                    <div class="text-4xl">{{ os.codOS }}</div>
+                    <div class="font-medium tracking-tight text-secondary">{{ t('abertura').toUpperCase() }}</div>
+                    <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}</div>
+                    <div class="font-medium tracking-tight text-secondary">{{ t('intervencao').toUpperCase() }}</div>
+                    <div class="font-medium">{{ os.tipoIntervencao.nomTipoIntervencao }}</div>
+                    <div class="font-medium tracking-tight text-secondary">STATUS</div>
+                    <div class="font-medium">{{ os.statusServico.nomeStatusServico }}</div>
+                </div>
+                <div class="grid auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
+                    <div class="place-self-center w-24">
+                        <img class="w-24" src="assets/images/logo/logo.png">
+                    </div>
+                    <div class="pl-10 border-l text-md">
+                        <div class="font-medium">Perto S.A.</div>
+                        <div>Tecnologia para Bancos e Varejo</div>
+                        <div>Rua Nissin Castiel, 640 Distrito Industrial</div>
+                        <div>CEP: 94045-420 | Gravataí | RS | Brasil</div>
+                        <div>(51) 3489-8700</div>
+                        <div>www.perto.com.br</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-md">
+                <div class="text-xl font-medium">{{ os.cliente.nomeFantasia }}</div>
+                <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }} {{os.localAtendimento.nomeLocal }}</div>
+                <div>
+                    {{ os?.localAtendimento?.endereco | titlecase }}
+                    {{ os?.localAtendimento?.bairro | titlecase }}
+                    {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-x-1 mt-12">
+                <div class="h-0	col-span-4 text-lg font-medium">{{ t('solicitacao') }}</div>
+                <div class="h-0	self-center text-right"></div>
+                <div class="h-0	self-center text-right"></div>
+                <div class="h-0	col-span-6 self-center text-right">{{ os?.dataHoraSolicitacao | date:'dd/MM HH:mm' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                <div class="h-0	col-span-8 text-lg font-medium">{{ t('os cliente') }}</div>
+                <div class="h-0	self-center text-right"></div>
+                <div class="h-0	self-center text-right"></div>
+                <div class="h-0	col-span-2 self-center text-right">{{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('os quarteirizada') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('status servico') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.statusServico?.nomeStatusServico }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-8 text-lg font-medium">{{ t('cliente') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-2 self-center text-right">{{ os?.cliente?.numBanco }} - {{ os?.cliente?.nomeFantasia }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('bairro') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.bairro }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('cliente') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.cidade?.nomeCidade }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('solicitante') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeSolicitante || 'Não Informado' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('contato') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeContato || 'Não Informado' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('telefone') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('equipamento') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.numSerie }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('sla') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+							
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('filial') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.filial?.nomeFilial }}</div>
+            </div>
+
+            <!-- <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos> -->
+
+            <div class="mt-16">
+                <div class="flex items-start mt-4">
+                    <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
+                    <div class="ml-6 text-sm text-secondary">
+                        In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque
+                        scelerisque lacus sed feugiat fermentum.
+                        Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
+                        dapibus. Etiam at felis volutpat est mollis lacinia.
+                        Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
+                        tincidunt lacinia et eget.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

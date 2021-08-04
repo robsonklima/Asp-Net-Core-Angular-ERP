@@ -1,0 +1,128 @@
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
+    <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+            <div class="w-12">
+                <img src="assets/images/logo/logo.png">
+            </div>
+
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Entrar</div>
+            
+            <div class="text-md tracking-tight leading-6 text-gray-400">
+                Entre com seu usuário e senha
+            </div>
+
+            <fuse-alert
+                class="mt-8 -mb-4"
+                *ngIf="showAlert"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert>
+
+            <form
+                class="mt-8"
+                [formGroup]="signInForm"
+                #signInNgForm="ngForm">
+
+                <mat-form-field class="w-full">
+                    <mat-label>Usuário</mat-label>
+                    <input
+                        id="codUsuario"
+                        matInput
+                        [formControlName]="'codUsuario'">
+                    <mat-error *ngIf="signInForm.get('codUsuario').hasError('required')">
+                        Email address is required
+                    </mat-error>
+                    <mat-error *ngIf="signInForm.get('codUsuario').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Senha</mat-label>
+                    <input
+                        id="senha"
+                        matInput
+                        type="password"
+                        [formControlName]="'senha'"
+                        #senhaField>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="senhaField.type === 'senha' ? senhaField.type = 'text' : senhaField.type = 'senha'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="senhaField.type === 'senha'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="senhaField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                    <mat-error>
+                        senha is required
+                    </mat-error>
+                </mat-form-field>
+
+                <button
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="signInForm.disabled"
+                    (click)="signIn()">
+                    <span *ngIf="!signInForm.disabled">
+                        Entrar
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="signInForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+                <div class="mt-8 text-md font-medium text-secondary">
+                    <a
+                        class="ml-1 text-primary-500 hover:underline"
+                        [routerLink]="['/forgot-password']">Esqueci minha senha
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- Dots -->
+        <svg class="absolute -top-16 -right-16 text-gray-700"
+             viewBox="0 0 220 192" width="220" height="192" fill="none">
+            <defs>
+                <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+                </pattern>
+            </defs>
+            <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+        </svg>
+        <!-- @formatter:on -->
+        <!-- Content -->
+        <div class="z-10 relative w-full max-w-2xl">
+            <div class="text-7xl font-bold leading-none text-gray-100">
+                <div>Bem-vindo</div>
+                <div>ao SAT 2.0</div>
+            </div>
+            <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
+                O novo Sistema Integrado SAT, é uma grande plataforma que permite gerenciar as atividades
+                das filiais, técnicos, líderes, gestores, coordenadores pós vendas, entre outros de forma
+                simples, objetiva e integrada.
+            </div>
+        </div>
+    </div>
+</div>

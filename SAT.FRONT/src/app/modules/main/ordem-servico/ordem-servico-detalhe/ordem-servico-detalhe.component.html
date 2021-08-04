@@ -375,6 +375,12 @@
                                     {{ t('mapa') }}
                                 </span>
                             </ng-template>
+
+                            <ng-template matTabContent>
+                                <div id="map" leaflet (leafletMapReady)="onMapReady($event)"
+                                    [leafletOptions]="mapOptions" [leafletMarkerCluster]="markerClusterData">
+                                </div>
+                            </ng-template>
                         </mat-tab>
 
                         <mat-tab>

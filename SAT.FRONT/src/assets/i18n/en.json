@@ -79,5 +79,11 @@
     "fechar": "Close",
     "relatorio": "Report",
     "detalhe": "Details",
-    "relatorio de atendimento": "Attendance Report"
+    "relatorio de atendimento": "Attendance Report",
+    "tipo de intervencao": "Intervention Type",
+    "numero do RAT": "RAT Number",
+    "nome do acompanhante": "Companion Name",
+    "data": "Date",
+    "hora do inicio": "Start Time",
+    "hora da solucao": "Finished Time"
 }

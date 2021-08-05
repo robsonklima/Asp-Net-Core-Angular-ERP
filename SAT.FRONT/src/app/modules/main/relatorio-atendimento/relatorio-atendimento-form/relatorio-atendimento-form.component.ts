@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
-import { StatusServico } from 'app/core/types/status-servico.types';
-import { Tecnico } from 'app/core/types/tecnico.types';
+import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
+import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -18,16 +18,19 @@ import moment from 'moment';
   selector: 'app-relatorio-atendimento-form',
   templateUrl: './relatorio-atendimento-form.component.html'
 })
-export class RelatorioAtendimentoFormComponent implements OnInit {
+export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   usuario: Usuario;
   codOS: number;
   codRAT: number;
-  ordemServico: OrdemServico;
   relatorioAtendimento: RelatorioAtendimento;
   form: FormGroup;
   isAddMode: boolean;
-  statusServicos: StatusServico[] = [];
-  tecnicos: Tecnico[] = [];
+  public tecnicoFilterCtrl: FormControl = new FormControl();
+  public tecnicos: ReplaySubject<Tecnico[]> = new ReplaySubject<Tecnico[]>(1);
+  public statusServicoFilterCtrl: FormControl = new FormControl();
+  public statusServicos: ReplaySubject<StatusServico[]> = new ReplaySubject<StatusServico[]>(1);
+
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -35,7 +38,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit {
     private _router: Router,
     private _snack: CustomSnackbarService,
     private _relatorioAtendimentoService: RelatorioAtendimentoService,
-    private _ordemServicoService: OrdemServicoService,
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
@@ -47,6 +49,20 @@ export class RelatorioAtendimentoFormComponent implements OnInit {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
+
+    this.obterStatusServicos();
+    this.obterTecnicos();
+
+    this.tecnicoFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged(),
+      ).subscribe((query) => {
+        if (query) {
+          this.obterTecnicos();
+        }
+      });
 
     this.form = this._formBuilder.group({
       codRAT: [
@@ -74,9 +90,93 @@ export class RelatorioAtendimentoFormComponent implements OnInit {
       this.relatorioAtendimento = new RelatorioAtendimento();
       this.relatorioAtendimento.codOS = this.codOS;
       this.relatorioAtendimento.relatorioAtendimentoDetalhes = [];
+    } else {
+      this._relatorioAtendimentoService.obterPorCodigo(this.codRAT)
+        .pipe(first())
+        .subscribe(res => {
+          this.relatorioAtendimento = res;
+          this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
+          this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+          console.log(res);
+          this.form.patchValue(this.relatorioAtendimento);
+      });
     }
+  }
 
-    //this.obterOrdemServico();
-    //this.obterStatusServicos();
+  obterTecnicos(): void {
+    this._tecnicoService.obterPorParametros({
+      indAtivo: 1,
+      codPerfil: 35,
+      filter: this.tecnicoFilterCtrl.value,
+      pageSize: 500,
+      sortActive: 'nome',
+      sortDirection: 'asc'
+    }).subscribe((data: TecnicoData) => {
+      if (data.tecnicos.length) this.tecnicos.next(data.tecnicos.slice());
+    })
+  }
+
+  obterStatusServicos(): void {
+    this._statusServicoService.obterPorParametros({
+      indAtivo: 1,
+      filter: this.statusServicoFilterCtrl.value,
+      sortActive: 'nomeStatusServico',
+      sortDirection: 'asc',
+      pageSize: 50,
+    }).subscribe((data: StatusServicoData) => {
+      if(data.statusServico.length) this.statusServicos
+        .next(data.statusServico.filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1).slice());
+    });
+  }
+
+  salvar(): void {
+    this.isAddMode ? this.criar() : this.atualizar();
+  }
+
+  atualizar(): void {
+    const form = this.form.getRawValue();
+
+    form.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+    form.codUsuarioManut = this.usuario.codUsuario;
+
+    Object.keys(form).forEach(key => {
+      typeof form[key] == "boolean" 
+        ? this.relatorioAtendimento[key] = +form[key]
+        : this.relatorioAtendimento[key] = form[key];
+    });
+    
+    this._relatorioAtendimentoService.atualizar(this.relatorioAtendimento).subscribe(() => {
+      this._snack.exibirToast('Registro atualizado com sucesso!', 'success');
+      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
+    });
+  }
+
+  criar(): void {
+    const form = this.form.getRawValue();
+
+    Object.keys(form).forEach(key => {
+      typeof form[key] == "boolean" 
+        ? this.relatorioAtendimento[key] = +form[key]
+        : this.relatorioAtendimento[key] = form[key];
+    });
+
+    this.relatorioAtendimento.codOS = this.codOS;
+    this.relatorioAtendimento.dataHoraInicio = moment(`${form.data.format('YYYY-MM-DD')} ${form.horaInicio}`).format('YYYY-MM-DD HH:mm:ss');
+    this.relatorioAtendimento.dataHoraInicioValida = this.relatorioAtendimento.dataHoraInicio;
+    this.relatorioAtendimento.dataHoraSolucao = moment(`${form.data.format('YYYY-MM-DD')} ${form.horaFim}`).format('YYYY-MM-DD HH:mm:ss');
+    this.relatorioAtendimento.dataHoraSolucaoValida = this.relatorioAtendimento.dataHoraSolucao;
+    this.relatorioAtendimento.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
+    this.relatorioAtendimento.codUsuarioCad = this.usuario.codUsuario;
+    this.relatorioAtendimento.codUsuarioCadastro = this.usuario.codUsuario;
+
+    this._relatorioAtendimentoService.criar(this.relatorioAtendimento).subscribe(() => {
+      this._snack.exibirToast('Registro adicionado com sucesso!', 'success');
+      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
+    });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

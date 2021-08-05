@@ -25,7 +25,122 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-3xl">
-            
+            <form class="flex flex-col mt-0 p-8 pb-0 bg-card rounded-2xl shadow overflow-hidden" [formGroup]="form"
+                *transloco="let t">
+
+                <p class="mb-6 text-lg font-medium">
+                    {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
+                </p>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" *ngIf="!isAddMode">
+                        <mat-label>{{ t('codigo') }}</mat-label>
+                        <input matInput formControlName="codRAT">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                        <mat-label>{{ t('tecnico') }}</mat-label>
+
+                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="tecnicos.length === 0">
+                            <mat-option>
+                                <ngx-mat-select-search
+                                    class="mat-select-search-custom-header-content"
+                                    placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="tecnicoFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let tecnico of tecnicos | async" [value]="tecnico.codTecnico">
+                                {{ tecnico.nome }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                        <mat-label>{{ t('status de servico') }}</mat-label>
+
+                        <mat-select formControlName="codStatusServico" #statusServicoSelect [disabled]="statusServicos.length === 0">
+                            <mat-option>
+                                <ngx-mat-select-search 
+                                    class="mat-select-search-custom-header-content"
+                                    placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="statusServicoFilterCtrl"></ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let status of statusServicos | async" [value]="status.codStatusServico">
+                                {{ status.nomeStatusServico }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                        <mat-label>{{ t('numero do RAT') }}</mat-label>
+                        <input matInput formControlName="numRAT">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                        <mat-label>{{ t('nome do acompanhante') }}</mat-label>
+                        <input matInput formControlName="nomeAcompanhante">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                        <mat-label>{{ t('data') }}</mat-label>
+                        <input matInput [for]="pickerData" [matDatepicker]="pickerData" formControlName="data" disabled required>
+                        <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                        <mat-label>{{ t('hora do inicio') }}</mat-label>
+                        <input matInput formControlName="horaInicio" mask="00:00"
+                            [showMaskTyped]="true" [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                        <mat-label>{{ t('hora da solucao') }}</mat-label>
+                        <input matInput formControlName="horaFim" mask="00:00"
+                            [showMaskTyped]="true" [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex">
+                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                        <mat-label>{{ t('observacao') }}</mat-label>
+                        <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
+                            [rows]="4"></textarea>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button [routerLink]="['/ordem-servico/detalhe/' + codOS]" routerLinkActive="router-link-active" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+                    <button (click)="salvar()" [disabled]="!form.valid" class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                        {{ t('salvar') }}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

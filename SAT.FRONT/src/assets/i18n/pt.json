@@ -79,5 +79,11 @@
     "fechar": "Fechar",
     "relatorio": "Relatório",
     "detalhe": "Detalhe",
-    "relatorio de atendimento": "Relatório de Atendimento"
+    "relatorio de atendimento": "Relatório de Atendimento",
+    "tipo de intervencao": "Tipo de Intervenção",
+    "numero do RAT": "Número do RAT",
+    "nome do acompanhante": "Nome do Acompanhante",
+    "data": "Data",
+    "hora do inicio": "Hora do Início",
+    "hora da solucao": "Hora da solução"
 }

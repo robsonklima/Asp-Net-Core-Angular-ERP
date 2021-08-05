@@ -75,7 +75,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       this.sidenav.close();
     }, error => {
       this.isLoading = false;
-      this._snack.exibirToast(error);
+      this._snack.exibirToast(error, 'error');
     });
   }
 }

@@ -20,7 +20,6 @@ export class GrupoEquipamentoFormComponent implements OnInit {
   isAddMode: boolean;
   form: FormGroup;
   grupoEquipamento: GrupoEquipamento;
-
   public tipoEquipamentoFiltro: FormControl = new FormControl();
   public tiposEquipamento: ReplaySubject<TipoEquipamento[]> = new ReplaySubject<TipoEquipamento[]>(1);
 

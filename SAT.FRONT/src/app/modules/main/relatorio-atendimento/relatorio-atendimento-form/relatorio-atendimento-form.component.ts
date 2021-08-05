@@ -73,9 +73,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
             disabled: true,
           }, [Validators.required]
         ],
-        numRAT: [undefined],
-        codTecnico: [undefined],
-        codStatusServico: [undefined],
+        numRAT: [undefined, [Validators.required]],
+        codTecnico: [undefined, [Validators.required]],
+        codStatusServico: [undefined, [Validators.required]],
         nomeAcompanhante: [undefined],
         data: [
           {

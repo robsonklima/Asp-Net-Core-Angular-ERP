@@ -89,5 +89,9 @@
     "finalizar": "Done",
     "proximo": "Next",
     "voltar": "Back",
-    "pecas": "Pieces"
+    "pecas": "Pieces",
+    "filtros": "Filtros",
+    "novo relatorio de atendimento": "New Service Report",
+    "atualizar o chamado": "Update Service Order",
+    "transferir o chamado": "Transfer Service Order"
 }

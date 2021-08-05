@@ -53,7 +53,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       indAtivo: 1,
       sortActive: 'nome',
       sortDirection: 'asc',
-      pageSize: 50,
       codFilial: this.usuario.filial?.codFilial,
       filter: this.searchInputControl.nativeElement.val
     }).subscribe((data: TecnicoData) => {

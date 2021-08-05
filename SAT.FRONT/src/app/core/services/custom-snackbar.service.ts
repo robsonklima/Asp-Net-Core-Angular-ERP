@@ -13,11 +13,12 @@ export class CustomSnackbarService {
         this.snackBar.open(message, action, {});
     }
 
-    public exibirToast(message: string, duration: number=3000): void {
+    public exibirToast(message: string, type: string="neutral", duration: number=3000): void {
         this.snackBar.open(message, '', {
             duration: duration,
             horizontalPosition: "right",
-            verticalPosition: "top"
+            verticalPosition: "top",
+            panelClass: [type]
         });
     }
 }

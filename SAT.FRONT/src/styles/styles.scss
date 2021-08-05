@@ -1,4 +1,19 @@
-/* ----------------------------------------------------------------------------------------------------- */
-/*  @ Import/write your custom styles here.
-/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
-/* ----------------------------------------------------------------------------------------------------- */
+.success {
+    background-color: #4CAF50 !important;
+}
+
+.info {
+    background-color: #2196F3 !important;
+}
+
+.warning {
+    background-color: #FFA000 !important;
+}
+
+.error {
+    background-color: #D32F2F !important;
+}
+
+.neutral {
+    background-color: #455A64 !important;
+}

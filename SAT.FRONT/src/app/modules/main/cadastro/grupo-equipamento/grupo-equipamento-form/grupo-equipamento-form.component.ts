@@ -98,7 +98,7 @@ export class GrupoEquipamentoFormComponent implements OnInit {
     });
 
     this._grupoEquipamentoService.atualizar(this.grupoEquipamento).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso");
+      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
       this._location.back();
     });
   }
@@ -111,7 +111,7 @@ export class GrupoEquipamentoFormComponent implements OnInit {
     });
 
     this._grupoEquipamentoService.criar(form).subscribe(() => {
-      this._snack.exibirToast("Registro inserido com sucesso");
+      this._snack.exibirToast("Registro inserido com sucesso!", "success");
       this._location.back();
     });
   }

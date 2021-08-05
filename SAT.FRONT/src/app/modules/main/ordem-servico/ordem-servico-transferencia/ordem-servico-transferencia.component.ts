@@ -69,7 +69,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
     this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     this._ordemServicoService.atualizar(this.os).subscribe(() => {
       this.isLoading = false;
-      this._snack.exibirToast(`OS ${this.os.codOS} transferida para o tecnico ${tecnico.nome}`);
+      this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/,'')}`, 'success');
       this.sidenav.close();
     }, error => {
       this.isLoading = false;

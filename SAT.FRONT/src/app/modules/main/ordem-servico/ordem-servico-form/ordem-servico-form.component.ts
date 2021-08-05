@@ -196,7 +196,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
 
     this._ordemServicoService.atualizar(this.ordemServico).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso!");
+      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
       this._localtion.back();
     });
   }
@@ -216,7 +216,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
 
     this._ordemServicoService.criar(form).subscribe((ordemServico: OrdemServico) => {
-      this._snack.exibirToast("Registro adicionado com sucesso!");
+      this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._localtion.back();
     });
   }

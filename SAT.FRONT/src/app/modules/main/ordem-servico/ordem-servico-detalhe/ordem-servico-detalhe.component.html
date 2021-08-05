@@ -58,7 +58,7 @@
 
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto">
-                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
@@ -377,8 +377,8 @@
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <div id="map" leaflet (leafletMapReady)="onMapReady($event)"
-                                    [leafletOptions]="mapOptions" [leafletMarkerCluster]="markerClusterData">
+                                <div class="h-120 w-full w-100 shadow rounded-2xl">
+                                    <div class="shadow rounded-2xl" id="map"></div>
                                 </div>
                             </ng-template>
                         </mat-tab>

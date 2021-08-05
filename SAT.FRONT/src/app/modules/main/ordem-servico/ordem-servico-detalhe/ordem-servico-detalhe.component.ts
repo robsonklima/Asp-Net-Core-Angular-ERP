@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
@@ -9,44 +9,50 @@ import * as L from 'leaflet';
 @Component({
   selector: 'app-ordem-servico-detalhe',
   templateUrl: './ordem-servico-detalhe.component.html',
+  styleUrls: ['./ordem-servico-detalhe.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements OnInit {
-  tecnicos: string[] = ['João da Silva', 'Maria Vasconcelos', 'Adriano Nunes'];
+export class OrdemServicoDetalheComponent implements AfterViewInit {
   codOS: number;
   os: OrdemServico;
   fotos: Foto[] = [];
   map: L.Map;
-  mapOptions: L.MapOptions;
-  //markerClusterGroup: L.MarkerClusterGroup;
-  markerClusterData = [];
 
   constructor(
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
+    private _cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
+    this._cdr.detectChanges();
+  }
 
-    this.mapOptions = {
-      center: L.latLng([
-        +this.os.localAtendimento?.latitude,
-        +this.os.localAtendimento?.longitude
-      ]),
-      zoom: 10,
-      layers: [
-        L.tileLayer(
-          'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          {
-            maxZoom: 18,
-            attribution: 'SAT 2.0'
-          })
-      ],
-    };
+  trocarTab(tab: any) {
+    if (tab.index !== 3 || !this.os) {
+      return;
+    }
 
-    //this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
+    this.map = L.map('map', {
+      scrollWheelZoom: false,
+    }).setView([
+      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.longitude
+    ], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'SAT 2.0'
+    }).addTo(this.map);
+
+    L.marker([
+      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.longitude
+    ]).bindPopup(this.os.localAtendimento.nomeLocal)
+      .addTo(this.map);
+
+    this.map.invalidateSize();
   }
 
   private obterDadosOrdemServico(): void {

@@ -9,7 +9,7 @@ export class CustomSnackbarService {
         public snackBar: MatSnackBar
     ) { }
 
-    public exibirAlerta(message, action = 'entendi') {
+    public exibirAlerta(message, action: string='Ok') {
         this.snackBar.open(message, action, {});
     }
 

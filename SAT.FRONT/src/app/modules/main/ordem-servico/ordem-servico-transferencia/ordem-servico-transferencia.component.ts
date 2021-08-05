@@ -57,8 +57,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       filter: this.searchInputControl.nativeElement.val
     }).subscribe((data: TecnicoData) => {
       this.tecnicos = data.tecnicos;
-      console.log(data.tecnicos);
-      
     });
   }
 

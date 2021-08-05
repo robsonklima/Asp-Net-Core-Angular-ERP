@@ -37,7 +37,7 @@ export const MEU_FORMATO_DATA = {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MatSnackBarModule,
+        MatSnackBarModule
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },

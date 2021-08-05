@@ -11,7 +11,8 @@
                 <input matInput #searchInputControl [autocomplete]="'off'">
             </mat-form-field>
 
-            <button class="ml-4" mat-flat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']" routerLinkActive="router-link-active" >
+            <button class="ml-4" mat-flat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
+                routerLinkActive="router-link-active">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1" *transloco="let t">{{ t('adicionar') }}</span>
             </button>
@@ -74,7 +75,8 @@
 
                         <ng-container>
                             <ng-container *ngFor="let os of dataSourceData?.ordensServico">
-                                <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b" *transloco="let t">
+                                <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
+                                    *transloco="let t">
                                     <div class="flex items-center">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS" class="text-primary">
                                             {{ os.codOS }}
@@ -90,7 +92,9 @@
                                     </div>
 
                                     <div class="hidden md:block truncate">
-                                        {{ ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento || os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM HH:mm') || '--' }}
+                                        {{ ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento ||
+                                        os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM HH:mm') || '--'
+                                        }}
                                     </div>
 
                                     <div class="hidden md:block truncate">
@@ -102,8 +106,8 @@
                                     </div>
 
                                     <div class="hidden md:block truncate">
-                                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--'}},
-                                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '--'}}
+                                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }},
+                                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '--' }}
                                     </div>
 
                                     <div class="hidden md:block truncate">
@@ -118,8 +122,11 @@
                                         {{ os.equipamento?.nomeEquip || t('nao informado') }}
                                     </div>
 
-                                    <div class="hidden lg:block">
-                                        {{ os.equipamentoContrato?.acordoNivelServico?.nomeSLA ? os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--' }}
+                                    <div class="hidden lg:block truncate">
+                                        {{ 
+                                            os.equipamentoContrato?.acordoNivelServico?.nomeSLA ?
+                                            os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--' 
+                                        }}
                                     </div>
 
                                     <div class="hidden md:block truncate">
@@ -136,8 +143,7 @@
 
                                     <div>
                                         <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
-                                            (click)="alternarDetalhes(os.codOS)"
-                                            disabled="true">
+                                            (click)="alternarDetalhes(os.codOS)" disabled="true">
                                             <mat-icon class="icon-size-5"
                                                 [svgIcon]="selectedItem?.codOS === os.codOS ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                             </mat-icon>

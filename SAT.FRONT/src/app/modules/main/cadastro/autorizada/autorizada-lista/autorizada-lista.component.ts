@@ -66,8 +66,6 @@ export class AutorizadaListaComponent implements AfterViewInit {
       this._cdr.markForCheck();
 
       this.sort.sortChange.subscribe(() => {
-        console.log(this.sort.direction, this.sort.active);
-
         this.paginator.pageIndex = 0;
         this.obterDados();
       });

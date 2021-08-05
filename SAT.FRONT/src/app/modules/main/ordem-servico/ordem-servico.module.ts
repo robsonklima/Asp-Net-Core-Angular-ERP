@@ -68,7 +68,7 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
         MatSelectModule,
         MatSlideToggleModule,
         MatTooltipModule,
-        SharedModule,
+    SharedModule,
         MatTableModule,
         MatTabsModule,
         TranslocoModule,

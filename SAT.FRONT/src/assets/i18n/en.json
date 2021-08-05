@@ -85,5 +85,9 @@
     "nome do acompanhante": "Companion Name",
     "data": "Date",
     "hora do inicio": "Start Time",
-    "hora da solucao": "Finished Time"
+    "hora da solucao": "Finished Time",
+    "finalizar": "Done",
+    "proximo": "Next",
+    "voltar": "Back",
+    "pecas": "Pieces"
 }

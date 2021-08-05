@@ -85,5 +85,9 @@
     "nome do acompanhante": "Nome do Acompanhante",
     "data": "Data",
     "hora do inicio": "Hora do Início",
-    "hora da solucao": "Hora da solução"
+    "hora da solucao": "Hora da solução",
+    "finalizar": "Finalizar",
+    "proximo": "Próximo",
+    "voltar": "Voltar",
+    "pecas": "Peças"
 }

@@ -24,6 +24,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
   form: FormGroup;
+  stepperForm: FormGroup;
   isAddMode: boolean;
   public tecnicoFilterCtrl: FormControl = new FormControl();
   public tecnicos: ReplaySubject<Tecnico[]> = new ReplaySubject<Tecnico[]>(1);
@@ -64,26 +65,42 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.form = this._formBuilder.group({
-      codRAT: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      numRAT: [undefined],
-      codTecnico: [undefined],
-      codStatusServico: [undefined],
-      nomeAcompanhante: [undefined],
-      data: [
-        {
-          value: moment(),
-          disabled: false,
-        }, [Validators.required]
-      ],
-      horaInicio: [moment().format('HH:mm'), [Validators.required]],
-      horaFim: [undefined, [Validators.required]],
-      obsRAT: [undefined],
+    this.stepperForm = this._formBuilder.group({
+      step1: this._formBuilder.group({
+        codRAT: [
+          {
+            value: undefined,
+            disabled: true,
+          }, [Validators.required]
+        ],
+        numRAT: [undefined],
+        codTecnico: [undefined],
+        codStatusServico: [undefined],
+        nomeAcompanhante: [undefined],
+        data: [
+          {
+            value: moment(),
+            disabled: false,
+          }, [Validators.required]
+        ],
+        horaInicio: [moment().format('HH:mm'), [Validators.required]],
+        horaFim: [undefined, [Validators.required]],
+        obsRAT: [undefined],
+      }),
+      step2: this._formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        userName: ['', Validators.required],
+        about: ['']
+      }),
+      step3: this._formBuilder.group({
+        byEmail: this._formBuilder.group({
+          companyNews: [true],
+          featuredProducts: [false],
+          messages: [true]
+        }),
+        pushNotifications: ['everything', Validators.required]
+      })
     });
 
     if (this.isAddMode) {
@@ -95,11 +112,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe(res => {
           this.relatorioAtendimento = res;
-          this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-          this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
-          console.log(res);
-          this.form.patchValue(this.relatorioAtendimento);
-      });
+          this.stepperForm.get('step1').get('horaInicio').setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
+          this.stepperForm.get('step1').get('horaFim').setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+          this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
+        });
     }
   }
 
@@ -124,7 +140,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       sortDirection: 'asc',
       pageSize: 50,
     }).subscribe((data: StatusServicoData) => {
-      if(data.statusServico.length) this.statusServicos
+      if (data.statusServico.length) this.statusServicos
         .next(data.statusServico.filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1).slice());
     });
   }
@@ -140,11 +156,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     form.codUsuarioManut = this.usuario.codUsuario;
 
     Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean" 
+      typeof form[key] == "boolean"
         ? this.relatorioAtendimento[key] = +form[key]
         : this.relatorioAtendimento[key] = form[key];
     });
-    
+
     this._relatorioAtendimentoService.atualizar(this.relatorioAtendimento).subscribe(() => {
       this._snack.exibirToast('Registro atualizado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
@@ -155,7 +171,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     const form = this.form.getRawValue();
 
     Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean" 
+      typeof form[key] == "boolean"
         ? this.relatorioAtendimento[key] = +form[key]
         : this.relatorioAtendimento[key] = form[key];
     });

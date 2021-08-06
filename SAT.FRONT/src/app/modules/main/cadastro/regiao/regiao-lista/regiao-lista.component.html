@@ -10,9 +10,8 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="">
             </mat-form-field>
-            <button class="ml-4" mat-flat-button [color]="'primary'" routerLink="/regiao/form">
+            <button class="ml-4" mat-button [color]="'primary'" routerLink="/regiao/form">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1" *transloco="let t">{{ t('adicionar') }}</span>
             </button>
         </div>
     </div>

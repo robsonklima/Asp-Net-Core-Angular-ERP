@@ -9,6 +9,7 @@ import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
+import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -23,6 +24,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   codOS: number;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
+  detalhes: RelatorioAtendimentoDetalhe[] = [];
   form: FormGroup;
   stepperForm: FormGroup;
   isAddMode: boolean;
@@ -86,9 +88,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         horaInicio: [moment().format('HH:mm'), [Validators.required]],
         horaFim: [undefined, [Validators.required]],
         obsRAT: [undefined],
-      }),
-      step2: this._formBuilder.group({
-        //teste: [''],
       })
     });
 
@@ -131,6 +130,20 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }).subscribe((data: StatusServicoData) => {
       if (data.statusServico.length) this.statusServicos
         .next(data.statusServico.filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1).slice());
+    });
+  }
+
+  inserirDetalhe(): void {
+    this.detalhes.push({
+      codAcao: 1,
+      codDefeito: 1,
+      codCausa: 1,
+      codGrupoCausa: 1,
+      codRAT: 22222,
+      codServico: 1,
+      codTipoCausa: 1,
+      codUsuarioCad: '',
+      dataHoraCad: ''
     });
   }
 

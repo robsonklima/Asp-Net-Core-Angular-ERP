@@ -13,7 +13,7 @@
                 </div>
 
                 <ng-container>
-
+                    <p (click)="inserirDetalhe()">Clique aqui</p>
                 </ng-container>
             </div>
         </div>
@@ -58,8 +58,7 @@
                 <div class="max-w-3xl">
                     <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="stepperForm">
                         <mat-horizontal-stepper [linear]="true" #horizontalStepper>
-                            <mat-step [formGroupName]="'step1'" [stepControl]="stepperForm.get('step1')"
-                                #horizontalStepperStep1>
+                            <mat-step [formGroupName]="'step1'" [stepControl]="stepperForm.get('step1')" #stepperStep1>
                                 <ng-template matStepLabel>{{ t('relatorio') }}</ng-template>
 
                                 <div class="grid grid-cols-2 gap-4 mt-6">
@@ -174,19 +173,26 @@
                                 </div>
                                 <div class="flex justify-end mt-4">
                                     <button class="px-8" mat-flat-button [color]="'primary'"
-                                        [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
+                                        [disabled]="stepperStep1.stepControl.pristine || stepperStep1.stepControl.invalid"
                                         type="button" matStepperNext>
                                         {{ t('proximo') }}
                                     </button>
                                 </div>
                             </mat-step>
 
-                            <mat-step [formGroupName]="'step2'" [stepControl]="stepperForm.get('step2')"
-                                #horizontalStepperStep2>
+                            <mat-step>
                                 <ng-template matStepLabel>{{ t('detalhes') }}</ng-template>
-                                <p class="my-6 font-medium">
-                                    People here will get to know you with this information
-                                </p>
+                                <div class="my-6 font-medium">
+                                    <div *ngFor="let detalhe of detalhes; let i=index;">
+                                        {{ i+1 }}
+                                    </div>
+
+                                    <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!detalhes.length">
+                                        <p>
+                                            {{ t('adicione os detalhes do atendimento') }}
+                                        </p>
+                                    </div>
+                                </div>
                                 <div class="flex justify-end mt-8">
                                     <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
                                         matStepperPrevious>
@@ -196,9 +202,8 @@
                                         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                                         <span class="ml-2 mr-1">{{ t('detalhe') }}</span>
                                     </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'"
-                                        [disabled]="horizontalStepperStep2.stepControl.invalid" type="button"
-                                        matStepperNext>
+                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button" matStepperNext
+                                        [disabled]="!detalhes.length">
                                         {{ t('proximo') }}
                                     </button>
                                 </div>
@@ -207,17 +212,14 @@
                             <mat-step>
                                 <ng-template matStepLabel>{{ t('finalizar') }}</ng-template>
                                 <p class="my-6 font-medium">
-                                    Thank you for completing our form! You can reset the form if you would like to
-                                    change your
-                                    information.
+                                    Finalizar
                                 </p>
                                 <div class="flex justify-end mt-8">
                                     <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button"
                                         matStepperPrevious>
                                         {{ t('voltar') }}
                                     </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="reset"
-                                        (click)="salvar()">
+                                    <button class="px-8" mat-flat-button [color]="'primary'" type="reset" (click)="salvar()">
                                         {{ t('salvar') }}
                                     </button>
                                 </div>

@@ -13,7 +13,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Usuario } from 'app/core/types/usuario.types';
 
 @Component({
-  selector: 'ordem-servico-transferencia',
+  selector: 'app-ordem-servico-transferencia',
   templateUrl: 'ordem-servico-transferencia.component.html'
 })
 export class OrdemServicoTransferenciaComponent implements AfterViewInit {

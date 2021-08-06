@@ -95,5 +95,14 @@
     "atualizar o chamado": "Update Service Order",
     "transferir o chamado": "Transfer Service Order",
     "adicionar detalhe": "Add Detail",
-    "adicione os detalhes do atendimento": "Add service details"
+    "adicione os detalhes do atendimento": "Add service details",
+    "inserir": "Add",
+    "maquina ou extra maquina": "Machine or Extra-Machine",
+    "maquina": "Machine",
+    "extra-maquina": "Extra-Machine",
+    "tipo de servico": "Service Type",
+    "modulo": "Module",
+    "sub modulo": "Sub Module",
+    "componente": "Component",
+    "acao": "Action"
 }

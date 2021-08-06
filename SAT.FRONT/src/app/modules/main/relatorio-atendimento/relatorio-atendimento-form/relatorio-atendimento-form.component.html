@@ -1,24 +1,6 @@
 <mat-drawer-container class="flex-auto h-full">
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <div class="flex-auto" *transloco="let t">
-            <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
-                <div class="flex justify-between">
-                    <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
-                        {{ t('adicionar detalhe') }}
-                    </div>
-
-                    <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
-                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex items-center sm:mt-0">
-                <div class="flex items-center w-full max-w-3xl mx-auto pt-6">
-                    <!--  Conteudo  -->
-                </div>
-            </div>
-        </div>
+        <app-relatorio-atendimento-detalhe-form [sidenav]="sidenav"></app-relatorio-atendimento-detalhe-form>
     </mat-drawer>
 
     <mat-drawer-content>
@@ -40,7 +22,7 @@
                                 {{ codOS }}
                             </a>
                         </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
+                        <div class="flex items-center ml-1 whitespace-nowrap" (click)="sidenav.toggle()">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <span class="ml-1 text-secondary">
@@ -200,12 +182,13 @@
                                         matStepperPrevious>
                                         {{ t('voltar') }}
                                     </button>
-                                    <button class="px-4 bg-green-500 mr-2" mat-flat-button [color]="'primary'" (click)="sidenav.toggle()">
+                                    <button class="px-4 bg-green-500 mr-2" mat-flat-button [color]="'primary'"
+                                        (click)="sidenav.toggle()">
                                         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                                         <span class="ml-2 mr-1">{{ t('detalhe') }}</span>
                                     </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button" matStepperNext
-                                        [disabled]="!detalhes.length">
+                                    <button class="px-8" mat-flat-button [color]="'primary'" type="button"
+                                        matStepperNext [disabled]="!detalhes.length">
                                         {{ t('proximo') }}
                                     </button>
                                 </div>
@@ -221,7 +204,8 @@
                                         matStepperPrevious>
                                         {{ t('voltar') }}
                                     </button>
-                                    <button class="px-8" mat-flat-button [color]="'primary'" type="reset" (click)="salvar()">
+                                    <button class="px-8" mat-flat-button [color]="'primary'" type="reset"
+                                        (click)="salvar()">
                                         {{ t('salvar') }}
                                     </button>
                                 </div>

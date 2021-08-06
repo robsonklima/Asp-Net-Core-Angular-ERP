@@ -14,25 +14,26 @@ import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
   templateUrl: './relatorio-atendimento-form.component.html'
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
+  sidenav: MatSidenav;
   usuario: Usuario;
   codOS: number;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
   detalhes: RelatorioAtendimentoDetalhe[] = [];
-  form: FormGroup;
   stepperForm: FormGroup;
   isAddMode: boolean;
-  public tecnicoFilterCtrl: FormControl = new FormControl();
-  public tecnicos: ReplaySubject<Tecnico[]> = new ReplaySubject<Tecnico[]>(1);
-  public statusServicoFilterCtrl: FormControl = new FormControl();
-  public statusServicos: ReplaySubject<StatusServico[]> = new ReplaySubject<StatusServico[]>(1);
-
+  tecnicoFilterCtrl: FormControl = new FormControl();
+  tecnicos: ReplaySubject<Tecnico[]> = new ReplaySubject<Tecnico[]>(1);
+  statusServicoFilterCtrl: FormControl = new FormControl();
+  statusServicos: ReplaySubject<StatusServico[]> = new ReplaySubject<StatusServico[]>(1);
+  
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -44,6 +45,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
+
   ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
@@ -133,26 +135,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  inserirDetalhe(): void {
-    this.detalhes.push({
-      codAcao: 1,
-      codDefeito: 1,
-      codCausa: 1,
-      codGrupoCausa: 1,
-      codRAT: 22222,
-      codServico: 1,
-      codTipoCausa: 1,
-      codUsuarioCad: '',
-      dataHoraCad: ''
-    });
-  }
-
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
   atualizar(): void {
-    const form = this.form.getRawValue();
+    const form: any = {};
 
     form.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     form.codUsuarioManut = this.usuario.codUsuario;
@@ -170,7 +158,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   criar(): void {
-    const form = this.form.getRawValue();
+    const form: any = {};
 
     Object.keys(form).forEach(key => {
       typeof form[key] == "boolean"

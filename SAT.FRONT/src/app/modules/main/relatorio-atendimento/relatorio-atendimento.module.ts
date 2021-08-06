@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -26,7 +27,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 
 @NgModule({
   declarations: [
-    RelatorioAtendimentoFormComponent
+    RelatorioAtendimentoFormComponent,
+    RelatorioAtendimentoDetalheFormComponent
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),

@@ -95,5 +95,14 @@
     "atualizar o chamado": "Atualizar o Chamado",
     "transferir o chamado": "Transferir o Chamado",
     "adicionar detalhe": "Adicionar Detalhe",
-    "adicione os detalhes do atendimento": "Adicione os detalhes do atendimento"
+    "adicione os detalhes do atendimento": "Adicione os detalhes do atendimento",
+    "inserir": "Inserir",
+    "maquina ou extra maquina": "Máquina ou Extra-Máquina",
+    "maquina": "Máquina",
+    "extra-maquina": "Extra-Máquina",
+    "tipo de servico": "Tipo de Serviço",
+    "modulo": "Módulo",
+    "sub modulo": "Sub Módulo",
+    "componente": "Componente",
+    "acao": "Ação"
 }

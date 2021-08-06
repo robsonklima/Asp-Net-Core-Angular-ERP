@@ -139,7 +139,7 @@
             }
         }
     },
-    "defaultProject": "fuse",
+    "defaultProject": "sat",
     "cli": {
       "analytics": "eb6695c9-bb27-42ce-9315-6e39d463b91a",
         "defaultCollection": "@angular-eslint/schematics"

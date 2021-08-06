@@ -16,6 +16,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -42,7 +43,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatButtonModule,
     MatStepperModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSidenavModule,
   ]
 })
 export class RelatorioAtendimentoModule { }

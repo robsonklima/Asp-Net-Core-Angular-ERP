@@ -39,8 +39,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.obterDados();
 
-        if (this.sort && this.paginator)
-        {
+        if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
                 map((event: any) => {
                     return event.target.value;
@@ -67,7 +66,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     }
 
     obterDados(): void {
-        this.isLoading = true;        
+        this.isLoading = true;
         this._ordemServicoService.obterPorParametros({
             pageNumber: this.paginator?.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
@@ -77,6 +76,8 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             codFilial: this.userSession?.usuario?.filial?.codFilial || undefined
         }).subscribe((data: OrdemServicoData) => {
             this.dataSourceData = data;
+            console.log(this.dataSourceData);
+
             this.isLoading = false;
             this._cdr.detectChanges();
         });

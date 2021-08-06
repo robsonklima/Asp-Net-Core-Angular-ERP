@@ -14,6 +14,13 @@
                         {{ t('detalhe') }}
                     </a>
                 </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
+                    </span>
+                </div>
             </div>
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
@@ -28,10 +35,6 @@
             <form class="flex flex-col mt-0 p-8 pb-0 bg-card rounded-2xl shadow overflow-hidden" [formGroup]="form"
                 *transloco="let t">
 
-                <p class="mb-6 text-lg font-medium">
-                    {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
-                </p>
-
                 <div class="grid grid-cols-2 gap-4">
                     <mat-form-field class="flex-auto gt-xs:pr-3" *ngIf="!isAddMode">
                         <mat-label>{{ t('os perto') }}</mat-label>
@@ -41,8 +44,8 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <mat-form-field class="fuse-mat-textarea flex-auto">
-                        <mat-label>{{ t('tipo intervenção') }}</mat-label>
+                    <mat-form-field class="flex-auto">
+                        <mat-label>{{ t('tipo de intervencao') }}</mat-label>
 
                         <mat-select formControlName="codTipoIntervencao" placeholder="tipoIntervencao"
                             #tipoIntervencaoSelect>
@@ -61,7 +64,7 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-form-field class="flex-auto">
                         <mat-label>{{ t('cliente') }}</mat-label>
 
                         <mat-select formControlName="codCliente" placeholder="Cliente"
@@ -82,7 +85,7 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-form-field class="flex-auto">
                         <mat-label>{{ t('local de atendimento') }}</mat-label>
 
                         <mat-select formControlName="codPosto" placeholder="Local de Atendimento"
@@ -105,7 +108,7 @@
 
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>{{ t('os cliente') }}</mat-label>
-                        <input matInput formControlName="numOSCliente">
+                        <input matInput formControlName="numOSCliente" maxlength="20">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
                     </mat-form-field>
                 </div>
@@ -113,14 +116,14 @@
                 <div class="grid grid-cols-2 gap-4">
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                        <input matInput formControlName="numOSQuarteirizada">
+                        <input matInput formControlName="numOSQuarteirizada" maxlength="20">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'">
                         </mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>{{ t('nome solicitante') }}</mat-label>
-                        <input matInput formControlName="nomeSolicitante">
+                        <input matInput formControlName="nomeSolicitante" maxlength="25">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
                     </mat-form-field>
                 </div>
@@ -128,22 +131,23 @@
                 <div class="grid grid-cols-2 gap-4">
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>{{ t('nome contato') }}</mat-label>
-                        <input matInput formControlName="nomeContato">
+                        <input matInput formControlName="nomeContato" maxlength="25">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>{{ t('telefone solicitante') }}</mat-label>
-                        <input matInput formControlName="telefoneSolicitante">
+                        <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
+                            [showMaskTyped]="true" [dropSpecialCharacters]="false">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                     </mat-form-field>
                 </div>
 
                 <div class="flex">
-                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-form-field class="flex-auto">
                         <mat-label>{{ t('defeito') }}</mat-label>
                         <textarea matInput formControlName="defeitoRelatado" [placeholder]="t('defeito')"
-                            [rows]="4"></textarea>
+                            [rows]="4" maxlength="1000"></textarea>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>

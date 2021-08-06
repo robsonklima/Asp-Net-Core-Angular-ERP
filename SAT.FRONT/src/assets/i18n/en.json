@@ -78,7 +78,7 @@
     "pesquisar": "Search...",
     "fechar": "Close",
     "relatorio": "Report",
-    "detalhe": "Details",
+    "detalhe": "Detail",
     "relatorio de atendimento": "Attendance Report",
     "tipo de intervencao": "Intervention Type",
     "numero do RAT": "RAT Number",
@@ -93,5 +93,6 @@
     "filtros": "Filtros",
     "novo relatorio de atendimento": "New Service Report",
     "atualizar o chamado": "Update Service Order",
-    "transferir o chamado": "Transfer Service Order"
+    "transferir o chamado": "Transfer Service Order",
+    "adicionar detalhe": "Add Detail"
 }

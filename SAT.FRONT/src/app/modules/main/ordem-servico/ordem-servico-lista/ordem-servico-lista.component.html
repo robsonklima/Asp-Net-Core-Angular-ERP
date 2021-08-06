@@ -13,7 +13,7 @@
                 </div>
 
                 <ng-container>
-                    
+
                 </ng-container>
             </div>
         </div>
@@ -27,11 +27,25 @@
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
-                <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('chamados') }}</div>
+                <div>
+                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                        {{ t('chamados') }}
+                    </div>
+                    <!-- <div class="ml-0.5 font-medium text-secondary">
+                        <ng-container *ngIf="dataSourceData?.totalCount > 0">
+                            {{ dataSourceData?.totalCount }}
+                        </ng-container>
+                        {{ dataSourceData?.totalCount | i18nPlural: {
+                            '=0' : 'Nenhum registro',
+                            '=1' : 'chamado',
+                            'other': 'chamados'
+                        } }}
+                    </div> -->
+                </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                     <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                        <input matInput #searchInputControl [autocomplete]="'off'">
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
                     <button class="ml-4" mat-flat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
@@ -39,7 +53,7 @@
                         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     </button>
 
-                    <button class="ml-4 bg-gray-700" mat-flat-button [color]="'primary'" (click)="sidenav.toggle()">
+                    <button class="ml-4" mat-flat-button [color]="'primary'" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:filter'"></mat-icon>
                     </button>
                 </div>
@@ -170,8 +184,7 @@
                                             </div>
 
                                             <div>
-                                                <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
-                                                    (click)="alternarDetalhes(os.codOS)" disabled="true">
+                                                <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6" (click)="alternarDetalhes(os.codOS)">
                                                     <mat-icon class="icon-size-5"
                                                         [svgIcon]="selectedItem?.codOS === os.codOS ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                                     </mat-icon>
@@ -201,7 +214,7 @@
                     <ng-template #rowDetailsTemplate let-product>
                         <div class="shadow-lg overflow-hidden">
                             <div class="flex border-b p-16">
-                                <p>Conteúdo da div</p>
+                                <p>Informações detalhadas do Chamado <b>{{ selectedItem?.codOS }}</b></p>
                             </div>
                         </div>
                     </ng-template>

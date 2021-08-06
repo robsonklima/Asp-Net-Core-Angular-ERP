@@ -88,18 +88,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         obsRAT: [undefined],
       }),
       step2: this._formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        userName: ['', Validators.required],
-        about: ['']
-      }),
-      step3: this._formBuilder.group({
-        byEmail: this._formBuilder.group({
-          companyNews: [true],
-          featuredProducts: [false],
-          messages: [true]
-        }),
-        pushNotifications: ['everything', Validators.required]
+        //teste: [''],
       })
     });
 
@@ -162,7 +151,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this._relatorioAtendimentoService.atualizar(this.relatorioAtendimento).subscribe(() => {
-      this._snack.exibirToast('Registro atualizado com sucesso!', 'success');
+      this._snack.exibirToast('Chamado atualizado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     });
   }
@@ -186,7 +175,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.relatorioAtendimento.codUsuarioCadastro = this.usuario.codUsuario;
 
     this._relatorioAtendimentoService.criar(this.relatorioAtendimento).subscribe(() => {
-      this._snack.exibirToast('Registro adicionado com sucesso!', 'success');
+      this._snack.exibirToast('Chamado adicionado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     });
   }

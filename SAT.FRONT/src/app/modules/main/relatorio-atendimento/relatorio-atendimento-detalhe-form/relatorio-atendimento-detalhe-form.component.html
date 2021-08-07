@@ -1,172 +1,173 @@
-<div class="flex-auto w-full" *transloco="let t">
-    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
-        <div class="flex justify-between">
-            <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
-                {{ t('adicionar detalhe') }}
+<div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-4 border-b" *transloco="let t">
+    <div class="flex justify-between">
+        <div class="text-3xl font-extrabold tracking-tight leading-none mt-0">
+            {{ t('adicionar detalhe') }}
+        </div>
+    </div>
+</div>
+<div mat-dialog-content>
+    <div class="flex-auto w-full" *transloco="let t">
+        <div class="flex sm:mt-0">
+            <div class="flex pl-2">
+                <form [formGroup]="form" name="form" *ngIf="form">
+    
+                    <div class="flex flex-col mt-5 w-80">
+                        <span class="font-medium mb-2">
+                            {{ t('maquina ou extra maquina') }}
+                        </span>
+                        
+                        <mat-radio-group
+                            class="flex flex-col"
+                            [color]="'primary'"
+                            formControlName="maquina"
+                            (change)="obterTiposServico()">
+                            <mat-radio-button
+                                class="mb-2"
+                                [value]="'1'">
+                                {{ t('maquina') }}
+                            </mat-radio-button>
+                            <mat-radio-button
+                                class="mb-2"
+                                [value]="'2'">
+                                {{ t('extra-maquina') }}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+    
+                    <div class="flex flex-col mt-4 w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('tipo de servico') }}</mat-label>
+    
+                            <mat-select formControlName="codServico"
+                                (selectionChange)="obterModulos()"
+                                [disabled]="tiposServico.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="tipoServicoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let tipoServico of tiposServico" [value]="tipoServico.codServico">
+                                    {{ tipoServico.codETipoServico }} - {{ tipoServico.nomeServico }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="flex flex-col w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('modulo') }}</mat-label>
+    
+                            <mat-select formControlName="codModulo"
+                                (selectionChange)="obterSubModulos()"
+                                [disabled]="modulos.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="moduloFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let modulo of modulos" [value]="modulo.codCausa">
+                                    {{ modulo.codECausa }} - {{ modulo.nomeCausa }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('sub modulo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="flex flex-col w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('sub modulo') }}</mat-label>
+    
+                            <mat-select formControlName="codSubModulo"
+                                (selectionChange)="obterComponentes()"
+                                [disabled]="subModulos.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="subModuloFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let subModulo of subModulos" [value]="subModulo.codCausa">
+                                    {{ subModulo.codECausa }} - {{ subModulo.nomeCausa }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="flex flex-col w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('componente') }}</mat-label>
+    
+                            <mat-select formControlName="codCausa" (selectionChange)="obterDefeitos()" [disabled]="componentes.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="componenteFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let componente of componentes" [value]="componente.codCausa">
+                                    {{ componente.codECausa }} - {{ componente.nomeCausa }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="flex flex-col w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('defeito') }}</mat-label>
+    
+                            <mat-select formControlName="codDefeito" (selectionChange)="obterAcoes()" [disabled]="defeitos.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="defeitoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let defeito of defeitos" [value]="defeito.codDefeito">
+                                    {{ defeito.codEDefeito }} - {{ defeito.nomeDefeito }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="flex flex-col w-80">
+                        <mat-form-field class="lex-auto">
+                            <mat-label>{{ t('acao') }}</mat-label>
+    
+                            <mat-select formControlName="codAcao" [disabled]="acoes.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="acaoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let acao of acoes" [value]="acao.codAcao">
+                                    {{ acao.codEAcao }} - {{ acao.nomeAcao }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
             </div>
-
-            <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
-                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
-            </button>
         </div>
     </div>
+</div>
+<div mat-dialog-actions *transloco="let t" align="end">
+  <button mat-button mat-dialog-close>{{ t('fechar') }}</button>
 
-    <div class="flex sm:mt-0">
-        <div class="flex w-full mx-auto pl-6">
-            <form [formGroup]="form" name="form" *ngIf="form">
-
-                <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                    <span class="font-medium mb-2">{{ t('maquina ou extra maquina') }}</span>
-                    <mat-radio-group
-                        class="flex flex-col"
-                        [color]="'primary'"
-                        [formControlName]="'maquina'"
-                        (change)="obterTiposServico()">
-                        <mat-radio-button
-                            class="mb-2"
-                            [value]="'1'">
-                            {{ t('maquina') }}
-                        </mat-radio-button>
-                        <mat-radio-button
-                            class="mb-2"
-                            [value]="'2'">
-                            {{ t('extra-maquina') }}
-                        </mat-radio-button>
-                    </mat-radio-group>
-                </div>
-
-                <div class="flex flex-col mt-4 gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="flex-auto">
-                        <mat-label>{{ t('tipo de servico') }}</mat-label>
-
-                        <mat-select formControlName="codModulo"
-                            (selectionChange)="obterModulos()"
-                            [disabled]="tiposServico.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="tipoServicoFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let tipoServico of tiposServico" [value]="tipoServico.codServico">
-                                {{ tipoServico.codETipoServico }} - {{ tipoServico.nomeServico }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="flex-auto">
-                        <mat-label>{{ t('modulo') }}</mat-label>
-
-                        <mat-select formControlName="codModulo"
-                            (selectionChange)="obterSubModulos()"
-                            [disabled]="modulos.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="moduloFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let modulo of modulos" [value]="modulo.codCausa">
-                                {{ modulo.codECausa }} - {{ modulo.nomeCausa }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('sub modulo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="flex-auto">
-                        <mat-label>{{ t('sub modulo') }}</mat-label>
-
-                        <mat-select formControlName="codSubModulo"
-                            (selectionChange)="obterComponentes()"
-                            [disabled]="subModulos.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="subModuloFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let subModulo of subModulos" [value]="subModulo.codCausa">
-                                {{ subModulo.codECausa }} - {{ subModulo.nomeCausa }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="flex-auto">
-                        <mat-label>{{ t('componente') }}</mat-label>
-
-                        <mat-select formControlName="codCausa" (selectionChange)="obterDefeitos()" [disabled]="componentes.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="componenteFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let componente of componentes" [value]="componente.codCausa">
-                                {{ componente.codECausa }} - {{ componente.nomeCausa }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="flex-auto">
-                        <mat-label>{{ t('defeito') }}</mat-label>
-
-                        <mat-select formControlName="codDefeito" (selectionChange)="obterAcoes()" [disabled]="defeitos.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="defeitoFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let defeito of defeitos" [value]="defeito.codDefeito">
-                                {{ defeito.codEDefeito }} - {{ defeito.nomeDefeito }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="lex-auto">
-                        <mat-label>{{ t('acao') }}</mat-label>
-
-                        <mat-select formControlName="codAcao" [disabled]="acoes.length === 0">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="acaoFilterCtrl"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let acao of acoes" [value]="acao.codAcao">
-                                {{ acao.codEAcao }} - {{ acao.nomeAcao }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex mt-8">
-                    <button class="px-8" mat-flat-button [color]="'primary'" type="reset" [disabled]="!form.valid" (click)="inserir()">
-                        {{ t('inserir') }}
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+  <button mat-button [color]="'primary'" [disabled]="!form.valid" (click)="inserir()">
+    {{ t('inserir') }}
+</button>
 </div>

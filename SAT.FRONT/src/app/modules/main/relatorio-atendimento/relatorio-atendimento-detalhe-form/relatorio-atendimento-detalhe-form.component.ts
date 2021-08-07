@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaService } from 'app/core/services/causa.service';
@@ -14,17 +14,18 @@ import { TipoCausa, TipoCausaData } from 'app/core/types/tipo-causa.types';
 import { GrupoCausa, GrupoCausaData } from 'app/core/types/grupo-causa.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
-import { MatSidenav } from '@angular/material/sidenav';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import moment from 'moment';
 
 @Component({
   selector: 'app-relatorio-atendimento-detalhe-form',
   templateUrl: './relatorio-atendimento-detalhe-form.component.html'
 })
 export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy {
-  @Input() sidenav: MatSidenav;
   form: FormGroup;
   modulos: Causa[] = [];
   subModulos: Causa[] = [];
@@ -52,7 +53,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     private _acaoService: AcaoService,
     private _tipoCausaService: TipoCausaService,
     private _grupoCausaService: GrupoCausaService,
-    private _userService: UserService
+    private _userService: UserService,
+    public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>
   ) { 
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
@@ -303,6 +305,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     form.codTipoCausa = this.tipoCausa?.codTipoCausa;
     form.codUsuarioCad = this.usuario.codUsuario;
     form.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
+    this.dialogRef.close(form);
   }
 
   ngOnDestroy() {

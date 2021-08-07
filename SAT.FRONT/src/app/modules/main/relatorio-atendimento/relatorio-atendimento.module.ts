@@ -18,6 +18,8 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -47,6 +49,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatCheckboxModule,
     MatRadioModule,
     MatSidenavModule,
+    MatListModule,
+    MatDialogModule
   ]
 })
 export class RelatorioAtendimentoModule { }

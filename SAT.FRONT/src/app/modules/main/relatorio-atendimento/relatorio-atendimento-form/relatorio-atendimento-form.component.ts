@@ -15,6 +15,8 @@ import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
+import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -26,13 +28,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   codOS: number;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
-  detalhes: RelatorioAtendimentoDetalhe[] = [];
   stepperForm: FormGroup;
   isAddMode: boolean;
   tecnicoFilterCtrl: FormControl = new FormControl();
-  tecnicos: ReplaySubject<Tecnico[]> = new ReplaySubject<Tecnico[]>(1);
   statusServicoFilterCtrl: FormControl = new FormControl();
-  statusServicos: ReplaySubject<StatusServico[]> = new ReplaySubject<StatusServico[]>(1);
+  tecnicos: Tecnico[] = [];
+  statusServicos: StatusServico[] = [];
   
   protected _onDestroy = new Subject<void>();
 
@@ -45,6 +46,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
+    private _dialog: MatDialog
 
   ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
@@ -102,8 +104,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe(res => {
           this.relatorioAtendimento = res;
-          this.stepperForm.get('step1').get('horaInicio').setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-          this.stepperForm.get('step1').get('horaFim').setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+          this.stepperForm.get('step1').get('horaInicio')
+            .setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
+          this.stepperForm.get('step1').get('horaFim')
+            .setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
           this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
         });
     }
@@ -118,7 +122,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       sortActive: 'nome',
       sortDirection: 'asc'
     }).subscribe((data: TecnicoData) => {
-      if (data.tecnicos.length) this.tecnicos.next(data.tecnicos.slice());
+      if (data.tecnicos.length) this.tecnicos = data.tecnicos;
     })
   }
 
@@ -130,9 +134,26 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       sortDirection: 'asc',
       pageSize: 50,
     }).subscribe((data: StatusServicoData) => {
-      if (data.statusServico.length) this.statusServicos
-        .next(data.statusServico.filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1).slice());
+      if (data.statusServico.length) {
+        this.statusServicos =  data.statusServico
+          .filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1);
+      }
     });
+  }
+
+  inserirDetalhe() {
+    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent, {});
+
+    dialogRef.afterClosed().subscribe(detalhe => {
+      if (detalhe) {
+        this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
+      }
+    });
+  }
+
+  removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
+    this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
+      .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
   }
 
   salvar(): void {

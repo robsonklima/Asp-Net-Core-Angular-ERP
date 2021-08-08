@@ -104,5 +104,13 @@
     "modulo": "Module",
     "sub modulo": "Sub Module",
     "componente": "Component",
-    "acao": "Action"
+    "acao": "Action",
+    "adicionar peca": "Add Piece",
+    "remover detalhe": "Remove Detail",
+    "opcoes": "Options",
+    "dados adicionais": "Aditional Data",
+    "detalhes e pecas": "Details and Pieces",
+    "liberacao de fechadura do cofre": "Safe Lock Release",
+    "chamado de integracao": "Integration Service Order",
+    "selecione as opcoes": "Select the Options"
 }

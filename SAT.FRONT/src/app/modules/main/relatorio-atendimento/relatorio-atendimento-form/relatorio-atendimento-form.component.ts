@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
@@ -96,7 +96,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.isAddMode) {
-      this.relatorioAtendimento = new RelatorioAtendimento();
       this.relatorioAtendimento.codOS = this.codOS;
       this.relatorioAtendimento.relatorioAtendimentoDetalhes = [];
     } else {
@@ -113,31 +112,45 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  obterTecnicos(): void {
-    this._tecnicoService.obterPorParametros({
-      indAtivo: 1,
-      codPerfil: 35,
-      filter: this.tecnicoFilterCtrl.value,
-      pageSize: 500,
-      sortActive: 'nome',
-      sortDirection: 'asc'
-    }).subscribe((data: TecnicoData) => {
-      if (data.tecnicos.length) this.tecnicos = data.tecnicos;
-    })
+  obterTecnicos(): Promise<TecnicoData> {
+    return new Promise((resolve, reject) => {
+      this._tecnicoService.obterPorParametros({
+        indAtivo: 1,
+        codPerfil: 35,
+        filter: this.tecnicoFilterCtrl.value,
+        pageSize: 500,
+        sortActive: 'nome',
+        sortDirection: 'asc'
+      }).subscribe((data: TecnicoData) => {
+        if (data.tecnicos.length) {
+          this.tecnicos = data.tecnicos;
+        }
+        
+        resolve(data);
+      }, () => {
+        reject();
+      });
+    });
   }
 
-  obterStatusServicos(): void {
-    this._statusServicoService.obterPorParametros({
-      indAtivo: 1,
-      filter: this.statusServicoFilterCtrl.value,
-      sortActive: 'nomeStatusServico',
-      sortDirection: 'asc',
-      pageSize: 50,
-    }).subscribe((data: StatusServicoData) => {
-      if (data.statusServico.length) {
-        this.statusServicos =  data.statusServico
-          .filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1);
-      }
+  obterStatusServicos(): Promise<StatusServicoData> {
+    return new Promise((resolve, reject) => {
+      this._statusServicoService.obterPorParametros({
+        indAtivo: 1,
+        filter: this.statusServicoFilterCtrl.value,
+        sortActive: 'nomeStatusServico',
+        sortDirection: 'asc',
+        pageSize: 50,
+      }).subscribe((data: StatusServicoData) => {
+        if (data.statusServico.length) {
+          this.statusServicos =  data.statusServico
+            .filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1);
+        }
+
+        resolve(data);
+      }, () => {
+        reject();
+      });
     });
   }
 

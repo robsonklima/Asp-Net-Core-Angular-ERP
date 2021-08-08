@@ -36,6 +36,9 @@ import { OrdemServicoDetalheComponent } from './ordem-servico-detalhe/ordem-serv
 import { OrdemServicoImpressaoComponent } from './ordem-servico-impressao/ordem-servico-impressao.component';
 import { OrdemServicoFotosComponent } from './ordem-servico-fotos/ordem-servico-fotos.component';
 import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferencia/ordem-servico-transferencia.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -77,6 +80,9 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
         MatTooltipModule,
         MatSidenavModule,
         MatListModule,
+        MatStepperModule,
+        FuseAlertModule,
+        MatProgressSpinnerModule
     ]
 })
 export class OrdemServicoModule

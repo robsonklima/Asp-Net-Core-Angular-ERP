@@ -55,7 +55,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       sortDirection: 'asc',
       codFilial: this.usuario.filial?.codFilial,
       filter: this.searchInputControl.nativeElement.val,
-      pageSize: 500
+      pageSize: 50
     }).subscribe((data: TecnicoData) => {
       this.tecnicos = data.tecnicos;
     });

@@ -104,5 +104,13 @@
     "modulo": "Módulo",
     "sub modulo": "Sub Módulo",
     "componente": "Componente",
-    "acao": "Ação"
+    "acao": "Ação",
+    "adicionar peca": "Adicionar Peça",
+    "remover detalhe": "Remover Detalhe",
+    "opcoes": "Opções",
+    "dados adicionais": "Dados Adicionais",
+    "detalhes e pecas": "Detalhes e Peças",
+    "liberacao de fechadura do cofre": "Liberação de Fechadura do Cofre",
+    "chamado de integracao": "Chamado de Integração",
+    "selecione as opcoes": "Selecione as Opções"
 }

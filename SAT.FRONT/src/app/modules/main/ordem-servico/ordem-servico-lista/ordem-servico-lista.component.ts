@@ -67,7 +67,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     obterDados(): void {
         this.isLoading = true;
-        this._ordemServicoService.obterPorParametros({
+         this._ordemServicoService.obterPorParametros({
             pageNumber: this.paginator?.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',

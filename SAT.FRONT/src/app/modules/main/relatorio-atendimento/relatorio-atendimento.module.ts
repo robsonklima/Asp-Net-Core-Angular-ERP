@@ -20,6 +20,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -50,7 +53,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatRadioModule,
     MatSidenavModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ]
 })
 export class RelatorioAtendimentoModule { }

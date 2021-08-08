@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -17,10 +17,14 @@ import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
+import { FuseAlertType } from '@fuse/components/alert/alert.types';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
-  templateUrl: './relatorio-atendimento-form.component.html'
+  templateUrl: './relatorio-atendimento-form.component.html',
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sidenav: MatSidenav;
@@ -34,7 +38,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   statusServicoFilterCtrl: FormControl = new FormControl();
   tecnicos: Tecnico[] = [];
   statusServicos: StatusServico[] = [];
-  
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
+  showAlert: boolean = false;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -174,20 +182,41 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   atualizar(): void {
-    const form: any = {};
+    this.stepperForm.disable();
+    this.showAlert = false;
 
-    form.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-    form.codUsuarioManut = this.usuario.codUsuario;
+    const stepperForm: any = this.stepperForm.getRawValue();
+    let obj = {
+      ...this.relatorioAtendimento,
+      ...stepperForm.step1,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.usuario.codUsuario
+      }
+    };    
 
-    Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean"
-        ? this.relatorioAtendimento[key] = +form[key]
-        : this.relatorioAtendimento[key] = form[key];
+    Object.keys(obj).forEach((key) => {
+      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._relatorioAtendimentoService.atualizar(this.relatorioAtendimento).subscribe(() => {
-      this._snack.exibirToast('Chamado atualizado com sucesso!', 'success');
-      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
+    this._relatorioAtendimentoService.atualizar(obj).subscribe(() => {
+      this.stepperForm.enable();
+
+      this.alert = {
+        type: 'success',
+        message: 'Relatório de atendimento atualizado com sucesso'
+      };
+
+      this.showAlert = true;
+    }, e => {
+      this.stepperForm.enable();
+
+      this.alert = {
+        type: 'error',
+        message: e?.error
+      };
+
+      this.showAlert = true;
     });
   }
 

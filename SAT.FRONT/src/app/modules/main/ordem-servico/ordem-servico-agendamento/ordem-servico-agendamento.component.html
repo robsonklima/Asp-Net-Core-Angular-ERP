@@ -1,0 +1,65 @@
+<div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-4 border-b" *transloco="let t">
+    <div class="flex justify-between">
+        <div class="text-3xl font-extrabold tracking-tight leading-none mt-0">
+            {{ t('agendar') }}
+        </div>
+    </div>
+</div>
+<div mat-dialog-content>
+    <div class="flex-auto w-full" *transloco="let t">
+        <div class="flex sm:mt-0">
+            <div class="flex pl-2">
+                <form [formGroup]="form" name="form" *ngIf="form">
+                    <div class="flex flex-col mt-5 w-80">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('motivo do agendamento') }}</mat-label>
+
+                            <mat-select formControlName="codMotivo" required #motivoSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="motivoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+
+                                <mat-option *ngFor="let motivo of motivosAgendamento" [value]="motivo.codMotivo">
+                                    {{ motivo.descricaoMotivo }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col mt-0 w-80">
+                        <mat-form-field class="flex-auto gt-xs:pr-3">
+                            <mat-label>{{ t('data') }}</mat-label>
+                            <input matInput [for]="pickerData" [matDatepicker]="pickerData" formControlName="data"
+                                disabled required>
+                            <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col mt-0 w-80">
+                        <mat-form-field class="flex-auto gt-xs:pr-3">
+                            <mat-label>{{ t('hora') }}</mat-label>
+                            <input matInput formControlName="hora" mask="00:00" [showMaskTyped]="true"
+                                [dropSpecialCharacters]="false" required>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                            </mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions *transloco="let t" align="end">
+    <button mat-button mat-dialog-close>{{ t('cancelar') }}</button>
+
+    <button mat-button [color]="'primary'" [disabled]="!form.valid" (click)="salvar()">
+        {{ t('salvar') }}
+    </button>
+</div>

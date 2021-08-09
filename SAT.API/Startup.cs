@@ -81,6 +81,8 @@ namespace SAT.API
             services.AddTransient<IRegiaoAutorizadaRepository, RegiaoAutorizadaRepository>();
             services.AddTransient<ICausaRepository, CausaRepository>();
             services.AddTransient<ITecnicoOrdemServicoRepository, TecnicoOrdemServicoRepository>();
+            services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
+            services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddSingleton<ILoggerRepository, LoggerRepository>();
             services.AddTransient<ITokenService, TokenService>();
 

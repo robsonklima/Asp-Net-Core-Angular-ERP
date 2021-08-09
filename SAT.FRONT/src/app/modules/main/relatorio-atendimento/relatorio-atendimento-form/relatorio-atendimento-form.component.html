@@ -109,7 +109,7 @@
                             <mat-form-field class="flex-auto gt-xs:pr-3">
                                 <mat-label>{{ t('nome do acompanhante') }}</mat-label>
                                 <input matInput formControlName="nomeAcompanhante" maxlength="25">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
                                 </mat-icon>
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>
@@ -131,7 +131,7 @@
                                 <mat-label>{{ t('hora do inicio') }}</mat-label>
                                 <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
                                     [dropSpecialCharacters]="false" required>
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                                 </mat-icon>
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>
@@ -140,7 +140,7 @@
                                 <mat-label>{{ t('hora da solucao') }}</mat-label>
                                 <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
                                     [dropSpecialCharacters]="false" required>
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                                 </mat-icon>
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>

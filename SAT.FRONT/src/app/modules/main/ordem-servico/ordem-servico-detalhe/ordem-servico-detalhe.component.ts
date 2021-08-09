@@ -54,17 +54,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       attribution: 'SAT 2.0'
     }).addTo(this.map);
 
-    let icon: L.Icon = L.icon({
-      iconUrl: 'assets/leaflet/marker-icon.png',
-      shadowUrl: 'assets/leaflet/marker-shadow.png',
-      iconSize: [41, 51], 
-      iconAnchor: [20, 51] 
-    });
-
     L.marker([
       +this.os.localAtendimento.latitude, 
       +this.os.localAtendimento.longitude
-    ], {icon: icon})
+    ])
       .addTo(this.map)
       .bindPopup(this.os.localAtendimento.nomeLocal);
 

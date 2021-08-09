@@ -12,7 +12,7 @@ import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
-import { Usuario } from 'app/core/types/usuario.types';
+import { Usuario, UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -28,7 +28,7 @@ import { fuseAnimations } from '@fuse/animations';
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sidenav: MatSidenav;
-  usuario: Usuario;
+  sessionData: UsuarioSessionData;
   codOS: number;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
@@ -56,7 +56,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _tecnicoService: TecnicoService,
     private _dialog: MatDialog
   ) {
-    this.usuario = JSON.parse(this._userService.userSession).usuario;
+    this.sessionData = JSON.parse(this._userService.userSession);
+    console.log(this.sessionData.usuario);
+    
   }
 
   async ngOnInit() {
@@ -78,7 +80,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
     }
 
-    console.log(this.relatorioAtendimento.relatorioAtendimentoDetalhes)
+    
     this.obterStatusServicos();
     this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
   }
@@ -87,6 +89,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this._tecnicoService.obterPorParametros({
         filter: filter,
+        indAtivo: 1,
         pageSize: 50,
         sortActive: 'nome',
         sortDirection: 'asc'
@@ -190,7 +193,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       ...stepperForm.step1,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.usuario.codUsuario
+        codUsuarioManut: this.sessionData.usuario.codUsuario
       }
     };
 
@@ -234,8 +237,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.relatorioAtendimento.dataHoraSolucao = moment(`${form.data.format('YYYY-MM-DD')} ${form.horaFim}`).format('YYYY-MM-DD HH:mm:ss');
     this.relatorioAtendimento.dataHoraSolucaoValida = this.relatorioAtendimento.dataHoraSolucao;
     this.relatorioAtendimento.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
-    this.relatorioAtendimento.codUsuarioCad = this.usuario.codUsuario;
-    this.relatorioAtendimento.codUsuarioCadastro = this.usuario.codUsuario;
+    this.relatorioAtendimento.codUsuarioCad = this.sessionData.usuario.codUsuario;
+    this.relatorioAtendimento.codUsuarioCadastro = this.sessionData.usuario.codUsuario;
 
     this._relatorioAtendimentoService.criar(this.relatorioAtendimento).subscribe(() => {
       this._snack.exibirToast('Chamado adicionado com sucesso!', 'success');

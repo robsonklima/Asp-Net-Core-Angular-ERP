@@ -39,6 +39,13 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
 import { MatStepperModule } from '@angular/material/stepper';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+    return {
+        validation: false,
+    };
+};
 
 @NgModule({
     declarations: [
@@ -49,8 +56,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         OrdemServicoFotosComponent,
         OrdemServicoTransferenciaComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(ordemServicoRoutes),
+        NgxMaskModule.forRoot(maskConfigFunction),
         MatButtonToggleModule,
         MatChipsModule,
         MatDatepickerModule,
@@ -85,6 +93,5 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatProgressSpinnerModule
     ]
 })
-export class OrdemServicoModule
-{
+export class OrdemServicoModule {
 }

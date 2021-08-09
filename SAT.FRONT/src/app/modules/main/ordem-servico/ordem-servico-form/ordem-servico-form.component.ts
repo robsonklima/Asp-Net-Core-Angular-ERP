@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { forkJoin, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -16,14 +18,12 @@ import { Autorizada, AutorizadaData } from 'app/core/types/autorizada.types';
 import { Cliente, ClienteData } from 'app/core/types/cliente.types';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoData } from 'app/core/types/local-atendimento.types';
-import { OrdemServico, OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada, RegiaoAutorizadaData } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { TipoIntervencao, TipoIntervencaoData } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
-import { forkJoin, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -61,6 +61,7 @@ export class OrdemServicoFormComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
+    private _location: Location,
     private _ordemServicoService: OrdemServicoService,
     private _userService: UserService,
     private _tipoIntervencaoService: TipoIntervencaoService,
@@ -262,10 +263,8 @@ export class OrdemServicoFormComponent implements OnInit {
         indIntegracao: [''],
       }),
       step3: this._formBuilder.group({
-        indMarcaEspecial: [''],
         observacaoCliente: [''],
         descMotivoMarcaEspecial: [''],
-        observacao: [''],
       })
     });
   }
@@ -295,15 +294,9 @@ export class OrdemServicoFormComponent implements OnInit {
     });
 
     this._ordemServicoService.atualizar(obj).subscribe(() => {
-      this.stepperForm.enable();
-
-      this.alert = {
-        type: 'success',
-        message: 'Chamado atualizado com sucesso'
-      };
-
-      this.showAlert = true;
-    }, (e) => {
+      this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
+      this._location.back();
+    }, e => {
       this.stepperForm.enable();
 
       this.alert = {
@@ -339,6 +332,8 @@ export class OrdemServicoFormComponent implements OnInit {
 
     this._ordemServicoService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
+    }, e => {
+
     });
   }
 

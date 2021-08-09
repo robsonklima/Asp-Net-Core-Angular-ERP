@@ -48,11 +48,19 @@ namespace SAT.API.Repositories
 
         public RelatorioAtendimento ObterPorCodigo(int codigo)
         {
-            return _context.RelatorioAtendimento
+            var relatorio = _context.RelatorioAtendimento
                 .Include(r => r.StatusServico)
-                .Include(r => r.RelatorioAtendimentoDetalhes)
-                    .ThenInclude(r => r.RelatorioAtendimentoDetalhePecas)
+                .Include(r => r.Tecnico)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Acao)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Defeito)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
                 .FirstOrDefault(rat => rat.CodRAT == codigo);
+
+            return relatorio;
         }
 
         public PagedList<RelatorioAtendimento> ObterPorParametros(RelatorioAtendimentoParameters parameters)
@@ -60,10 +68,11 @@ namespace SAT.API.Repositories
             var relatorios = _context.RelatorioAtendimento
                 .Include(r => r.Tecnico)
                 .Include(r => r.StatusServico)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(t => t.TipoCausa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(g => g.GrupoCausa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(c => c.Causa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(a => a.Acao)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)
+                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Acao)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Defeito)
                 .Include(r => r.StatusServico)
                 .AsQueryable();

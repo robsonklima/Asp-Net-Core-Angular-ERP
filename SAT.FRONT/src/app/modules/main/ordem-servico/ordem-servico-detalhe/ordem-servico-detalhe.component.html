@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                            <button class="fuse-mat-button-rounded bg-gray-500" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
                                 [matTooltip]="t('novo relatorio de atendimento')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
@@ -55,7 +55,7 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-red-500" mat-flat-button
                                 [matTooltip]="t('transferir')"
                                 matTooltipPosition="above"
                                 (click)="sidenav.toggle()">

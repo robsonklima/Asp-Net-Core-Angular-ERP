@@ -38,7 +38,6 @@ export class OrdemServicoFormComponent implements OnInit {
   isAddMode: boolean;
   usuario: any;
   clienteFilterCtrl: FormControl = new FormControl();
-  tipoIntervencaoFilterCtrl: FormControl = new FormControl();
   localAtendimentoFilterCtrl: FormControl = new FormControl();
   regiaoFilterCtrl: FormControl = new FormControl();
   autorizadaFilterCtrl: FormControl = new FormControl();
@@ -89,12 +88,12 @@ export class OrdemServicoFormComponent implements OnInit {
           this.stepperForm.get('step2').patchValue(this.ordemServico);
           this.stepperForm.get('step3').patchValue(this.ordemServico);
           forkJoin([
-            this.obterClientes(os.cliente.nomeFantasia),
-            this.obterTiposIntervencao(os.tipoIntervencao.nomTipoIntervencao),
-            this.obterFiliais(os.filial.nomeFilial),
-            this.obterAutorizadas(os.autorizada.nomeFantasia),
-            this.obterRegioesAutorizadas(os.autorizada.nomeFantasia),
-            this.obterLocaisAtendimento(os.localAtendimento.nomeLocal)
+            this.obterClientes(os?.cliente?.nomeFantasia),
+            this.obterTiposIntervencao(os?.tipoIntervencao?.nomTipoIntervencao),
+            this.obterFiliais(os?.filial?.nomeFilial),
+            this.obterAutorizadas(os?.autorizada?.nomeFantasia),
+            this.obterRegioesAutorizadas(os?.autorizada?.nomeFantasia),
+            this.obterLocaisAtendimento(os?.localAtendimento?.nomeLocal)
           ]);
         });
     } else {
@@ -251,8 +250,10 @@ export class OrdemServicoFormComponent implements OnInit {
         codEquip: [''],
         codFilial: [
           {
-            value: '',
-            disabled: (this.usuario?.filial?.codFilial ? true : false)
+            value: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial,
+            disabled: (
+              this.usuario?.filial?.codFilial ? true : false
+            )
           }, [Validators.required]
         ],
         codRegiao: ['', Validators.required],
@@ -346,16 +347,6 @@ export class OrdemServicoFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.obterClientes(this.clienteFilterCtrl.value);
-      });
-
-    this.tipoIntervencaoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterTiposIntervencao(this.tipoIntervencaoFilterCtrl.value);
       });
 
     this.localAtendimentoFilterCtrl.valueChanges

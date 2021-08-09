@@ -73,8 +73,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
   private async obterDadosOrdemServico() {
     this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-    this.ultimoAgendamento = this.os.agendamentos
-      .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
+    if (this.os.agendamentos.length) {
+      this.ultimoAgendamento = this.os.agendamentos
+        .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
+    }
   }
 
   agendar() {

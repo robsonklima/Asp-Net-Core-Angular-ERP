@@ -14,13 +14,7 @@
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('motivo do agendamento') }}</mat-label>
 
-                            <mat-select formControlName="codMotivo" required #motivoSelect>
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="motivoFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-
+                            <mat-select formControlName="codMotivo" required>
                                 <mat-option *ngFor="let motivo of motivosAgendamento" [value]="motivo.codMotivo">
                                     {{ motivo.descricaoMotivo }}
                                 </mat-option>

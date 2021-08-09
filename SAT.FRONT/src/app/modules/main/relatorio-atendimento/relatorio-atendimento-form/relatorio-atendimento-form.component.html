@@ -80,14 +80,7 @@
                             <mat-form-field class="fuse-mat-textarea flex-auto">
                                 <mat-label>{{ t('status de servico') }}</mat-label>
 
-                                <mat-select formControlName="codStatusServico" #statusServicoSelect
-                                    [disabled]="statusServicos.length === 0">
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="statusServicoFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-
+                                <mat-select formControlName="codStatusServico" [disabled]="statusServicos.length === 0">
                                     <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
                                         {{ status.nomeStatusServico }}
                                     </mat-option>

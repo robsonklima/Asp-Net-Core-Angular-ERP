@@ -60,13 +60,7 @@
                             <mat-form-field class="flex-auto">
                                 <mat-label>{{ t('tipo de intervencao') }}</mat-label>
         
-                                <mat-select formControlName="codTipoIntervencao" #tipoIntervencaoSelect>
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="tipoIntervencaoFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
+                                <mat-select formControlName="codTipoIntervencao">
                                     <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
                                         [value]="tipoIntervencao.codTipoIntervencao">
                                         {{tipoIntervencao.nomTipoIntervencao}}

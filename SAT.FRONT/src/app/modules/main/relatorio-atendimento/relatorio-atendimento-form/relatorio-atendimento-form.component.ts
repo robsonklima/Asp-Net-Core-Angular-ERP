@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
@@ -65,9 +65,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
 
-    this.obterStatusServicos();
-    this.obterTecnicos();
-
     this.tecnicoFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
@@ -75,7 +72,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
       ).subscribe((query) => {
         if (query) {
-          this.obterTecnicos();
+          this.obterTecnicos(this.tecnicoFilterCtrl.value);
         }
       });
 
@@ -103,10 +100,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       })
     });
 
-    if (this.isAddMode) {
-      this.relatorioAtendimento.codOS = this.codOS;
-      this.relatorioAtendimento.relatorioAtendimentoDetalhes = [];
-    } else {
+    if (!this.isAddMode) {
       this._relatorioAtendimentoService.obterPorCodigo(this.codRAT)
         .pipe(first())
         .subscribe(res => {
@@ -116,16 +110,26 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
           this.stepperForm.get('step1').get('horaFim')
             .setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
           this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
+
+          forkJoin([
+            this.obterStatusServicos(res.statusServico.nomeStatusServico),
+            this.obterTecnicos()
+          ]);
         });
+    } else {
+      forkJoin([
+        this.obterStatusServicos(),
+        this.obterTecnicos()
+      ]);
     }
   }
 
-  obterTecnicos(): Promise<TecnicoData> {
+  obterTecnicos(filter: string=''): Promise<TecnicoData> {
     return new Promise((resolve, reject) => {
       this._tecnicoService.obterPorParametros({
         indAtivo: 1,
         codPerfil: 35,
-        filter: this.tecnicoFilterCtrl.value,
+        filter: filter,
         pageSize: 500,
         sortActive: 'nome',
         sortDirection: 'asc'
@@ -141,14 +145,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  obterStatusServicos(): Promise<StatusServicoData> {
+  obterStatusServicos(filter: string=''): Promise<StatusServicoData> {
     return new Promise((resolve, reject) => {
       this._statusServicoService.obterPorParametros({
         indAtivo: 1,
-        filter: this.statusServicoFilterCtrl.value,
         sortActive: 'nomeStatusServico',
         sortDirection: 'asc',
         pageSize: 50,
+        filter: filter
       }).subscribe((data: StatusServicoData) => {
         if (data.statusServico.length) {
           this.statusServicos =  data.statusServico

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ChangelogComponent } from './changelog/changelog.component';
 import { docsRoutes } from './docs.routing';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     RouterModule.forChild(docsRoutes),
-    MatIconModule
+    MatIconModule,
+    TranslocoModule
   ]
 })
 export class DocsModule { }

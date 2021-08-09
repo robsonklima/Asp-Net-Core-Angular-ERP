@@ -115,5 +115,7 @@
     "selecione as opcoes": "Select the Options",
     "agendar": "Schedule",
     "atualizar": "Update",
-    "motivo do agendamento": "Reason for Scheduling"
+    "motivo do agendamento": "Reason for Scheduling",
+    "versoes": "Changelog",
+    "documentacao": "Documentation"
 }

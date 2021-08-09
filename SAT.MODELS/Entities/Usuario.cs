@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SAT.MODELS.Entities
 {
@@ -47,6 +48,7 @@ namespace SAT.MODELS.Entities
         public string NumCracha { get; set; }
         public string CodRelatorioNaoMostrado { get; set; }
         public string InstalPerfilPagina { get; set; }
+        [JsonIgnore]
         public string Senha { get; set; }
         public byte IndAtivo { get; set; }
         public byte? IndAssinaInvoice { get; set; }

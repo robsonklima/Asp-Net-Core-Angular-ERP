@@ -11,13 +11,9 @@
             <div class="flex pl-2">
                 <form [formGroup]="form" name="form" *ngIf="form">
     
-                    <div class="flex flex-col mt-5 w-80">
-                        <span class="font-medium mb-2">
-                            {{ t('maquina ou extra maquina') }}
-                        </span>
-                        
+                    <div class="flex flex-col mt-5 w-120">
                         <mat-radio-group
-                            class="flex flex-col"
+                            class="flex flex-row"
                             [color]="'primary'"
                             formControlName="maquina"
                             (change)="obterTiposServico()">
@@ -27,14 +23,14 @@
                                 {{ t('maquina') }}
                             </mat-radio-button>
                             <mat-radio-button
-                                class="mb-2"
+                                class="mb-2 ml-2"
                                 [value]="'2'">
                                 {{ t('extra-maquina') }}
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
     
-                    <div class="flex flex-col mt-4 w-80">
+                    <div class="grid grid-cols-2 gap-4 mt-6">
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('tipo de servico') }}</mat-label>
     
@@ -54,9 +50,7 @@
     
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
-                    </div>
-    
-                    <div class="flex flex-col w-80">
+
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('modulo') }}</mat-label>
     
@@ -78,7 +72,7 @@
                         </mat-form-field>
                     </div>
     
-                    <div class="flex flex-col w-80">
+                    <div class="grid grid-cols-2 gap-4">
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('sub modulo') }}</mat-label>
     
@@ -98,9 +92,7 @@
     
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
-                    </div>
-    
-                    <div class="flex flex-col w-80">
+                    
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('componente') }}</mat-label>
     
@@ -120,7 +112,7 @@
                         </mat-form-field>
                     </div>
     
-                    <div class="flex flex-col w-80">
+                    <div class="grid grid-cols-2 gap-4">
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('defeito') }}</mat-label>
     
@@ -138,9 +130,7 @@
     
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
-                    </div>
-    
-                    <div class="flex flex-col w-80">
+                    
                         <mat-form-field class="lex-auto">
                             <mat-label>{{ t('acao') }}</mat-label>
     

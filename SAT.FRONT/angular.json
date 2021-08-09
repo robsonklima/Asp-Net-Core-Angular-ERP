@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/fuse",
+                        "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -139,7 +139,7 @@
             }
         }
     },
-    "defaultProject": "fuse",
+    "defaultProject": "sat",
     "cli": {
       "analytics": "eb6695c9-bb27-42ce-9315-6e39d463b91a",
         "defaultCollection": "@angular-eslint/schematics"

@@ -4,7 +4,7 @@
     <Controller_SelectedScaffolderID>ApiControllerWithActionsScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <ShowAllFiles>false</ShowAllFiles>
-    <NameOfLastUsedPublishProfile>C:\SAT\SAT.V2\SAT.API\Properties\PublishProfiles\Produção.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.API\Properties\PublishProfiles\Produ‡ֶo.pubxml</NameOfLastUsedPublishProfile>
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

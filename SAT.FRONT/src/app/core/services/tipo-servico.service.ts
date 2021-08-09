@@ -18,7 +18,7 @@ export class TipoServicoService {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
 
-    return this.http.get(`${c.api}/TipoServico`, { params: params, headers: this.headers }).pipe(
+    return this.http.get(`${c.api}/TipoServico`, { params: params }).pipe(
       map((data: TipoServicoData) => data)
     )
   }

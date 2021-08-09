@@ -1,182 +1,214 @@
-<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-    <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
-        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-        </div>
-        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('chamados') }}</div>
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
-                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                <input matInput #searchInputControl [autocomplete]="'off'">
-            </mat-form-field>
-
-            <button class="ml-4" mat-flat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
-                routerLinkActive="router-link-active">
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1" *transloco="let t">{{ t('adicionar') }}</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="flex flex-auto overflow-hidden">
-        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container>
-                <ng-container>
-                    <div class="grid">
-                        <div class="list-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                            matSort matSortDisableClear *transloco="let t">
-                            <div class="md:block" [mat-sort-header]="'codOS'">
-                                {{ t('os') }}
-                            </div>
-                            <div class="hidden md:block" [mat-sort-header]="'dataHoraAberturaOS'">
-                                {{ t('abertura') }}
-                            </div>
-                            <div class="hidden md:block" [mat-sort-header]="'dataHoraSolicitacao'">
-                                {{ t('solicitacao') }}
-                            </div>
-                            <div class="hidden md:block">
-                                {{ t('fim sla') }}
-                            </div>
-                            <div class="hidden md:block">
-                                S
-                            </div>
-                            <div class="hidden md:block">
-                                Interv
-                            </div>
-                            <div class="hidden md:block">
-                                PAT
-                            </div>
-                            <div class="hidden md:block">
-                                {{ t('local') }}
-                            </div>
-                            <div>
-                                {{ t('cliente') }}
-                            </div>
-                            <div class="hidden lg:block">
-                                {{ t('equipamento') }}
-                            </div>
-                            <div class="hidden lg:block">
-                                {{ t('sla') }}
-                            </div>
-                            <div class="hidden md:block">
-                                {{ t('serie') }}
-                            </div>
-                            <div class="hidden lg:block">
-                                R
-                            </div>
-                            <div class="hidden lg:block">
-                                Status
-                            </div>
-                            <div class="md:block">
-                                {{ t('acoes') }}
-                            </div>
-                        </div>
-
-                        <ng-container>
-                            <ng-container *ngFor="let os of dataSourceData?.ordensServico">
-                                <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
-                                    *transloco="let t">
-                                    <div class="flex items-center">
-                                        <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS" class="text-primary">
-                                            {{ os.codOS }}
-                                        </a>
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento ||
-                                        os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM HH:mm') || '--'
-                                        }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.statusServico?.abrev }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.tipoIntervencao?.codETipoIntervencao }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }},
-                                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '--' }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
-                                    </div>
-
-                                    <div class="lg:block truncate">
-                                        {{ os.cliente?.numBanco || t('nao informado') }}
-                                    </div>
-
-                                    <div class="hidden lg:block truncate">
-                                        {{ os.equipamento?.nomeEquip || t('nao informado') }}
-                                    </div>
-
-                                    <div class="hidden lg:block truncate">
-                                        {{ 
-                                            os.equipamentoContrato?.acordoNivelServico?.nomeSLA ?
-                                            os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--' 
-                                        }}
-                                    </div>
-
-                                    <div class="hidden md:block truncate">
-                                        {{ os.equipamentoContrato?.numSerie || t('nao informado') }}
-                                    </div>
-
-                                    <div class="hidden lg:block">
-                                        {{ os.numReincidencia }}
-                                    </div>
-
-                                    <div class="hidden lg:block">
-                                        DENTRO
-                                    </div>
-
-                                    <div>
-                                        <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
-                                            (click)="alternarDetalhes(os.codOS)" disabled="true">
-                                            <mat-icon class="icon-size-5"
-                                                [svgIcon]="selectedItem?.codOS === os.codOS ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
-                                            </mat-icon>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <ng-container *ngIf="selectedItem?.codOS === os.codOS">
-                                        <ng-container
-                                            *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: product}">
-                                        </ng-container>
-                                    </ng-container>
-                                </div>
-                            </ng-container>
-                        </ng-container>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <div class="flex-auto" *transloco="let t">
+            <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
+                <div class="flex justify-between">
+                    <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
+                        {{ t('filtros') }}
                     </div>
 
-                    <mat-paginator [hidden]="!dataSourceData?.ordensServico?.length"
-                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
-                        (page)="paginar()">
-                    </mat-paginator>
-                </ng-container>
-            </ng-container>
+                    <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                    </button>
+                </div>
 
-            <ng-template #rowDetailsTemplate let-product>
-                <div class="shadow-lg overflow-hidden">
-                    <div class="flex border-b p-16">
-                        <p>Conteúdo da div</p>
+                <ng-container>
+
+                </ng-container>
+            </div>
+        </div>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+                </div>
+                <div>
+                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                        {{ t('chamados') }}
                     </div>
                 </div>
-            </ng-template>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                    </mat-form-field>
+
+                    <button class="ml-4" mat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
+                        routerLinkActive="router-link-active">
+                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                    </button>
+
+                    <button class="ml-4" mat-button [color]="'primary'" (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:filter'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-auto overflow-hidden">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid-ordem-servico z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+                                    <div class="md:block" [mat-sort-header]="'codOS'">
+                                        {{ t('os') }}
+                                    </div>
+                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraAberturaOS'">
+                                        {{ t('abertura') }}
+                                    </div>
+                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraSolicitacao'">
+                                        {{ t('solicitacao') }}
+                                    </div>
+                                    <div class="hidden md:block">
+                                        {{ t('fim sla') }}
+                                    </div>
+                                    <div class="hidden md:block">
+                                        S
+                                    </div>
+                                    <div class="hidden md:block">
+                                        Interv
+                                    </div>
+                                    <div class="hidden md:block">
+                                        PAT
+                                    </div>
+                                    <div class="hidden md:block">
+                                        {{ t('local') }}
+                                    </div>
+                                    <div>
+                                        {{ t('cliente') }}
+                                    </div>
+                                    <div class="hidden lg:block">
+                                        {{ t('equipamento') }}
+                                    </div>
+                                    <div class="hidden lg:block">
+                                        {{ t('sla') }}
+                                    </div>
+                                    <div class="hidden md:block">
+                                        {{ t('serie') }}
+                                    </div>
+                                    <div class="hidden lg:block">
+                                        R
+                                    </div>
+                                    <div class="hidden lg:block">
+                                        Status
+                                    </div>
+                                    <div class="md:block">
+                                        {{ t('acoes') }}
+                                    </div>
+                                </div>
+
+                                <ng-container>
+                                    <ng-container *ngFor="let os of dataSourceData?.ordensServico">
+                                        <div class="list-grid-ordem-servico grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
+                                            *transloco="let t">
+                                            <div class="flex items-center">
+                                                <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS"
+                                                    class="text-primary">
+                                                    {{ os.codOS }}
+                                                </a>
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento ||
+                                                os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM HH:mm')
+                                                || '--'
+                                                }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.statusServico?.abrev }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.tipoIntervencao?.codETipoIntervencao }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }},
+                                                {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '--' }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
+                                            </div>
+
+                                            <div class="lg:block truncate">
+                                                {{ os.cliente?.numBanco || t('nao informado') }}
+                                            </div>
+
+                                            <div class="hidden lg:block truncate">
+                                                {{ os.equipamento?.nomeEquip || t('nao informado') }}
+                                            </div>
+
+                                            <div class="hidden lg:block truncate">
+                                                {{
+                                                os.equipamentoContrato?.acordoNivelServico?.nomeSLA ?
+                                                os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--'
+                                                }}
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                                {{ os.equipamentoContrato?.numSerie || t('nao informado') }}
+                                            </div>
+
+                                            <div class="hidden lg:block">
+                                                {{ os.numReincidencia }}
+                                            </div>
+
+                                            <div class="hidden lg:block">
+                                                DENTRO
+                                            </div>
+
+                                            <div>
+                                                <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6" (click)="alternarDetalhes(os.codOS)">
+                                                    <mat-icon class="icon-size-5"
+                                                        [svgIcon]="selectedItem?.codOS === os.codOS ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <ng-container *ngIf="selectedItem?.codOS === os.codOS">
+                                                <ng-container
+                                                    *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: product}">
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+
+                            <mat-paginator [hidden]="!dataSourceData?.ordensServico?.length"
+                                class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #rowDetailsTemplate let-product>
+                        <div class="shadow-lg overflow-hidden">
+                            <div class="flex border-b p-16">
+                                <p>Informações detalhadas do chamado <b>{{ selectedItem?.codOS }}</b></p>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </mat-drawer-content>

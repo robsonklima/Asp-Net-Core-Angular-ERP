@@ -9,7 +9,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { MatSort } from '@angular/material/sort';
-import { OrdemServico, OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 
 @Component({
@@ -20,14 +20,14 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
     animations: fuseAnimations
 })
 export class OrdemServicoListaComponent implements AfterViewInit {
+    userSession: UserSession;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) private sort: MatSort;
     dataSourceData: OrdemServicoData;
+    selectedItem: OrdemServico | null = null;
     isLoading: boolean = false;
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-    selectedItem: OrdemServico | null = null;
-    userSession: UserSession;
-
+    
     constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
@@ -39,8 +39,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.obterDados();
 
-        if (this.sort && this.paginator)
-        {
+        if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
                 map((event: any) => {
                     return event.target.value;
@@ -66,41 +65,45 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    obterDados(): void {
-        this.isLoading = true;        
-        this._ordemServicoService.obterPorParametros({
+    async obterDados() {
+        this.isLoading = true;
+
+        const params: OrdemServicoParameters = {
             pageNumber: this.paginator?.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
             pageSize: this.paginator?.pageSize,
             filter: this.searchInputControl.nativeElement.val,
-            codFilial: this.userSession?.usuario?.filial?.codFilial || undefined
-        }).subscribe((data: OrdemServicoData) => {
-            this.dataSourceData = data;
-            this.isLoading = false;
-            this._cdr.detectChanges();
-        });
+            codFilial: this.userSession?.usuario?.filial?.codFilial
+        };
+
+        const data: OrdemServicoData = await this._ordemServicoService
+            .obterPorParametros(params)
+            .toPromise();
+    
+        this.dataSourceData = data;
+        this.isLoading = false;
     }
 
     paginar() {
         this.obterDados();
     }
 
-    alternarDetalhes(id: number): void {
+    async alternarDetalhes(codigo: number) {
         this.isLoading = true;
 
-        if (this.selectedItem && this.selectedItem.codOS === id) {
+        if (this.selectedItem && this.selectedItem.codOS === codigo) {
             this.isLoading = false;
             this.fecharDetalhes();
             return;
         }
 
-        this._ordemServicoService.obterPorCodigo(id)
-            .subscribe((item) => {
-                this.selectedItem = item;
-                this.isLoading = false;
-                this._cdr.markForCheck();
-            });
+        const os: OrdemServico = await this._ordemServicoService
+            .obterPorCodigo(codigo)
+            .toPromise();
+
+        this.selectedItem = os;
+        this.isLoading = false;
     }
 
     fecharDetalhes(): void {

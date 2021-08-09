@@ -36,6 +36,16 @@ import { OrdemServicoDetalheComponent } from './ordem-servico-detalhe/ordem-serv
 import { OrdemServicoImpressaoComponent } from './ordem-servico-impressao/ordem-servico-impressao.component';
 import { OrdemServicoFotosComponent } from './ordem-servico-fotos/ordem-servico-fotos.component';
 import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferencia/ordem-servico-transferencia.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+    return {
+        validation: false,
+    };
+};
 
 @NgModule({
     declarations: [
@@ -46,8 +56,9 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
         OrdemServicoFotosComponent,
         OrdemServicoTransferenciaComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(ordemServicoRoutes),
+        NgxMaskModule.forRoot(maskConfigFunction),
         MatButtonToggleModule,
         MatChipsModule,
         MatDatepickerModule,
@@ -67,8 +78,7 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
         MatSortModule,
         MatSelectModule,
         MatSlideToggleModule,
-        MatTooltipModule,
-    SharedModule,
+        SharedModule,
         MatTableModule,
         MatTabsModule,
         TranslocoModule,
@@ -78,8 +88,10 @@ import { OrdemServicoTransferenciaComponent } from './ordem-servico-transferenci
         MatTooltipModule,
         MatSidenavModule,
         MatListModule,
+        MatStepperModule,
+        FuseAlertModule,
+        MatProgressSpinnerModule
     ]
 })
-export class OrdemServicoModule
-{
+export class OrdemServicoModule {
 }

@@ -3,7 +3,7 @@ import { RelatorioAtendimentoDetalhe } from "./relatorio-atendimento-detalhe.typ
 import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 
-export class RelatorioAtendimento {
+export interface RelatorioAtendimento {
     codRAT: number;
     numRAT: string;
     nomeRespCliente: string;

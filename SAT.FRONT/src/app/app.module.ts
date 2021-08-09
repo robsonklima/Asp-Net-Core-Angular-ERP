@@ -10,9 +10,11 @@ import { appConfig } from 'app/core/config/app.config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+//import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routerConfig: ExtraOptions = {
     scrollPositionRestoration: 'enabled',
+    useHash: true,
     preloadingStrategy: PreloadAllModules
 };
 
@@ -40,7 +42,10 @@ const routerConfig: ExtraOptions = {
     ],
     bootstrap: [
         AppComponent
-    ]
+    ],
+    //providers: [
+        //{ provide: LocationStrategy, useClass: HashLocationStrategy },
+    //],
 })
 export class AppModule
 {

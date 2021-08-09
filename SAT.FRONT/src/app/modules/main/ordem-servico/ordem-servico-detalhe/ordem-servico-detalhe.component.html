@@ -1,6 +1,6 @@
 <mat-drawer-container class="flex-auto h-full">
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <ordem-servico-transferencia [os]="os" [sidenav]="sidenav"></ordem-servico-transferencia>
+        <app-ordem-servico-transferencia [os]="os" [sidenav]="sidenav"></app-ordem-servico-transferencia>
     </mat-drawer>
 
     <mat-drawer-content>
@@ -34,22 +34,25 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                            <button class="fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-gray-500" mat-flat-button
+                                [matTooltip]="t('novo relatorio de atendimento')"
+                                matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-                                <span class="ml-2">{{ t('relatorio') }}</span>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded" mat-flat-button [color]="'primary'"
+                                [matTooltip]="t('atualizar o chamado')"
+                                matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
-                                <span class="ml-2">{{ t('editar') }}</span>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                                [matTooltip]="t('transferir o chamado')"
+                                matTooltipPosition="above"
                                 (click)="sidenav.toggle()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'"></mat-icon>
-                                <span class="ml-2">{{ t('transferir') }}</span>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:reply'"></mat-icon>
                             </button>
                         </div>
                     </div>

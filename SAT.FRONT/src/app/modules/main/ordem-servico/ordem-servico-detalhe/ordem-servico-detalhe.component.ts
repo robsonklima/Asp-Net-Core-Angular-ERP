@@ -17,7 +17,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   os: OrdemServico;
   fotos: Foto[] = [];
   map: L.Map;
-
+  
   constructor(
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
@@ -46,11 +46,19 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       attribution: 'SAT 2.0'
     }).addTo(this.map);
 
+    let icon: L.Icon = L.icon({
+      iconUrl: 'assets/leaflet/marker-icon.png',
+      shadowUrl: 'assets/leaflet/marker-shadow.png',
+      iconSize: [41, 51], 
+      iconAnchor: [20, 51] 
+    });
+
     L.marker([
       +this.os.localAtendimento.latitude, 
       +this.os.localAtendimento.longitude
-    ]).bindPopup(this.os.localAtendimento.nomeLocal)
-      .addTo(this.map);
+    ], {icon: icon})
+      .addTo(this.map)
+      .bindPopup(this.os.localAtendimento.nomeLocal);
 
     this.map.invalidateSize();
   }

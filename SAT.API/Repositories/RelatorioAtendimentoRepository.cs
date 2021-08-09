@@ -49,6 +49,7 @@ namespace SAT.API.Repositories
         public RelatorioAtendimento ObterPorCodigo(int codigo)
         {
             return _context.RelatorioAtendimento
+                .Include(r => r.StatusServico)
                 .Include(r => r.RelatorioAtendimentoDetalhes)
                     .ThenInclude(r => r.RelatorioAtendimentoDetalhePecas)
                 .FirstOrDefault(rat => rat.CodRAT == codigo);
@@ -58,6 +59,7 @@ namespace SAT.API.Repositories
         {
             var relatorios = _context.RelatorioAtendimento
                 .Include(r => r.Tecnico)
+                .Include(r => r.StatusServico)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(t => t.TipoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(g => g.GrupoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(c => c.Causa)

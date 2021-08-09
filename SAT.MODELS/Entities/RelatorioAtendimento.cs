@@ -83,6 +83,7 @@ namespace SAT.MODELS.Entities
         public string NroSerieMecanismo { get; set; }
         public int CodOS { get; set; }
         public int CodTecnico { get; set; }
+        public int CodStatusServico { get; set; }
         [ForeignKey("CodRAT")]
         public List<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhes { get; set; }
         [ForeignKey("CodRAT")]

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { OrdemServico } from 'app/core/types/ordem-servico.types'
 import { MatSidenav } from '@angular/material/sidenav';
-import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { fromEvent } from 'rxjs';
 import { appConfig as c } from 'app/core/config/app.config'
@@ -10,7 +10,8 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import moment from 'moment';
 import { UserService } from 'app/core/user/user.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { Usuario } from 'app/core/types/usuario.types';
+import { Usuario, UsuarioSessionData } from 'app/core/types/usuario.types';
+import { OpenStreetMapService } from 'app/core/services/open-street-map.service';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -22,20 +23,53 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
   @Input() os: OrdemServico;
   tecnicos: Tecnico[];
   isLoading: boolean;
-  usuario: Usuario;
+  sessionData: UsuarioSessionData;
 
   constructor(
     private _tecnicoService: TecnicoService,
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
+    private _mapService: OpenStreetMapService,
     private _userService: UserService
   ) {
-    this.usuario = JSON.parse(this._userService.userSession).usuario;
+    this.sessionData = JSON.parse(this._userService.userSession);
   }
 
   ngAfterViewInit(): void {
     this.obterTecnicos();
+    this.registrarEmitters();
+  }
 
+  async obterTecnicos() {
+    const params = {
+      indAtivo: 1,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codFilial: this.sessionData?.usuario?.filial?.codFilial,
+      filter: this.searchInputControl.nativeElement.val,
+      pageSize: 10
+    }
+        
+    const data = await this._tecnicoService
+      .obterPorParametros(params)
+      .toPromise();
+    
+    this.tecnicos = data.tecnicos;
+    
+    //const rota = await this.buscarRota(data.tecnicos[0]);
+    //console.log(rota);
+  }
+
+  private async buscarRota(tecnico: Tecnico): Promise<any> {
+    return await this._mapService.buscarRota(
+      +this.os.localAtendimento.latitude,
+      +this.os.localAtendimento.longitude,
+      +tecnico.latitude,
+      +tecnico.longitude,
+    ).toPromise();
+  }
+
+  private registrarEmitters(): void {
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
       map((event: any) => {
         return event.target.value;
@@ -48,24 +82,11 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
     });
   }
 
-  obterTecnicos(): void {
-    this._tecnicoService.obterPorParametros({
-      indAtivo: 1,
-      sortActive: 'nome',
-      sortDirection: 'asc',
-      codFilial: this.usuario.filial?.codFilial,
-      filter: this.searchInputControl.nativeElement.val,
-      pageSize: 50
-    }).subscribe((data: TecnicoData) => {
-      this.tecnicos = data.tecnicos;
-    });
-  }
-
   transferir(tecnico: Tecnico): void {
     this.isLoading = true;
 
     this.os.codTecnico = tecnico.codTecnico;
-    this.os.codUsuarioManut = this.usuario.codUsuario;
+    this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
     this.os.codStatusServico = c.status_servico.transferido;
     this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     this._ordemServicoService.atualizar(this.os).subscribe(() => {

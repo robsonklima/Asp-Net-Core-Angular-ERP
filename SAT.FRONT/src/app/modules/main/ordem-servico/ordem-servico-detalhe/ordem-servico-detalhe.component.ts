@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
-import { first } from 'rxjs/operators';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';

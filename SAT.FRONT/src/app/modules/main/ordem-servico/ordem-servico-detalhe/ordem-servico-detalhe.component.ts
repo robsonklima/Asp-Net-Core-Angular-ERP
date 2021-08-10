@@ -6,8 +6,8 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
-import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',

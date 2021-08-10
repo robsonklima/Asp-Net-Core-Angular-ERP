@@ -86,7 +86,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this._tecnicoService.obterPorParametros({
         filter: filter,
-        //indAtivo: 1,
+        indAtivo: 1,
         pageSize: 50,
         sortActive: 'nome',
         sortDirection: 'asc'

@@ -3,7 +3,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { forkJoin, Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
@@ -61,6 +61,7 @@ export class OrdemServicoFormComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _location: Location,
+    private _router: Router,
     private _ordemServicoService: OrdemServicoService,
     private _userService: UserService,
     private _tipoIntervencaoService: TipoIntervencaoService,
@@ -233,21 +234,21 @@ export class OrdemServicoFormComponent implements OnInit {
       step1: this._formBuilder.group({
         codOS: [
           {
-            value: '',
+            value: undefined,
             disabled: true,
           }, [Validators.required]
         ],
-        numOSCliente: [''],
-        numOSQuarteirizada: [''],
-        nomeSolicitante: [''],
-        nomeContato: [''],
-        telefoneSolicitante: [''],
-        codCliente: ['', Validators.required],
-        codTipoIntervencao: ['', Validators.required],
-        codPosto: ['', Validators.required],
-        defeitoRelatado: ['', Validators.required],
-        codEquipContrato: [''],
-        codEquip: [''],
+        numOSCliente: [undefined],
+        numOSQuarteirizada: [undefined],
+        nomeSolicitante: [undefined],
+        nomeContato: [undefined],
+        telefoneSolicitante: [undefined],
+        codCliente: [undefined, Validators.required],
+        codTipoIntervencao: [undefined, Validators.required],
+        codPosto: [undefined, Validators.required],
+        defeitoRelatado: [undefined, Validators.required],
+        codEquipContrato: [undefined],
+        codEquip: [undefined],
         codFilial: [
           {
             value: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial,
@@ -256,16 +257,16 @@ export class OrdemServicoFormComponent implements OnInit {
             )
           }, [Validators.required]
         ],
-        codRegiao: ['', Validators.required],
-        codAutorizada: ['', Validators.required]
+        codRegiao: [undefined, Validators.required],
+        codAutorizada: [undefined, Validators.required]
       }),
       step2: this._formBuilder.group({
-        indLiberacaoFechaduraCofre: [''],
-        indIntegracao: [''],
+        indLiberacaoFechaduraCofre: [undefined],
+        indIntegracao: [undefined],
       }),
       step3: this._formBuilder.group({
-        observacaoCliente: [''],
-        descMotivoMarcaEspecial: [''],
+        observacaoCliente: [undefined],
+        descMotivoMarcaEspecial: [undefined],
       })
     });
   }
@@ -327,12 +328,17 @@ export class OrdemServicoFormComponent implements OnInit {
       }
     };
 
+    
+
     Object.keys(obj).forEach((key) => {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._ordemServicoService.atualizar(obj).subscribe(() => {
+    console.log(obj);
+
+    this._ordemServicoService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
+      this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
     }, e => {
 
     });

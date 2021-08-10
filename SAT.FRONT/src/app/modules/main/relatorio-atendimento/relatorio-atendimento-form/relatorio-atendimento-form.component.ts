@@ -12,7 +12,7 @@ import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
-import { Usuario, UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -152,11 +152,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         nomeAcompanhante: [undefined],
         data: [
           {
-            value: moment(),
+            value: undefined,
             disabled: false,
           }, [Validators.required]
         ],
-        horaInicio: [moment().format('HH:mm'), [Validators.required]],
+        horaInicio: [undefined, [Validators.required]],
         horaFim: [undefined, [Validators.required]],
         obsRAT: [undefined],
       })

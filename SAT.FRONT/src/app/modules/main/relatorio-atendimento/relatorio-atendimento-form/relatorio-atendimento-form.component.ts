@@ -31,7 +31,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sessionData: UsuarioSessionData;
   codOS: number;
   codRAT: number;
-  relatorioAtendimento: RelatorioAtendimento;
+  relatorioAtendimento: RelatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;;
   stepperForm: FormGroup;
   isAddMode: boolean;
   tecnicoFilterCtrl: FormControl = new FormControl();
@@ -57,8 +57,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog
   ) {
     this.sessionData = JSON.parse(this._userService.userSession);
-    console.log(this.sessionData.usuario);
-    
   }
 
   async ngOnInit() {
@@ -80,7 +78,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
     }
 
-    
     this.obterStatusServicos();
     this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
   }
@@ -202,14 +199,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this._relatorioAtendimentoService.atualizar(obj).subscribe(() => {
-      this.stepperForm.enable();
-
-      this.alert = {
-        type: 'success',
-        message: 'Relatório de atendimento atualizado com sucesso'
-      };
-
-      this.showAlert = true;
+      this._snack.exibirToast('Relatório de atendimento atualizado com sucesso!', 'success');
+      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     }, e => {
       this.stepperForm.enable();
 
@@ -223,25 +214,38 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   private criar(): void {
-    const form: any = {};
+    this.stepperForm.disable();
+    this.showAlert = false;
 
-    Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean"
-        ? this.relatorioAtendimento[key] = +form[key]
-        : this.relatorioAtendimento[key] = form[key];
+    const stepperForm: any = this.stepperForm.getRawValue();
+    const data = stepperForm.step1.data.format('YYYY-MM-DD');
+    const horaInicio = stepperForm.step1.horaInicio;
+    const horaFim = stepperForm.step1.horaFim;
+
+    let obj = {
+      ...this.relatorioAtendimento,
+      ...stepperForm.step1,
+      ...{
+        codOS: this.codOS,
+        dataHoraInicio: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraInicioValida: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraSolucao: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraSolucaoValida: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.sessionData.usuario.codUsuario,
+        codUsuarioCadastro: this.sessionData.usuario.codUsuario
+      }
+    };
+
+    Object.keys(obj).forEach((key) => {
+      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this.relatorioAtendimento.codOS = this.codOS;
-    this.relatorioAtendimento.dataHoraInicio = moment(`${form.data.format('YYYY-MM-DD')} ${form.horaInicio}`).format('YYYY-MM-DD HH:mm:ss');
-    this.relatorioAtendimento.dataHoraInicioValida = this.relatorioAtendimento.dataHoraInicio;
-    this.relatorioAtendimento.dataHoraSolucao = moment(`${form.data.format('YYYY-MM-DD')} ${form.horaFim}`).format('YYYY-MM-DD HH:mm:ss');
-    this.relatorioAtendimento.dataHoraSolucaoValida = this.relatorioAtendimento.dataHoraSolucao;
-    this.relatorioAtendimento.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
-    this.relatorioAtendimento.codUsuarioCad = this.sessionData.usuario.codUsuario;
-    this.relatorioAtendimento.codUsuarioCadastro = this.sessionData.usuario.codUsuario;
+    console.log(obj);
+    
 
     this._relatorioAtendimentoService.criar(this.relatorioAtendimento).subscribe(() => {
-      this._snack.exibirToast('Chamado adicionado com sucesso!', 'success');
+      this._snack.exibirToast('Relatório de atendimento adicionado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     });
   }

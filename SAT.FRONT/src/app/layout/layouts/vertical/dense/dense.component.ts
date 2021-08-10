@@ -6,14 +6,16 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
+import packageInfo from '../../../../../../package.json';
+
 
 @Component({
     selector     : 'dense-layout',
     templateUrl  : './dense.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class DenseLayoutComponent implements OnInit, OnDestroy
-{
+export class DenseLayoutComponent implements OnInit, OnDestroy {
+    public version: string = packageInfo.version;
     isScreenSmall: boolean;
     navigation: Navigation;
     navigationAppearance: 'default' | 'dense' = 'dense';

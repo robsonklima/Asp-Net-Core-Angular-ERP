@@ -4,11 +4,13 @@ using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace SAT.API.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class OrdemServicoController : ControllerBase
     {

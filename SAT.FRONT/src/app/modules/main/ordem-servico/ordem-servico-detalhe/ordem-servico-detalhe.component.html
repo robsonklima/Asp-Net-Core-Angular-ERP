@@ -34,22 +34,29 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                            <button class="fuse-mat-button-rounded bg-gray-500" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
                                 [matTooltip]="t('novo relatorio de atendimento')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded" mat-flat-button [color]="'primary'"
-                                [matTooltip]="t('atualizar o chamado')"
+                            <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
+                                [matTooltip]="t('editar')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
-                                [matTooltip]="t('transferir o chamado')"
+                            <button class="fuse-mat-button-rounded bg-indigo-500" mat-flat-button [color]="'primary'"
+                                [matTooltip]="t('agendar')"
+                                (click)="agendar()"
+                                matTooltipPosition="above">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded bg-pink-700" mat-flat-button
+                                [matTooltip]="t('transferir')"
                                 matTooltipPosition="above"
                                 (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:reply'"></mat-icon>
@@ -80,9 +87,11 @@
                                                 </div>
                                             </div>
 
-                                            <div class="my-2">
+                                            <div class="my-2" *ngIf="ultimoAgendamento">
                                                 <div>{{ t('agendamento') }}</div>
-                                                <div class="text-secondary text-md">01/02/2020 15:30
+                                                <div class="text-secondary text-md"
+                                                    matTooltipPosition="above">
+                                                    {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                 </div>
                                             </div>
 
@@ -112,19 +121,19 @@
                                             <div class="my-2">
                                                 <div>{{ t('observacao') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    {{ ordemServico?.observacaoCliente || 'Não Informado' }}
+                                                    {{ os?.observacaoCliente || 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
                                                 <div>{{ t('marcacao especial') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    {{ ordemServico?.descMotivoMarcaEspecial || 'Não Informado' }}
+                                                    {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
                                                 <div>{{ t('tecnico') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    {{ ordemServico?.tecnico?.nome }}
+                                                    {{ os?.tecnico?.nome | titlecase }}
                                                 </div>
                                             </div>
                                         </div>

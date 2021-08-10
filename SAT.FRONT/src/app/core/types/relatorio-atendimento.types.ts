@@ -4,7 +4,7 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 
 export interface RelatorioAtendimento {
-    codRAT: number;
+    codRAT?: number;
     numRAT: string;
     nomeRespCliente: string;
     nomeAcompanhante: string;

@@ -76,7 +76,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                causas = causas.OrderBy(parameters.SortActive, parameters.SortDirection);
+                causas = causas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Causa>.ToPagedList(causas, parameters.PageNumber, parameters.PageSize);

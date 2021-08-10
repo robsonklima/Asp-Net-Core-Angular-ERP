@@ -4,8 +4,8 @@ namespace SAT.MODELS.Entities
 {
     public class GrupoCausa
     {
-        [Key]
         public int CodTipoCausa { get; set; }
+        [Key]
         public int CodGrupoCausa { get; set; }
         public string CodEGrupoCausa { get; set; }
         public string NomeGrupoCausa { get; set; }

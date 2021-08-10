@@ -94,7 +94,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                tipos = tipos.OrderBy(parameters.SortActive, parameters.SortDirection);
+                tipos = tipos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<TipoEquipamento>.ToPagedList(tipos, parameters.PageNumber, parameters.PageSize);

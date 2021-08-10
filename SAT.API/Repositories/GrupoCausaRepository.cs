@@ -80,7 +80,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                grupos = grupos.OrderBy(parameters.SortActive, parameters.SortDirection);
+                grupos = grupos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<GrupoCausa>.ToPagedList(grupos, parameters.PageNumber, parameters.PageSize);

@@ -108,7 +108,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                autorizadas = autorizadas.OrderBy(parameters.SortActive, parameters.SortDirection);
+                autorizadas = autorizadas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Autorizada>.ToPagedList(autorizadas, parameters.PageNumber, parameters.PageSize);

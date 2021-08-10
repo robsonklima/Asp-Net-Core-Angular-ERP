@@ -75,7 +75,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                defeitos = defeitos.OrderBy(parameters.SortActive, parameters.SortDirection);
+                defeitos = defeitos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Defeito>.ToPagedList(defeitos, parameters.PageNumber, parameters.PageSize);

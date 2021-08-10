@@ -70,7 +70,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                paises = paises.OrderBy(parameters.SortActive, parameters.SortDirection);
+                paises = paises.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Pais>.ToPagedList(paises, parameters.PageNumber, parameters.PageSize);

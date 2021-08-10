@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
@@ -20,13 +20,15 @@ export class OpenStreetMapService {
     );
   }
 
-  buscarRota(latOrigem: number, lngOrigem: number, latDestino: number, lngDestino: number) {
+  buscarRota(latO: number, lngO: number, latD: number, lngD: number) {
     let key = Math.floor(Math.random()*c.map_quest_keys.length);
-
+    
     const url = `https://www.mapquestapi.com/directions/v2/route?key=
-      ${c.map_quest_keys[key]}&from=${latOrigem},${lngOrigem}&to=${latDestino},${lngDestino}`;
+      ${c.map_quest_keys[key]}&from=${latO},${lngO}&to=${latD},${lngD}`;
 
-    return this.http.get<any>(url).pipe(
+    return this.http.get<any>(url, {headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })}).pipe(
       map((obj) => obj)
     );
   }

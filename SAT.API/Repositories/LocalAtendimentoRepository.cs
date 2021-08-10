@@ -117,7 +117,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                locais = locais.OrderBy(parameters.SortActive, parameters.SortDirection);
+                locais = locais.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<LocalAtendimento>.ToPagedList(locais, parameters.PageNumber, parameters.PageSize);

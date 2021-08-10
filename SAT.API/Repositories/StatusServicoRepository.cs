@@ -99,7 +99,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                status = status.OrderBy(parameters.SortActive, parameters.SortDirection);
+                status = status.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             var a = status.ToQueryString();

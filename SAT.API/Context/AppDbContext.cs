@@ -18,6 +18,7 @@ namespace SAT.API.Context
         public DbSet<Sequencia> Sequencia { get; set; }
         public DbSet<Tecnico> Tecnico { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<MotivoAgendamento> MotivoAgendamento { get; set; }
         public DbSet<TipoIntervencao> TipoIntervencao { get; set; }
         public DbSet<TipoServico> TipoServico { get; set; }
         public DbSet<LocalAtendimento> LocalAtendimento { get; set; }
@@ -31,6 +32,7 @@ namespace SAT.API.Context
         public DbSet<Acao> Acao { get; set; }
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Regiao> Regiao { get; set; }
+        public DbSet<Agendamento> Agendamento { get; set; }
         public DbSet<Autorizada> Autorizada { get; set; }
         public DbSet<AcordoNivelServico> AcordoNivelServico { get; set; }
         public DbSet<Navegacao> Navegacao { get; set; }

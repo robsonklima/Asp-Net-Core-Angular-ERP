@@ -3,8 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
-import { first } from 'rxjs/operators';
 import * as L from 'leaflet';
+import { MatDialog } from '@angular/material/dialog';
+import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -17,11 +20,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   os: OrdemServico;
   fotos: Foto[] = [];
   map: L.Map;
+  ultimoAgendamento: string;
   
   constructor(
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
-    private _cdr: ChangeDetectorRef
+    private _agendamentoService: AgendamentoService,
+    private _snack: CustomSnackbarService,
+    private _cdr: ChangeDetectorRef,
+    private _dialog: MatDialog
   ) { }
 
   ngAfterViewInit(): void {
@@ -46,28 +53,40 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       attribution: 'SAT 2.0'
     }).addTo(this.map);
 
-    let icon: L.Icon = L.icon({
-      iconUrl: 'assets/leaflet/marker-icon.png',
-      shadowUrl: 'assets/leaflet/marker-shadow.png',
-      iconSize: [41, 51], 
-      iconAnchor: [20, 51] 
-    });
-
     L.marker([
       +this.os.localAtendimento.latitude, 
       +this.os.localAtendimento.longitude
-    ], {icon: icon})
+    ])
       .addTo(this.map)
       .bindPopup(this.os.localAtendimento.nomeLocal);
 
     this.map.invalidateSize();
   }
 
-  private obterDadosOrdemServico(): void {
-    this._ordemServicoService.obterPorCodigo(this.codOS)
-      .pipe(first())
-      .subscribe(res => {
-        this.os = res;
-      });
+  private async obterDadosOrdemServico() {
+    this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+    if (this.os.agendamentos.length) {
+      this.ultimoAgendamento = this.os.agendamentos
+        .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
+    }
+  }
+
+  agendar() {
+    const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
+      data: {
+        codOS: this.os.codOS
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        this._agendamentoService.criar(data.agendamento).subscribe(() => {
+          this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+          this.obterDadosOrdemServico();
+        }, e => {
+          this._snack.exibirToast(e?.error, 'success');
+        });
+      }
+    });
   }
 }

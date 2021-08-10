@@ -97,7 +97,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                perfis = perfis.OrderBy(parameters.SortActive, parameters.SortDirection);
+                perfis = perfis.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Perfil>.ToPagedList(perfis, parameters.PageNumber, parameters.PageSize);

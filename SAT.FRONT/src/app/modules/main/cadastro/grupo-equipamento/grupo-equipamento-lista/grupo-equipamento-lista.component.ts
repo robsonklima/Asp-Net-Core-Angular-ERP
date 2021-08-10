@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
-import { GrupoEquipamento, GrupoEquipamentoData } from 'app/core/types/grupo-equipamento.types';
+import { GrupoEquipamento, GrupoEquipamentoData, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
@@ -80,19 +80,24 @@ export class GrupoEquipamentoListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  obterDados(): void {
+  async obterDados() {
     this.isLoading = true;
-    this._grupoEquipamentoService.obterPorParametros({
+    
+    const params: GrupoEquipamentoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nomeGrupoEquip',
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
       filter: this.searchInputControl.nativeElement.val
-    }).subscribe((data: GrupoEquipamentoData) => {
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    });
+    };
+
+    const data = await this._grupoEquipamentoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
 
   paginar() {

@@ -90,7 +90,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                usuarios = usuarios.OrderBy(parameters.SortActive, parameters.SortDirection);
+                usuarios = usuarios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             usuarios = usuarios.Include(u => u.Localizacoes.ToList().OrderByDescending(o => o.CodLocalizacao).Take(1));

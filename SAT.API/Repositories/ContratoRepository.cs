@@ -57,7 +57,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                contratos = contratos.OrderBy(parameters.SortActive, parameters.SortDirection);
+                contratos = contratos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Contrato>.ToPagedList(contratos, parameters.PageNumber, parameters.PageSize);

@@ -73,7 +73,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                ufs = ufs.OrderBy(parameters.SortActive, parameters.SortDirection);
+                ufs = ufs.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<UnidadeFederativa>.ToPagedList(ufs, parameters.PageNumber, parameters.PageSize);

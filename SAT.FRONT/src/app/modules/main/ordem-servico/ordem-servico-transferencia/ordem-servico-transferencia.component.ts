@@ -10,8 +10,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import moment from 'moment';
 import { UserService } from 'app/core/user/user.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { Usuario, UsuarioSessionData } from 'app/core/types/usuario.types';
-import { OpenStreetMapService } from 'app/core/services/open-street-map.service';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -29,7 +28,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
     private _tecnicoService: TecnicoService,
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
-    private _mapService: OpenStreetMapService,
     private _userService: UserService
   ) {
     this.sessionData = JSON.parse(this._userService.userSession);
@@ -55,18 +53,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       .toPromise();
     
     this.tecnicos = data.tecnicos;
-    
-    //const rota = await this.buscarRota(data.tecnicos[0]);
-    //console.log(rota);
-  }
-
-  private async buscarRota(tecnico: Tecnico): Promise<any> {
-    return await this._mapService.buscarRota(
-      +this.os.localAtendimento.latitude,
-      +this.os.localAtendimento.longitude,
-      +tecnico.latitude,
-      +tecnico.longitude,
-    ).toPromise();
   }
 
   private registrarEmitters(): void {
@@ -84,7 +70,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
 
   transferir(tecnico: Tecnico): void {
     this.isLoading = true;
-
     this.os.codTecnico = tecnico.codTecnico;
     this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
     this.os.codStatusServico = c.status_servico.transferido;

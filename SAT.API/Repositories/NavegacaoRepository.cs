@@ -97,7 +97,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                navs = navs.OrderBy(parameters.SortActive, parameters.SortDirection);
+                navs = navs.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             return PagedList<Navegacao>.ToPagedList(navs, parameters.PageNumber, parameters.PageSize);

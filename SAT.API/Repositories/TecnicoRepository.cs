@@ -110,7 +110,7 @@ namespace SAT.API.Repositories
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                tecnicos = tecnicos.OrderBy(parameters.SortActive, parameters.SortDirection);
+                tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
             if (parameters.CodigosStatusServico != null)

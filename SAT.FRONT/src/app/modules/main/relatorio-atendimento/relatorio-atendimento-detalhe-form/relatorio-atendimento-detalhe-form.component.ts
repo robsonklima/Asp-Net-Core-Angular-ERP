@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaService } from 'app/core/services/causa.service';
@@ -10,15 +10,14 @@ import { Defeito, DefeitoData } from 'app/core/types/defeito.types';
 import { Acao, AcaoData } from 'app/core/types/acao.types';
 import { TipoCausaService } from 'app/core/services/tipo-causa.service';
 import { GrupoCausaService } from 'app/core/services/grupo-causa.service';
-import { TipoCausa, TipoCausaData } from 'app/core/types/tipo-causa.types';
-import { GrupoCausa, GrupoCausaData } from 'app/core/types/grupo-causa.types';
+import { TipoCausa } from 'app/core/types/tipo-causa.types';
+import { GrupoCausa } from 'app/core/types/grupo-causa.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 
 @Component({
@@ -51,8 +50,6 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     private _causaService: CausaService,
     private _defeitoService: DefeitoService,
     private _acaoService: AcaoService,
-    private _tipoCausaService: TipoCausaService,
-    private _grupoCausaService: GrupoCausaService,
     private _userService: UserService,
     public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>
   ) { 
@@ -101,6 +98,16 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
           value: undefined,
           disabled: true,
         }, [Validators.required]
+      ],
+      codTipoCausa: [
+        {
+          value: undefined
+        }
+      ],
+      codGrupoCausa: [
+        {
+          value: undefined
+        }
       ],
     });
 
@@ -165,10 +172,6 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
       });
 
     this.obterCausas();
-  }
-
-  inserirDetalhe(): void {
-    
   }
 
   obterTiposServico(filter: string=''): void {
@@ -275,36 +278,21 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     });
   }
 
-  private obterTipoCausa(codETipoCausa: string): void {
-    this._tipoCausaService.obterPorParametros({
-      indAtivo: 1,
-      codETipoCausa: codETipoCausa
-    }).subscribe((data: TipoCausaData) => {
-      this.tipoCausa = data.tiposCausa.shift();
-    });
-  }
-
-  private obterGrupoCausa(codEGrupoCausa: string): void {
-    this._grupoCausaService.obterPorParametros({
-      indAtivo: 1,
-      codEGrupoCausa: codEGrupoCausa
-    }).subscribe((data: GrupoCausaData) => {
-      this.grupoCausa = data.gruposCausa.shift();
-    });
-  }
-
   inserir(): void {
     let form = this.form.getRawValue();
     form.tipoServico = this.tiposServico.filter(ts => ts.codServico === form.codServico).shift();
     form.defeito = this.defeitos.filter(ts => ts.codDefeito === form.codDefeito).shift();
     form.acao = this.acoes.filter(ts => ts.codAcao === form.codAcao).shift();
     form.causa = this.causas.filter(ts => ts.codCausa === form.codCausa).shift();
-    form.grupoCausa = this.grupoCausa;
-    form.codGrupoCausa = this.grupoCausa?.codGrupoCausa;
-    form.tipoCausa = this.tipoCausa;
-    form.codTipoCausa = this.tipoCausa?.codTipoCausa;
     form.codUsuarioCad = this.usuario.codUsuario;
     form.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
+    form.relatorioAtendimentoDetalhePecas = [];
+
+    const codCausa = this.form.controls['codCausa'].value;
+    const causa = this.causas.filter(c => c.codCausa === codCausa).shift();
+    form.codTipoCausa = causa.codTipoCausa;
+    form.codGrupoCausa = causa.codGrupoCausa;
+
     this.dialogRef.close(form);
   }
 

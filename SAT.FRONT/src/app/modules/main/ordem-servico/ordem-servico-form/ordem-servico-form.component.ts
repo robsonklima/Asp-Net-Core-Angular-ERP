@@ -359,8 +359,6 @@ export class OrdemServicoFormComponent implements OnInit {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    console.log(obj);
-
     this._ordemServicoService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);

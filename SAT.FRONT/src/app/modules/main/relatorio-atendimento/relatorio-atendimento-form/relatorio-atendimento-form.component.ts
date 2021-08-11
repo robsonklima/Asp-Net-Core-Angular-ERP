@@ -19,6 +19,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert/alert.types';
 import { fuseAnimations } from '@fuse/animations';
+import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -51,6 +52,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _snack: CustomSnackbarService,
     private _relatorioAtendimentoService: RelatorioAtendimentoService,
+    private _relatorioAtendimentoDetalheService: RelatorioAtendimentoDetalheService,
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
@@ -133,12 +135,26 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
-    this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
-      .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
+    if (detalhe.codRATDetalhe) {
+      this._relatorioAtendimentoDetalheService.deletar(detalhe.codRATDetalhe)
+        .subscribe(() => {
+          this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
+            .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
+
+          this._snack.exibirToast('Detalhe removido com sucesso!', 'success');
+        }, e => {
+          this._snack.exibirToast(e?.error, 'error')
+        })
+    } else {
+      this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
+        .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
+
+      this._snack.exibirToast('Detalhe removido com sucesso!', 'success');
+    }
   }
 
   adicionarPeca(detalhe: RelatorioAtendimentoDetalhe): void {
-    console.log(detalhe);
+    
   }
 
   private inicializarForm(): void {
@@ -245,10 +261,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    console.log(obj);
-    
-
-    this._relatorioAtendimentoService.criar(this.relatorioAtendimento).subscribe(() => {
+    this._relatorioAtendimentoService.criar(obj).subscribe(() => {
       this._snack.exibirToast('Relatório de atendimento adicionado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     });

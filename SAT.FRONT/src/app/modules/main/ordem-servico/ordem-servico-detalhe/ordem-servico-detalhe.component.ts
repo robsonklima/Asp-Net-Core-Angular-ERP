@@ -1,13 +1,22 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
+import { appConfig as c } from 'app/core/config/app.config'
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import moment from 'moment';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import { MatSidenav } from '@angular/material/sidenav';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -21,20 +30,47 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
-  
+  sessionData: UsuarioSessionData;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
+  sidenav: MatSidenav;
+  tecnicos: Tecnico[] = [];
+
   constructor(
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
     private _agendamentoService: AgendamentoService,
+    private _tecnicoService: TecnicoService,
     private _snack: CustomSnackbarService,
+    private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
-  ) { }
+  ) {
+    this.sessionData = JSON.parse(this._userService.userSession);
+   }
 
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
+    this.obterTecnicos();
+    this.registrarEmitters();
     this._cdr.detectChanges();
+  }
+
+  async obterTecnicos() {
+    const params = {
+      indAtivo: 1,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codFilial: this.sessionData?.usuario?.filial?.codFilial,
+      filter: this.searchInputControl.nativeElement.val,
+      pageSize: 10
+    }
+        
+    const data = await this._tecnicoService
+      .obterPorParametros(params)
+      .toPromise();
+    
+    this.tecnicos = data.tecnicos;
   }
 
   trocarTab(tab: any) {
@@ -45,7 +81,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     this.map = L.map('map', {
       scrollWheelZoom: false,
     }).setView([
-      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.latitude,
       +this.os.localAtendimento.longitude
     ], 14);
 
@@ -54,10 +90,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     }).addTo(this.map);
 
     var icon = new L.Icon.Default();
-    icon.options.shadowSize = [0,0];
+    icon.options.shadowSize = [0, 0];
 
     L.marker([
-      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.latitude,
       +this.os.localAtendimento.longitude
     ])
       .addTo(this.map)
@@ -91,6 +127,33 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           this._snack.exibirToast(e?.error, 'success');
         });
       }
+    });
+  }
+
+  private registrarEmitters(): void {
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) => {
+        return event.target.value;
+      })
+      , debounceTime(700)
+      , distinctUntilChanged()
+    ).subscribe((text: string) => {
+      this.searchInputControl.nativeElement.val = text;
+      this.obterTecnicos();
+    });
+  }
+
+  transferir(tecnico: Tecnico): void {
+    this.os.codTecnico = tecnico.codTecnico;
+    this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
+    this.os.codStatusServico = c.status_servico.transferido;
+    this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+    this._ordemServicoService.atualizar(this.os).subscribe(() => {
+      this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
+      this.obterDadosOrdemServico();
+      this.sidenav.close();
+    }, error => {
+      this._snack.exibirToast(error, 'error');
     });
   }
 }

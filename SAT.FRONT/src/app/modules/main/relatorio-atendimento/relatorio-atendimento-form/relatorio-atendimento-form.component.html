@@ -181,7 +181,7 @@
                                             <div>{{ detalhe.acao?.nomeAcao | titlecase }} </div>
                                         </div>
                                         <div class="text-right"
-                                            *ngIf="detalhe?.acao.codAcao === 19 || detalhe?.acao.codAcao === 26">
+                                            *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
                                             <div>
                                                 {{ detalhe?.relatorioAtendimentoPecas?.length }} Peças
                                             </div>

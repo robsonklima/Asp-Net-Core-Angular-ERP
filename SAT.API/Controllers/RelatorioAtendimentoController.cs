@@ -4,7 +4,7 @@ using SAT.API.Repositories.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using System.Linq;
 
 namespace SAT.API.Controllers
 {
@@ -59,7 +59,7 @@ namespace SAT.API.Controllers
             for (int i = 0; i < relatorioAtendimento.RelatorioAtendimentoDetalhes.Count; i++)
             {
                 relatorioAtendimento.RelatorioAtendimentoDetalhes[i].CodRATDetalhe = 
-                    _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE); ;
+                    _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
                 relatorioAtendimento.RelatorioAtendimentoDetalhes[i].Defeito = null;
                 relatorioAtendimento.RelatorioAtendimentoDetalhes[i].TipoCausa = null;
                 relatorioAtendimento.RelatorioAtendimentoDetalhes[i].TipoServico = null;

@@ -124,5 +124,20 @@
     "tema": "Theme",
     "esquema": "Squema",
     "escuro": "Dark",
-    "claro": "Light"
+    "claro": "Light",
+    "razao social": "Corporate Name",
+    "nome fantasia": "Company Name",
+    "cnpj": "EIN",
+    "inscricao estadual": "State registration",
+    "cep": "Postal Code",
+    "endereco": "Address",
+    "bairro": "Neighborhood",
+    "pais": "Country",
+    "unidade federativa": "Federative unit",
+    "cidade": "City",
+    "tipo rota": "Route Type",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "fone": "Phone",
+    "fax": "Fax"    
 }

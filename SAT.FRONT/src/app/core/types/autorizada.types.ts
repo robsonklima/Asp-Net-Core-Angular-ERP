@@ -1,5 +1,6 @@
 import { Cidade } from "./cidade.types";
 import { Filial } from "./filial.types";
+import { Pais } from "./pais.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { TipoRota } from "./tipo-rota.types";
 

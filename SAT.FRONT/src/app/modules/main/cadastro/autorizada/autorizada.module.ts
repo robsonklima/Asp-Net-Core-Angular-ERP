@@ -13,6 +13,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { autorizadaRoutes } from './autorizada.routing'
 import { AutorizadaListaComponent } from './autorizada-lista/autorizada-lista.component';
 import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.component';
+import { MatSelectModule } from '@angular/material/select';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.compo
     AutorizadaFormComponent      
   ],
   imports: [
+    SharedModule,
     CommonModule,
     RouterModule.forChild(autorizadaRoutes),
     MatPaginatorModule,
@@ -30,7 +33,8 @@ import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.compo
     MatSortModule,
     MatInputModule,
     NgxMatSelectSearchModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSelectModule
   ]
 })
 export class AutorizadaModule { }

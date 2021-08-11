@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { relatorioAtendimentoRoutes } from './relatorio-atendimento.routing';
 import { RelatorioAtendimentoFormComponent } from './relatorio-atendimento-form/relatorio-atendimento-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -17,12 +16,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -46,7 +45,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatFormFieldModule,
     MatInputModule,
     SharedModule,
-    MatSelectInfiniteScrollModule,
     MatButtonModule,
     MatStepperModule,
     MatCheckboxModule,

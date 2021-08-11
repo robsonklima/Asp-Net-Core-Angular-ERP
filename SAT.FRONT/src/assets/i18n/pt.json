@@ -124,5 +124,20 @@
     "tema": "Tema",
     "esquema": "Esquema",
     "escuro": "Escuro",
-    "claro": "Claro"
+    "claro": "Claro",
+    "razao social": "Razão Social",
+    "nome fantasia": "Nome Fantasia",
+    "cnpj": "CNPJ",
+    "inscricao estadual": "Inscrição Estadual",
+    "cep": "CEP",
+    "endereco": "Endereço",
+    "bairro": "Bairro",
+    "pais": "País",
+    "unidade federativa": "UF",
+    "cidade": "Cidade",
+    "tipo rota": "Tipo Rota",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "fone": "Fone",
+    "fax": "Fax"
 }

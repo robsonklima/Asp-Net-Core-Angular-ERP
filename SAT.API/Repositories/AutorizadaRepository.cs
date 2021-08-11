@@ -73,8 +73,11 @@ namespace SAT.API.Repositories
 
         public Autorizada ObterPorCodigo(int codigo)
         {
-            return _context.Autorizada
-                .SingleOrDefault(a => a.CodAutorizada == codigo);
+         return _context.Autorizada.Where(a => a.CodAutorizada == codigo)
+                     .Include(f => f.Cidade)
+                     .Include(f => f.Cidade.UnidadeFederativa)
+                     .Include(f => f.Cidade.UnidadeFederativa.Pais)
+                .SingleOrDefault();
         }
 
         public PagedList<Autorizada> ObterPorParametros(AutorizadaParameters parameters)

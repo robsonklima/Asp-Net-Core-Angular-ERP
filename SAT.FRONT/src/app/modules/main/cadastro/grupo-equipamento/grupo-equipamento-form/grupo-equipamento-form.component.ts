@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -15,7 +15,7 @@ import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/opera
   templateUrl: './grupo-equipamento-form.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class GrupoEquipamentoFormComponent implements OnInit {
+export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
   codGrupoEquip: number;
   isAddMode: boolean;
   form: FormGroup;

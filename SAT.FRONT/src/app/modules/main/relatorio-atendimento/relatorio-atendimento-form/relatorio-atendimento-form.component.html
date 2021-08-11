@@ -160,31 +160,31 @@
                                 <mat-list-option
                                     *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
                                     [value]="detalhe">
-                                    <div class="grid grid-cols-6 gap-4 text-sm">
-                                        <div>
+                                    <div class="grid grid-cols-10 gap-4 text-sm">
+                                        <div class="grid-cols-none">
                                             <span>{{ i+1 }}</span>
                                         </div>
-                                        <div class="text-center w-2">
-                                            <span class="opacity-50">{{ detalhe.tipoServico?.codETipoServico }}: </span>
-                                            <span>{{ detalhe.tipoServico?.nomeServico | titlecase }} </span>
+                                        <div class="text-center col-span-2">
+                                            <div class="opacity-50 text-semibold">{{ detalhe.tipoServico?.codETipoServico }}</div>
+                                            <div>{{ detalhe.tipoServico?.nomeServico | titlecase }} </div>
                                         </div>
-                                        <div class="text-center">
-                                            <span class="opacity-50">{{ detalhe.causa?.codECausa }}: </span>
-                                            <span>{{ detalhe.causa?.nomeCausa | titlecase }} </span>
+                                        <div class="text-center col-span-2">
+                                            <div class="opacity-50 text-semibold">{{ detalhe.causa?.codECausa }}</div>
+                                            <div>{{ detalhe.causa?.nomeCausa | titlecase }} </div>
                                         </div>
-                                        <div class="text-center">
-                                            <span class="opacity-50">{{ detalhe.defeito?.codEDefeito }}: </span>
-                                            <span>{{ detalhe.defeito?.nomeDefeito | titlecase}} </span>
+                                        <div class="text-center col-span-2">
+                                            <div class="opacity-50 text-semibold">{{ detalhe.defeito?.codEDefeito }}</div>
+                                            <div>{{ detalhe.defeito?.nomeDefeito | titlecase}} </div>
                                         </div>
-                                        <div class="text-center">
-                                            <span class="opacity-50">{{ detalhe.acao?.codEAcao }}: </span>
-                                            <span>{{ detalhe.acao?.nomeAcao | titlecase }} </span>
+                                        <div class="text-center col-span-2">
+                                            <div class="opacity-50 text-semibold">{{ detalhe.acao?.codEAcao }}</div>
+                                            <div>{{ detalhe.acao?.nomeAcao | titlecase }} </div>
                                         </div>
                                         <div class="text-right"
                                             *ngIf="detalhe?.acao.codAcao === 19 || detalhe?.acao.codAcao === 26">
-                                            <span>
+                                            <div>
                                                 {{ detalhe?.relatorioAtendimentoPecas?.length }} Peças
-                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </mat-list-option>

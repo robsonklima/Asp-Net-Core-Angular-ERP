@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SAT.API.Repositories.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
 
 
 namespace SAT.API.Controllers

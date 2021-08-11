@@ -5,14 +5,13 @@ import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/co
 import { cloneDeep } from 'lodash';
 
 @Component({
-    selector       : 'languages',
-    templateUrl    : './languages.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'languages',
+    templateUrl: './languages.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'languages'
+    exportAs: 'languages'
 })
-export class LanguagesComponent implements OnInit, OnDestroy
-{
+export class LanguagesComponent implements OnInit, OnDestroy {
     availableLangs: AvailableLangs;
     activeLang: string;
     flagCodes: any;
@@ -20,11 +19,9 @@ export class LanguagesComponent implements OnInit, OnDestroy
     constructor(
         private _fuseNavigationService: FuseNavigationService,
         private _translocoService: TranslocoService,
-    )
-    {}
+    ) { }
 
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.availableLangs = this._translocoService.getAvailableLangs();
         this._translocoService.langChanges$.subscribe((activeLang) => {
             this.activeLang = activeLang;
@@ -37,50 +34,44 @@ export class LanguagesComponent implements OnInit, OnDestroy
         };
     }
 
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
     }
 
-    setActiveLang(lang: string): void
-    {
+    setActiveLang(lang: string): void {
         this._translocoService.setActiveLang(lang);
     }
 
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 
-    private _updateNavigation(lang: string): void
-    {
+    private _updateNavigation(lang: string): void {
         const navComponent = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>('mainNavigation');
         const navigation = navComponent.navigation;
 
-        if (!navComponent)
-        {
+        if (!navComponent) {
             return null;
         }
 
         navComponent.navigation.forEach(el => {
             let nav = this._fuseNavigationService.getItem(el.id, navigation);
 
-            if (nav)
-            {
+            if (nav) {
                 this._translocoService.selectTranslate(el.id).pipe(take(1))
                     .subscribe((translation) => {
                         nav.title = translation;
-                        navComponent.refresh();          
+                        navComponent.refresh();
                     });
 
                 el.children.forEach(ch => {
-                    let chNav = this._fuseNavigationService.getItem(ch.id, navigation);
-                    
-                    if (chNav)
-                    {
+                    let chNav = this._fuseNavigationService
+                        .getItem(ch.id, navigation);
+
+                    if (chNav) {
                         this._translocoService.selectTranslate(ch.id).pipe(take(1))
                             .subscribe((translation) => {
                                 chNav.title = translation;
-                                navComponent.refresh();   
+                                navComponent.refresh();
                             });
                     }
                 });

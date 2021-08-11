@@ -53,11 +53,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       attribution: 'SAT 2.0'
     }).addTo(this.map);
 
+    var icon = new L.Icon.Default();
+    icon.options.shadowSize = [0,0];
+
     L.marker([
       +this.os.localAtendimento.latitude, 
       +this.os.localAtendimento.longitude
     ])
       .addTo(this.map)
+      .setIcon(icon)
       .bindPopup(this.os.localAtendimento.nomeLocal);
 
     this.map.invalidateSize();

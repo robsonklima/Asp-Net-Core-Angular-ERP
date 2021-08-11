@@ -31,7 +31,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sessionData: UsuarioSessionData;
   codOS: number;
   codRAT: number;
-  relatorioAtendimento: RelatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;;
+  relatorioAtendimento: RelatorioAtendimento;
   stepperForm: FormGroup;
   isAddMode: boolean;
   tecnicoFilterCtrl: FormControl = new FormControl();
@@ -71,11 +71,16 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         .obterPorCodigo(this.codRAT)
         .toPromise();
 
+      this.stepperForm.get('step1').get('data')
+        .setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.stepperForm.get('step1').get('horaInicio')
         .setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.stepperForm.get('step1').get('horaFim')
         .setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
       this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
+      this.stepperForm.get('step1').markAsTouched();
+    } else {
+      this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
 
     this.obterStatusServicos();
@@ -134,7 +139,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
   adicionarPeca(detalhe: RelatorioAtendimentoDetalhe): void {
     console.log(detalhe);
-    
   }
 
   private inicializarForm(): void {

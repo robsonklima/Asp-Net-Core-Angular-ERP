@@ -16,7 +16,6 @@ import packageInfo from '../../../../../../package.json';
 })
 export class DenseLayoutComponent implements OnInit, OnDestroy {
     public version: string = packageInfo.version;
-    public name: string = packageInfo.name;
     isScreenSmall: boolean;
     navigation: Navigation;
     navigationAppearance: 'default' | 'dense' = 'dense';

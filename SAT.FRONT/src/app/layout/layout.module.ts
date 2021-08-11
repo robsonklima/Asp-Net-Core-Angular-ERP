@@ -4,6 +4,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseDrawerModule } from '@fuse/components/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LayoutComponent } from 'app/layout/layout.component';
+import { EmptyLayoutModule } from 'app/layout/layouts/empty/empty.module';
 import { CenteredLayoutModule } from 'app/layout/layouts/horizontal/centered/centered.module';
 import { EnterpriseLayoutModule } from 'app/layout/layouts/horizontal/enterprise/enterprise.module';
 import { ModernLayoutModule } from 'app/layout/layouts/horizontal/modern/modern.module';
@@ -13,6 +14,9 @@ import { DenseLayoutModule } from 'app/layout/layouts/vertical/dense/dense.modul
 import { SharedModule } from 'app/shared/shared.module';
 
 const layoutModules = [
+    // Empty
+    EmptyLayoutModule,
+
     // Horizontal navigation
     CenteredLayoutModule,
     EnterpriseLayoutModule,
@@ -21,7 +25,7 @@ const layoutModules = [
     // Vertical navigation
     ClassicLayoutModule,
     ClassyLayoutModule,
-    DenseLayoutModule,
+    DenseLayoutModule
 ];
 
 @NgModule({

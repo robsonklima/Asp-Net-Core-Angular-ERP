@@ -24,6 +24,8 @@ import { Regiao } from 'app/core/types/regiao.types';
 import { TipoIntervencao, TipoIntervencaoData } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
+import { EquipamentoContrato, EquipamentoContratoData } from 'app/core/types/equipamento-contrato.types';
+import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -39,12 +41,14 @@ export class OrdemServicoFormComponent implements OnInit {
   usuario: any;
   clienteFilterCtrl: FormControl = new FormControl();
   localAtendimentoFilterCtrl: FormControl = new FormControl();
+  equipamentoContratoFilterCtrl: FormControl = new FormControl();
   regiaoFilterCtrl: FormControl = new FormControl();
   autorizadaFilterCtrl: FormControl = new FormControl();
   filialFilterCtrl: FormControl = new FormControl();
   clientes: Cliente[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
   locaisAtendimento: LocalAtendimento[] = [];
+  equipamentosContrato: EquipamentoContrato[] = [];
   regioesAutorizadas: RegiaoAutorizada[] = [];
   autorizadas: Autorizada[] = [];
   regioes: Regiao[] = [];
@@ -66,6 +70,7 @@ export class OrdemServicoFormComponent implements OnInit {
     private _userService: UserService,
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _localAtendimentoService: LocalAtendimentoService,
+    private _equipamentoContratoService: EquipamentoContratoService,
     private _snack: CustomSnackbarService,
     private _clienteService: ClienteService,
     private _filialService: FilialService,
@@ -94,7 +99,8 @@ export class OrdemServicoFormComponent implements OnInit {
             this.obterFiliais(os?.filial?.nomeFilial),
             this.obterAutorizadas(os?.autorizada?.nomeFantasia),
             this.obterRegioesAutorizadas(os?.autorizada?.nomeFantasia),
-            this.obterLocaisAtendimento(os?.localAtendimento?.nomeLocal)
+            this.obterLocaisAtendimento(os?.localAtendimento?.nomeLocal),
+            this.obterEquipamentosContrato(os?.equipamentoContrato?.numSerie)
           ]);
         });
     } else {
@@ -103,8 +109,7 @@ export class OrdemServicoFormComponent implements OnInit {
         this.obterTiposIntervencao(),
         this.obterFiliais(),
         this.obterAutorizadas(),
-        this.obterRegioesAutorizadas(),
-        this.obterLocaisAtendimento()
+        this.obterRegioesAutorizadas()
       ]);
     }
   }
@@ -175,6 +180,25 @@ export class OrdemServicoFormComponent implements OnInit {
     });
   }
 
+  obterEquipamentosContrato(filter: string = ''): Promise<EquipamentoContratoData> {
+    return new Promise((resolve, reject) => {
+      this.equipamentosContrato = [];
+      let codPosto = this.stepperForm.get('step1').get('codPosto').value;
+
+      this._equipamentoContratoService.obterPorParametros({
+        pageSize: 50,
+        indAtivo: 1,
+        filter: filter,
+        codPosto: codPosto
+      }).subscribe((data: EquipamentoContratoData) => {
+        this.equipamentosContrato = data.equipamentosContrato;
+        resolve(data);
+      }, () => {
+        reject()
+      });
+    });
+  }
+
   obterFiliais(filter: string = ''): Promise<FilialData> {
     return new Promise((resolve, reject) => {
       this._filialService.obterPorParametros({
@@ -194,6 +218,7 @@ export class OrdemServicoFormComponent implements OnInit {
 
   obterAutorizadas(filter: string = ''): Promise<AutorizadaData> {
     return new Promise((resolve, reject) => {
+      this.regioesAutorizadas = [];
       const codFilial = this.stepperForm.get('step1').get('codFilial').value;
 
       this._autorizadaService.obterPorParametros({
@@ -363,6 +388,16 @@ export class OrdemServicoFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.obterLocaisAtendimento(this.localAtendimentoFilterCtrl.value);
+      });
+
+    this.equipamentoContratoFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterEquipamentosContrato(this.equipamentoContratoFilterCtrl.value);
       });
 
     this.filialFilterCtrl.valueChanges

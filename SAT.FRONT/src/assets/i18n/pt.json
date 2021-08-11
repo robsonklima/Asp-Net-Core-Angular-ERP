@@ -118,5 +118,11 @@
     "motivo do agendamento": "Motivo do Agendamento",
     "versoes": "Versões",
     "documentacao": "Documentação",
-    "hora": "Hora"
+    "hora": "Hora",
+    "equipamento contrato": "Equipamento Contrato",
+    "configuracoes": "Configurações",
+    "tema": "Tema",
+    "esquema": "Esquema",
+    "escuro": "Escuro",
+    "claro": "Claro"
 }

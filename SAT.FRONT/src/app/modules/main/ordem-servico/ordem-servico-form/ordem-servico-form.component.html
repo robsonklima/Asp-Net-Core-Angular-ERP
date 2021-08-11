@@ -93,7 +93,8 @@
                             <mat-form-field class="flex-auto">
                                 <mat-label>{{ t('local de atendimento') }}</mat-label>
         
-                                <mat-select formControlName="codPosto" placeholder="Local de Atendimento"
+                                <mat-select formControlName="codPosto"
+                                    (selectionChange)="obterEquipamentosContrato()"
                                     #localAtendimentoSelect [disabled]="locaisAtendimento.length === 0">
                                     <mat-option>
                                         <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -111,25 +112,48 @@
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>
         
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('os cliente') }}</mat-label>
-                                <input matInput formControlName="numOSCliente" maxlength="20">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                            <mat-form-field class="flex-auto">
+                                <mat-label>{{ t('equipamento contrato') }}</mat-label>
+        
+                                <mat-select formControlName="codEquipContrato"
+                                    #localAtendimentoSelect [disabled]="equipamentosContrato.length === 0">
+                                    <mat-option>
+                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                            noEntriesFoundLabel="'nenhum registro encontrado'"
+                                            [formControl]="equipamentoContratoFilterCtrl"
+                                        ></ngx-mat-select-search>
+                                    </mat-option>
+        
+                                    <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
+                                        [value]="equipamentoContrato.codEquipContrato">
+                                        <span class="opacity-60">
+                                            {{ equipamentoContrato?.equipamento?.nomeEquip }}
+                                        </span>
+
+                                        <span class="font-semibold"
+                                            [class.text-red-500]="!equipamentoContrato.indAtivo"
+                                            [class.text-green-500]="equipamentoContrato.indAtivo">
+                                            [N.S] {{ equipamentoContrato.numSerie }}
+                                        </span>
+                                    </mat-option>
+                                </mat-select>
+        
+                                <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>
                         </div>
-        
+
                         <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                                <input matInput formControlName="numOSQuarteirizada" maxlength="20">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'">
-                                </mat-icon>
-                            </mat-form-field>
-        
                             <mat-form-field class="flex-auto gt-xs:pr-3">
                                 <mat-label>{{ t('nome solicitante') }}</mat-label>
                                 <input matInput formControlName="nomeSolicitante" maxlength="25">
                                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field class="flex-auto gt-xs:pr-3">
+                                <mat-label>{{ t('telefone solicitante') }}</mat-label>
+                                <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
+                                    [showMaskTyped]="true" [dropSpecialCharacters]="false">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                             </mat-form-field>
                         </div>
         
@@ -140,11 +164,21 @@
                                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
                             </mat-form-field>
         
+                            
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('telefone solicitante') }}</mat-label>
-                                <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
-                                    [showMaskTyped]="true" [dropSpecialCharacters]="false">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                                <mat-label>{{ t('os cliente') }}</mat-label>
+                                <input matInput formControlName="numOSCliente" maxlength="20">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field class="flex-auto gt-xs:pr-3">
+                                <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                                <input matInput formControlName="numOSQuarteirizada" maxlength="20">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'">
+                                </mat-icon>
                             </mat-form-field>
                         </div>
 

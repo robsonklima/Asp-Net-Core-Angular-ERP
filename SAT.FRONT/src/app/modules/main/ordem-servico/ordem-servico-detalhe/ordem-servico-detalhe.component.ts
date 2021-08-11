@@ -6,8 +6,8 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
-import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -53,11 +53,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       attribution: 'SAT 2.0'
     }).addTo(this.map);
 
+    var icon = new L.Icon.Default();
+    icon.options.shadowSize = [0,0];
+
     L.marker([
       +this.os.localAtendimento.latitude, 
       +this.os.localAtendimento.longitude
     ])
       .addTo(this.map)
+      .setIcon(icon)
       .bindPopup(this.os.localAtendimento.nomeLocal);
 
     this.map.invalidateSize();

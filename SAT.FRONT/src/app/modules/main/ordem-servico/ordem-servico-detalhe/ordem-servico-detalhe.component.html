@@ -130,7 +130,7 @@
                                                     {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}
                                                 </div>
                                             </div>
-                                            <div class="my-2">
+                                            <div class="my-2" *ngIf="os?.tecnico?.nome">
                                                 <div>{{ t('tecnico') }}</div>
                                                 <div class="text-secondary text-md">
                                                     {{ os?.tecnico?.nome | titlecase }}

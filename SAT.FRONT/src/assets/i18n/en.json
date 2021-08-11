@@ -118,5 +118,11 @@
     "motivo do agendamento": "Reason for Scheduling",
     "versoes": "Changelog",
     "documentacao": "Documentation",
-    "hora": "Time"
+    "hora": "Time",
+    "equipamento contrato": "Contract Equipment",
+    "configuracoes": "Configuration",
+    "tema": "Theme",
+    "esquema": "Squema",
+    "escuro": "Dark",
+    "claro": "Light"
 }

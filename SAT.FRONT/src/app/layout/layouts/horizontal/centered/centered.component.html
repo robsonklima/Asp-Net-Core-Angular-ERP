@@ -1,6 +1,4 @@
 <div class="flex flex-auto justify-center w-full sm:p-4 md:p-8 bg-gray-200 dark:bg-card">
-
-    <!-- Navigation -->
     <ng-container *ngIf="isScreenSmall">
         <fuse-vertical-navigation
             class="dark bg-gray-900 print:hidden"
@@ -8,13 +6,11 @@
             [name]="'mainNavigation'"
             [navigation]="navigation.default"
             [opened]="false">
-            <!-- Navigation header hook -->
             <ng-container fuseVerticalNavigationContentHeader>
-                <!-- Logo -->
                 <div class="flex items-center h-20 pt-6 px-8">
                     <img
                         class="w-30"
-                        src="/assets/images/logo/logo-text-on-dark.svg">
+                        src="assets/images/logo/logo.png">
                 </div>
             </ng-container>
         </fuse-vertical-navigation>
@@ -31,20 +27,20 @@
                     <div class="hidden lg:flex">
                         <!-- Light version -->
                         <img
-                            class="dark:hidden w-24"
-                            src="/assets/images/logo/logo-text.svg"
-                            alt="Logo image">
+                            class="dark:hidden w-12"
+                            src="assets/images/logo/logo.png"
+                            alt="SAT 2.0">
                         <!-- Dark version -->
                         <img
-                            class="hidden dark:flex w-24"
-                            src="/assets/images/logo/logo-text-on-dark.svg"
-                            alt="Logo image">
+                            class="hidden dark:flex w-12"
+                            src="/assets/images/logo/logo.png"
+                            alt="SAT 2.0">
                     </div>
                     <!-- Small version -->
                     <img
                         class="flex lg:hidden w-8"
                         src="assets/images/logo/logo.png"
-                        alt="Logo image">
+                        alt="SAT 2.0">
                 </div>
                 <!-- Horizontal navigation -->
                 <fuse-horizontal-navigation

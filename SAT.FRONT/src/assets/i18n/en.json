@@ -119,5 +119,10 @@
     "versoes": "Changelog",
     "documentacao": "Documentation",
     "hora": "Time",
-    "equipamento contrato": "Contract Equipment"
+    "equipamento contrato": "Contract Equipment",
+    "configuracoes": "Configuration",
+    "tema": "Theme",
+    "esquema": "Squema",
+    "escuro": "Dark",
+    "claro": "Light"
 }

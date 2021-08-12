@@ -1,0 +1,72 @@
+<div class="flex-auto" *transloco="let t">
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
+        <div class="flex justify-between">
+            <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
+                {{ t('filtros') }}
+            </div>
+
+            <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <ng-container>
+        <form class="flex flex-col mt-0 p-8 pb-0" [formGroup]="form"
+            *transloco="let t">
+
+            <div class="grid grid-cols-1 gap-4">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>{{ t('filial') }}</mat-label>
+
+                    <mat-select formControlName="codFilial">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'"
+                                [formControl]="filialFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        {{ t('preencher campo') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
+
+                    <mat-select formControlName="codTipoIntervencao" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'"
+                                [formControl]="tipoIntervencaoFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let tipoIntervencao of tiposIntervencao" [value]="tipoIntervencao.codTipoIntervencao">
+                            {{ tipoIntervencao.nomTipoIntervencao }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        {{ t('preencher campo') }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                <button side (click)="sidenav.toggle()" mat-button>
+                    {{ t('cancelar') }}
+                </button>
+                <button (click)="aplicar()" [disabled]="!form.valid" class="px-6 ml-3" mat-flat-button
+                    [color]="'primary'">
+                    {{ t('aplicar') }}
+                </button>
+            </div>
+
+        </form>
+    </ng-container>
+</div>

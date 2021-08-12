@@ -40,7 +40,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
-import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component'
+import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component';
+import { OrdemServicoFiltroComponent } from './ordem-servico-filtro/ordem-servico-filtro.component'
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
     return {
@@ -56,7 +57,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         OrdemServicoImpressaoComponent,
         OrdemServicoFotosComponent,
         OrdemServicoTransferenciaComponent,
-        OrdemServicoAgendamentoComponent
+        OrdemServicoAgendamentoComponent,
+        OrdemServicoFiltroComponent
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

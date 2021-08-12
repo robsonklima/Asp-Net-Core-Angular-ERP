@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -16,6 +17,7 @@ import { AgendamentoService } from 'app/core/services/agendamento.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class OrdemServicoDetalheComponent implements AfterViewInit {
+  @ViewChild('sidenav') sidenav: MatSidenav;
   codOS: number;
   os: OrdemServico;
   fotos: Foto[] = [];
@@ -34,6 +36,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
+    this.registrarEmitters();
     this._cdr.detectChanges();
   }
 
@@ -73,6 +76,12 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       this.ultimoAgendamento = this.os.agendamentos
         .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
     }
+  }
+
+  private registrarEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.obterDadosOrdemServico();
+    })
   }
 
   agendar() {

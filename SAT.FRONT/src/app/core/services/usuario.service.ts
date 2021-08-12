@@ -19,7 +19,7 @@ export class UsuarioService {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
 
-    return this.http.get(`${c.api}/Usuario`, { params: params, headers: this.headers }).pipe(
+    return this.http.get(`${c.api}/Usuario`, { params: params }).pipe(
       map((data: UsuarioData) => data)
     )
   }
@@ -45,8 +45,16 @@ export class UsuarioService {
     localStorage.setItem("token", JSON.stringify(token));
   }
 
-  registrarFiltros(filtros: any[]): void {
+  registrarFiltro(filtro: any): void {
+    let filtros = JSON.parse(localStorage.getItem('filtros')) || [];
+    filtros = filtros.filter(f => f.nome !== filtro.nome);
+    filtros.push(filtro);
     localStorage.setItem("filtros", JSON.stringify(filtros));
+  }
+
+  obterFiltro(nome: string): any {
+    let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
+    return filtros.filter(f => f.nome === nome).shift();
   }
 
   registrarNavegacoes(navegacoes: Navegacao[]): void {

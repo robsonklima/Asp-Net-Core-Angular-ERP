@@ -6,14 +6,16 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
+import packageInfo from '../../../../../../package.json';
 
 @Component({
     selector     : 'classic-layout',
     templateUrl  : './classic.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class ClassicLayoutComponent implements OnInit, OnDestroy
-{
+export class ClassicLayoutComponent implements OnInit, OnDestroy {
+    public name: string = packageInfo.name;
+    public version: string = packageInfo.version;
     isScreenSmall: boolean;
     navigation: Navigation;
     private _unsubscribeAll: Subject<any> = new Subject<any>();

@@ -140,5 +140,7 @@
     "longitude": "Longitude",
     "fone": "Phone",
     "fax": "Fax",
-    "cidades": "Cities"
+    "cidades": "Cities",
+    "filtrar": "Filter",
+    "aplicar": "Apply"
 }

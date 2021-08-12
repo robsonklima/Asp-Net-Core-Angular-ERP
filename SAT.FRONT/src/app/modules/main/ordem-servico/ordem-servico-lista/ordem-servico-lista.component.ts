@@ -11,6 +11,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -20,6 +21,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
     animations: fuseAnimations
 })
 export class OrdemServicoListaComponent implements AfterViewInit {
+    @ViewChild('sidenav') sidenav: MatSidenav;
     userSession: UserSession;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) private sort: MatSort;
@@ -27,7 +29,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     selectedItem: OrdemServico | null = null;
     isLoading: boolean = false;
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-    
+
     constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
@@ -38,6 +40,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.obterDados();
+        this.registrarEmitters();
 
         if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -80,9 +83,15 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         const data: OrdemServicoData = await this._ordemServicoService
             .obterPorParametros(params)
             .toPromise();
-    
+
         this.dataSourceData = data;
         this.isLoading = false;
+    }
+
+    private registrarEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+            this.obterDados();
+        })
     }
 
     paginar() {

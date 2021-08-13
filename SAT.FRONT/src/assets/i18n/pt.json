@@ -142,5 +142,8 @@
     "fax": "Fax",
     "cidades": "Cidades",
     "filtrar": "Filtrar",
-    "aplicar": "Aplicar"
+    "aplicar": "Aplicar",
+    "limpar": "Limpar",
+    "data de abertura": "Data de Abertura",
+    "data de fechamento": "Data de Fechamento"
 }

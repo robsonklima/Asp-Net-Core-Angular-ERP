@@ -1,10 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
+import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -18,15 +22,18 @@ export class OrdemServicoFiltroComponent implements OnInit {
   @Input() sidenav: MatSidenav;
   form: FormGroup;
   filiais: Filial[] = [];
+  clientes: Cliente[] = [];
+  statusServicos: StatusServico[] =[];
   tiposIntervencao: TipoIntervencao[] = [];
-  filialFilterCtrl: FormControl = new FormControl();
-  tipoIntervencaoFilterCtrl: FormControl = new FormControl();
+  clienteFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
     private _filialService: FilialService,
     private _usuarioService: UsuarioService,
     private _tipoIntervencaoService: TipoIntervencaoService,
+    private _statusServicoService: StatusServicoService,
+    private _clienteService: ClienteService,
     private _formBuilder: FormBuilder
   ) {
     this.filtro = this._usuarioService.obterFiltro('ordem-servico');
@@ -34,17 +41,37 @@ export class OrdemServicoFiltroComponent implements OnInit {
 
   ngOnInit(): void {
     this.obterFiliais();
+    this.obterClientes();
     this.obterTiposIntervencao();
+    this.obterStatusServicos();
     this.registrarEmitters();
     this.inicializarForm();
   }
 
-  async obterFiliais(filter: string = '') {
+  private inicializarForm(): void {
+    this.form = this._formBuilder.group({
+      codFiliais: [undefined],
+      codTiposIntervencao: [undefined],
+      codClientes: [undefined],
+      codStatusServicos: [undefined],
+      codOS: [undefined],
+      numOSCliente: [undefined],
+      numOSQuarteirizada: [undefined],
+      dataAberturaInicio: [undefined],
+      dataAberturaFim: [undefined],
+      dataFechamentoInicio: [undefined],
+      dataFechamentoFim: [undefined],
+    });
+
+    this.form.patchValue(this.filtro.parametros);
+  }
+
+  async obterFiliais() {
     let params: FilialParameters = {
-      filter: filter,
       indAtivo: 1,
       sortActive: 'nomeFilial',
-      sortDirection: 'asc'
+      sortDirection: 'asc',
+      pageSize: 50
     };
 
     const data = await this._filialService
@@ -54,9 +81,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.filiais = data.filiais;
   }
 
-  async obterTiposIntervencao(filter: string = '') {
+  async obterTiposIntervencao() {
     let params = {
-      filter: filter,
       indAtivo: 1,
       sortActive: 'nomTipoIntervencao',
       sortDirection: 'asc'
@@ -69,35 +95,47 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.tiposIntervencao = data.tiposIntervencao;
   }
 
-  private registrarEmitters(): void {
-    this.filialFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterFiliais(this.filialFilterCtrl.value);
-      });
+  async obterClientes(filter: string = '') {
+    let params: ClienteParameters = {
+      filter: filter,
+      indAtivo: 1,
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
 
-    this.tipoIntervencaoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterTiposIntervencao(this.tipoIntervencaoFilterCtrl.value);
-      });
+    const data = await this._clienteService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.clientes = data.clientes;
   }
 
-  private inicializarForm(): void {
-    this.form = this._formBuilder.group({
-      codFilial: [undefined],
-      codTipoIntervencao: [undefined]
-    });
+  async obterStatusServicos() {
+    let params: StatusServicoParameters = {
+      indAtivo: 1,
+      sortActive: 'nomeStatusServico',
+      sortDirection: 'asc',
+      pageSize: 50
+    }
 
-    this.form.patchValue(this.filtro.parametros);
+    const data = await this._statusServicoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.statusServicos = data.statusServico;
+  }
+
+  private registrarEmitters(): void {
+    this.clienteFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterClientes(this.clienteFilterCtrl.value);
+      });
   }
 
   aplicar(): void {
@@ -109,6 +147,12 @@ export class OrdemServicoFiltroComponent implements OnInit {
     }
 
     this._usuarioService.registrarFiltro(filtro);
+    this.sidenav.close();
+  }
+
+  limpar(): void {
+    this.form.reset();
+    this.aplicar();
     this.sidenav.close();
   }
 

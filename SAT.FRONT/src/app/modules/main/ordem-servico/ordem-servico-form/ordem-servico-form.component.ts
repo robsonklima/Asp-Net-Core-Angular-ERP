@@ -353,8 +353,6 @@ export class OrdemServicoFormComponent implements OnInit {
       }
     };
 
-    
-
     Object.keys(obj).forEach((key) => {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });

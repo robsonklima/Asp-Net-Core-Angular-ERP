@@ -142,5 +142,8 @@
     "fax": "Fax",
     "cidades": "Cities",
     "filtrar": "Filter",
-    "aplicar": "Apply"
+    "aplicar": "Apply",
+    "limpar": "Clear",
+    "data de abertura": "Openned Date",
+    "data de fechamento": "Closed Date"
 }

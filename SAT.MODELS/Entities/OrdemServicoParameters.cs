@@ -6,12 +6,14 @@ namespace SAT.MODELS.Entities
     public class OrdemServicoParameters : QueryStringParameters
     {
         public int? CodOS { get; set; }
-        public string CodigosStatusServico { get; set; }
-        public string CodigosTipoIntervencao { get; set; }
-        public int? CodFilial { get; set; }
         public int? CodEquipContrato { get; set; }
         public string NumOSCliente { get; set; }
         public string NumOSQuarteirizada { get; set; }
+
+        public string CodStatusServicos { get; set; }
+        public string CodTiposIntervencao { get; set; }
+        public string CodClientes { get; set; }
+        public string CodFiliais { get; set; }
 
         public DateTime DataAberturaInicio { get; set; }
         public DateTime DataAberturaFim { get; set; }

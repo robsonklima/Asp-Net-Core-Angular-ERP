@@ -154,5 +154,6 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioOsmobileRecebida { get; set; }
         public DateTime? DataHoraIntegracaoRevisaoV2 { get; set; }
         public DateTime? DataHoraIntegracaoRevisaoAgendamentoV2 { get; set; }
+        //public virtual RegiaoAutorizada RegiaoAutorizada { get; set; }
     }
 }

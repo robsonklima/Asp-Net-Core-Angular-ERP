@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { UsuarioService } from 'app/core/services/usuario.service';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -27,19 +28,22 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     @ViewChild(MatSort) private sort: MatSort;
     dataSourceData: OrdemServicoData;
     selectedItem: OrdemServico | null = null;
+    filtro: any;
     isLoading: boolean = false;
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 
     constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
+        private _usuarioService: UsuarioService,
         private _userService: UserService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
     ngAfterViewInit(): void {
-        this.obterDados();
+        this.carregarFiltro();
+        this.obterOrdensServico();
         this.registrarEmitters();
 
         if (this.sort && this.paginator) {
@@ -52,7 +56,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             ).subscribe((text: string) => {
                 this.paginator.pageIndex = 0;
                 this.searchInputControl.nativeElement.val = text;
-                this.obterDados();
+                this.obterOrdensServico();
             });
 
             this.sort.disableClear = true;
@@ -60,7 +64,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
             this.sort.sortChange.subscribe(() => {
                 this.paginator.pageIndex = 0;
-                this.obterDados();
+                this.obterOrdensServico();
                 this.fecharDetalhes();
             });
         }
@@ -68,20 +72,22 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    async obterDados() {
+    async obterOrdensServico() {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
-            pageNumber: this.paginator?.pageIndex + 1,
+            pageNumber: this.paginator.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
             pageSize: this.paginator?.pageSize,
-            filter: this.searchInputControl.nativeElement.val,
-            codFilial: this.userSession?.usuario?.filial?.codFilial
+            filter: this.searchInputControl.nativeElement.val
         };
 
         const data: OrdemServicoData = await this._ordemServicoService
-            .obterPorParametros(params)
+            .obterPorParametros({ 
+                ...params,
+                ...this.filtro.parametros
+            })
             .toPromise();
 
         this.dataSourceData = data;
@@ -90,12 +96,23 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     private registrarEmitters(): void {
         this.sidenav.closedStart.subscribe(() => {
-            this.obterDados();
+            this.carregarFiltro();
+            this.obterOrdensServico();
         })
     }
 
+    private carregarFiltro(): void {
+        this.filtro = this._usuarioService.obterFiltro('ordem-servico');
+
+        Object.keys(this.filtro.parametros).forEach((key) => {
+            if (this.filtro.parametros[key] instanceof Array) {
+                this.filtro.parametros[key] = this.filtro.parametros[key].join()
+            };
+        });
+    }
+
     paginar() {
-        this.obterDados();
+        this.obterOrdensServico();
     }
 
     async alternarDetalhes(codigo: number) {

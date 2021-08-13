@@ -18,5 +18,7 @@ namespace SAT.MODELS.Entities
         public Cidade Cidade { get; set; }
         public int? PA { get; set; }
         public byte IndAtivo { get; set; }
+        //public virtual OrdemServico OrdemServico { get; set; }
+
     }
 }

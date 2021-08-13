@@ -61,6 +61,13 @@ namespace SAT.API.Context
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
 
+            //modelBuilder.Entity<OrdemServico>()
+            //            .HasOne(os => os.RegiaoAutorizada)
+            //            .WithOne(os => os.OrdemServico)
+            //            .HasForeignKey<OrdemServico>(os => os.CodAutorizada)
+            //            .HasForeignKey<OrdemServico>(os => os.CodRegiao)
+            //            .HasForeignKey<OrdemServico>(os => os.CodFilial);
+
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasKey(nc => new { nc.CodPerfil, nc.CodNavegacao });
 

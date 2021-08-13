@@ -113,9 +113,9 @@ namespace SAT.API.Repositories
                 tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            if (parameters.CodigosStatusServico != null)
+            if (parameters.CodStatusServicos != null)
             {
-                var codigosStatusServico = parameters.CodigosStatusServico.Split(',');
+                var codigosStatusServico = parameters.CodStatusServicos.Split(',');
 
                 tecnicos = tecnicos
                     .Include(t => t.OrdensServico.Where(os => codigosStatusServico.Contains(os.CodStatusServico.ToString())))

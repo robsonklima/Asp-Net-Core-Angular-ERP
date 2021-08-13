@@ -154,9 +154,6 @@ export interface OrdemServicoData extends Meta {
 
 export interface OrdemServicoParameters extends QueryStringParameters {
     codOS?: number;
-    codigosStatusServico?: string;
-    codigosTipoIntervencao?: string;
-    codFilial?: number;
     codEquipContrato?: number;
     numOSCliente?: string;
     numOSQuarteirizada?: string;
@@ -164,4 +161,8 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     dataAberturaFim?: string;
     dataFechamentoInicio?: string;
     dataFechamentoFim?: string;
+    codStatusServicos?: string;
+    codTiposIntervencao?: string;
+    codClientes?: string;
+    codFiliais?: string;
 };

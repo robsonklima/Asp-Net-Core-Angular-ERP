@@ -33,11 +33,6 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-6xl">
-            <fuse-alert class="mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
-                [@shake]="true">
-                {{ alert.message }}
-            </fuse-alert>
-
             <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="stepperForm">
                 <mat-horizontal-stepper [linear]="true" #horizontalStepper>
                     <mat-step [formGroupName]="'step1'" [stepControl]="stepperForm.get('step1')" #stepperStep1>
@@ -106,9 +101,9 @@
                         <div class="grid grid-cols-2 gap-4">
                             <mat-form-field class="flex-auto gt-xs:pr-3">
                                 <mat-label>{{ t('data') }}</mat-label>
-                                <input matInput [for]="pickerData" [matDatepicker]="pickerData" formControlName="data"
+                                <input matInput [matDatepicker]="pickerData" formControlName="data"
                                     disabled required>
-                                <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                                <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
                                 <mat-datepicker #pickerData disabled="false"></mat-datepicker>
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>

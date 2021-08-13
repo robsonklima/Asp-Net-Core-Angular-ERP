@@ -17,7 +17,6 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
-import { FuseAlertType } from '@fuse/components/alert/alert.types';
 import { fuseAnimations } from '@fuse/animations';
 import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 
@@ -39,10 +38,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   statusServicoFilterCtrl: FormControl = new FormControl();
   tecnicos: Tecnico[] = [];
   statusServicos: StatusServico[] = [];
-  alert: { type: FuseAlertType; message: string } = {
-    type: 'success',
-    message: ''
-  };
   showAlert: boolean = false;
   protected _onDestroy = new Subject<void>();
 
@@ -223,12 +218,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     }, e => {
       this.stepperForm.enable();
-
-      this.alert = {
-        type: 'error',
-        message: e?.error
-      };
-
+      this._snack.exibirToast('Não foi possível atualizar o relatório de atendimento', 'error');
       this.showAlert = true;
     });
   }

@@ -86,7 +86,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         const data: OrdemServicoData = await this._ordemServicoService
             .obterPorParametros({ 
                 ...params,
-                ...this.filtro.parametros
+                ...this.filtro?.parametros
             })
             .toPromise();
 
@@ -95,6 +95,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     }
 
     private registrarEmitters(): void {
+        // Quando o sidebar fecha
         this.sidenav.closedStart.subscribe(() => {
             this.carregarFiltro();
             this.obterOrdensServico();
@@ -104,7 +105,16 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     private carregarFiltro(): void {
         this.filtro = this._usuarioService.obterFiltro('ordem-servico');
 
-        Object.keys(this.filtro.parametros).forEach((key) => {
+        if (!this.filtro) {
+            return;
+        }
+
+        // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
+        if (this.userSession?.usuario?.codFilial) {
+            this.filtro.parametros.codFiliais = [ this.userSession.usuario.codFilial ]
+        }
+
+        Object.keys(this.filtro?.parametros).forEach((key) => {
             if (this.filtro.parametros[key] instanceof Array) {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()
             };

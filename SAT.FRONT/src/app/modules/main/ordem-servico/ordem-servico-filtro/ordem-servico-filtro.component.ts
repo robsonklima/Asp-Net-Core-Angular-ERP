@@ -10,6 +10,8 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -19,6 +21,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 })
 export class OrdemServicoFiltroComponent implements OnInit {
   filtro: any;
+  sessioData: UsuarioSessionData;
   @Input() sidenav: MatSidenav;
   form: FormGroup;
   filiais: Filial[] = [];
@@ -34,9 +37,11 @@ export class OrdemServicoFiltroComponent implements OnInit {
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _statusServicoService: StatusServicoService,
     private _clienteService: ClienteService,
+    private _userService: UserService,
     private _formBuilder: FormBuilder
   ) {
     this.filtro = this._usuarioService.obterFiltro('ordem-servico');
+    this.sessioData = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
@@ -63,7 +68,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       dataFechamentoFim: [undefined],
     });
 
-    this.form.patchValue(this.filtro.parametros);
+    this.form.patchValue(this.filtro?.parametros);
   }
 
   async obterFiliais() {

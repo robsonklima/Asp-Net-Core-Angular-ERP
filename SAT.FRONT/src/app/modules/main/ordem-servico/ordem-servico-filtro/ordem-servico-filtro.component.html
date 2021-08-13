@@ -78,7 +78,7 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="fuse-mat-textarea flex-auto">
+                <mat-form-field class="fuse-mat-textarea flex-auto" *ngIf="!sessioData?.usuario?.filial?.codFilial">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">

@@ -71,6 +71,7 @@ export const appRoutes: Route[] = [
             {path: 'grupo-equipamento', loadChildren: () => import('app/modules/main/cadastro/grupo-equipamento/grupo-equipamento.module').then(m => m.GrupoEquipamentoModule)},
             {path: 'default', loadChildren: () => import('app/modules/main/default/default.module').then(m => m.DefaultModule)},
             {path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule)},
+            {path: 'configuracoes', loadChildren: () => import('app/modules/main/configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)},
 
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/error/error-404/error-404.module').then(m => m.Error404Module)},

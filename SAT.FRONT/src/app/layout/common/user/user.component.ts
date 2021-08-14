@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, 
+import { ChangeDetectionStrategy, Component, Input, 
          OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -24,7 +22,7 @@ export class UserComponent implements OnInit, OnDestroy
 
     constructor(
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
     )
     {
         this.usuario = this._userService.get();
@@ -44,5 +42,9 @@ export class UserComponent implements OnInit, OnDestroy
     signOut(): void
     {
         this._router.navigate(['/sign-out']);
+    }
+
+    navegarParaPerfil(): void {
+        this._router.navigate(['/configuracoes/'+this.usuario.codUsuario]);
     }
 }

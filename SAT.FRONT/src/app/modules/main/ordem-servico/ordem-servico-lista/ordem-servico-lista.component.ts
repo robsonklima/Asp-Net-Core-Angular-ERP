@@ -12,7 +12,6 @@ import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { UsuarioService } from 'app/core/services/usuario.service';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -35,7 +34,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
-        private _usuarioService: UsuarioService,
         private _userService: UserService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
@@ -103,7 +101,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     }
 
     private carregarFiltro(): void {
-        this.filtro = this._usuarioService.obterFiltro('ordem-servico');
+        this.filtro = this._userService.obterFiltro('ordem-servico');
 
         if (!this.filtro) {
             return;

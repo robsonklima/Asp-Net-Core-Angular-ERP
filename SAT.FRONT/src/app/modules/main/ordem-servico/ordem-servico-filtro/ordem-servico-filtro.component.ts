@@ -5,7 +5,6 @@ import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
-import { UsuarioService } from 'app/core/services/usuario.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
@@ -33,14 +32,13 @@ export class OrdemServicoFiltroComponent implements OnInit {
 
   constructor(
     private _filialService: FilialService,
-    private _usuarioService: UsuarioService,
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _statusServicoService: StatusServicoService,
     private _clienteService: ClienteService,
     private _userService: UserService,
     private _formBuilder: FormBuilder
   ) {
-    this.filtro = this._usuarioService.obterFiltro('ordem-servico');
+    this.filtro = this._userService.obterFiltro('ordem-servico');
     this.sessioData = JSON.parse(this._userService.userSession);
   }
 
@@ -151,7 +149,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       parametros: form
     }
 
-    this._usuarioService.registrarFiltro(filtro);
+    this._userService.registrarFiltro(filtro);
     this.sidenav.close();
   }
 

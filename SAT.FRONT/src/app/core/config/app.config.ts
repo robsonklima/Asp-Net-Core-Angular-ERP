@@ -15,8 +15,8 @@ export interface AppConfig
 }
 
 export const appConfig: AppConfig = {
-    layout: 'classic',
-    scheme: 'light',
+    layout: 'dense',
+    scheme: 'dark',
     theme : 'brand',
     api: 'https://sat.perto.com.br/SAT.V2.API/api',
     //api: 'https://localhost:5001/api',

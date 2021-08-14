@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { User } from 'app/core/user/user.types';
-import { appConfig as c } from 'app/core/config/app.config'
+import { AppConfig, appConfig as c } from 'app/core/config/app.config'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
@@ -78,6 +78,14 @@ export class UserService {
 
   registrarNavegacoes(navegacoes: Navegacao[]): void {
     localStorage.setItem("navegacoes", JSON.stringify(navegacoes));
+  }
+
+  registrarConfiguracoes(config: AppConfig): void {
+    localStorage.setItem("config", JSON.stringify(config));
+  }
+
+  obterConfiguracoes(): AppConfig {
+    return JSON.parse(localStorage.getItem("config"));
   }
 
   logout() {

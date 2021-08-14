@@ -5,18 +5,8 @@ import { FUSE_APP_CONFIG } from '@fuse/services/config/config.constants';
 @NgModule()
 export class FuseConfigModule
 {
-    /**
-     * Constructor
-     */
-    constructor(private _fuseConfigService: FuseConfigService)
-    {
-    }
-
-    /**
-     * forRoot method for setting user configuration
-     *
-     * @param config
-     */
+    constructor(private _fuseConfigService: FuseConfigService){}
+    
     static forRoot(config: any): ModuleWithProviders<FuseConfigModule>
     {
         return {

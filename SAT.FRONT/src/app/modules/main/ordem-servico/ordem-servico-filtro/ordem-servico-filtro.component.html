@@ -14,6 +14,18 @@
     <ng-container>
         <form class="flex flex-col mt-0 p-8 pb-0" [formGroup]="form" *transloco="let t">
 
+            <div class="grid grid-cols-2 gap-4" *ngIf="!sessioData?.usuario?.filial?.codFilial">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>{{ t('filial') }}</mat-label>
+
+                    <mat-select formControlName="codFiliais" multiple="true">
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
             <div class="grid grid-cols-2 gap-4">
                 <mat-form-field>
                     <mat-label>{{ t('data de abertura') }}</mat-label>
@@ -33,6 +45,30 @@
                     </mat-date-range-input>
                     <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
                     <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>{{ t('status de servico') }}</mat-label>
+
+                    <mat-select formControlName="codStatusServicos" multiple="true">
+                        <mat-option *ngFor="let statusServico of statusServicos"
+                            [value]="statusServico.codStatusServico">
+                            {{ statusServico.nomeStatusServico }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
+
+                    <mat-select formControlName="codTiposIntervencao" multiple="true">
+                        <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
+                            [value]="tipoIntervencao.codTipoIntervencao">
+                            {{ tipoIntervencao.nomTipoIntervencao }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
 
@@ -77,56 +113,15 @@
                 </mat-form-field>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="fuse-mat-textarea flex-auto" *ngIf="!sessioData?.usuario?.filial?.codFilial">
-                    <mat-label>{{ t('filial') }}</mat-label>
-
-                    <mat-select formControlName="codFiliais" multiple="true">
-                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
-                            {{ filial.nomeFilial }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-textarea flex-auto">
-                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
-
-                    <mat-select formControlName="codTiposIntervencao" multiple="true">
-                        <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
-                            [value]="tipoIntervencao.codTipoIntervencao">
-                            {{ tipoIntervencao.nomTipoIntervencao }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="fuse-mat-textarea flex-auto">
-                    <mat-label>{{ t('status de servico') }}</mat-label>
-
-                    <mat-select formControlName="codStatusServicos" multiple="true">
-                        <mat-option *ngFor="let statusServico of statusServicos" [value]="statusServico.codStatusServico">
-                            {{ statusServico.nomeStatusServico }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                <button side (click)="sidenav.toggle()" mat-button>
-                    {{ t('cancelar') }}
+            <div class="flex items-center justify-start -mx-8 px-8 py-5">
+                <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('aplicar') }}
                 </button>
 
                 <button side (click)="limpar()" color="warn" mat-button>
                     {{ t('limpar') }}
                 </button>
-
-                <button (click)="aplicar()" [disabled]="!form.valid" class="px-6 ml-3" mat-flat-button
-                    [color]="'primary'">
-                    {{ t('aplicar') }}
-                </button>
             </div>
-
         </form>
     </ng-container>
 </div>

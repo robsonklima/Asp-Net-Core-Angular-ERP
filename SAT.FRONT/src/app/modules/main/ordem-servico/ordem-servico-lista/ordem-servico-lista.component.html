@@ -22,12 +22,12 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
+                    <button class="ml-5" mat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
                         *transloco="let t">
                         <mat-icon [matTooltip]="t('adicionar')" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     </button>
 
-                    <button class="ml-4" mat-button [color]="'primary'" (click)="sidenav.toggle()"
+                    <button class="ml-0" mat-button [color]="'primary'" (click)="sidenav.toggle()"
                         *transloco="let t">
                         <mat-icon [matTooltip]="t('filtrar')" [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>

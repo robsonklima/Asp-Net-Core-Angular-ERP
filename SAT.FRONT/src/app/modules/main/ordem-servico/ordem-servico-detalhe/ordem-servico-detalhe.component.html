@@ -35,6 +35,7 @@
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('novo relatorio de atendimento')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
@@ -42,6 +43,7 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('editar')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
@@ -49,6 +51,7 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-indigo-500" mat-flat-button [color]="'primary'"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('agendar')"
                                 (click)="agendar()"
                                 matTooltipPosition="above">
@@ -56,6 +59,7 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-pink-700" mat-flat-button
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('transferir')"
                                 matTooltipPosition="above"
                                 (click)="sidenav.toggle()">
@@ -291,7 +295,8 @@
                                             <div class="-mr-3">
                                                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                                                     <button class="fuse-mat-button-rounded" mat-flat-button
-                                                        [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]">
+                                                        [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
+                                                        [disabled]="r?.codStatusServico === 3 || r?.codStatusServico === 2">
                                                         <mat-icon class="icon-size-5"
                                                             [svgIcon]="'heroicons_solid:pencil'">
                                                         </mat-icon>

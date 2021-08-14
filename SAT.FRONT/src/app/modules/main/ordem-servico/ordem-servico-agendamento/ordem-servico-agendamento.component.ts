@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { OrdemServicoDetalheComponent } from '../ordem-servico-detalhe/ordem-servico-detalhe.component';
 import { MotivoAgendamentoService } from 'app/core/services/motivo-agendamento.service';
 import { MotivoAgendamento, MotivoAgendamentoData, MotivoAgendamentoParameters } from 'app/core/types/motivo-agendamento.types';
@@ -18,6 +18,7 @@ export class OrdemServicoAgendamentoComponent implements OnInit {
   motivosAgendamento: MotivoAgendamento[] = [];
   motivoFilterCtrl: FormControl = new FormControl();
   userSession: UsuarioSessionData;
+  hoje: Moment = moment();
 
   constructor(
     private _formBuilder: FormBuilder,

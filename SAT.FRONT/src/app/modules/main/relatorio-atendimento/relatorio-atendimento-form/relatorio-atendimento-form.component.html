@@ -103,7 +103,7 @@
                                 <mat-label>{{ t('data') }}</mat-label>
                                 <input matInput [matDatepicker]="pickerData" formControlName="data"
                                     disabled required>
-                                <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
+                                <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
                                 <mat-datepicker #pickerData disabled="false"></mat-datepicker>
                                 <mat-error>{{ t('preencher campo') }}</mat-error>
                             </mat-form-field>

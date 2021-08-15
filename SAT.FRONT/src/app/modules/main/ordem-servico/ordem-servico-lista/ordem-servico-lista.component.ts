@@ -2,8 +2,8 @@ import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent, interval } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 
 import { UserService } from 'app/core/user/user.service';
@@ -57,7 +57,13 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.carregarFiltro();
-        this.obterOrdensServico();
+
+        interval(5 * 60 * 1000)
+            .pipe(startWith(0))
+            .subscribe(() => {
+                this.obterOrdensServico();
+            });
+
         this.registrarEmitters();
 
         if (this.sort && this.paginator) {

@@ -145,5 +145,21 @@
     "aplicar": "Aplicar",
     "limpar": "Limpar",
     "data de abertura": "Data de Abertura",
-    "data de fechamento": "Data de Fechamento"
+    "data de fechamento": "Data de Fechamento",
+    "perfil": "Perfil",
+    "informacoes publicas": "As informações a seguir são públicas e visíveis para todos os demais usuários do aplicativo.",
+    "usuario": "Usuário",
+    "informacoes pessoais": "Informações Pessoais",
+    "informacoes privadas": "Detalhes de comunicação, caso queiramos entrar em contato com você. Serão mantidas em sigilo.",
+    "orientacoes senha": "Mínimo de 8 caracteres. Precisa incluir números, letras e caracteres especiais.",
+    "preferencias de seguranca": "Preferências de Segurança",
+    "altere sua senha": "Altere sua Senha",
+    "altere sua senha com frequencia": "Altere sua senha sempre que possível",
+    "senha atual": "Senha Atual",
+    "nova senha": "Nova Senha",
+    "mantenha sua senha segura": "Mantenha sua senha mais segura utilizando as opções abaixo.",
+    "proteja sua senha contra ataques": "Proteja-se contra roubo de senha, solicitando um código de autenticação em cada login.",
+    "habilitar autenticacao de 2 passos": "Habilitar autenticação de dois passos",
+    "trocar senha a cada 6 meses": "Perguntar para trocar a senha a cada 6 meses",
+    "jeito simples de evitar roubo de senha": "Uma maneira simples, mas eficaz de se proteger contra vazamentos de dados e roubo de senhas."
 }

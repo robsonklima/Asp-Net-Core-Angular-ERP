@@ -1,78 +1,43 @@
-<div class="w-full max-w-3xl">
-
-    <!-- Form -->
+<div class="w-full max-w-3xl" *transloco="let t">
     <form [formGroup]="accountForm">
-
         <!-- Section -->
         <div class="w-full">
-            <div class="text-xl">Profile</div>
-            <div class="text-secondary">Following information is publicly displayed, be careful!</div>
+            <div class="text-xl">
+                {{ t('perfil') }}
+            </div>
+            <div class="text-secondary">
+                {{ t('informacoes publicas') }}
+            </div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- Name -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Name</mat-label>
+                    <mat-label>
+                        {{ t('nome') }}
+                    </mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:user'"
                         matPrefix></mat-icon>
                     <input
-                        [formControlName]="'name'"
+                        [formControlName]="'nome'"
                         matInput>
                 </mat-form-field>
             </div>
             <!-- Username -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
-                    <mat-label>Username</mat-label>
+                    <mat-label>{{ t('usuario') }}</mat-label>
                     <div
                         class="text-secondary"
                         matPrefix>
-                        fusetheme.com/
+                        sat.com.br/
                     </div>
                     <input
-                        [formControlName]="'username'"
+                        [formControlName]="'codUsuario'"
                         matInput>
                 </mat-form-field>
-            </div>
-            <!-- Title -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Title</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:briefcase'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'title'"
-                        matInput>
-                </mat-form-field>
-            </div>
-            <!-- Company -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Company</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:office-building'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'company'"
-                        matInput>
-                </mat-form-field>
-            </div>
-            <!-- About -->
-            <div class="sm:col-span-4">
-                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
-                    <mat-label>About</mat-label>
-                    <textarea
-                        matInput
-                        [formControlName]="'about'"
-                        matTextareaAutosize
-                        [matAutosizeMinRows]="5"></textarea>
-                </mat-form-field>
-                <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>
             </div>
         </div>
 
@@ -81,8 +46,8 @@
 
         <!-- Section -->
         <div class="w-full">
-            <div class="text-xl">Personal Information</div>
-            <div class="text-secondary">Communication details in case we want to connect with you. These will be kept private.</div>
+            <div class="text-xl">{{ t('informacoes pessoais') }}</div>
+            <div class="text-secondary">{{ t('informacoes privadas') }}</div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- Email -->
@@ -156,13 +121,14 @@
             <button
                 mat-stroked-button
                 type="button">
-                Cancel
+                {{ t('cancelar') }}
             </button>
             <button
                 class="ml-4"
                 mat-flat-button
                 type="button"
-                [color]="'primary'">Save
+                [color]="'primary'">
+                {{ t('salvar') }}
             </button>
         </div>
     </form>

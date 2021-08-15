@@ -1,18 +1,19 @@
-<div class="w-full max-w-3xl">
-
+<div class="w-full max-w-3xl" *transloco="let t">
     <!-- Form -->
     <form [formGroup]="securityForm">
 
         <!-- Section -->
         <div class="w-full">
-            <div class="text-xl">Change your password</div>
-            <div class="text-secondary">You can only change your password twice within 24 hours!</div>
+            <div class="text-xl">{{ t('altere sua senha') }}</div>
+            <div class="text-secondary">
+                {{ t('altere sua senha com frequencia') }}
+            </div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- Current password -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Current password</mat-label>
+                    <mat-label>{{ t('senha atual') }}</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:key'"
@@ -26,7 +27,7 @@
             <!-- New password -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>New password</mat-label>
+                    <mat-label>{{ t('nova senha') }}</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:key'"
@@ -36,7 +37,9 @@
                         type="password"
                         matInput>
                 </mat-form-field>
-                <div class="mt-1 text-md text-hint">Minimum 8 characters. Must include numbers, letters and special characters.</div>
+                <div class="mt-1 text-md text-hint">
+                    {{ t('orientacoes senha') }}
+                </div>
             </div>
         </div>
 
@@ -45,8 +48,8 @@
 
         <!-- Section -->
         <div class="w-full">
-            <div class="text-xl">Security preferences</div>
-            <div class="text-secondary">Keep your account more secure with following preferences.</div>
+            <div class="text-xl">{{ t('preferencias de seguranca') }}</div>
+            <div class="text-secondary">{{ t('mantenha sua senha segura') }}</div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- 2-step auth -->
@@ -54,9 +57,11 @@
                 <div
                     class="flex-auto cursor-pointer"
                     (click)="twoStepToggle.toggle()">
-                    <div class="leading-6 font-medium">Enable 2-step authentication</div>
+                    <div class="leading-6 font-medium">
+                        {{t('habilitar autenticacao de 2 passos')}}
+                    </div>
                     <div class="text-md text-secondary">
-                        Protects you against password theft by requesting an authentication code via SMS on every login.
+                        {{ t('proteja sua senha contra ataques') }}
                     </div>
                 </div>
                 <mat-slide-toggle
@@ -71,9 +76,11 @@
                 <div
                     class="flex-auto cursor-pointer"
                     (click)="askPasswordChangeToggle.toggle()">
-                    <div class="leading-6 font-medium">Ask to change password on every 6 months</div>
+                    <div class="leading-6 font-medium">
+                        {{ t('trocar senha a cada 6 meses') }}
+                    </div>
                     <div class="text-md text-secondary">
-                        A simple but an effective way to be protected against data leaks and password theft.
+                        {{ t('jeito simples de evitar roubo de senha') }}
                     </div>
                 </div>
                 <mat-slide-toggle
@@ -93,13 +100,14 @@
             <button
                 mat-stroked-button
                 type="button">
-                Cancel
+                {{ t('cancelar') }}
             </button>
             <button
                 class="ml-4"
                 mat-flat-button
                 type="button"
-                [color]="'primary'">Save
+                [color]="'primary'">
+                {{ t('salvar') }}
             </button>
         </div>
     </form>

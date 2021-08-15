@@ -145,5 +145,21 @@
     "aplicar": "Apply",
     "limpar": "Clear",
     "data de abertura": "Openned Date",
-    "data de fechamento": "Closed Date"
+    "data de fechamento": "Closed Date",
+    "perfil": "Profile",
+    "informacoes publicas": "Following information is public and visible to all other users.",
+    "usuario": "User",
+    "informacoes pessoais": "Personal Information",
+    "informacoes privadas": "Communication details in case we want to connect with you. These will be kept private.",
+    "orientacoes senha": "Minimum 8 characters. Must include numbers, letters and special characters.",
+    "preferencias de seguranca": "Security preferences",
+    "altere sua senha": "Change your password",
+    "altere sua senha com frequencia": "Change your passward frequently",
+    "senha atual": "Current Password",
+    "nova senha": "New Password",
+    "mantenha sua senha segura": "Keep your account more secure with following preferences.",
+    "proteja sua senha contra ataques": "Protects you against password theft by requesting an authentication code via SMS on every login.",
+    "habilitar autenticacao de 2 passos": "Enable 2-step authentication",
+    "trocar senha a cada 6 meses": "Ask to change password on every 6 months",
+    "jeito simples de evitar roubo de senha": "A simple but an effective way to be protected against data leaks and password theft."
 }

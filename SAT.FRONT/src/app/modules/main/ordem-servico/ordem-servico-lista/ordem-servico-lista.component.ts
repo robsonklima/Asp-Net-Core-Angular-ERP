@@ -16,7 +16,23 @@ import { MatSidenav } from '@angular/material/sidenav';
 @Component({
     selector: 'ordem-servico-lista',
     templateUrl: './ordem-servico-lista.component.html',
-    styleUrls: ['./ordem-servico-lista.component.scss'],
+    styles: [`
+        .list-grid-ordem-servico {
+            grid-template-columns: 48px 72px 72px 72px 24px 48px 96px auto 42px 96px 36px 72px 24px 56px 58px;
+            
+            @screen sm {
+                grid-template-columns: 48px auto 32px;
+            }
+        
+            @screen md {
+                grid-template-columns: 48px 72px 72px 72px 38px auto 58px 58px 58px 58px 58px;
+            }
+        
+            @screen lg {
+                grid-template-columns: 48px 72px 72px 72px 24px 48px 96px auto 42px 96px 36px 72px 24px 56px 58px;
+            }
+        }
+    `],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
@@ -82,7 +98,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         };
 
         const data: OrdemServicoData = await this._ordemServicoService
-            .obterPorParametros({ 
+            .obterPorParametros({
                 ...params,
                 ...this.filtro?.parametros
             })
@@ -109,7 +125,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
         if (this.userSession?.usuario?.codFilial) {
-            this.filtro.parametros.codFiliais = [ this.userSession.usuario.codFilial ]
+            this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
         }
 
         Object.keys(this.filtro?.parametros).forEach((key) => {

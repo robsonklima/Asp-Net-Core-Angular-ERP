@@ -162,5 +162,7 @@
     "habilitar autenticacao de 2 passos": "Enable 2-step authentication",
     "trocar senha a cada 6 meses": "Ask to change password on every 6 months",
     "jeito simples de evitar roubo de senha": "A simple but an effective way to be protected against data leaks and password theft.",
-    "notificacoes": "Notifications"
+    "notificacoes": "Notifications",
+    "nenhuma notificacao": "No Notifications",
+    "quando voce tiver notificacoes": "When you have notifications, they will appear here."
 }

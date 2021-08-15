@@ -162,5 +162,7 @@
     "habilitar autenticacao de 2 passos": "Habilitar autenticação de dois passos",
     "trocar senha a cada 6 meses": "Perguntar para trocar a senha a cada 6 meses",
     "jeito simples de evitar roubo de senha": "Uma maneira simples, mas eficaz de se proteger contra vazamentos de dados e roubo de senhas.",
-    "notificacoes": "Notificações"
+    "notificacoes": "Notificações",
+    "nenhuma notificacao": "Nenhuma notificação",
+    "quando voce tiver notificacoes": "Quando você tiver notificações, elas aparecerão aqui."
 }

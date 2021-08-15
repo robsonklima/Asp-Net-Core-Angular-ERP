@@ -5,21 +5,13 @@
                 <img src="assets/images/logo/logo.png">
             </div>
 
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Entrar</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">
+                Entrar
+            </div>
             
             <div class="text-md tracking-tight leading-6 text-gray-400">
                 Entre com seu usuário e senha
             </div>
-
-            <fuse-alert
-                class="mt-8 -mb-4"
-                *ngIf="showAlert"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="alert.type"
-                [@shake]="alert.type === 'error'">
-                {{alert.message}}
-            </fuse-alert>
 
             <form
                 class="mt-8"

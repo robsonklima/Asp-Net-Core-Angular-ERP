@@ -43,6 +43,5 @@ const routerConfig: ExtraOptions = {
         AppComponent
     ]
 })
-export class AppModule
-{
+export class AppModule {
 }

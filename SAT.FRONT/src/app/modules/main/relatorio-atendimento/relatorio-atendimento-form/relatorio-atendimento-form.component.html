@@ -32,179 +32,209 @@
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-6xl">
-            <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="stepperForm">
-                <mat-horizontal-stepper [linear]="true" #horizontalStepper>
-                    <mat-step [formGroupName]="'step1'" [stepControl]="stepperForm.get('step1')" #stepperStep1>
-                        <ng-template matStepLabel>{{ t('relatorio') }}</ng-template>
+        <div class="max-w-4xl">
+            <form [formGroup]="form">
+                <div class="grid sm:grid-cols-6 gap-6 w-full">
+                    <div class="sm:col-span-6">
+                        <div class="text-xl">{{ t('relatorio de atendimento') }}</div>
+                        <div class="text-secondary">{{ t('relatorio de atendimento') }}</div>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4 mt-6">
-                            <mat-form-field class="flex-auto gt-xs:pr-3" *ngIf="!isAddMode">
-                                <mat-label>{{ t('codigo') }}</mat-label>
-                                <input matInput formControlName="codRAT">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'">
-                                </mat-icon>
-                            </mat-form-field>
-                        </div>
+                    <div class="sm:col-span-3" *ngIf="!isAddMode">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('codigo') }}</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
+                            <input matInput formControlName="codRAT">
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('tecnico') }}</mat-label>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('tecnico') }}</mat-label>
 
-                                <mat-select formControlName="codTecnico" #tecnicoSelect
-                                    [disabled]="tecnicos.length === 0">
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="tecnicoFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
+                            <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="tecnicos.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="tecnicoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
 
-                                    <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
-                                        {{ tecnico.nome }}
-                                    </mat-option>
-                                </mat-select>
+                                <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                                    {{ tecnico.nome }}
+                                </mat-option>
+                            </mat-select>
 
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('status de servico') }}</mat-label>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('status de servico') }}</mat-label>
 
-                                <mat-select formControlName="codStatusServico" [disabled]="statusServicos.length === 0">
-                                    <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
-                                        {{ status.nomeStatusServico }}
-                                    </mat-option>
-                                </mat-select>
+                            <mat-select formControlName="codStatusServico" [disabled]="statusServicos.length === 0">
+                                <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
+                                    {{ status.nomeStatusServico }}
+                                </mat-option>
+                            </mat-select>
 
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('numero do RAT') }}</mat-label>
-                                <input matInput formControlName="numRAT" required>
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'">
-                                </mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('numero do RAT') }}</mat-label>
+                            <input matInput formControlName="numRAT" required>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('nome do acompanhante') }}</mat-label>
-                                <input matInput formControlName="nomeAcompanhante" maxlength="25">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
-                                </mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('nome do acompanhante') }}</mat-label>
+                            <input matInput formControlName="nomeAcompanhante" maxlength="25">
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
+                            </mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('data') }}</mat-label>
-                                <input matInput [matDatepicker]="pickerData" formControlName="data"
-                                    disabled required>
-                                <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
-                                <mat-datepicker #pickerData disabled="false"></mat-datepicker>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('data') }}</mat-label>
+                            <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
+                            <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('hora do inicio') }}</mat-label>
-                                <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
-                                    [dropSpecialCharacters]="false" required>
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                                </mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('hora do inicio') }}</mat-label>
+                            <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
+                                [dropSpecialCharacters]="false" required>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                            </mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('hora da solucao') }}</mat-label>
-                                <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
-                                    [dropSpecialCharacters]="false" required>
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                                </mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('hora da solucao') }}</mat-label>
+                            <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                                [dropSpecialCharacters]="false" required>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                            </mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                        <div class="flex">
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('observacao') }}</mat-label>
-                                <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
-                                    [rows]="4"></textarea>
-                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'">
-                                </mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="flex justify-end mt-4">
-                            <button class="px-8" mat-button [color]="'primary'"
-                                [disabled]="stepperStep1.stepControl.pristine || stepperStep1.stepControl.invalid"
-                                type="button" matStepperNext>
-                                {{ t('proximo') }}
-                            </button>
-                        </div>
-                    </mat-step>
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('observacao') }}</mat-label>
+                            <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
+                                [rows]="4"></textarea>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                    <mat-step>
-                        <ng-template matStepLabel>{{ t('detalhes e pecas') }}</ng-template>
-                        <div class="my-2 font-medium">
-                            <mat-selection-list #detalhesList [multiple]="false">
-                                <mat-list-option
-                                    *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
-                                    [value]="detalhe">
-                                    <div class="grid grid-cols-10 gap-4 text-sm">
-                                        <div class="grid-cols-none">
-                                            <span>{{ i+1 }}</span>
+                    <div class="sm:col-span-6 mt-0 mb-0 border-t"></div>
+
+                    <div class="sm:col-span-6">
+                        <div class="text-xl">{{ t('detalhes') }}</div>
+                        <div class="text-secondary">{{ t('detalhes e pecas') }}</div>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-selection-list #detalhesList [multiple]="false">
+                            <mat-list-option
+                                *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
+                                [value]="detalhe"
+                                class="border-b">
+                                <div class="grid grid-cols-10 gap-2 text-sm">
+                                    <div class="grid-cols-none pt-2">
+                                        <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                            {{i+1}}
+                                        </span>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('servico') }}
                                         </div>
-                                        <div class="text-center col-span-2">
-                                            <div class="opacity-50 text-semibold">{{ detalhe.tipoServico?.codETipoServico }}</div>
-                                            <div>{{ detalhe.tipoServico?.nomeServico | titlecase }} </div>
-                                        </div>
-                                        <div class="text-center col-span-2">
-                                            <div class="opacity-50 text-semibold">{{ detalhe.causa?.codECausa }}</div>
-                                            <div>{{ detalhe.causa?.nomeCausa | titlecase }} </div>
-                                        </div>
-                                        <div class="text-center col-span-2">
-                                            <div class="opacity-50 text-semibold">{{ detalhe.defeito?.codEDefeito }}</div>
-                                            <div>{{ detalhe.defeito?.nomeDefeito | titlecase}} </div>
-                                        </div>
-                                        <div class="text-center col-span-2">
-                                            <div class="opacity-50 text-semibold">{{ detalhe.acao?.codEAcao }}</div>
-                                            <div>{{ detalhe.acao?.nomeAcao | titlecase }} </div>
-                                        </div>
-                                        <div class="text-right"
-                                            *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
-                                            <div>
-                                                {{ detalhe?.relatorioAtendimentoPecas?.length }} Peças
-                                            </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.tipoServico?.nomeServico | titlecase">
+                                                {{ detalhe.tipoServico?.codETipoServico }}
+                                            </span>
                                         </div>
                                     </div>
-                                </mat-list-option>
-                            </mat-selection-list>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('causa') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.causa?.nomeCausa | titlecase">
+                                                {{ detalhe.causa?.codECausa }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('defeito') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.defeito?.nomeDefeito | titlecase">
+                                                {{ detalhe.defeito?.codEDefeito }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('acao') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.acao?.nomeAcao | titlecase">
+                                                {{ detalhe.acao?.codEAcao }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center" *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('pecas') }}
+                                        </div>
+                                        <div>
+                                            <span>
+                                                {{ 
+                                                    detalhe?.relatorioAtendimentoDetalhePecas?.length ? 
+                                                    detalhe?.relatorioAtendimentoDetalhePecas?.length : 'Nenhuma' 
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-list-option>
+                        </mat-selection-list>
 
-                            <div class="prose prose-sm max-w-3xl my-6"
-                                *ngIf="!relatorioAtendimento?.relatorioAtendimentoDetalhes?.length">
-                                <p>
-                                    {{ t('adicione os detalhes do atendimento') }}
-                                </p>
-                            </div>
+                        <div class="prose prose-sm max-w-3xl my-6"
+                            *ngIf="!relatorioAtendimento?.relatorioAtendimentoDetalhes?.length">
+                            <p>
+                                {{ t('adicione os detalhes do atendimento') }}
+                            </p>
                         </div>
+
                         <div class="flex justify-end mt-8">
-                            <button class="px-8 mr-2" mat-button [color]="'accent'" type="button" matStepperPrevious>
-                                {{ t('voltar') }}
-                            </button>
                             <button class="px-4 mr-2" mat-button (click)="inserirDetalhe()"
-                                [disabled]="stepperStep1.stepControl.invalid"
+                                [disabled]="form.invalid"
                                 [matTooltip]="t('adicionar detalhe')">
                                 <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                             </button>
                             <button class="px-4 mr-2" mat-button [color]="'primary'"
                                 [disabled]="detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 && detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26"
                                 [matTooltip]="t('adicionar peca')"
-                                (click)="adicionarPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
+                                (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                                 <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                             </button>
                             <button class="px-4 mr-2" mat-button [color]="'warn'"
@@ -213,28 +243,26 @@
                                 (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
                                 <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                             </button>
-                            <button class="px-8" mat-button [color]="'primary'" type="button" matStepperNext
-                                [disabled]="!relatorioAtendimento?.relatorioAtendimentoDetalhes?.length">
-                                {{ t('proximo') }}
-                            </button>
                         </div>
-                    </mat-step>
+                    </div>
 
-                    <mat-step>
-                        <ng-template matStepLabel>{{ t('finalizar') }}</ng-template>
-                        <div class="prose prose-sm max-w-3xl my-6">
-                            Finalizar
-                        </div>
-                        <div class="flex justify-end mt-8">
-                            <button class="px-8 mr-2" mat-button [color]="'accent'" type="button" matStepperPrevious>
-                                {{ t('voltar') }}
-                            </button>
-                            <button class="px-8" mat-button [color]="'primary'" type="reset" (click)="salvar()">
+                    <div class="sm:col-span-6 border-t"></div>
+
+                    <div class="sm:col-span-6 flex justify-end">
+                        <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
+                            [routerLink]="['/ordem-servico/detalhe/'+codOS]">
+                            {{ t('voltar') }}
+                        </button>
+
+                        <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+                            <span *ngIf="!form.disabled">
                                 {{ t('salvar') }}
-                            </button>
-                        </div>
-                    </mat-step>
-                </mat-horizontal-stepper>
+                            </span>
+                            <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                            </mat-progress-spinner>
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

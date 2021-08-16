@@ -11,7 +11,7 @@
             <div class="flex pl-2">
                 <form [formGroup]="form" name="form" *ngIf="form">
     
-                    <div class="flex flex-col mt-5 w-120">
+                    <div class="flex mt-5 w-120 justify-center">
                         <mat-radio-group
                             class="flex flex-row"
                             [color]="'primary'"
@@ -23,7 +23,7 @@
                                 {{ t('maquina') }}
                             </mat-radio-button>
                             <mat-radio-button
-                                class="mb-2 ml-2"
+                                class="mb-2 ml-4"
                                 [value]="'2'">
                                 {{ t('extra-maquina') }}
                             </mat-radio-button>

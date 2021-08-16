@@ -1,6 +1,9 @@
-﻿using SAT.API.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.API.Context;
 using SAT.API.Repositories.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
+using System;
 using System.Linq;
 
 namespace SAT.API.Repositories
@@ -11,6 +14,19 @@ namespace SAT.API.Repositories
         public RelatorioAtendimentoDetalhePecaRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public void Criar(RelatorioAtendimentoDetalhePeca detalhePeca)
+        {
+            try
+            {
+                _context.Add(detalhePeca);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Deletar(int codRATDetalhePeca)

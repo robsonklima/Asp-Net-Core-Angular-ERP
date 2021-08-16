@@ -45,4 +45,6 @@ export interface PecaData extends Meta {
     pecas: Peca[];
 };
 
-export interface PecaParameters extends QueryStringParameters {};
+export interface PecaParameters extends QueryStringParameters {
+    
+};

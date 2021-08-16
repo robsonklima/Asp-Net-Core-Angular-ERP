@@ -8,8 +8,6 @@ import { DefeitoService } from 'app/core/services/defeito.service';
 import { AcaoService } from 'app/core/services/acao.service';
 import { Defeito, DefeitoData } from 'app/core/types/defeito.types';
 import { Acao, AcaoData } from 'app/core/types/acao.types';
-import { TipoCausaService } from 'app/core/services/tipo-causa.service';
-import { GrupoCausaService } from 'app/core/services/grupo-causa.service';
 import { TipoCausa } from 'app/core/types/tipo-causa.types';
 import { GrupoCausa } from 'app/core/types/grupo-causa.types';
 import { Usuario } from 'app/core/types/usuario.types';
@@ -32,7 +30,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
   causas: Causa[] = [];
   tiposServico: TipoServico[] = [];
   defeitos: Defeito[] = [];
-  acoes: Acao[] = []; 
+  acoes: Acao[] = [];
   grupoCausa: GrupoCausa;
   tipoCausa: TipoCausa;
   usuario: Usuario;
@@ -52,11 +50,17 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     private _acaoService: AcaoService,
     private _userService: UserService,
     public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>
-  ) { 
+  ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
 
   ngOnInit(): void {
+    this.inicializarForm();
+    this.registrarEmitters();
+    this.obterCausas();
+  }
+
+  private inicializarForm(): void {
     this.form = this._formBuilder.group({
       maquina: [
         {
@@ -110,7 +114,9 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         }
       ],
     });
+  }
 
+  private registrarEmitters(): void {
     this.tipoServicoFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
@@ -170,11 +176,9 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
       .subscribe(() => {
         this.obterAcoes(this.acaoFilterCtrl.value);
       });
-
-    this.obterCausas();
   }
 
-  obterTiposServico(filter: string=''): void {
+  obterTiposServico(filter: string = ''): void {
     this._tipoServicoService.obterPorParametros({
       sortActive: 'nomeServico',
       sortDirection: 'asc',
@@ -193,12 +197,12 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     });
   }
 
-  obterModulos(filter: string=''): void {
+  obterModulos(filter: string = ''): void {
     this.modulos = this.causas.filter(c => c.codECausa.substring(2, 5) === '000');
-    
+
     if (filter) {
       let modulos = this.modulos
-        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) || 
+        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) ||
           c.nomeCausa.toLowerCase().includes(filter.toLowerCase()));
 
       if (modulos.length) {
@@ -207,17 +211,17 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     }
   }
 
-  obterSubModulos(filter: string=''): void {
+  obterSubModulos(filter: string = ''): void {
     let codModulo = this.form.controls['codModulo'].value;
     let modulo = this.causas.filter(m => m.codCausa === codModulo).shift();
 
     this.subModulos = this.causas
-      .filter(c => c.codECausa.substring(0, 2) === modulo.codECausa.substring(0, 2) && 
+      .filter(c => c.codECausa.substring(0, 2) === modulo.codECausa.substring(0, 2) &&
         c.codECausa.substring(3, 5) === '00');
-    
+
     if (filter) {
       let subModulos = this.subModulos
-        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) || 
+        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) ||
           c.nomeCausa.toLowerCase().includes(filter.toLowerCase()));
 
       if (subModulos.length) {
@@ -226,23 +230,23 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     }
   }
 
-  obterComponentes(filter: string=''): void {
+  obterComponentes(filter: string = ''): void {
     let codSubModulo = this.form.controls['codSubModulo'].value;
     let subModulo = this.causas.filter(s => s.codCausa === codSubModulo).shift();
 
     this.componentes = this.causas
       .filter(c => c.codECausa.substring(0, 3) === subModulo.codECausa.substring(0, 3));
-    
+
     if (filter) {
       let componentes = this.componentes
-        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) || 
+        .filter(c => c.codECausa.toLowerCase().includes(filter.toLowerCase()) ||
           c.nomeCausa.toLowerCase().includes(filter.toLowerCase()));
 
       if (componentes.length) this.componentes = componentes;
     }
   }
 
-  obterCausas(filter: string=''): void {
+  obterCausas(filter: string = ''): void {
     this._causaService.obterPorParametros({
       sortActive: 'codECausa',
       sortDirection: 'asc',
@@ -254,7 +258,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     });
   }
 
-  obterDefeitos(filter: string=''): void {
+  obterDefeitos(filter: string = ''): void {
     this._defeitoService.obterPorParametros({
       sortActive: 'codEDefeito',
       sortDirection: 'asc',
@@ -266,7 +270,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     });
   }
 
-  obterAcoes(filter: string=''): void {
+  obterAcoes(filter: string = ''): void {
     this._acaoService.obterPorParametros({
       sortActive: 'codEAcao',
       sortDirection: 'asc',

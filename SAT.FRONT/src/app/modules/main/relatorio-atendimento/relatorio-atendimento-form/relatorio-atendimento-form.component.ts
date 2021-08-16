@@ -11,6 +11,7 @@ import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types
 import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
+import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -18,7 +19,6 @@ import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -32,13 +32,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   codOS: number;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
-  stepperForm: FormGroup;
+  form: FormGroup;
   isAddMode: boolean;
   tecnicoFilterCtrl: FormControl = new FormControl();
   statusServicoFilterCtrl: FormControl = new FormControl();
   tecnicos: Tecnico[] = [];
   statusServicos: StatusServico[] = [];
-  showAlert: boolean = false;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -47,7 +46,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _snack: CustomSnackbarService,
     private _relatorioAtendimentoService: RelatorioAtendimentoService,
-    private _relatorioAtendimentoDetalheService: RelatorioAtendimentoDetalheService,
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
@@ -68,14 +66,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         .obterPorCodigo(this.codRAT)
         .toPromise();
 
-      this.stepperForm.get('step1').get('data')
-        .setValue(moment(this.relatorioAtendimento.dataHoraInicio));
-      this.stepperForm.get('step1').get('horaInicio')
-        .setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-      this.stepperForm.get('step1').get('horaFim')
-        .setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
-      this.stepperForm.get('step1').patchValue(this.relatorioAtendimento);
-      this.stepperForm.get('step1').markAsTouched();
+      this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
+      this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
+      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+      this.form.patchValue(this.relatorioAtendimento);
     } else {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
@@ -120,7 +114,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   inserirDetalhe() {
-    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent, {});
+    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
 
     dialogRef.afterClosed().subscribe(detalhe => {
       if (detalhe) {
@@ -130,51 +124,50 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
-    if (detalhe.codRATDetalhe) {
-      this._relatorioAtendimentoDetalheService.deletar(detalhe.codRATDetalhe)
-        .subscribe(() => {
-          this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
-            .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
-
-          this._snack.exibirToast('Detalhe removido com sucesso!', 'success');
-        }, e => {
-          this._snack.exibirToast(e?.error, 'error')
-        })
-    } else {
-      this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
-        .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
-
-      this._snack.exibirToast('Detalhe removido com sucesso!', 'success');
-    }
+    this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
+      .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
   }
 
-  adicionarPeca(detalhe: RelatorioAtendimentoDetalhe): void {
-    
+  inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
+    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalhePecaFormComponent);
+
+    dialogRef.afterClosed().subscribe(raDetalhePeca => {
+      if (raDetalhePeca) {
+        let index = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+          .findIndex(
+            d => d.codServico === detalhe.codServico && d.codAcao === detalhe.codAcao &&
+            d.codCausa === detalhe.codCausa && d.codDefeito === detalhe.codDefeito
+          );
+
+        this.relatorioAtendimento
+          .relatorioAtendimentoDetalhes[index]
+          .relatorioAtendimentoDetalhePecas
+          .push(raDetalhePeca);
+      }
+    });
   }
 
   private inicializarForm(): void {
-    this.stepperForm = this._formBuilder.group({
-      step1: this._formBuilder.group({
-        codRAT: [
-          {
-            value: undefined,
-            disabled: true,
-          }, [Validators.required]
-        ],
-        numRAT: [undefined, [Validators.required]],
-        codTecnico: [undefined, [Validators.required]],
-        codStatusServico: [undefined, [Validators.required]],
-        nomeAcompanhante: [undefined],
-        data: [
-          {
-            value: undefined,
-            disabled: false,
-          }, [Validators.required]
-        ],
-        horaInicio: [undefined, [Validators.required]],
-        horaFim: [undefined, [Validators.required]],
-        obsRAT: [undefined],
-      })
+    this.form = this._formBuilder.group({
+      codRAT: [
+        {
+          value: undefined,
+          disabled: true,
+        }, [Validators.required]
+      ],
+      numRAT: [undefined, [Validators.required]],
+      codTecnico: [undefined, [Validators.required]],
+      codStatusServico: [undefined, [Validators.required]],
+      nomeAcompanhante: [undefined],
+      data: [
+        {
+          value: undefined,
+          disabled: false,
+        }, [Validators.required]
+      ],
+      horaInicio: [undefined, [Validators.required]],
+      horaFim: [undefined, [Validators.required]],
+      obsRAT: [undefined],
     });
   }
 
@@ -196,13 +189,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   private atualizar(): void {
-    this.stepperForm.disable();
-    this.showAlert = false;
+    this.form.disable();
 
-    const stepperForm: any = this.stepperForm.getRawValue();
+    const form: any = this.form.getRawValue();
     let obj = {
       ...this.relatorioAtendimento,
-      ...stepperForm.step1,
+      ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.sessionData.usuario.codUsuario
@@ -217,17 +209,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this._snack.exibirToast('Relatório de atendimento atualizado com sucesso!', 'success');
       this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
     }, e => {
-      this.stepperForm.enable();
+      this.form.enable();
       this._snack.exibirToast('Não foi possível atualizar o relatório de atendimento', 'error');
-      this.showAlert = true;
     });
   }
 
   private criar(): void {
-    this.stepperForm.disable();
-    this.showAlert = false;
+    this.form.disable();
 
-    const stepperForm: any = this.stepperForm.getRawValue();
+    const stepperForm: any = this.form.getRawValue();
     const data = stepperForm.step1.data.format('YYYY-MM-DD');
     const horaInicio = stepperForm.step1.horaInicio;
     const horaFim = stepperForm.step1.horaFim;

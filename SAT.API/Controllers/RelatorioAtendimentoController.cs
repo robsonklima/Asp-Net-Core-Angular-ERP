@@ -13,22 +13,29 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RelatorioAtendimentoController : ControllerBase
     {
-        private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoInterface;
+        private readonly IRelatorioAtendimentoRepository _raInterface;
         private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IRelatorioAtendimentoDetalheRepository _raDetalheInterface;
+        private readonly IRelatorioAtendimentoDetalhePecaRepository _raDetalhePecaInterface;
 
         public RelatorioAtendimentoController(
-            IRelatorioAtendimentoRepository relatorioAtendimentoInterface,
-            ISequenciaRepository sequenciaInterface
+            IRelatorioAtendimentoRepository raInterface,
+            ISequenciaRepository sequenciaInterface,
+            IRelatorioAtendimentoDetalheRepository raDetalheInterface,
+            IRelatorioAtendimentoDetalhePecaRepository raDetalhePecaInterface
         )
         {
-            _relatorioAtendimentoInterface = relatorioAtendimentoInterface;
+            _raInterface = raInterface;
             _sequenciaInterface = sequenciaInterface;
+            _raDetalheInterface = raDetalheInterface;
+            _raDetalhePecaInterface = raDetalhePecaInterface;
+
         }
 
         [HttpGet]
         public RelatorioAtendimentoListViewModel Get([FromQuery] RelatorioAtendimentoParameters parameters)
         {
-            var relatoriosAtendimento = _relatorioAtendimentoInterface.ObterPorParametros(parameters);
+            var relatoriosAtendimento = _raInterface.ObterPorParametros(parameters);
 
             var lista = new RelatorioAtendimentoListViewModel
             {
@@ -47,46 +54,85 @@ namespace SAT.API.Controllers
         [HttpGet("{codRAT}")]
         public RelatorioAtendimento Get(int codRAT)
         {
-            return _relatorioAtendimentoInterface.ObterPorCodigo(codRAT);
+            return _raInterface.ObterPorCodigo(codRAT);
         }
 
         [HttpPost]
-        public void Post([FromBody] RelatorioAtendimento relatorioAtendimento)
+        public void Post([FromBody] RelatorioAtendimento ra)
         {
             var codRAT = _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO);
-            relatorioAtendimento.CodRAT = codRAT;
+            ra.CodRAT = codRAT;
 
-            for (int i = 0; i < relatorioAtendimento.RelatorioAtendimentoDetalhes.Count; i++)
+            for (int i = 0; i < ra.RelatorioAtendimentoDetalhes.Count; i++)
             {
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].CodRATDetalhe = 
+                ra.RelatorioAtendimentoDetalhes[i].CodRATDetalhe = 
                     _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].Defeito = null;
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].TipoCausa = null;
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].TipoServico = null;
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].GrupoCausa = null;
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].Acao = null;
-                relatorioAtendimento.RelatorioAtendimentoDetalhes[i].Causa = null;
+                ra.RelatorioAtendimentoDetalhes[i].Defeito = null;
+                ra.RelatorioAtendimentoDetalhes[i].TipoCausa = null;
+                ra.RelatorioAtendimentoDetalhes[i].TipoServico = null;
+                ra.RelatorioAtendimentoDetalhes[i].GrupoCausa = null;
+                ra.RelatorioAtendimentoDetalhes[i].Acao = null;
+                ra.RelatorioAtendimentoDetalhes[i].Causa = null;
 
-                for (int c = 0; c < relatorioAtendimento.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas.Count; c++)
+                for (int c = 0; c < ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas.Count; c++)
                 {
-                    relatorioAtendimento.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas[c].CodRATDetalhePeca = 
+                    ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas[c].CodRATDetalhePeca = 
                         _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA);
                 }
             }
 
-            _relatorioAtendimentoInterface.Criar(relatorioAtendimento);
+            _raInterface.Criar(ra);
         }
 
         [HttpPut]
-        public void Put([FromBody] RelatorioAtendimento relatorioAtendimento)
+        public void Put([FromBody] RelatorioAtendimento ra)
         {
-            _relatorioAtendimentoInterface.Atualizar(relatorioAtendimento);
+            var raOriginal = _raInterface.ObterPorCodigo(ra.CodRAT);
+
+            // Remover todos os antigos detalhes
+            foreach (var d in raOriginal.RelatorioAtendimentoDetalhes.ToList())
+            {
+                foreach (var rp in d.RelatorioAtendimentoDetalhePecas)
+                {
+                    _raDetalhePecaInterface.Deletar(rp.CodRATDetalhePeca);
+                }
+
+                _raDetalheInterface.Deletar(d.CodRATDetalhe);
+            }
+
+            // Inserir todos os novos detalhes
+            for (int i = 0; i < ra.RelatorioAtendimentoDetalhes.Count; i++)
+            {
+                ra.RelatorioAtendimentoDetalhes[i].CodRATDetalhe = _sequenciaInterface
+                    .ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
+                ra.RelatorioAtendimentoDetalhes[i].CodRAT = ra.CodRAT;
+                ra.RelatorioAtendimentoDetalhes[i].Defeito = null;
+                ra.RelatorioAtendimentoDetalhes[i].TipoCausa = null;
+                ra.RelatorioAtendimentoDetalhes[i].TipoServico = null;
+                ra.RelatorioAtendimentoDetalhes[i].GrupoCausa = null;
+                ra.RelatorioAtendimentoDetalhes[i].Acao = null;
+                ra.RelatorioAtendimentoDetalhes[i].Causa = null;
+
+                for (int c = 0; c < ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas.Count; c++)
+                {
+                    ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas[c].CodRATDetalhePeca = _sequenciaInterface
+                        .ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA);
+                    ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas[c].CodRATDetalhe = ra.RelatorioAtendimentoDetalhes[i].CodRATDetalhe;
+
+                    _raDetalhePecaInterface.Criar(ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas[c]);
+                }
+
+                ra.RelatorioAtendimentoDetalhes[i].RelatorioAtendimentoDetalhePecas = null;
+                _raDetalheInterface.Criar(ra.RelatorioAtendimentoDetalhes[i]);
+            }
+
+            _raInterface.Atualizar(ra);
         }
 
         [HttpDelete("{codRAT}")]
         public void Delete(int codRAT)
         {
-            _relatorioAtendimentoInterface.Deletar(codRAT);
+            _raInterface.Deletar(codRAT);
         }
     }
 }

@@ -164,5 +164,10 @@
     "jeito simples de evitar roubo de senha": "A simple but an effective way to be protected against data leaks and password theft.",
     "notificacoes": "Notifications",
     "nenhuma notificacao": "No Notifications",
-    "quando voce tiver notificacoes": "When you have notifications, they will appear here."
+    "quando voce tiver notificacoes": "When you have notifications, they will appear here.",
+    "peca": "Piece",
+    "quantidade": "Amount",
+    "inserir peca": "Add Piece",
+    "servico": "Service",
+    "causa": "Cause"
 }

@@ -22,6 +22,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
+import { FuseCardModule } from '@fuse/components/card';
+import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +34,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     RelatorioAtendimentoFormComponent,
-    RelatorioAtendimentoDetalheFormComponent
+    RelatorioAtendimentoDetalheFormComponent,
+    RelatorioAtendimentoDetalhePecaFormComponent
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),
@@ -54,7 +57,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatDialogModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FuseCardModule
   ]
 })
 export class RelatorioAtendimentoModule { }

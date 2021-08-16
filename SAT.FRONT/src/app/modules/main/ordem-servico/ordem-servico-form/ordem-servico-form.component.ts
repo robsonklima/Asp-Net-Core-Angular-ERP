@@ -36,7 +36,7 @@ import { EquipamentoContratoService } from 'app/core/services/equipamento-contra
 export class OrdemServicoFormComponent implements OnInit {
   codOS: number;
   ordemServico: OrdemServico;
-  stepperForm: FormGroup;
+  form: FormGroup;
   isAddMode: boolean;
   usuario: any;
   clienteFilterCtrl: FormControl = new FormControl();
@@ -90,13 +90,11 @@ export class OrdemServicoFormComponent implements OnInit {
       this.obterOrdemServico()
         .then((os: OrdemServico) => {
           this.ordemServico = os;
-          this.stepperForm.get('step1').patchValue(this.ordemServico);
-          this.stepperForm.get('step2').patchValue(this.ordemServico);
-          this.stepperForm.get('step3').patchValue(this.ordemServico);
+          this.form.patchValue(this.ordemServico);
           forkJoin([
             this.obterClientes(os?.cliente?.nomeFantasia),
-            this.obterTiposIntervencao(os?.tipoIntervencao?.nomTipoIntervencao),
-            this.obterFiliais(os?.filial?.nomeFilial),
+            this.obterTiposIntervencao(),
+            this.obterFiliais(),
             this.obterAutorizadas(os?.autorizada?.nomeFantasia),
             this.obterRegioesAutorizadas(os?.autorizada?.nomeFantasia),
             this.obterLocaisAtendimento(os?.localAtendimento?.nomeLocal),
@@ -163,7 +161,7 @@ export class OrdemServicoFormComponent implements OnInit {
   obterLocaisAtendimento(filter: string = ''): Promise<LocalAtendimentoData> {
     return new Promise((resolve, reject) => {
       this.locaisAtendimento = [];
-      let codCliente = this.stepperForm.get('step1').get('codCliente').value;
+      let codCliente = this.form.controls['codCliente'].value;
 
       this._localAtendimentoService.obterPorParametros({
         sortActive: 'nomeLocal',
@@ -183,7 +181,7 @@ export class OrdemServicoFormComponent implements OnInit {
   obterEquipamentosContrato(filter: string = ''): Promise<EquipamentoContratoData> {
     return new Promise((resolve, reject) => {
       this.equipamentosContrato = [];
-      let codPosto = this.stepperForm.get('step1').get('codPosto').value;
+      let codPosto = this.form.controls['codPosto'].value;
 
       this._equipamentoContratoService.obterPorParametros({
         pageSize: 50,
@@ -219,7 +217,7 @@ export class OrdemServicoFormComponent implements OnInit {
   obterAutorizadas(filter: string = ''): Promise<AutorizadaData> {
     return new Promise((resolve, reject) => {
       this.regioesAutorizadas = [];
-      const codFilial = this.stepperForm.get('step1').get('codFilial').value;
+      const codFilial = this.form.controls['codFilial'].value;
 
       this._autorizadaService.obterPorParametros({
         pageSize: 50,
@@ -237,7 +235,7 @@ export class OrdemServicoFormComponent implements OnInit {
 
   obterRegioesAutorizadas(filter: string = ''): Promise<RegiaoAutorizadaData> {
     return new Promise((resolve, reject) => {
-      const codAutorizada = this.stepperForm.get('step1').get('codAutorizada').value;
+      const codAutorizada = this.form.controls['codAutorizada'].value;
 
       this._regiaoAutorizadaService.obterPorParametros({
         codAutorizada: codAutorizada,
@@ -255,44 +253,38 @@ export class OrdemServicoFormComponent implements OnInit {
   }
 
   private inicializarForm(): void {
-    this.stepperForm = this._formBuilder.group({
-      step1: this._formBuilder.group({
-        codOS: [
-          {
-            value: undefined,
-            disabled: true,
-          }, [Validators.required]
-        ],
-        numOSCliente: [undefined],
-        numOSQuarteirizada: [undefined],
-        nomeSolicitante: [undefined],
-        nomeContato: [undefined],
-        telefoneSolicitante: [undefined],
-        codCliente: [undefined, Validators.required],
-        codTipoIntervencao: [undefined, Validators.required],
-        codPosto: [undefined, Validators.required],
-        defeitoRelatado: [undefined, Validators.required],
-        codEquipContrato: [undefined],
-        codEquip: [undefined],
-        codFilial: [
-          {
-            value: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial,
-            disabled: (
-              this.usuario?.filial?.codFilial ? true : false
-            )
-          }, [Validators.required]
-        ],
-        codRegiao: [undefined, Validators.required],
-        codAutorizada: [undefined, Validators.required]
-      }),
-      step2: this._formBuilder.group({
-        indLiberacaoFechaduraCofre: [undefined],
-        indIntegracao: [undefined],
-      }),
-      step3: this._formBuilder.group({
-        observacaoCliente: [undefined],
-        descMotivoMarcaEspecial: [undefined],
-      })
+    this.form = this._formBuilder.group({
+      codOS: [
+        {
+          value: undefined,
+          disabled: true,
+        }, [Validators.required]
+      ],
+      numOSCliente: [undefined],
+      numOSQuarteirizada: [undefined],
+      nomeSolicitante: [undefined],
+      nomeContato: [undefined],
+      telefoneSolicitante: [undefined],
+      codCliente: [undefined, Validators.required],
+      codTipoIntervencao: [undefined, Validators.required],
+      codPosto: [undefined, Validators.required],
+      defeitoRelatado: [undefined, Validators.required],
+      codEquipContrato: [undefined],
+      codEquip: [undefined],
+      codFilial: [
+        {
+          value: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial,
+          disabled: (
+            this.usuario?.filial?.codFilial ? true : false
+          )
+        }, [Validators.required]
+      ],
+      codRegiao: [undefined, Validators.required],
+      codAutorizada: [undefined, Validators.required],
+      indLiberacaoFechaduraCofre: [undefined],
+      indIntegracao: [undefined],
+      observacaoCliente: [undefined],
+      descMotivoMarcaEspecial: [undefined],
     });
   }
 
@@ -301,15 +293,13 @@ export class OrdemServicoFormComponent implements OnInit {
   }
 
   private atualizar(): void {
-    this.stepperForm.disable();
+    this.form.disable();
     this.showAlert = false;
 
-    const stepperForm: any = this.stepperForm.getRawValue();
+    const form: any = this.form.getRawValue();
     let obj = {
       ...this.ordemServico,
-      ...stepperForm.step1,
-      ...stepperForm.step2,
-      ...stepperForm.step3,
+      ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.usuario.codUsuario
@@ -324,7 +314,7 @@ export class OrdemServicoFormComponent implements OnInit {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
       this._location.back();
     }, e => {
-      this.stepperForm.enable();
+      this.form.enable();
 
       this.alert = {
         type: 'error',
@@ -336,12 +326,10 @@ export class OrdemServicoFormComponent implements OnInit {
   }
 
   private criar(): void {
-    const stepperForm: any = this.stepperForm.getRawValue();
+    const form: any = this.form.getRawValue();
     let obj = {
       ...this.ordemServico,
-      ...stepperForm.step1,
-      ...stepperForm.step2,
-      ...stepperForm.step3,
+      ...form,
       ...{
         dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),

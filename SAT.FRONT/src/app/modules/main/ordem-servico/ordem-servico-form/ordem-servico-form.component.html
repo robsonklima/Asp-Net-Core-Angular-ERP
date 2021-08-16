@@ -33,240 +33,238 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
-            <fuse-alert
-                class="mb-4"
-                *ngIf="showAlert"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="alert.type"
-                [@shake]="true">
-                {{ alert.message }}
-            </fuse-alert>
+            <form [formGroup]="form">
+                <div class="grid sm:grid-cols-6 gap-6 w-full">
+                    <div class="sm:col-span-6">
+                        <div class="text-xl">{{ t('informacoes') }}</div>
+                        <div class="text-secondary">{{ t('informacoes') }}</div>
+                    </div>
 
-            <form class="p-4 bg-card shadow rounded overflow-hidden" [formGroup]="stepperForm">
-                <mat-horizontal-stepper [linear]="true" #horizontalStepper>
-                    <mat-step [formGroupName]="'step1'" [stepControl]="stepperForm.get('step1')" #stepperStep1>
-                        <ng-template matStepLabel>{{ t('chamado') }}</ng-template>
+                    <div class="sm:col-span-3" *ngIf="!isAddMode">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('os perto') }}</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
+                            <input matInput formControlName="codOS">
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4 mt-6">
-                            <mat-form-field class="flex-auto gt-xs:pr-3" *ngIf="!isAddMode">
-                                <mat-label>{{ t('os perto') }}</mat-label>
-                                <input matInput formControlName="codOS">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-        
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('tipo de intervencao') }}</mat-label>
-        
-                                <mat-select formControlName="codTipoIntervencao">
-                                    <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
-                                        [value]="tipoIntervencao.codTipoIntervencao">
-                                        {{tipoIntervencao.nomTipoIntervencao}}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-        
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('cliente') }}</mat-label>
-        
-                                <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()" #clienteSelect>
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="clienteFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
-                                        {{cliente.nomeFantasia}}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
-        
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('local de atendimento') }}</mat-label>
-        
-                                <mat-select formControlName="codPosto"
-                                    (selectionChange)="obterEquipamentosContrato()"
-                                    #localAtendimentoSelect [disabled]="locaisAtendimento.length === 0">
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="localAtendimentoFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let localAtendimento of locaisAtendimento"
-                                        [value]="localAtendimento.codPosto">
-                                        {{localAtendimento.numAgencia}}/{{localAtendimento.dcPosto}} -
-                                        {{localAtendimento.nomeLocal}} - {{localAtendimento.endereco}}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-        
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('equipamento contrato') }}</mat-label>
-        
-                                <mat-select formControlName="codEquipContrato"
-                                    #localAtendimentoSelect [disabled]="equipamentosContrato.length === 0">
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="equipamentoContratoFilterCtrl"
-                                        ></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
-                                        [value]="equipamentoContrato.codEquipContrato">
-                                        <span class="opacity-60">
-                                            {{ equipamentoContrato?.equipamento?.nomeEquip }}
-                                        </span>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('tipo de intervencao') }}</mat-label>
 
-                                        <span class="font-semibold"
-                                            [class.text-red-500]="!equipamentoContrato.indAtivo"
-                                            [class.text-green-500]="equipamentoContrato.indAtivo">
-                                            [N.S] {{ equipamentoContrato.numSerie }}
-                                        </span>
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                            <mat-select formControlName="codTipoIntervencao">
+                                <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
+                                    [value]="tipoIntervencao.codTipoIntervencao">
+                                    {{tipoIntervencao.nomTipoIntervencao}}
+                                </mat-option>
+                            </mat-select>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('nome solicitante') }}</mat-label>
-                                <input matInput formControlName="nomeSolicitante" maxlength="25">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
-                            </mat-form-field>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('telefone solicitante') }}</mat-label>
-                                <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
-                                    [showMaskTyped]="true" [dropSpecialCharacters]="false">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-        
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('nome contato') }}</mat-label>
-                                <input matInput formControlName="nomeContato" maxlength="25">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'"></mat-icon>
-                            </mat-form-field>
-        
-                            
-                        </div>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('cliente') }}</mat-label>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('os cliente') }}</mat-label>
-                                <input matInput formControlName="numOSCliente" maxlength="20">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
-                            </mat-form-field>
+                            <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()"
+                                #clienteSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="clienteFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                                <input matInput formControlName="numOSQuarteirizada" maxlength="20">
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'">
-                                </mat-icon>
-                            </mat-form-field>
-                        </div>
+                                <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                                    {{cliente.nomeFantasia}}
+                                </mat-option>
+                            </mat-select>
 
-                        <div class="flex">
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('defeito') }}</mat-label>
-                                <textarea matInput formControlName="defeitoRelatado" [placeholder]="t('defeito')"
-                                    [rows]="4" maxlength="1000"></textarea>
-                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                        <div class="grid grid-cols-3 gap-4">
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('filial') }}</mat-label>
-        
-                                <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()" #filialSelect>
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="filialFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let filial of filiais"
-                                        [value]="filial.codFilial">
-                                        {{ filial.nomeFilial }}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('local de atendimento') }}</mat-label>
 
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('autorizada') }}</mat-label>
-        
-                                <mat-select formControlName="codAutorizada" (selectionChange)="obterRegioesAutorizadas()" #autorizadaSelect>
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="autorizadaFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let autorizada of autorizadas"
-                                        [value]="autorizada.codAutorizada">
-                                        {{ autorizada.nomeFantasia }}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
+                            <mat-select formControlName="codPosto" (selectionChange)="obterEquipamentosContrato()"
+                                #localAtendimentoSelect [disabled]="locaisAtendimento.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="localAtendimentoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
 
-                            <mat-form-field class="flex-auto">
-                                <mat-label>{{ t('regiao') }}</mat-label>
-        
-                                <mat-select formControlName="codRegiao" #autorizadaSelect>
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="regiaoFilterCtrl"></ngx-mat-select-search>
-                                    </mat-option>
-        
-                                    <mat-option *ngFor="let regiao of regioes"
-                                        [value]="regiao.codRegiao">
-                                        {{ regiao.nomeRegiao }}
-                                    </mat-option>
-                                </mat-select>
-        
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
+                                <mat-option *ngFor="let localAtendimento of locaisAtendimento"
+                                    [value]="localAtendimento.codPosto">
+                                    {{localAtendimento.numAgencia}}/{{localAtendimento.dcPosto}} -
+                                    {{localAtendimento.nomeLocal}} - {{localAtendimento.endereco}}
+                                </mat-option>
+                            </mat-select>
 
-                        <div class="flex justify-end mt-4">
-                            <button class="px-8" mat-button [color]="'primary'"
-                                [disabled]="stepperStep1.stepControl.invalid"
-                                type="button" matStepperNext>
-                                {{ t('proximo') }}
-                            </button>
-                        </div>
-                    </mat-step>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
 
-                    <mat-step [formGroupName]="'step2'" [stepControl]="stepperForm.get('step2')" #stepperStep2>
-                        <ng-template matStepLabel>{{ t('opcoes') }}</ng-template>
-                        
-                        <div class="flex flex-col mt-6">
-                            <span class="font-medium mb-2">{{ t('selecione as opcoes') }}</span>
-                            <div
-                                class="flex flex-col">
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('equipamento contrato') }}</mat-label>
+
+                            <mat-select formControlName="codEquipContrato" #localAtendimentoSelect
+                                [disabled]="equipamentosContrato.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="equipamentoContratoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+
+                                <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
+                                    [value]="equipamentoContrato.codEquipContrato">
+                                    <span class="opacity-60">
+                                        {{ equipamentoContrato?.equipamento?.nomeEquip }}
+                                    </span>
+
+                                    <span class="font-semibold" [class.text-red-500]="!equipamentoContrato.indAtivo"
+                                        [class.text-green-500]="equipamentoContrato.indAtivo">
+                                        [N.S] {{ equipamentoContrato.numSerie }}
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('nome solicitante') }}</mat-label>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
+                            </mat-icon>
+                            <input matInput formControlName="nomeSolicitante" maxlength="25">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('telefone solicitante') }}</mat-label>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                            </mat-icon>
+                            <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
+                                [showMaskTyped]="true" [dropSpecialCharacters]="false">
+
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('nome contato') }}</mat-label>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
+                            </mat-icon>
+                            <input matInput formControlName="nomeContato" maxlength="25">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('os cliente') }}</mat-label>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'" matPrefix>
+                            </mat-icon>
+                            <input matInput formControlName="numOSCliente" maxlength="20">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"
+                                matPrefix></mat-icon>
+                            <input matInput formControlName="numOSQuarteirizada" maxlength="20">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('defeito') }}</mat-label>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                            <textarea matInput formControlName="defeitoRelatado" [placeholder]="t('defeito')" [rows]="4"
+                                maxlength="1000"></textarea>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-label>{{ t('filial') }}</mat-label>
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()"
+                                #filialSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="filialFilterCtrl">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+
+                                <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                    {{ filial.nomeFilial }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('autorizada') }}</mat-label>
+
+                            <mat-select formControlName="codAutorizada" (selectionChange)="obterRegioesAutorizadas()"
+                                #autorizadaSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="autorizadaFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+
+                                <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
+                                    {{ autorizada.nomeFantasia }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('regiao') }}</mat-label>
+
+                            <mat-select formControlName="codRegiao" #autorizadaSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="regiaoFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+
+                                <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
+                                    {{ regiao.nomeRegiao }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6 mt-0 mb-0 border-t"></div>
+
+                    <div class="sm:col-span-6">
+                        <div class="text-xl">{{ t('opcoes') }}</div>
+                        <div class="text-secondary">{{ t('selecione as opcoes') }}</div>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <div class="flex flex-col">
+                            <div class="flex flex-col">
                                 <mat-checkbox
                                     class="mb-1"
                                     [color]="'primary'"
@@ -282,73 +280,53 @@
                                 </mat-checkbox>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="sm:col-span-6 mt-0 mb-0 border-t"></div>
+
+                    <div class="sm:col-span-6">
+                        <div class="text-xl">{{ t('informacoes adicionais') }}</div>
+                        <div class="text-secondary">{{ t('informacoes adicionais') }}</div>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('marcacao especial') }}</mat-label>
+                            <textarea matInput formControlName="descMotivoMarcaEspecial" [placeholder]="t('marcacao especial')"
+                                [rows]="4" maxlength="1000"></textarea>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('observacao') }}</mat-label>
+                            <textarea matInput formControlName="observacaoCliente" [placeholder]="t('observacao')"
+                                [rows]="4" maxlength="1000"></textarea>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6 border-t"></div>
+
+                    <div class="sm:col-span-6 flex justify-end">
+                        <button class="px-6 mr-2" mat-button [color]="'accent'" type="button" [routerLink]="['/ordem-servico/detalhe/'+codOS]">
+                            {{ t('voltar') }}
+                        </button>
                         
-                        <div class="flex justify-end mt-8">
-                            <button class="px-8 mr-2" mat-button [color]="'accent'" type="button" matStepperPrevious>
-                                {{ t('voltar') }}
-                            </button>
-                            
-                            <button class="px-8" mat-button [color]="'primary'" type="button" matStepperNext>
-                                {{ t('proximo') }}
-                            </button>
-                        </div>
-                    </mat-step>
-
-                    <mat-step [formGroupName]="'step3'" [stepControl]="stepperForm.get('step3')" #stepperStep3>
-                        <ng-template matStepLabel>{{ t('dados adicionais') }}</ng-template>
-                        
-                        <div class="flex mt-6">
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('marcacao especial') }}</mat-label>
-                                <textarea matInput formControlName="descMotivoMarcaEspecial" [placeholder]="t('marcacao especial')"
-                                    [rows]="4" maxlength="1000"></textarea>
-                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex">
-                            <mat-form-field class="fuse-mat-textarea flex-auto">
-                                <mat-label>{{ t('observacao') }}</mat-label>
-                                <textarea matInput formControlName="observacaoCliente" [placeholder]="t('observacao')"
-                                    [rows]="4" maxlength="1000"></textarea>
-                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                                <mat-error>{{ t('preencher campo') }}</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex justify-end mt-8">
-                            <button class="px-8 mr-2" mat-button [color]="'accent'" type="button" matStepperPrevious>
-                                {{ t('voltar') }}
-                            </button>
-                            <button class="px-8" mat-button [color]="'primary'" matStepperNext>
-                                {{ t('proximo') }}
-                            </button>
-                        </div>
-                    </mat-step>
-
-                    <mat-step>
-                        <ng-template matStepLabel>{{ t('finalizar') }}</ng-template>
-                        <p class="my-6 font-medium">
-                            {{ t('finalizar') }}
-                        </p>
-                        <div class="flex justify-end mt-8">
-                            <button class="px-8 mr-2" mat-button [color]="'accent'" type="button" matStepperPrevious>
-                                {{ t('voltar') }}
-                            </button>
-                            
-                            <button class="px-8" mat-button [color]="'primary'" (click)="salvar()">
-                                <span *ngIf="!stepperForm.disabled">
-                                    {{ t('salvar') }}
-                                </span>
-                                <mat-progress-spinner
-                                    *ngIf="stepperForm.disabled"
-                                    [diameter]="24"
-                                    [mode]="'indeterminate'"></mat-progress-spinner>                                
-                            </button>
-                        </div>
-                    </mat-step>
-                </mat-horizontal-stepper>
+                        <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+                            <span *ngIf="!form.disabled">
+                                {{ t('salvar') }}
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="form.disabled"
+                                [diameter]="24"
+                                [mode]="'indeterminate'"></mat-progress-spinner>                                
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

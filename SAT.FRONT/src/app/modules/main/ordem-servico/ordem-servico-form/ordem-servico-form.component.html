@@ -33,13 +33,12 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
-            <form [formGroup]="form">
-                <div class="grid sm:grid-cols-6 gap-6 w-full">
-                    <div class="sm:col-span-6">
-                        <div class="text-xl">{{ t('informacoes') }}</div>
-                        <div class="text-secondary">{{ t('informacoes') }}</div>
-                    </div>
-
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes') }}</p>
+                    <p class="text-secondary">{{ t('informacoes') }}</p>
+                </div>
+                <div class="grid sm:grid-cols-6 p-8 gap-6 w-full">
                     <div class="sm:col-span-3" *ngIf="!isAddMode">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('os perto') }}</mat-label>
@@ -194,10 +193,10 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <mat-label>{{ t('filial') }}</mat-label>
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()"
-                                #filialSelect>
+                            <mat-label>{{ t('filial') }}</mat-label>
+
+                            <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -218,8 +217,7 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('autorizada') }}</mat-label>
 
-                            <mat-select formControlName="codAutorizada" (selectionChange)="obterRegioesAutorizadas()"
-                                #autorizadaSelect>
+                            <mat-select formControlName="codAutorizada" (selectionChange)="obterRegioesAutorizadas()">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -254,41 +252,37 @@
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
                     </div>
+                </div>
 
-                    <div class="sm:col-span-6 mt-0 mb-0 border-t"></div>
-
-                    <div class="sm:col-span-6">
-                        <div class="text-xl">{{ t('opcoes') }}</div>
-                        <div class="text-secondary">{{ t('selecione as opcoes') }}</div>
-                    </div>
-
-                    <div class="sm:col-span-6">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                    <p class="text-secondary">{{ t('selecione as opcoes') }}</p>
+                </div>
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
                         <div class="flex flex-col">
-                            <div class="flex flex-col">
-                                <mat-checkbox
-                                    class="mb-1"
-                                    [color]="'primary'"
-                                    [formControlName]="'indLiberacaoFechaduraCofre'">
-                                    {{ t('liberacao de fechadura do cofre') }}
-                                </mat-checkbox>
-                                
-                                <mat-checkbox
-                                    class="mb-1"
-                                    [color]="'primary'"
-                                    [formControlName]="'indIntegracao'">
-                                    {{ t('chamado de integracao') }}
-                                </mat-checkbox>
-                            </div>
+                            <mat-checkbox
+                                class="mb-1"
+                                [color]="'primary'"
+                                [formControlName]="'indLiberacaoFechaduraCofre'">
+                                {{ t('liberacao de fechadura do cofre') }}
+                            </mat-checkbox>
+                            
+                            <mat-checkbox
+                                class="mb-1"
+                                [color]="'primary'"
+                                [formControlName]="'indIntegracao'">
+                                {{ t('chamado de integracao') }}
+                            </mat-checkbox>
                         </div>
                     </div>
+                </div>
 
-                    <div class="sm:col-span-6 mt-0 mb-0 border-t"></div>
-
-                    <div class="sm:col-span-6">
-                        <div class="text-xl">{{ t('informacoes adicionais') }}</div>
-                        <div class="text-secondary">{{ t('informacoes adicionais') }}</div>
-                    </div>
-
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
+                    <p class="text-secondary">{{ t('informacoes adicionais') }}</p>
+                </div>
+                <div class="grid sm:grid-cols-6 p-8 gap-6 w-full">
                     <div class="sm:col-span-6">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('marcacao especial') }}</mat-label>
@@ -308,24 +302,22 @@
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
                     </div>
+                </div>
 
-                    <div class="sm:col-span-6 border-t"></div>
-
-                    <div class="sm:col-span-6 flex justify-end">
-                        <button class="px-6 mr-2" mat-button [color]="'accent'" type="button" [routerLink]="['/ordem-servico/detalhe/'+codOS]">
-                            {{ t('voltar') }}
-                        </button>
-                        
-                        <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
-                            <span *ngIf="!form.disabled">
-                                {{ t('salvar') }}
-                            </span>
-                            <mat-progress-spinner
-                                *ngIf="form.disabled"
-                                [diameter]="24"
-                                [mode]="'indeterminate'"></mat-progress-spinner>                                
-                        </button>
-                    </div>
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button" [routerLink]="['/ordem-servico/detalhe/'+codOS]">
+                        {{ t('voltar') }}
+                    </button>
+                    
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" disabled="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner
+                            *ngIf="form.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>                                
+                    </button>
                 </div>
             </form>
         </div>

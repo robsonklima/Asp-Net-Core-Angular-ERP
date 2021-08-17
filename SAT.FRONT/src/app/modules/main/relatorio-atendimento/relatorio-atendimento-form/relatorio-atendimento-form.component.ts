@@ -10,7 +10,6 @@ import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types
 import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
-import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -20,9 +19,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
-import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca';
 import { Location } from '@angular/common';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -202,7 +201,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     const horaInicio = form.horaInicio;
     const horaFim = form.horaFim;
 
-    let obj = {
+    let ra: RelatorioAtendimento = {
       ...this.relatorioAtendimento,
       ...form,
       ...{
@@ -217,16 +216,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(obj).forEach((key) => {
-      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+    Object.keys(ra).forEach((key) => {
+      typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
-    this.relatorioAtendimento = obj;
+    const raRes = await this._raService.criar(ra).toPromise();
+    ra.codRAT = raRes.codRAT;
 
-    const raRes = await this._raService.criar(this.relatorioAtendimento).toPromise();
-    this.relatorioAtendimento.codRAT = raRes.codRAT;
-
-    for (let d of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+    for (let d of ra.relatorioAtendimentoDetalhes) {
       d.codRAT = raRes.codRAT;
       const detalheRes = await this._raDetalheService.criar(d).toPromise();
 
@@ -240,11 +237,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  private async atualizar(): Promise<RelatorioAtendimento> {
+  private async atualizar() {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
-    let obj = {
+    let ra: RelatorioAtendimento = {
       ...this.relatorioAtendimento,
       ...form,
       ...{
@@ -253,11 +250,34 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(obj).forEach((key) => {
-      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+    Object.keys(ra).forEach((key) => {
+      typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
-    return await this._raService.atualizar(obj).toPromise();
+    await this._raService.atualizar(ra).toPromise();
+
+    // laco no form
+    for (const detalhe of ra.relatorioAtendimentoDetalhes) {
+      const detalheEstaNoRelatorioOriginal = this.relatorioAtendimento.relatorioAtendimentoDetalhes.indexOf(detalhe);
+
+      if (!detalheEstaNoRelatorioOriginal) {
+        detalhe.codRAT = ra.codRAT;
+        const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
+
+        for (let dp of detalhe.relatorioAtendimentoDetalhePecas) {
+          dp.codRATDetalhe = detalheRes.codRATDetalhe;
+
+          //const pecaEstaNoDetalheOriginal = ;
+
+          await this._raDetalhePecaService.criar(dp).toPromise();
+        }
+      } else {
+        
+      }
+    }
+
+    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    this._location.back();
   }
 
   ngOnDestroy() {

@@ -24,7 +24,6 @@ namespace SAT.API.Repositories
 
             if (rat != null)
             {
-                relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
                 _context.Entry(rat).CurrentValues.SetValues(relatorioAtendimento);
                 _context.SaveChanges();
             }
@@ -32,7 +31,6 @@ namespace SAT.API.Repositories
 
         public void Criar(RelatorioAtendimento relatorioAtendimento)
         {
-            relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
             _context.Add(relatorioAtendimento);
             _context.SaveChanges();
         }

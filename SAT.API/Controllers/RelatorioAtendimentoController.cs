@@ -61,6 +61,7 @@ namespace SAT.API.Controllers
         public RelatorioAtendimento Post([FromBody] RelatorioAtendimento relatorioAtendimento)
         {
             relatorioAtendimento.CodRAT = _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO);
+            relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
             _raInterface.Criar(relatorioAtendimento);
             return relatorioAtendimento;
         }
@@ -68,6 +69,7 @@ namespace SAT.API.Controllers
         [HttpPut]
         public void Put([FromBody] RelatorioAtendimento relatorioAtendimento)
         {
+            relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
             _raInterface.Atualizar(relatorioAtendimento);
         }
 

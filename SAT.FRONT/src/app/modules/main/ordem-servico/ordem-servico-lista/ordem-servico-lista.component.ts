@@ -2,8 +2,8 @@ import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { fromEvent, interval } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 
 import { UserService } from 'app/core/user/user.service';
@@ -47,6 +47,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     filtro: any;
     isLoading: boolean = false;
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+    protected _onDestroy = new Subject<void>();
 
     constructor(
         private _cdr: ChangeDetectorRef,
@@ -60,7 +61,10 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.carregarFiltro();
 
         interval(5 * 60 * 1000)
-            .pipe(startWith(0))
+            .pipe(
+                startWith(0),
+                takeUntil(this._onDestroy)
+            )
             .subscribe(() => {
                 this.obterOrdensServico();
             });
@@ -175,5 +179,10 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     fecharDetalhes(): void {
         this.selectedItem = null;
+    }
+
+    ngOnDestroy() {
+        this._onDestroy.next();
+        this._onDestroy.complete();
     }
 }

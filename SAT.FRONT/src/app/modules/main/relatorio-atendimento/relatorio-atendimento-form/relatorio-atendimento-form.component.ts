@@ -9,6 +9,9 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
+import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
+import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
+import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
@@ -17,11 +20,9 @@ import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
-import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
 import { Location } from '@angular/common';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
+
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -70,7 +71,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.relatorioAtendimento = await this._raService
         .obterPorCodigo(this.codRAT)
         .toPromise();
-
+      
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
@@ -260,6 +261,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     for (const detalhe of ra.relatorioAtendimentoDetalhes) {
       const detalheEstaNoRelatorioOriginal = this.relatorioAtendimento.relatorioAtendimentoDetalhes.indexOf(detalhe);
 
+      console.log(detalhe, detalheEstaNoRelatorioOriginal);
+      
+
       if (!detalheEstaNoRelatorioOriginal) {
         detalhe.codRAT = ra.codRAT;
         const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
@@ -267,8 +271,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         for (let dp of detalhe.relatorioAtendimentoDetalhePecas) {
           dp.codRATDetalhe = detalheRes.codRATDetalhe;
 
-          //const pecaEstaNoDetalheOriginal = ;
-
+          
           await this._raDetalhePecaService.criar(dp).toPromise();
         }
       } else {
@@ -276,8 +279,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     }
 
-    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    this._location.back();
+    //this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    //this._location.back();
   }
 
   ngOnDestroy() {

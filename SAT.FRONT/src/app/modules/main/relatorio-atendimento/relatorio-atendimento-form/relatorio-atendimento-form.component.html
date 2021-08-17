@@ -150,14 +150,9 @@
                     <mat-selection-list #detalhesList [multiple]="false">
                         <mat-list-option
                             *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
-                            [value]="detalhe" class="border-b">
-                            <div class="grid grid-cols-10 gap-2 text-sm">
-                                <div class="grid-cols-none pt-2">
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
-                                        {{i+1}}
-                                    </span>
-                                </div>
-                                <div class="col-span-2">
+                            [value]="detalhe" class="border-b h-auto">
+                            <div class="grid grid-cols-9 gap-2 text-sm p-8">
+                                <div class="col-span-2 bg-grey-500">
                                     <div class="opacity-50 text-semibold">
                                         {{ t('servico') }}
                                     </div>
@@ -197,17 +192,13 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="text-center"
-                                    *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
+                                <div class="text-center" *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
                                     <div class="opacity-50 text-semibold">
                                         {{ t('pecas') }}
                                     </div>
                                     <div>
-                                        <span>
-                                            {{
-                                            detalhe?.relatorioAtendimentoDetalhePecas?.length ?
-                                            detalhe?.relatorioAtendimentoDetalhePecas?.length : 'Nenhuma'
-                                            }}
+                                        <span *ngFor="let d of detalhe?.relatorioAtendimentoDetalhePecas">
+                                            {{ d.codPeca }} - {{ d.qtdePecas }}
                                         </span>
                                     </div>
                                 </div>

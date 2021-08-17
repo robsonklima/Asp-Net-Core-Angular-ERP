@@ -12,24 +12,25 @@ import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import moment from 'moment';
 
 @Component({
     selector: 'ordem-servico-lista',
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 72px 24px 48px 96px auto 42px 96px 36px 72px 24px 56px 58px;
+            grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 108px 36px 96px 24px;
             
             @screen sm {
                 grid-template-columns: 48px auto 32px;
             }
         
             @screen md {
-                grid-template-columns: 48px 72px 72px 72px 38px auto 58px 58px 58px 58px 58px;
+                grid-template-columns: 48px 72px 72px 92px 38px auto 58px 58px 58px 58px 58px;
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 72px 24px 48px 96px auto 42px 96px 36px 72px 24px 56px 58px;
+                grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 108px 36px 96px 24px;
             }
         }
     `],
@@ -109,6 +110,16 @@ export class OrdemServicoListaComponent implements AfterViewInit {
                 ...this.filtro?.parametros
             })
             .toPromise();
+
+        data.ordensServico.forEach((os, i) => {
+            if (os.statusSLAOSAberta?.dataHoraLimiteAtendimento !== undefined) {
+                if (moment(os.statusSLAOSAberta.dataHoraLimiteAtendimento) > moment() && os.statusServico.codStatusServico !== 3) {
+                    data.ordensServico[i]['statusSLAOSAberta']['statusSLAOS'] = 'DENTRO';
+                } else {
+                    data.ordensServico[i]['statusSLAOSAberta']['statusSLAOS'] = 'FORA';
+                }
+            }
+        });
 
         this.dataSourceData = data;
         this.isLoading = false;

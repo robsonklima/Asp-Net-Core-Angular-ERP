@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ActivatedRoute } from '@angular/router';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -19,6 +18,11 @@ import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
+import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
+import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
+import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca';
+import { Location } from '@angular/common';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -43,12 +47,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
-    private _router: Router,
-    private _snack: CustomSnackbarService,
-    private _relatorioAtendimentoService: RelatorioAtendimentoService,
+    private _raService: RelatorioAtendimentoService,
+    private _raDetalheService: RelatorioAtendimentoDetalheService,
+    private _raDetalhePecaService: RelatorioAtendimentoDetalhePecaService,
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
+    private _location: Location,
+    private _snack: CustomSnackbarService,
     private _dialog: MatDialog
   ) {
     this.sessionData = JSON.parse(this._userService.userSession);
@@ -62,7 +68,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.registrarEmitters();
 
     if (!this.isAddMode) {
-      this.relatorioAtendimento = await this._relatorioAtendimentoService
+      this.relatorioAtendimento = await this._raService
         .obterPorCodigo(this.codRAT)
         .toPromise();
 
@@ -136,7 +142,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         let index = this.relatorioAtendimento.relatorioAtendimentoDetalhes
           .findIndex(
             d => d.codServico === detalhe.codServico && d.codAcao === detalhe.codAcao &&
-            d.codCausa === detalhe.codCausa && d.codDefeito === detalhe.codDefeito
+              d.codCausa === detalhe.codCausa && d.codDefeito === detalhe.codDefeito
           );
 
         this.relatorioAtendimento
@@ -184,47 +190,21 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  salvar(): void {
+  async salvar() {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private atualizar(): void {
+  private async criar() {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
+    const data = form.data.format('YYYY-MM-DD');
+    const horaInicio = form.horaInicio;
+    const horaFim = form.horaFim;
+
     let obj = {
       ...this.relatorioAtendimento,
       ...form,
-      ...{
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.sessionData.usuario.codUsuario
-      }
-    };
-
-    Object.keys(obj).forEach((key) => {
-      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-    });
-
-    this._relatorioAtendimentoService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast('Relatório de atendimento atualizado com sucesso!', 'success');
-      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
-    }, e => {
-      this.form.enable();
-      this._snack.exibirToast('Não foi possível atualizar o relatório de atendimento', 'error');
-    });
-  }
-
-  private criar(): void {
-    this.form.disable();
-
-    const stepperForm: any = this.form.getRawValue();
-    const data = stepperForm.step1.data.format('YYYY-MM-DD');
-    const horaInicio = stepperForm.step1.horaInicio;
-    const horaFim = stepperForm.step1.horaFim;
-
-    let obj = {
-      ...this.relatorioAtendimento,
-      ...stepperForm.step1,
       ...{
         codOS: this.codOS,
         dataHoraInicio: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
@@ -241,10 +221,45 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._relatorioAtendimentoService.criar(obj).subscribe(() => {
-      this._snack.exibirToast('Relatório de atendimento adicionado com sucesso!', 'success');
-      this._router.navigate([`/ordem-servico/detalhe/${this.codOS}`]);
+    debugger;
+    
+    this.relatorioAtendimento = obj;
+
+    const raRes = await this._raService.criar(this.relatorioAtendimento).toPromise();
+    this.relatorioAtendimento.codRAT = raRes.codRAT;
+
+    for (let d of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+      d.codRAT = raRes.codRAT;
+      const detalheRes = await this._raDetalheService.criar(d).toPromise();
+
+      for (let dp of d.relatorioAtendimentoDetalhePecas) {
+        dp.codRATDetalhe = detalheRes.codRATDetalhe;
+        await this._raDetalhePecaService.criar(dp).toPromise();
+      }
+    }
+
+    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    this._location.back();
+  }
+
+  private async atualizar(): Promise<RelatorioAtendimento> {
+    this.form.disable();
+
+    const form: any = this.form.getRawValue();
+    let obj = {
+      ...this.relatorioAtendimento,
+      ...form,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.sessionData.usuario.codUsuario
+      }
+    };
+
+    Object.keys(obj).forEach((key) => {
+      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
+
+    return await this._raService.atualizar(obj).toPromise();
   }
 
   ngOnDestroy() {

@@ -3,16 +3,16 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { RelatorioAtendimentoDetalhe } from '../types/relatorio-atendimento-detalhe.type';
+import { RelatorioAtendimentoDetalhePeca } from '../types/relatorio-atendimento-detalhe-peca';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RelatorioAtendimentoDetalheService {
+export class RelatorioAtendimentoDetalhePecaService {
   constructor(private http: HttpClient) {}
 
-  criar(relatorioAtendimentoDetalhe: RelatorioAtendimentoDetalhe): Observable<RelatorioAtendimentoDetalhe> {
-    return this.http.post<RelatorioAtendimentoDetalhe>(`${c.api}/RelatorioAtendimentoDetalhe`, relatorioAtendimentoDetalhe).pipe(
+  criar(relatorioAtendimentoDetalhePeca: RelatorioAtendimentoDetalhePeca): Observable<RelatorioAtendimentoDetalhePeca> {
+    return this.http.post<RelatorioAtendimentoDetalhePeca>(`${c.api}/RelatorioAtendimentoDetalhePeca`, relatorioAtendimentoDetalhePeca).pipe(
       map((obj) => obj)
     );
   }

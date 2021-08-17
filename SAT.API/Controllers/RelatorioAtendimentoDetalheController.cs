@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.API.Repositories.Interfaces;
+using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.API.Controllers
 {
@@ -12,30 +14,48 @@ namespace SAT.API.Controllers
     public class RelatorioAtendimentoDetalheController : ControllerBase
     {
         private readonly IRelatorioAtendimentoDetalheRepository _relatorioAtendimentoDetalheInterface;
-        private readonly IRelatorioAtendimentoDetalhePecaRepository _relatorioAtendimentoDetalhePecaRepository;
+        private readonly ISequenciaRepository _sequenciaInterface;
 
         public RelatorioAtendimentoDetalheController(
             IRelatorioAtendimentoDetalheRepository relatorioAtendimentoDetalheInterface,
-            IRelatorioAtendimentoDetalhePecaRepository relatorioAtendimentoDetalhePecaRepository
+            ISequenciaRepository sequenciaInterface
         )
         {
             _relatorioAtendimentoDetalheInterface = relatorioAtendimentoDetalheInterface;
-            _relatorioAtendimentoDetalhePecaRepository = relatorioAtendimentoDetalhePecaRepository;
+            _sequenciaInterface = sequenciaInterface;
+        }
+
+        [HttpPost]
+        public RelatorioAtendimentoDetalhe Post([FromBody] RelatorioAtendimentoDetalhe raDetalhe)
+        {
+            raDetalhe.CodRATDetalhe = _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
+            raDetalhe.Acao = null;
+            raDetalhe.Defeito = null;
+            raDetalhe.TipoServico = null;
+            raDetalhe.Causa = null;
+            raDetalhe.TipoCausa = null;
+            raDetalhe.GrupoCausa = null;
+            raDetalhe.RelatorioAtendimentoDetalhePecas = null;
+            _relatorioAtendimentoDetalheInterface.Criar(raDetalhe);
+            return raDetalhe;
+        }
+
+        [HttpPut]
+        public void Put([FromBody] RelatorioAtendimentoDetalhe raDetalhe)
+        {
+            raDetalhe.Acao = null;
+            raDetalhe.Defeito = null;
+            raDetalhe.TipoServico = null;
+            raDetalhe.Causa = null;
+            raDetalhe.TipoCausa = null;
+            raDetalhe.GrupoCausa = null;
+            raDetalhe.RelatorioAtendimentoDetalhePecas = null;
+            _relatorioAtendimentoDetalheInterface.Atualizar(raDetalhe);
         }
 
         [HttpDelete("{codRATDetalhe}")]
         public void Delete(int codRATDetalhe)
         {
-            var detalhe = _relatorioAtendimentoDetalheInterface.ObterPorCodigo(codRATDetalhe);
-
-            if (detalhe.RelatorioAtendimentoDetalhePecas != null)
-            {
-                foreach (var detalhePeca in detalhe.RelatorioAtendimentoDetalhePecas)
-                {
-                    _relatorioAtendimentoDetalhePecaRepository.Deletar(detalhePeca.CodRATDetalhePeca);
-                }
-            }
-
             _relatorioAtendimentoDetalheInterface.Deletar(codRATDetalhe);
         }
     }

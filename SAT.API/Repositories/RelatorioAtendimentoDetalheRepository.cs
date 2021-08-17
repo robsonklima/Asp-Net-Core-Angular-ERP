@@ -15,6 +15,19 @@ namespace SAT.API.Repositories
             _context = context;
         }
 
+        public void Atualizar(RelatorioAtendimentoDetalhe detalhe)
+        {
+            RelatorioAtendimentoDetalhe d = _context.RelatorioAtendimentoDetalhe
+                .FirstOrDefault(d => d.CodRATDetalhe == detalhe.CodRATDetalhe);
+
+            if (d != null)
+            {
+                detalhe.RelatorioAtendimentoDetalhePecas = null;
+                _context.Entry(d).CurrentValues.SetValues(detalhe);
+                _context.SaveChanges();
+            }
+        }
+
         public void Criar(RelatorioAtendimentoDetalhe detalhe)
         {
             try
@@ -24,6 +37,7 @@ namespace SAT.API.Repositories
             }
             catch (DbUpdateException ex)
             {
+                throw new Exception(ex.Message);
                 throw new Exception(ex.Message);
             }
         }

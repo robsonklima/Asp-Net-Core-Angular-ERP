@@ -6,6 +6,8 @@ namespace SAT.API.Repositories.Interfaces
     {
         void Deletar(int codRATDetalhe);
         void Criar(RelatorioAtendimentoDetalhe detalhe);
+
+        void Atualizar(RelatorioAtendimentoDetalhe detalhe);
         RelatorioAtendimentoDetalhe ObterPorCodigo(int codigo);
     }
 }

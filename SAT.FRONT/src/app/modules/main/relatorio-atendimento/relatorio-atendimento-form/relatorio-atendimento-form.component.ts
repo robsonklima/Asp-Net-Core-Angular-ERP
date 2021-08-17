@@ -221,8 +221,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    debugger;
-    
     this.relatorioAtendimento = obj;
 
     const raRes = await this._raService.criar(this.relatorioAtendimento).toPromise();

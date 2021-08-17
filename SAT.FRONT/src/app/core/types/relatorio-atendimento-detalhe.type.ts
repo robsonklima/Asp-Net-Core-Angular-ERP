@@ -27,4 +27,5 @@ export class RelatorioAtendimentoDetalhe {
     codModulo?: number;
     codSubModulo?: number;
     relatorioAtendimentoDetalhePecas?: RelatorioAtendimentoDetalhePeca[];
+    removido: boolean;
 }

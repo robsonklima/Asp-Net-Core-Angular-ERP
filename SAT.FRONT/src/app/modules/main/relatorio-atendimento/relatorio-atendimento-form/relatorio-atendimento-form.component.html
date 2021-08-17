@@ -151,7 +151,7 @@
                         <mat-list-option
                             *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
                             [value]="detalhe" class="border-b h-auto">
-                            <div class="grid grid-cols-9 gap-2 text-sm p-8">
+                            <div class="grid grid-cols-9 gap-2 text-sm p-8" [class.opacity-25]="detalhe.removido">
                                 <div class="col-span-2 bg-grey-500">
                                     <div class="opacity-50 text-semibold">
                                         {{ t('servico') }}

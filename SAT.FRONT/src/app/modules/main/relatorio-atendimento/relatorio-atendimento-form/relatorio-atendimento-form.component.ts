@@ -130,8 +130,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
-    this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento
-      .relatorioAtendimentoDetalhes.filter(d => d.dataHoraCad !== detalhe.dataHoraCad);
+    const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+      .map(function(d) { return d; })
+      .indexOf(detalhe);
+
+    this.relatorioAtendimento.relatorioAtendimentoDetalhes[i].removido = true;
   }
 
   inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
@@ -139,14 +142,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(raDetalhePeca => {
       if (raDetalhePeca) {
-        let index = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-          .findIndex(
-            d => d.codServico === detalhe.codServico && d.codAcao === detalhe.codAcao &&
-              d.codCausa === detalhe.codCausa && d.codDefeito === detalhe.codDefeito
-          );
+        const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+          .map(function(d) { return d; })
+          .indexOf(detalhe);
 
         this.relatorioAtendimento
-          .relatorioAtendimentoDetalhes[index]
+          .relatorioAtendimentoDetalhes[i]
           .relatorioAtendimentoDetalhePecas
           .push(raDetalhePeca);
       }
@@ -255,27 +256,23 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
-    await this._raService.atualizar(ra).toPromise();
+    //await this._raService.atualizar(ra).toPromise();
 
-    // laco no form
-    for (const detalhe of ra.relatorioAtendimentoDetalhes) {
-      const detalheEstaNoRelatorioOriginal = this.relatorioAtendimento.relatorioAtendimentoDetalhes.indexOf(detalhe);
-
-      console.log(detalhe, detalheEstaNoRelatorioOriginal);
-      
-
-      if (!detalheEstaNoRelatorioOriginal) {
-        detalhe.codRAT = ra.codRAT;
-        const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
-
-        for (let dp of detalhe.relatorioAtendimentoDetalhePecas) {
-          dp.codRATDetalhe = detalheRes.codRATDetalhe;
-
-          
-          await this._raDetalhePecaService.criar(dp).toPromise();
+    for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+      if (detalhe.removido) {
+        for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
+          console.log('REMOVER PEÇA');
         }
-      } else {
-        
+
+        console.log('REMOVER DETALHE');
+      }
+
+      if (!detalhe.removido && !detalhe.codRATDetalhe) {
+        console.log('INSERIR DETALHE');
+
+        for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
+          console.log('INSERIR PEÇA');
+        }
       }
     }
 

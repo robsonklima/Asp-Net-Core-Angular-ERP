@@ -256,28 +256,44 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
-    //await this._raService.atualizar(ra).toPromise();
+    await this._raService.atualizar(ra).toPromise();
 
     for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
-      if (detalhe.removido) {
-        for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
-          console.log('REMOVER PEÇA');
+      // Remover Detalhes
+      if (detalhe.removido && detalhe.codRATDetalhe) {
+        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
+          await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
         }
 
-        console.log('REMOVER DETALHE');
+        await this._raDetalheService.deletar(detalhe.codRATDetalhe).toPromise();
       }
 
+      // Adicionar Detalhes
       if (!detalhe.removido && !detalhe.codRATDetalhe) {
-        console.log('INSERIR DETALHE');
+        detalhe.codRAT = this.relatorioAtendimento.codRAT;
+        const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
 
         for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
-          console.log('INSERIR PEÇA');
+          peca.codRATDetalhe = detalheRes.codRATDetalhe;
+
+          await this._raDetalhePecaService.criar(peca).toPromise();
+        }
+      }
+
+      // Adicionar Pecas
+      if (!detalhe.removido && detalhe.codRATDetalhe) {
+        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
+          if (!dPeca.codRATDetalhePeca) {
+            dPeca.codRATDetalhe = detalhe.codRATDetalhe;
+            
+            await this._raDetalhePecaService.criar(dPeca).toPromise();
+          }
         }
       }
     }
 
-    //this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    //this._location.back();
+    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    this._location.back();
   }
 
   ngOnDestroy() {

@@ -1,5 +1,5 @@
 export class RelatorioAtendimentoDetalhePeca {
-    codRATdetalhePeca?: number;
+    codRATDetalhePeca?: number;
     codRATDetalhe?: number;
     codPeca: number;
     qtdePecas: number;

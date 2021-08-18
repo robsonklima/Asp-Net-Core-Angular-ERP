@@ -148,62 +148,63 @@
                 </div>
                 <div class="flex flex-col p-8">
                     <mat-selection-list #detalhesList [multiple]="false">
-                        <mat-list-option
-                            *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;"
-                            [value]="detalhe" class="border-b h-auto">
-                            <div class="grid grid-cols-9 gap-2 text-sm p-8" [class.opacity-25]="detalhe.removido">
-                                <div class="col-span-2 bg-grey-500">
-                                    <div class="opacity-50 text-semibold">
-                                        {{ t('servico') }}
+                        <div *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;">
+                            <mat-list-option
+                                [value]="detalhe" class="border-b h-auto" *ngIf="!detalhe.removido">
+                                <div class="grid grid-cols-9 gap-2 text-sm p-8">
+                                    <div class="col-span-2 bg-grey-500">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('servico') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.tipoServico?.nomeServico | titlecase">
+                                                {{ detalhe.tipoServico?.codETipoServico }}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span [matTooltip]="detalhe.tipoServico?.nomeServico | titlecase">
-                                            {{ detalhe.tipoServico?.codETipoServico }}
-                                        </span>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('causa') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.causa?.nomeCausa | titlecase">
+                                                {{ detalhe.causa?.codECausa }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('defeito') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.defeito?.nomeDefeito | titlecase">
+                                                {{ detalhe.defeito?.codEDefeito }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('acao') }}
+                                        </div>
+                                        <div>
+                                            <span [matTooltip]="detalhe.acao?.nomeAcao | titlecase">
+                                                {{ detalhe.acao?.codEAcao }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center" *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
+                                        <div class="opacity-50 text-semibold">
+                                            {{ t('pecas') }}
+                                        </div>
+                                        <div>
+                                            <span *ngFor="let d of detalhe?.relatorioAtendimentoDetalhePecas">
+                                                {{ d.codPeca }} - {{ d.qtdePecas }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-span-2">
-                                    <div class="opacity-50 text-semibold">
-                                        {{ t('causa') }}
-                                    </div>
-                                    <div>
-                                        <span [matTooltip]="detalhe.causa?.nomeCausa | titlecase">
-                                            {{ detalhe.causa?.codECausa }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="opacity-50 text-semibold">
-                                        {{ t('defeito') }}
-                                    </div>
-                                    <div>
-                                        <span [matTooltip]="detalhe.defeito?.nomeDefeito | titlecase">
-                                            {{ detalhe.defeito?.codEDefeito }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="opacity-50 text-semibold">
-                                        {{ t('acao') }}
-                                    </div>
-                                    <div>
-                                        <span [matTooltip]="detalhe.acao?.nomeAcao | titlecase">
-                                            {{ detalhe.acao?.codEAcao }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="text-center" *ngIf="detalhe?.acao?.codAcao === 19 || detalhe?.acao?.codAcao === 26">
-                                    <div class="opacity-50 text-semibold">
-                                        {{ t('pecas') }}
-                                    </div>
-                                    <div>
-                                        <span *ngFor="let d of detalhe?.relatorioAtendimentoDetalhePecas">
-                                            {{ d.codPeca }} - {{ d.qtdePecas }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-list-option>
+                            </mat-list-option>
+                        </div>
                     </mat-selection-list>
 
                     <div class="prose prose-sm max-w-3xl text-gray-500"

@@ -154,6 +154,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  obterTotalDetalhesNaoRemovidos(): number {
+    return this.relatorioAtendimento
+      ?.relatorioAtendimentoDetalhes
+      ?.filter(d => !d.removido).length || 0;
+  }
+
   private inicializarForm(): void {
     this.form = this._formBuilder.group({
       codRAT: [

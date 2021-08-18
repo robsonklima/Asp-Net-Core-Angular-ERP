@@ -208,7 +208,7 @@
                     </mat-selection-list>
 
                     <div class="prose prose-sm max-w-3xl text-gray-500"
-                        *ngIf="!relatorioAtendimento?.relatorioAtendimentoDetalhes?.length">
+                        *ngIf="!obterTotalDetalhesNaoRemovidos()">
                         <p>
                             {{ t('adicione os detalhes do atendimento') }}
                         </p>
@@ -241,7 +241,7 @@
                     </button>
 
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                        [disabled]="!relatorioAtendimento?.relatorioAtendimentoDetalhes?.length || form.invalid">
+                        [disabled]="!obterTotalDetalhesNaoRemovidos() || form.invalid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

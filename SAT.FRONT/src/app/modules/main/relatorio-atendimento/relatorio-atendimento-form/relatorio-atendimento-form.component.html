@@ -36,7 +36,8 @@
             <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
-                    <p class="text-secondary">{{ t('preencha as informacoes referentes ao relatorio de atendimento tecnico') }}</p>
+                    <p class="text-secondary">{{ t('preencha as informacoes referentes ao relatorio de atendimento
+                        tecnico') }}</p>
                 </div>
                 <div class="grid sm:grid-cols-6 gap-6 w-full p-8">
                     <div class="sm:col-span-3" *ngIf="!isAddMode">
@@ -150,7 +151,7 @@
                     <mat-selection-list #detalhesList [multiple]="false" class="-mt-2">
                         <div *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;">
                             <mat-list-option [value]="detalhe" class="border-b h-auto" *ngIf="!detalhe.removido">
-                                <div class="grid grid-cols-11 gap-2 text-md p-4">
+                                <div class="grid grid-cols-10 gap-2 text-md p-4">
                                     <div class="col-span-2 bg-grey-500">
                                         <div class="opacity-50 text-semibold mb-1">
                                             {{ t('servico') }}
@@ -211,27 +212,38 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-2">
                                         <div class="opacity-50 text-semibold mb-1">
                                             {{ t('pecas') }}
                                         </div>
                                         <div>
                                             <div class="text-sm"
-                                                *ngFor="let d of detalhe?.relatorioAtendimentoDetalhePecas">
-                                                <div class="grid grid-cols-2 gap-1 text-sm">
+                                                *ngFor="let dPeca of detalhe?.relatorioAtendimentoDetalhePecas; let i=index;">
+                                                <div class="grid grid-cols-2 gap-1 text-sm"
+                                                    *ngIf="!dPeca.removido">
                                                     <div>
-                                                        {{ d.codPeca }}
+                                                        <span [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
+                                                            {{ dPeca.peca?.codMagnus }}
+                                                        </span>
                                                     </div>
 
-                                                    <div class="font-semibold">
-                                                        {{ d.qtdePecas }}
+                                                    <div>
+                                                        <button
+                                                            class="min-w-4 min-h-6 h-6 px-2 -mt-1"
+                                                            mat-button
+                                                            (click)="removerPeca(detalhe, i)">
+                                                            <mat-icon
+                                                                class="icon-size-5"
+                                                                [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <span class="text-sm" *ngIf="!detalhe?.relatorioAtendimentoDetalhePecas.length">
+                                            <span class="text-sm"
+                                                *ngIf="detalhe.codAcao !== 19 && detalhe.codAcao !== 26">
                                                 {{ t('nao se aplica') }}
                                             </span>
                                         </div>
@@ -274,7 +286,7 @@
                     </button>
 
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                        [disabled]="!obterTotalDetalhesNaoRemovidos() || form.invalid">
+                        [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

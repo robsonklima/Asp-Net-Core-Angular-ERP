@@ -2,7 +2,7 @@ import { Acao } from "./acao.types";
 import { Causa } from "./causa.types";
 import { Defeito } from "./defeito.types";
 import { GrupoCausa } from "./grupo-causa.types";
-import { RelatorioAtendimentoDetalhePeca } from "./relatorio-atendimento-detalhe-peca";
+import { RelatorioAtendimentoDetalhePeca } from "./relatorio-atendimento-detalhe-peca.type";
 import { TipoCausa } from "./tipo-causa.types";
 import { TipoServico } from "./tipo-servico.types";
 

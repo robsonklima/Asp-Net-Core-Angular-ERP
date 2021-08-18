@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -20,8 +20,8 @@ import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { Location } from '@angular/common';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 
 @Component({
@@ -53,8 +53,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
-    private _location: Location,
     private _snack: CustomSnackbarService,
+    private _router: Router,
     private _dialog: MatDialog
   ) {
     this.sessionData = JSON.parse(this._userService.userSession);
@@ -71,7 +71,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.relatorioAtendimento = await this._raService
         .obterPorCodigo(this.codRAT)
         .toPromise();
-      
+
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
@@ -130,11 +130,49 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
-    const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-      .map(function(d) { return d; })
-      .indexOf(detalhe);
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        message: 'Deseja excluir este detalhe?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
-    this.relatorioAtendimento.relatorioAtendimentoDetalhes[i].removido = true;
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+          .map(function (d) { return d; })
+          .indexOf(detalhe);
+
+        this.relatorioAtendimento.relatorioAtendimentoDetalhes[i].removido = true;
+      }
+    });
+  }
+
+  removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        message: 'Deseja excluir esta peça?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        const iDetalhe = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+          .map(function (d) { return d; })
+          .indexOf(detalhe);
+
+        this.relatorioAtendimento
+          .relatorioAtendimentoDetalhes[iDetalhe]
+          .relatorioAtendimentoDetalhePecas[iDetalhePeca].removido = true;
+      }
+    });
   }
 
   inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
@@ -143,7 +181,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(raDetalhePeca => {
       if (raDetalhePeca) {
         const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-          .map(function(d) { return d; })
+          .map(function (d) { return d; })
           .indexOf(detalhe);
 
         this.relatorioAtendimento
@@ -158,6 +196,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     return this.relatorioAtendimento
       ?.relatorioAtendimentoDetalhes
       ?.filter(d => !d.removido).length || 0;
+  }
+
+  existeDetalheSemPeca(): boolean {
+    for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+      if ((detalhe.codAcao === 19 || detalhe.codAcao === 26) && detalhe.relatorioAtendimentoDetalhePecas
+        .filter(dp => !dp.removido).length === 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private inicializarForm(): void {
@@ -242,7 +291,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    this._location.back();
+    this._router.navigate(['ordem-servico/detalhe' + this.codOS]);
   }
 
   private async atualizar() {
@@ -265,7 +314,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     await this._raService.atualizar(ra).toPromise();
 
     for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
-      // Remover Detalhes
+      // Remover Detalhes e Peças
       if (detalhe.removido && detalhe.codRATDetalhe) {
         for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
           await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
@@ -274,7 +323,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         await this._raDetalheService.deletar(detalhe.codRATDetalhe).toPromise();
       }
 
-      // Adicionar Detalhes
+      // Adicionar Detalhes e Peças
       if (!detalhe.removido && !detalhe.codRATDetalhe) {
         detalhe.codRAT = this.relatorioAtendimento.codRAT;
         const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
@@ -289,17 +338,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       // Adicionar Pecas
       if (!detalhe.removido && detalhe.codRATDetalhe) {
         for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
-          if (!dPeca.codRATDetalhePeca) {
+          if (!dPeca.codRATDetalhePeca && !dPeca.removido) {
             dPeca.codRATDetalhe = detalhe.codRATDetalhe;
-            
+
             await this._raDetalhePecaService.criar(dPeca).toPromise();
+          } else if (dPeca.codRATDetalhePeca && dPeca.removido) {
+            await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
           }
         }
       }
     }
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    this._location.back();
+    this._router.navigate(['ordem-servico/detalhe' + this.codOS]);
   }
 
   ngOnDestroy() {

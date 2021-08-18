@@ -6,6 +6,9 @@ import { getPortugueseIntl } from './pt-br.paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 export const FORMATO_DATA = {
     parse: {
@@ -20,16 +23,22 @@ export const FORMATO_DATA = {
 };
 
 @NgModule({
+    declarations: [
+      ConfirmacaoDialogComponent
+    ],
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule
     ],
     exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule
+        
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },

@@ -25,4 +25,5 @@ export class RelatorioAtendimentoDetalhePeca {
     nfStatus?: any;
     numSerie?: any;
     motivoSubstituicao?: any;
+    removido: boolean;
 }

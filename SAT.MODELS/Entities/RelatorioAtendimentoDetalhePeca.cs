@@ -12,6 +12,8 @@ namespace SAT.MODELS.Entities
         public int CodRATDetalhePeca { get; set; }
         public int CodRATDetalhe { get; set; }
         public int CodPeca { get; set; }
+        [ForeignKey("CodPeca")]
+        public Peca Peca { get; set; }
         public int QtdePecas { get; set; }
         public decimal? ValPecas { get; set; }
         [Column("A_P")]

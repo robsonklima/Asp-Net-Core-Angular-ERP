@@ -57,7 +57,9 @@ namespace SAT.API.Repositories
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Acao)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Defeito)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
+                .Include(r => r.RelatorioAtendimentoDetalhes)
+                    .ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
+                        .ThenInclude(dp => dp.Peca)
                 .FirstOrDefault(rat => rat.CodRAT == codigo);
 
             return relatorio;

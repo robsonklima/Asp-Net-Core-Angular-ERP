@@ -2,7 +2,6 @@
 using SAT.API.Repositories.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
@@ -27,7 +26,7 @@ namespace SAT.API.Controllers
         {
             detalhePeca.CodRATDetalhePeca = _sequenciaInterface
                 .ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA);
-
+            detalhePeca.Peca = null;
             _relatorioAtendimentoDetalhePecaInterface.Criar(detalhePeca);
             return detalhePeca;
         }

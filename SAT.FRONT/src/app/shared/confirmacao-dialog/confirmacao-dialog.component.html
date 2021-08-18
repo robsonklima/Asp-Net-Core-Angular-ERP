@@ -1,0 +1,14 @@
+<div mat-dialog-content>
+    <div class="flex-auto w-full">
+        <div class="flex overflow-hidden">
+            {{ mensagem }}
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{ botaoCancelarTexto }}</button>
+
+    <button mat-button [color]="'primary'" (click)="confirmar()">
+        {{ botaoConfirmarTexto }}
+    </button>
+</div>

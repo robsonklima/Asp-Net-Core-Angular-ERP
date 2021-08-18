@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { PecaService } from 'app/core/services/peca.service';
 import { Peca, PecaParameters } from 'app/core/types/peca.types';
-import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca';
+import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca.type';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -76,6 +76,7 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
     let form = this.form.getRawValue();
     form.codUsuarioCad = this.sessionData.usuario.codUsuario;
     form.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
+    form.peca = this.pecas.filter(p => p.codPeca == form.codPeca).shift();
     this.dialogRef.close(form);
   }
 

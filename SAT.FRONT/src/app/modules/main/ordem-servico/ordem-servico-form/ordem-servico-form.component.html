@@ -309,7 +309,7 @@
                         {{ t('voltar') }}
                     </button>
                     
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" disabled="!form.valid">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

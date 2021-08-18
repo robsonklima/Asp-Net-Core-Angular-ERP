@@ -6,7 +6,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './confirmacao-dialog.component.html'
 })
 export class ConfirmacaoDialogComponent {
-  mensagem: string = "Confirmação"
+  titulo: string = "Confirmação"
+  mensagem: string = "Favor confirmar sua escolha"
   botaoConfirmarTexto = "Sim"
   botaoCancelarTexto = "Não"
 
@@ -14,6 +15,7 @@ export class ConfirmacaoDialogComponent {
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ConfirmacaoDialogComponent>) {
     if (data) {
+      this.titulo = data.titulo || this.titulo;
       this.mensagem = data.message || this.mensagem;
       if (data.buttonText) {
         this.botaoConfirmarTexto = data.buttonText.ok || this.botaoConfirmarTexto;

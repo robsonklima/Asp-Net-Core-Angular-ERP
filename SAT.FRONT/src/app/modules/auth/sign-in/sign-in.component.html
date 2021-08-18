@@ -25,10 +25,7 @@
                         matInput
                         [formControlName]="'codUsuario'">
                     <mat-error *ngIf="signInForm.get('codUsuario').hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="signInForm.get('codUsuario').hasError('email')">
-                        Please enter a valid email address
+                        Favor informar seu usuário
                     </mat-error>
                 </mat-form-field>
 
@@ -55,7 +52,7 @@
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
                     <mat-error>
-                        senha is required
+                        Favor informar sua senha
                     </mat-error>
                 </mat-form-field>
 

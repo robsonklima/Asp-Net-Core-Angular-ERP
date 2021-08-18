@@ -132,6 +132,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
+        titulo: 'Confirmação',
         message: 'Deseja excluir este detalhe?',
         buttonText: {
           ok: 'Sim',
@@ -154,6 +155,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
+        titulo: 'Confirmação',
         message: 'Deseja excluir esta peça?',
         buttonText: {
           ok: 'Sim',

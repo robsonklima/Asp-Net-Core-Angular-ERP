@@ -66,8 +66,7 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('cliente') }}</mat-label>
 
-                            <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()"
-                                #clienteSelect>
+                            <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -88,7 +87,7 @@
                             <mat-label>{{ t('local de atendimento') }}</mat-label>
 
                             <mat-select formControlName="codPosto" (selectionChange)="obterEquipamentosContrato()"
-                                #localAtendimentoSelect [disabled]="locaisAtendimento.length === 0">
+                                [disabled]="locaisAtendimento.length === 0">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -110,7 +109,7 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('equipamento contrato') }}</mat-label>
 
-                            <mat-select formControlName="codEquipContrato" #localAtendimentoSelect
+                            <mat-select formControlName="codEquipContrato"
                                 [disabled]="equipamentosContrato.length === 0">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -237,7 +236,7 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('regiao') }}</mat-label>
 
-                            <mat-select formControlName="codRegiao" #autorizadaSelect>
+                            <mat-select formControlName="codRegiao">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"

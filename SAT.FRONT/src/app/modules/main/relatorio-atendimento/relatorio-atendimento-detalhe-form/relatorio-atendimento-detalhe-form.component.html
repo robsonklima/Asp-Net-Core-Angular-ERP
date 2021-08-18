@@ -11,7 +11,7 @@
             <div class="flex pl-2">
                 <form [formGroup]="form" name="form" *ngIf="form">
     
-                    <div class="flex mt-5 w-120 justify-center">
+                    <div class="flex mt-5 w-100 justify-center">
                         <mat-radio-group
                             class="flex flex-row"
                             [color]="'primary'"
@@ -30,12 +30,12 @@
                         </mat-radio-group>
                     </div>
     
-                    <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div class="grid grid-cols-1 gap-4 mt-6">
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('tipo de servico') }}</mat-label>
     
                             <mat-select formControlName="codServico"
-                                (selectionChange)="obterModulos()"
+                                (selectionChange)="obterCausas()"
                                 [disabled]="tiposServico.length === 0">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -44,67 +44,7 @@
                                 </mat-option>
     
                                 <mat-option *ngFor="let tipoServico of tiposServico" [value]="tipoServico.codServico">
-                                    {{ tipoServico.codETipoServico }} - {{ tipoServico.nomeServico }}
-                                </mat-option>
-                            </mat-select>
-    
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field class="flex-auto">
-                            <mat-label>{{ t('modulo') }}</mat-label>
-    
-                            <mat-select formControlName="codModulo"
-                                (selectionChange)="obterSubModulos()"
-                                [disabled]="modulos.length === 0">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="moduloFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-    
-                                <mat-option *ngFor="let modulo of modulos" [value]="modulo.codCausa">
-                                    {{ modulo.codECausa }} - {{ modulo.nomeCausa }}
-                                </mat-option>
-                            </mat-select>
-    
-                            <mat-error>{{ t('sub modulo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-    
-                    <div class="grid grid-cols-2 gap-4">
-                        <mat-form-field class="flex-auto">
-                            <mat-label>{{ t('sub modulo') }}</mat-label>
-    
-                            <mat-select formControlName="codSubModulo"
-                                (selectionChange)="obterComponentes()"
-                                [disabled]="subModulos.length === 0">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="subModuloFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-    
-                                <mat-option *ngFor="let subModulo of subModulos" [value]="subModulo.codCausa">
-                                    {{ subModulo.codECausa }} - {{ subModulo.nomeCausa }}
-                                </mat-option>
-                            </mat-select>
-    
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    
-                        <mat-form-field class="flex-auto">
-                            <mat-label>{{ t('componente') }}</mat-label>
-    
-                            <mat-select formControlName="codCausa" (selectionChange)="obterDefeitos()" [disabled]="componentes.length === 0">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="componenteFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-    
-                                <mat-option *ngFor="let componente of componentes" [value]="componente.codCausa">
-                                    {{ componente.codECausa }} - {{ componente.nomeCausa }}
+                                    {{ tipoServico.codETipoServico }} - {{ tipoServico.nomeServico | titlecase }}
                                 </mat-option>
                             </mat-select>
     
@@ -112,11 +52,33 @@
                         </mat-form-field>
                     </div>
     
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>{{ t('causa') }}</mat-label>
+    
+                            <mat-select formControlName="codCausa" (selectionChange)="obterDefeitos()"
+                                [disabled]="causas.length === 0">
+                                <mat-option>
+                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                                        [formControl]="causaFilterCtrl"></ngx-mat-select-search>
+                                </mat-option>
+    
+                                <mat-option *ngFor="let causa of causas" [value]="causa.codCausa">
+                                    {{ causa.codECausa }} - {{ causa.nomeCausa | titlecase }}
+                                </mat-option>
+                            </mat-select>
+    
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="grid grid-cols-1 gap-4">
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('defeito') }}</mat-label>
     
-                            <mat-select formControlName="codDefeito" (selectionChange)="obterAcoes()" [disabled]="defeitos.length === 0">
+                            <mat-select formControlName="codDefeito" (selectionChange)="obterAcoes()"
+                                [disabled]="defeitos.length === 0">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -124,13 +86,15 @@
                                 </mat-option>
     
                                 <mat-option *ngFor="let defeito of defeitos" [value]="defeito.codDefeito">
-                                    {{ defeito.codEDefeito }} - {{ defeito.nomeDefeito }}
+                                    {{ defeito.codEDefeito }} - {{ defeito.nomeDefeito | titlecase }}
                                 </mat-option>
                             </mat-select>
     
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
-                    
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4">
                         <mat-form-field class="lex-auto">
                             <mat-label>{{ t('acao') }}</mat-label>
     
@@ -142,7 +106,7 @@
                                 </mat-option>
     
                                 <mat-option *ngFor="let acao of acoes" [value]="acao.codAcao">
-                                    {{ acao.codEAcao }} - {{ acao.nomeAcao }}
+                                    {{ acao.codEAcao }} - {{ acao.nomeAcao | titlecase }}
                                 </mat-option>
                             </mat-select>
     

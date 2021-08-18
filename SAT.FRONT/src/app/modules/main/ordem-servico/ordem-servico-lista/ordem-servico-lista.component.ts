@@ -19,7 +19,7 @@ import moment from 'moment';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 108px 36px 96px 24px;
+            grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 136px 36px 136px 24px;
             
             @screen sm {
                 grid-template-columns: 48px auto 32px;
@@ -30,7 +30,7 @@ import moment from 'moment';
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 108px 36px 96px 24px;
+                grid-template-columns: 48px 72px 72px 92px 28px 48px 156px auto 56px 136px 36px 136px 24px;
             }
         }
     `],

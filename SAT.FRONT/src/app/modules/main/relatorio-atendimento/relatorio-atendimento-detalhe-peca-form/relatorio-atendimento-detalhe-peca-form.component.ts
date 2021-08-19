@@ -8,7 +8,7 @@ import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
 
 @Component({
@@ -16,10 +16,10 @@ import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form
   templateUrl: './relatorio-atendimento-detalhe-peca-form.component.html'
 })
 export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
-  pecas: Peca[];
+  pecas: Peca[] = [];
+  pecasFiltro: FormControl = new FormControl();
   form: FormGroup;
   sessionData: UsuarioSessionData;
-  pecaFilterCtrl: FormControl = new FormControl();
   raDetalhePeca: RelatorioAtendimentoDetalhePeca;
   protected _onDestroy = new Subject<void>();
 
@@ -32,10 +32,36 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
     this.sessionData = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void {
-    this.obterPecas();
+  async ngOnInit() {
     this.inicializarForm();
-    this.registrarEmitters();
+
+    this.pecas = (await this._pecaService.obterPorParametros({
+      sortActive: 'nomePeca',
+      sortDirection: 'asc',
+      pageSize: 100,
+    }).toPromise()).pecas;
+
+    this.pecasFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._pecaService.obterPorParametros({
+            sortActive: 'nomePeca',
+            sortDirection: 'asc',
+            filter: query,
+            pageSize: 100
+          }).toPromise();
+
+          return data.pecas.slice();
+        }),
+        delay(500),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.pecas = await data;
+      });
   }
 
   private inicializarForm(): void {
@@ -43,33 +69,6 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
       codPeca: [undefined, [Validators.required]],
       qtdePecas: [undefined, [Validators.required]]
     });
-  }
-
-  private registrarEmitters(): void {
-    this.pecaFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterPecas(this.pecaFilterCtrl.value);
-      });
-  }
-
-  async obterPecas(filter: string='') {
-    const params: PecaParameters = {
-      sortDirection: 'asc',
-      sortActive: 'nomePeca',
-      pageSize: 50,
-      filter: filter
-    }
-
-    const data = await this._pecaService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.pecas = data.pecas;
   }
 
   inserir(): void {

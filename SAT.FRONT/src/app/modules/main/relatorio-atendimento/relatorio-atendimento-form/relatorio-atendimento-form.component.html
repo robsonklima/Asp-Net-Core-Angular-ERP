@@ -41,7 +41,7 @@
                 </div>
                 <div class="grid sm:grid-cols-6 gap-6 w-full p-8">
                     <div class="sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('codigo') }}</mat-label>
                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
                             <input matInput formControlName="codRAT">
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('tecnico') }}</mat-label>
 
                             <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length">
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('status de servico') }}</mat-label>
 
                             <mat-select formControlName="codStatusServico" [disabled]="!statusServicos.length">
@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('numero do RAT') }}</mat-label>
                             <input matInput formControlName="numRAT" required>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('nome do acompanhante') }}</mat-label>
                             <input matInput formControlName="nomeAcompanhante" maxlength="25">
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('data') }}</mat-label>
                             <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
                             <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('hora do inicio') }}</mat-label>
                             <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
                                 [dropSpecialCharacters]="false" required>
@@ -123,7 +123,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('hora da solucao') }}</mat-label>
                             <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
                                 [dropSpecialCharacters]="false" required>
@@ -134,7 +134,7 @@
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('observacao') }}</mat-label>
                             <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
                                 [rows]="4"></textarea>

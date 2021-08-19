@@ -13,7 +13,7 @@ import { TipoCausa } from 'app/core/types/tipo-causa.types';
 import { GrupoCausa } from 'app/core/types/grupo-causa.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
@@ -25,19 +25,14 @@ import moment from 'moment';
 export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   modulos: Causa[] = [];
-  subModulos: Causa[] = [];
-  componentes: Causa[] = [];
   causas: Causa[] = [];
   tiposServico: TipoServico[] = [];
   defeitos: Defeito[] = [];
   acoes: Acao[] = [];
-  grupoCausa: GrupoCausa;
-  tipoCausa: TipoCausa;
   usuario: Usuario;
-  tipoServicoFilterCtrl: FormControl = new FormControl();
-  causaFilterCtrl: FormControl = new FormControl();
-  acaoFilterCtrl: FormControl = new FormControl();
-  defeitoFilterCtrl: FormControl = new FormControl();
+  causasFiltro: FormControl = new FormControl();
+  acoesFiltro: FormControl = new FormControl();
+  defeitosFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -52,162 +47,119 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.inicializarForm();
-    this.registrarEmitters();
-  }
 
-  private inicializarForm(): void {
-    this.form = this._formBuilder.group({
-      maquina: [
-        {
-          value: 0,
-        }, [Validators.required]
-      ],
-      codServico: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codModulo: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codSubModulo: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codCausa: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codAcao: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codDefeito: [
-        {
-          value: undefined,
-          disabled: true,
-        }, [Validators.required]
-      ],
-      codTipoCausa: [
-        {
-          value: undefined
-        }
-      ],
-      codGrupoCausa: [
-        {
-          value: undefined
-        }
-      ],
-    });
-  }
+    this.form.controls['maquina'].valueChanges.subscribe(async maquina => {
+      const data = await this._tipoServicoService.obterPorParametros({
+        sortActive: 'nomeServico',
+        sortDirection: 'asc',
+        pageSize: 100,
+      }).toPromise();
 
-  private registrarEmitters(): void {
-    this.tipoServicoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterTiposServico(this.tipoServicoFilterCtrl.value);
-      });
-
-    this.defeitoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterDefeitos(this.defeitoFilterCtrl.value);
-      });
-
-    this.acaoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterAcoes(this.acaoFilterCtrl.value);
-      });
-
-    this.causaFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterCausas(this.causaFilterCtrl.value);
-      });
-  }
-
-  obterTiposServico(filter: string = ''): void {
-    this._tipoServicoService.obterPorParametros({
-      sortActive: 'nomeServico',
-      sortDirection: 'asc',
-      pageSize: 50,
-      filter: filter
-    }).subscribe((data: TipoServicoData) => {
-      this.form.controls['codServico'].enable();
-
-      let tiposServico = data.tiposServico.filter(
-        t => t.codETipoServico.substring(0, 1) === String(this.form.controls['maquina'].value)
+      this.tiposServico = data.tiposServico.filter(
+        t => t.codETipoServico.substring(0, 1) === String(maquina)
       );
-
-      if (tiposServico.length) {
-        this.tiposServico = tiposServico;
-      }
     });
-  }
 
-  obterCausas(filter: string = ''): void {
-    this._causaService.obterPorParametros({
-      sortActive: 'codECausa',
-      sortDirection: 'asc',
-      pageSize: 50,
-      filter: filter,
-      indAtivo: 1
-    }).subscribe((data: CausaData) => {
+    this.form.controls['codServico'].valueChanges.subscribe(async codServico => {
+      const data = await this._causaService.obterPorParametros({
+        sortActive: 'codECausa',
+        sortDirection: 'asc',
+        pageSize: 100,
+        indAtivo: 1
+      }).toPromise();
+
       this.causas = data.causas;
     });
-  }
 
-  obterDefeitos(filter: string = ''): void {
-    this._defeitoService.obterPorParametros({
-      sortActive: 'codEDefeito',
-      sortDirection: 'asc',
-      pageSize: 50,
-      filter: filter,
-      indAtivo: 1
-    }).subscribe((data: DefeitoData) => {
+    this.form.controls['codCausa'].valueChanges.subscribe(async codCausa => {
+      const data = await this._defeitoService.obterPorParametros({
+        sortActive: 'codEDefeito',
+        sortDirection: 'asc',
+        pageSize: 100,
+        indAtivo: 1
+      }).toPromise();
+
       this.defeitos = data.defeitos;
     });
-  }
 
-  obterAcoes(filter: string = ''): void {
-    this._acaoService.obterPorParametros({
-      sortActive: 'codEAcao',
-      sortDirection: 'asc',
-      pageSize: 50,
-      filter: filter,
-      indAtivo: 1
-    }).subscribe((data: AcaoData) => {
+    this.causasFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._causaService.obterPorParametros({
+            sortActive: 'codECausa',
+            sortDirection: 'asc',
+            indAtivo: 1,
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
+
+          return data.causas.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.causas = await data;
+      });
+
+    this.form.controls['codDefeito'].valueChanges.subscribe(async maquina => {
+      const data = await this._acaoService.obterPorParametros({
+        sortActive: 'codEAcao',
+        sortDirection: 'asc',
+        pageSize: 100,
+        indAtivo: 1
+      }).toPromise();
+
       this.acoes = data.acoes;
     });
+
+    this.defeitosFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._defeitoService.obterPorParametros({
+            sortActive: 'codEDefeito',
+            sortDirection: 'asc',
+            indAtivo: 1,
+            filter: query,
+            pageSize: 100
+          }).toPromise();
+
+          return data.defeitos.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.defeitos = await data;
+      });
+
+    this.acoesFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._acaoService.obterPorParametros({
+            sortActive: 'codEAcao',
+            sortDirection: 'asc',
+            indAtivo: 1,
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
+
+          return data.acoes.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.acoes = await data;
+      });
   }
 
   inserir(): void {
@@ -226,6 +178,18 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     form.codGrupoCausa = causa.codGrupoCausa;
 
     this.dialogRef.close(form);
+  }
+
+  private inicializarForm(): void {
+    this.form = this._formBuilder.group({
+      maquina: [undefined, [Validators.required]],
+      codServico: [undefined, [Validators.required]],
+      codCausa: [undefined, [Validators.required]],
+      codAcao: [undefined, [Validators.required]],
+      codDefeito: [undefined, [Validators.required]],
+      codTipoCausa: [undefined],
+      codGrupoCausa: [undefined]
+    });
   }
 
   ngOnDestroy() {

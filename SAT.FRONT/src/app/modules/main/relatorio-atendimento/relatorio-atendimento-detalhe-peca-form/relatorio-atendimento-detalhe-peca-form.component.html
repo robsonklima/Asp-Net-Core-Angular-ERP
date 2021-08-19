@@ -14,11 +14,11 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full mt-4">
                             <mat-label>{{ t('peca') }}</mat-label>
                             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:puzzle'"></mat-icon>
-                            <mat-select formControlName="codPeca">
+                            <mat-select formControlName="codPeca" [disabled]="!pecas.length">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="pecaFilterCtrl"></ngx-mat-select-search>
+                                        [formControl]="pecasFiltro"></ngx-mat-select-search>
                                 </mat-option>
 
                                 <mat-option *ngFor="let peca of pecas" [value]="peca.codPeca">

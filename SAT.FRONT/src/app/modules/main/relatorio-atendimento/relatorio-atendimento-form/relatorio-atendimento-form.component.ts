@@ -294,7 +294,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    this._router.navigate(['ordem-servico/detalhe' + this.codOS]);
+    this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
   private async atualizar() {
@@ -353,7 +353,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
-    this._router.navigate(['ordem-servico/detalhe' + this.codOS]);
+    this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
   ngOnDestroy() {

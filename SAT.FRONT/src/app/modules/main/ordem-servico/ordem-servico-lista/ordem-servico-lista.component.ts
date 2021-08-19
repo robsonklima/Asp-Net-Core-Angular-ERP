@@ -132,6 +132,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     private registrarEmitters(): void {
         // Quando o sidebar fecha
         this.sidenav.closedStart.subscribe(() => {
+            this.paginator.pageIndex = 0;
             this.carregarFiltro();
             this.obterOrdensServico();
         })

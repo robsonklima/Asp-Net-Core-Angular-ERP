@@ -73,11 +73,10 @@
                     <button [routerLink]="['/grupo-equipamento']" routerLinkActive="router-link-active"  mat-button>
                         {{ t('cancelar') }}
                     </button>
-                    <button (click)="salvar()" [disabled]="!form.valid" class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                    <button (click)="salvar()" [disabled]="!form.valid" class="px-6 ml-3" mat-button [color]="'primary'">
                         {{ t('salvar') }}
                     </button>
                 </div>
-                
             </form>
         </div>
     </div>

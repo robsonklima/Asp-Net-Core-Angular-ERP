@@ -20,8 +20,7 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
   isAddMode: boolean;
   form: FormGroup;
   grupoEquipamento: GrupoEquipamento;
-  public tipoEquipamentoFiltro: FormControl = new FormControl();
-  public tiposEquipamento: ReplaySubject<TipoEquipamento[]> = new ReplaySubject<TipoEquipamento[]>(1);
+  public tiposEquipamento: TipoEquipamento[] = [];
 
   protected _onDestroy = new Subject<void>();
 
@@ -34,11 +33,10 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.codGrupoEquip = +this._route.snapshot.paramMap.get('codGrupoEquip');
     this.isAddMode = !this.codGrupoEquip;
-    this.obterTiposEquipamento();
-
+    
     this.form = this._formBuilder.group({
       codGrupoEquip: [
         {
@@ -51,15 +49,11 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
       codTipoEquip: ['', Validators.required]
     });
 
-    this.tipoEquipamentoFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterTiposEquipamento(this.tipoEquipamentoFiltro.value);
-      });
+    this.tiposEquipamento = (await this._tipoEquipamentoService.obterPorParametros({
+      sortActive: 'nomeTipoEquip',
+      sortDirection: 'asc',
+      pageSize: 50
+    }).toPromise()).tiposEquipamento;
 
     if (!this.isAddMode) {
       this._grupoEquipamentoService.obterPorCodigo(this.codGrupoEquip)
@@ -67,20 +61,8 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.form.patchValue(data);
         this.grupoEquipamento = data;
-        this.obterTiposEquipamento(this.grupoEquipamento.tipoEquipamento.nomeTipoEquip);
       });
     }
-  }
-
-  obterTiposEquipamento(filter: string = ''): void {
-    this._tipoEquipamentoService.obterPorParametros({
-      sortActive: 'nomeTipoEquip',
-      sortDirection: 'asc',
-      filter: filter,
-      pageSize: 50
-    }).subscribe((data: TipoEquipamentoData) => {
-      if (data.tiposEquipamento.length) this.tiposEquipamento.next(data.tiposEquipamento.slice());
-    });
   }
 
   salvar(): void {

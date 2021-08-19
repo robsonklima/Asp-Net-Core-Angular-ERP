@@ -59,14 +59,7 @@
                         <mat-label>{{ t('tipo equipamento') }}</mat-label>
 
                         <mat-select formControlName="codTipoEquip">
-                            <mat-option>
-                                <ngx-mat-select-search
-                                    placeholderLabel="Pesquisa..." 
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="tipoEquipamentoFiltro"></ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let tipoEquipamento of tiposEquipamento | async" [value]="tipoEquipamento.codTipoEquip">
+                            <mat-option *ngFor="let tipoEquipamento of tiposEquipamento" [value]="tipoEquipamento.codTipoEquip">
                                 {{ tipoEquipamento.nomeTipoEquip }}
                             </mat-option>
                         </mat-select>

@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
-import { forkJoin, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, first, take, takeUntil } from 'rxjs/operators';
+import { forkJoin, ReplaySubject, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -26,6 +26,7 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { EquipamentoContrato, EquipamentoContratoData } from 'app/core/types/equipamento-contrato.types';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -33,26 +34,22 @@ import { EquipamentoContratoService } from 'app/core/services/equipamento-contra
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoFormComponent implements OnInit {
+export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   codOS: number;
   ordemServico: OrdemServico;
   form: FormGroup;
   isAddMode: boolean;
   usuario: any;
   localFilterCtrl: FormControl = new FormControl();
+  @ViewChild('localSelect', { static: true }) localSelect: MatSelect;
   clientes: Cliente[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
-  locaisAtendimento: LocalAtendimento[] = [];
   equipamentosContrato: EquipamentoContrato[] = [];
   regioesAutorizadas: RegiaoAutorizada[] = [];
   autorizadas: Autorizada[] = [];
   regioes: Regiao[] = [];
   filiais: Filial[] = [];
-  alert: { type: FuseAlertType; message: string } = {
-    type: 'success',
-    message: ''
-  };
-  showAlert: boolean = false;
+  locaisAtendimento: ReplaySubject<LocalAtendimento[]> = new ReplaySubject<LocalAtendimento[]>(1);
 
   protected _onDestroy = new Subject<void>();
 
@@ -125,6 +122,9 @@ export class OrdemServicoFormComponent implements OnInit {
   }
 
   async obterLocaisAtendimento(filter: string = '') {
+    console.log(filter);
+    
+
     let codCliente = this.form.controls['codCliente'].value;
 
     const data = await this._localAtendimentoService.obterPorParametros({
@@ -135,7 +135,7 @@ export class OrdemServicoFormComponent implements OnInit {
       indAtivo: 1
     }).toPromise();
 
-    this.locaisAtendimento = data.locaisAtendimento;
+    this.locaisAtendimento.next(data.locaisAtendimento.slice());
   }
 
   async obterEquipamentosContrato(filter: string = '') {
@@ -231,7 +231,6 @@ export class OrdemServicoFormComponent implements OnInit {
 
   private atualizar(): void {
     this.form.disable();
-    this.showAlert = false;
 
     const form: any = this.form.getRawValue();
     let obj = {
@@ -250,15 +249,6 @@ export class OrdemServicoFormComponent implements OnInit {
     this._ordemServicoService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
       this._location.back();
-    }, e => {
-      this.form.enable();
-
-      this.alert = {
-        type: 'error',
-        message: e?.error
-      };
-
-      this.showAlert = true;
     });
   }
 
@@ -300,5 +290,10 @@ export class OrdemServicoFormComponent implements OnInit {
       .subscribe((query) => {
         this.obterLocaisAtendimento(query);
       });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

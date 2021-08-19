@@ -81,15 +81,15 @@
                             <mat-label>{{ t('local de atendimento') }}</mat-label>
 
                             <mat-select formControlName="codPosto"
-                                (selectionChange)="obterEquipamentosContrato()"
-                                [disabled]="locaisAtendimento.length === 0">
+                                #localSelect
+                                (selectionChange)="obterEquipamentosContrato()">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
                                         [formControl]="localFilterCtrl"></ngx-mat-select-search>
                                 </mat-option>
 
-                                <mat-option *ngFor="let localAtendimento of locaisAtendimento"
+                                <mat-option *ngFor="let localAtendimento of locaisAtendimento | async"
                                     [value]="localAtendimento.codPosto">
                                     {{localAtendimento.numAgencia}}/{{localAtendimento.dcPosto}} -
                                     {{localAtendimento.nomeLocal}} - {{localAtendimento.endereco}}

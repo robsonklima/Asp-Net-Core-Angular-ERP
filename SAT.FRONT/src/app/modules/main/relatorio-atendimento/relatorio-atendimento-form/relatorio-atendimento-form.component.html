@@ -52,11 +52,11 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('tecnico') }}</mat-label>
 
-                            <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="tecnicos.length === 0">
+                            <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="tecnicoFilterCtrl"></ngx-mat-select-search>
+                                        [formControl]="tecnicosFiltro"></ngx-mat-select-search>
                                 </mat-option>
 
                                 <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
@@ -72,7 +72,7 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('status de servico') }}</mat-label>
 
-                            <mat-select formControlName="codStatusServico" [disabled]="statusServicos.length === 0">
+                            <mat-select formControlName="codStatusServico" [disabled]="!statusServicos.length">
                                 <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
                                     {{ status.nomeStatusServico }}
                                 </mat-option>

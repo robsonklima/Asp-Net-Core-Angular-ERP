@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
-import { StatusServico, StatusServicoData } from 'app/core/types/status-servico.types';
+import { StatusServico } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
@@ -22,6 +22,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 
 
 @Component({
@@ -34,20 +36,23 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sidenav: MatSidenav;
   sessionData: UsuarioSessionData;
   codOS: number;
+  ordemServico: OrdemServico;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
   form: FormGroup;
   isAddMode: boolean;
-  tecnicoFilterCtrl: FormControl = new FormControl();
+  tecnicosFiltro: FormControl = new FormControl();
   statusServicoFilterCtrl: FormControl = new FormControl();
   tecnicos: Tecnico[] = [];
   statusServicos: StatusServico[] = [];
+  searching: boolean;
   protected _onDestroy = new Subject<void>();
 
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _raService: RelatorioAtendimentoService,
+    private _ordemServicoService: OrdemServicoService,
     private _raDetalheService: RelatorioAtendimentoDetalheService,
     private _raDetalhePecaService: RelatorioAtendimentoDetalhePecaService,
     private _userService: UserService,
@@ -65,7 +70,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
     this.inicializarForm();
-    this.registrarEmitters();
+
+    this.ordemServico = await this._ordemServicoService
+      .obterPorCodigo(this.codOS)
+      .toPromise();
 
     if (!this.isAddMode) {
       this.relatorioAtendimento = await this._raService
@@ -80,43 +88,49 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
 
-    this.obterStatusServicos();
-    this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
-  }
+    this.statusServicos = (await this._statusServicoService.obterPorParametros({
+      indAtivo: 1,
+      pageSize: 100,
+      sortActive: 'nomeStatusServico',
+      sortDirection: 'asc'
+    }).toPromise()).statusServico;
 
-  obterTecnicos(filter: string = ''): Promise<TecnicoData> {
-    return new Promise((resolve, reject) => {
-      this._tecnicoService.obterPorParametros({
-        filter: filter,
-        indAtivo: 1,
-        pageSize: 50,
-        sortActive: 'nome',
-        sortDirection: 'asc'
-      }).subscribe((data: TecnicoData) => {
-        this.tecnicos = data.tecnicos;
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
-  }
+    this.tecnicos = (await this._tecnicoService.obterPorParametros({
+      indAtivo: 1,
+      pageSize: 100,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codFilial: this.ordemServico?.filial?.codFilial
+    }).toPromise()).tecnicos;
 
-  obterStatusServicos(filter: string = ''): Promise<StatusServicoData> {
-    return new Promise((resolve, reject) => {
-      this._statusServicoService.obterPorParametros({
-        indAtivo: 1,
-        sortActive: 'nomeStatusServico',
-        sortDirection: 'asc',
-        pageSize: 50,
-        filter: filter
-      }).subscribe((data: StatusServicoData) => {
-        this.statusServicos = data.statusServico
-          .filter(s => s.codStatusServico !== 2 && s.codStatusServico !== 1);
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
+    this.tecnicosFiltro.valueChanges
+      .pipe(
+        tap(() => this.searching = true),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._tecnicoService.obterPorParametros({
+            sortActive: 'nome',
+            sortDirection: 'asc',
+            indAtivo: 1,
+            filter: query,
+            pageSize: 100,
+            codFilial: this.ordemServico?.filial?.codFilial
+          }).toPromise();
+
+          return data.tecnicos.slice();
+        }),
+        delay(500),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.searching = false;
+        this.tecnicos = await data;
+      },
+        () => {
+          this.searching = false;
+        }
+      );
   }
 
   inserirDetalhe() {
@@ -233,19 +247,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       horaFim: [undefined, [Validators.required]],
       obsRAT: [undefined],
     });
-  }
-
-  private registrarEmitters(): void {
-    this.tecnicoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged(),
-      ).subscribe((query) => {
-        if (query) {
-          this.obterTecnicos(this.tecnicoFilterCtrl.value);
-        }
-      });
   }
 
   async salvar() {

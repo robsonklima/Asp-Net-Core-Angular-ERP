@@ -67,12 +67,6 @@
                             <mat-label>{{ t('cliente') }}</mat-label>
 
                             <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="clienteFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-
                                 <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                     {{cliente.nomeFantasia}}
                                 </mat-option>
@@ -86,12 +80,13 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('local de atendimento') }}</mat-label>
 
-                            <mat-select formControlName="codPosto" (selectionChange)="obterEquipamentosContrato()"
+                            <mat-select formControlName="codPosto"
+                                (selectionChange)="obterEquipamentosContrato()"
                                 [disabled]="locaisAtendimento.length === 0">
                                 <mat-option>
                                     <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                         noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="localAtendimentoFilterCtrl"></ngx-mat-select-search>
+                                        [formControl]="localFilterCtrl"></ngx-mat-select-search>
                                 </mat-option>
 
                                 <mat-option *ngFor="let localAtendimento of locaisAtendimento"
@@ -111,12 +106,7 @@
 
                             <mat-select formControlName="codEquipContrato"
                                 [disabled]="equipamentosContrato.length === 0">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="equipamentoContratoFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-
+                                
                                 <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
                                     [value]="equipamentoContrato.codEquipContrato">
                                     <span class="opacity-60">
@@ -196,13 +186,6 @@
                             <mat-label>{{ t('filial') }}</mat-label>
 
                             <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="filialFilterCtrl">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-
                                 <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                                     {{ filial.nomeFilial }}
                                 </mat-option>
@@ -216,13 +199,8 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('autorizada') }}</mat-label>
 
-                            <mat-select formControlName="codAutorizada" (selectionChange)="obterRegioesAutorizadas()">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="autorizadaFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
-
+                            <mat-select formControlName="codAutorizada"
+                                (selectionChange)="obterRegioesAutorizadas()">
                                 <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
                                     {{ autorizada.nomeFantasia }}
                                 </mat-option>
@@ -236,12 +214,8 @@
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>{{ t('regiao') }}</mat-label>
 
-                            <mat-select formControlName="codRegiao">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="regiaoFilterCtrl"></ngx-mat-select-search>
-                                </mat-option>
+                            <mat-select formControlName="codRegiao"
+                                [disabled]="regioes.length === 0">
 
                                 <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
                                     {{ regiao.nomeRegiao }}

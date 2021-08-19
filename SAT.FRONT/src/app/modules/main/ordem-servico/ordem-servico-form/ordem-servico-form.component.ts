@@ -39,12 +39,7 @@ export class OrdemServicoFormComponent implements OnInit {
   form: FormGroup;
   isAddMode: boolean;
   usuario: any;
-  clienteFilterCtrl: FormControl = new FormControl();
-  localAtendimentoFilterCtrl: FormControl = new FormControl();
-  equipamentoContratoFilterCtrl: FormControl = new FormControl();
-  regiaoFilterCtrl: FormControl = new FormControl();
-  autorizadaFilterCtrl: FormControl = new FormControl();
-  filialFilterCtrl: FormControl = new FormControl();
+  localFilterCtrl: FormControl = new FormControl();
   clientes: Cliente[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
   locaisAtendimento: LocalAtendimento[] = [];
@@ -80,176 +75,118 @@ export class OrdemServicoFormComponent implements OnInit {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.isAddMode = !this.codOS;
     this.inicializarForm();
     this.registrarEmitters();
 
     if (!this.isAddMode) {
-      this.obterOrdemServico()
-        .then((os: OrdemServico) => {
-          this.ordemServico = os;
-          this.form.patchValue(this.ordemServico);
-          forkJoin([
-            this.obterClientes(os?.cliente?.nomeFantasia),
-            this.obterTiposIntervencao(),
-            this.obterFiliais(),
-            this.obterAutorizadas(os?.autorizada?.nomeFantasia),
-            this.obterRegioesAutorizadas(os?.autorizada?.nomeFantasia),
-            this.obterLocaisAtendimento(os?.localAtendimento?.nomeLocal),
-            this.obterEquipamentosContrato(os?.equipamentoContrato?.numSerie)
-          ]);
-        });
+      this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+      this.form.patchValue(this.ordemServico);
+      this.obterClientes(this.ordemServico?.cliente?.nomeFantasia);
+      this.obterTiposIntervencao();
+      this.obterFiliais();
+      this.obterAutorizadas(this.ordemServico?.autorizada?.nomeFantasia);
+      this.obterRegioesAutorizadas(this.ordemServico?.autorizada?.nomeFantasia);
+      this.obterLocaisAtendimento(this.ordemServico?.localAtendimento?.nomeLocal);
+      this.obterEquipamentosContrato(this.ordemServico?.equipamentoContrato?.numSerie);
     } else {
-      forkJoin([
-        this.obterClientes(),
-        this.obterTiposIntervencao(),
-        this.obterFiliais(),
-        this.obterAutorizadas(),
-        this.obterRegioesAutorizadas()
-      ]);
+      this.obterClientes();
+      this.obterTiposIntervencao();
+      this.obterFiliais();
+      this.obterAutorizadas();
+      this.obterRegioesAutorizadas();
     }
   }
 
-  obterOrdemServico(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this._ordemServicoService.obterPorCodigo(this.codOS)
-        .pipe(first())
-        .subscribe((ordemServico: OrdemServico) => {
-          resolve(ordemServico)
-        }, () => {
-          reject();
-        });
-    });
+  async obterClientes(filter: string = '') {
+    const data = await this._clienteService.obterPorParametros({
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      filter: filter,
+      pageSize: 300
+    }).toPromise();
+
+    this.clientes = data.clientes;
   }
 
-  obterClientes(filter: string = ''): Promise<ClienteData> {
-    return new Promise((resolve, reject) => {
-      this._clienteService.obterPorParametros({
-        sortActive: 'nomeFantasia',
-        sortDirection: 'asc',
-        indAtivo: 1,
-        filter: filter,
-        pageSize: 50
-      }).subscribe((data: ClienteData) => {
-        this.clientes = data.clientes;
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    })
+  async obterTiposIntervencao(filter: string = '') {
+    const data = await this._tipoIntervencaoService.obterPorParametros({
+      sortActive: 'nomTipoIntervencao',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      filter: filter,
+      pageSize: 50
+    }).toPromise();
+
+    this.tiposIntervencao = data.tiposIntervencao;
   }
 
-  obterTiposIntervencao(filter: string = ''): Promise<TipoIntervencaoData> {
-    return new Promise((resolve, reject) => {
-      this._tipoIntervencaoService.obterPorParametros({
-        sortActive: 'nomTipoIntervencao',
-        sortDirection: 'asc',
-        indAtivo: 1,
-        filter: filter,
-        pageSize: 50
-      }).subscribe((data: TipoIntervencaoData) => {
-        this.tiposIntervencao = data.tiposIntervencao;
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
+  async obterLocaisAtendimento(filter: string = '') {
+    let codCliente = this.form.controls['codCliente'].value;
+
+    const data = await this._localAtendimentoService.obterPorParametros({
+      sortActive: 'nomeLocal',
+      sortDirection: 'asc',
+      filter: filter,
+      codCliente: codCliente,
+      indAtivo: 1
+    }).toPromise();
+
+    this.locaisAtendimento = data.locaisAtendimento;
   }
 
-  obterLocaisAtendimento(filter: string = ''): Promise<LocalAtendimentoData> {
-    return new Promise((resolve, reject) => {
-      this.locaisAtendimento = [];
-      let codCliente = this.form.controls['codCliente'].value;
+  async obterEquipamentosContrato(filter: string = '') {
+    let codPosto = this.form.controls['codPosto'].value;
 
-      this._localAtendimentoService.obterPorParametros({
-        sortActive: 'nomeLocal',
-        sortDirection: 'asc',
-        filter: filter,
-        pageSize: 50,
-        codCliente: codCliente
-      }).subscribe((data: LocalAtendimentoData) => {
-        this.locaisAtendimento = data.locaisAtendimento;
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
+    const data = await this._equipamentoContratoService.obterPorParametros({
+      indAtivo: 1,
+      filter: filter,
+      codPosto: codPosto,
+      pageSize: 200
+    }).toPromise();
+
+    this.equipamentosContrato = data.equipamentosContrato;
   }
 
-  obterEquipamentosContrato(filter: string = ''): Promise<EquipamentoContratoData> {
-    return new Promise((resolve, reject) => {
-      this.equipamentosContrato = [];
-      let codPosto = this.form.controls['codPosto'].value;
+  async obterFiliais(filter: string = '') {
+    const data = await this._filialService.obterPorParametros({
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      filter: filter,
+      pageSize: 50
+    }).toPromise();
 
-      this._equipamentoContratoService.obterPorParametros({
-        pageSize: 50,
-        indAtivo: 1,
-        filter: filter,
-        codPosto: codPosto
-      }).subscribe((data: EquipamentoContratoData) => {
-        this.equipamentosContrato = data.equipamentosContrato;
-        resolve(data);
-      }, () => {
-        reject()
-      });
-    });
+    this.filiais = data.filiais;
   }
 
-  obterFiliais(filter: string = ''): Promise<FilialData> {
-    return new Promise((resolve, reject) => {
-      this._filialService.obterPorParametros({
-        sortActive: 'nomeFilial',
-        sortDirection: 'asc',
-        pageSize: 50,
-        filter: filter
-      }).subscribe((data: FilialData) => {
-        this.filiais = data.filiais;
-        this.obterAutorizadas();
-        resolve(data);
-      }, () => {
-        reject()
-      });
-    });
+  async obterAutorizadas(filter: string = '') {
+    const codFilial = this.form.controls['codFilial'].value;
+
+    const data = await this._autorizadaService.obterPorParametros({
+      codFilial: codFilial,
+      indAtivo: 1,
+      filter: filter,
+      pageSize: 50
+    }).toPromise();
+
+    this.autorizadas = data.autorizadas;
   }
 
-  obterAutorizadas(filter: string = ''): Promise<AutorizadaData> {
-    return new Promise((resolve, reject) => {
-      this.regioesAutorizadas = [];
-      const codFilial = this.form.controls['codFilial'].value;
+  async obterRegioesAutorizadas(filter: string = '') {
+    const codAutorizada = this.form.controls['codAutorizada'].value;
 
-      this._autorizadaService.obterPorParametros({
-        pageSize: 50,
-        codFilial: codFilial,
-        indAtivo: 1,
-        filter: filter,
-      }).subscribe((data: AutorizadaData) => {
-        this.autorizadas = data.autorizadas;
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
-  }
+    const data = await this._regiaoAutorizadaService.obterPorParametros({
+      codAutorizada: codAutorizada,
+      indAtivo: 1,
+      filter: filter,
+      pageSize: 50
+    }).toPromise();
 
-  obterRegioesAutorizadas(filter: string = ''): Promise<RegiaoAutorizadaData> {
-    return new Promise((resolve, reject) => {
-      const codAutorizada = this.form.controls['codAutorizada'].value;
-
-      this._regiaoAutorizadaService.obterPorParametros({
-        codAutorizada: codAutorizada,
-        indAtivo: 1,
-        filter: filter,
-        pageSize: 50,
-      }).subscribe((data: RegiaoAutorizadaData) => {
-        this.regioesAutorizadas = data.regioesAutorizadas;
-        this.regioes = data.regioesAutorizadas.map((ra) => { return ra.regiao; });
-        resolve(data);
-      }, () => {
-        reject();
-      });
-    });
+    this.regioesAutorizadas = data.regioesAutorizadas;
+    this.regioes = data.regioesAutorizadas.map((ra) => { return ra.regiao; });
   }
 
   private inicializarForm(): void {
@@ -354,64 +291,14 @@ export class OrdemServicoFormComponent implements OnInit {
   }
 
   private registrarEmitters(): void {
-    this.clienteFilterCtrl.valueChanges
+    this.localFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
         debounceTime(700),
         distinctUntilChanged()
       )
-      .subscribe(() => {
-        this.obterClientes(this.clienteFilterCtrl.value);
-      });
-
-    this.localAtendimentoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterLocaisAtendimento(this.localAtendimentoFilterCtrl.value);
-      });
-
-    this.equipamentoContratoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterEquipamentosContrato(this.equipamentoContratoFilterCtrl.value);
-      });
-
-    this.filialFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterFiliais(this.filialFilterCtrl.value);
-      });
-
-    this.regiaoFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterRegioesAutorizadas(this.regiaoFilterCtrl.value);
-      });
-
-    this.autorizadaFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterAutorizadas(this.autorizadaFilterCtrl.value);
+      .subscribe((query) => {
+        this.obterLocaisAtendimento(query);
       });
   }
 }

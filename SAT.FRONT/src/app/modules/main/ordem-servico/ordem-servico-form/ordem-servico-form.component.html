@@ -40,7 +40,7 @@
                 </div>
                 <div class="grid sm:grid-cols-6 p-8 gap-6 w-full">
                     <div class="sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('os perto') }}</mat-label>
                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
                             <input matInput formControlName="codOS">
@@ -48,10 +48,10 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('tipo de intervencao') }}</mat-label>
 
-                            <mat-select formControlName="codTipoIntervencao">
+                            <mat-select formControlName="codTipoIntervencao" [disabled]="!tiposIntervencao.length">
                                 <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
                                     [value]="tipoIntervencao.codTipoIntervencao">
                                     {{tipoIntervencao.nomTipoIntervencao}}
@@ -63,10 +63,10 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('cliente') }}</mat-label>
 
-                            <mat-select formControlName="codCliente" (selectionChange)="obterLocaisAtendimento()">
+                            <mat-select formControlName="codCliente" [disabled]="!clientes.length">
                                 <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                     {{cliente.nomeFantasia}}
                                 </mat-option>
@@ -77,22 +77,24 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('local de atendimento') }}</mat-label>
 
-                            <mat-select formControlName="codPosto"
-                                #localSelect
-                                (selectionChange)="obterEquipamentosContrato()">
+                            <mat-select formControlName="codPosto" [disabled]="!locais.length">
                                 <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="localFilterCtrl"></ngx-mat-select-search>
+                                    <ngx-mat-select-search
+                                        [formControl]="locaisFiltro"
+                                        [searching]="searching"
+                                        placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
                                 </mat-option>
+                                <mat-option *ngFor="let local of locais"
+                                    [value]="local.codPosto">
+                                    <span class="opacity-60">
+                                        {{ local.numAgencia }}/{{ local.dcPosto }}
+                                    </span>
 
-                                <mat-option *ngFor="let localAtendimento of locaisAtendimento | async"
-                                    [value]="localAtendimento.codPosto">
-                                    {{localAtendimento.numAgencia}}/{{localAtendimento.dcPosto}} -
-                                    {{localAtendimento.nomeLocal}} - {{localAtendimento.endereco}}
+                                    {{local.nomeLocal }}
                                 </mat-option>
                             </mat-select>
 
@@ -101,12 +103,12 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('equipamento contrato') }}</mat-label>
 
                             <mat-select formControlName="codEquipContrato"
-                                [disabled]="equipamentosContrato.length === 0">
-                                
+                                [disabled]="!equipamentosContrato.length">
+
                                 <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
                                     [value]="equipamentoContrato.codEquipContrato">
                                     <span class="opacity-60">
@@ -125,7 +127,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('nome solicitante') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                             </mat-icon>
@@ -134,7 +136,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('telefone solicitante') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'" matPrefix>
                             </mat-icon>
@@ -145,7 +147,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('nome contato') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                             </mat-icon>
@@ -154,7 +156,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('os cliente') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'" matPrefix>
                             </mat-icon>
@@ -163,7 +165,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('os quarteirizada') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"
                                 matPrefix></mat-icon>
@@ -172,7 +174,7 @@
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('defeito') }}</mat-label>
                             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                             <textarea matInput formControlName="defeitoRelatado" [placeholder]="t('defeito')" [rows]="4"
@@ -182,10 +184,10 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('filial') }}</mat-label>
 
-                            <mat-select formControlName="codFilial" (selectionChange)="obterAutorizadas()">
+                            <mat-select formControlName="codFilial">
                                 <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                                     {{ filial.nomeFilial }}
                                 </mat-option>
@@ -196,11 +198,11 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('autorizada') }}</mat-label>
 
                             <mat-select formControlName="codAutorizada"
-                                (selectionChange)="obterRegioesAutorizadas()">
+                                [disabled]="!autorizadas.length">
                                 <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
                                     {{ autorizada.nomeFantasia }}
                                 </mat-option>
@@ -211,11 +213,10 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('regiao') }}</mat-label>
 
-                            <mat-select formControlName="codRegiao"
-                                [disabled]="regioes.length === 0">
+                            <mat-select formControlName="codRegiao" [disabled]="!regioes.length">
 
                                 <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
                                     {{ regiao.nomeRegiao }}
@@ -234,17 +235,12 @@
                 <div class="p-8">
                     <div class="flex flex-col gt-xs:flex-row">
                         <div class="flex flex-col">
-                            <mat-checkbox
-                                class="mb-1"
-                                [color]="'primary'"
+                            <mat-checkbox class="mb-1" [color]="'primary'"
                                 [formControlName]="'indLiberacaoFechaduraCofre'">
                                 {{ t('liberacao de fechadura do cofre') }}
                             </mat-checkbox>
-                            
-                            <mat-checkbox
-                                class="mb-1"
-                                [color]="'primary'"
-                                [formControlName]="'indIntegracao'">
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indIntegracao'">
                                 {{ t('chamado de integracao') }}
                             </mat-checkbox>
                         </div>
@@ -257,17 +253,17 @@
                 </div>
                 <div class="grid sm:grid-cols-6 p-8 gap-6 w-full">
                     <div class="sm:col-span-6">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('marcacao especial') }}</mat-label>
-                            <textarea matInput formControlName="descMotivoMarcaEspecial" [placeholder]="t('marcacao especial')"
-                                [rows]="4" maxlength="1000"></textarea>
+                            <textarea matInput formControlName="descMotivoMarcaEspecial"
+                                [placeholder]="t('marcacao especial')" [rows]="4" maxlength="1000"></textarea>
                             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-form-field class="w-full">
                             <mat-label>{{ t('observacao') }}</mat-label>
                             <textarea matInput formControlName="observacaoCliente" [placeholder]="t('observacao')"
                                 [rows]="4" maxlength="1000"></textarea>
@@ -278,18 +274,17 @@
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button" [routerLink]="['/ordem-servico/detalhe/'+codOS]">
+                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
+                        [routerLink]="['/ordem-servico/detalhe/'+codOS]">
                         {{ t('voltar') }}
                     </button>
-                    
+
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner
-                            *ngIf="form.disabled"
-                            [diameter]="24"
-                            [mode]="'indeterminate'"></mat-progress-spinner>                                
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
                     </button>
                 </div>
             </form>

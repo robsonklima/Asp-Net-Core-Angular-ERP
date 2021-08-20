@@ -118,14 +118,14 @@
                                 [dropSpecialCharacters]="false" required>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                             </mat-icon>
-                            <mat-error>
-                                <span *ngIf="form.get('horaInicio').hasError('required')">
+                            <mat-error *ngIf="form.get('horaInicio').dirty">
+                                <div *ngIf="form.get('horaInicio').hasError('required')">
                                     {{ t('preencher campo') }}
-                                </span>
+                                </div>
 
-                                <span *ngIf="form.get('horaInicio').hasError('invalidFormat')">
+                                <div *ngIf="form.get('horaInicio').hasError('invalidFormat')">
                                     {{ t('formato invalido') }}
-                                </span>
+                                </div>
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -137,14 +137,14 @@
                                 [dropSpecialCharacters]="false" required>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                             </mat-icon>
-                            <mat-error>
-                                <span *ngIf="form.get('horaFim').hasError('required')">
+                            <mat-error *ngIf="form.get('horaFim').dirty">
+                                <div *ngIf="form.get('horaFim').hasError('required')">
                                     {{ t('preencher campo') }}
-                                </span>
+                                </div>
 
-                                <span *ngIf="form.get('horaFim').hasError('invalidFormat')">
+                                <div *ngIf="form.get('horaFim').hasError('invalidFormat')">
                                     {{ t('formato invalido') }}
-                                </span>
+                                </div>
                             </mat-error>
                         </mat-form-field>
                     </div>

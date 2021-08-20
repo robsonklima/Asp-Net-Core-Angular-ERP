@@ -181,17 +181,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         sortActive: 'nomeLocal',
         sortDirection: 'asc',
         codCliente: codCliente,
-        pageSize: 10
+        pageSize: 50,
       }).toPromise();
 
       this.locais = data.locaisAtendimento.slice();
 
       // POG: Adiciona o local da OS na lista
-      if (!this.isAddMode) {
-        this.locais.push(await this._localAtendimentoService
-          .obterPorCodigo(this.ordemServico.codPosto)
-          .toPromise());
-      }
+      // if (!this.isAddMode && this.form.controls['codPosto'].value === this.ordemServico.codPosto) {
+      //   this.locais.push(await this._localAtendimentoService
+      //     .obterPorCodigo(this.ordemServico.codPosto)
+      //     .toPromise());
+      // }
     });
   }
 
@@ -201,7 +201,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         sortActive: 'numSerie',
         sortDirection: 'asc',
         codPosto: codPosto,
-        pageSize: 1000
+        pageSize: 100
       }).toPromise();
 
       this.equipamentosContrato = data.equipamentosContrato.slice();
@@ -227,7 +227,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           indAtivo: 1,
           filter: query,
           codCliente: codCliente,
-          pageSize: 1000
+          pageSize: 10
         }).toPromise();
 
         return data.locaisAtendimento.slice();
@@ -322,9 +322,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     this._ordemServicoService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
-      this._router.navigate(['ordem-servico/detalhe/'+this.codOS]);
-    }, e => {
-
+      this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
     });
   }
 

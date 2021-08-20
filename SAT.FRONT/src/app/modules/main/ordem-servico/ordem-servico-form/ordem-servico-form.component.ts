@@ -85,6 +85,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     
     // Filter Observables
     this.obterLocaisAoFiltrar();
+    this.obterLocaisAoInformarAgenciaEPosto();
 
     // Main Obj
     this.obterOrdemServico();
@@ -116,6 +117,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       indIntegracao: [undefined],
       observacaoCliente: [undefined],
       descMotivoMarcaEspecial: [undefined],
+      agenciaPosto: [undefined]
     });
   }
 
@@ -185,13 +187,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }).toPromise();
 
       this.locais = data.locaisAtendimento.slice();
-
-      // POG: Adiciona o local da OS na lista
-      // if (!this.isAddMode && this.form.controls['codPosto'].value === this.ordemServico.codPosto) {
-      //   this.locais.push(await this._localAtendimentoService
-      //     .obterPorCodigo(this.ordemServico.codPosto)
-      //     .toPromise());
-      // }
     });
   }
 
@@ -228,6 +223,57 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           filter: query,
           codCliente: codCliente,
           pageSize: 10
+        }).toPromise();
+
+        return data.locaisAtendimento.slice();
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    )
+    .subscribe(async locaisFiltrados => {
+      this.searching = false;
+      this.locais = await locaisFiltrados;
+    },
+      () => {
+        this.searching = false;
+      }
+    );
+  }
+
+  // Alerta de POG
+  private async obterLocaisAoInformarAgenciaEPosto() {
+    this.form.controls['agenciaPosto'].valueChanges.pipe(
+      filter(query => !!query),
+      tap(() => this.searching = true),
+      takeUntil(this._onDestroy),
+      debounceTime(900),
+      map(async query => {
+        if (!query) {
+          return;
+        }
+
+        if (query.length < 8) {
+          return;
+        }
+        
+        const agenciaPosto = query.split('/');
+        let agencia, posto;
+
+        if (agenciaPosto.length > 1) {
+          agencia = agenciaPosto[0];
+          posto = agenciaPosto[1];
+        } else {
+          return [];
+        }
+
+        const data = await this._localAtendimentoService.obterPorParametros({
+          sortActive: 'nomeLocal',
+          sortDirection: 'asc',
+          indAtivo: 1,
+          pageSize: 10,
+          numAgencia: agencia,
+          dcPosto: posto,
+          codCliente: this.form.controls['codCliente'].value
         }).toPromise();
 
         return data.locaisAtendimento.slice();

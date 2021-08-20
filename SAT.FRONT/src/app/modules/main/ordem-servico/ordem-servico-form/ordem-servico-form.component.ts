@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -76,7 +76,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     private _filialService: FilialService,
     private _autorizadaService: AutorizadaService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
-    readonly sd: ScrollDispatcher
+    private _cdr: ChangeDetectorRef,
+    readonly sd: ScrollDispatcher,
   ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
@@ -86,117 +87,16 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codOS;
     this.inicializarForm();
 
-    this.tiposIntervencao = (await this._tipoIntervencaoService
-      .obterPorParametros({
-        indAtivo: 1,
-        pageSize: 100,
-        sortActive: 'nomTipoIntervencao',
-        sortDirection: 'asc'
-      }).toPromise()).tiposIntervencao;
-
-    this.clientes = (await this._clienteService
-      .obterPorParametros({
-        indAtivo: 1,
-        pageSize: 500,
-        sortActive: 'nomeFantasia',
-        sortDirection: 'asc'
-      }).toPromise()).clientes;
-
-    this.filiais = (await this._filialService
-      .obterPorParametros({
-        indAtivo: 1,
-        pageSize: 500,
-        sortActive: 'nomeFilial',
-        sortDirection: 'asc'
-      }).toPromise()).filiais;
-
-    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente => {
-      const data = await this._localAtendimentoService.obterPorParametros({
-        indAtivo: 1,
-        sortActive: 'nomeLocal',
-        sortDirection: 'asc',
-        codCliente: codCliente,
-        pageSize: 1000
-      }).toPromise();
-
-      this.locais = data.locaisAtendimento.slice();
-    });
-
-    this.locaisFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        tap(() => this.searching = true),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const codCliente = this.form.controls['codCliente'].value;
-
-          if (!codCliente) {
-            return [];
-          }
-
-          const data = await this._localAtendimentoService.obterPorParametros({
-            sortActive: 'nomeLocal',
-            sortDirection: 'asc',
-            indAtivo: 1,
-            filter: query,
-            codCliente: codCliente,
-            pageSize: 1000
-          }).toPromise();
-
-          return data.locaisAtendimento.slice();
-        }),
-        delay(500),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async locaisFiltrados => {
-        this.searching = false;
-        this.locais = await locaisFiltrados;
-      },
-        () => {
-          this.searching = false;
-        }
-      );
-
-    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
-      const data = await this._equipamentoContratoService.obterPorParametros({
-        indAtivo: 1,
-        sortActive: 'numSerie',
-        sortDirection: 'asc',
-        codPosto: codPosto,
-        pageSize: 1000
-      }).toPromise();
-
-      this.equipamentosContrato = data.equipamentosContrato.slice();
-    });
-
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada => {
-      const data = await this._regiaoAutorizadaService.obterPorParametros({
-        indAtivo: 1,
-        codAutorizada: codAutorizada,
-        pageSize: 100
-      }).toPromise();
-
-      this.regioes = data.regioesAutorizadas.filter(ra => ra.codAutorizada === codAutorizada).map(ra => ra.regiao);
-    });
-
-    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
-      const data = await this._autorizadaService.obterPorParametros({
-        indAtivo: 1,
-        sortActive: 'nomeFantasia',
-        sortDirection: 'asc',
-        codFilial: codFilial,
-        pageSize: 50
-      }).toPromise();
-
-      this.autorizadas = data.autorizadas.slice();
-    });
-
-    if (!this.isAddMode) {
-      this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-      this.form.patchValue(this.ordemServico);
-      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
-    }
+    await this.obterTiposIntervencao();
+    await this.obterClientes();
+    await this.obterFiliais();
+    await this.observarCliente();
+    await this.observarCliente();
+    await this.observarAutorizada();
+    await this.observarFilial();
+    await this.observarLocal();
+    await this.observarLocalFiltro();
+    await this.obterOrdemServico();
 
     if (this.usuario?.filial?.codFilial || this.ordemServico?.filial?.codFilial) {
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial);
@@ -243,6 +143,134 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       indIntegracao: [undefined],
       observacaoCliente: [undefined],
       descMotivoMarcaEspecial: [undefined],
+    });
+  }
+
+  private async obterOrdemServico() {
+    if (!this.isAddMode) {
+      this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+      this.form.patchValue(this.ordemServico);
+      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
+    }
+  }
+
+  private async obterTiposIntervencao() {
+    this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
+      indAtivo: 1,
+      pageSize: 100,
+      sortActive: 'nomTipoIntervencao',
+      sortDirection: 'asc'
+    }).toPromise()).tiposIntervencao;
+  }
+
+  private async obterClientes() {
+    this.clientes = (await this._clienteService.obterPorParametros({
+      indAtivo: 1,
+      pageSize: 500,
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc'
+    }).toPromise()).clientes;
+  }
+
+  private async obterFiliais() {
+    this.filiais = (await this._filialService.obterPorParametros({
+      indAtivo: 1,
+      pageSize: 500,
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc'
+    }).toPromise()).filiais;
+  }
+
+  private async observarCliente() {
+    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente => {
+      const data = await this._localAtendimentoService.obterPorParametros({
+        indAtivo: 1,
+        sortActive: 'nomeLocal',
+        sortDirection: 'asc',
+        codCliente: codCliente,
+        pageSize: 10
+      }).toPromise();
+
+      this.locais = data.locaisAtendimento.slice();
+    });
+  }
+
+  private async observarLocal() {
+    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
+      const data = await this._equipamentoContratoService.obterPorParametros({
+        indAtivo: 1,
+        sortActive: 'numSerie',
+        sortDirection: 'asc',
+        codPosto: codPosto,
+        pageSize: 1000
+      }).toPromise();
+
+      this.equipamentosContrato = data.equipamentosContrato.slice();
+    });
+  }
+
+  private async observarLocalFiltro() {
+    this.locaisFiltro.valueChanges.pipe(
+      filter(query => !!query),
+      tap(() => this.searching = true),
+      takeUntil(this._onDestroy),
+      debounceTime(700),
+      map(async query => {
+        const codCliente = this.form.controls['codCliente'].value;
+
+        if (!codCliente) {
+          return [];
+        }
+
+        const data = await this._localAtendimentoService.obterPorParametros({
+          sortActive: 'nomeLocal',
+          sortDirection: 'asc',
+          indAtivo: 1,
+          filter: query,
+          codCliente: codCliente,
+          pageSize: 1000
+        }).toPromise();
+
+        return data.locaisAtendimento.slice();
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    )
+    .subscribe(async locaisFiltrados => {
+      this.searching = false;
+      this.locais = await locaisFiltrados;
+    },
+      () => {
+        this.searching = false;
+      }
+    );
+  }
+
+  private async observarAutorizada() {
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada => {
+      const data = await this._regiaoAutorizadaService.obterPorParametros({
+        indAtivo: 1,
+        codAutorizada: codAutorizada,
+        pageSize: 100
+      }).toPromise();
+
+      this.regioes = data.regioesAutorizadas
+        .filter(ra => ra.codAutorizada === codAutorizada)
+        .map(ra => ra.regiao);
+    });
+  }
+
+  private async observarFilial() {
+    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
+      const data = await this._autorizadaService.obterPorParametros({
+        indAtivo: 1,
+        sortActive: 'nomeFantasia',
+        sortDirection: 'asc',
+        codFilial: codFilial,
+        pageSize: 50
+      }).toPromise();
+
+      this.autorizadas = data.autorizadas.slice();
     });
   }
 

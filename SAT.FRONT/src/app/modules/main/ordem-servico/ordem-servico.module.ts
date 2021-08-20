@@ -42,7 +42,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { OrdemServicoFiltroComponent } from './ordem-servico-filtro/ordem-servico-filtro.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
     return {
@@ -95,8 +94,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         MatListModule,
         MatStepperModule,
         FuseAlertModule,
-        MatProgressSpinnerModule,
-        MatAutocompleteModule
+        MatProgressSpinnerModule
     ]
 })
 export class OrdemServicoModule {

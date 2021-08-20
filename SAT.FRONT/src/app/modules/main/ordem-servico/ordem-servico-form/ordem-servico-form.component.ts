@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -37,24 +37,16 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isAddMode: boolean;
   usuario: any;
-  localFilterCtrl: FormControl = new FormControl();
   clientes: Cliente[] = [];
-  tiposIntervencao: TipoIntervencao[] = [];
-
-  equipamentosContrato: EquipamentoContrato[] = [];
-  regioesAutorizadas: RegiaoAutorizada[] = [];
   autorizadas: Autorizada[] = [];
   regioes: Regiao[] = [];
   filiais: Filial[] = [];
-  loading: any = {
-    status: false,
-    ref: ''
-  };
-
-  public locaisFiltro: FormControl = new FormControl();
-  public locais: LocalAtendimento[] = [];
-
-  public searching = false;
+  tiposIntervencao: TipoIntervencao[] = [];
+  equipamentosContrato: EquipamentoContrato[] = [];
+  regioesAutorizadas: RegiaoAutorizada[] = [];
+  locaisFiltro: FormControl = new FormControl();
+  locais: LocalAtendimento[] = [];
+  searching: boolean;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -131,10 +123,14 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
+    } else {
+      
     }
 
-    if (this.usuario?.filial?.codFilial || this.ordemServico?.filial?.codFilial) {
-      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial);
+    const codFilial = this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial;
+
+    if (this.usuario?.filial?.codFilial) {
+      this.form.controls['codFilial'].setValue(codFilial);
       this.form.controls['codFilial'].disable();
 
       await this.obterAutorizadas();
@@ -196,7 +192,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   private async observarLocal() {
     this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
       const data = await this._equipamentoContratoService.obterPorParametros({
-        indAtivo: 1,
         sortActive: 'numSerie',
         sortDirection: 'asc',
         codPosto: codPosto,

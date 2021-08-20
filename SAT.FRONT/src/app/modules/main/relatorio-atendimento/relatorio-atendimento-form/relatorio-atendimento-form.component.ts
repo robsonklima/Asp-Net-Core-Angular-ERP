@@ -24,6 +24,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { TimeValidator } from 'app/core/validators/time.validator';
 
 
 @Component({
@@ -243,8 +244,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
           disabled: false,
         }, [Validators.required]
       ],
-      horaInicio: [undefined, [Validators.required]],
-      horaFim: [undefined, [Validators.required]],
+      horaInicio: [undefined, [TimeValidator(), Validators.required]],
+      horaFim: [undefined, [TimeValidator(), Validators.required]],
       obsRAT: [undefined],
     });
   }

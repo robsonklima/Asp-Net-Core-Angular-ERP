@@ -175,5 +175,6 @@
     "ola": "Olá",
     "nao se aplica": "Não se aplica",
     "preencha as informacoes referentes ao relatorio de atendimento tecnico": "Preencha as informações do relatório de atendimento técnico",
-    "informe o servico causa defeito acao e as pecas": "Informe o serviço, causa, defeito, ação e peças substituídas (se necessário)"
+    "informe o servico causa defeito acao e as pecas": "Informe o serviço, causa, defeito, ação e peças substituídas (se necessário)",
+    "formato invalido": "Formato Inválido"
 }

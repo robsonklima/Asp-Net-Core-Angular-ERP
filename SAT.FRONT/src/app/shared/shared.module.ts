@@ -6,9 +6,9 @@ import { getPortugueseIntl } from './pt-br.paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
 
 export const FORMATO_DATA = {
     parse: {

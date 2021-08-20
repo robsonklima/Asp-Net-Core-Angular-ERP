@@ -111,13 +111,13 @@
 
                                 <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
                                     [value]="equipamentoContrato.codEquipContrato">
-                                    <span class="opacity-60">
-                                        {{ equipamentoContrato?.equipamento?.nomeEquip }}
-                                    </span>
-
                                     <span class="font-semibold" [class.text-red-500]="!equipamentoContrato.indAtivo"
                                         [class.text-green-500]="equipamentoContrato.indAtivo">
                                         [N.S] {{ equipamentoContrato.numSerie }}
+                                    </span>
+
+                                    <span class="opacity-60">
+                                        {{ equipamentoContrato?.equipamento?.nomeEquip }}
                                     </span>
                                 </mat-option>
                             </mat-select>
@@ -140,8 +140,8 @@
                             <mat-label>{{ t('telefone solicitante') }}</mat-label>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'" matPrefix>
                             </mat-icon>
-                            <input matInput formControlName="telefoneSolicitante" mask="(00)00000-0000"
-                                [showMaskTyped]="true" [dropSpecialCharacters]="false">
+                            <input matInput formControlName="telefoneSolicitante" mask="(00) 00000-0000"
+                                [dropSpecialCharacters]="false">
 
                         </mat-form-field>
                     </div>
@@ -174,7 +174,7 @@
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="fuse-mat-textarea flex-auto w-full">
                             <mat-label>{{ t('defeito') }}</mat-label>
                             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                             <textarea matInput formControlName="defeitoRelatado" [placeholder]="t('defeito')" [rows]="4"
@@ -253,7 +253,7 @@
                 </div>
                 <div class="grid sm:grid-cols-6 p-8 gap-6 w-full">
                     <div class="sm:col-span-6">
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="fuse-mat-textarea flex-auto w-full">
                             <mat-label>{{ t('marcacao especial') }}</mat-label>
                             <textarea matInput formControlName="descMotivoMarcaEspecial"
                                 [placeholder]="t('marcacao especial')" [rows]="4" maxlength="1000"></textarea>
@@ -263,7 +263,7 @@
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="fuse-mat-textarea flex-auto w-full">
                             <mat-label>{{ t('observacao') }}</mat-label>
                             <textarea matInput formControlName="observacaoCliente" [placeholder]="t('observacao')"
                                 [rows]="4" maxlength="1000"></textarea>

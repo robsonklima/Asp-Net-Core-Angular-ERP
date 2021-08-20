@@ -173,5 +173,6 @@
     "ola": "Hello",
     "nao se aplica": "Not applicable",
     "preencha as informacoes referentes ao relatorio de atendimento tecnico": "Fill in the Information Relating to the Technical Service Report",
-    "informe o servico causa defeito acao e as pecas": "Report the service, cause, defect, action and replaced parts (if necessary)"
+    "informe o servico causa defeito acao e as pecas": "Report the service, cause, defect, action and replaced parts (if necessary)",
+    "formato invalido": "Invalid Format"
 }

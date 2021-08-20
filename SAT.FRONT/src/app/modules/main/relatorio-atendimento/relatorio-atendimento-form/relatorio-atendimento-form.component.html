@@ -118,7 +118,15 @@
                                 [dropSpecialCharacters]="false" required>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                             </mat-icon>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                            <mat-error>
+                                <span *ngIf="form.get('horaInicio').hasError('required')">
+                                    {{ t('preencher campo') }}
+                                </span>
+
+                                <span *ngIf="form.get('horaInicio').hasError('invalidFormat')">
+                                    {{ t('formato invalido') }}
+                                </span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
 
@@ -129,15 +137,24 @@
                                 [dropSpecialCharacters]="false" required>
                             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                             </mat-icon>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                            <mat-error>
+                                <span *ngIf="form.get('horaFim').hasError('required')">
+                                    {{ t('preencher campo') }}
+                                </span>
+
+                                <span *ngIf="form.get('horaFim').hasError('invalidFormat')">
+                                    {{ t('formato invalido') }}
+                                </span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
 
                     <div class="sm:col-span-6">
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="fuse-mat-textarea flex-auto w-full">
                             <mat-label>{{ t('observacao') }}</mat-label>
                             <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
                                 [rows]="4"></textarea>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
                     </div>

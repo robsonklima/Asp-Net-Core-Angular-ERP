@@ -1,8 +1,7 @@
-import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
-import { ReplaySubject, Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
@@ -25,9 +24,6 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
-import { MatSelect } from '@angular/material/select';
-import { CdkVirtualScrollViewport, ScrollDispatcher } from '@angular/cdk/scrolling';
-import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -64,7 +60,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
-    private _location: Location,
     private _router: Router,
     private _ordemServicoService: OrdemServicoService,
     private _userService: UserService,
@@ -75,9 +70,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     private _clienteService: ClienteService,
     private _filialService: FilialService,
     private _autorizadaService: AutorizadaService,
-    private _regiaoAutorizadaService: RegiaoAutorizadaService,
-    private _cdr: ChangeDetectorRef,
-    readonly sd: ScrollDispatcher,
+    private _regiaoAutorizadaService: RegiaoAutorizadaService
   ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
@@ -90,27 +83,14 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     await this.obterTiposIntervencao();
     await this.obterClientes();
     await this.obterFiliais();
-    await this.observarCliente();
+
     await this.observarCliente();
     await this.observarAutorizada();
     await this.observarFilial();
     await this.observarLocal();
     await this.observarLocalFiltro();
+
     await this.obterOrdemServico();
-
-    if (this.usuario?.filial?.codFilial || this.ordemServico?.filial?.codFilial) {
-      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial);
-      this.form.controls['codFilial'].disable();
-
-      this.autorizadas = (await this._autorizadaService
-        .obterPorParametros({
-          indAtivo: 1,
-          pageSize: 500,
-          sortActive: 'nomeFantasia',
-          sortDirection: 'asc',
-          codFilial: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial
-        }).toPromise()).autorizadas;
-    }
   }
 
   private inicializarForm(): void {
@@ -152,6 +132,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       this.form.patchValue(this.ordemServico);
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
     }
+
+    if (this.usuario?.filial?.codFilial || this.ordemServico?.filial?.codFilial) {
+      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial);
+      this.form.controls['codFilial'].disable();
+
+      await this.obterAutorizadas();
+    }
   }
 
   private async obterTiposIntervencao() {
@@ -179,6 +166,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       sortActive: 'nomeFilial',
       sortDirection: 'asc'
     }).toPromise()).filiais;
+  }
+
+  private async obterAutorizadas() {
+    this.autorizadas = (await this._autorizadaService
+      .obterPorParametros({
+        indAtivo: 1,
+        pageSize: 500,
+        sortActive: 'nomeFantasia',
+        sortDirection: 'asc',
+        codFilial: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial
+      }).toPromise()).autorizadas;
   }
 
   private async observarCliente() {
@@ -297,7 +295,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     this._ordemServicoService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
-      this._location.back();
+      this._router.navigate(['ordem-servico/detalhe/'+this.codOS]);
     });
   }
 
@@ -323,7 +321,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     this._ordemServicoService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
-      this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
+      this._router.navigate(['ordem-servico/detalhe/'+this.codOS]);
     }, e => {
 
     });

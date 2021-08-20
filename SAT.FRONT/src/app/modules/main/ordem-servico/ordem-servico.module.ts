@@ -42,7 +42,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { OrdemServicoFiltroComponent } from './ordem-servico-filtro/ordem-servico-filtro.component';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
     return {
@@ -96,7 +95,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         MatStepperModule,
         FuseAlertModule,
         MatProgressSpinnerModule,
-        ScrollingModule
     ]
 })
 export class OrdemServicoModule {

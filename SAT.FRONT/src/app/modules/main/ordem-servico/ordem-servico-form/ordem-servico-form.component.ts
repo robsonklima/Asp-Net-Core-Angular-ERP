@@ -72,17 +72,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codOS;
     this.inicializarForm();
 
-    await this.obterTiposIntervencao();
-    await this.obterClientes();
-    await this.obterFiliais();
+    // Init
+    this.obterTiposIntervencao();
+    this.obterClientes();
+    this.obterFiliais();
 
-    await this.observarCliente();
-    await this.observarAutorizada();
-    await this.observarFilial();
-    await this.observarLocal();
-    await this.observarLocalFiltro();
+    // Changes Observables
+    this.obterLocaisAoTrocarCliente();
+    this.obterRegioesAoTrocarAutorizada();
+    this.obterAutorizadasAoTrocarFilial();
+    this.obterEquipamentosAoTrocarLocal();
+    
+    // Filter Observables
+    this.obterLocaisAoFiltrar();
 
-    await this.obterOrdemServico();
+    // Main Obj
+    this.obterOrdemServico();
   }
 
   private inicializarForm(): void {
@@ -104,11 +109,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       defeitoRelatado: [undefined, Validators.required],
       codEquipContrato: [undefined],
       codEquip: [undefined],
-      codFilial: [
-        {
-          value: undefined,
-        }, [Validators.required]
-      ],
+      codFilial: [undefined, Validators.required],
       codRegiao: [undefined, Validators.required],
       codAutorizada: [undefined, Validators.required],
       indLiberacaoFechaduraCofre: [undefined],
@@ -123,9 +124,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
-    } else {
-      
-    }
+    } 
 
     const codFilial = this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial;
 
@@ -175,7 +174,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }).toPromise()).autorizadas;
   }
 
-  private async observarCliente() {
+  private async obterLocaisAoTrocarCliente() {
     this.form.controls['codCliente'].valueChanges.subscribe(async codCliente => {
       const data = await this._localAtendimentoService.obterPorParametros({
         indAtivo: 1,
@@ -186,10 +185,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }).toPromise();
 
       this.locais = data.locaisAtendimento.slice();
+
+      // POG: Adiciona o local da OS na lista
+      if (!this.isAddMode) {
+        this.locais.push(await this._localAtendimentoService
+          .obterPorCodigo(this.ordemServico.codPosto)
+          .toPromise());
+      }
     });
   }
 
-  private async observarLocal() {
+  private async obterEquipamentosAoTrocarLocal() {
     this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
       const data = await this._equipamentoContratoService.obterPorParametros({
         sortActive: 'numSerie',
@@ -202,7 +208,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async observarLocalFiltro() {
+  private async obterLocaisAoFiltrar() {
     this.locaisFiltro.valueChanges.pipe(
       filter(query => !!query),
       tap(() => this.searching = true),
@@ -239,7 +245,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  private async observarAutorizada() {
+  private async obterRegioesAoTrocarAutorizada() {
     this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada => {
       const data = await this._regiaoAutorizadaService.obterPorParametros({
         indAtivo: 1,
@@ -253,7 +259,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async observarFilial() {
+  private async obterAutorizadasAoTrocarFilial() {
     this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
       const data = await this._autorizadaService.obterPorParametros({
         indAtivo: 1,

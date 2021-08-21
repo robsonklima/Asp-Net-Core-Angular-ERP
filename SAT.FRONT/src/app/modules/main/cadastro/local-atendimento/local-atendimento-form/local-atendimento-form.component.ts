@@ -1,16 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { FilialService } from 'app/core/services/filial.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { PaisService } from 'app/core/services/pais.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
+import { RegiaoService } from 'app/core/services/regiao.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
+import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
+import { TipoRota } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -33,36 +41,43 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   cidades: Cidade[] = [];
   cidadesFiltro: FormControl = new FormControl();
   clientes: Cliente[] = [];
+  regioes: Regiao[] = [];
+  regioesFiltro: FormControl = new FormControl();
+  autorizadas: Autorizada[] = [];
+  autorizadasFiltro: FormControl = new FormControl();
+  tiposRota: TipoRota[] = [];
+  filiais: Filial[] = [];
   userSession: UsuarioSessionData;
   protected _onDestroy = new Subject<void>();
 
   constructor(
+    private _router: Router,
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
     private _userService: UserService,
-    private _router: Router,
     private _paisService: PaisService,
     private _ufService: UnidadeFederativaService,
     private _cidadeService: CidadeService,
     private _localService: LocalAtendimentoService,
-    private _clienteService: ClienteService
+    private _autorizadaService: AutorizadaService,
+    private _clienteService: ClienteService,
+    private _filialService: FilialService,
+    private _regiaoService: RegiaoService,
+    private _regiaoAutorizadaService: RegiaoAutorizadaService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
-    this.codPosto = +this._route.snapshot.paramMap.get('codOS');
+    this.codPosto = +this._route.snapshot.paramMap.get('codPosto');
     this.isAddMode = !this.codPosto;
     this.inicializarForm();
 
-    if (!this.isAddMode) {
-      this.obterLocal();
-    }
-
     this.obterPaises();
     this.obterClientes();
-
+    this.obterFiliais();
+    
     this.form.controls['codPais'].valueChanges.subscribe(async () => {
       this.obterUFs();
     });
@@ -71,14 +86,26 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       this.obterCidades();
     });
 
+    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
+      this.obterAutorizadas();
+    });
+
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
+      this.obterRegioes();
+    });
+
     this.cidadesFiltro.valueChanges.pipe(
       filter(filtro => !!filtro),
-      tap(() => {}),
+      tap(() => { }),
       debounceTime(700),
       map(async filtro => { this.obterCidades(filtro) }),
       delay(500),
       takeUntil(this._onDestroy)
-    ).subscribe(() => {});
+    ).subscribe(() => { });
+
+    if (!this.isAddMode) {
+      this.obterLocal();
+    }
   }
 
   private inicializarForm(): void {
@@ -105,12 +132,10 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       email: [undefined],
       site: [undefined],
       fone: [undefined],
-      fax: [undefined],
       descTurno: [undefined],
       distanciaKmPatRes: [undefined],
       observacao: [undefined],
       numeroEnd: [undefined, Validators.required],
-      senhaAcessoNotaFiscal: [undefined],
       cnpjFaturamento: [undefined],
       codRegiao: [undefined, Validators.required],
       codAutorizada: [
@@ -121,14 +146,25 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       ],
       codFilial: [undefined, Validators.required],
       codTipoRota: [undefined],
-      latitude: [undefined, Validators.required],
-      longitude: [undefined, Validators.required],
+      latitude: [
+        {
+          value: undefined,
+          disabled: true,
+        }, Validators.required
+      ],
+      longitude: [
+        {
+          value: undefined,
+          disabled: true,
+        }, Validators.required
+      ],
       indAtivo: [undefined]
     });
   }
 
   private async obterLocal() {
     this.local = await this._localService.obterPorCodigo(this.codPosto).toPromise();
+    this.form.patchValue(this.local);
   }
 
   private async obterPaises() {
@@ -171,11 +207,49 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       indAtivo: 1,
-      pageSize: 200
+      pageSize: 50
     }
 
     const data = await this._clienteService.obterPorParametros(params).toPromise();
     this.clientes = data.clientes;
+  }
+
+  private async obterFiliais() {
+    const params: FilialParameters = {
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      pageSize: 50
+    }
+
+    const data = await this._filialService.obterPorParametros(params).toPromise();
+    this.filiais = data.filiais;
+  }
+
+  private async obterAutorizadas() {
+    const params: AutorizadaParameters = {
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      codFilial: this.form.controls['codFilial'].value,
+      pageSize: 50
+    }
+
+    const data = await this._autorizadaService.obterPorParametros(params).toPromise();
+    this.autorizadas = data.autorizadas;
+  }
+
+  private async obterRegioes() {
+    const codAutorizada = this.form.controls['codAutorizada'].value;
+
+    const data = await this._regiaoAutorizadaService.obterPorParametros({
+      codAutorizada: codAutorizada,
+      pageSize: 100
+    }).toPromise();
+
+    this.regioes = data.regioesAutorizadas
+      .filter(ra => ra.codAutorizada === codAutorizada)
+      .map(ra => ra.regiao);
   }
 
   salvar(): void {

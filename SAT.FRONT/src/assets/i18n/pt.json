@@ -178,6 +178,17 @@
     "informe o servico causa defeito acao e as pecas": "Informe o serviço, causa, defeito, ação e peças substituídas (se necessário)",
     "formato invalido": "Formato Inválido",
     "agencia e posto": "Agência e Posto",
+    "numero agencia": "Número da Agência",
+    "dc posto": "DC Posto",
     "locais de atendimento": "Locais de Atendimento",
-    "inativo": "Inativo"
+    "inativo": "Inativo",
+    "endereco complemento": "Endereço Complemento",
+    "cnpj faturamento": "CNPJ de Faturamento",
+    "tipo de rota": "Tipo de Rota",
+    "numero": "Número",
+    "distancia pat res": "Distância PAT Residência",
+    "descricao turno": "Descrição do Turno",
+    "informacoes principais": "Informações Principais",
+    "informacoes complementares": "Informações Complementares",
+    "localizacao": "Localização"
 }

@@ -128,7 +128,7 @@
     "razao social": "Corporate Name",
     "nome fantasia": "Company Name",
     "cnpj": "EIN",
-    "inscricao estadual": "State registration",
+    "inscricao estadual": "State Registration",
     "cep": "Postal Code",
     "endereco": "Address",
     "bairro": "Neighborhood",
@@ -176,7 +176,18 @@
     "informe o servico causa defeito acao e as pecas": "Report the service, cause, defect, action and replaced parts (if necessary)",
     "formato invalido": "Invalid Format",
     "agencia e posto": "Agency and Service Post",
+    "numero agencia": "Agency Number",
+    "dc posto": "Post DC",
     "locais de atendimento": "Service Places",
     "inativo": "Inactive",
-    "informacoes": "Information"
+    "informacoes": "Information",
+    "endereco complemento": "Address Complement",
+    "cnpj faturamento": "CNPJ Billing",
+    "tipo de rota": "Route Type",
+    "numero": "Number",
+    "distancia pat res": "Home to PAT Distance",
+    "descricao turno": "Shift Description",
+    "informacoes principais": "Main Information",
+    "informacoes complementares": "Additional Information",
+    "localizacao": "Location"
 }

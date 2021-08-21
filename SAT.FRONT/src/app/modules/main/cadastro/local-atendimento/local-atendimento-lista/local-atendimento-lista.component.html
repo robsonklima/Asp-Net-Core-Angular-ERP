@@ -30,11 +30,17 @@
                             <div [mat-sort-header]="'nomeLocal'">
                                 {{ t('nome') }}
                             </div>
+                            <div>
+                                {{ t('filial') }}
+                            </div>
+                            <div>
+                                {{ t('autorizada') }}
+                            </div>
+                            <div>
+                                {{ t('regiao') }}
+                            </div>
                             <div [mat-sort-header]="'indAtivo'">
                                 Status
-                            </div>    
-                            <div class="md:block">
-                                {{ t('acoes') }}
                             </div>
                         </div>
 
@@ -43,24 +49,29 @@
                                 <div
                                     class="list-grid-ge grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        {{ local.codPosto }}
+                                        <a [routerLink]="['/local-atendimento/form/' + local.codPosto]" class="text-primary">
+                                            {{ local.codPosto }}
+                                        </a>
                                     </div>
 
                                     <div class="truncate">
-                                        {{ (local.nomeLocal || t('nao informado')) | titlecase }}
+                                        {{ (local.nomeLocal || t('nao informado')) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (local.filial?.nomeFilial || t('nao informado')) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (local.autorizada?.nomeFantasia || t('nao informado')) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (local.regiao?.nomeRegiao || t('nao informado')) | uppercase }}
                                     </div>
 
                                     <div class="flex">
                                         {{ local.indAtivo ? t('ativo') : t('inativo') }}
-                                    </div>
-
-                                    <div>
-                                        <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
-                                            [routerLink]="['/local-atendimento/form/' + local.codPosto]">
-                                            <mat-icon class="icon-size-5" color="primary"
-                                                [svgIcon]="'heroicons_solid:pencil'">
-                                            </mat-icon>
-                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

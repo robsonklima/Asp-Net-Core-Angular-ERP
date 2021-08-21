@@ -115,7 +115,7 @@
                         <mat-label>{{ t('tipo de rota') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codTipoRota" [disabled]="!tiposRota.length">
-                            <mat-option *ngFor="let tipoRota of tiposRota" [value]="tipoRota.nomeTipoRota">
+                            <mat-option *ngFor="let tipoRota of tiposRota" [value]="tipoRota.codTipoRota">
                                 {{ tipoRota.nomeTipoRota }}
                             </mat-option>
                         </mat-select>

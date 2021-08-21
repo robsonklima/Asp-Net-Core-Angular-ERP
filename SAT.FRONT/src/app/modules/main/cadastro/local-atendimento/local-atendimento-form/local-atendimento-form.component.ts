@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TipoRotaEnum } from 'app/core/enums/tipo-rota.enum';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { ClienteService } from 'app/core/services/cliente.service';
@@ -77,6 +78,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.obterPaises();
     this.obterClientes();
     this.obterFiliais();
+    this.obterTiposRota();
     
     this.form.controls['codPais'].valueChanges.subscribe(async () => {
       this.obterUFs();
@@ -250,6 +252,19 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.regioes = data.regioesAutorizadas
       .filter(ra => ra.codAutorizada === codAutorizada)
       .map(ra => ra.regiao);
+  }
+
+  private obterTiposRota(): void {
+    const tiposRota = Object.keys(TipoRotaEnum).filter((element) => {
+      return isNaN(Number(element));
+    });
+
+    tiposRota.forEach((tr, i) => {
+      this.tiposRota.push({
+        codTipoRota: i + 1,
+        nomeTipoRota: tr
+      })
+    });
   }
 
   salvar(): void {

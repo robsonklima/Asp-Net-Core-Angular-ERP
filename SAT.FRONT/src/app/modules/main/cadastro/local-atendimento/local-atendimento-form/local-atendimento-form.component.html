@@ -1,1 +1,138 @@
-<p>local-atendimento-form works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/local-atendimento">
+                        {{ t('locais de atendimento') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('local de atendimento') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes') }}</p>
+                    <p class="text-secondary">{{ t('informacoes') }}</p>
+                </div>
+                <div class="grid sm:grid-cols-12 p-8 gap-6 w-full">
+                    <div class="sm:col-span-6" *ngIf="!isAddMode"> 
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('codigo') }}</mat-label>
+                            <input matInput formControlName="codPosto">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6"> 
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('nome') }}</mat-label>
+                            <input matInput formControlName="nomeLocal">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('cliente') }}</mat-label>
+
+                            <mat-select formControlName="codCliente" [disabled]="!clientes.length">
+                                <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                                    {{ cliente.nomeFantasia }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('pais') }}</mat-label>
+
+                            <mat-select formControlName="codPais" [disabled]="!paises.length">
+                                <mat-option *ngFor="let pais of paises" [value]="pais.codPais">
+                                    {{ pais.nomePais }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('unidade federativa') }}</mat-label>
+
+                            <mat-select formControlName="codUF" [disabled]="!ufs.length">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="ufsFiltro"
+                                        placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
+                                    {{ uf.siglaUF }}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <mat-form-field class="w-full">
+                            <mat-label>{{ t('cidade') }}</mat-label>
+
+                            <mat-select formControlName="codCidade" [disabled]="!cidades.length">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="cidadesFiltro"
+                                        placeholderLabel="Pesquisa..."
+                                        noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                                    <span>
+                                        {{ (cidade.nomeCidade || 'Não Informado') | titlecase }}
+                                    </span>
+
+                                    <span class="opacity-50">
+                                        {{ cidade.unidadeFederativa.nomeUF | titlecase }}
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button [routerLink]="['/local-atendimento']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

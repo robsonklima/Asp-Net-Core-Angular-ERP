@@ -17,6 +17,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class LocalAtendimentoModule { }

@@ -1,14 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
 import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
 import { GrupoEquipamento } from 'app/core/types/grupo-equipamento.types';
-import { TipoEquipamento, TipoEquipamentoData } from 'app/core/types/tipo-equipamento.types';
-import { ReplaySubject, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { TipoEquipamento } from 'app/core/types/tipo-equipamento.types';
+import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grupo-equipamento-form',

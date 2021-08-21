@@ -207,7 +207,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.locaisFiltro.valueChanges.pipe(
       filter(query => !!query),
       tap(() => this.searching = true),
-      takeUntil(this._onDestroy),
       debounceTime(700),
       map(async query => {
         const codCliente = this.form.controls['codCliente'].value;
@@ -257,7 +256,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         }
         
         const agenciaPosto = query.split('/');
-        let agencia, posto;
+        let agencia
+        let posto;
 
         if (agenciaPosto.length > 1) {
           agencia = agenciaPosto[0];
@@ -271,8 +271,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           sortDirection: 'asc',
           indAtivo: 1,
           pageSize: 10,
-          numAgencia: agencia,
-          dcPosto: posto,
+          //numAgencia: agencia,
+          //dcPosto: posto,
           codCliente: this.form.controls['codCliente'].value
         }).toPromise();
 

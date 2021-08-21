@@ -133,7 +133,7 @@
     "endereco": "Address",
     "bairro": "Neighborhood",
     "pais": "Country",
-    "unidade federativa": "Federative unit",
+    "unidade federativa": "Federative Unit",
     "cidade": "City",
     "tipo rota": "Route Type",
     "latitude": "Latitude",
@@ -177,5 +177,6 @@
     "formato invalido": "Invalid Format",
     "agencia e posto": "Agency and Service Post",
     "locais de atendimento": "Service Places",
-    "inativo": "Inactive"
+    "inativo": "Inactive",
+    "informacoes": "Information"
 }

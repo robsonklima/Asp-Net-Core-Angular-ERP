@@ -27,8 +27,17 @@
                             <div class="md:block" [mat-sort-header]="'codPosto'">
                                 {{ t('codigo') }}
                             </div>
+                            <div [mat-sort-header]="'numAgencia'">
+                                {{ t('agencia') }}
+                            </div>
+                            <div [mat-sort-header]="'dcPosto'">
+                                {{ t('posto') }}
+                            </div>
                             <div [mat-sort-header]="'nomeLocal'">
                                 {{ t('nome') }}
+                            </div>
+                            <div>
+                                {{ t('cliente') }}
                             </div>
                             <div>
                                 {{ t('filial') }}
@@ -40,14 +49,14 @@
                                 {{ t('regiao') }}
                             </div>
                             <div [mat-sort-header]="'indAtivo'">
-                                Status
+                            {{ t('ativo') }}
                             </div>
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let local of dataSourceData?.locaisAtendimento">
                                 <div
-                                    class="list-grid-ge grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b">
+                                    class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
                                         <a [routerLink]="['/local-atendimento/form/' + local.codPosto]" class="text-primary">
                                             {{ local.codPosto }}
@@ -55,7 +64,19 @@
                                     </div>
 
                                     <div class="truncate">
+                                        {{ (local.numAgencia) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (local.dcPosto) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
                                         {{ (local.nomeLocal || t('nao informado')) | uppercase }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (local.cliente?.nomeFantasia || t('nao informado')) | uppercase }}
                                     </div>
 
                                     <div class="truncate">
@@ -71,7 +92,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        {{ local.indAtivo ? t('ativo') : t('inativo') }}
+                                        {{ local.indAtivo ? t('sim') : t('nao') }}
                                     </div>
                                 </div>
                             </ng-container>

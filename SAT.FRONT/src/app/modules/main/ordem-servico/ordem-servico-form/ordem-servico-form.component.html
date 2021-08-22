@@ -8,19 +8,19 @@
                         {{ t('chamados') }}
                     </a>
                 </div>
-                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="codOS">
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codOS">
                         {{ codOS }}
                     </a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
-                    </span>
                 </div>
             </div>
             <div class="mt-2">
@@ -39,14 +39,6 @@
                     <p class="text-secondary">{{ t('informacoes') }}</p>
                 </div>
                 <div class="grid sm:grid-cols-12 p-8 gap-6 w-full">
-                    <div class="sm:col-span-6" *ngIf="!isAddMode"> 
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('os perto') }}</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                            <input matInput formControlName="codOS">
-                        </mat-form-field>
-                    </div>
-
                     <div class="sm:col-span-6">
                         <mat-form-field class="w-full">
                             <mat-label>{{ t('tipo de intervencao') }}</mat-label>
@@ -254,7 +246,6 @@
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
                     <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
-                    <p class="text-secondary">{{ t('informacoes adicionais') }}</p>
                 </div>
                 <div class="grid sm:grid-cols-12 p-8 gap-6 w-full">
                     <div class="sm:col-span-12">

@@ -33,6 +33,7 @@
     "fim sla": "Fim SLA",
     "sla": "SLA",
     "editar": "Editar",
+    "remover": "Remover",
     "status de servico": "Status de Serviço",
     "local de atendimento": "Local de Atendimento",
     "codigo pai": "Código Pai",
@@ -192,5 +193,10 @@
     "informacoes complementares": "Informações Complementares",
     "localizacao": "Localização",
     "novo": "Novo",
-    "atualizando": "Atualizando"
+    "atualizando": "Atualizando",
+    "tipo": "Tipo",
+    "agencia": "Agência",
+    "posto": "Posto",
+    "sim": "Sim",
+    "nao": "Não"
 }

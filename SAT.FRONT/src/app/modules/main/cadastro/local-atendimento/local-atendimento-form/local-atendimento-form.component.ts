@@ -323,6 +323,10 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
+  deletar() {
+    this._localService.deletar(this.codPosto);
+  }
+
   private atualizar(): void {
     this.form.disable();
 

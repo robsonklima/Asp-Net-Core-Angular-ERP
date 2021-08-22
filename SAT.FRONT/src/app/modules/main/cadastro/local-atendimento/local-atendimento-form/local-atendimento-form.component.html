@@ -12,7 +12,14 @@
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="codPosto">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codPosto }}
                     </span>
                 </div>
             </div>
@@ -33,11 +40,6 @@
 
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-label>{{ t('codigo') }}</mat-label>
-                        <input matInput formControlName="codPosto">
-                    </mat-form-field>
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('nome') }}</mat-label>
                         <input matInput formControlName="nomeLocal" maxlength="100">
@@ -189,7 +191,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cep') }}</mat-label>
-                        <input matInput formControlName="cep" mask="00000-000">
+                        <input matInput formControlName="cep" [dropSpecialCharacters]="false" mask="00000-000">
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
@@ -285,7 +287,6 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
                 </div>
-
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button [routerLink]="['/local-atendimento']" mat-button>

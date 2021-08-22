@@ -8,9 +8,9 @@ import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
+import { NominatimService } from 'app/core/services/nominatim.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
-import { RegiaoService } from 'app/core/services/regiao.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
@@ -18,7 +18,7 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
-import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
+import { Regiao } from 'app/core/types/regiao.types';
 import { TipoRota } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
@@ -64,7 +64,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     private _autorizadaService: AutorizadaService,
     private _clienteService: ClienteService,
     private _filialService: FilialService,
-    private _regiaoService: RegiaoService,
+    private _nominatimService: NominatimService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -95,6 +95,23 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
       this.obterRegioes();
     });
+
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
+      this.obterRegioes();
+    });
+
+    this.form.controls['cep'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        if (text.length === 9) {
+          this.obterLatLngPorEndereco();
+        }
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
 
     this.cidadesFiltro.valueChanges.pipe(
       filter(filtro => !!filtro),
@@ -252,6 +269,41 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.regioes = data.regioesAutorizadas
       .filter(ra => ra.codAutorizada === codAutorizada)
       .map(ra => ra.regiao);
+  }
+
+  private async obterLatLngPorEndereco() {
+    const cep = this.form.controls['cep']?.value || '';
+    const endereco = this.form.controls['endereco']?.value || '';
+    const numero = this.form.controls['numero']?.value || '';
+    const bairro = this.form.controls['bairro']?.value || '';
+    
+    const codCidade = this.form.controls['codCidade']?.value;
+    let cidade: string = '';
+
+    if (codCidade) {
+      cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise()).nomeCidade;
+    }
+
+    const query = `${cep} ${endereco} ${numero} ${bairro} ${cidade}`.replace('  ', '');
+    
+    this._nominatimService.buscarEndereco(query).subscribe(data => {
+      if (data) {
+        const infos = data.filter(m => {
+          m.address.country === 'Brazil'
+        })
+      }
+
+      console.log(query, data);      
+
+      const info = data.shift();
+      
+      if (info) {
+        this.form.controls['endereco'].setValue(info.display_name);
+        this.form.controls['bairro'].setValue(info.suburb);
+        this.form.controls['latitude'].setValue(info.lat);
+        this.form.controls['longitude'].setValue(info.lon);
+      }
+    });
   }
 
   private obterTiposRota(): void {

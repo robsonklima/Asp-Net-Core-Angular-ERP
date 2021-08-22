@@ -189,5 +189,7 @@
     "descricao turno": "Shift Description",
     "informacoes principais": "Main Information",
     "informacoes complementares": "Additional Information",
-    "localizacao": "Location"
+    "localizacao": "Location",
+    "novo": "New",
+    "atualizando": "Update"
 }

@@ -36,9 +36,6 @@
                             <div class="hidden lg:block">
                                 {{ t('tipo') }}
                             </div>
-                            <div class="md:block">
-                                {{ t('acoes') }}
-                            </div>
                         </div>
 
                         <ng-container>
@@ -46,7 +43,9 @@
                                 <div
                                     class="list-grid-ge grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        {{ grupo.codGrupoEquip }}
+                                        <a [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip]" class="text-primary">
+                                            {{ grupo.codGrupoEquip }}
+                                        </a>
                                     </div>
 
                                     <div class="hidden lg:block truncate">
@@ -59,15 +58,6 @@
 
                                     <div class="hidden lg:block truncate">
                                         {{ grupo.tipoEquipamento.nomeTipoEquip || t('nao informado') }}
-                                    </div>
-
-                                    <div>
-                                        <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
-                                            [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip]">
-                                            <mat-icon class="icon-size-5" color="primary"
-                                                [svgIcon]="'heroicons_solid:pencil'">
-                                            </mat-icon>
-                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

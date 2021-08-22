@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { grupoEquipamentoRoutes } from './grupo-equipamento.routing'
 import { GrupoEquipamentoListaComponent } from './grupo-equipamento-lista/grupo-equipamento-lista.component';
 import { GrupoEquipamentoFormComponent } from './grupo-equipamento-form/grupo-equipamento-form.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { GrupoEquipamentoFormComponent } from './grupo-equipamento-form/grupo-eq
     MatSortModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ]
 })
 export class GrupoEquipamentoModule { }

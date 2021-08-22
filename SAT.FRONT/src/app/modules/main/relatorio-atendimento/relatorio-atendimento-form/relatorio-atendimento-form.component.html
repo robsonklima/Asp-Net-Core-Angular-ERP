@@ -39,125 +39,108 @@
                     <p class="text-secondary">{{ t('preencha as informacoes referentes ao relatorio de atendimento
                         tecnico') }}</p>
                 </div>
-                <div class="grid sm:grid-cols-6 gap-6 w-full p-8">
-                    <div class="sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('codigo') }}</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
-                            <input matInput formControlName="codRAT">
-                        </mat-form-field>
-                    </div>
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('tecnico') }}</mat-label>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('tecnico') }}</mat-label>
+                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tecnicosFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
 
-                            <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length">
-                                <mat-option>
-                                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                        noEntriesFoundLabel="'nenhum registro encontrado'"
-                                        [formControl]="tecnicosFiltro"></ngx-mat-select-search>
-                                </mat-option>
+                            <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                                {{ tecnico.nome }}
+                            </mat-option>
+                        </mat-select>
 
-                                <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
-                                    {{ tecnico.nome }}
-                                </mat-option>
-                            </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('status de servico') }}</mat-label>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('status de servico') }}</mat-label>
+                        <mat-select formControlName="codStatusServico" [disabled]="!statusServicos.length">
+                            <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
+                                {{ status.nomeStatusServico }}
+                            </mat-option>
+                        </mat-select>
 
-                            <mat-select formControlName="codStatusServico" [disabled]="!statusServicos.length">
-                                <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
-                                    {{ status.nomeStatusServico }}
-                                </mat-option>
-                            </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('numero do RAT') }}</mat-label>
+                        <input matInput formControlName="numRAT" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('numero do RAT') }}</mat-label>
-                            <input matInput formControlName="numRAT" required>
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nome do acompanhante') }}</mat-label>
+                        <input matInput formControlName="nomeAcompanhante" maxlength="25">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
+                        </mat-icon>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('nome do acompanhante') }}</mat-label>
-                            <input matInput formControlName="nomeAcompanhante" maxlength="25">
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
-                            </mat-icon>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('data') }}</mat-label>
+                        <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
+                        <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('data') }}</mat-label>
-                            <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
-                            <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
-                            <mat-datepicker #pickerData disabled="false"></mat-datepicker>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora do inicio') }}</mat-label>
+                        <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                        <mat-error *ngIf="form.get('horaInicio').dirty">
+                            <div *ngIf="form.get('horaInicio').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('hora do inicio') }}</mat-label>
-                            <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
-                                [dropSpecialCharacters]="false" required>
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                            </mat-icon>
-                            <mat-error *ngIf="form.get('horaInicio').dirty">
-                                <div *ngIf="form.get('horaInicio').hasError('required')">
-                                    {{ t('preencher campo') }}
-                                </div>
+                            <div *ngIf="form.get('horaInicio').hasError('invalidFormat')">
+                                {{ t('formato invalido') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
 
-                                <div *ngIf="form.get('horaInicio').hasError('invalidFormat')">
-                                    {{ t('formato invalido') }}
-                                </div>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora da solucao') }}</mat-label>
+                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                        <mat-error *ngIf="form.get('horaFim').dirty">
+                            <div *ngIf="form.get('horaFim').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
 
-                    <div class="sm:col-span-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>{{ t('hora da solucao') }}</mat-label>
-                            <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
-                                [dropSpecialCharacters]="false" required>
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                            </mat-icon>
-                            <mat-error *ngIf="form.get('horaFim').dirty">
-                                <div *ngIf="form.get('horaFim').hasError('required')">
-                                    {{ t('preencher campo') }}
-                                </div>
+                            <div *ngIf="form.get('horaFim').hasError('invalidFormat')">
+                                {{ t('formato invalido') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
+                </div>
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                                <div *ngIf="form.get('horaFim').hasError('invalidFormat')">
-                                    {{ t('formato invalido') }}
-                                </div>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="sm:col-span-6">
-                        <mat-form-field class="fuse-mat-textarea flex-auto w-full">
-                            <mat-label>{{ t('observacao') }}</mat-label>
-                            <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
-                                [rows]="4"></textarea>
-                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('observacao') }}</mat-label>
+                        <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
+                            [rows]="4"></textarea>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <mat-error>{{ t('preencher campo') }}</mat-error> 
+                    </mat-form-field>
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
@@ -236,21 +219,18 @@
                                         <div>
                                             <div class="text-sm"
                                                 *ngFor="let dPeca of detalhe?.relatorioAtendimentoDetalhePecas; let i=index;">
-                                                <div class="grid grid-cols-2 gap-1 text-sm"
-                                                    *ngIf="!dPeca.removido">
+                                                <div class="grid grid-cols-2 gap-1 text-sm" *ngIf="!dPeca.removido">
                                                     <div>
-                                                        <span [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
+                                                        <span
+                                                            [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
                                                             {{ dPeca.peca?.codMagnus }}
                                                         </span>
                                                     </div>
 
                                                     <div>
-                                                        <button
-                                                            class="min-w-4 min-h-6 h-6 px-2 -mt-1"
-                                                            mat-button
+                                                        <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
                                                             (click)="removerPeca(detalhe, i)">
-                                                            <mat-icon
-                                                                class="icon-size-5"
+                                                            <mat-icon class="icon-size-5"
                                                                 [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                                         </button>
                                                     </div>

@@ -36,8 +36,6 @@
             <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
-                    <p class="text-secondary">{{ t('preencha as informacoes referentes ao relatorio de atendimento
-                        tecnico') }}</p>
                 </div>
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
@@ -52,7 +50,8 @@
                             </mat-option>
 
                             <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
-                                {{ tecnico.nome }}
+                                <span>{{ tecnico.nome }}</span>
+                                <span class="opacity-50">{{ tecnico.filial?.nomeFilial }}</span>
                             </mat-option>
                         </mat-select>
 
@@ -136,8 +135,10 @@
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('observacao') }}</mat-label>
-                        <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')"
-                            [rows]="4"></textarea>
+                        <textarea matInput formControlName="obsRAT"
+                            [placeholder]="t('observacao')"
+                            [rows]="3" maxlength="1000"
+                        ></textarea>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                         <mat-error>{{ t('preencher campo') }}</mat-error> 
                     </mat-form-field>
@@ -145,7 +146,6 @@
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
                     <p class="text-lg font-medium">{{ t('detalhes') }}</p>
-                    <p class="text-secondary">{{ t('informe o servico causa defeito acao e as pecas') }}</p>
                 </div>
                 <div class="flex flex-col">
                     <mat-selection-list #detalhesList [multiple]="false" class="-mt-2">
@@ -242,6 +242,11 @@
                                             <span class="text-sm"
                                                 *ngIf="detalhe.codAcao !== 19 && detalhe.codAcao !== 26">
                                                 {{ t('nao se aplica') }}
+                                            </span>
+
+                                            <span class="text-sm"
+                                                *ngIf="detalhe.codAcao === 19 || detalhe.codAcao === 26 && !detalhe?.relatorioAtendimentoDetalhePecas?.length">
+                                                {{ t('adicionar pecas') }}
                                             </span>
                                         </div>
                                     </div>

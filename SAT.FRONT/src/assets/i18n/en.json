@@ -173,8 +173,6 @@
     "causa": "Cause",
     "ola": "Hello",
     "nao se aplica": "Not applicable",
-    "preencha as informacoes referentes ao relatorio de atendimento tecnico": "Fill in the Information Relating to the Technical Service Report",
-    "informe o servico causa defeito acao e as pecas": "Report the service, cause, defect, action and replaced parts (if necessary)",
     "formato invalido": "Invalid Format",
     "agencia e posto": "Agency and Service Post",
     "numero agencia": "Agency Number",
@@ -197,5 +195,6 @@
     "agencia": "Agency",
     "posto": "Post",
     "sim": "Yes",
-    "nao": "No"
+    "nao": "No",
+    "adicionar pecas": "Add Pieces"
 }

@@ -13,7 +13,7 @@ import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
 import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
-import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';

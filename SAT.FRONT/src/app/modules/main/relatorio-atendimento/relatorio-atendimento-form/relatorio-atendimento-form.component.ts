@@ -294,6 +294,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Atualizar OS
+    const os: OrdemServico = {
+      ...this.ordemServico,
+      ...{
+        codStatusServico: form.codStatusServico,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.sessionData.usuario.codUsuario,
+      }
+    };
+    await this._ordemServicoService.atualizar(os).toPromise();
+
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
@@ -352,6 +363,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         }
       }
     }
+
+    // Atualizar OS
+    const os: OrdemServico = {
+      ...this.ordemServico,
+      ...{
+        codStatusServico: form.codStatusServico,
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.sessionData.usuario.codUsuario,
+      }
+    };
+    await this._ordemServicoService.atualizar(os).toPromise();
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);

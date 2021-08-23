@@ -209,7 +209,6 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   private async obterLocal() {
     this.local = await this._localService.obterPorCodigo(this.codPosto).toPromise();
     this.form.patchValue(this.local);
-    console.log(this.local);
     this.form.controls['codPais'].setValue(this.local.cidade?.unidadeFederativa?.codPais);
     this.form.controls['codUF'].setValue(this.local.cidade?.unidadeFederativa?.codUF);
   }

@@ -58,6 +58,13 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
+                            <button class="fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                                [matTooltip]="t('imprimir')"
+                                matTooltipPosition="above"
+                                [routerLink]="['/ordem-servico/impressao/' + codOS]">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+
                             <button class="fuse-mat-button-rounded bg-pink-700" mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('transferir')"
@@ -278,6 +285,22 @@
                         <mat-tab>
                             <ng-template matTabLabel>
                                 <span>
+                                    {{ t('alertas') }}
+
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                        0
+                                    </span>
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
                                     {{ t('relatorios') }}
 
                                     <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">{{
@@ -397,18 +420,6 @@
                                 <div class="h-120 w-full w-100 shadow">
                                     <div class="shadow" id="map"></div>
                                 </div>
-                            </ng-template>
-                        </mat-tab>
-
-                        <mat-tab>
-                            <ng-template matTabLabel>
-                                <span>
-                                    {{ t('impressao') }}
-                                </span>
-                            </ng-template>
-
-                            <ng-template matTabContent>
-                                <app-ordem-servico-impressao [os]="os"></app-ordem-servico-impressao>
                             </ng-template>
                         </mat-tab>
                     </mat-tab-group>

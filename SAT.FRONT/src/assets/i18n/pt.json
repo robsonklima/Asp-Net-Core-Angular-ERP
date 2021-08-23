@@ -198,5 +198,7 @@
     "sim": "Sim",
     "nao": "Não",
     "adicionar pecas": "Adicionar Peças",
-    "status": "Status"
+    "status": "Status",
+    "alertas": "Alertas",
+    "imprimir": "Imprimir"
 }

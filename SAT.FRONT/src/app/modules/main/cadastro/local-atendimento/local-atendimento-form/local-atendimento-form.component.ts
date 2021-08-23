@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TipoRotaEnum } from 'app/core/enums/tipo-rota.enum';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
@@ -16,6 +18,7 @@ import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.s
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
@@ -25,6 +28,7 @@ import { TipoRota } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -50,6 +54,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   autorizadasFiltro: FormControl = new FormControl();
   tiposRota: TipoRota[] = [];
   filiais: Filial[] = [];
+  equipamentosContrato: EquipamentoContrato[] = []; 
   userSession: UsuarioSessionData;
   protected _onDestroy = new Subject<void>();
 
@@ -67,7 +72,9 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     private _clienteService: ClienteService,
     private _filialService: FilialService,
     private _googleGeolocationService: GoogleGeolocationService,
-    private _regiaoAutorizadaService: RegiaoAutorizadaService
+    private _regiaoAutorizadaService: RegiaoAutorizadaService,
+    private _equipamentoContratoService: EquipamentoContratoService,
+    private _dialog: MatDialog
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -81,6 +88,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.obterClientes();
     this.obterFiliais();
     this.obterTiposRota();
+    this.obterEquipamentosContrato();
     
     this.form.controls['codPais'].valueChanges.subscribe(async () => {
       this.obterUFs();
@@ -244,9 +252,9 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     const params: CidadeParameters = {
       sortActive: 'nomeCidade',
       sortDirection: 'asc',
-      codUF: codUF,
       indAtivo: 1,
-      pageSize: 50,
+      codUF: codUF,
+      pageSize: 1000,
       filter: filtro
     }
 
@@ -304,6 +312,11 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       .map(ra => ra.regiao);
   }
 
+  private async obterEquipamentosContrato() {
+    const data = await this._equipamentoContratoService.obterPorParametros({codPosto: this.codPosto}).toPromise();
+    this.equipamentosContrato = data.equipamentosContrato;
+  }
+
   private async obterLatLngPorEndereco(end: string) {
     this._googleGeolocationService.buscarPorEnderecoOuCEP(end.trim()).subscribe((data: GoogleGeolocation ) => {
       if (data && data.results.length > 0) {
@@ -336,8 +349,33 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  deletar() {
-    this._localService.deletar(this.codPosto);
+  async deletar() {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja excluir este local?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        if (this.equipamentosContrato.length) {
+          this._snack.exibirToast('Este local possui equipamentos cadastrados', 'error');
+          return;
+        }
+
+        this._localService.deletar(this.codPosto).subscribe(() => {
+          this._snack.exibirToast('Local removido com sucesso!', 'success');
+          this._router.navigate(['/local-atendimento']);
+        }, e => {
+          this._snack.exibirToast('Erro ao remover local', 'error');
+        })
+      }
+    });
   }
 
   private atualizar(): void {

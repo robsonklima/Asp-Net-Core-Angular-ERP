@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 
 @Component({
@@ -6,9 +8,16 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
   templateUrl: './ordem-servico-impressao.component.html',
 })
 export class OrdemServicoImpressaoComponent implements OnInit {
-  @Input() os: OrdemServico;
+  codOS: number;
+  os: OrdemServico;
 
-  constructor() { }
+  constructor(
+    private _ordemServicoService: OrdemServicoService,
+    private _route: ActivatedRoute
+  ) { }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    this.codOS = +this._route.snapshot.paramMap.get('codOS');
+    this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+  }
 }

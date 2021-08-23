@@ -197,5 +197,7 @@
     "sim": "Yes",
     "nao": "No",
     "adicionar pecas": "Add Pieces",
-    "status": "Status"
+    "status": "Status",
+    "alertas": "Alerts",
+    "imprimir": "Print"
 }

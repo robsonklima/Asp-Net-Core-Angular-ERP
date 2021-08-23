@@ -155,10 +155,6 @@
                         <mat-label>{{ t('unidade federativa') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codUF" [disabled]="!ufs.length">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="ufsFiltro" placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
-                            </mat-option>
                             <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
                                 {{ uf.siglaUF }}
                             </mat-option>
@@ -208,14 +204,14 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('bairro') }}</mat-label>
-                        <input matInput formControlName="bairro" maxlength="50">
+                        <mat-label>{{ t('endereco complemento') }}</mat-label>
+                        <input matInput formControlName="enderecoComplemento" maxlength="50">
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('endereco complemento') }}</mat-label>
-                        <input matInput formControlName="enderecoComplemento" maxlength="50">
+                        <mat-label>{{ t('bairro') }}</mat-label>
+                        <input matInput formControlName="bairro" maxlength="50">
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
@@ -235,7 +231,6 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes complementares') }}</p>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
@@ -286,6 +281,20 @@
                         <input matInput formControlName="descTurno" maxlength="50">
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                </div>
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">
+                            <mat-checkbox class="mb-1" [color]="'primary'"
+                                [formControlName]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

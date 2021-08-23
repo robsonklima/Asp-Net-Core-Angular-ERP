@@ -48,9 +48,9 @@ namespace SAT.API.Repositories
                 _context.Add(localAtendimento);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -75,7 +75,16 @@ namespace SAT.API.Repositories
 
         public LocalAtendimento ObterPorCodigo(int codigo)
         {
-            return _context.LocalAtendimento.FirstOrDefault(f => f.CodPosto == codigo);
+            return _context.LocalAtendimento
+                .Include(l => l.Cidade)
+                .Include(l => l.Cidade.UnidadeFederativa)
+                .Include(l => l.Cidade.UnidadeFederativa.Pais)
+                .Include(l => l.Cliente)
+                .Include(l => l.TipoRota)
+                .Include(l => l.Filial)
+                .Include(l => l.Autorizada)
+                .Include(l => l.Regiao)
+                .FirstOrDefault(f => f.CodPosto == codigo);
         }
 
         public PagedList<LocalAtendimento> ObterPorParametros(LocalAtendimentoParameters parameters)

@@ -36,6 +36,7 @@ export const appConfig: AppConfig = {
         corretiva: 2,
         preventiva: 6
     },
-    api: 'https://sat.perto.com.br/SAT.V2.API/api',
-    //api: 'https://localhost:44341/api',
+    //api: 'https://sat.perto.com.br/SAT.V2.API/api',
+    api: 'https://localhost:44341/api',
+    //api: 'https://localhost:5001/api',
 };

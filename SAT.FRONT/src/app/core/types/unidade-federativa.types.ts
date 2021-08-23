@@ -18,4 +18,5 @@ export interface UnidadeFederativaData extends Meta {
 
 export interface UnidadeFederativaParameters extends QueryStringParameters {
     codUF?: number;
+    codPais?: number;
 };

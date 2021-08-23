@@ -7,6 +7,7 @@ import { CidadeService } from 'app/core/services/cidade.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { PaisService } from 'app/core/services/pais.service';
@@ -16,6 +17,7 @@ import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.type
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { Regiao } from 'app/core/types/regiao.types';
@@ -64,7 +66,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     private _autorizadaService: AutorizadaService,
     private _clienteService: ClienteService,
     private _filialService: FilialService,
-    private _nominatimService: NominatimService,
+    private _googleGeolocationService: GoogleGeolocationService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -88,12 +90,12 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       this.obterCidades();
     });
 
-    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
-      this.obterAutorizadas();
+    this.form.controls['codCidade'].valueChanges.subscribe(async () => {
+      this.form.controls['cep'].enable();
     });
 
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
-      this.obterRegioes();
+    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
+      this.obterAutorizadas();
     });
 
     this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
@@ -106,8 +108,26 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       debounceTime(700),
       map(async text => { 
         if (text.length === 9) {
-          this.obterLatLngPorEndereco();
+          const cep = this.form.controls['cep']?.value || '';
+          
+          this.obterLatLngPorEndereco(cep);
         }
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
+
+    this.form.controls['numeroEnd'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        const endereco = this.form.controls['endereco']?.value || '';
+        const numero = this.form.controls['numeroEnd']?.value || '';
+        const codCidade = this.form.controls['codCidade'].value;
+        const cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise());
+        const query = `${endereco}, ${numero}, ${cidade.nomeCidade}`;
+        this.obterLatLngPorEndereco(query);
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -144,7 +164,12 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       numAgencia: [undefined, [Validators.required, Validators.maxLength(5)]],
       cnpj: [undefined, Validators.required],
       inscricaoEstadual: [undefined],
-      cep: [undefined, Validators.required],
+      cep: [
+        {
+          value: undefined,
+          disabled: true,
+        }, [Validators.required]
+      ],
       endereco: [undefined, Validators.required],
       enderecoComplemento: [undefined],
       bairro: [undefined, Validators.required],
@@ -184,6 +209,9 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   private async obterLocal() {
     this.local = await this._localService.obterPorCodigo(this.codPosto).toPromise();
     this.form.patchValue(this.local);
+    console.log(this.local);
+    this.form.controls['codPais'].setValue(this.local.cidade?.unidadeFederativa?.codPais);
+    this.form.controls['codUF'].setValue(this.local.cidade?.unidadeFederativa?.codUF);
   }
 
   private async obterPaises() {
@@ -198,22 +226,28 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterUFs() {
+    const codPais = this.form.controls['codPais'].value;
+
     const params: UnidadeFederativaParameters = {
       sortActive: 'nomeUF',
       sortDirection: 'asc',
+      codPais: codPais,
       pageSize: 50
-    }
+  }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
     this.ufs = data.unidadesFederativas;
   }
 
   private async obterCidades(filtro: string = '') {
+    const codUF = this.form.controls['codUF'].value;
+
     const params: CidadeParameters = {
       sortActive: 'nomeCidade',
       sortDirection: 'asc',
-      pageSize: 50,
+      codUF: codUF,
       indAtivo: 1,
+      pageSize: 50,
       filter: filtro
     }
 
@@ -271,38 +305,18 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       .map(ra => ra.regiao);
   }
 
-  private async obterLatLngPorEndereco() {
-    const cep = this.form.controls['cep']?.value || '';
-    const endereco = this.form.controls['endereco']?.value || '';
-    const numero = this.form.controls['numero']?.value || '';
-    const bairro = this.form.controls['bairro']?.value || '';
-    
-    const codCidade = this.form.controls['codCidade']?.value;
-    let cidade: string = '';
+  private async obterLatLngPorEndereco(end: string) {
+    this._googleGeolocationService.buscarPorEnderecoOuCEP(end.trim()).subscribe((data: GoogleGeolocation ) => {
+      if (data && data.results.length > 0) {
+        const res = data.results.shift();
 
-    if (codCidade) {
-      cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise()).nomeCidade;
-    }
-
-    const query = `${cep} ${endereco} ${numero} ${bairro} ${cidade}`.replace('  ', '');
-    
-    this._nominatimService.buscarEndereco(query).subscribe(data => {
-      if (data) {
-        const infos = data.filter(m => {
-          m.address.country === 'Brazil'
-        })
-      }
-
-      console.log(query, data);      
-
-      const info = data.shift();
-      
-      if (info) {
-        this.form.controls['endereco'].setValue(info.display_name);
-        this.form.controls['bairro'].setValue(info.suburb);
-        this.form.controls['latitude'].setValue(info.lat);
-        this.form.controls['longitude'].setValue(info.lon);
-      }
+        this.form.controls['endereco'].setValue(res.formatted_address);
+        this.form.controls['latitude'].setValue(res.geometry.location.lat);
+        this.form.controls['longitude'].setValue(res.geometry.location.lng);
+        
+        const bairros: any = res.address_components.filter(ac => ac.types.includes('sublocality'));
+        this.form.controls['bairro'].setValue(bairros.shift()?.long_name);
+      }            
     });
   }
 
@@ -336,13 +350,11 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.userSession.usuario.codUsuario
+        codUsuarioManut: this.userSession.usuario.codUsuario,
+        cep: form.cep.replace('-', ''),
+        indAtivo: form.indAtivo ? 1 : 0
       }
     };
-
-    Object.keys(obj).forEach((key) => {
-      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-    });
 
     this._localService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
@@ -357,13 +369,11 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       ...form,
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.userSession.usuario.codUsuario
+        codUsuarioCad: this.userSession.usuario.codUsuario,
+        cep: form.cep.replace('-', ''),
+        indAtivo: form.indAtivo ? 1 : 0
       }
     };
-
-    Object.keys(obj).forEach((key) => {
-      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-    });
 
     this._localService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");

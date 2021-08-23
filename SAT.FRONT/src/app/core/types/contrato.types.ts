@@ -11,5 +11,6 @@ export interface ContratoData extends Meta {
 };
 
 export interface ContratoParameters extends QueryStringParameters {
+    indAtivo?: number;
     codCliente?: number;
 };

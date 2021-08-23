@@ -1,0 +1,104 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('equipamentos') }}</div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="">
+            </mat-form-field>
+            <button class="ml-4" mat-button [color]="'primary'" [routerLink]="['/equipamento-contrato/form']"
+                routerLinkActive="router-link-active">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container>
+                <ng-container>
+                    <div class="grid" *transloco="let t">
+                        <div class="list-grid-ecl z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort matSortDisableClear *transloco="let t">
+                            <div class="md:block" [mat-sort-header]="'codEquipContrato'">
+                                {{ t('codigo') }}
+                            </div>
+                            <div class="md:block" [mat-sort-header]="'numSerie'">
+                                {{ t('serie') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('cliente') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('contrato') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('modelo') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('filial') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('regiao') }}
+                            </div>
+                            <div class="md:block">
+                                {{ t('autorizada') }}
+                            </div>
+                            <div [mat-sort-header]="'indAtivo'">
+                            {{ t('ativo') }}
+                            </div>
+                        </div>
+
+                        <ng-container>
+                            <ng-container *ngFor="let equip of dataSourceData?.equipamentosContrato">
+                                <div
+                                    class="list-grid-ecl grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
+                                    <div class="flex items-center">
+                                        <a [routerLink]="['/equipamento-contrato/form/' + equip.codEquipContrato]" class="text-primary">
+                                            {{ equip.codEquipContrato }}
+                                        </a>
+                                    </div>
+                                    <div class="flex">
+                                        {{ equip.numSerie || t('nao informado') }}
+                                    </div>
+                                    <div class="flex truncate">
+                                        {{ equip.cliente?.nomeFantasia || t('nao informado') }}
+                                    </div>
+                                    <div class="flex truncate">
+                                        {{ equip.contrato?.nomeContrato || t('nao informado') }}
+                                    </div>
+                                    <div class="flex truncate">
+                                        {{ equip.equipamento?.nomeEquip || t('nao informado') }}
+                                    </div>
+                                    <div class="flex">
+                                        {{ equip.filial?.nomeFilial || t('nao informado') }}
+                                    </div>
+                                    <div class="flex truncate">
+                                        {{ equip.regiao?.nomeRegiao || t('nao informado') }}
+                                    </div>
+                                    <div class="flex truncate">
+                                        {{ equip.autorizada?.nomeAutorizada || t('nao informado') }}
+                                    </div>
+                                    <div class="flex">
+                                        {{ equip.indAtivo ? t('sim') : t('nao') }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <mat-paginator [hidden]="!dataSourceData?.equipamentosContrato?.length"
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        (page)="paginar()">
+                    </mat-paginator>
+                </ng-container>
+            </ng-container>            
+        </div>
+    </div>
+</div>

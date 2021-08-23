@@ -42,7 +42,7 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('editar')"
                                 matTooltipPosition="above"
@@ -50,7 +50,7 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-indigo-500" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('agendar')"
                                 (click)="agendar()"
@@ -58,7 +58,7 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-indigo-500" mat-flat-button
                                 [matTooltip]="t('imprimir')"
                                 matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/impressao/' + codOS]">
@@ -120,8 +120,12 @@
                                             </div>
                                             <div class="my-2">
                                                 <div>{{ t('status de servico') }}</div>
-                                                <div class="text-secondary text-md">{{
-                                                    os?.statusServico?.nomeStatusServico }}
+                                                <div class="text-secondary text-md pt-1">
+                                                    <span class="py-1 px-1 rounded "
+                                                        [style.background-color]="os?.statusServico?.corFundo"
+                                                        [style.color]="os?.statusServico?.corFonte">
+                                                        {{ os?.statusServico?.nomeStatusServico }}
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="my-2">

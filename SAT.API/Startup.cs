@@ -85,6 +85,8 @@ namespace SAT.API
             services.AddTransient<ITecnicoOrdemServicoRepository, TecnicoOrdemServicoRepository>();
             services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
+            services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
+            services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
             services.AddSingleton<ILoggerRepository, LoggerRepository>();
             services.AddTransient<ITokenService, TokenService>();
 

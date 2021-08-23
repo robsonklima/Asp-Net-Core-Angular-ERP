@@ -53,7 +53,7 @@ export class LanguagesComponent implements OnInit, OnDestroy {
             return null;
         }
 
-        navComponent.navigation.forEach(el => {
+        navComponent.navigation?.forEach(el => {
             let nav = this._fuseNavigationService.getItem(el.id, navigation);
 
             if (nav) {
@@ -63,7 +63,7 @@ export class LanguagesComponent implements OnInit, OnDestroy {
                         navComponent.refresh();
                     });
 
-                el.children.forEach(ch => {
+                el.children?.forEach(ch => {
                     let chNav = this._fuseNavigationService
                         .getItem(ch.id, navigation);
 

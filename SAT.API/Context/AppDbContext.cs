@@ -50,6 +50,8 @@ namespace SAT.API.Context
         public DbSet<TipoCausa> TipoCausa { get; set; }
         public DbSet<RegiaoAutorizada> RegiaoAutorizada { get; set; }
         public DbSet<Localizacao> Localizacao { get; set; }
+        public DbSet<ContratoEquipamento> ContratoEquipamento { get; set; }
+        public DbSet<ContratoSLA> ContratoSLA { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +60,12 @@ namespace SAT.API.Context
 
             modelBuilder.Entity<Sequencia>()
                         .HasKey(s => new { s.Coluna, s.Tabela });
+
+            modelBuilder.Entity<ContratoEquipamento>()
+                        .HasKey(c => new { c.CodContrato, c.CodGrupoEquip, c.CodTipoEquip, c.CodEquip});
+
+            modelBuilder.Entity<ContratoSLA>()
+                        .HasKey(c => new { c.CodContrato, c.CodSLA });
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

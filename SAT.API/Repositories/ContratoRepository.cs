@@ -55,6 +55,16 @@ namespace SAT.API.Repositories
                 contratos = contratos.Where(c => c.CodContrato == parameters.CodContrato);
             }
 
+            if (parameters.IndAtivo != null)
+            {
+                contratos = contratos.Where(c => c.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.CodCliente != null)
+            {
+                contratos = contratos.Where(c => c.CodCliente == parameters.CodCliente);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 contratos = contratos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

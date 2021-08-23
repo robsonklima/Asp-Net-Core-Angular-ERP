@@ -13,6 +13,7 @@
     "local": "Place",
     "cliente": "Customer",
     "equipamento": "Equipment",
+    "equipamentos": "Equipaments",
     "serie": "Serial",
     "acoes": "Actions",
     "nao informado": "Not reported",
@@ -199,5 +200,6 @@
     "adicionar pecas": "Add Pieces",
     "status": "Status",
     "alertas": "Alerts",
-    "imprimir": "Print"
+    "imprimir": "Print",
+    "modelo": "Model"
 }

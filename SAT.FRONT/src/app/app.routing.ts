@@ -70,6 +70,7 @@ export const appRoutes: Route[] = [
             {path: 'autorizada', loadChildren: () => import('app/modules/main/cadastro/autorizada/autorizada.module').then(m => m.AutorizadaModule)},
             {path: 'grupo-equipamento', loadChildren: () => import('app/modules/main/cadastro/grupo-equipamento/grupo-equipamento.module').then(m => m.GrupoEquipamentoModule)},
             {path: 'local-atendimento', loadChildren: () => import('app/modules/main/cadastro/local-atendimento/local-atendimento.module').then(m => m.LocalAtendimentoModule)},
+            {path: 'equipamento-contrato', loadChildren: () => import('app/modules/main/cadastro/equipamento-contrato/equipamento-contrato.module').then(m => m.EquipamentoContratoModule)},
             {path: 'default', loadChildren: () => import('app/modules/main/default/default.module').then(m => m.DefaultModule)},
             {path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule)},
             {path: 'configuracoes', loadChildren: () => import('app/modules/main/configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)},

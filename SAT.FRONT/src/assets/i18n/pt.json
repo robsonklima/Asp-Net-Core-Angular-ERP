@@ -13,6 +13,7 @@
     "local": "Local",
     "cliente": "Cliente",
     "equipamento": "Equipamento",
+    "equipamentos": "Equipamentos",
     "serie": "Série",
     "acoes": "Ações",
     "nao informado": "Não Informado",
@@ -200,5 +201,6 @@
     "adicionar pecas": "Adicionar Peças",
     "status": "Status",
     "alertas": "Alertas",
-    "imprimir": "Imprimir"
+    "imprimir": "Imprimir",
+    "modelo": "Modelo"
 }

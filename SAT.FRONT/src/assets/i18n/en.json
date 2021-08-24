@@ -222,5 +222,15 @@
     "cpf": "Social Security Number (SSN)",
     "data nascimento": "Birth Date",
     "data admissao": "Admission Date",
-    "identificacao": "Identification"
+    "identificacao": "Identification",
+    "telefone fixo": "Landline",
+    "telefone particular": "Private Phone",
+    "telefone perto": "Perto Phone",
+    "bancada": "Stand",
+    "email": "E-mail",
+    "ferias": "Vacation",
+    "finalidade de uso": "Purpose of Use",
+    "cobranca de garagem": "Garage Charge",
+    "frota": "Fleet",
+    "cartao combustivel": "Gas Card"
 }

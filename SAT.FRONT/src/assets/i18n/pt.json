@@ -223,5 +223,15 @@
     "cpf": "CPF",
     "data nascimento": "Data de Nascimento",
     "data admissao": "Data de Admissão",
-    "identificacao": "Identificação"
+    "identificacao": "Identificação",
+    "telefone fixo": "Telefone Fixo",
+    "telefone particular": "Telefone Particular",
+    "telefone perto": "Telefone Perto",
+    "bancada": "Bancada",
+    "email": "E-mail",
+    "ferias": "Férias",
+    "finalidade de uso": "Finalidade de Uso",
+    "cobranca de garagem": "Cobrança de Garagem",
+    "frota": "Frota",
+    "cartao combustivel": "Cartão Combustível"
 }

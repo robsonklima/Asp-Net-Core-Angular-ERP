@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { PaisService } from 'app/core/services/pais.service';
@@ -13,12 +14,13 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
+import { DespesaCartaoCombustivel, DespesaCartaoCombustivelParameters } from 'app/core/types/despesa-cartao-combustivel.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { Tecnico } from 'app/core/types/tecnico.types';
+import { FrotaCobrancaGaragemEnum, FrotaFinalidadeUsoEnum, Tecnico } from 'app/core/types/tecnico.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -44,6 +46,9 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   cidades: Cidade[] = [];
   cidadesFiltro: FormControl = new FormControl();
   userSession: UsuarioSessionData;
+  frotaFinalidadesUso: any[] = [];
+  frotaCobrancasGaragem: any[] = [];
+  despesaCartoesCombustivel: DespesaCartaoCombustivel[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -59,6 +64,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     private _cidadeService: CidadeService,
     private _location: Location,
     private _userService: UserService,
+    private _despesaCartaoCombustivelService: DespesaCartaoCombustivelService,
     private _googleGeolocationService: GoogleGeolocationService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -70,6 +76,9 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.inicializarForm();
     this.obterFiliais();
     this.obterPaises();
+    this.obterFrotaFinalidadesUso();
+    this.obterFrotaCobrancasGaragem();
+    this.obterCartoesCombustivel();
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
       this.obterAutorizadas();
@@ -151,23 +160,42 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       codFilial: [undefined, Validators.required],
       codAutorizada: [undefined, Validators.required],
       codRegiao: [undefined, Validators.required],
-      apelido: [undefined],
-      numCrea: [undefined],
-      indAtivo: [undefined],
       rg: [undefined, Validators.required],
       cpf: [undefined, Validators.required],
-      dataAdmissao: [undefined, Validators.required],
-      dataNascimento: [undefined, Validators.required],
+      apelido: [undefined],
+      numCrea: [undefined],
+      dataAdmissao: [undefined],
+      dataNascimento: [undefined],
+      codDespesaCartaoCombustivel: [undefined],
       codPais: [undefined, Validators.required],
       codUF: [undefined, Validators.required],
       codCidade: [undefined, Validators.required],
       endereco: [undefined, Validators.required],
       bairro: [undefined, Validators.required],
       numero: [undefined],
-      enderecoComplemento: [undefined, Validators.required],
+      enderecoComplemento: [undefined],
       cep: [undefined, Validators.required],
-      latitude: [undefined, Validators.required],
-      longitude: [undefined, Validators.required],
+      email: [undefined],
+      codFrotaFinalidadeUso: [undefined],
+      codFrotaCobrancaGaragem: [undefined],
+      latitude: [
+        {
+          value: undefined,
+          disabled: true
+        }, Validators.required
+      ],
+      longitude: [
+        {
+          value: undefined,
+          disabled: true
+        }, Validators.required
+      ],
+      fone: [undefined],
+      foneParticular: [undefined],
+      fonePerto: [undefined],
+      indTecnicoBancada: [undefined],
+      indFerias: [undefined],
+      indAtivo: [undefined],
     });
   }
 
@@ -267,6 +295,44 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  private obterFrotaFinalidadesUso(): void {
+    const data = Object.keys(FrotaFinalidadeUsoEnum).filter((element) => {
+      return isNaN(Number(element));
+    });
+
+    data.forEach((tr, i) => {
+      this.frotaFinalidadesUso.push({
+        codFrotaFinalidadeUso: i+1,
+        nome: tr
+      })
+    });
+  }
+
+  private obterFrotaCobrancasGaragem(): void {
+    const data = Object.keys(FrotaCobrancaGaragemEnum).filter((element) => {
+      return isNaN(Number(element));
+    });
+
+    data.forEach((tr, i) => {
+      this.frotaCobrancasGaragem.push({
+        codFrotaCobrancaGaragem: i+1,
+        nome: tr
+      })
+    });
+  }
+
+  private async obterCartoesCombustivel() {
+    const params: DespesaCartaoCombustivelParameters = {
+      sortActive: 'numero',
+      sortDirection: 'asc',
+      pageSize: 1000,
+      indAtivo: 1
+    }
+
+    const data = await this._despesaCartaoCombustivelService.obterPorParametros(params).toPromise();
+    this.despesaCartoesCombustivel = data.despesaCartoesCombustivel;
+  }
+
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
   }
@@ -280,9 +346,9 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        dataManutencao: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario,
-        codUsuarioManutencao: this.userSession.usuario.codUsuario,
+        indTecnicoBancada: +form.indTecnicoBancada,
+        indFerias: +form.indeFerias,
         indAtivo: +form.indAtivo
       }
     };
@@ -302,16 +368,9 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
-        indReceita: +form.indReceita,
-        indRepasse: +form.indRepasse,
-        indRepasseIndividual: +form.indRepasseIndividual,
-        indInstalacao: +form.indInstalacao,
-        indAtivo: +form.indAtivo,
-        indRAcesso: +form.indRAcesso,
-        indRHorario: +form.indRHorario,
-        indSemat: +form.indSemat,
-        indVerao: +form.indVerao,
-        indPAE: +form.indPAE
+        indTecnicoBancada: +form.indTecnicoBancada,
+        indFerias: +form.indeFerias,
+        indAtivo: +form.indAtivo
       }
     };
 

@@ -83,3 +83,15 @@ export interface TecnicoParameters extends QueryStringParameters {
     codPerfil?: number;
     codigosStatusServico?: string;
 };
+
+
+export enum FrotaFinalidadeUsoEnum {
+    "Apenas Trabalho" = 1,
+    "Apenas Trabalho/Particular" = 2
+}
+
+export enum FrotaCobrancaGaragemEnum {
+    "Pela Empresa" = 1,
+    "Pelo Técnico" = 2,
+    "Pelo Técnico Sem Cobrança" = 3
+}

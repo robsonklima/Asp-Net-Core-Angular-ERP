@@ -83,6 +83,7 @@ namespace SAT.API
             services.AddTransient<IRegiaoAutorizadaRepository, RegiaoAutorizadaRepository>();
             services.AddTransient<ICausaRepository, CausaRepository>();
             services.AddTransient<ITecnicoOrdemServicoRepository, TecnicoOrdemServicoRepository>();
+            services.AddTransient<IDespesaCartaoCombustivelRepository, DespesaCartaoCombustivelRepository>();
             services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();

@@ -49,7 +49,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('filial') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codFilial" [disabled]="!filiais.length">
@@ -61,7 +61,7 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('autorizada') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codAutorizada" [disabled]="!autorizadas.length">
@@ -111,7 +111,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cpf') }}</mat-label>
-                        <input matInput formControlName="cpf">
+                        <input matInput formControlName="cpf" mask="000.000.000-00">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -133,29 +133,6 @@
                         <mat-datepicker #pickerDataNascimento disabled="false"></mat-datepicker>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-
-
-                    <!--<mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('local de atendimento') }}</mat-label>
-
-                        <mat-select class="min-h-10" formControlName="codPosto" [disabled]="!locais.length">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="locaisFiltro"
-                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
-                                </ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let local of locais" [value]="local.codPosto">
-                                <span class="opacity-60 text-md">
-                                    {{ local.numAgencia }}/{{ local.dcPosto }}
-                                </span>
-
-                                {{ local.nomeLocal }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field> -->
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -265,6 +242,87 @@
                     </mat-form-field>
                 </div>
 
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('contato') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('email') }}</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('telefone fixo') }}</mat-label>
+                        <input matInput formControlName="fone" mask="(00) 00000-0000">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('telefone perto') }}</mat-label>
+                        <input matInput formControlName="fonePerto" mask="(00) 00000-0000">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('telefone particular') }}</mat-label>
+                        <input matInput formControlName="foneParticular" mask="(00) 00000-0000">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('frota') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cartao combustivel') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codDespesaCartaoCombustivel" [disabled]="!despesaCartoesCombustivel.length">
+                            <mat-option *ngFor="let cartao of despesaCartoesCombustivel" [value]="cartao.codDespesaCartaoCombustivel">
+                                {{ cartao.numero }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('finalidade de uso') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codFrotaFinalidadeUso" [disabled]="!filiais.length">
+                            <mat-option *ngFor="let finalidade of frotaFinalidadesUso" [value]="finalidade.codFrotaFinalidadeUso">
+                                {{ finalidade.nome }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cobranca de garagem') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codFrotaCobrancaGaragem" [disabled]="!frotaCobrancasGaragem.length">
+                            <mat-option *ngFor="let cobranca of frotaCobrancasGaragem" [value]="cobranca.codFrotaCobrancaGaragem">
+                                {{ cobranca.nome }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('opcoes') }}</p>
@@ -276,6 +334,14 @@
                             <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
                                 {{ t('ativo') }}
                             </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indTecnicoBancada'">
+                                {{ t('bancada') }}
+                            </mat-checkbox>         
+                            
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indFerias'">
+                                {{ t('ferias') }}
+                            </mat-checkbox>         
                         </div>
                     </div>
                 </div>

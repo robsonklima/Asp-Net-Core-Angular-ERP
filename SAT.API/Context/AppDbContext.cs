@@ -33,6 +33,7 @@ namespace SAT.API.Context
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Regiao> Regiao { get; set; }
         public DbSet<Agendamento> Agendamento { get; set; }
+        public DbSet<DespesaCartaoCombustivel> DespesaCartaoCombustivel { get; set; }
         public DbSet<Autorizada> Autorizada { get; set; }
         public DbSet<AcordoNivelServico> AcordoNivelServico { get; set; }
         public DbSet<Navegacao> Navegacao { get; set; }

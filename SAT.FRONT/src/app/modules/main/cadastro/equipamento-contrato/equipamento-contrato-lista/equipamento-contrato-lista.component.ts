@@ -89,8 +89,6 @@ export class EquipamentoContratoListaComponent implements AfterViewInit {
       .toPromise();
 
     this.dataSourceData = data;
-    console.log(data.equipamentosContrato);
-    
     this.isLoading = false;
     this._cdr.detectChanges();
   }

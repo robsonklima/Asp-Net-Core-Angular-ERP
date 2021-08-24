@@ -86,6 +86,179 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('sla') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codSLA" [disabled]="!slas.length">
+                            <mat-option *ngFor="let sla of slas" [value]="sla.codSLA">
+                                {{ sla.nomeSLA }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('filial') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codFilial" [disabled]="!filiais.length">
+                            <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                {{ filial.nomeFilial }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('autorizada') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codAutorizada" [disabled]="!autorizadas.length">
+                            <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
+                                {{ autorizada.nomeFantasia }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('regiao') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codRegiao" [disabled]="!regioes.length">
+                            <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
+                                {{ regiao.nomeRegiao }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('local de atendimento') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codPosto" [disabled]="!locais.length">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="locaisFiltro"
+                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let local of locais" [value]="local.codPosto">
+                                <span class="opacity-60 text-md">
+                                    {{ local.numAgencia }}/{{ local.dcPosto }}
+                                </span>
+
+                                {{ local.nomeLocal }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('distancia da pat') }}</mat-label>
+                        <input matInput formControlName="distanciaPatRes" type="number">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('inicio da garantia') }}</mat-label>
+                        <input matInput [matDatepicker]="pickerDataInicGarantia" formControlName="dataInicGarantia" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerDataInicGarantia"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDataInicGarantia disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('fim da garantia') }}</mat-label>
+                        <input matInput [matDatepicker]="pickerDataFimGarantia" formControlName="dataFimGarantia" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerDataFimGarantia"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDataFimGarantia disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('data ativacao') }}</mat-label>
+                        <input matInput [matDatepicker]="pickerDataAtivacao" formControlName="dataAtivacao" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerDataAtivacao"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDataAtivacao disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('data desativacao') }}</mat-label>
+                        <input matInput [matDatepicker]="pickerDesativacao" formControlName="dataDesativacao" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerDesativacao"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDesativacao disabled="false"></mat-datepicker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('ponto estrategico') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="pontoEstrategico" [disabled]="!pontosEstrategicos.length">
+                            <mat-option *ngFor="let pontoEstrategico of pontosEstrategicos" [value]="pontoEstrategico.codPontoEstrategico">
+                                {{ pontoEstrategico.nomePontoEstrategico }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                </div>
+
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indReceita'">
+                                {{ t('receita') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indRepasse'">
+                                {{ t('repasse') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indRepasseIndividual'">
+                                {{ t('repasse individual') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indInstalacao'">
+                                {{ t('instalado') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indRAcesso'">
+                                {{ t('restricao de acesso') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indRHorario'">
+                                {{ t('restricao de horario') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indSemat'">
+                                {{ t('semat') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indVerao'">
+                                {{ t('verao') }}
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indPAE'">
+                                {{ t('ponto externo') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

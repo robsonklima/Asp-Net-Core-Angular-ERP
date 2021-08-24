@@ -9,5 +9,7 @@ namespace SAT.MODELS.Entities
         public int? IndAtivo { get; set; }
         public string NumAgencia { get; set; }
         public string DCPosto{ get; set; }
+        public int? CodAutorizada { get; set; }
+        public int? CodRegiao { get; set; }
     }
 }

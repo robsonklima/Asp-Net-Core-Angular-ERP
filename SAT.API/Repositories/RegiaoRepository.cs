@@ -95,6 +95,11 @@ namespace SAT.API.Repositories
                 regioes = regioes.Where(r => r.CodRegiao == parameters.CodRegiao);
             }
 
+            if (parameters.IndAtivo != null)
+            {
+                regioes = regioes.Where(r => r.IndAtivo == parameters.IndAtivo);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 regioes = regioes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

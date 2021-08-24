@@ -201,5 +201,18 @@
     "status": "Status",
     "alertas": "Alerts",
     "imprimir": "Print",
-    "modelo": "Model"
+    "modelo": "Model",
+    "inicio da garantia": "Warranty Start",
+    "fim da garantia": "Warranty End",
+    "receita": "Receipt",
+    "repasse": "Transfer",
+    "repasse individual": "Individual Transfer",
+    "instalado": "Installed",
+    "restricao de acesso": "Access Restriction",
+    "restricao de horario": "Time Restriction",
+    "verao": "Summer",
+    "ponto externo": "External Point",
+    "data ativacao": "Activation Date",
+    "data desativacao": "Desactivation Date",
+    "ponto estrategico": "Estrategic Point"
 }

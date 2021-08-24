@@ -65,4 +65,6 @@ export interface LocalAtendimentoParameters extends QueryStringParameters {
     indAtivo?: number;
     numAgencia?: string;
     dcPosto?: string;
+    codAutorizada?: number;
+    codRegiao?: number;
 };

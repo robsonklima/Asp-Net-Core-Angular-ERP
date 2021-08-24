@@ -129,6 +129,16 @@ namespace SAT.API.Repositories
                 locais = locais.Where(l => l.DCPosto == parameters.DCPosto);
             }
 
+            if (parameters.CodAutorizada != null)
+            {
+                locais = locais.Where(l => l.CodAutorizada == parameters.CodAutorizada);
+            }
+
+            if (parameters.CodRegiao != null)
+            {
+                locais = locais.Where(l => l.CodRegiao == parameters.CodRegiao);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 locais = locais.Where(l => l.IndAtivo == parameters.IndAtivo);

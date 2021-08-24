@@ -1,4 +1,5 @@
-﻿using SAT.API.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.API.Context;
 using SAT.API.Repositories.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
@@ -17,7 +18,12 @@ namespace SAT.API.Repositories
 
         public PagedList<ContratoEquipamento> ObterPorParametros(ContratoEquipamentoParameters parameters)
         {
-            var contratoEquipamentos = _context.ContratoEquipamento.AsQueryable();
+            var contratoEquipamentos = _context.ContratoEquipamento
+                .Include(c => c.Contrato)
+                .Include(c => c.TipoEquipamento)
+                .Include(c => c.GrupoEquipamento)
+                .Include(c => c.Equipamento)
+                .AsQueryable();
 
             if (parameters.CodContrato != null)
             {

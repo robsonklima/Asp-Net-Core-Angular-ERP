@@ -14,14 +14,17 @@ namespace SAT.API.Controllers
     {
         private readonly IEquipamentoContratoRepository _equipamentoContratoInterface;
         private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IEquipamentoRepository _equipamentoRepository;
 
         public EquipamentoContratoController(
             IEquipamentoContratoRepository equipamentoContratoInterface,
-            ISequenciaRepository sequenciaInterface
+            ISequenciaRepository sequenciaInterface,
+            IEquipamentoRepository equipamentoRepository
         )
         {
             _equipamentoContratoInterface = equipamentoContratoInterface;
             _sequenciaInterface = sequenciaInterface;
+            _equipamentoRepository = equipamentoRepository;
         }
 
         [HttpGet]
@@ -50,10 +53,15 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] EquipamentoContrato equipamentoContrato)
+        public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
         {
             equipamentoContrato.CodEquipContrato = this._sequenciaInterface.ObterContador(Constants.TABELA_EQUIPAMENTO_CONTRATO);
+            var equip = _equipamentoRepository.ObterPorCodigo(equipamentoContrato.CodEquip);
+            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
+            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
+
             this._equipamentoContratoInterface.Criar(equipamentoContrato);
+            return equipamentoContrato;
         }
 
         [HttpPut]

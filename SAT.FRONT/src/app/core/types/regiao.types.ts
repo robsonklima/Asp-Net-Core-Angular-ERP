@@ -12,4 +12,5 @@ export interface RegiaoData extends Meta {
 
 export interface RegiaoParameters extends QueryStringParameters {
     codRegiao?: number;
+    indAtivo?: number;
 };

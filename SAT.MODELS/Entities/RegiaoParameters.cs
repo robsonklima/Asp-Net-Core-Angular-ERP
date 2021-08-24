@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities
     public class RegiaoParameters : QueryStringParameters
     {
         public int? CodRegiao { get; set; }
+        public int? IndAtivo { get; set; }
     }
 }

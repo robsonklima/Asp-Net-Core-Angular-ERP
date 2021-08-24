@@ -1,4 +1,5 @@
 import { Autorizada } from "./autorizada.types";
+import { Cidade } from "./cidade.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
@@ -28,6 +29,7 @@ export class Tecnico {
     paisCoordenadas: string;
     bairro: string;
     codCidade: number;
+    cidade: Cidade;
     fone: string;
     email: string;
     numCrea?: any;

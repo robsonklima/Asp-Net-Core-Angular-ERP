@@ -42,7 +42,6 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   isAddMode: boolean;
   paises: Pais[] = [];
   ufs: UnidadeFederativa[] = [];
-  ufsFiltro: FormControl = new FormControl();
   cidades: Cidade[] = [];
   cidadesFiltro: FormControl = new FormControl();
   clientes: Cliente[] = [];

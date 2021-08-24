@@ -36,6 +36,8 @@ namespace SAT.MODELS.Entities
         public string PaisCoordenadas { get; set; }
         public string Bairro { get; set; }
         public int? CodCidade { get; set; }
+        [ForeignKey("CodCidade")]
+        public Cidade Cidade { get; set; }
         public string Fone { get; set; }
         public string Email { get; set; }
         public string NumCrea { get; set; }

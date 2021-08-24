@@ -1,0 +1,328 @@
+import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AutorizadaService } from 'app/core/services/autorizada.service';
+import { CidadeService } from 'app/core/services/cidade.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { FilialService } from 'app/core/services/filial.service';
+import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { PaisService } from 'app/core/services/pais.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
+import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
+import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
+import { Pais, PaisParameters } from 'app/core/types/pais.types';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import { Regiao } from 'app/core/types/regiao.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import moment from 'moment';
+import { Subject } from 'rxjs';
+import { first } from 'rxjs/internal/operators/first';
+import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-tecnico-form',
+  templateUrl: './tecnico-form.component.html'
+})
+export class TecnicoFormComponent implements OnInit, OnDestroy {
+  codTecnico: number;
+  tecnico: Tecnico;
+  isAddMode: boolean;
+  form: FormGroup;
+  filiais: Filial[] = [];
+  autorizadas: Autorizada[] = [];
+  regioes: Regiao[] = [];
+  paises: Pais[] = [];
+  ufs: UnidadeFederativa[] = [];
+  cidades: Cidade[] = [];
+  cidadesFiltro: FormControl = new FormControl();
+  userSession: UsuarioSessionData;
+  protected _onDestroy = new Subject<void>();
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _snack: CustomSnackbarService,
+    private _route: ActivatedRoute,
+    private _tecnicoService: TecnicoService,
+    private _autorizadaService: AutorizadaService,
+    private _regiaoAutorizadaService: RegiaoAutorizadaService,
+    private _filialService: FilialService,
+    private _paisService: PaisService,
+    private _ufService: UnidadeFederativaService,
+    private _cidadeService: CidadeService,
+    private _location: Location,
+    private _userService: UserService,
+    private _googleGeolocationService: GoogleGeolocationService
+  ) {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  async ngOnInit() {
+    this.codTecnico = +this._route.snapshot.paramMap.get('codTecnico');
+    this.isAddMode = !this.codTecnico;
+    this.inicializarForm();
+    this.obterFiliais();
+    this.obterPaises();
+
+    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
+      this.obterAutorizadas();
+    });
+
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
+      this.obterRegioes();
+    });
+
+    this.form.controls['codPais'].valueChanges.subscribe(async () => {
+      this.obterUFs();
+    });
+
+    this.form.controls['codUF'].valueChanges.subscribe(async () => {
+      this.obterCidades();
+    });
+
+    this.form.controls['cep'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        if (text.length === 9) {
+          const cep = this.form.controls['cep']?.value || '';
+          
+          this.obterLatLngPorEndereco(cep);
+        }
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
+
+    this.form.controls['numero'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        const endereco = this.form.controls['endereco']?.value || '';
+        const numero = this.form.controls['numero']?.value || '';
+        const codCidade = this.form.controls['codCidade'].value;
+        const cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise());
+        const query = `${endereco}, ${numero}, ${cidade.nomeCidade}`;
+        this.obterLatLngPorEndereco(query);
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
+
+    // this.locaisFiltro.valueChanges.pipe(
+    //   filter(query => !!query),
+    //   debounceTime(700),
+    //   delay(500),
+    //   takeUntil(this._onDestroy),
+    //   map(async query => { this.obterLocais(query) })
+    // ).subscribe(() => {});
+
+    if (!this.isAddMode) {
+      this._tecnicoService.obterPorCodigo(this.codTecnico)
+      .pipe(first())
+      .subscribe(data => {
+        this.form.patchValue(data);
+        this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
+        this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
+        this.tecnico = data;
+        console.log(data);
+      });
+    }
+  }
+
+  private inicializarForm() {
+    this.form = this._formBuilder.group({
+      codTecnico: [
+        {
+          value: undefined,
+          disabled: true
+        }, Validators.required
+      ],
+      nome: [undefined, Validators.required],
+      codFilial: [undefined, Validators.required],
+      codAutorizada: [undefined, Validators.required],
+      codRegiao: [undefined, Validators.required],
+      apelido: [undefined],
+      numCrea: [undefined],
+      indAtivo: [undefined],
+      rg: [undefined, Validators.required],
+      cpf: [undefined, Validators.required],
+      dataAdmissao: [undefined, Validators.required],
+      dataNascimento: [undefined, Validators.required],
+      codPais: [undefined, Validators.required],
+      codUF: [undefined, Validators.required],
+      codCidade: [undefined, Validators.required],
+      endereco: [undefined, Validators.required],
+      bairro: [undefined, Validators.required],
+      numero: [undefined],
+      enderecoComplemento: [undefined, Validators.required],
+      cep: [undefined, Validators.required],
+      latitude: [undefined, Validators.required],
+      longitude: [undefined, Validators.required],
+    });
+  }
+
+  private async obterFiliais() {
+    const params: FilialParameters = {
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      pageSize: 100
+    }
+
+    const data = await this._filialService.obterPorParametros(params).toPromise();
+    this.filiais = data.filiais;
+  }
+
+  private async obterAutorizadas() {
+    const codFilial = this.form.controls['codFilial'].value;
+
+    const params: AutorizadaParameters = {
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      codFilial: codFilial,
+      pageSize: 100
+    }
+
+    const data = await this._autorizadaService.obterPorParametros(params).toPromise();
+    this.autorizadas = data.autorizadas;
+  }
+
+  private async obterRegioes() {
+    const codAutorizada = this.form.controls['codAutorizada'].value;
+
+    const params: RegiaoAutorizadaParameters = {
+      codAutorizada: codAutorizada,
+      indAtivo: 1,
+      pageSize: 100
+    }
+
+    const data = await this._regiaoAutorizadaService.obterPorParametros(params).toPromise();
+    this.regioes = data.regioesAutorizadas.map(ra => ra.regiao);
+  }
+
+  private async obterPaises() {
+    const params: PaisParameters = {
+      sortActive: 'nomePais',
+      sortDirection: 'asc',
+      pageSize: 200
+    }
+
+    const data = await this._paisService.obterPorParametros(params).toPromise();
+    this.paises = data.paises;
+  }
+
+  private async obterUFs() {
+    const codPais = this.form.controls['codPais'].value;
+
+    const params: UnidadeFederativaParameters = {
+      sortActive: 'nomeUF',
+      sortDirection: 'asc',
+      codPais: codPais,
+      pageSize: 50
+  }
+
+    const data = await this._ufService.obterPorParametros(params).toPromise();
+    this.ufs = data.unidadesFederativas;
+  }
+
+  private async obterCidades(filtro: string = '') {
+    const codUF = this.form.controls['codUF'].value;
+
+    const params: CidadeParameters = {
+      sortActive: 'nomeCidade',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      codUF: codUF,
+      pageSize: 1000,
+      filter: filtro
+    }
+
+    const data = await this._cidadeService.obterPorParametros(params).toPromise();
+    this.cidades = data.cidades;
+  }
+
+  private async obterLatLngPorEndereco(end: string) {
+    this._googleGeolocationService.buscarPorEnderecoOuCEP(end.trim()).subscribe((data: GoogleGeolocation ) => {
+      if (data && data.results.length > 0) {
+        const res = data.results.shift();
+
+        this.form.controls['endereco'].setValue(res.formatted_address);
+        this.form.controls['latitude'].setValue(res.geometry.location.lat);
+        this.form.controls['longitude'].setValue(res.geometry.location.lng);
+        
+        const bairros: any = res.address_components.filter(ac => ac.types.includes('sublocality'));
+        this.form.controls['bairro'].setValue(bairros.shift()?.long_name);
+      }            
+    });
+  }
+
+  salvar(): void {
+    this.isAddMode ? this.criar() : this.atualizar();
+  }
+
+  atualizar(): void {
+    const form: any = this.form.getRawValue();
+
+
+    let obj = {
+      ...this.tecnico,
+      ...form,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataManutencao: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario.codUsuario,
+        codUsuarioManutencao: this.userSession.usuario.codUsuario,
+        indAtivo: +form.indAtivo
+      }
+    };
+    
+    this._tecnicoService.atualizar(obj).subscribe(() => {
+      this._snack.exibirToast("Técnico atualizado com sucesso!", "success");
+      this._location.back();
+    });
+  }
+
+  criar(): void {
+    const form = this.form.getRawValue();
+
+    let obj = {
+      ...this.tecnico,
+      ...form,
+      ...{
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.userSession.usuario.codUsuario,
+        indReceita: +form.indReceita,
+        indRepasse: +form.indRepasse,
+        indRepasseIndividual: +form.indRepasseIndividual,
+        indInstalacao: +form.indInstalacao,
+        indAtivo: +form.indAtivo,
+        indRAcesso: +form.indRAcesso,
+        indRHorario: +form.indRHorario,
+        indSemat: +form.indSemat,
+        indVerao: +form.indVerao,
+        indPAE: +form.indPAE
+      }
+    };
+
+    this._tecnicoService.criar(obj).subscribe(() => {
+      this._snack.exibirToast("Técnico inserido com sucesso!", "success");
+      this._location.back();
+    });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+}

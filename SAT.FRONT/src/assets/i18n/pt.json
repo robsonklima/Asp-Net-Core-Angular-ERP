@@ -182,7 +182,7 @@
     "dc posto": "DC Posto",
     "locais de atendimento": "Locais de Atendimento",
     "inativo": "Inativo",
-    "endereco complemento": "Endereço Complemento",
+    "endereco complemento": "Complemento",
     "cnpj faturamento": "CNPJ de Faturamento",
     "tipo de rota": "Tipo de Rota",
     "numero": "Número",
@@ -215,5 +215,13 @@
     "ponto externo": "Ponto Externo",
     "data ativacao": "Data de Ativação",
     "data desativacao": "Data de Desativação",
-    "ponto estrategico": "Ponto Estratégico"
+    "ponto estrategico": "Ponto Estratégico",
+    "técnicos": "Técnicos",
+    "apelido": "Apelido",
+    "numero do crea": "Número do CREA",
+    "rg": "RG",
+    "cpf": "CPF",
+    "data nascimento": "Data de Nascimento",
+    "data admissao": "Data de Admissão",
+    "identificacao": "Identificação"
 }

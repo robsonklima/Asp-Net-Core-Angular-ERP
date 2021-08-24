@@ -214,5 +214,13 @@
     "ponto externo": "External Point",
     "data ativacao": "Activation Date",
     "data desativacao": "Desactivation Date",
-    "ponto estrategico": "Estrategic Point"
+    "ponto estrategico": "Estrategic Point",
+    "técnicos": "Technicians",
+    "apelido": "Surname",
+    "numero do crea": "CREA Number",
+    "rg": "National Identity Card",
+    "cpf": "Social Security Number (SSN)",
+    "data nascimento": "Birth Date",
+    "data admissao": "Admission Date",
+    "identificacao": "Identification"
 }

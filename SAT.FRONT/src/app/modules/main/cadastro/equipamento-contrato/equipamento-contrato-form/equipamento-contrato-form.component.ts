@@ -16,10 +16,11 @@ import { AcordoNivelServico } from 'app/core/types/acordo-nivel-servico.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
+import { ContratoSLAParameters } from 'app/core/types/contrato-sla.types';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { EquipamentoContrato, PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
-import { Filial } from 'app/core/types/filial.types';
+import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
@@ -199,7 +200,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
   private async obterSLAs() {
     const codEquip = this.form.controls['codEquip'].value;
 
-    const params: ContratoEquipamentoParameters = {
+    const params: ContratoSLAParameters = {
       pageSize: 100,
       codContrato: codEquip
     }
@@ -209,7 +210,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterFiliais() {
-    const params: ClienteParameters = {
+    const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
       indAtivo: 1,

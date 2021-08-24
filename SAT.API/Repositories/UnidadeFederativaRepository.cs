@@ -71,10 +71,10 @@ namespace SAT.API.Repositories
                 ufs = ufs.Where(uf => uf.CodUF == parameters.CodUF);
             }
 
-            if (parameters.CodPais != null)
+			if (parameters.CodPais != null)
             {
                 ufs = ufs.Where(uf => uf.CodPais == parameters.CodPais);
-            }
+            }            
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

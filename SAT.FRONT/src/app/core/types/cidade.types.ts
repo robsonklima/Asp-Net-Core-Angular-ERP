@@ -32,6 +32,6 @@ export interface CidadeData extends Meta {
 
 export interface CidadeParameters extends QueryStringParameters {
     codCidade?: number;
-    codUF?: number;
     indAtivo?: number;
+    codUF?: number;
 };

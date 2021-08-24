@@ -4,13 +4,13 @@
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
-        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('usuarios') }}</div>
+        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('equipamentos') }}</div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="">
             </mat-form-field>
-            <button class="ml-4" mat-button [color]="'primary'" [routerLink]="['/usuario/form']"
+            <button class="ml-4" mat-button [color]="'primary'" [routerLink]="['/equipamento/form']"
                 routerLinkActive="router-link-active">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
             </button>
@@ -24,55 +24,32 @@
                     <div class="grid" *transloco="let t">
                         <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear *transloco="let t">
-                            <div class="md:block" [mat-sort-header]="'codUsuario'">
+                            <div class="md:block" [mat-sort-header]="'codEquip'">
                                 {{ t('codigo') }}
                             </div>
-                            <div [mat-sort-header]="'nomeUsuario'">
+                            <div [mat-sort-header]="'nomeEquip'">
                                 {{ t('nome') }}
-                            </div>
-                            <div>
-                                {{ t('cargo') }}
-                            </div>
-                            <div>
-                                {{ t('perfil') }}
-                            </div>
-                            <div>
-                                {{ t('ativo') }}
                             </div>
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let usuario of dataSourceData?.usuarios">
+                            <ng-container *ngFor="let equip of dataSourceData?.equipamentos">
                                 <div
                                     class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        <a [routerLink]="['/usuario/form/' + usuario.codUsuario]" class="text-primary">
-                                            {{ usuario.codUsuario }}
+                                        <a [routerLink]="['/equipamento/form/' + equip.codEquip]" class="text-primary">
+                                            {{ equip.codEquip }}
                                         </a>
                                     </div>
                                     <div class="truncate">
-                                        {{ usuario.nomeUsuario || t('nao informado') | titlecase }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ (usuario.cargo?.nomeCargo || t('nao informado')) | titlecase }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ (usuario.perfil?.nomePerfil || t('nao informado')) | titlecase }}
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!usuario.indAtivo"
-                                            [class.text-green-500]="usuario.indAtivo">
-                                            {{ usuario.indAtivo ? t('sim') : t('nao') }}
-                                        </span>
+                                        {{ equip.nomeEquip | titlecase }}
                                     </div>
                                 </div>
                             </ng-container>
                         </ng-container>
                     </div>
 
-                    <mat-paginator [hidden]="!dataSourceData?.usuarios?.length"
+                    <mat-paginator [hidden]="!dataSourceData?.equipamentos?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"

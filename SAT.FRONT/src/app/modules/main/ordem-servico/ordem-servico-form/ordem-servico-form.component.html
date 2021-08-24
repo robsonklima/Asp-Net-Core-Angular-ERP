@@ -128,14 +128,13 @@
                         </mat-icon>
                         <input matInput formControlName="telefoneSolicitante" mask="(00) 00000-0000"
                             [dropSpecialCharacters]="false">
-
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('nome contato') }}</mat-label>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
-                        </mat-icon>
-                        <input matInput formControlName="nomeContato" maxlength="25">
+                        <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"
+                            matPrefix></mat-icon>
+                        <input matInput formControlName="numOSQuarteirizada" maxlength="20">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -146,10 +145,10 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"
-                            matPrefix></mat-icon>
-                        <input matInput formControlName="numOSQuarteirizada" maxlength="20">
+                        <mat-label>{{ t('nome contato') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="nomeContato" maxlength="25">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">

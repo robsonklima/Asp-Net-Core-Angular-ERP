@@ -39,6 +39,9 @@
                             <div>
                                 {{ t('regiao') }}
                             </div>
+                            <div>
+                                {{ t('ferias') }}
+                            </div>
                             <div class="hidden lg:block">
                                 {{ t('ativo') }}
                             </div>
@@ -66,7 +69,20 @@
                                         {{ tecnico.regiao?.nomeRegiao || t('nao informado') }}
                                     </div>
                                     <div class="flex">
-                                        {{ tecnico.indAtivo ? t('sim') : t('nao') }}
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="tecnico.indFerias"
+                                            [class.text-green-500]="!tecnico.indFerias">
+                                            {{ tecnico.indFerias ? t('sim') : t('nao') }}
+                                        </span>
+                                    </div>
+                                    <div class="flex">
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="!tecnico.indAtivo"
+                                            [class.text-green-500]="tecnico.indAtivo">
+                                            {{ tecnico.indAtivo ? t('sim') : t('nao') }}
+                                        </span>
                                     </div>
                                 </div>
                             </ng-container>

@@ -391,7 +391,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     };
 
     this._localService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
+      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
       this._router.navigate(['local-atendimento']);
     });
   }

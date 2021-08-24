@@ -92,7 +92,12 @@
                                     </div>
 
                                     <div class="flex">
-                                        {{ local.indAtivo ? t('sim') : t('nao') }}
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="!local.indAtivo"
+                                            [class.text-green-500]="local.indAtivo">
+                                            {{ local.indAtivo ? t('sim') : t('nao') }}
+                                        </span>
                                     </div>
                                 </div>
                             </ng-container>

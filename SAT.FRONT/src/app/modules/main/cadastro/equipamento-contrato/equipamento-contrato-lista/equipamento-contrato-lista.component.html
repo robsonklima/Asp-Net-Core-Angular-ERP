@@ -84,7 +84,12 @@
                                         {{ equip.autorizada?.nomeAutorizada || t('nao informado') }}
                                     </div>
                                     <div class="flex">
-                                        {{ equip.indAtivo ? t('sim') : t('nao') }}
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="!equip.indAtivo"
+                                            [class.text-green-500]="equip.indAtivo">
+                                            {{ equip.indAtivo ? t('sim') : t('nao') }}
+                                        </span>
                                     </div>
                                 </div>
                             </ng-container>

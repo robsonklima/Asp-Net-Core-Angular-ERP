@@ -15,6 +15,13 @@ import { AutorizadaListaComponent } from './autorizada-lista/autorizada-lista.co
 import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from 'app/shared/shared.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+    return {
+        validation: false,
+    };
+};
 
 @NgModule({
   declarations: [
@@ -25,6 +32,7 @@ import { SharedModule } from 'app/shared/shared.module';
     SharedModule,
     CommonModule,
     RouterModule.forChild(autorizadaRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,

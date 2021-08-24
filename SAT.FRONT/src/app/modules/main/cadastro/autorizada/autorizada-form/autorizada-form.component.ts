@@ -2,67 +2,175 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
-import { Filial, FilialData } from 'app/core/types/filial.types';
+import { Filial } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
-import { Pais, PaisData } from 'app/core/types/pais.types';
+import { Pais } from 'app/core/types/pais.types';
 import { PaisService } from 'app/core/services/pais.service';
-import { UnidadeFederativa, UnidadeFederativaData } from 'app/core/types/unidade-federativa.types';
+import { UnidadeFederativa } from 'app/core/types/unidade-federativa.types';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
-import { Cidade, CidadeData } from 'app/core/types/cidade.types';
+import { Cidade, CidadeData, CidadeParameters } from 'app/core/types/cidade.types';
 import { CidadeService } from 'app/core/services/cidade.service';
-import { TipoRota, TipoRotaData } from 'app/core/types/tipo-rota.types';
-import { TipoRotaService } from 'app/core/services/tipo-rota.services';
+import { Subject } from 'rxjs';
+import { UserService } from 'app/core/user/user.service';
+import { fuseAnimations } from '@fuse/animations';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
+//import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-autorizada-form',
   templateUrl: './autorizada-form.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
+
 export class AutorizadaFormComponent implements OnInit {
   codAutorizada: number;
-  isAddMode: boolean;
-  form: FormGroup;
   autorizada: Autorizada;
-  public filialFiltro: FormControl = new FormControl();
-  public paisFiltro: FormControl = new FormControl();
-  public unidadeFederativaFiltro: FormControl = new FormControl();
-  public cidadeFiltro: FormControl = new FormControl();
-  public tipoRotaFiltro: FormControl = new FormControl();
-  public filiais: Filial[];
-  public paises: Pais[];
-  public unidadesFederativas: UnidadeFederativa[];
-  public cidades: Cidade[];
-  public tiposRota: TipoRota[];
+  form: FormGroup;
+  isAddMode: boolean;
+  usuario: any;
+  cidadeFilterCtrl: FormControl = new FormControl();
+  filiais: Filial[] = [];
+  paises: Pais[] = [];
+  unidadesFederativas: UnidadeFederativa[] = [];
+  loading: any = {
+    status: false,
+    ref: ''
+  };
 
+  public unidadesFederativaFiltro: FormControl = new FormControl();
+  public ufs: UnidadeFederativa[] = [];
+  public cidadeFiltro: FormControl = new FormControl();
+  public cidades: Cidade[] = [];
+
+  public searching = false;
   protected _onDestroy = new Subject<void>();
 
   constructor(
     private _formBuilder: FormBuilder,
+    private _location: Location,
+    private _route: ActivatedRoute,
+    private _userService: UserService,
     private _autorizadaService: AutorizadaService,
     private _filialService: FilialService,
     private _paisService: PaisService,
     private _unidadeFederativaService: UnidadeFederativaService,
     private _cidadeService: CidadeService,
-    private _tipoRotaService: TipoRotaService,
     private _snack: CustomSnackbarService,
-    private _location: Location,
-    private _route: ActivatedRoute,
-  ) { }
+    //private _googleGeolocationService: GoogleGeolocationService,
+    readonly sd: ScrollDispatcher    
+  ) {
+    this.usuario = JSON.parse(this._userService.userSession).usuario;
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.codAutorizada = +this._route.snapshot.paramMap.get('codAutorizada');
     this.isAddMode = !this.codAutorizada;
-    this.obterFilial();
-    this.obterPaises();
-    this.obterUnidadesFederativas();
-    this.obterCidades();
-    this.obterTiposRota();
+    this.inicializarForm();    
 
+    this.filiais = (await this._filialService
+      .obterPorParametros({
+        indAtivo: 1,
+        pageSize: 500,
+        sortActive: 'nomeFilial',
+        sortDirection: 'asc'
+      }).toPromise()).filiais;
+
+    this.paises = (await this._paisService
+      .obterPorParametros({
+        pageSize: 100,
+        sortActive: 'nomePais',
+        sortDirection: 'asc'
+      }).toPromise()).paises;
+
+    this.form.controls['codPais'].valueChanges.subscribe(async codPais => {
+      const data = await this._unidadeFederativaService.obterPorParametros({
+        sortActive: 'nomeUF',
+        sortDirection: 'asc',
+        codPais: codPais,
+        pageSize: 1000
+      }).toPromise();
+
+      this.ufs = data.unidadesFederativas.slice();
+    });
+
+    this.form.controls['codUF'].valueChanges.subscribe(async codUF => {
+      const data = await this._cidadeService.obterPorParametros({
+        sortActive: 'nomeCidade',
+        sortDirection: 'asc',
+        indAtivo: 1,
+        codUF: codUF,
+        pageSize: 1000
+      }).toPromise();
+
+      //console.log(codUF);
+      //console.log(data);
+      this.cidades = data.cidades.slice();
+    });    
+
+    this.form.controls['cep'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        if (text.length === 9) {
+          const cep = this.form.controls['cep']?.value || '';
+          
+          //this.obterLatLngPorEndereco(cep);
+        }
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
+
+    this.form.controls['numero'].valueChanges.pipe(
+      filter(text => !!text),
+      tap(() => { }),
+      debounceTime(700),
+      map(async text => { 
+        const endereco = this.form.controls['endereco']?.value || '';
+        const numero = this.form.controls['numero']?.value || '';
+        const codCidade = this.form.controls['codCidade'].value;
+        const cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise());
+        const query = `${endereco}, ${numero}, ${cidade.nomeCidade}`;
+        //this.obterLatLngPorEndereco(query);
+      }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => { });
+
+    if (!this.isAddMode) {
+      this.autorizada = await this._autorizadaService.obterPorCodigo(this.codAutorizada).toPromise();
+      console.log(this.autorizada);
+      this.form.patchValue(this.autorizada);
+      this.form.controls['codPais'].setValue(this.autorizada?.cidade?.unidadeFederativa?.codPais);
+      this.form.controls['codUF'].setValue(this.autorizada?.cidade?.codUF);
+      this.form.controls['codCidade'].setValue(this.autorizada?.codCidade);
+      //console.log(this.autorizada?.codCidade); 
+    }
+
+    this.unidadesFederativas = (await this._unidadeFederativaService
+      .obterPorParametros({
+        pageSize: 500,
+        sortActive: 'nomeUF',
+        sortDirection: 'asc',
+        codPais: 1
+      }).toPromise()).unidadesFederativas;
+
+    this.cidades = (await this._cidadeService
+      .obterPorParametros({
+        indAtivo: 1,
+        pageSize: 500,
+        sortActive: 'nomeCidade',
+        sortDirection: 'asc'
+      }).toPromise()).cidades;
+  }
+
+  inicializarForm(): void {
     this.form = this._formBuilder.group({
       codAutorizada: [
         {
@@ -70,138 +178,46 @@ export class AutorizadaFormComponent implements OnInit {
           disabled: true
         }, Validators.required
       ],
-      nomeAutorizada: ['', Validators.required],
-      codFilial: ['', Validators.required],      
-      razaoSocial: ['', Validators.required],
-      nomeFantasia: ['', Validators.required],
-      cnpj: ['', Validators.required],
-      inscricaoEstadual: ['', Validators.required],
-      cep: ['', Validators.required],
-      endereco: ['', Validators.required],
-      bairro: ['', Validators.required],
-      codPais: ['', Validators.required],
-      nomePais: [''],
-      codUF: ['', Validators.required],
-      siglaUF: [''],
-      codCidade: ['', Validators.required],
-      nomeCidade: [''],
-      codTipoRota: ['', Validators.required],
-      nomeTipoRota: [''],
-      latitude: [''],
-      longitude: [''],
-      fone: ['', Validators.required],
-      fax: ['', Validators.required],
-      indAtivo: [''],
-      indFilialPerto: [''],      
+      nomeAutorizada: [undefined, Validators.required],
+      codFilial: [undefined, Validators.required],
+      razaoSocial: [undefined, Validators.required],
+      nomeFantasia: [undefined, Validators.required],
+      cnpj: [undefined, Validators.required],
+      inscricaoEstadual: [undefined, Validators.required],
+      cep: [undefined, Validators.required],
+      endereco: [undefined, Validators.required],
+      bairro: [undefined, Validators.required],
+      codPais: [undefined, Validators.required],
+      nomePais: [undefined],
+      codUF: [undefined, Validators.required],
+      siglaUF: [undefined],
+      codCidade: [undefined, Validators.required],
+      nomeCidade: [undefined],
+      latitude: [undefined],
+      longitude: [undefined],
+      fone: [undefined, Validators.required],
+      fax: [undefined, Validators.required],
+      indAtivo: [undefined],
+      indFilialPerto: [undefined],
     });
-
-    this.filialFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterFilial(this.filialFiltro.value);
-      });
-
-    this.paisFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterPaises(this.paisFiltro.value);
-      });
-
-    this.unidadeFederativaFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() =>{
-        this.obterUnidadesFederativas(this.unidadeFederativaFiltro.value);
-      });
-
-    this.cidadeFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()        
-      )
-      .subscribe(() => {
-        this.obterCidades(this.cidadeFiltro.value);
-      })
-
-    this.tipoRotaFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()            
-      )
-      .subscribe(()=>{
-        this.obterTiposRota(this.tipoRotaFiltro.value)
-      })
-
-    if (!this.isAddMode) {
-        this._autorizadaService.obterPorCodigo(this.codAutorizada)
-        .pipe(first())
-        .subscribe(autorizada => {
-          this.autorizada = autorizada;
-          this.form.patchValue(this.autorizada);          
-        });
-      } 
   }
 
-  obterFilial(filter: string = ''): void {
-    this._filialService.obterPorParametros({
-      sortActive: 'nomeFilial',
+  private async obterCidades(filtro: string = '') {
+    const codUF = this.form.controls['codUF'].value;
+
+    const params: CidadeParameters = {
+      sortActive: 'nomeCidade',
       sortDirection: 'asc',
-      filter: filter,
-      pageSize: 50
-    }).subscribe((data: FilialData) => {
-      if (data.filiais.length) this.filiais = data.filiais;
-    });
+      indAtivo: 1,
+      codUF: codUF,
+      pageSize: 1000,
+      filter: filtro
+    }
+
+    const data = await this._cidadeService.obterPorParametros(params).toPromise();
+    this.cidades = data.cidades;
   }
 
-  obterPaises(filter: string = ''): void {
-    this._paisService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((paisData: PaisData) => {
-      if (paisData.paises.length) this.paises = paisData.paises;
-    });
-  }
-
-  obterUnidadesFederativas(filter: string = ''): void{
-    this._unidadeFederativaService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((unidadeFederativaData: UnidadeFederativaData) => {
-      if (unidadeFederativaData.unidadesFederativas.length) this.unidadesFederativas = unidadeFederativaData.unidadesFederativas;
-    })
-  }
-
-  obterCidades(filter: string = ''): void {
-    this._cidadeService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((cidadeData: CidadeData) => {
-      if (cidadeData.cidades.length) this.cidades = cidadeData.cidades;
-    });
-  }
-
-  obterTiposRota(filter: string = ''): void{
-    this._tipoRotaService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((tipoRotaData: TipoRotaData) =>{
-      if(tipoRotaData.tiposRota.length) this.tiposRota = tipoRotaData.tiposRota;
-    });
-  }
-  
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
   }
@@ -235,7 +251,7 @@ export class AutorizadaFormComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
+    this._onDestroy.next(); 
     this._onDestroy.complete();
   }
 }

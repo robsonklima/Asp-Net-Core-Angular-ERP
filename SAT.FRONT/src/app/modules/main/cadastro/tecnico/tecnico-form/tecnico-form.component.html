@@ -291,6 +291,10 @@
                         <mat-label>{{ t('cartao combustivel') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codDespesaCartaoCombustivel" [disabled]="!despesaCartoesCombustivel.length">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="cartoesFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
                             <mat-option *ngFor="let cartao of despesaCartoesCombustivel" [value]="cartao.codDespesaCartaoCombustivel">
                                 {{ cartao.numero }}
                             </mat-option>

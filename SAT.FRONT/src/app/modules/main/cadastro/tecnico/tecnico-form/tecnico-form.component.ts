@@ -45,6 +45,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   ufs: UnidadeFederativa[] = [];
   cidades: Cidade[] = [];
   cidadesFiltro: FormControl = new FormControl();
+  cartoesFiltro: FormControl = new FormControl();
   userSession: UsuarioSessionData;
   frotaFinalidadesUso: any[] = [];
   frotaCobrancasGaragem: any[] = [];
@@ -127,13 +128,13 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       takeUntil(this._onDestroy)
     ).subscribe(() => { });
 
-    // this.locaisFiltro.valueChanges.pipe(
-    //   filter(query => !!query),
-    //   debounceTime(700),
-    //   delay(500),
-    //   takeUntil(this._onDestroy),
-    //   map(async query => { this.obterLocais(query) })
-    // ).subscribe(() => {});
+    this.cartoesFiltro.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      debounceTime(700),
+      delay(500),
+      takeUntil(this._onDestroy),
+      map(async filtro => { this.obterCartoesCombustivel(filtro) })
+    ).subscribe(() => {});
 
     if (!this.isAddMode) {
       this._tecnicoService.obterPorCodigo(this.codTecnico)
@@ -143,7 +144,6 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
         this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
         this.tecnico = data;
-        console.log(data);
       });
     }
   }
@@ -321,8 +321,9 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterCartoesCombustivel() {
+  private async obterCartoesCombustivel(filtro: string='') {
     const params: DespesaCartaoCombustivelParameters = {
+      filter: filtro,
       sortActive: 'numero',
       sortDirection: 'asc',
       pageSize: 1000,
@@ -348,7 +349,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario,
         indTecnicoBancada: +form.indTecnicoBancada,
-        indFerias: +form.indeFerias,
+        indFerias: +form.indFerias,
         indAtivo: +form.indAtivo
       }
     };
@@ -369,7 +370,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
         indTecnicoBancada: +form.indTecnicoBancada,
-        indFerias: +form.indeFerias,
+        indFerias: +form.indFerias,
         indAtivo: +form.indAtivo
       }
     };

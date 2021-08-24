@@ -15,6 +15,7 @@ import { AutorizadaListaComponent } from './autorizada-lista/autorizada-lista.co
 import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SharedModule } from 'app/shared/shared.module';
     MatInputModule,
     NgxMatSelectSearchModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AutorizadaModule { }

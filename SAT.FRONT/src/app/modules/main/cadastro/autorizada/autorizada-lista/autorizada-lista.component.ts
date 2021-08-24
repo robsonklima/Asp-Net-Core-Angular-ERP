@@ -13,18 +13,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './autorizada-lista.component.html',
   styles: [`
     .list-grid-autorizada {
-      grid-template-columns: 72px auto 72px 72px 72px;
+      grid-template-columns: 72px auto 72px 72px;
       
       @screen sm {
-          grid-template-columns: 72px auto 72px 72px 72px;
+          grid-template-columns: 72px auto 72px 72px;
       }
 
       @screen md {
-          grid-template-columns: 72px auto 72px 72px 72px;
+          grid-template-columns: 72px auto 72px 72px;
       }
 
       @screen lg {
-          grid-template-columns: 72px auto 72px 72px 72px;
+          grid-template-columns: 72px auto 72px 72px;
       }
     }  
   `],

@@ -17,6 +17,7 @@ import { Cidade, CidadeData } from 'app/core/types/cidade.types';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { TipoRota, TipoRotaData } from 'app/core/types/tipo-rota.types';
 import { TipoRotaService } from 'app/core/services/tipo-rota.services';
+import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 
 @Component({
   selector: 'app-autorizada-form',
@@ -52,6 +53,7 @@ export class AutorizadaFormComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private _location: Location,
     private _route: ActivatedRoute,
+    private _googleService: GoogleGeolocationService
   ) { }
 
   ngOnInit() {

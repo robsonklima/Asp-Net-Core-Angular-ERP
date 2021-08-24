@@ -83,6 +83,7 @@ namespace SAT.API.Repositories
         public PagedList<Autorizada> ObterPorParametros(AutorizadaParameters parameters)
         {
             var autorizadas = _context.Autorizada
+                .Include(a => a.Filial)
                 .AsQueryable();
 
             if (parameters.CodAutorizada != null)

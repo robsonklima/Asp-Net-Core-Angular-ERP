@@ -67,6 +67,9 @@ namespace SAT.API.Controllers
         [HttpPut]
         public void Put([FromBody] EquipamentoContrato equipamentoContrato)
         {
+            var equip = _equipamentoRepository.ObterPorCodigo(equipamentoContrato.CodEquip);
+            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
+            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
             this._equipamentoContratoInterface.Atualizar(equipamentoContrato);
         }
 

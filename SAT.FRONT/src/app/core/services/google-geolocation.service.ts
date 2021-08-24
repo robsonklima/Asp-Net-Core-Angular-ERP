@@ -13,7 +13,7 @@ export class GoogleGeolocationService {
     private http: HttpClient
   ) {}
 
-  buscarPorEnderecoOuCEP(endCep: string): Observable<any> {
+  buscarPorEnderecoOuCEP(endCep: string): Observable<GoogleGeolocation> {
     const url = `${c.api}/GoogleGeolocation/${endCep}`;
 
     return this.http.get<GoogleGeolocation>(url).pipe(

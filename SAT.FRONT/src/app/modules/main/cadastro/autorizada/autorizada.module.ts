@@ -16,6 +16,14 @@ import { AutorizadaFormComponent } from './autorizada-form/autorizada-form.compo
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+  return {
+      validation: false,
+  };
+};
 
 @NgModule({
   declarations: [
@@ -26,6 +34,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SharedModule,
     CommonModule,
     RouterModule.forChild(autorizadaRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
@@ -36,7 +45,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgxMatSelectSearchModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ]
 })
 export class AutorizadaModule { }

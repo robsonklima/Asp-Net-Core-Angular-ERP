@@ -60,7 +60,7 @@ namespace SAT.API.Controllers
             _autorizadaInterface.Criar(autorizada: autorizada);
         }
 
-        [HttpPut("{codAutorizada}")]
+        [HttpPut]
         public void Put([FromBody] Autorizada autorizada)
         {
             _autorizadaInterface.Atualizar(autorizada: autorizada);

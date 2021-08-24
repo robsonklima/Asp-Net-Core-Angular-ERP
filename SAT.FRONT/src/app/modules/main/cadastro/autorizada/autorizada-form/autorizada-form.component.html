@@ -44,7 +44,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('razao social') }}</mat-label>
                         <input matInput formControlName="razaoSocial">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -53,7 +53,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome fantasia') }}</mat-label>
                         <input matInput formControlName="nomeFantasia">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -74,7 +74,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('inscricao estadual') }}</mat-label>
                         <input matInput formControlName="inscricaoEstadual">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -82,13 +82,14 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cnpj') }}</mat-label>
-                        <input matInput formControlName="cnpj">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <input matInput formControlName="cnpj" mask="00.000.000/0000-00">
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
                 </div>
+
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('localizacao') }}</p>
                 </div>
@@ -98,8 +99,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cep') }}</mat-label>
-                        <input matInput formControlName="cep">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <input matInput formControlName="cep" [dropSpecialCharacters]="false" mask="00000-000">
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -108,16 +109,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-9">
                         <mat-label>{{ t('endereco') }}</mat-label>
                         <input matInput formControlName="endereco">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('bairro') }}</mat-label>
-                        <input matInput formControlName="bairro">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -125,13 +117,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('pais') }}</mat-label>
-                        <mat-select formControlName="codPais">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="paisFiltro">
-                                </ngx-mat-select-search>
-                            </mat-option>
-
+                        <mat-select formControlName="codPais" [disabled]="!paises.length">
                             <mat-option *ngFor="let pais of paises" [value]="pais.codPais">
                                 {{ pais.nomePais }}
                             </mat-option>
@@ -140,16 +126,12 @@
                             {{ t('preencher campo') }}
                         </mat-error>
 
+                    </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('unidade federativa') }}</mat-label>
-                        <mat-select formControlName="codUf">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="unidadeFederativaFiltro"></ngx-mat-select-search>
-                            </mat-option>
-
+                        <mat-select formControlName="codUF" [disabled]="!unidadesFederativas.length">
                             <mat-option *ngFor="let unidadeFederativa of unidadesFederativas"
-                                [value]="unidadeFederativa.codUf">
+                                [value]="unidadeFederativa.codUF">
                                 {{ unidadeFederativa.siglaUF }}
                             </mat-option>
                         </mat-select>
@@ -160,7 +142,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cidade') }}</mat-label>
-                        <mat-select formControlName="codCidade">
+                        <mat-select formControlName="codCidade" [disabled]="!cidades.length">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="cidadeFiltro">
@@ -177,18 +159,9 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('tipo rota') }}</mat-label>
-                        <mat-select formControlName="codTipoRota">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoRotaFiltro">
-                                </ngx-mat-select-search>
-                            </mat-option>
-
-                            <mat-option *ngFor="let tipoRota of tiposRota" [value]="tipoRota.codTipoRota">
-                                {{ tipoRota.nomeTipoRota }}
-                            </mat-option>
-                        </mat-select>
+                        <mat-label>{{ t('bairro') }}</mat-label>
+                        <input matInput formControlName="bairro">
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -197,7 +170,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('latitude') }}</mat-label>
                         <input matInput formControlName="latitude">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -206,47 +179,45 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('longitude') }}</mat-label>
                         <input matInput formControlName="longitude">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
+                </div>
 
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('contato') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('fone') }}</mat-label>
-                        <input matInput formControlName="fone">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <input matInput formControlName="fone" mask="(00) 00000-0000">
+                        
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
+                </div>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('fax') }}</mat-label>
-                        <input matInput formControlName="fax">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                </div>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('ativo') }}</mat-label>
-                        <input matInput formControlName="indAtivo">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </mat-checkbox>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('filial perto') }}</mat-label>
-                        <input matInput formControlName="indFilialPerto">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indFilialPerto'">
+                                {{ t('filial perto') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

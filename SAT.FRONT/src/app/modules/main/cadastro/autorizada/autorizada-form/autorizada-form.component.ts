@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
@@ -18,6 +18,9 @@ import { CidadeService } from 'app/core/services/cidade.service';
 import { TipoRota, TipoRotaData } from 'app/core/types/tipo-rota.types';
 import { TipoRotaService } from 'app/core/services/tipo-rota.services';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import moment from 'moment';
+import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-autorizada-form',
@@ -29,16 +32,14 @@ export class AutorizadaFormComponent implements OnInit {
   isAddMode: boolean;
   form: FormGroup;
   autorizada: Autorizada;
-  public filialFiltro: FormControl = new FormControl();
-  public paisFiltro: FormControl = new FormControl();
-  public unidadeFederativaFiltro: FormControl = new FormControl();
-  public cidadeFiltro: FormControl = new FormControl();
-  public tipoRotaFiltro: FormControl = new FormControl();
-  public filiais: Filial[];
-  public paises: Pais[];
-  public unidadesFederativas: UnidadeFederativa[];
-  public cidades: Cidade[];
-  public tiposRota: TipoRota[];
+  userSession: UsuarioSessionData;
+  filialFiltro: FormControl = new FormControl();
+  cidadeFiltro: FormControl = new FormControl();
+  tipoRotaFiltro: FormControl = new FormControl();
+  filiais: Filial[] = [];
+  paises: Pais[] = [];
+  unidadesFederativas: UnidadeFederativa[] = [];
+  cidades: Cidade[] = [];
 
   protected _onDestroy = new Subject<void>();
 
@@ -53,18 +54,60 @@ export class AutorizadaFormComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private _location: Location,
     private _route: ActivatedRoute,
-    private _googleService: GoogleGeolocationService
-  ) { }
+    private _googleGeolocationService: GoogleGeolocationService,
+    private _userService: UserService
+  ) {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   ngOnInit() {
     this.codAutorizada = +this._route.snapshot.paramMap.get('codAutorizada');
     this.isAddMode = !this.codAutorizada;
+    this.inicializarForm();
     this.obterFilial();
     this.obterPaises();
-    this.obterUnidadesFederativas();
-    this.obterCidades();
-    this.obterTiposRota();
 
+    this.form.controls['codPais'].valueChanges.subscribe(async () => {
+      this.obterUnidadesFederativas();
+    });
+
+    this.form.controls['codUF'].valueChanges.subscribe(async () => {
+      this.obterCidades();
+    });
+
+    this.form.controls['cep'].valueChanges.pipe(
+      filter(cep => !!cep),
+      debounceTime(700),
+      delay(500),
+      takeUntil(this._onDestroy),
+      map(async cep => { 
+        if (cep.length === 9) {
+          this.obterLatLngPorCep(cep);
+        }
+      })
+    ).subscribe(() => { });
+
+    this.cidadeFiltro.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      debounceTime(700),
+      delay(500),
+      takeUntil(this._onDestroy),
+      map(async filtro => { this.obterCidades(filtro) })
+    ).subscribe(() => { });
+
+    if (!this.isAddMode) {
+      this._autorizadaService.obterPorCodigo(this.codAutorizada)
+        .pipe(first())
+        .subscribe(autorizada => {
+          this.autorizada = autorizada;
+          this.form.patchValue(this.autorizada);          
+          this.form.controls['codPais'].setValue(this.autorizada.cidade?.unidadeFederativa?.codPais);
+          this.form.controls['codUF'].setValue(this.autorizada.cidade?.codUF);
+        });
+    }
+  }
+
+  private inicializarForm() {
     this.form = this._formBuilder.group({
       codAutorizada: [
         {
@@ -72,166 +115,134 @@ export class AutorizadaFormComponent implements OnInit {
           disabled: true
         }, Validators.required
       ],
-      nomeAutorizada: ['', Validators.required],
-      codFilial: ['', Validators.required],      
-      razaoSocial: ['', Validators.required],
-      nomeFantasia: ['', Validators.required],
-      cnpj: ['', Validators.required],
-      inscricaoEstadual: ['', Validators.required],
-      cep: ['', Validators.required],
-      endereco: ['', Validators.required],
-      bairro: ['', Validators.required],
-      codPais: ['', Validators.required],
-      nomePais: [''],
-      codUF: ['', Validators.required],
-      siglaUF: [''],
-      codCidade: ['', Validators.required],
-      nomeCidade: [''],
-      codTipoRota: ['', Validators.required],
-      nomeTipoRota: [''],
-      latitude: [''],
-      longitude: [''],
-      fone: ['', Validators.required],
-      fax: ['', Validators.required],
-      indAtivo: [''],
-      indFilialPerto: [''],      
+      nomeFantasia: [undefined, Validators.required],
+      codFilial: [undefined, Validators.required],
+      razaoSocial: [undefined, Validators.required],
+      cnpj: [undefined, Validators.required],
+      inscricaoEstadual: [undefined],
+      cep: [undefined, Validators.required],
+      endereco: [undefined, Validators.required],
+      bairro: [undefined, Validators.required],
+      codPais: [undefined, Validators.required],
+      codUF: [undefined, Validators.required],
+      codCidade: [undefined, Validators.required],
+      latitude: [
+        {
+          value: undefined,
+          disabled: true
+        }, Validators.required
+      ],
+      longitude: [
+        {
+          value: undefined,
+          disabled: true
+        }, Validators.required
+      ],
+      fone: [undefined, Validators.required],
+      indAtivo: [undefined],
+      indFilialPerto: [undefined],
     });
-
-    this.filialFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterFilial(this.filialFiltro.value);
-      });
-
-    this.paisFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.obterPaises(this.paisFiltro.value);
-      });
-
-    this.unidadeFederativaFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()
-      )
-      .subscribe(() =>{
-        this.obterUnidadesFederativas(this.unidadeFederativaFiltro.value);
-      });
-
-    this.cidadeFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()        
-      )
-      .subscribe(() => {
-        this.obterCidades(this.cidadeFiltro.value);
-      })
-
-    this.tipoRotaFiltro.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        distinctUntilChanged()            
-      )
-      .subscribe(()=>{
-        this.obterTiposRota(this.tipoRotaFiltro.value)
-      })
-
-    if (!this.isAddMode) {
-        this._autorizadaService.obterPorCodigo(this.codAutorizada)
-        .pipe(first())
-        .subscribe(autorizada => {
-          this.autorizada = autorizada;
-          this.form.patchValue(this.autorizada);          
-        });
-      } 
   }
 
-  obterFilial(filter: string = ''): void {
+  obterFilial(): void {
     this._filialService.obterPorParametros({
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      filter: filter,
       pageSize: 50
     }).subscribe((data: FilialData) => {
       if (data.filiais.length) this.filiais = data.filiais;
     });
   }
 
-  obterPaises(filter: string = ''): void {
+  obterPaises(): void {
     this._paisService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
+      pageSize: 150
     }).subscribe((paisData: PaisData) => {
       if (paisData.paises.length) this.paises = paisData.paises;
     });
   }
 
-  obterUnidadesFederativas(filter: string = ''): void{
+  obterUnidadesFederativas(): void {
+    const codPais = this.form.controls['codPais'].value;
+
     this._unidadeFederativaService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((unidadeFederativaData: UnidadeFederativaData) => {
-      if (unidadeFederativaData.unidadesFederativas.length) this.unidadesFederativas = unidadeFederativaData.unidadesFederativas;
+      pageSize: 50,
+      codPais: codPais
+    }).subscribe((data: UnidadeFederativaData) => {
+      this.unidadesFederativas = data.unidadesFederativas;
     })
   }
 
   obterCidades(filter: string = ''): void {
+    const codUF = this.form.controls['codUF'].value;
+
     this._cidadeService.obterPorParametros({
+      sortDirection: 'asc',
+      sortActive: 'nomeCidade',
       filter: filter,
-      pageSize: 50
-    }).subscribe((cidadeData: CidadeData) => {
-      if (cidadeData.cidades.length) this.cidades = cidadeData.cidades;
+      pageSize: 1000,
+      indAtivo: 1,
+      codUF: codUF
+    }).subscribe((data: CidadeData) => {
+      this.cidades = data.cidades;
     });
   }
 
-  obterTiposRota(filter: string = ''): void{
-    this._tipoRotaService.obterPorParametros({
-      filter: filter,
-      pageSize: 50
-    }).subscribe((tipoRotaData: TipoRotaData) =>{
-      if(tipoRotaData.tiposRota.length) this.tiposRota = tipoRotaData.tiposRota;
-    });
+  private async obterLatLngPorCep(cep: string='') {
+    const data = await this._googleGeolocationService.buscarPorEnderecoOuCEP(cep).toPromise();
+    
+    if (data.results.length) {
+      const resultado = data.results.shift();
+
+      this.form.controls['endereco'].setValue(resultado.formatted_address);
+      this.form.controls['latitude'].setValue(resultado.geometry.location.lat);
+      this.form.controls['longitude'].setValue(resultado.geometry.location.lng);
+
+      const localidades: any = resultado.address_components.filter(ac => ac.types.includes('sublocality'));
+      this.form.controls['bairro'].setValue(localidades.shift()?.long_name);
+    }
   }
-  
+
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  atualizar(): void {
+  private atualizar(): void {
     const form: any = this.form.getRawValue();
 
-    Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean"
-        ? this.autorizada[key] = +form[key]
-        : this.autorizada[key] = form[key];
-    });
+    let obj = {
+      ...this.autorizada,
+      ...form,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario.codUsuario,
+        indAtivo: +form.indAtivo,
+        indFilialPerto: +form.indFilialPerto
+      }
+    };
 
-    this._autorizadaService.atualizar(this.autorizada).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+    this._autorizadaService.atualizar(obj).subscribe(() => {
+      this._snack.exibirToast("Técnico atualizado com sucesso!", "success");
       this._location.back();
     });
   }
 
-  criar(): void {
-    const form: any = this.form.getRawValue();
+  private criar(): void {
+    const form = this.form.getRawValue();
 
-    Object.keys(form).forEach((key, i) => {
-      typeof form[key] == "boolean" ? form[key] = +form[key] : form[key] = form[key];
-    });
+    let obj = {
+      ...this.autorizada,
+      ...form,
+      ...{
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.userSession.usuario.codUsuario,
+        indAtivo: +form.indAtivo,
+        indFilialPerto: +form.indFilialPerto
+      }
+    };
 
-    this._autorizadaService.criar(form).subscribe(() => {
-      this._snack.exibirToast("Registro inserido com sucesso!", "success");
+    this._autorizadaService.criar(obj).subscribe(() => {
+      this._snack.exibirToast("Técnico inserido com sucesso!", "success");
       this._location.back();
     });
   }

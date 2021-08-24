@@ -96,8 +96,6 @@ export class TecnicoListaComponent implements AfterViewInit {
       .toPromise();
 
     this.dataSourceData = data;
-    console.log(data.tecnicos[0]);
-    
     this.isLoading = false;
     this._cdr.detectChanges();
   }

@@ -127,14 +127,6 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       takeUntil(this._onDestroy)
     ).subscribe(() => { });
 
-    // this.locaisFiltro.valueChanges.pipe(
-    //   filter(query => !!query),
-    //   debounceTime(700),
-    //   delay(500),
-    //   takeUntil(this._onDestroy),
-    //   map(async query => { this.obterLocais(query) })
-    // ).subscribe(() => {});
-
     if (!this.isAddMode) {
       this._tecnicoService.obterPorCodigo(this.codTecnico)
       .pipe(first())
@@ -143,7 +135,6 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
         this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
         this.tecnico = data;
-        console.log(data);
       });
     }
   }
@@ -348,13 +339,13 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario,
         indTecnicoBancada: +form.indTecnicoBancada,
-        indFerias: +form.indeFerias,
+        indFerias: +form.indFerias,
         indAtivo: +form.indAtivo
       }
     };
     
     this._tecnicoService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast("Técnico atualizado com sucesso!", "success");
+      this._snack.exibirToast(`Técnico ${obj.nome} atualizado com sucesso!`, "success");
       this._location.back();
     });
   }
@@ -369,13 +360,13 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
         indTecnicoBancada: +form.indTecnicoBancada,
-        indFerias: +form.indeFerias,
+        indFerias: +form.indFerias,
         indAtivo: +form.indAtivo
       }
     };
 
     this._tecnicoService.criar(obj).subscribe(() => {
-      this._snack.exibirToast("Técnico inserido com sucesso!", "success");
+      this._snack.exibirToast(`Técnico ${obj.nome} adicionado com sucesso!`, "success");
       this._location.back();
     });
   }

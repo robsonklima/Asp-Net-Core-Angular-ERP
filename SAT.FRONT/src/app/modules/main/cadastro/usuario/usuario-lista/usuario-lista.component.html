@@ -4,7 +4,7 @@
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
-        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('tecnicos') }}</div>
+        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('usuarios') }}</div>
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
@@ -22,66 +22,49 @@
             <ng-container>
                 <ng-container>
                     <div class="grid" *transloco="let t">
-                        <div class="list-grid-ge z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear *transloco="let t">
-                            <div class="md:block" [mat-sort-header]="'codTecnico'">
+                            <div class="md:block" [mat-sort-header]="'codUsuario'">
                                 {{ t('codigo') }}
                             </div>
-                            <div [mat-sort-header]="'nome'">
+                            <div [mat-sort-header]="'nomeUsuario'">
                                 {{ t('nome') }}
                             </div>
                             <div>
-                                {{ t('filial') }}
+                                {{ t('cargo') }}
                             </div>
                             <div>
-                                {{ t('autorizada') }}
+                                {{ t('perfil') }}
                             </div>
                             <div>
-                                {{ t('regiao') }}
-                            </div>
-                            <div>
-                                {{ t('ferias') }}
-                            </div>
-                            <div class="hidden lg:block">
                                 {{ t('ativo') }}
                             </div>
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let tecnico of dataSourceData?.tecnicos">
+                            <ng-container *ngFor="let usuario of dataSourceData?.usuarios">
                                 <div
-                                    class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
+                                    class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        <a [routerLink]="['/tecnico/form/' + tecnico.codTecnico]" class="text-primary">
-                                            {{ tecnico.codTecnico }}
+                                        <a [routerLink]="['/usuario/form/' + usuario.codUsuario]" class="text-primary">
+                                            {{ usuario.codUsuario }}
                                         </a>
                                     </div>
                                     <div class="truncate">
-                                        {{ tecnico.nome || t('nao informado') }}
+                                        {{ usuario.nomeUsuario || t('nao informado') | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        {{ tecnico.filial?.nomeFilial || t('nao informado') }}
+                                        {{ (usuario.cargo?.nomeCargo || t('nao informado')) | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        {{ tecnico.autorizada?.nomefantasia || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ tecnico.regiao?.nomeRegiao || t('nao informado') }}
+                                        {{ (usuario.perfil?.nomePerfil || t('nao informado')) | titlecase }}
                                     </div>
                                     <div class="flex">
                                         <span
                                             class="font-semibold"
-                                            [class.text-red-500]="tecnico.indFerias"
-                                            [class.text-green-500]="!tecnico.indFerias">
-                                            {{ tecnico.indFerias ? t('sim') : t('nao') }}
-                                        </span>
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!tecnico.indAtivo"
-                                            [class.text-green-500]="tecnico.indAtivo">
-                                            {{ tecnico.indAtivo ? t('sim') : t('nao') }}
+                                            [class.text-red-500]="!usuario.indAtivo"
+                                            [class.text-green-500]="usuario.indAtivo">
+                                            {{ usuario.indAtivo ? t('sim') : t('nao') }}
                                         </span>
                                     </div>
                                 </div>
@@ -89,7 +72,7 @@
                         </ng-container>
                     </div>
 
-                    <mat-paginator [hidden]="!dataSourceData?.tecnicos?.length"
+                    <mat-paginator [hidden]="!dataSourceData?.usuarios?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"

@@ -1,8 +1,7 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { PontoEstrategicoEnum } from 'app/core/enums/ponto-estrategico.enum';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
@@ -18,7 +17,7 @@ import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.type
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
-import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
+import { EquipamentoContrato, PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
@@ -268,13 +267,13 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
   }
 
   private obterPontosEstrategicos(): void {
-    const tiposRota = Object.keys(PontoEstrategicoEnum).filter((element) => {
+    const data = Object.keys(PontoEstrategicoEnum).filter((element) => {
       return isNaN(Number(element));
     });
 
-    tiposRota.forEach((tr, i) => {
+    data.forEach((tr, i) => {
       this.pontosEstrategicos.push({
-        codPontoEstrategico: i + 1,
+        codPontoEstrategico: String(i),
         nomePontoEstrategico: tr
       })
     });

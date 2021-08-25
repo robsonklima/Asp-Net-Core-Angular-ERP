@@ -8,7 +8,7 @@ export class Defeito {
 }
 
 export interface DefeitoData extends Meta {
-    defeitos: Defeito[];
+    items: Defeito[];
 };
 
 export interface DefeitoParameters extends QueryStringParameters {

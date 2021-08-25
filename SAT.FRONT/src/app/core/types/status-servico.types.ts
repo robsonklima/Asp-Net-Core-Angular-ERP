@@ -17,7 +17,7 @@ export class StatusServico {
 }
 
 export interface StatusServicoData extends Meta {
-	statusServico: StatusServico[];
+	items: StatusServico[];
 };
 
 export interface StatusServicoParameters extends QueryStringParameters {

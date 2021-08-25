@@ -7,7 +7,7 @@ export class GrupoCausa {
 }
 
 export interface GrupoCausaData extends Meta {
-    gruposCausa: GrupoCausa[];
+    items: GrupoCausa[];
 };
 
 export interface GrupoCausaParameters extends QueryStringParameters {

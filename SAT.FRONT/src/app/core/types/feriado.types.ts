@@ -17,7 +17,7 @@ export interface Feriado {
 }
 
 export interface FeriadoData extends Meta {
-    feriados: Feriado[];
+    items: Feriado[];
 };
 
 export interface FeriadoParameters extends QueryStringParameters {

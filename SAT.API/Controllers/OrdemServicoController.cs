@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
-using SAT.MODELS.ViewModels;
-using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.API.Controllers
 {
@@ -27,13 +26,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public OrdemServicoListViewModel Get([FromQuery] OrdemServicoParameters parameters)
+        public ListViewModel Get([FromQuery] OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoInterface.ObterPorParametros(parameters);
 
-            var lista = new OrdemServicoListViewModel
+            var lista = new ListViewModel
             {
-                OrdensServico = ordensServico,
+                Items = ordensServico,
                 TotalCount = ordensServico.TotalCount,
                 CurrentPage = ordensServico.CurrentPage,
                 PageSize = ordensServico.PageSize,
@@ -54,8 +53,8 @@ namespace SAT.API.Controllers
         [HttpPost]
         public OrdemServico Post([FromBody] OrdemServico ordemServico)
         {
-            ordemServico.CodOS = _sequenciaInterface.ObterContador(Constants.TABELA_ORDEM_SERVICO);
             _ordemServicoInterface.Criar(ordemServico);
+
             return ordemServico;
         }
 

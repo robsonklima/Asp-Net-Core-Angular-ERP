@@ -13,7 +13,7 @@ export class TipoServico {
 }
 
 export interface TipoServicoData extends Meta {
-    tiposServico: TipoServico[];
+    items: TipoServico[];
 };
 
 export interface TipoServicoParameters extends QueryStringParameters {

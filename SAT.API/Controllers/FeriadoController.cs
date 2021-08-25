@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public FeriadoListViewModel Get([FromQuery] FeriadoParameters parameters)
+        public ListViewModel Get([FromQuery] FeriadoParameters parameters)
         {
             var feriados = _feriadoInterface.ObterPorParametros(parameters);
 
-            var lista = new FeriadoListViewModel
+            var lista = new ListViewModel
             {
-                Feriados = feriados,
+                Items = feriados,
                 TotalCount = feriados.TotalCount,
                 CurrentPage = feriados.CurrentPage,
                 PageSize = feriados.PageSize,

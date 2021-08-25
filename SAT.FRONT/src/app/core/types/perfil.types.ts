@@ -10,7 +10,7 @@ export class Perfil {
 }
 
 export interface PerfilData extends Meta {
-    perfis: Perfil[];
+    items: Perfil[];
 };
 
 export interface PerfilParameters extends QueryStringParameters {

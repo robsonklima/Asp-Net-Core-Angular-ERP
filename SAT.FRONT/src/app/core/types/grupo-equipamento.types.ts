@@ -10,7 +10,7 @@ export interface GrupoEquipamento {
 }
 
 export interface GrupoEquipamentoData extends Meta {
-    gruposEquipamento: GrupoEquipamento[];
+    items: GrupoEquipamento[];
 };
 
 export interface GrupoEquipamentoParameters extends QueryStringParameters {

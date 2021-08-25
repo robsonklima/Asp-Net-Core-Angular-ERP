@@ -7,7 +7,7 @@ export class Contrato {
 }
 
 export interface ContratoData extends Meta {
-    contratos: Contrato[];
+    items: Contrato[];
 };
 
 export interface ContratoParameters extends QueryStringParameters {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TipoIntervencaoListViewModel Get([FromQuery] TipoIntervencaoParameters parameters)
+        public ListViewModel Get([FromQuery] TipoIntervencaoParameters parameters)
         {
             var tiposIntervencao = _tipoIntervencaoInterface.ObterPorParametros(parameters);
 
-            var tiposIntervencaoListaViewModel = new TipoIntervencaoListViewModel
+            var lista = new ListViewModel
             {
-                TiposIntervencao = tiposIntervencao,
+                Items = tiposIntervencao,
                 TotalCount = tiposIntervencao.TotalCount,
                 CurrentPage = tiposIntervencao.CurrentPage,
                 PageSize = tiposIntervencao.PageSize,
@@ -43,7 +43,7 @@ namespace SAT.API.Controllers
                 HasPrevious = tiposIntervencao.HasPrevious
             };
 
-            return tiposIntervencaoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codTipoIntervencao}")]

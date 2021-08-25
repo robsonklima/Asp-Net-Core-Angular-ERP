@@ -5,8 +5,6 @@ namespace SAT.MODELS.Entities
 {
     public class NavegacaoConfiguracao
     {
-        [Key]
-        public int CodNavegacaoConfiguracao { get; set; }
         public int CodNavegacao { get; set; }
         public int CodPerfil { get; set; }
         [ForeignKey("CodNavegacao")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -27,13 +27,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ClienteListViewModel Get([FromQuery] ClienteParameters parameters)
+        public ListViewModel Get([FromQuery] ClienteParameters parameters)
         {
             var clientes = _clienteInterface.ObterPorParametros(parameters);
 
-            var clienteListaViewModel = new ClienteListViewModel
+            var lista = new ListViewModel
             {
-                Clientes = clientes,
+                Items = clientes,
                 TotalCount = clientes.TotalCount,
                 CurrentPage = clientes.CurrentPage,
                 PageSize = clientes.PageSize,
@@ -42,7 +42,7 @@ namespace SAT.API.Controllers
                 HasPrevious = clientes.HasPrevious
             };
 
-            return clienteListaViewModel;
+            return lista;
         }
     }
 }

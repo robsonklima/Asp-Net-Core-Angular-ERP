@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TipoServicoListViewModel Get([FromQuery] TipoServicoParameters parameters)
+        public ListViewModel Get([FromQuery] TipoServicoParameters parameters)
         {
             var tiposServico = _tipoServicoInterface.ObterPorParametros(parameters);
 
-            var tipoServicoListaViewModel = new TipoServicoListViewModel
+            var lista = new ListViewModel
             {
-                TiposServico = tiposServico,
+                Items = tiposServico,
                 TotalCount = tiposServico.TotalCount,
                 CurrentPage = tiposServico.CurrentPage,
                 PageSize = tiposServico.PageSize,
@@ -43,7 +43,7 @@ namespace SAT.API.Controllers
                 HasPrevious = tiposServico.HasPrevious
             };
 
-            return tipoServicoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codTipoServico}")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
@@ -23,13 +23,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public PecaListViewModel Get([FromQuery] PecaParameters parameters)
+        public ListViewModel Get([FromQuery] PecaParameters parameters)
         {
             var pecas = _pecaInterface.ObterPorParametros(parameters);
 
-            var lista = new PecaListViewModel
+            var lista = new ListViewModel
             {
-                Pecas = pecas,
+                Items = pecas,
                 TotalCount = pecas.TotalCount,
                 CurrentPage = pecas.CurrentPage,
                 PageSize = pecas.PageSize,

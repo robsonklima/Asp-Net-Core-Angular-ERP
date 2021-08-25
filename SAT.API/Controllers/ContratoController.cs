@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ContratoListViewModel Get([FromQuery] ContratoParameters parameters)
+        public ListViewModel Get([FromQuery] ContratoParameters parameters)
         {
             var contratos = _contratoInterface.ObterPorParametros(parameters);
 
-            var contratoListaViewModel = new ContratoListViewModel
+            var lista = new ListViewModel
             {
-                Contratos = contratos,
+                Items = contratos,
                 TotalCount = contratos.TotalCount,
                 CurrentPage = contratos.CurrentPage,
                 PageSize = contratos.PageSize,
@@ -35,7 +35,7 @@ namespace SAT.API.Controllers
                 HasPrevious = contratos.HasPrevious
             };
 
-            return contratoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codContrato}")]

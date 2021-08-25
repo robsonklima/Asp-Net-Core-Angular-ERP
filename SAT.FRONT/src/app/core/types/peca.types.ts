@@ -42,7 +42,7 @@ export class Peca {
 }
 
 export interface PecaData extends Meta {
-    pecas: Peca[];
+    items: Peca[];
 };
 
 export interface PecaParameters extends QueryStringParameters {

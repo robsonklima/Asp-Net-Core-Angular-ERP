@@ -12,7 +12,7 @@ export interface Causa {
 }
 
 export interface CausaData extends Meta {
-    causas: Causa[];
+    items: Causa[];
 };
 
 export interface CausaParameters extends QueryStringParameters {

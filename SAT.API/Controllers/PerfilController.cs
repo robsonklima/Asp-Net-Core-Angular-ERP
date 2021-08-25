@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public PerfilListViewModel Get([FromQuery] PerfilParameters parameters)
+        public ListViewModel Get([FromQuery] PerfilParameters parameters)
         {
             var perfis = _perfilInterface.ObterPorParametros(parameters);
 
-            var perfilListViewModel = new PerfilListViewModel
+            var perfilListViewModel = new ListViewModel
             {
-                Perfis = perfis,
+                Items = perfis,
                 TotalCount = perfis.TotalCount,
                 CurrentPage = perfis.CurrentPage,
                 PageSize = perfis.PageSize,

@@ -167,7 +167,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._clienteService.obterPorParametros(params).toPromise();
-    this.clientes = data.clientes;
+    this.clientes = data.items;
   }
 
   private async obterContratos() {
@@ -182,7 +182,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._contratoService.obterPorParametros(params).toPromise();
-    this.contratos = data.contratos;
+    this.contratos = data.items;
   }
 
   private async obterModelos() {
@@ -194,7 +194,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._contratoEquipamentoService.obterPorParametros(params).toPromise();
-    this.modelos = data.contratosEquipamento.map(ce => ce.equipamento);
+    this.modelos = data.items.map(ce => ce.equipamento);
   }
 
   private async obterSLAs() {
@@ -206,7 +206,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._contratoSLAService.obterPorParametros(params).toPromise();
-    this.slas = data.contratosSLA.map(ce => ce.sla);
+    this.slas = data.items.map(ce => ce.sla);
   }
 
   private async obterFiliais() {
@@ -218,7 +218,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._filialService.obterPorParametros(params).toPromise();
-    this.filiais = data.filiais;
+    this.filiais = data.items;
   }
 
   private async obterRegioes() {
@@ -231,7 +231,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._regiaoAutorizadaService.obterPorParametros(params).toPromise();
-    this.regioes = data.regioesAutorizadas.map(ra => ra.regiao);
+    this.regioes = data.items.map(ra => ra.regiao);
   }
 
   private async obterAutorizadas() {
@@ -246,7 +246,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._autorizadaService.obterPorParametros(params).toPromise();
-    this.autorizadas = data.autorizadas;
+    this.autorizadas = data.items;
   }
 
   private async obterLocais(filtro: string='') {
@@ -264,7 +264,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._localAtendimentoService.obterPorParametros(params).toPromise();
-    this.locais = data.locaisAtendimento.slice();
+    this.locais = data.items.slice();
   }
 
   private obterPontosEstrategicos(): void {

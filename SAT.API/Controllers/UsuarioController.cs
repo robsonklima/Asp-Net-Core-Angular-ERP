@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
 using System.Linq;
-using SAT.API.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -32,13 +32,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public UsuarioListViewModel Get([FromQuery] UsuarioParameters parameters)
+        public ListViewModel Get([FromQuery] UsuarioParameters parameters)
         {
             var usuarios = _usuarioInterface.ObterPorParametros(parameters);
 
-            var usuarioListViewModel = new UsuarioListViewModel
+            var lista = new ListViewModel
             {
-                Usuarios = usuarios,
+                Items = usuarios,
                 TotalCount = usuarios.TotalCount,
                 CurrentPage = usuarios.CurrentPage,
                 PageSize = usuarios.PageSize,
@@ -47,7 +47,7 @@ namespace SAT.API.Controllers
                 HasPrevious = usuarios.HasPrevious
             };
 
-            return usuarioListViewModel;
+            return lista;
         }
 
         [HttpGet("{codUsuario}")]

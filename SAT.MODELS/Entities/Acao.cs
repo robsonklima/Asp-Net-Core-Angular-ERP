@@ -2,7 +2,7 @@
 
 namespace SAT.MODELS.Entities
 {
-    public class Acao
+    public class Acao : BaseEntity
     {
         [Key]
         public int CodAcao { get; set; }

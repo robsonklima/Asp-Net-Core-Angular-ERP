@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -21,13 +21,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public UnidadeFederativaListViewModel Get([FromQuery] UnidadeFederativaParameters parameteres)
+        public ListViewModel Get([FromQuery] UnidadeFederativaParameters parameteres)
         {
             var ufs = _unidadeFederativaInterface.ObterPorParametros(parameteres);
 
-            var lista = new UnidadeFederativaListViewModel
+            var lista = new ListViewModel
             {
-                UnidadesFederativas = ufs,
+                Items = ufs,
                 TotalCount = ufs.TotalCount,
                 CurrentPage = ufs.CurrentPage,
                 PageSize = ufs.PageSize,

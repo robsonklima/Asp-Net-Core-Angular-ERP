@@ -57,7 +57,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         pageSize: 100,
       }).toPromise();
 
-      this.tiposServico = data.tiposServico.filter(
+      this.tiposServico = data.items.filter(
         t => t.codETipoServico.substring(0, 1) === String(maquina)
       );
     });
@@ -70,7 +70,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         indAtivo: 1
       }).toPromise();
 
-      this.causas = data.causas;
+      this.causas = data.items;
     });
 
     this.form.controls['codCausa'].valueChanges.subscribe(async codCausa => {
@@ -81,7 +81,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         indAtivo: 1
       }).toPromise();
 
-      this.defeitos = data.defeitos;
+      this.defeitos = data.items;
     });
 
     this.causasFiltro.valueChanges
@@ -98,7 +98,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
             pageSize: 100,
           }).toPromise();
 
-          return data.causas.slice();
+          return data.items.slice();
         }),
         takeUntil(this._onDestroy)
       )
@@ -114,7 +114,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         indAtivo: 1
       }).toPromise();
 
-      this.acoes = data.acoes;
+      this.acoes = data.items;
     });
 
     this.defeitosFiltro.valueChanges
@@ -131,7 +131,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
             pageSize: 100
           }).toPromise();
 
-          return data.defeitos.slice();
+          return data.items.slice();
         }),
         takeUntil(this._onDestroy)
       )
@@ -153,7 +153,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
             pageSize: 100,
           }).toPromise();
 
-          return data.acoes.slice();
+          return data.items.slice();
         }),
         takeUntil(this._onDestroy)
       )

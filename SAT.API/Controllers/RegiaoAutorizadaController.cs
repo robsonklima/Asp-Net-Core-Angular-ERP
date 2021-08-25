@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public RegiaoAutorizadaListViewModel Get([FromQuery] RegiaoAutorizadaParameters parameters)
+        public ListViewModel Get([FromQuery] RegiaoAutorizadaParameters parameters)
         {
             var regioesAutorizadas = _regiaoAutorizadaInterface.ObterPorParametros(parameters);
 
-            var lista = new RegiaoAutorizadaListViewModel
+            var lista = new ListViewModel
             {
-                RegioesAutorizadas = regioesAutorizadas,
+                Items = regioesAutorizadas,
                 TotalCount = regioesAutorizadas.TotalCount,
                 CurrentPage = regioesAutorizadas.CurrentPage,
                 PageSize = regioesAutorizadas.PageSize,

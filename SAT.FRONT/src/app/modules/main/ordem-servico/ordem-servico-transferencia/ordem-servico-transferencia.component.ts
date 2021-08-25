@@ -52,7 +52,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       .obterPorParametros(params)
       .toPromise();
     
-    this.tecnicos = data.tecnicos;
+    this.tecnicos = data.items;
   }
 
   private registrarEmitters(): void {

@@ -19,18 +19,18 @@ import moment from 'moment';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 92px 28px 48px 116px auto 56px 136px 36px 136px 24px;
+            grid-template-columns: 48px 72px 72px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
             
             @screen sm {
                 grid-template-columns: 48px auto 32px;
             }
         
             @screen md {
-                grid-template-columns: 48px 72px 72px 92px 38px auto 58px 58px 58px 58px 58px;
+                grid-template-columns: 48px 72px 72px 92px 38px 36px auto 58px 58px 58px 58px 58px;
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 92px 28px 48px 116px auto 56px 136px 36px 136px 24px;
+                grid-template-columns: 48px 72px 72px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
             }
         }
     `],
@@ -115,12 +115,14 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             })
             .toPromise();
 
-        data.ordensServico.forEach((os, i) => {
+        console.log(data);
+
+        data.items.forEach((os, i) => {
             if (os.statusSLAOSAberta?.dataHoraLimiteAtendimento !== undefined) {
                 if (moment(os.statusSLAOSAberta.dataHoraLimiteAtendimento) > moment() && os.statusServico.codStatusServico !== 3) {
-                    data.ordensServico[i]['statusSLAOSAberta']['statusSLAOS'] = 'DENTRO';
+                    data.items[i]['statusSLAOSAberta']['statusSLAOS'] = 'DENTRO';
                 } else {
-                    data.ordensServico[i]['statusSLAOSAberta']['statusSLAOS'] = 'FORA';
+                    data.items[i]['statusSLAOSAberta']['statusSLAOS'] = 'FORA';
                 }
             }
         });

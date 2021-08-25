@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public CausaListViewModel Get([FromQuery] CausaParameters parameters)
+        public ListViewModel Get([FromQuery] CausaParameters parameters)
         {
             var causas = _causaInterface.ObterPorParametros(parameters);
 
-            var lista = new CausaListViewModel
+            var lista = new ListViewModel
             {
-                Causas = causas,
+                Items = causas,
                 TotalCount = causas.TotalCount,
                 CurrentPage = causas.CurrentPage,
                 PageSize = causas.PageSize,

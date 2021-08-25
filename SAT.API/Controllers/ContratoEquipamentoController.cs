@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
@@ -20,13 +19,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ContratoEquipamentoListViewModel Get([FromQuery] ContratoEquipamentoParameters parameters)
+        public ListViewModel Get([FromQuery] ContratoEquipamentoParameters parameters)
         {
             var contratosEquipamento = _contratoEquipamentoInterface.ObterPorParametros(parameters);
 
-            var lista = new ContratoEquipamentoListViewModel
+            var lista = new ListViewModel
             {
-                ContratosEquipamento= contratosEquipamento,
+                Items = contratosEquipamento,
                 TotalCount = contratosEquipamento.TotalCount,
                 CurrentPage = contratosEquipamento.CurrentPage,
                 PageSize = contratosEquipamento.PageSize,

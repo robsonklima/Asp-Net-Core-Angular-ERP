@@ -64,7 +64,7 @@
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let equip of dataSourceData?.equipamentosContrato">
+                            <ng-container *ngFor="let equip of dataSourceData?.items">
                                 <div
                                     class="list-grid-ecl grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
@@ -85,13 +85,13 @@
                                         {{ equip.equipamento?.nomeEquip || t('nao informado') }}
                                     </div>
                                     <div class="flex">
-                                        {{ equip.filial?.nomeFilial || t('nao informado') }}
+                                        {{ equip.regiaoAutorizada?.filial?.nomeFilial || t('nao informado') }}
                                     </div>
                                     <div class="flex truncate">
-                                        {{ equip.regiao?.nomeRegiao || t('nao informado') }}
+                                        {{ equip.regiaoAutorizada?.regiao?.nomeRegiao || t('nao informado') }}
                                     </div>
                                     <div class="flex truncate">
-                                        {{ equip.autorizada?.nomeAutorizada || t('nao informado') }}
+                                        {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('nao informado') }}
                                     </div>
                                     <div class="flex">
                                         <span
@@ -106,7 +106,7 @@
                         </ng-container>
                     </div>
 
-                    <mat-paginator [hidden]="!dataSourceData?.equipamentosContrato?.length"
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"

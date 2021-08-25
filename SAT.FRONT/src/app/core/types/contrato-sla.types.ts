@@ -13,7 +13,7 @@ export class ContratoSLA {
 }
 
 export interface ContratoSLAData extends Meta {
-    contratosSLA: ContratoSLA[]
+    items: ContratoSLA[]
 };
 
 export interface ContratoSLAParameters extends QueryStringParameters {

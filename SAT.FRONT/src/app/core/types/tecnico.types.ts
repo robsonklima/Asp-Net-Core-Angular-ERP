@@ -71,7 +71,7 @@ export class Tecnico {
 }
 
 export interface TecnicoData extends Meta {
-    tecnicos: Tecnico[];
+    items: Tecnico[];
 };
 
 export interface TecnicoParameters extends QueryStringParameters {

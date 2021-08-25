@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public GrupoCausaListViewModel Get([FromQuery] GrupoCausaParameters parameters)
+        public ListViewModel Get([FromQuery] GrupoCausaParameters parameters)
         {
             var gruposCausa = _grupoCausaInterface.ObterPorParametros(parameters);
 
-            var lista = new GrupoCausaListViewModel
+            var lista = new ListViewModel
             {
-                GruposCausa = gruposCausa,
+                Items = gruposCausa,
                 TotalCount = gruposCausa.TotalCount,
                 CurrentPage = gruposCausa.CurrentPage,
                 PageSize = gruposCausa.PageSize,

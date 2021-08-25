@@ -149,7 +149,7 @@ export interface OrdemServico {
 }
 
 export interface OrdemServicoData extends Meta {
-    ordensServico: OrdemServico[];
+    items: OrdemServico[];
 };
 
 export interface OrdemServicoParameters extends QueryStringParameters {
@@ -165,4 +165,5 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     codTiposIntervencao?: string;
     codClientes?: string;
     codFiliais?: string;
+    pa?: number;
 };

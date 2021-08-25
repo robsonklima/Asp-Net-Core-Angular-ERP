@@ -26,7 +26,7 @@ export class Transportadora {
 }
 
 export interface TransportadoraData extends Meta {
-    transportadoras: Transportadora[];
+    items: Transportadora[];
 };
 
 export interface TransportadoraParameters extends QueryStringParameters {

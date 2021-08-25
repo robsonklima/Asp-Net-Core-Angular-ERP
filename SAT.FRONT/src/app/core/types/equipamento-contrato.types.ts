@@ -6,6 +6,7 @@ import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { GrupoEquipamento } from "./grupo-equipamento.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
 
@@ -31,6 +32,7 @@ export class EquipamentoContrato {
     regiao: Regiao;
     codAutorizada: number;
     autorizada: Autorizada;
+    regiaoAutorizada: RegiaoAutorizada;
     codFilial: number;
     filial: Filial;
     distanciaPatRes: number;
@@ -87,7 +89,7 @@ export class EquipamentoContrato {
 }
 
 export interface EquipamentoContratoData extends Meta {
-    equipamentosContrato: EquipamentoContrato[];
+    items: EquipamentoContrato[];
 };
 
 export interface EquipamentoContratoParameters extends QueryStringParameters {

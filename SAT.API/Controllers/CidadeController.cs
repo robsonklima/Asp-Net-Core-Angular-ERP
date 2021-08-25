@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public CidadeListViewModel Get([FromQuery] CidadeParameters parameters)
+        public ListViewModel Get([FromQuery] CidadeParameters parameters)
         {
             var cidades = _cidadeInterface.ObterPorParametros(parameters);
 
-            var lista= new CidadeListViewModel
+            var lista= new ListViewModel
             {
-                Cidades = cidades,
+                Items = cidades,
                 TotalCount = cidades.TotalCount,
                 CurrentPage = cidades.CurrentPage,
                 PageSize = cidades.PageSize,

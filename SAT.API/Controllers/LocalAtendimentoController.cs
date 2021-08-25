@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
-using System.Collections.Generic;
 using SAT.MODELS.Entities.Constants;
 using Microsoft.AspNetCore.Authorization;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -17,12 +17,12 @@ namespace SAT.API.Controllers
     {
         private readonly ILocalAtendimentoRepository _localAtendimentoInterface;
         private readonly ISequenciaRepository _sequenciaInterface;
-        private readonly ILoggerRepository _logger;
+        private readonly ILoggerService _logger;
 
         public LocalAtendimentoController(
             ILocalAtendimentoRepository localAtendimentoInterface,
             ISequenciaRepository sequenciaInterface,
-            ILoggerRepository logger
+            ILoggerService logger
         )
         {
             _localAtendimentoInterface = localAtendimentoInterface;
@@ -31,13 +31,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public LocalAtendimentoListViewModel Get([FromQuery] LocalAtendimentoParameters parameters)
+        public ListViewModel Get([FromQuery] LocalAtendimentoParameters parameters)
         {
             var locaisAtendimento = _localAtendimentoInterface.ObterPorParametros(parameters);
 
-            var clienteListaViewModel = new LocalAtendimentoListViewModel
+            var lista = new ListViewModel
             {
-                LocaisAtendimento = locaisAtendimento,
+                Items = locaisAtendimento,
                 TotalCount = locaisAtendimento.TotalCount,
                 CurrentPage = locaisAtendimento.CurrentPage,
                 PageSize = locaisAtendimento.PageSize,
@@ -46,7 +46,7 @@ namespace SAT.API.Controllers
                 HasPrevious = locaisAtendimento.HasPrevious
             };
 
-            return clienteListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codPosto}")]

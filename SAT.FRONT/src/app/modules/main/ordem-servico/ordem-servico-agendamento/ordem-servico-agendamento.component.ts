@@ -64,7 +64,7 @@ export class OrdemServicoAgendamentoComponent implements OnInit {
       .obterPorParametros(parametros)
       .toPromise();
 
-    this.motivosAgendamento = data.motivosAgendamento;
+    this.motivosAgendamento = data.items;
   }
 
   salvar(): void {

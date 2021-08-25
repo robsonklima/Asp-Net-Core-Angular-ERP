@@ -44,7 +44,7 @@ export class ContratoEquipamento {
 }
 
 export interface ContratoEquipamentoData extends Meta {
-    contratosEquipamento: ContratoEquipamento[]
+    items: ContratoEquipamento[]
 };
 
 export interface ContratoEquipamentoParameters extends QueryStringParameters {

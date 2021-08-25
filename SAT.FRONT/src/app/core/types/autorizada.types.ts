@@ -34,7 +34,7 @@ export interface Autorizada {
 }
 
 export interface AutorizadaData extends Meta {
-    autorizadas: Autorizada[];
+    items: Autorizada[];
 };
 
 export interface AutorizadaParameters extends QueryStringParameters {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using System.Collections.Generic;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
 

@@ -9,7 +9,7 @@ export interface Filial {
 }
 
 export interface FilialData extends Meta {
-    filiais: Filial[];
+    items: Filial[];
 };
 
 export interface FilialParameters extends QueryStringParameters {

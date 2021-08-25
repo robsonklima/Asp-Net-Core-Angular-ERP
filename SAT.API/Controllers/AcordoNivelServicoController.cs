@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public AcordoNivelServicoListViewModel Get([FromQuery] AcordoNivelServicoParameters parameters)
+        public ListViewModel Get([FromQuery] AcordoNivelServicoParameters parameters)
         {
             var ans = _acordoNivelServicoInterface.ObterPorParametros(parameters);
 
-            var ansListViewModel = new AcordoNivelServicoListViewModel
+            var ansListViewModel = new ListViewModel
             {
-                AcordosNivelServico = ans,
+                Items = ans,
                 TotalCount = ans.TotalCount,
                 CurrentPage = ans.CurrentPage,
                 PageSize = ans.PageSize,

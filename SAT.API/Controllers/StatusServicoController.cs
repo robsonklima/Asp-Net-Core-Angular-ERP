@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -16,12 +17,12 @@ namespace SAT.API.Controllers
     {
         private readonly IStatusServicoRepository _statusServicoInterface;
         private readonly ISequenciaRepository _sequenciaInterface;
-        private readonly ILoggerRepository _logger;
+        private readonly ILoggerService _logger;
 
         public StatusServicoController(
             IStatusServicoRepository statusServicoInterface, 
             ISequenciaRepository sequenciaInterface,
-            ILoggerRepository logger
+            ILoggerService logger
         )
         {
             _statusServicoInterface = statusServicoInterface;
@@ -30,13 +31,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public StatusServicoListViewModel Get([FromQuery] StatusServicoParameters parameters)
+        public ListViewModel Get([FromQuery] StatusServicoParameters parameters)
         {
             var statusServico = _statusServicoInterface.ObterPorParametros(parameters);
 
-            var statusServicoListaViewModel = new StatusServicoListViewModel
+            var lista = new ListViewModel
             {
-                StatusServico = statusServico,
+                Items = statusServico,
                 TotalCount = statusServico.TotalCount,
                 CurrentPage = statusServico.CurrentPage,
                 PageSize = statusServico.PageSize,
@@ -45,7 +46,7 @@ namespace SAT.API.Controllers
                 HasPrevious = statusServico.HasPrevious
             };
 
-            return statusServicoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codStatusServico}")]

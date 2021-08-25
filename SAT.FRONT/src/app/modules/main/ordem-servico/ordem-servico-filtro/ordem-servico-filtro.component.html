@@ -113,6 +113,15 @@
                 </mat-form-field>
             </div>
 
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="flex-auto">
+                    <mat-label>{{ t('pa') }}</mat-label>
+                    <input matInput formControlName="pa" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+
             <div class="mt-6 border-t"></div>
 
             <div class="flex items-center justify-start -mx-8 px-8 py-5">

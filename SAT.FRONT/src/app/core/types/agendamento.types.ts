@@ -12,7 +12,7 @@ export class Agendamento {
 }
 
 export interface AgendamentoData extends Meta {
-    agendamentos: Agendamento[]
+    items: Agendamento[]
 };
 
 export interface AgendamentoParameters extends QueryStringParameters {

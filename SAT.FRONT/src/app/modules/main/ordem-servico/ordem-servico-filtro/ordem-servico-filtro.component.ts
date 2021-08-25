@@ -64,6 +64,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       dataAberturaFim: [undefined],
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
+      pa: [undefined],
     });
 
     this.form.patchValue(this.filtro?.parametros);
@@ -81,7 +82,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       .obterPorParametros(params)
       .toPromise();
 
-    this.filiais = data.filiais;
+    this.filiais = data.items;
   }
 
   async obterTiposIntervencao() {
@@ -95,7 +96,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       .obterPorParametros(params)
       .toPromise();
 
-    this.tiposIntervencao = data.tiposIntervencao;
+    this.tiposIntervencao = data.items;
   }
 
   async obterClientes(filter: string = '') {
@@ -111,7 +112,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       .obterPorParametros(params)
       .toPromise();
 
-    this.clientes = data.clientes;
+    this.clientes = data.items;
   }
 
   async obterStatusServicos() {
@@ -126,7 +127,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       .obterPorParametros(params)
       .toPromise();
 
-    this.statusServicos = data.statusServico;
+    this.statusServicos = data.items;
   }
 
   private registrarEmitters(): void {

@@ -1,6 +1,5 @@
 ﻿using SAT.MODELS.Entities;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SAT.MODELS.ViewModels
 {

@@ -39,7 +39,7 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
       sortActive: 'nomePeca',
       sortDirection: 'asc',
       pageSize: 100,
-    }).toPromise()).pecas;
+    }).toPromise()).items;
 
     this.pecasFiltro.valueChanges
       .pipe(
@@ -54,7 +54,7 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
             pageSize: 100
           }).toPromise();
 
-          return data.pecas.slice();
+          return data.items.slice();
         }),
         delay(500),
         takeUntil(this._onDestroy)

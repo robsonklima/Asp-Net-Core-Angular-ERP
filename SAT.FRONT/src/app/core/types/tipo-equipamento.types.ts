@@ -7,7 +7,7 @@ export interface TipoEquipamento {
 }
 
 export interface TipoEquipamentoData extends Meta {
-  tiposEquipamento: TipoEquipamento[];
+  items: TipoEquipamento[];
 };
 
 export interface TipoEquipamentoParameters extends QueryStringParameters {

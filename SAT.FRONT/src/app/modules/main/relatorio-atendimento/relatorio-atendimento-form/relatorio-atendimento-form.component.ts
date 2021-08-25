@@ -94,7 +94,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       pageSize: 100,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
-    }).toPromise()).statusServico;
+    }).toPromise()).items;
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
@@ -102,7 +102,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       sortActive: 'nome',
       sortDirection: 'asc',
       codFilial: this.ordemServico?.filial?.codFilial
-    }).toPromise()).tecnicos;
+    }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges
       .pipe(
@@ -119,7 +119,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
             codFilial: this.ordemServico?.filial?.codFilial
           }).toPromise();
 
-          return data.tecnicos.slice();
+          return data.items.slice();
         }),
         delay(500),
         takeUntil(this._onDestroy)

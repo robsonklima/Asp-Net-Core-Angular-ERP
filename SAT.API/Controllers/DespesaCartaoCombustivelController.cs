@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public DespesaCartaoCombustivelListViewModel Get([FromQuery] DespesaCartaoCombustivelParameters parameters)
+        public ListViewModel Get([FromQuery] DespesaCartaoCombustivelParameters parameters)
         {
             var cartoes = _despesaCartaoCombustivelInterface.ObterPorParametros(parameters);
 
-            var lista = new DespesaCartaoCombustivelListViewModel
+            var lista = new ListViewModel
             {
-                DespesaCartoesCombustivel = cartoes,
+                Items = cartoes,
                 TotalCount = cartoes.TotalCount,
                 CurrentPage = cartoes.CurrentPage,
                 PageSize = cartoes.PageSize,

@@ -11,7 +11,7 @@ export class TipoIntervencao {
 }
 
 export interface TipoIntervencaoData extends Meta {
-    tiposIntervencao: TipoIntervencao[];
+    items: TipoIntervencao[];
 };
 
 export interface TipoIntervencaoParameters extends QueryStringParameters {

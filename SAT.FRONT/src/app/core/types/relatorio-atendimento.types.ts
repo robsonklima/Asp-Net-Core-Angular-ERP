@@ -84,7 +84,7 @@ export interface RelatorioAtendimento {
 }
 
 export interface RelatorioAtendimentoData extends Meta {
-    relatoriosAtendimento: RelatorioAtendimento[];
+    items: RelatorioAtendimento[];
 };
 
 export interface RelatorioAtendimentoParameters extends QueryStringParameters {

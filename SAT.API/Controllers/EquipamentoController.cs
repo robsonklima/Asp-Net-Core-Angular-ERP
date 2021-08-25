@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public EquipamentoListViewModel Get([FromQuery] EquipamentoParameters parameters)
+        public ListViewModel Get([FromQuery] EquipamentoParameters parameters)
         {
             var equipamentos = _equipamentoInterface.ObterPorParametros(parameters);
 
-            var equipamentoListViewModel = new EquipamentoListViewModel
+            var lista = new ListViewModel
             {
-                Equipamentos = equipamentos,
+                Items = equipamentos,
                 TotalCount = equipamentos.TotalCount,
                 CurrentPage = equipamentos.CurrentPage,
                 PageSize = equipamentos.PageSize,
@@ -35,7 +35,7 @@ namespace SAT.API.Controllers
                 HasPrevious = equipamentos.HasPrevious
             };
 
-            return equipamentoListViewModel;
+            return lista;
         }
 
         [HttpGet("{codEquip}")]

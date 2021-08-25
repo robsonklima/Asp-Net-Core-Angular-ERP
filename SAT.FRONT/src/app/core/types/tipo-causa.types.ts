@@ -7,7 +7,7 @@ export class TipoCausa {
 }
 
 export interface TipoCausaData extends Meta {
-    tiposCausa: TipoCausa[];
+    items: TipoCausa[];
 };
 
 export interface TipoCausaParameters extends QueryStringParameters {

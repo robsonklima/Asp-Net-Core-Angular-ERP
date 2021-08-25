@@ -16,7 +16,7 @@ export interface Navegacao {
 }
 
 export interface NavegacaoData extends Meta {
-    navegacoes: Navegacao[];
+    items: Navegacao[];
 };
 
 export interface NavegacaoParameters extends QueryStringParameters { };

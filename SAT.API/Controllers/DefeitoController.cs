@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -34,13 +34,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public DefeitoListViewModel Get([FromQuery] DefeitoParameters parameters)
+        public ListViewModel Get([FromQuery] DefeitoParameters parameters)
         {
             var defeitos = _defeitoInterface.ObterPorParametros(parameters);
 
-            var lista = new DefeitoListViewModel
+            var lista = new ListViewModel
             {
-                Defeitos = defeitos,
+                Items = defeitos,
                 TotalCount = defeitos.TotalCount,
                 CurrentPage = defeitos.CurrentPage,
                 PageSize = defeitos.PageSize,

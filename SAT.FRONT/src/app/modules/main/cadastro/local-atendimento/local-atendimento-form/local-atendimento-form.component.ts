@@ -226,7 +226,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._paisService.obterPorParametros(params).toPromise();
-    this.paises = data.paises;
+    this.paises = data.items;
   }
 
   private async obterUFs() {
@@ -240,7 +240,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
-    this.ufs = data.unidadesFederativas;
+    this.ufs = data.items;
   }
 
   private async obterCidades(filtro: string = '') {
@@ -268,7 +268,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._clienteService.obterPorParametros(params).toPromise();
-    this.clientes = data.clientes;
+    this.clientes = data.items;
   }
 
   private async obterFiliais() {
@@ -280,7 +280,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._filialService.obterPorParametros(params).toPromise();
-    this.filiais = data.filiais;
+    this.filiais = data.items;
   }
 
   private async obterAutorizadas() {
@@ -293,7 +293,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._autorizadaService.obterPorParametros(params).toPromise();
-    this.autorizadas = data.autorizadas;
+    this.autorizadas = data.items;
   }
 
   private async obterRegioes() {
@@ -304,14 +304,14 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       pageSize: 100
     }).toPromise();
 
-    this.regioes = data.regioesAutorizadas
+    this.regioes = data.items
       .filter(ra => ra.codAutorizada === codAutorizada)
       .map(ra => ra.regiao);
   }
 
   private async obterEquipamentosContrato() {
     const data = await this._equipamentoContratoService.obterPorParametros({codPosto: this.codPosto}).toPromise();
-    this.equipamentosContrato = data.equipamentosContrato;
+    this.equipamentosContrato = data.items;
   }
 
   private async obterLatLngPorEndereco(end: string) {

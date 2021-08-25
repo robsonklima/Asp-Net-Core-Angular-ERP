@@ -12,7 +12,7 @@ export class Pais {
 }
 
 export interface PaisData extends Meta {
-    paises: Pais[];
+    items: Pais[];
 };
 
 export interface PaisParameters extends QueryStringParameters {

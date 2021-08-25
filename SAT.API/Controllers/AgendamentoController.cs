@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public AgendamentoListViewModel Get([FromQuery] AgendamentoParameters parameters)
+        public ListViewModel Get([FromQuery] AgendamentoParameters parameters)
         {
             var agendamentos = _agendamentoInterface.ObterPorParametros(parameters);
 
-            var lista = new AgendamentoListViewModel
+            var lista = new ListViewModel
             {
-                Agendamentos = agendamentos,
+                Items = agendamentos,
                 TotalCount = agendamentos.TotalCount,
                 CurrentPage = agendamentos.CurrentPage,
                 PageSize = agendamentos.PageSize,

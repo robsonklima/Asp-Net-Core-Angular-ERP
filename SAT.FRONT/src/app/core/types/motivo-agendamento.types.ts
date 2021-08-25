@@ -7,7 +7,7 @@ export class MotivoAgendamento {
 }
 
 export interface MotivoAgendamentoData extends Meta {
-    motivosAgendamento: MotivoAgendamento[]
+    items: MotivoAgendamento[]
 };
 
 export interface MotivoAgendamentoParameters extends QueryStringParameters {

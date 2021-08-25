@@ -15,7 +15,7 @@ export class DespesaCartaoCombustivel {
 }
 
 export interface DespesaCartaoCombustivelData extends Meta {
-    despesaCartoesCombustivel: DespesaCartaoCombustivel[]
+    items: DespesaCartaoCombustivel[]
 };
 
 export interface DespesaCartaoCombustivelParameters extends QueryStringParameters {

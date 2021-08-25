@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -33,13 +33,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public RelatorioAtendimentoListViewModel Get([FromQuery] RelatorioAtendimentoParameters parameters)
+        public ListViewModel Get([FromQuery] RelatorioAtendimentoParameters parameters)
         {
             var relatoriosAtendimento = _raInterface.ObterPorParametros(parameters);
 
-            var lista = new RelatorioAtendimentoListViewModel
+            var lista = new ListViewModel
             {
-                RelatoriosAtendimento = relatoriosAtendimento,
+                Items = relatoriosAtendimento,
                 TotalCount = relatoriosAtendimento.TotalCount,
                 CurrentPage = relatoriosAtendimento.CurrentPage,
                 PageSize = relatoriosAtendimento.PageSize,

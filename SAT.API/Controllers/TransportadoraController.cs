@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TransportadoraListViewModel Get([FromQuery] TransportadoraParameters parameters)
+        public ListViewModel Get([FromQuery] TransportadoraParameters parameters)
         {
             var transportadoras = _transportadoraInterface.ObterPorParametros(parameters);
 
-            var lista = new TransportadoraListViewModel
+            var lista = new ListViewModel
             {
-                Transportadoras = transportadoras,
+                Items = transportadoras,
                 TotalCount = transportadoras.TotalCount,
                 CurrentPage = transportadoras.CurrentPage,
                 PageSize = transportadoras.PageSize,

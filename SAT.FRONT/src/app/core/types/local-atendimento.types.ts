@@ -56,7 +56,7 @@ export class LocalAtendimento {
 }
 
 export interface LocalAtendimentoData extends Meta {
-    locaisAtendimento: LocalAtendimento[];
+    items: LocalAtendimento[];
 };
 
 export interface LocalAtendimentoParameters extends QueryStringParameters {

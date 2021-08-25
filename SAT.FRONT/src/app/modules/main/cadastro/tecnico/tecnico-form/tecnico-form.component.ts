@@ -199,7 +199,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._filialService.obterPorParametros(params).toPromise();
-    this.filiais = data.filiais;
+    this.filiais = data.items;
   }
 
   private async obterAutorizadas() {
@@ -214,7 +214,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._autorizadaService.obterPorParametros(params).toPromise();
-    this.autorizadas = data.autorizadas;
+    this.autorizadas = data.items;
   }
 
   private async obterRegioes() {
@@ -227,7 +227,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._regiaoAutorizadaService.obterPorParametros(params).toPromise();
-    this.regioes = data.regioesAutorizadas.map(ra => ra.regiao);
+    this.regioes = data.items.map(ra => ra.regiao);
   }
 
   private async obterPaises() {
@@ -238,7 +238,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._paisService.obterPorParametros(params).toPromise();
-    this.paises = data.paises;
+    this.paises = data.items;
   }
 
   private async obterUFs() {
@@ -252,7 +252,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
-    this.ufs = data.unidadesFederativas;
+    this.ufs = data.items;
   }
 
   private async obterCidades(filtro: string = '') {
@@ -321,7 +321,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._despesaCartaoCombustivelService.obterPorParametros(params).toPromise();
-    this.despesaCartoesCombustivel = data.despesaCartoesCombustivel;
+    this.despesaCartoesCombustivel = data.items;
   }
 
   salvar(): void {

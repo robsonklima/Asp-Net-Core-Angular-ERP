@@ -31,6 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SAT.INFRA\SAT.INFRA.csproj" />
     <ProjectReference Include="..\SAT.MODELS\SAT.MODELS.csproj" />
+    <ProjectReference Include="..\SAT.SERVICES\SAT.SERVICES.csproj" />
   </ItemGroup>
 </Project>

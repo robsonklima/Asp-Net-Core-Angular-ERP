@@ -18,7 +18,7 @@ export class RegiaoAutorizada {
 }
 
 export interface RegiaoAutorizadaData extends Meta {
-    regioesAutorizadas: RegiaoAutorizada[];
+    items: RegiaoAutorizada[];
 };
 
 export interface RegiaoAutorizadaParameters extends QueryStringParameters {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public PaisListViewModel Get([FromQuery] PaisParameters parameters)
+        public ListViewModel Get([FromQuery] PaisParameters parameters)
         {
             var paises = _paisInterface.ObterPorParametros(parameters);
 
-            var paisListViewModel = new PaisListViewModel
+            var lista = new ListViewModel
             {
-                Paises = paises,
+                Items = paises,
                 TotalCount = paises.TotalCount,
                 CurrentPage = paises.CurrentPage,
                 PageSize = paises.PageSize,
@@ -37,7 +37,7 @@ namespace SAT.API.Controllers
                 HasPrevious = paises.HasPrevious
             };
 
-            return paisListViewModel;
+            return lista;
         }
 
         [HttpGet("{codPais}")]

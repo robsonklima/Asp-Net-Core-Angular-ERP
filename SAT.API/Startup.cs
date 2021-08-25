@@ -8,12 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SAT.API.Context;
-using SAT.API.Repositories;
-using SAT.API.Repositories.Interfaces;
-using SAT.API.Services;
-using SAT.API.Services.Interfaces;
 using SAT.API.Support;
+using SAT.INFRA.Context;
+using SAT.INFRA.Interfaces;
+using SAT.INFRA.Repositories;
+using SAT.SERVICES.Interfaces;
+using SAT.SERVICES.Services;
 using System;
 using System.Text;
 
@@ -88,7 +88,8 @@ namespace SAT.API
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
-            services.AddSingleton<ILoggerRepository, LoggerRepository>();
+            services.AddTransient<IIndicadorService, IndicadorService>();
+            services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 
             services.AddAuthentication(auth =>

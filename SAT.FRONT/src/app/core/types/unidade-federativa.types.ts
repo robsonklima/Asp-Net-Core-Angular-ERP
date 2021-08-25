@@ -13,7 +13,7 @@ export class UnidadeFederativa {
 }
 
 export interface UnidadeFederativaData extends Meta {
-    unidadesFederativas: UnidadeFederativa[];
+    items: UnidadeFederativa[];
 };
 
 export interface UnidadeFederativaParameters extends QueryStringParameters {

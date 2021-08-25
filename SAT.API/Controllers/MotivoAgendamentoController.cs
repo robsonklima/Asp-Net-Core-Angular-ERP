@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -21,13 +21,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public MotivoAgendamentoListViewModel Get([FromQuery] MotivoAgendamentoParameters parameters)
+        public ListViewModel Get([FromQuery] MotivoAgendamentoParameters parameters)
         {
             var motivos = _motivoAgendamentoInterface.ObterPorParametros(parameters);
 
-            var acaoListaViewModel = new MotivoAgendamentoListViewModel
+            var lista = new ListViewModel
             {
-                MotivosAgendamento = motivos,
+                Items = motivos,
                 TotalCount = motivos.TotalCount,
                 CurrentPage = motivos.CurrentPage,
                 PageSize = motivos.PageSize,
@@ -36,7 +36,7 @@ namespace SAT.API.Controllers
                 HasPrevious = motivos.HasPrevious
             };
 
-            return acaoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codMotivo}")]

@@ -5,9 +5,8 @@ export class TipoRota {
     nomeTipoRota: string;
 }
 
-
 export interface TipoRotaData extends Meta {
-    tiposRota: TipoRota[];
+    items: TipoRota[];
 };
 
 export interface TipoRotaParameters extends QueryStringParameters {

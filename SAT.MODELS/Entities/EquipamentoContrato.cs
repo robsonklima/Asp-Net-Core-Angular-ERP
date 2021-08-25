@@ -94,5 +94,7 @@ namespace SAT.MODELS.Entities
         public string Sequencia { get; set; }
         public byte? IndMecanismo { get; set; }
         public int? CodDispBBCriticidade { get; set; }
+        [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
+        public RegiaoAutorizada RegiaoAutorizada { get; set; }
     }
 }

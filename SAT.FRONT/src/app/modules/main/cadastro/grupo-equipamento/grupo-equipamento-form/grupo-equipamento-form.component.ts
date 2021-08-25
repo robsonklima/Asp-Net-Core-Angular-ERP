@@ -53,7 +53,7 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
       sortActive: 'nomeTipoEquip',
       sortDirection: 'asc',
       pageSize: 50
-    }).toPromise()).tiposEquipamento;
+    }).toPromise()).items;
 
     if (!this.isAddMode) {
       this._grupoEquipamentoService.obterPorCodigo(this.codGrupoEquip)

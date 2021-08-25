@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -29,13 +29,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public AutorizadaListViewModel Get([FromQuery] AutorizadaParameters parameters)
+        public ListViewModel Get([FromQuery] AutorizadaParameters parameters)
         {
             var autorizadas = _autorizadaInterface.ObterPorParametros(parameters);
 
-            var autorizadaListViewModel = new AutorizadaListViewModel
+            var lista = new ListViewModel
             {
-                Autorizadas = autorizadas,
+                Items = autorizadas,
                 TotalCount = autorizadas.TotalCount,
                 CurrentPage = autorizadas.CurrentPage,
                 PageSize = autorizadas.PageSize,
@@ -44,7 +44,7 @@ namespace SAT.API.Controllers
                 HasPrevious = autorizadas.HasPrevious
             };
 
-            return autorizadaListViewModel;
+            return lista;
         }
 
         [HttpGet("{codAutorizada}")]

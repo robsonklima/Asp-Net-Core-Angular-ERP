@@ -64,7 +64,7 @@ export class Cliente {
 }
 
 export interface ClienteData extends Meta {
-    clientes: Cliente[];
+    items: Cliente[];
 };
 
 export interface ClienteParameters extends QueryStringParameters {

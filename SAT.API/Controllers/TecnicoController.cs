@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
@@ -23,13 +23,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TecnicoListViewModel Get([FromQuery] TecnicoParameters parameters)
+        public ListViewModel Get([FromQuery] TecnicoParameters parameters)
         {
             var tecnicos = _tecnicoInterface.ObterPorParametros(parameters);
 
-            var lista = new TecnicoListViewModel
+            var lista = new ListViewModel
             {
-                Tecnicos = tecnicos,
+                Items = tecnicos,
                 TotalCount = tecnicos.TotalCount,
                 CurrentPage = tecnicos.CurrentPage,
                 PageSize = tecnicos.PageSize,

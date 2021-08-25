@@ -8,7 +8,7 @@ export class Acao {
 }
 
 export interface AcaoData extends Meta {
-    acoes: Acao[]
+    items: Acao[]
 };
 
 export interface AcaoParameters extends QueryStringParameters {

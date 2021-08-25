@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TipoCausaListViewModel Get([FromQuery] TipoCausaParameters parameters)
+        public ListViewModel Get([FromQuery] TipoCausaParameters parameters)
         {
             var tiposCausa = _tipoCausaInterface.ObterPorParametros(parameters);
 
-            var lista = new TipoCausaListViewModel
+            var lista = new ListViewModel
             {
-                TiposCausa = tiposCausa,
+                Items = tiposCausa,
                 TotalCount = tiposCausa.TotalCount,
                 CurrentPage = tiposCausa.CurrentPage,
                 PageSize = tiposCausa.PageSize,

@@ -7,7 +7,7 @@ export class Regiao {
 }
 
 export interface RegiaoData extends Meta {
-    regioes: Regiao[];
+    items: Regiao[];
 };
 
 export interface RegiaoParameters extends QueryStringParameters {

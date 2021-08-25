@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ContratoSLAListViewModel Get([FromQuery] ContratoSLAParameters parameters)
+        public ListViewModel Get([FromQuery] ContratoSLAParameters parameters)
         {
             var contratosSLA = _contratoSLAInterface.ObterPorParametros(parameters);
 
-            var lista = new ContratoSLAListViewModel
+            var lista = new ListViewModel
             {
-                ContratosSLA = contratosSLA,
+                Items = contratosSLA,
                 TotalCount = contratosSLA.TotalCount,
                 CurrentPage = contratosSLA.CurrentPage,
                 PageSize = contratosSLA.PageSize,

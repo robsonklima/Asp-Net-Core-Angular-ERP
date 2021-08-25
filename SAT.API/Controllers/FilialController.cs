@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
 using System.Collections.Generic;
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public FilialListViewModel Get([FromQuery] FilialParameters parameters)
+        public ListViewModel Get([FromQuery] FilialParameters parameters)
         {
             var filiais = _filialInterface.ObterPorParametros(parameters);
 
-            var filialListaViewModel = new FilialListViewModel
+            var lista = new ListViewModel
             {
-                Filiais = filiais,
+                Items = filiais,
                 TotalCount = filiais.TotalCount,
                 CurrentPage = filiais.CurrentPage,
                 PageSize = filiais.PageSize,
@@ -37,7 +37,7 @@ namespace SAT.API.Controllers
                 HasPrevious = filiais.HasPrevious
             };
 
-            return filialListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codFilial}")]

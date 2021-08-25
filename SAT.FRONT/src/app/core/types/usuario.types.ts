@@ -58,7 +58,7 @@ export class Usuario {
 }
 
 export interface UsuarioData extends Meta {
-    usuarios: Usuario[];
+    items: Usuario[];
 };
 
 export interface UsuarioSessionData {

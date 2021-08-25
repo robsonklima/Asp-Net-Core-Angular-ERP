@@ -147,7 +147,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       pageSize: 100,
       sortActive: 'nomTipoIntervencao',
       sortDirection: 'asc'
-    }).toPromise()).tiposIntervencao;
+    }).toPromise()).items;
   }
 
   private async obterClientes() {
@@ -156,7 +156,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       pageSize: 500,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc'
-    }).toPromise()).clientes;
+    }).toPromise()).items;
   }
 
   private async obterFiliais() {
@@ -165,7 +165,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       pageSize: 500,
       sortActive: 'nomeFilial',
       sortDirection: 'asc'
-    }).toPromise()).filiais;
+    }).toPromise()).items;
   }
 
   private async obterAutorizadas() {
@@ -176,7 +176,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         sortActive: 'nomeFantasia',
         sortDirection: 'asc',
         codFilial: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial
-      }).toPromise()).autorizadas;
+      }).toPromise()).items;
   }
 
   private async obterLocaisAoTrocarCliente() {
@@ -189,7 +189,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         pageSize: 50,
       }).toPromise();
 
-      this.locais = data.locaisAtendimento.slice();
+      this.locais = data.items.slice();
     });
   }
 
@@ -202,7 +202,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         pageSize: 100
       }).toPromise();
 
-      this.equipamentosContrato = data.equipamentosContrato.slice();
+      this.equipamentosContrato = data.items.slice();
     });
   }
 
@@ -227,7 +227,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           pageSize: 10
         }).toPromise();
 
-        return data.locaisAtendimento.slice();
+        return data.items.slice();
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -279,7 +279,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           codCliente: this.form.controls['codCliente'].value
         }).toPromise();
 
-        return data.locaisAtendimento.slice();
+        return data.items.slice();
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -302,7 +302,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         pageSize: 100
       }).toPromise();
 
-      this.regioes = data.regioesAutorizadas
+      this.regioes = data.items
         .filter(ra => ra.codAutorizada === codAutorizada)
         .map(ra => ra.regiao);
     });
@@ -318,7 +318,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         pageSize: 50
       }).toPromise();
 
-      this.autorizadas = data.autorizadas.slice();
+      this.autorizadas = data.items.slice();
     });
   }
 

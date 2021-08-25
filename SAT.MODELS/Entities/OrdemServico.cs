@@ -20,12 +20,6 @@ namespace SAT.MODELS.Entities
         public EquipamentoContrato EquipamentoContrato { get; set; }
         [ForeignKey("CodEquip")]
         public Equipamento Equipamento { get; set; }
-        [ForeignKey("CodFilial")]
-        public Filial Filial { get; set; }
-        [ForeignKey("CodRegiao")]
-        public Regiao Regiao { get; set; }
-        [ForeignKey("CodAutorizada")]
-        public Autorizada Autorizada { get; set; }
         [ForeignKey("CodOS")]
         public List<RelatorioAtendimento> RelatoriosAtendimento { get; set; }
         [ForeignKey("CodOS")]
@@ -156,5 +150,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraIntegracaoRevisaoAgendamentoV2 { get; set; }
         [NotMapped]
         public List<Alerta> Alertas { get; set; }
+        [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
+        public RegiaoAutorizada RegiaoAutorizada { get; set; }
     }
 }

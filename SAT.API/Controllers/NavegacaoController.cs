@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
@@ -22,13 +22,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public NavegacaoListViewModel Get([FromQuery] NavegacaoParameters parameters)
+        public ListViewModel Get([FromQuery] NavegacaoParameters parameters)
         {
             var navegacoes = _navegacaoInterface.ObterPorParametros(parameters);
 
-            var navegacaoListViewModel = new NavegacaoListViewModel
+            var lista = new ListViewModel
             {
-                Navegacoes = navegacoes,
+                Items = navegacoes,
                 TotalCount = navegacoes.TotalCount,
                 CurrentPage = navegacoes.CurrentPage,
                 PageSize = navegacoes.PageSize,
@@ -37,7 +37,7 @@ namespace SAT.API.Controllers
                 HasPrevious = navegacoes.HasPrevious
             };
 
-            return navegacaoListViewModel;
+            return lista;
         }
 
         [HttpGet("{codNavegacao}")]

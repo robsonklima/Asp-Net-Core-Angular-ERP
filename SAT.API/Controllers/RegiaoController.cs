@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public RegiaoListViewModel Get([FromQuery] RegiaoParameters parameters)
+        public ListViewModel Get([FromQuery] RegiaoParameters parameters)
         {
             var regioes = _regiaoInterface.ObterPorParametros(parameters);
 
-            var regiaoListViewModel = new RegiaoListViewModel
+            var lista = new ListViewModel
             {
-                Regioes = regioes,
+                Items = regioes,
                 TotalCount = regioes.TotalCount,
                 CurrentPage = regioes.CurrentPage,
                 PageSize = regioes.PageSize,
@@ -43,7 +43,7 @@ namespace SAT.API.Controllers
                 HasPrevious = regioes.HasPrevious
             };
 
-            return regiaoListViewModel;
+            return lista;
         }
 
         [HttpGet("{codRegiao}")]

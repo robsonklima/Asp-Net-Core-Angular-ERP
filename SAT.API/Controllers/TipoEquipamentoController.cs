@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Repositories.Interfaces;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -28,13 +28,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public TipoEquipamentoListViewModel Get([FromQuery] TipoEquipamentoParameters parameters)
+        public ListViewModel Get([FromQuery] TipoEquipamentoParameters parameters)
         {
             var tiposEquipamento = _tipoEquipamentoInterface.ObterPorParametros(parameters);
 
-            var tiposEquipamentoListaViewModel = new TipoEquipamentoListViewModel
+            var lista = new ListViewModel
             {
-                TiposEquipamento = tiposEquipamento,
+                Items = tiposEquipamento,
                 TotalCount = tiposEquipamento.TotalCount,
                 CurrentPage = tiposEquipamento.CurrentPage,
                 PageSize = tiposEquipamento.PageSize,
@@ -43,7 +43,7 @@ namespace SAT.API.Controllers
                 HasPrevious = tiposEquipamento.HasPrevious
             };
 
-            return tiposEquipamentoListaViewModel;
+            return lista;
         }
 
         [HttpGet("{codTipoEquip}")]

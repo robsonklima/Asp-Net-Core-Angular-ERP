@@ -6,6 +6,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { DefaultComponent } from './default.component';
 import { defaultRoutes } from './default.routing';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     declarations: [
@@ -16,7 +19,10 @@ import { defaultRoutes } from './default.routing';
         MatButtonModule,
         MatIconModule,
         SharedModule,
-        TranslocoModule
+        TranslocoModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        MatTabsModule
     ]
 })
 export class DefaultModule

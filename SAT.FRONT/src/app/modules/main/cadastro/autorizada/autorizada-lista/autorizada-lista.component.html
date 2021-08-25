@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    <mat-paginator [hidden]="!dataSourceData?.autorizadas?.length"
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
@@ -47,7 +47,7 @@
             </ng-container>
 
             <ng-container>
-                <ng-container *ngFor="let autorizada of dataSourceData?.autorizadas">
+                <ng-container *ngFor="let autorizada of dataSourceData?.items">
                     <div class="list-grid-autorizada grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
                         *transloco="let t">
                         <div class="hidden md:block truncate ">

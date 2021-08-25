@@ -115,8 +115,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             })
             .toPromise();
 
-        console.log(data);
-
         data.items.forEach((os, i) => {
             if (os.statusSLAOSAberta?.dataHoraLimiteAtendimento !== undefined) {
                 if (moment(os.statusSLAOSAberta.dataHoraLimiteAtendimento) > moment() && os.statusServico.codStatusServico !== 3) {

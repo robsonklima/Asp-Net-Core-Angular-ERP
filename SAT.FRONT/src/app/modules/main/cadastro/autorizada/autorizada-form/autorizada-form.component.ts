@@ -150,7 +150,7 @@ export class AutorizadaFormComponent implements OnInit {
       sortDirection: 'asc',
       pageSize: 50
     }).subscribe((data: FilialData) => {
-      if (data.filiais.length) this.filiais = data.filiais;
+      this.filiais = data.items;
     });
   }
 
@@ -158,7 +158,7 @@ export class AutorizadaFormComponent implements OnInit {
     this._paisService.obterPorParametros({
       pageSize: 150
     }).subscribe((paisData: PaisData) => {
-      if (paisData.paises.length) this.paises = paisData.paises;
+      this.paises = paisData.items;
     });
   }
 
@@ -169,7 +169,7 @@ export class AutorizadaFormComponent implements OnInit {
       pageSize: 50,
       codPais: codPais
     }).subscribe((data: UnidadeFederativaData) => {
-      this.unidadesFederativas = data.unidadesFederativas;
+      this.unidadesFederativas = data.items;
     })
   }
 

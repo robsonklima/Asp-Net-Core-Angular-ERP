@@ -7,7 +7,8 @@ export class Equipamento {
 }
 
 export interface EquipamentoData {
-    items: Equipamento[]
+    items: Equipamento[],
+    totalCount: number
 };
 
 export interface EquipamentoParameters extends QueryStringParameters {};

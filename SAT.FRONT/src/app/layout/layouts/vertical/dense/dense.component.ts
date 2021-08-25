@@ -10,8 +10,8 @@ import packageInfo from '../../../../../../package.json';
 
 
 @Component({
-    selector     : 'dense-layout',
-    templateUrl  : './dense.component.html',
+    selector: 'dense-layout',
+    templateUrl: './dense.component.html',
     encapsulation: ViewEncapsulation.None
 })
 export class DenseLayoutComponent implements OnInit, OnDestroy {
@@ -28,15 +28,13 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService
-    ) {}
+    ) { }
 
-    get currentYear(): number
-    {
+    get currentYear(): number {
         return new Date().getFullYear();
     }
-    
-    ngOnInit(): void
-    {
+
+    ngOnInit(): void {
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -47,34 +45,29 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
-
+            .subscribe(({ matchingAliases }) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
     }
 
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-    
-    toggleNavigation(name: string): void
-    {
+
+    toggleNavigation(name: string): void {
         // Get the navigation
         const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
 
-        if ( navigation )
-        {
+        if (navigation) {
             // Toggle the opened status
             navigation.toggle();
         }
     }
 
-    toggleNavigationAppearance(): void
-    {
+    toggleNavigationAppearance(): void {
         this.navigationAppearance = (this.navigationAppearance === 'default' ? 'dense' : 'default');
     }
 }

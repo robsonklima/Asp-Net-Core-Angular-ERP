@@ -20,6 +20,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -50,7 +52,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatMenuModule
   ]
 })
 export class TecnicoModule { }

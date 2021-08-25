@@ -23,7 +23,7 @@ import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
-import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
+import { Regiao } from 'app/core/types/regiao.types';
 import { UsuarioSessionData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -310,7 +310,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     };
     
     this._equipamentoContratoService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+      this._snack.exibirToast(`Equipamento ${obj.numSerie} atualizado com sucesso!`, "success");
       this._location.back();
     });
   }
@@ -338,7 +338,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     };
 
     this._equipamentoContratoService.criar(obj).subscribe(() => {
-      this._snack.exibirToast("Registro inserido com sucesso!", "success");
+      this._snack.exibirToast(`Equipamento ${obj.numSerie} inserido com sucesso!`, "success");
       this._location.back();
     });
   }

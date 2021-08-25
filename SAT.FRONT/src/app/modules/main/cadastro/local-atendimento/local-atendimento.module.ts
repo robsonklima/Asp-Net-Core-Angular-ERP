@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -51,7 +52,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatProgressSpinnerModule,
     NgxMatSelectSearchModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatMenuModule
   ]
 })
 export class LocalAtendimentoModule { }

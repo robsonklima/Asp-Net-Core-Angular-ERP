@@ -22,13 +22,23 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-5" mat-button [color]="'primary'" [routerLink]="['/ordem-servico/form']"
-                        *transloco="let t">
-                        <mat-icon [matTooltip]="t('adicionar')" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                    </button>
+                    <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
+                        <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
-                    <button class="ml-0" mat-button [color]="'primary'" (click)="sidenav.toggle()" *transloco="let t">
-                        <mat-icon [matTooltip]="t('filtrar')" [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                        <mat-menu #menu>
+                            <button mat-menu-item [routerLink]="['/ordem-servico/form']">
+                                <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                                {{ t('adicionar') }}
+                            </button>
+                            <button mat-menu-item>
+                                <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
+                                {{ t('exportar') }}
+                            </button>
+                            <button mat-menu-item (click)="sidenav.toggle()">
+                                <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                                {{ t('filtrar') }}
+                            </button>
+                        </mat-menu>
                     </button>
                 </div>
             </div>
@@ -121,8 +131,7 @@
                                             <div class="hidden md:block">
                                                 <span [matTooltip]="os.statusServico?.nomeStatusServico"
                                                     matTooltipPosition="above">
-                                                    <span class="py-1 px-2 rounded text-xs"
-                                                        [ngStyle]="{
+                                                    <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.statusServico?.corFundo, 
                                                             'color': os.statusServico?.corFonte
                                                         }">

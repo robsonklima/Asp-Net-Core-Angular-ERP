@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EquipamentoListaComponent } from './equipamento-lista/equipamento-lista.component';
 import { equipamentoRoutes } from './equipamento.routing';
 import { EquipamentoFormComponent } from './equipamento-form/equipamento-form.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -51,7 +52,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatMenuModule
   ]
 })
 export class EquipamentoModule { }

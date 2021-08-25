@@ -240,11 +240,6 @@
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
-                        [routerLink]="['/ordem-servico/detalhe/'+codOS]">
-                        {{ t('voltar') }}
-                    </button>
-
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}

@@ -21,6 +21,7 @@ import { EquipamentoContratoListaComponent } from './equipamento-contrato-lista/
 import { EquipamentoContratoFormComponent } from './equipamento-contrato-form/equipamento-contrato-form.component';
 import { equipamentoContratoRoutes } from './equipamento-contrato.routing';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMenuModule } from '@angular/material/menu';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -53,7 +54,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     NgxMatSelectSearchModule,
     MatCheckboxModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatMenuModule
   ]
 })
 export class EquipamentoContratoModule { }

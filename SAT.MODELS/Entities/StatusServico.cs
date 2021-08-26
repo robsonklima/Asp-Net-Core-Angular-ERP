@@ -16,11 +16,8 @@ namespace SAT.MODELS.Entities
         public int? IndNegrito { get; set; }
         public string Abrev { get; set; }
         public int? IndServico { get; set; }
-        public int? CodTraducao { get; set; }
         public int? IndAtivo { get; set; }
         [Column("IndLiberadoOSBloqueado")]
         public int? IndLiberadoOsbloqueado { get; set; }
-        [ForeignKey("CodTraducao")]
-        public Traducao Traducao { get; set; }
     }
 }

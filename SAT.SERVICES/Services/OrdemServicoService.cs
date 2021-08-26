@@ -1,7 +1,7 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
-using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
 
@@ -23,11 +23,13 @@ namespace SAT.SERVICES.Services
             _ordemServicoRepo.Atualizar(ordemServico);
         }
 
-        public void Criar(OrdemServico ordemServico)
+        public OrdemServico Criar(OrdemServico ordemServico)
         {
             ordemServico.CodOS = _sequenciaRepo.ObterContador(Constants.TABELA_ORDEM_SERVICO);
 
             _ordemServicoRepo.Criar(ordemServico);
+
+            return ordemServico;
         }
 
         public void Deletar(int codOS)
@@ -40,9 +42,22 @@ namespace SAT.SERVICES.Services
             return _ordemServicoRepo.ObterPorCodigo(codigo);
         }
 
-        public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
+        public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
-            return _ordemServicoRepo.ObterPorParametros(parameters);
+            var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = ordensServico,
+                TotalCount = ordensServico.TotalCount,
+                CurrentPage = ordensServico.CurrentPage,
+                PageSize = ordensServico.PageSize,
+                TotalPages = ordensServico.TotalPages,
+                HasNext = ordensServico.HasNext,
+                HasPrevious = ordensServico.HasPrevious
+            };
+
+            return lista;
         }
 
         public IEnumerable<OrdemServico> ObterTodos()

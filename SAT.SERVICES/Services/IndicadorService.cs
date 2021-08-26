@@ -25,7 +25,7 @@ namespace SAT.SERVICES.Services
             DateTime dataInicio = new DateTime(DateTime.Now.Year, 1, 1);
 
             var chamados = _osRepository.ObterTodos().AsQueryable().Where(os => os.DataHoraAberturaOS >= dataInicio);
-            List<Cliente> clientes = chamados.Select(os => os.Cliente).Distinct().ToList();
+            List<ClienteService> clientes = chamados.Select(os => os.Cliente).Distinct().ToList();
 
             foreach (var cliente in clientes)
             {

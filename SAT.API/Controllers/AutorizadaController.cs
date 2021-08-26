@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -16,60 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class AutorizadaController : ControllerBase
     {
-        private IAutorizadaRepository _autorizadaInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IAutorizadaService _autorizadaService;
 
-        public AutorizadaController(
-            IAutorizadaRepository autorizadaInterface,
-            ISequenciaRepository sequenciaInterface
-        )
+        public AutorizadaController(IAutorizadaService autorizadaService)
         {
-            _autorizadaInterface = autorizadaInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _autorizadaService = autorizadaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] AutorizadaParameters parameters)
         {
-            var autorizadas = _autorizadaInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = autorizadas,
-                TotalCount = autorizadas.TotalCount,
-                CurrentPage = autorizadas.CurrentPage,
-                PageSize = autorizadas.PageSize,
-                TotalPages = autorizadas.TotalPages,
-                HasNext = autorizadas.HasNext,
-                HasPrevious = autorizadas.HasPrevious
-            };
-
-            return lista;
+            return _autorizadaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAutorizada}")]
         public Autorizada Get(int codAutorizada)
         {
-            return _autorizadaInterface.ObterPorCodigo(codAutorizada);
+            return _autorizadaService.ObterPorCodigo(codAutorizada);
         }
 
         [HttpPost]
         public void Post([FromBody] Autorizada autorizada)
         {
-            autorizada.CodAutorizada = _sequenciaInterface.ObterContador(Constants.TABELA_AUTORIZADA); ;
-            _autorizadaInterface.Criar(autorizada: autorizada);
+            _autorizadaService.Criar(autorizada: autorizada);
         }
 
         [HttpPut]
         public void Put([FromBody] Autorizada autorizada)
         {
-            _autorizadaInterface.Atualizar(autorizada: autorizada);
+            _autorizadaService.Atualizar(autorizada: autorizada);
         }
 
         [HttpDelete("{codAutorizada}")]
         public void Delete(int codAutorizada)
         {
-            _autorizadaInterface.Deletar(codAutorizada);
+            _autorizadaService.Deletar(codAutorizada);
         }
     }
 }

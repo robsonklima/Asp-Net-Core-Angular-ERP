@@ -1,6 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -34,9 +34,22 @@ namespace SAT.SERVICES.Services
             return _acaoRepo.ObterPorCodigo(codigo);
         }
 
-        public PagedList<Acao> ObterPorParametros(AcaoParameters parameters)
+        public ListViewModel ObterPorParametros(AcaoParameters parameters)
         {
-            return _acaoRepo.ObterPorParametros(parameters);
+            var acoes = _acaoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = acoes,
+                TotalCount = acoes.TotalCount,
+                CurrentPage = acoes.CurrentPage,
+                PageSize = acoes.PageSize,
+                TotalPages = acoes.TotalPages,
+                HasNext = acoes.HasNext,
+                HasPrevious = acoes.HasPrevious
+            };
+
+            return lista;
         }
     }
 }

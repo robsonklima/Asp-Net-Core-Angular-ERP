@@ -23,20 +23,7 @@ namespace SAT.API.Controllers
         [HttpGet]
         public ListViewModel Get([FromQuery] AcaoParameters parameters)
         {
-            var acoes = _acaoService.ObterPorParametros(parameters);
-
-            var acaoListaViewModel = new ListViewModel
-            {
-                Items = acoes,
-                TotalCount = acoes.TotalCount,
-                CurrentPage = acoes.CurrentPage,
-                PageSize = acoes.PageSize,
-                TotalPages = acoes.TotalPages,
-                HasNext = acoes.HasNext,
-                HasPrevious = acoes.HasPrevious
-            };
-
-            return acaoListaViewModel;
+            return _acaoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAcao}")]

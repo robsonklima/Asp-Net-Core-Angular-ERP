@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,60 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class AgendamentoController : ControllerBase
     {
-        private readonly IAgendamentoRepository _agendamentoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private IAgendamentoService _agendamentoService;
 
-        public AgendamentoController(
-            IAgendamentoRepository agendamentoInterface,
-            ISequenciaRepository sequenciaInterface
-        )
+        public AgendamentoController(IAgendamentoService agendamentoService)
         {
-            _agendamentoInterface = agendamentoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _agendamentoService = agendamentoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] AgendamentoParameters parameters)
         {
-            var agendamentos = _agendamentoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = agendamentos,
-                TotalCount = agendamentos.TotalCount,
-                CurrentPage = agendamentos.CurrentPage,
-                PageSize = agendamentos.PageSize,
-                TotalPages = agendamentos.TotalPages,
-                HasNext = agendamentos.HasNext,
-                HasPrevious = agendamentos.HasPrevious
-            };
-
-            return lista;
+            return _agendamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAgendamento}")]
         public Agendamento Get(int codAgendamento)
         {
-            return _agendamentoInterface.ObterPorCodigo(codAgendamento);
+            return _agendamentoService.ObterPorCodigo(codAgendamento);
         }
 
         [HttpPost]
-        public void Post([FromBody] Agendamento agendamento)
+        public Agendamento Post([FromBody] Agendamento agendamento)
         {
-            agendamento.CodAgendamento = _sequenciaInterface.ObterContador(Constants.TABELA_AGENDAMENTO);
-            _agendamentoInterface.Criar(agendamento);
+            return _agendamentoService.Criar(agendamento);
         }
 
         [HttpPut("{codAgendamento}")]
         public void Put(int codAgendamento, [FromBody] Agendamento agendamento)
         {
-            _agendamentoInterface.Atualizar(agendamento);
+            _agendamentoService.Atualizar(agendamento);
         }
 
         [HttpDelete("{codAgendamento}")]
         public void Delete(int codAgendamento)
         {
-            _agendamentoInterface.Deletar(codAgendamento);
+            _agendamentoService.Deletar(codAgendamento);
         }
     }
 }

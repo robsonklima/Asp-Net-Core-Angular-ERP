@@ -1,6 +1,14 @@
-﻿namespace SAT.SERVICES.Interfaces
+﻿using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
+
+namespace SAT.SERVICES.Interfaces
 {
-    public interface IGrupoCausaService
+    public interface IGrupoGrupoCausaService
     {
+        ListViewModel ObterPorParametros(GrupoCausaParameters parameters);
+        GrupoCausa Criar(GrupoCausa grupoCausa);
+        void Deletar(int codigo);
+        void Atualizar(GrupoCausa grupoCausa);
+        GrupoCausa ObterPorCodigo(int codigo);
     }
 }

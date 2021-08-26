@@ -187,7 +187,7 @@ namespace SAT.INFRA.Repositories
 
         public OrdemServico ObterPorCodigo(int codigo)
         {
-            var ordemServico = this.ObterTodos().FirstOrDefault(os => os.CodOS == codigo);
+            var ordemServico = this.ObterTodos().AsQueryable().FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;
         }

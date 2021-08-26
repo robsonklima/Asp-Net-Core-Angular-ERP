@@ -60,7 +60,6 @@ namespace SAT.INFRA.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Sequencia>(new SequenciaMap().Configure);
-            modelBuilder.Entity<NavegacaoConfiguracao>(new NavegacaoConfiguracaoMap().Configure);
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
 

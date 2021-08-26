@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,18 @@ namespace SAT.SERVICES.Services
     public class EquipamentoContratoService : IEquipamentoContratoService
     {
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
+        private readonly IEquipamentoRepository _equipamentoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public EquipamentoContratoService(IEquipamentoContratoRepository equipamentoContratoRepo)
+        public EquipamentoContratoService(
+            IEquipamentoContratoRepository equipamentoContratoRepo,
+            IEquipamentoRepository equipamentoRepo,
+            ISequenciaRepository seqRepo
+        )
         {
             _equipamentoContratoRepo = equipamentoContratoRepo;
+            _equipamentoRepo = equipamentoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(EquipamentoContratoParameters parameters)
@@ -34,6 +43,11 @@ namespace SAT.SERVICES.Services
 
         public EquipamentoContrato Criar(EquipamentoContrato equipamentoContrato)
         {
+            equipamentoContrato.CodEquipContrato = this._seqRepo.ObterContador(Constants.TABELA_EQUIPAMENTO_CONTRATO);
+            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip);
+            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
+            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
+
             _equipamentoContratoRepo.Criar(equipamentoContrato);
             return equipamentoContrato;
         }
@@ -43,9 +57,12 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(EquipamentoContrato EquipamentoContrato)
+        public void Atualizar(EquipamentoContrato equipamentoContrato)
         {
-            _equipamentoContratoRepo.Atualizar(EquipamentoContrato);
+            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip);
+            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
+            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
+            _equipamentoContratoRepo.Atualizar(equipamentoContrato);
         }
 
         public EquipamentoContrato ObterPorCodigo(int codigo)

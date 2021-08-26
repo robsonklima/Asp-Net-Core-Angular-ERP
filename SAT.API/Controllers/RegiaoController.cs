@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,61 +13,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RegiaoController : ControllerBase
     {
-        private IRegiaoRepository _regiaoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private IRegiaoService _regiaoService;
 
         public RegiaoController(
-            IRegiaoRepository regiaoInterface,
-            ISequenciaRepository sequenciaInterface
+            IRegiaoService regiaoService
         )
         {
-            _regiaoInterface = regiaoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _regiaoService = regiaoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] RegiaoParameters parameters)
         {
-            var regioes = _regiaoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = regioes,
-                TotalCount = regioes.TotalCount,
-                CurrentPage = regioes.CurrentPage,
-                PageSize = regioes.PageSize,
-                TotalPages = regioes.TotalPages,
-                HasNext = regioes.HasNext,
-                HasPrevious = regioes.HasPrevious
-            };
-
-            return lista;
+            return _regiaoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codRegiao}")]
         public Regiao Get(int codRegiao)
         {
-            return _regiaoInterface.ObterPorCodigo(codRegiao);
+            return _regiaoService.ObterPorCodigo(codRegiao);
         }
 
         [HttpPost]
         public void Post([FromBody] Regiao regiao)
         {
-            regiao.CodRegiao = _sequenciaInterface.ObterContador(Constants.TABELA_REGIAO);
-
-            _regiaoInterface.Criar(regiao: regiao);
+            _regiaoService.Criar(regiao: regiao);
         }
 
         [HttpPut]
         public void Put([FromBody] Regiao regiao)
         {
-            _regiaoInterface.Atualizar(regiao);
+            _regiaoService.Atualizar(regiao);
         }
 
         [HttpDelete("{codRegiao}")]
         public void Delete(int codRegiao)
         {
-            _regiaoInterface.Deletar(codRegiao);
+            _regiaoService.Deletar(codRegiao);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.SERVICES.Interfaces;
 
 
 namespace SAT.API.Controllers
@@ -15,54 +14,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class TecnicoController : ControllerBase
     {
-        private readonly ITecnicoRepository _tecnicoInterface;
+        private readonly ITecnicoService _tecnicoService;
 
-        public TecnicoController(ITecnicoRepository tecnicoInterface)
+        public TecnicoController(ITecnicoService tecnicoService)
         {
-            _tecnicoInterface = tecnicoInterface;
+            _tecnicoService = tecnicoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] TecnicoParameters parameters)
         {
-            var tecnicos = _tecnicoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = tecnicos,
-                TotalCount = tecnicos.TotalCount,
-                CurrentPage = tecnicos.CurrentPage,
-                PageSize = tecnicos.PageSize,
-                TotalPages = tecnicos.TotalPages,
-                HasNext = tecnicos.HasNext,
-                HasPrevious = tecnicos.HasPrevious
-            };
-
-            return lista;
+            return _tecnicoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTecnico}")]
         public Tecnico Get(int codTecnico)
         {
-            return _tecnicoInterface.ObterPorCodigo(codTecnico);
+            return _tecnicoService.ObterPorCodigo(codTecnico);
         }
 
         [HttpPost]
         public void Post([FromBody] Tecnico tecnico)
         {
-            _tecnicoInterface.Criar(tecnico);
+            _tecnicoService.Criar(tecnico);
         }
 
         [HttpPut]
         public void Put([FromBody] Tecnico tecnico)
         {
-            _tecnicoInterface.Atualizar(tecnico);
+            _tecnicoService.Atualizar(tecnico);
         }
 
         [HttpDelete("{codTecnico}")]
         public void Delete(int codTecnico)
         {
-            _tecnicoInterface.Deletar(codTecnico);
+            _tecnicoService.Deletar(codTecnico);
         }
     }
 }

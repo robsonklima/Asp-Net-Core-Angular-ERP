@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.SERVICES.Interfaces;
 
 
 namespace SAT.API.Controllers
@@ -15,54 +14,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class PecaController : ControllerBase
     {
-        private readonly IPecaRepository _pecaInterface;
+        private readonly IPecaService _pecaService;
 
-        public PecaController(IPecaRepository pecaInterface)
+        public PecaController(IPecaService pecaService)
         {
-            _pecaInterface = pecaInterface;
+            _pecaService = pecaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] PecaParameters parameters)
         {
-            var pecas = _pecaInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = pecas,
-                TotalCount = pecas.TotalCount,
-                CurrentPage = pecas.CurrentPage,
-                PageSize = pecas.PageSize,
-                TotalPages = pecas.TotalPages,
-                HasNext = pecas.HasNext,
-                HasPrevious = pecas.HasPrevious
-            };
-
-            return lista;
+            return _pecaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPeca}")]
         public Peca Get(int codPeca)
         {
-            return _pecaInterface.ObterPorCodigo(codPeca);
+            return _pecaService.ObterPorCodigo(codPeca);
         }
 
         [HttpPost]
         public void Post([FromBody] Peca peca)
         {
-            _pecaInterface.Criar(peca);
+            _pecaService.Criar(peca);
         }
 
         [HttpPut]
         public void Put([FromBody] Peca peca)
         {
-            _pecaInterface.Atualizar(peca);
+            _pecaService.Atualizar(peca);
         }
 
         [HttpDelete("{codPeca}")]
         public void Delete(int codPeca)
         {
-            _pecaInterface.Deletar(codPeca);
+            _pecaService.Deletar(codPeca);
         }
     }
 }

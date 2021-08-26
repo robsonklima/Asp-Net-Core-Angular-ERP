@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,54 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class FeriadoController : ControllerBase
     {
-        private readonly IFeriadoRepository _feriadoInterface;
+        private readonly IFeriadoService _feriadoService;
 
-        public FeriadoController(IFeriadoRepository feriadoInterface)
+        public FeriadoController(IFeriadoService feriadoService)
         {
-            _feriadoInterface = feriadoInterface;
+            _feriadoService = feriadoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] FeriadoParameters parameters)
         {
-            var feriados = _feriadoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = feriados,
-                TotalCount = feriados.TotalCount,
-                CurrentPage = feriados.CurrentPage,
-                PageSize = feriados.PageSize,
-                TotalPages = feriados.TotalPages,
-                HasNext = feriados.HasNext,
-                HasPrevious = feriados.HasPrevious
-            };
-
-            return lista;
+            return _feriadoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codFeriado}")]
         public Feriado Get(int codFeriado)
         {
-            return _feriadoInterface.ObterPorCodigo(codFeriado);
+            return _feriadoService.ObterPorCodigo(codFeriado);
         }
 
         [HttpPost]
         public void Post([FromBody] Feriado feriado)
         {
-            _feriadoInterface.Criar(feriado);
+            _feriadoService.Criar(feriado);
         }
 
         [HttpPut]
         public void Put([FromBody] Feriado feriado)
         {
-            _feriadoInterface.Atualizar(feriado);
+            _feriadoService.Atualizar(feriado);
         }
 
         [HttpDelete("{codFeriado}")]
         public void Delete(int codFeriado)
         {
-            _feriadoInterface.Deletar(codFeriado);
+            _feriadoService.Deletar(codFeriado);
         }
     }
 }

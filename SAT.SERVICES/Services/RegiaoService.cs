@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class RegiaoService : IRegiaoService
     {
         private readonly IRegiaoRepository _motivoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public RegiaoService(IRegiaoRepository motivoRepo)
+        public RegiaoService(IRegiaoRepository motivoRepo, ISequenciaRepository seqRepo)
         {
             _motivoRepo = motivoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(RegiaoParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Regiao Criar(Regiao regiao)
         {
+            regiao.CodRegiao = _seqRepo.ObterContador(Constants.TABELA_REGIAO);
             _motivoRepo.Criar(regiao);
             return regiao;
         }

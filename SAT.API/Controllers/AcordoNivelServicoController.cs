@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,60 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class AcordoNivelServicoController : ControllerBase
     {
-        private IAcordoNivelServicoRepository _acordoNivelServicoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private IAcordoNivelServicoService _ansService;
 
-        public AcordoNivelServicoController(
-            IAcordoNivelServicoRepository acordoNivelServicoInterface,
-            ISequenciaRepository sequenciaInterface
-        )
+        public AcordoNivelServicoController(IAcordoNivelServicoService ansService)
         {
-            _acordoNivelServicoInterface = acordoNivelServicoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _ansService = ansService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] AcordoNivelServicoParameters parameters)
         {
-            var ans = _acordoNivelServicoInterface.ObterPorParametros(parameters);
-
-            var ansListViewModel = new ListViewModel
-            {
-                Items = ans,
-                TotalCount = ans.TotalCount,
-                CurrentPage = ans.CurrentPage,
-                PageSize = ans.PageSize,
-                TotalPages = ans.TotalPages,
-                HasNext = ans.HasNext,
-                HasPrevious = ans.HasPrevious
-            };
-
-            return ansListViewModel;
+            return _ansService.ObterPorParametros(parameters);
         }
 
         [HttpPost]
-        public void Post([FromBody] AcordoNivelServico acordoNivelServico)
+        public AcordoNivelServico Post([FromBody] AcordoNivelServico acordoNivelServico)
         {
-            acordoNivelServico.CodSLA = _sequenciaInterface.ObterContador(Constants.TABELA_ACORDO_NIVEL_SERVICO); ;
-            _acordoNivelServicoInterface.Criar(acordoNivelServico: acordoNivelServico);
+            return _ansService.Criar(acordoNivelServico);
         }
 
         [HttpGet("{codSLA}")]
         public AcordoNivelServico Get(int codSLA)
         {
-            return _acordoNivelServicoInterface.ObterPorCodigo(codSLA);
+            return _ansService.ObterPorCodigo(codSLA);
         }
 
         [HttpPut("{codSLA}")]
         public void Put([FromBody] AcordoNivelServico acordoNivelServico)
         {
-            _acordoNivelServicoInterface.Atualizar(acordoNivelServico: acordoNivelServico);
+            _ansService.Atualizar(acordoNivelServico);
         }
 
         [HttpDelete("{codSLA}")]
         public void Delete(int codSLA)
         {
-            _acordoNivelServicoInterface.Deletar(codigo: codSLA);
+            _ansService.Deletar(codSLA);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -13,56 +13,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class MotivoAgendamentoController : ControllerBase
     {
-        private readonly IMotivoAgendamentoRepository _motivoAgendamentoInterface;
+        private readonly IMotivoAgendamentoService _motivoAgendamentoService;
 
-        public MotivoAgendamentoController(IMotivoAgendamentoRepository motivoAgendamentoInterface)
+        public MotivoAgendamentoController(IMotivoAgendamentoService motivoAgendamentoService)
         {
-            _motivoAgendamentoInterface = motivoAgendamentoInterface;
+            _motivoAgendamentoService = motivoAgendamentoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] MotivoAgendamentoParameters parameters)
         {
-            var motivos = _motivoAgendamentoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = motivos,
-                TotalCount = motivos.TotalCount,
-                CurrentPage = motivos.CurrentPage,
-                PageSize = motivos.PageSize,
-                TotalPages = motivos.TotalPages,
-                HasNext = motivos.HasNext,
-                HasPrevious = motivos.HasPrevious
-            };
-
-            return lista;
+            return _motivoAgendamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codMotivo}")]
         public MotivoAgendamento Get(int codMotivo)
         {
-            return _motivoAgendamentoInterface.ObterPorCodigo(codMotivo);
+            return _motivoAgendamentoService.ObterPorCodigo(codMotivo);
         }
 
         [HttpPost]
         public void Post([FromBody] MotivoAgendamento motivoAgendamento)
         {
-            _motivoAgendamentoInterface.Criar(motivoAgendamento);
+            _motivoAgendamentoService.Criar(motivoAgendamento);
         }
 
         // PUT api/<MotivoAgendamentoController>/5
         [HttpPut("{codMotivo}")]
         public void Put([FromBody] MotivoAgendamento motivoAgendamento)
         {
-            _motivoAgendamentoInterface.Atualizar(motivoAgendamento);
+            _motivoAgendamentoService.Atualizar(motivoAgendamento);
         }
 
         // DELETE api/<MotivoAgendamentoController>/5
         [HttpDelete("{codMotivo}")]
         public void Delete(int codMotivo)
         {
-            _motivoAgendamentoInterface.Deletar(codMotivo);
+            _motivoAgendamentoService.Deletar(codMotivo);
         }
     }
 }

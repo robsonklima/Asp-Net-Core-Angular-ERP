@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,61 +13,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class TipoServicoController : ControllerBase
     {
-        private readonly ITipoServicoRepository _tipoServicoInterface;
-        public ISequenciaRepository _sequenciaInterface { get; }
+        private readonly ITipoServicoService _tipoServicoService;
 
         public TipoServicoController(
-            ITipoServicoRepository tipoServicoInterface,
-            ISequenciaRepository sequenciaInterface
+            ITipoServicoService tipoServicoService
         )
         {
-            _tipoServicoInterface = tipoServicoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _tipoServicoService = tipoServicoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] TipoServicoParameters parameters)
         {
-            var tiposServico = _tipoServicoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = tiposServico,
-                TotalCount = tiposServico.TotalCount,
-                CurrentPage = tiposServico.CurrentPage,
-                PageSize = tiposServico.PageSize,
-                TotalPages = tiposServico.TotalPages,
-                HasNext = tiposServico.HasNext,
-                HasPrevious = tiposServico.HasPrevious
-            };
-
-            return lista;
+            return _tipoServicoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTipoServico}")]
         public TipoServico Get(int codTipoServico)
         {
-            return _tipoServicoInterface.ObterPorCodigo(codTipoServico);
+            return _tipoServicoService.ObterPorCodigo(codTipoServico);
         }
 
         [HttpPost]
         public void Post([FromBody] TipoServico tipoServico)
         {
-            int codServico = _sequenciaInterface.ObterContador(Constants.TABELA_TIPO_SERVICO);
-            tipoServico.CodServico = codServico;
-            _tipoServicoInterface.Criar(tipoServico);
+            _tipoServicoService.Criar(tipoServico);
         }
 
         [HttpPut]
         public void Put([FromBody] TipoServico tipoServico)
         {
-            _tipoServicoInterface.Atualizar(tipoServico);
+            _tipoServicoService.Atualizar(tipoServico);
         }
 
         [HttpDelete("{codServico}")]
         public void Delete(int codServico)
         {
-            _tipoServicoInterface.Deletar(codServico);
+            _tipoServicoService.Deletar(codServico);
         }
     }
 }

@@ -19,9 +19,11 @@ namespace SAT.SERVICES.Services
             _acaoRepo.Atualizar(acao);
         }
 
-        public void Criar(Acao acao)
+        public Acao Criar(Acao acao)
         {
             _acaoRepo.Criar(acao);
+
+            return acao;
         }
 
         public void Deletar(int codigo)

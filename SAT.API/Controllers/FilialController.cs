@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
-using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,36 +13,23 @@ namespace SAT.API.Controllers
     [ApiController]
     public class FilialController : ControllerBase
     {
-        private readonly IFilialRepository _filialInterface;
+        private readonly IFilialService _filialService;
 
-        public FilialController(IFilialRepository filialInterface)
+        public FilialController(IFilialService filialService)
         {
-            _filialInterface = filialInterface;
+            _filialService = filialService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] FilialParameters parameters)
         {
-            var filiais = _filialInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = filiais,
-                TotalCount = filiais.TotalCount,
-                CurrentPage = filiais.CurrentPage,
-                PageSize = filiais.PageSize,
-                TotalPages = filiais.TotalPages,
-                HasNext = filiais.HasNext,
-                HasPrevious = filiais.HasPrevious
-            };
-
-            return lista;
+            return _filialService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codFilial}")]
         public Filial Get(int codFilial)
         {
-            return _filialInterface.ObterPorCodigo(codFilial);
+            return _filialService.ObterPorCodigo(codFilial);
         }
 
         [HttpPost]

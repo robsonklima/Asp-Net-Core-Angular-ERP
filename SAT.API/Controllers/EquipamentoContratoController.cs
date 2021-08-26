@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
-using SAT.MODELS.ViewModels;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
-using Microsoft.AspNetCore.Authorization;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -12,71 +11,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class EquipamentoContratoController : ControllerBase
     {
-        private readonly IEquipamentoContratoRepository _equipamentoContratoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
-        private readonly IEquipamentoRepository _equipamentoRepository;
+        private readonly IEquipamentoContratoService _equipamentoContratoService;
 
         public EquipamentoContratoController(
-            IEquipamentoContratoRepository equipamentoContratoInterface,
-            ISequenciaRepository sequenciaInterface,
-            IEquipamentoRepository equipamentoRepository
+            IEquipamentoContratoService equipamentoContratoService
         )
         {
-            _equipamentoContratoInterface = equipamentoContratoInterface;
-            _sequenciaInterface = sequenciaInterface;
-            _equipamentoRepository = equipamentoRepository;
+            _equipamentoContratoService = equipamentoContratoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] EquipamentoContratoParameters parameters)
         {
-            var equipamentosContrato = _equipamentoContratoInterface.ObterPorParametros(parameters);
-
-            var clienteListaViewModel = new ListViewModel
-            {
-                Items = equipamentosContrato,
-                TotalCount = equipamentosContrato.TotalCount,
-                CurrentPage = equipamentosContrato.CurrentPage,
-                PageSize = equipamentosContrato.PageSize,
-                TotalPages = equipamentosContrato.TotalPages,
-                HasNext = equipamentosContrato.HasNext,
-                HasPrevious = equipamentosContrato.HasPrevious
-            };
-
-            return clienteListaViewModel;
+            return _equipamentoContratoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codEquipContrato}")]
         public EquipamentoContrato Get(int codEquipContrato)
         {
-            return _equipamentoContratoInterface.ObterPorCodigo(codEquipContrato);
+            return _equipamentoContratoService.ObterPorCodigo(codEquipContrato);
         }
 
         [HttpPost]
         public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
         {
-            equipamentoContrato.CodEquipContrato = this._sequenciaInterface.ObterContador(Constants.TABELA_EQUIPAMENTO_CONTRATO);
-            var equip = _equipamentoRepository.ObterPorCodigo(equipamentoContrato.CodEquip);
-            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
-            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
-
-            this._equipamentoContratoInterface.Criar(equipamentoContrato);
-            return equipamentoContrato;
+            return _equipamentoContratoService.Criar(equipamentoContrato);
         }
 
         [HttpPut]
         public void Put([FromBody] EquipamentoContrato equipamentoContrato)
         {
-            var equip = _equipamentoRepository.ObterPorCodigo(equipamentoContrato.CodEquip);
-            equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
-            equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
-            this._equipamentoContratoInterface.Atualizar(equipamentoContrato);
+            _equipamentoContratoService.Atualizar(equipamentoContrato);
         }
 
         [HttpDelete("{codEquipContrato}")]
         public void Delete(int codEquipContrato)
         {
-            this._equipamentoContratoInterface.Deletar(codEquipContrato);
+            _equipamentoContratoService.Deletar(codEquipContrato);
         }
     }
 }

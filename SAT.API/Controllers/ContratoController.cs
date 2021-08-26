@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -12,9 +11,9 @@ namespace SAT.API.Controllers
     [ApiController]
     public class ContratoController : ControllerBase
     {
-        private readonly IContratoRepository _contratoInterface;
+        private readonly IContratoService _contratoInterface;
 
-        public ContratoController(IContratoRepository contratoInterface)
+        public ContratoController(IContratoService contratoInterface)
         {
             _contratoInterface = contratoInterface;
         }
@@ -22,20 +21,7 @@ namespace SAT.API.Controllers
         [HttpGet]
         public ListViewModel Get([FromQuery] ContratoParameters parameters)
         {
-            var contratos = _contratoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = contratos,
-                TotalCount = contratos.TotalCount,
-                CurrentPage = contratos.CurrentPage,
-                PageSize = contratos.PageSize,
-                TotalPages = contratos.TotalPages,
-                HasNext = contratos.HasNext,
-                HasPrevious = contratos.HasPrevious
-            };
-
-            return lista;
+            return _contratoInterface.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codContrato}")]
@@ -47,16 +33,19 @@ namespace SAT.API.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+
         }
 
         [HttpPut]
         public void Put([FromBody] string value)
         {
+
         }
 
         [HttpDelete("{codContrato}")]
         public void Delete(int codContrato)
         {
+
         }
     }
 }

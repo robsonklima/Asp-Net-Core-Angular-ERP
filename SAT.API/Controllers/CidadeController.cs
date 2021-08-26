@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -12,54 +11,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class CidadeController : ControllerBase
     {
-        private readonly ICidadeRepository _cidadeInterface;
+        private readonly ICidadeService _cidadeService;
 
-        public CidadeController(ICidadeRepository cidadeInterface)
+        public CidadeController(ICidadeService cidadeService)
         {
-            _cidadeInterface = cidadeInterface;
+            _cidadeService = cidadeService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] CidadeParameters parameters)
         {
-            var cidades = _cidadeInterface.ObterPorParametros(parameters);
-
-            var lista= new ListViewModel
-            {
-                Items = cidades,
-                TotalCount = cidades.TotalCount,
-                CurrentPage = cidades.CurrentPage,
-                PageSize = cidades.PageSize,
-                TotalPages = cidades.TotalPages,
-                HasNext = cidades.HasNext,
-                HasPrevious = cidades.HasPrevious
-            };
-
-            return lista;
+            return _cidadeService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codCidade}")]
         public Cidade Get(int codCidade)
         {
-            return _cidadeInterface.ObterPorCodigo(codCidade);
+            return _cidadeService.ObterPorCodigo(codCidade);
         }
 
         [HttpPost]
-        public void Post([FromBody] Cidade cidade)
+        public Cidade Post([FromBody] Cidade cidade)
         {
-            _cidadeInterface.Criar(cidade);
+            return _cidadeService.Criar(cidade);
         }
 
         [HttpPut("{codCidade}")]
         public void Put([FromBody] Cidade cidade)
         {
-            _cidadeInterface.Atualizar(cidade);
+            _cidadeService.Atualizar(cidade);
         }
 
         [HttpDelete("{codCidade}")]
         public void Delete(int codCidade)
         {
-            _cidadeInterface.Deletar(codCidade);
+            _cidadeService.Deletar(codCidade);
         }
     }
 }

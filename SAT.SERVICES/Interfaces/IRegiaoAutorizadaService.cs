@@ -7,8 +7,6 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(RegiaoAutorizadaParameters parameters);
         RegiaoAutorizada Criar(RegiaoAutorizada regiaoAutorizada);
-        void Deletar(int codigo);
         void Atualizar(RegiaoAutorizada regiaoAutorizada);
-        RegiaoAutorizada ObterPorCodigo(int codigo);
     }
 }

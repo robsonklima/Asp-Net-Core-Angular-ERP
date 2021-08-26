@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     class RelatorioAtendimentoService : IRelatorioAtendimentoService
     {
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public RelatorioAtendimentoService(IRelatorioAtendimentoRepository relatorioAtendimentoRepo)
+        public RelatorioAtendimentoService(IRelatorioAtendimentoRepository relatorioAtendimentoRepo, ISequenciaRepository seqRepo)
         {
             _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(RelatorioAtendimentoParameters parameters)
@@ -34,6 +37,8 @@ namespace SAT.SERVICES.Services
 
         public RelatorioAtendimento Criar(RelatorioAtendimento relatorioAtendimento)
         {
+            relatorioAtendimento.CodRAT = _seqRepo.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO);
+            relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
             _relatorioAtendimentoRepo.Criar(relatorioAtendimento);
 
             return relatorioAtendimento;

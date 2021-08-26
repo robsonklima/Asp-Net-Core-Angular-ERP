@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -10,32 +9,17 @@ namespace SAT.API.Controllers
     [ApiController]
     public class ContratoSLAController : ControllerBase
     {
-        public IContratoSLARepository _contratoSLAInterface { get; }
+        public IContratoSLAService _contratoSLAService { get; }
 
-        public ContratoSLAController(
-            IContratoSLARepository contratoSLAInterface
-        )
+        public ContratoSLAController(IContratoSLAService contratoSLAService)
         {
-            _contratoSLAInterface = contratoSLAInterface;
+            _contratoSLAService = contratoSLAService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] ContratoSLAParameters parameters)
         {
-            var contratosSLA = _contratoSLAInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = contratosSLA,
-                TotalCount = contratosSLA.TotalCount,
-                CurrentPage = contratosSLA.CurrentPage,
-                PageSize = contratosSLA.PageSize,
-                TotalPages = contratosSLA.TotalPages,
-                HasNext = contratosSLA.HasNext,
-                HasPrevious = contratosSLA.HasPrevious
-            };
-
-            return lista;
+            return _contratoSLAService.ObterPorParametros(parameters);
         }
     }
 }

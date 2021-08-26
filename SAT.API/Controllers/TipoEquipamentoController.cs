@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
-using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,61 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class TipoEquipamentoController : ControllerBase
     {
-        private readonly ITipoEquipamentoRepository _tipoEquipamentoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly ITipoEquipamentoService _tipoEquipamentoService;
 
-        public TipoEquipamentoController(
-            ITipoEquipamentoRepository tipoEquipamentoInterface,
-            ISequenciaRepository sequenciaInterface
-        )
+        public TipoEquipamentoController(ITipoEquipamentoService tipoEquipamentoService)
         {
-            _tipoEquipamentoInterface = tipoEquipamentoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _tipoEquipamentoService = tipoEquipamentoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] TipoEquipamentoParameters parameters)
         {
-            var tiposEquipamento = _tipoEquipamentoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = tiposEquipamento,
-                TotalCount = tiposEquipamento.TotalCount,
-                CurrentPage = tiposEquipamento.CurrentPage,
-                PageSize = tiposEquipamento.PageSize,
-                TotalPages = tiposEquipamento.TotalPages,
-                HasNext = tiposEquipamento.HasNext,
-                HasPrevious = tiposEquipamento.HasPrevious
-            };
-
-            return lista;
+            return _tipoEquipamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTipoEquip}")]
         public TipoEquipamento Get(int codTipoEquip)
         {
-            return _tipoEquipamentoInterface.ObterPorCodigo(codTipoEquip);
+            return _tipoEquipamentoService.ObterPorCodigo(codTipoEquip);
         }
 
         [HttpPost]
         public void Post([FromBody] TipoEquipamento tipoEquipamento)
         {
-            tipoEquipamento.CodTipoEquip = _sequenciaInterface.ObterContador(Constants.TABELA_TIPO_EQUIPAMENTO);
-
-            _tipoEquipamentoInterface.Criar(tipoEquipamento: tipoEquipamento);
+            _tipoEquipamentoService.Criar(tipoEquipamento: tipoEquipamento);
         }
 
         [HttpPut]
         public void Put([FromBody] TipoEquipamento tipoEquipamento)
         {
-            _tipoEquipamentoInterface.Atualizar(tipoEquipamento);
+            _tipoEquipamentoService.Atualizar(tipoEquipamento);
         }
 
         [HttpDelete("{codTipoEquip}")]
         public void Delete(int codTipoEquip)
         {
-            _tipoEquipamentoInterface.Deletar(codTipoEquip);
+            _tipoEquipamentoService.Deletar(codTipoEquip);
         }
     }
 }

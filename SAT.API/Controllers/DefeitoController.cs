@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,61 +13,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class DefeitoController : ControllerBase
     {
-        private readonly IDefeitoRepository _defeitoInterface;
-        public ISequenciaRepository _sequenciaInterface { get; }
+        private readonly IDefeitoService _defeitoService;
 
         public DefeitoController(
-            IDefeitoRepository defeitoInterface,
-            ISequenciaRepository sequenciaInterface
+            IDefeitoService defeitoService
         )
         {
-            _defeitoInterface = defeitoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _defeitoService = defeitoService;
         }
 
         [HttpGet("{codDefeito}")]
         public Defeito Get(int codDefeito)
         {
-            return _defeitoInterface.ObterPorCodigo(codDefeito);
+            return _defeitoService.ObterPorCodigo(codDefeito);
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] DefeitoParameters parameters)
         {
-            var defeitos = _defeitoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = defeitos,
-                TotalCount = defeitos.TotalCount,
-                CurrentPage = defeitos.CurrentPage,
-                PageSize = defeitos.PageSize,
-                TotalPages = defeitos.TotalPages,
-                HasNext = defeitos.HasNext,
-                HasPrevious = defeitos.HasPrevious
-            };
-
-            return lista;
+            return _defeitoService.ObterPorParametros(parameters);
         }
 
         [HttpPost]
-        public void Post([FromBody] Defeito defeito)
+        public Defeito Post([FromBody] Defeito defeito)
         {
-            defeito.CodDefeito = _sequenciaInterface.ObterContador(Constants.TABELA_DEFEITO);
-
-            _defeitoInterface.Criar(defeito);
+            return _defeitoService.Criar(defeito);
         }
 
         [HttpPut]
         public void Put([FromBody] Defeito defeito)
         {
-            _defeitoInterface.Atualizar(defeito);
+            _defeitoService.Atualizar(defeito);
         }
 
         [HttpDelete("{codDefeito}")]
         public void Delete(int codDefeito)
         {
-            _defeitoInterface.Deletar(codDefeito);
+            _defeitoService.Deletar(codDefeito);
         }
     }
 }

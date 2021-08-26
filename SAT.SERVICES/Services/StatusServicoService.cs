@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class StatusServicoService : IStatusServicoService
     {
         private readonly IStatusServicoRepository _statusServicoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public StatusServicoService(IStatusServicoRepository statusServicoRepo)
+        public StatusServicoService(IStatusServicoRepository statusServicoRepo, ISequenciaRepository seqRepo)
         {
             _statusServicoRepo = statusServicoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(StatusServicoParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public StatusServico Criar(StatusServico statusServico)
         {
+            statusServico.CodStatusServico = _seqRepo.ObterContador(Constants.TABELA_STATUS_SERVICO);
             _statusServicoRepo.Criar(statusServico);
             return statusServico;
         }

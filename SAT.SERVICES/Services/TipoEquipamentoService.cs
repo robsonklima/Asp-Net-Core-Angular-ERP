@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class TipoEquipamentoService : ITipoEquipamentoService
     {
         private readonly ITipoEquipamentoRepository _tipoEquipamentoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public TipoEquipamentoService(ITipoEquipamentoRepository tipoEquipamentoRepo)
+        public TipoEquipamentoService(ITipoEquipamentoRepository tipoEquipamentoRepo, ISequenciaRepository seqRepo)
         {
             _tipoEquipamentoRepo = tipoEquipamentoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(TipoEquipamentoParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoEquipamento Criar(TipoEquipamento tipoEquipamento)
         {
+            tipoEquipamento.CodTipoEquip = _seqRepo.ObterContador(Constants.TABELA_TIPO_EQUIPAMENTO);
             _tipoEquipamentoRepo.Criar(tipoEquipamento);
             return tipoEquipamento;
         }

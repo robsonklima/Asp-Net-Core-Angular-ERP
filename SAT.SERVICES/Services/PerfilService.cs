@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class PerfilService : IPerfilService
     {
         private readonly IPerfilRepository _perfilRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public PerfilService(IPerfilRepository perfilRepo)
+        public PerfilService(IPerfilRepository perfilRepo, ISequenciaRepository seqRepo)
         {
             _perfilRepo = perfilRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(PerfilParameters parameters)
@@ -32,10 +35,11 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public Perfil Criar(Perfil Perfil)
+        public Perfil Criar(Perfil perfil)
         {
-            _perfilRepo.Criar(Perfil);
-            return Perfil;
+            perfil.CodPerfil = _seqRepo.ObterContador(Constants.TABELA_PERFIL);
+            _perfilRepo.Criar(perfil);
+            return perfil;
         }
 
         public void Deletar(int codigo)

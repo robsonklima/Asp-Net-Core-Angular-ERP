@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class GrupoEquipamentoService : IGrupoEquipamentoService
     {
         private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public GrupoEquipamentoService(IGrupoEquipamentoRepository grupoEquipamentoRepo)
+        public GrupoEquipamentoService(IGrupoEquipamentoRepository grupoEquipamentoRepo, ISequenciaRepository seqRepo)
         {
             _grupoEquipamentoRepo = grupoEquipamentoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(GrupoEquipamentoParameters parameters)
@@ -34,7 +37,8 @@ namespace SAT.SERVICES.Services
 
         public GrupoEquipamento Criar(GrupoEquipamento grupoEquipamento)
         {
-            _grupoEquipamentoRepo.Criar(grupoEquipamento);
+            grupoEquipamento.CodGrupoEquip = _seqRepo.ObterContador(Constants.TABELA_GRUPO_EQUIPAMENTO); ;
+            _grupoEquipamentoRepo.Criar(grupoEquipamento: grupoEquipamento);
             return grupoEquipamento;
         }
 

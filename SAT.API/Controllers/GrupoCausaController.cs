@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,54 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class GrupoCausaController : ControllerBase
     {
-        private readonly IGrupoCausaRepository _grupoCausaInterface;
+        private readonly IGrupoCausaService _grupoCausaService;
 
-        public GrupoCausaController(IGrupoCausaRepository grupoCausaInterface)
+        public GrupoCausaController(IGrupoCausaService grupoCausaService)
         {
-            _grupoCausaInterface = grupoCausaInterface;
+            _grupoCausaService = grupoCausaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] GrupoCausaParameters parameters)
         {
-            var gruposCausa = _grupoCausaInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = gruposCausa,
-                TotalCount = gruposCausa.TotalCount,
-                CurrentPage = gruposCausa.CurrentPage,
-                PageSize = gruposCausa.PageSize,
-                TotalPages = gruposCausa.TotalPages,
-                HasNext = gruposCausa.HasNext,
-                HasPrevious = gruposCausa.HasPrevious
-            };
-
-            return lista;
+            return _grupoCausaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codGrupoCausa}")]
         public GrupoCausa Get(int codGrupoCausa)
         {
-            return _grupoCausaInterface.ObterPorCodigo(codGrupoCausa);
+            return _grupoCausaService.ObterPorCodigo(codGrupoCausa);
         }
 
         [HttpPost]
         public void Post([FromBody] GrupoCausa grupoCausa)
         {
-            _grupoCausaInterface.Criar(grupoCausa);
+            _grupoCausaService.Criar(grupoCausa);
         }
 
         [HttpPut]
         public void Put([FromBody] GrupoCausa grupoCausa)
         {
-            _grupoCausaInterface.Atualizar(grupoCausa);
+            _grupoCausaService.Atualizar(grupoCausa);
         }
 
         [HttpDelete("{codGrupoCausa}")]
         public void Delete(int codGrupoCausa)
         {
-            _grupoCausaInterface.Deletar(codGrupoCausa);
+            _grupoCausaService.Deletar(codGrupoCausa);
         }
     }
 }

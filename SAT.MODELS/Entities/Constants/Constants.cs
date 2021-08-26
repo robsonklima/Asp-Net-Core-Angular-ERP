@@ -19,8 +19,12 @@
         public static string TABELA_DEFEITO = "Defeito";
         public static string TABELA_PERFIL = "Perfil";
         public static string TABELA_REGIAO = "Regiao";
+        public static string TABELA_MOTIVO_AGENDAMENTO = "MotivoAgendamento";
         public static string TABELA_AGENDAMENTO = "AgendamentoOS";
-
+        public static string TABELA_TECNICO = "Tecnico";
+        public static string TABELA_TIPO_CAUSA = "TipoCausa";
+        public static string TABELA_PAIS = "Pais";
+        
         // Status de Serviço
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;

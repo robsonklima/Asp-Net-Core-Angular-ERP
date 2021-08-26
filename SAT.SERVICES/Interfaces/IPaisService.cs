@@ -3,7 +3,7 @@ using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
-    interface IPaisService
+    public interface IPaisService
     {
         ListViewModel ObterPorParametros(PaisParameters parameters);
         Pais Criar(Pais pais);

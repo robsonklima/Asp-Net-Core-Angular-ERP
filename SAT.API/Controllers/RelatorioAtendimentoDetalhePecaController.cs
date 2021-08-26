@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -9,32 +8,27 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RelatorioAtendimentoDetalhePecaController : ControllerBase
     {
-        private readonly IRelatorioAtendimentoDetalhePecaRepository _relatorioAtendimentoDetalhePecaInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IRelatorioAtendimentoDetalhePecaService _rdpService;
 
         public RelatorioAtendimentoDetalhePecaController(
-            IRelatorioAtendimentoDetalhePecaRepository relatorioAtendimentoDetalhePecaInterface,
-            ISequenciaRepository sequenciaInterface
+            IRelatorioAtendimentoDetalhePecaService rdpService
         )
         {
-            _relatorioAtendimentoDetalhePecaInterface = relatorioAtendimentoDetalhePecaInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _rdpService = rdpService;
         }
 
         [HttpPost]
         public RelatorioAtendimentoDetalhePeca Post([FromBody] RelatorioAtendimentoDetalhePeca detalhePeca)
         {
-            detalhePeca.CodRATDetalhePeca = _sequenciaInterface
-                .ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA);
-            detalhePeca.Peca = null;
-            _relatorioAtendimentoDetalhePecaInterface.Criar(detalhePeca);
+            _rdpService.Criar(detalhePeca);
+
             return detalhePeca;
         }
 
         [HttpDelete("{codRATDetalhePeca}")]
         public void Delete(int codRATDetalhePeca)
         {
-            _relatorioAtendimentoDetalhePecaInterface.Deletar(codRATDetalhePeca);
+            _rdpService.Deletar(codRATDetalhePeca);
         }
     }
 }

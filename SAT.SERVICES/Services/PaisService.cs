@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class PaisService : IPaisService
     {
         private readonly IPaisRepository _paisRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public PaisService(IPaisRepository paisRepo)
+        public PaisService(IPaisRepository paisRepo, ISequenciaRepository seqRepo)
         {
             _paisRepo = paisRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(PaisParameters parameters)
@@ -32,10 +35,12 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public Pais Criar(Pais Pais)
+        public Pais Criar(Pais pais)
         {
-            _paisRepo.Criar(Pais);
-            return Pais;
+            pais.CodPais = _seqRepo.ObterContador(Constants.TABELA_PAIS);
+            _paisRepo.Criar(pais);
+
+            return pais;
         }
 
         public void Deletar(int codigo)

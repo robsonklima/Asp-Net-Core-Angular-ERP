@@ -38,19 +38,9 @@ namespace SAT.SERVICES.Services
             return regiaoAutorizada;
         }
 
-        public void Deletar(int codigo)
-        {
-            //_regiaoRepo.Deletar(codigo);
-        }
-
         public void Atualizar(RegiaoAutorizada regiaoAutorizada)
         {
             _regiaoRepo.Atualizar(regiaoAutorizada);
-        }
-
-        public RegiaoAutorizada ObterPorCodigo(int codigo)
-        {
-            return null; //_regiaoRepo.ObterPorCodigo(codigo);
         }
     }
 }

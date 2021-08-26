@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -15,60 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class PerfilController : ControllerBase
     {
-        private readonly IPerfilRepository _perfilInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IPerfilService _perfilService;
 
-        public PerfilController(
-            IPerfilRepository perfilInterface,
-            ISequenciaRepository sequenciaInterface
-        )
+        public PerfilController(IPerfilService perfilService)
         {
-            _perfilInterface = perfilInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _perfilService = perfilService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] PerfilParameters parameters)
         {
-            var perfis = _perfilInterface.ObterPorParametros(parameters);
-
-            var perfilListViewModel = new ListViewModel
-            {
-                Items = perfis,
-                TotalCount = perfis.TotalCount,
-                CurrentPage = perfis.CurrentPage,
-                PageSize = perfis.PageSize,
-                TotalPages = perfis.TotalPages,
-                HasNext = perfis.HasNext,
-                HasPrevious = perfis.HasPrevious
-            };
-
-            return perfilListViewModel;
+            return _perfilService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPerfil}")]
         public Perfil Get(int codPerfil)
         {
-            return _perfilInterface.ObterPorCodigo(codPerfil);
+            return _perfilService.ObterPorCodigo(codPerfil);
         }
 
         [HttpPost]
         public void Post([FromBody] Perfil perfil)
         {
-            perfil.CodPerfil = _sequenciaInterface.ObterContador(Constants.TABELA_PERFIL); ;
-            _perfilInterface.Criar(perfil: perfil);
+            _perfilService.Criar(perfil: perfil);
         }
 
         [HttpPut]
         public void Put([FromBody] Perfil perfil)
         {
-            _perfilInterface.Atualizar(perfil: perfil);
+            _perfilService.Atualizar(perfil: perfil);
         }
 
         [HttpDelete("{codPerfil}")]
         public void Delete(int codPerfil)
         {
-            _perfilInterface.Deletar(codPerfil);
+            _perfilService.Deletar(codPerfil);
         }
     }
 }

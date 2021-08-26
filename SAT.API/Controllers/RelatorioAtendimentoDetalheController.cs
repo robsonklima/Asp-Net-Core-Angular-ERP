@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -13,30 +12,20 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RelatorioAtendimentoDetalheController : ControllerBase
     {
-        private readonly IRelatorioAtendimentoDetalheRepository _relatorioAtendimentoDetalheInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private readonly IRelatorioAtendimentoDetalheService _relatorioAtendimentoDetalheService;
 
         public RelatorioAtendimentoDetalheController(
-            IRelatorioAtendimentoDetalheRepository relatorioAtendimentoDetalheInterface,
-            ISequenciaRepository sequenciaInterface
+            IRelatorioAtendimentoDetalheService relatorioAtendimentoDetalheService
         )
         {
-            _relatorioAtendimentoDetalheInterface = relatorioAtendimentoDetalheInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _relatorioAtendimentoDetalheService = relatorioAtendimentoDetalheService;
         }
 
         [HttpPost]
         public RelatorioAtendimentoDetalhe Post([FromBody] RelatorioAtendimentoDetalhe raDetalhe)
         {
-            raDetalhe.CodRATDetalhe = _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
-            raDetalhe.Acao = null;
-            raDetalhe.Defeito = null;
-            raDetalhe.TipoServico = null;
-            raDetalhe.Causa = null;
-            raDetalhe.TipoCausa = null;
-            raDetalhe.GrupoCausa = null;
-            raDetalhe.RelatorioAtendimentoDetalhePecas = null;
-            _relatorioAtendimentoDetalheInterface.Criar(raDetalhe);
+            _relatorioAtendimentoDetalheService.Criar(raDetalhe);
+
             return raDetalhe;
         }
 
@@ -50,13 +39,13 @@ namespace SAT.API.Controllers
             raDetalhe.TipoCausa = null;
             raDetalhe.GrupoCausa = null;
             raDetalhe.RelatorioAtendimentoDetalhePecas = null;
-            _relatorioAtendimentoDetalheInterface.Atualizar(raDetalhe);
+            _relatorioAtendimentoDetalheService.Atualizar(raDetalhe);
         }
 
         [HttpDelete("{codRATDetalhe}")]
         public void Delete(int codRATDetalhe)
         {
-            _relatorioAtendimentoDetalheInterface.Deletar(codRATDetalhe);
+            _relatorioAtendimentoDetalheService.Deletar(codRATDetalhe);
         }
     }
 }

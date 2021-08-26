@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -10,32 +9,19 @@ namespace SAT.API.Controllers
     [ApiController]
     public class DespesaCartaoCombustivelController : ControllerBase
     {
-        public IDespesaCartaoCombustivelRepository _despesaCartaoCombustivelInterface { get; }
+        public IDespesaCartaoCombustivelService _despesaCartaoCombustivelService { get; }
 
         public DespesaCartaoCombustivelController(
-            IDespesaCartaoCombustivelRepository despesaCartaoCombustivelInterface
+            IDespesaCartaoCombustivelService despesaCartaoCombustivelService
         )
         {
-            _despesaCartaoCombustivelInterface = despesaCartaoCombustivelInterface;
+            _despesaCartaoCombustivelService = despesaCartaoCombustivelService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] DespesaCartaoCombustivelParameters parameters)
         {
-            var cartoes = _despesaCartaoCombustivelInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = cartoes,
-                TotalCount = cartoes.TotalCount,
-                CurrentPage = cartoes.CurrentPage,
-                PageSize = cartoes.PageSize,
-                TotalPages = cartoes.TotalPages,
-                HasNext = cartoes.HasNext,
-                HasPrevious = cartoes.HasPrevious
-            };
-
-            return lista;
+            return _despesaCartaoCombustivelService.ObterPorParametros(parameters);
         }
     }
 }

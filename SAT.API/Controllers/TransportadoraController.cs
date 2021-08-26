@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,54 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class TransportadoraController : ControllerBase
     {
-        private readonly ITransportadoraRepository _transportadoraInterface;
+        private readonly ITransportadoraService _transportadoraService;
 
-        public TransportadoraController(ITransportadoraRepository transportadoraInterface)
+        public TransportadoraController(ITransportadoraService transportadoraService)
         {
-            _transportadoraInterface = transportadoraInterface;
+            _transportadoraService = transportadoraService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] TransportadoraParameters parameters)
         {
-            var transportadoras = _transportadoraInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = transportadoras,
-                TotalCount = transportadoras.TotalCount,
-                CurrentPage = transportadoras.CurrentPage,
-                PageSize = transportadoras.PageSize,
-                TotalPages = transportadoras.TotalPages,
-                HasNext = transportadoras.HasNext,
-                HasPrevious = transportadoras.HasPrevious
-            };
-
-            return lista;
+            return _transportadoraService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTransportadora}")]
         public Transportadora Get(int codTransportadora)
         {
-            return _transportadoraInterface.ObterPorCodigo(codTransportadora);
+            return _transportadoraService.ObterPorCodigo(codTransportadora);
         }
 
         [HttpPost]
         public void Post([FromBody] Transportadora transportadora)
         {
-            _transportadoraInterface.Criar(transportadora);
+            _transportadoraService.Criar(transportadora);
         }
 
         [HttpPut]
         public void Put([FromBody] Transportadora transportadora)
         {
-            _transportadoraInterface.Atualizar(transportadora);
+            _transportadoraService.Atualizar(transportadora);
         }
 
         [HttpDelete("{codTransportadora}")]
         public void Delete(int codTransportadora)
         {
-            _transportadoraInterface.Deletar(codTransportadora);
+            _transportadoraService.Deletar(codTransportadora);
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -12,54 +11,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class TipoCausaController : ControllerBase
     {
-        private readonly ITipoCausaRepository _tipoCausaInterface;
+        private readonly ITipoCausaService _tipoCausaService;
 
-        public TipoCausaController(ITipoCausaRepository tipoCausaInterface)
+        public TipoCausaController(ITipoCausaService tipoCausaService)
         {
-            _tipoCausaInterface = tipoCausaInterface;
+            _tipoCausaService = tipoCausaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] TipoCausaParameters parameters)
         {
-            var tiposCausa = _tipoCausaInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = tiposCausa,
-                TotalCount = tiposCausa.TotalCount,
-                CurrentPage = tiposCausa.CurrentPage,
-                PageSize = tiposCausa.PageSize,
-                TotalPages = tiposCausa.TotalPages,
-                HasNext = tiposCausa.HasNext,
-                HasPrevious = tiposCausa.HasPrevious
-            };
-
-            return lista;
+            return _tipoCausaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTipoCausa}")]
         public TipoCausa Get(int codTipoCausa)
         {
-            return _tipoCausaInterface.ObterPorCodigo(codTipoCausa);
+            return _tipoCausaService.ObterPorCodigo(codTipoCausa);
         }
 
         [HttpPost]
         public void Post([FromBody] TipoCausa tipoCausa)
         {
-            _tipoCausaInterface.Criar(tipoCausa);
+            _tipoCausaService.Criar(tipoCausa);
         }
 
         [HttpPut]
         public void Put([FromBody] TipoCausa tipoCausa)
         {
-            _tipoCausaInterface.Atualizar(tipoCausa);
+            _tipoCausaService.Atualizar(tipoCausa);
         }
 
         [HttpDelete("{codTipoCausa}")]
         public void Delete(int codTipoCausa)
         {
-            _tipoCausaInterface.Deletar(codTipoCausa);
+            _tipoCausaService.Deletar(codTipoCausa);
         }
     }
 }

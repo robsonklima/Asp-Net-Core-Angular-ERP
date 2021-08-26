@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
-using System.Linq;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -13,56 +12,33 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RelatorioAtendimentoController : ControllerBase
     {
-        private readonly IRelatorioAtendimentoRepository _raInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
-        private readonly IRelatorioAtendimentoDetalheRepository _raDetalheInterface;
-        private readonly IRelatorioAtendimentoDetalhePecaRepository _raDetalhePecaInterface;
+        private readonly IRelatorioAtendimentoService _raService;
 
         public RelatorioAtendimentoController(
-            IRelatorioAtendimentoRepository raInterface,
-            ISequenciaRepository sequenciaInterface,
-            IRelatorioAtendimentoDetalheRepository raDetalheInterface,
-            IRelatorioAtendimentoDetalhePecaRepository raDetalhePecaInterface
+            IRelatorioAtendimentoService raService
         )
         {
-            _raInterface = raInterface;
-            _sequenciaInterface = sequenciaInterface;
-            _raDetalheInterface = raDetalheInterface;
-            _raDetalhePecaInterface = raDetalhePecaInterface;
+            _raService = raService;
 
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] RelatorioAtendimentoParameters parameters)
         {
-            var relatoriosAtendimento = _raInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = relatoriosAtendimento,
-                TotalCount = relatoriosAtendimento.TotalCount,
-                CurrentPage = relatoriosAtendimento.CurrentPage,
-                PageSize = relatoriosAtendimento.PageSize,
-                TotalPages = relatoriosAtendimento.TotalPages,
-                HasNext = relatoriosAtendimento.HasNext,
-                HasPrevious = relatoriosAtendimento.HasPrevious
-            };
-
-            return lista;
+            return _raService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codRAT}")]
         public RelatorioAtendimento Get(int codRAT)
         {
-            return _raInterface.ObterPorCodigo(codRAT);
+            return _raService.ObterPorCodigo(codRAT);
         }
 
         [HttpPost]
         public RelatorioAtendimento Post([FromBody] RelatorioAtendimento relatorioAtendimento)
         {
-            relatorioAtendimento.CodRAT = _sequenciaInterface.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO);
-            relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
-            _raInterface.Criar(relatorioAtendimento);
+            _raService.Criar(relatorioAtendimento);
+
             return relatorioAtendimento;
         }
 
@@ -70,13 +46,13 @@ namespace SAT.API.Controllers
         public void Put([FromBody] RelatorioAtendimento relatorioAtendimento)
         {
             relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
-            _raInterface.Atualizar(relatorioAtendimento);
+            _raService.Atualizar(relatorioAtendimento);
         }
 
         [HttpDelete("{codRAT}")]
         public void Delete(int codRAT)
         {
-            _raInterface.Deletar(codRAT);
+            _raService.Deletar(codRAT);
         }
     }
 }

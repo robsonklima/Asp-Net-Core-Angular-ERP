@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class TecnicoService : ITecnicoService
     {
         private readonly ITecnicoRepository _tecnicosRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public TecnicoService(ITecnicoRepository tecnicosRepo)
+        public TecnicoService(ITecnicoRepository tecnicosRepo, ISequenciaRepository seqRepo)
         {
             _tecnicosRepo = tecnicosRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(TecnicoParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Tecnico Criar(Tecnico tecnico)
         {
+            tecnico.CodTecnico = _seqRepo.ObterContador(Constants.TABELA_TECNICO);
             _tecnicosRepo.Criar(tecnico);
             return tecnico;
         }

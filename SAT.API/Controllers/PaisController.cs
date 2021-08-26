@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,54 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class PaisController : ControllerBase
     {
-        private readonly IPaisRepository _paisInterface;
+        private readonly IPaisService _paisService;
 
-        public PaisController(IPaisRepository paisInterface)
+        public PaisController(IPaisService paisService)
         {
-            _paisInterface = paisInterface;
+            _paisService = paisService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] PaisParameters parameters)
         {
-            var paises = _paisInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = paises,
-                TotalCount = paises.TotalCount,
-                CurrentPage = paises.CurrentPage,
-                PageSize = paises.PageSize,
-                TotalPages = paises.TotalPages,
-                HasNext = paises.HasNext,
-                HasPrevious = paises.HasPrevious
-            };
-
-            return lista;
+            return _paisService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPais}")]
         public Pais Get(int codPais)
         {
-            return _paisInterface.ObterPorCodigo(codPais);
+            return _paisService.ObterPorCodigo(codPais);
         }
 
         [HttpPost]
         public void Post([FromBody] Pais pais)
         {
-            _paisInterface.Criar(pais);
+            _paisService.Criar(pais);
         }
 
         [HttpPut]
         public void Put([FromBody] Pais pais)
         {
-            _paisInterface.Atualizar(pais);
+            _paisService.Atualizar(pais);
         }
 
         [HttpDelete("{codPais}")]
         public void Delete(int codPais)
         {
-            _paisInterface.Deletar(codPais);
+            _paisService.Deletar(codPais);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class TipoIntervencaoService : ITipoIntervencaoService
     {
         private readonly ITipoIntervencaoRepository _tiposIntervencaoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public TipoIntervencaoService(ITipoIntervencaoRepository tiposIntervencaoRepo)
+        public TipoIntervencaoService(ITipoIntervencaoRepository tiposIntervencaoRepo, ISequenciaRepository seqRepo)
         {
             _tiposIntervencaoRepo = tiposIntervencaoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(TipoIntervencaoParameters parameters)
@@ -32,10 +35,12 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public TipoIntervencao Criar(TipoIntervencao tiposIntervencao)
+        public TipoIntervencao Criar(TipoIntervencao tipoIntervencao)
         {
-            _tiposIntervencaoRepo.Criar(tiposIntervencao);
-            return tiposIntervencao;
+            tipoIntervencao.CodTipoIntervencao = _seqRepo
+                .ObterContador(Constants.TABELA_TIPO_INTERVENCAO);
+            _tiposIntervencaoRepo.Criar(tipoIntervencao);
+            return tipoIntervencao;
         }
 
         public void Deletar(int codigo)
@@ -43,9 +48,9 @@ namespace SAT.SERVICES.Services
             _tiposIntervencaoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(TipoIntervencao tiposIntervencao)
+        public void Atualizar(TipoIntervencao tipoIntervencao)
         {
-            _tiposIntervencaoRepo.Atualizar(tiposIntervencao);
+            _tiposIntervencaoRepo.Atualizar(tipoIntervencao);
         }
 
         public TipoIntervencao ObterPorCodigo(int codigo)

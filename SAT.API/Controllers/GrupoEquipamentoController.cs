@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
-using SAT.MODELS.ViewModels;
-using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,61 +13,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class GrupoEquipamentoController : ControllerBase
     {
-        private IGrupoEquipamentoRepository _grupoEquipamentoInterface;
-        private readonly ISequenciaRepository _sequenciaInterface;
+        private IGrupoEquipamentoService _grupoEquipamentoService;
 
         public GrupoEquipamentoController(
-            IGrupoEquipamentoRepository grupoEquipamentoInterface,
-            ISequenciaRepository sequenciaInterface
+            IGrupoEquipamentoService grupoEquipamentoService
         )
         {
-            _grupoEquipamentoInterface = grupoEquipamentoInterface;
-            _sequenciaInterface = sequenciaInterface;
+            _grupoEquipamentoService = grupoEquipamentoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] GrupoEquipamentoParameters parameters)
         {
-            var gruposEquipamento = _grupoEquipamentoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = gruposEquipamento,
-                TotalCount = gruposEquipamento.TotalCount,
-                CurrentPage = gruposEquipamento.CurrentPage,
-                PageSize = gruposEquipamento.PageSize,
-                TotalPages = gruposEquipamento.TotalPages,
-                HasNext = gruposEquipamento.HasNext,
-                HasPrevious = gruposEquipamento.HasPrevious
-            };
-
-            return lista;
+            return _grupoEquipamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codGrupoEquip}")]
         public GrupoEquipamento Get(int codGrupoEquip)
         {
-            return _grupoEquipamentoInterface.ObterPorCodigo(codGrupoEquip);
+            return _grupoEquipamentoService.ObterPorCodigo(codGrupoEquip);
         }
 
         [HttpPost]
         public void Post([FromBody] GrupoEquipamento grupoEquipamento)
         {
-            int codGrupoEquip = _sequenciaInterface.ObterContador(Constants.TABELA_GRUPO_EQUIPAMENTO);
-            grupoEquipamento.CodGrupoEquip = codGrupoEquip;
-            _grupoEquipamentoInterface.Criar(grupoEquipamento: grupoEquipamento);
+            
         }
 
         [HttpPut]
         public void Put([FromBody] GrupoEquipamento grupoEquipamento)
         {
-            _grupoEquipamentoInterface.Atualizar(grupoEquipamento);
+            _grupoEquipamentoService.Atualizar(grupoEquipamento);
         }
 
         [HttpDelete("{codGrupoEquip}")]
         public void Delete(int codGrupoEquip)
         {
-            _grupoEquipamentoInterface.Deletar(codGrupoEquip);
+            _grupoEquipamentoService.Deletar(codGrupoEquip);
         }
     }
 }

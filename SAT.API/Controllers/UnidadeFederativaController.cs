@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -13,54 +13,41 @@ namespace SAT.API.Controllers
     [ApiController]
     public class UnidadeFederativaController : ControllerBase
     {
-        private readonly IUnidadeFederativaRepository _unidadeFederativaInterface;
+        private readonly IUnidadeFederativaService _unidadeFederativaService;
 
-        public UnidadeFederativaController(IUnidadeFederativaRepository unidadeFederativaInterface)
+        public UnidadeFederativaController(IUnidadeFederativaService unidadeFederativaService)
         {
-            _unidadeFederativaInterface = unidadeFederativaInterface;
+            _unidadeFederativaService = unidadeFederativaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] UnidadeFederativaParameters parameteres)
         {
-            var ufs = _unidadeFederativaInterface.ObterPorParametros(parameteres);
-
-            var lista = new ListViewModel
-            {
-                Items = ufs,
-                TotalCount = ufs.TotalCount,
-                CurrentPage = ufs.CurrentPage,
-                PageSize = ufs.PageSize,
-                TotalPages = ufs.TotalPages,
-                HasNext = ufs.HasNext,
-                HasPrevious = ufs.HasPrevious
-            };
-
-            return lista;
+            return _unidadeFederativaService.ObterPorParametros(parameteres);
         }
 
         [HttpGet("{codUF}")]
         public UnidadeFederativa Get(int codUF)
         {
-            return _unidadeFederativaInterface.ObterPorCodigo(codUF);
+            return _unidadeFederativaService.ObterPorCodigo(codUF);
         }
 
         [HttpPost]
         public void Post([FromBody] UnidadeFederativa uf)
         {
-            _unidadeFederativaInterface.Criar(uf);
+            _unidadeFederativaService.Criar(uf);
         }
 
         [HttpPut]
         public void Put([FromBody] UnidadeFederativa uf)
         {
-            _unidadeFederativaInterface.Atualizar(uf);
+            _unidadeFederativaService.Atualizar(uf);
         }
 
         [HttpDelete("{codUF}")]
         public void Delete(int codUF)
         {
-            _unidadeFederativaInterface.Deletar(codUF);
+            _unidadeFederativaService.Deletar(codUF);
         }
     }
 }

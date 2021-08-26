@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class MotivoAgendamentoService : IMotivoAgendamentoService
     {
         private readonly IMotivoAgendamentoRepository _motivoRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public MotivoAgendamentoService(IMotivoAgendamentoRepository motivoRepo)
+        public MotivoAgendamentoService(IMotivoAgendamentoRepository motivoRepo, ISequenciaRepository seqRepo)
         {
             _motivoRepo = motivoRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(MotivoAgendamentoParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public MotivoAgendamento Criar(MotivoAgendamento motivoAgendamento)
         {
+            motivoAgendamento.CodMotivo = _seqRepo.ObterContador(Constants.TABELA_MOTIVO_AGENDAMENTO);
             _motivoRepo.Criar(motivoAgendamento);
             return motivoAgendamento;
         }

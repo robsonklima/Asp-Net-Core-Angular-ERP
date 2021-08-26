@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -8,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class TipoCausaService : ITipoCausaService
     {
         private readonly ITipoCausaRepository _tipoCausaRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public TipoCausaService(ITipoCausaRepository tipoCausaRepo)
+        public TipoCausaService(ITipoCausaRepository tipoCausaRepo, ISequenciaRepository seqRepo)
         {
             _tipoCausaRepo = tipoCausaRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(TipoCausaParameters parameters)
@@ -34,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoCausa Criar(TipoCausa tipoCausa)
         {
+            tipoCausa.CodTipoCausa = _seqRepo.ObterContador(Constants.TABELA_TIPO_CAUSA);
             _tipoCausaRepo.Criar(tipoCausa);
             return tipoCausa;
         }

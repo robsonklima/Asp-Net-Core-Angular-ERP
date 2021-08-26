@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
-
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -14,54 +13,29 @@ namespace SAT.API.Controllers
     [ApiController]
     public class RegiaoAutorizadaController : ControllerBase
     {
-        private IRegiaoAutorizadaRepository _regiaoAutorizadaInterface;
+        private IRegiaoAutorizadaService _regiaoAutorizadaService;
 
-        public RegiaoAutorizadaController(IRegiaoAutorizadaRepository regiaoAutorizadaInterface)
+        public RegiaoAutorizadaController(IRegiaoAutorizadaService regiaoAutorizadaService)
         {
-            _regiaoAutorizadaInterface = regiaoAutorizadaInterface;
-        }
-
-        [HttpGet("{codRegiao}/{codAutorizada}/codFilial")]
-        public RegiaoAutorizada Get(int codRegiao, int codAutorizada, int codFilial)
-        {
-            return _regiaoAutorizadaInterface.ObterPorCodigo(codRegiao, codAutorizada, codFilial);
+            _regiaoAutorizadaService = regiaoAutorizadaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] RegiaoAutorizadaParameters parameters)
         {
-            var regioesAutorizadas = _regiaoAutorizadaInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = regioesAutorizadas,
-                TotalCount = regioesAutorizadas.TotalCount,
-                CurrentPage = regioesAutorizadas.CurrentPage,
-                PageSize = regioesAutorizadas.PageSize,
-                TotalPages = regioesAutorizadas.TotalPages,
-                HasNext = regioesAutorizadas.HasNext,
-                HasPrevious = regioesAutorizadas.HasPrevious
-            };
-
-            return lista;
+            return _regiaoAutorizadaService.ObterPorParametros(parameters);
         }
 
         [HttpPost]
         public void Post([FromBody] RegiaoAutorizada regiaoAutorizada)
         {
-            _regiaoAutorizadaInterface.Criar(regiaoAutorizada);
+            _regiaoAutorizadaService.Criar(regiaoAutorizada);
         }
 
         [HttpPut]
         public void Put([FromBody] RegiaoAutorizada regiaoAutorizada)
         {
-            _regiaoAutorizadaInterface.Atualizar(regiaoAutorizada);
-        }
-
-        [HttpDelete("{codRegiao}/{codAutorizada}/{codFilial}")]
-        public void Delete(int codRegiao, int codAutorizada, int codFilial)
-        {
-            _regiaoAutorizadaInterface.Deletar(codRegiao, codAutorizada, codFilial);
+            _regiaoAutorizadaService.Atualizar(regiaoAutorizada);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
-using SAT.MODELS.ViewModels;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using Microsoft.AspNetCore.Authorization;
-
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -12,36 +11,23 @@ namespace SAT.API.Controllers
     [ApiController]
     public class EquipamentoController : ControllerBase
     {
-        private readonly IEquipamentoRepository _equipamentoInterface;
+        private readonly IEquipamentoService _equipamentoService;
 
-        public EquipamentoController(IEquipamentoRepository equipamentoInterface)
+        public EquipamentoController(IEquipamentoService equipamentoService)
         {
-            _equipamentoInterface = equipamentoInterface;
+            _equipamentoService = equipamentoService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] EquipamentoParameters parameters)
         {
-            var equipamentos = _equipamentoInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = equipamentos,
-                TotalCount = equipamentos.TotalCount,
-                CurrentPage = equipamentos.CurrentPage,
-                PageSize = equipamentos.PageSize,
-                TotalPages = equipamentos.TotalPages,
-                HasNext = equipamentos.HasNext,
-                HasPrevious = equipamentos.HasPrevious
-            };
-
-            return lista;
+            return _equipamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codEquip}")]
         public Equipamento Get(int codEquip)
         {
-            return _equipamentoInterface.ObterPorCodigo(codEquip);
+            return _equipamentoService.ObterPorCodigo(codEquip);
         }
 
         [HttpPost]

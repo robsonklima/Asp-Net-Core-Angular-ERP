@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
@@ -13,36 +13,23 @@ namespace SAT.API.Controllers
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        private readonly IClienteRepository _clienteInterface;
+        private readonly IClienteService _clienteService;
 
-        public ClienteController(IClienteRepository clienteInterface)
+        public ClienteController(IClienteService clienteService)
         {
-            _clienteInterface = clienteInterface;
+            _clienteService = clienteService;
         }
 
         [HttpGet("{codCliente}")]
         public Cliente Get(int codCliente)
         {
-            return _clienteInterface.ObterPorCodigo(codCliente);
+            return _clienteService.ObterPorCodigo(codCliente);
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] ClienteParameters parameters)
         {
-            var clientes = _clienteInterface.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = clientes,
-                TotalCount = clientes.TotalCount,
-                CurrentPage = clientes.CurrentPage,
-                PageSize = clientes.PageSize,
-                TotalPages = clientes.TotalPages,
-                HasNext = clientes.HasNext,
-                HasPrevious = clientes.HasPrevious
-            };
-
-            return lista;
+            return _clienteService.ObterPorParametros(parameters);
         }
     }
 }

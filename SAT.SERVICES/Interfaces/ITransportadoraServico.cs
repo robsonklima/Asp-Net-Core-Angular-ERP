@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SAT.SERVICES.Interfaces
 {
-    public interface IContratoService
+    public interface ITransportadoraServico
     {
     }
 }

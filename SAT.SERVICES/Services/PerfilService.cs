@@ -2,7 +2,7 @@
 
 namespace SAT.SERVICES.Services
 {
-    class ContratoService : IContratoService
+    public class PerfilService : IPerfilService
     {
     }
 }

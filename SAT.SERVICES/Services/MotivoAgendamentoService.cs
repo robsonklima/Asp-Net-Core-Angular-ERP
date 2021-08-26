@@ -1,8 +1,56 @@
-﻿using SAT.SERVICES.Interfaces;
+﻿using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
     public class MotivoAgendamentoService : IMotivoAgendamentoService
     {
+        private readonly IMotivoAgendamentoRepository _motivoRepo;
+
+        public MotivoAgendamentoService(IMotivoAgendamentoRepository motivoRepo)
+        {
+            _motivoRepo = motivoRepo;
+        }
+
+        public ListViewModel ObterPorParametros(MotivoAgendamentoParameters parameters)
+        {
+            var motivos = _motivoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = motivos,
+                TotalCount = motivos.TotalCount,
+                CurrentPage = motivos.CurrentPage,
+                PageSize = motivos.PageSize,
+                TotalPages = motivos.TotalPages,
+                HasNext = motivos.HasNext,
+                HasPrevious = motivos.HasPrevious
+            };
+
+            return lista;
+        }
+
+        public MotivoAgendamento Criar(MotivoAgendamento motivoAgendamento)
+        {
+            _motivoRepo.Criar(motivoAgendamento);
+            return motivoAgendamento;
+        }
+
+        public void Deletar(int codigo)
+        {
+            _motivoRepo.Deletar(codigo);
+        }
+
+        public void Atualizar(MotivoAgendamento motivoAgendamento)
+        {
+            _motivoRepo.Atualizar(motivoAgendamento);
+        }
+
+        public MotivoAgendamento ObterPorCodigo(int codigo)
+        {
+            return _motivoRepo.ObterPorCodigo(codigo);
+        }
     }
 }

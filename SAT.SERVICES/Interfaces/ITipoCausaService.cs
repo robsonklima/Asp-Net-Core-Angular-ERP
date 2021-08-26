@@ -3,7 +3,7 @@ using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
-    interface ITipoTipoCausaService
+    public interface ITipoCausaService
     {
         ListViewModel ObterPorParametros(TipoCausaParameters parameters);
         TipoCausa Criar(TipoCausa tipoCausa);

@@ -1,8 +1,56 @@
-﻿using SAT.SERVICES.Interfaces;
+﻿using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class PecaService : IPecaService
+    public class PecaService : IPecaService
     {
+        private readonly IPecaRepository _pecaRepo;
+
+        public PecaService(IPecaRepository pecaRepo)
+        {
+            _pecaRepo = pecaRepo;
+        }
+
+        public ListViewModel ObterPorParametros(PecaParameters parameters)
+        {
+            var pecas = _pecaRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = pecas,
+                TotalCount = pecas.TotalCount,
+                CurrentPage = pecas.CurrentPage,
+                PageSize = pecas.PageSize,
+                TotalPages = pecas.TotalPages,
+                HasNext = pecas.HasNext,
+                HasPrevious = pecas.HasPrevious
+            };
+
+            return lista;
+        }
+
+        public Peca Criar(Peca peca)
+        {
+            _pecaRepo.Criar(peca);
+            return peca;
+        }
+
+        public void Deletar(int codigo)
+        {
+            _pecaRepo.Deletar(codigo);
+        }
+
+        public void Atualizar(Peca peca)
+        {
+            _pecaRepo.Atualizar(peca);
+        }
+
+        public Peca ObterPorCodigo(int codigo)
+        {
+            return _pecaRepo.ObterPorCodigo(codigo);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS;
-using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,21 +21,21 @@ namespace SAT.SERVICES.Services
         public List<Indicador> ObterIndicadoresClientes()
         {
             List<Indicador> Indicadores = new List<Indicador>();
-            DateTime dataInicio = new DateTime(DateTime.Now.Year, 1, 1);
+            //DateTime dataInicio = new DateTime(DateTime.Now.Year, 1, 1);
 
-            var chamados = _osRepository.ObterTodos().AsQueryable().Where(os => os.DataHoraAberturaOS >= dataInicio);
-            List<ClienteService> clientes = chamados.Select(os => os.Cliente).Distinct().ToList();
+            //var chamados = _osRepository.ObterTodos().AsQueryable().Where(os => os.DataHoraAberturaOS >= dataInicio);
+            //List<ClienteService> clientes = chamados.Select(os => os.Cliente).Distinct().ToList();
 
-            foreach (var cliente in clientes)
-            {
-                var qtdOS = chamados.Where(os => os.CodCliente == cliente.CodCliente).Count();
+            //foreach (var cliente in clientes)
+            //{
+            //    var qtdOS = chamados.Where(os => os.CodCliente == cliente.CodCliente).Count();
 
-                Indicadores.Add(new Indicador()
-                {
-                    Cliente = cliente.NomeFantasia,
-                    QtdOS = qtdOS,
-                });
-            }
+            //    Indicadores.Add(new Indicador()
+            //    {
+            //        Cliente = cliente.NomeFantasia,
+            //        QtdOS = qtdOS,
+            //    });
+            //}
 
             return (Indicadores);
         }

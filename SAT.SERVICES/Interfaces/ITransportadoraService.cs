@@ -3,7 +3,7 @@ using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
-    public interface ITransportadoraServico
+    public interface ITransportadoraService
     {
         ListViewModel ObterPorParametros(TransportadoraParameters parameters);
         Transportadora Criar(Transportadora transportadora);

@@ -3,7 +3,7 @@ using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
-    public interface IGrupoGrupoCausaService
+    public interface IGrupoCausaService
     {
         ListViewModel ObterPorParametros(GrupoCausaParameters parameters);
         GrupoCausa Criar(GrupoCausa grupoCausa);

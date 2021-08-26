@@ -1,10 +1,11 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
+using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class AcordoNivelServicoService
+    public class AcordoNivelServicoService : IAcordoNivelServicoService
     {
         private readonly IAcordoNivelServicoRepository _ansRepo;
 

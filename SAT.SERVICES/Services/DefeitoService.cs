@@ -5,7 +5,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class DefeitoService : IDefeitoService
+    public class DefeitoService : IDefeitoService
     {
         private readonly IDefeitoRepository _defeitoRepo;
 

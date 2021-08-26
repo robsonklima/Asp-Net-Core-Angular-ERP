@@ -6,7 +6,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class LocalAtendimentoService : ILocalAtendimentoService
+    public class LocalAtendimentoService : ILocalAtendimentoService
     {
         private readonly ILocalAtendimentoRepository _localRepo;
         private readonly ISequenciaRepository _seqRepo;

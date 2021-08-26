@@ -5,7 +5,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class ContratoService : IContratoService
+    public class ContratoService : IContratoService
     {
         private readonly IContratoRepository _contratoRepo;
 

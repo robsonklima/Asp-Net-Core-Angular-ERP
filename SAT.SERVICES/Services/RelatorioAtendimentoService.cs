@@ -6,7 +6,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class RelatorioAtendimentoService : IRelatorioAtendimentoService
+    public class RelatorioAtendimentoService : IRelatorioAtendimentoService
     {
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly ISequenciaRepository _seqRepo;

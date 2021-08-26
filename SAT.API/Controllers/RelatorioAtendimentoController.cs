@@ -14,12 +14,9 @@ namespace SAT.API.Controllers
     {
         private readonly IRelatorioAtendimentoService _raService;
 
-        public RelatorioAtendimentoController(
-            IRelatorioAtendimentoService raService
-        )
+        public RelatorioAtendimentoController(IRelatorioAtendimentoService raService)
         {
             _raService = raService;
-
         }
 
         [HttpGet]
@@ -37,9 +34,7 @@ namespace SAT.API.Controllers
         [HttpPost]
         public RelatorioAtendimento Post([FromBody] RelatorioAtendimento relatorioAtendimento)
         {
-            _raService.Criar(relatorioAtendimento);
-
-            return relatorioAtendimento;
+            return _raService.Criar(relatorioAtendimento);
         }
 
         [HttpPut]

@@ -85,7 +85,46 @@ namespace SAT.API
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
+
+            services.AddTransient<IAcaoService, AcaoService>();
+            services.AddTransient<IAcordoNivelServicoService, AcordoNivelServicoService>();
+            services.AddTransient<IAutorizadaService, AutorizadaService>();
+            services.AddTransient<ICausaService, CausaService>();
+            services.AddTransient<ICidadeService, CidadeService>();
+            services.AddTransient<IClienteService, ClienteService>();
+            services.AddTransient<IContratoEquipamentoService, ContratoEquipamentoService>();
+            services.AddTransient<IContratoService, ContratoService>();
+            services.AddTransient<IContratoSLAService, ContratoSLAService>();
+            services.AddTransient<IDefeitoService, DefeitoService>();
+            services.AddTransient<IDespesaCartaoCombustivelService, DespesaCartaoCombustivelService>();
+            services.AddTransient<IEquipamentoContratoService, EquipamentoContratoService>();
+            services.AddTransient<IFeriadoService, FeriadoService>();
+            services.AddTransient<IGrupoCausaService, GrupoCausaService>();
+            services.AddTransient<IGrupoEquipamentoService, GrupoEquipamentoService>();
+            services.AddTransient<ILocalAtendimentoService, LocalAtendimentoService>();
+            services.AddTransient<IMotivoAgendamentoService, MotivoAgendamentoService>();
+            services.AddTransient<IPaisService, PaisService>();
+            services.AddTransient<IPecaService, PecaService>();
+            services.AddTransient<IFilialService, FilialService>();
+            services.AddTransient<IPerfilService, PerfilService>();
+            services.AddTransient<IRegiaoAutorizadaService, RegiaoAutorizadaService>();
+            services.AddTransient<IRegiaoService, RegiaoService>();
+            services.AddTransient<IRelatorioAtendimentoDetalhePecaService, RelatorioAtendimentoDetalhePecaService>();
+            services.AddTransient<IRelatorioAtendimentoDetalheService, RelatorioAtendimentoDetalheService>();
+            services.AddTransient<IRelatorioAtendimentoService, RelatorioAtendimentoService>();
+            services.AddTransient<IStatusServicoService, StatusServicoService>();
+            services.AddTransient<ITecnicoService, TecnicoService>();
+            services.AddTransient<ITipoCausaService, TipoCausaService>();
+            services.AddTransient<ITipoEquipamentoService, TipoEquipamentoService>();
+            services.AddTransient<ITipoIntervencaoService, TipoIntervencaoService>();
+            services.AddTransient<ITipoServicoService, TipoServicoService>();
+            services.AddTransient<ITransportadoraService, TransportadoraService>();
+            services.AddTransient<IUnidadeFederativaService, UnidadeFederativaService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IIndicadorService, IndicadorService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<IOrdemServicoService, OrdemServicoService>();
+            
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 

@@ -5,7 +5,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class ContratoSLAService : IContratoSLAService
+    public class ContratoSLAService : IContratoSLAService
     {
         private readonly IContratoSLARepository _contratoSLARepo;
 

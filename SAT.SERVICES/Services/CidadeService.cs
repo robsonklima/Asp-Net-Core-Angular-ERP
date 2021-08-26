@@ -5,7 +5,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class CidadeService : ICidadeService
+    public class CidadeService : ICidadeService
     {
         private readonly ICidadeRepository _cidadeRepo;
 

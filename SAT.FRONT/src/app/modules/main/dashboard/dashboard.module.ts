@@ -12,6 +12,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatButtonToggleModule,
     MatMenuModule,
     MatTabsModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class DashboardModule { }

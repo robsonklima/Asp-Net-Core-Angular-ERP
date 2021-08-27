@@ -44,7 +44,10 @@ export class SlaClienteComponent implements AfterViewInit {
   data: any[] = [];
   clientes: string[] = [];
   chamados: number[] = [];
-  colors: string[] = ['#F44336', '#E91E63', '#9C27B0', '#D50000', '#CE93D8', '#4A148C', '#D500F9', '#EC407A', '#DAF7A6']
+  colors: string[] = [
+    '#F44336', '#E91E63', '#9C27B0', '#D50000', '#CE93D8',
+    '#4A148C', '#D500F9', '#EC407A', '#DAF7A6'
+  ]
 
   constructor(
     private _indicadorService: IndicadorService
@@ -52,11 +55,12 @@ export class SlaClienteComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     this.data = await this._indicadorService.obter().toPromise();
-    this.data = this.data.filter(c => c.qtdOS > 400);
+    this.data = this.data
+      .filter(c => c.qtdOS > 1)
+      .slice(0,10);
 
     this.data = this.data.sort((a, b) => (a.qtdOS < b.qtdOS) ? 1 : ((b.qtdOS < a.qtdOS) ? -1 : 0));
-
-    this.clientes = this.data.map(c => c.cliente.split(" ")[0]);
+    this.clientes = this.data.map(c => c.cliente.split(" ").shift());
     this.chamados = this.data.map(c => c.qtdOS);
 
     this.chartOptions = {

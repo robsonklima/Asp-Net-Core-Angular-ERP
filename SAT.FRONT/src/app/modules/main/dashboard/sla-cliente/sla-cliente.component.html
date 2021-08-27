@@ -27,8 +27,8 @@
     <div *ngIf="clientes.length" class="divide-y">
       <ng-container>
         <div class="grid grid-cols-4 py-3">
-          <div class="flex items-center">
-            <div class="font-semibold truncate">Cliente</div>
+          <div class="flex items-center font-semibold text-secondary truncate">
+            Cliente
           </div>
           <div class="text-center font-semibold text-secondary">
             Pendência
@@ -42,16 +42,14 @@
         </div>
 
         <div class="grid grid-cols-4 py-2" *ngFor="let d of data">
-          <div class="flex items-center">
-            <div class="truncate">
-              {{ d.cliente }}
-            </div>
+          <div class="flex items-center text-secondary truncate">
+            {{ d.cliente }}
           </div>
           <div class="text-center text-secondary">
-            83
+            0
           </div>
           <div class="text-center text-secondary">
-            15
+            0
           </div>
           <div class="text-center text-secondary">
             {{ d.qtdOS }}

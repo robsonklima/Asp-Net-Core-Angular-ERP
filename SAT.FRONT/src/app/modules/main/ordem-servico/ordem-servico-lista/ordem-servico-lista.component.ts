@@ -5,14 +5,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
-
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import moment from 'moment';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -115,18 +113,13 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             })
             .toPromise();
 
-        data.items.forEach((os, i) => {
-            if (os.statusSLAOSAberta?.dataHoraLimiteAtendimento !== undefined) {
-                if (moment(os.statusSLAOSAberta.dataHoraLimiteAtendimento) > moment() && os.statusServico.codStatusServico !== 3) {
-                    data.items[i]['statusSLAOSAberta']['statusSLAOS'] = 'DENTRO';
-                } else {
-                    data.items[i]['statusSLAOSAberta']['statusSLAOS'] = 'FORA';
-                }
-            }
-        });
-
         this.dataSourceData = data;
         this.isLoading = false;
+
+
+        data.items.forEach(el => {
+            console.log(el.prazosAtendimento);    
+        });
     }
 
     private registrarEmitters(): void {

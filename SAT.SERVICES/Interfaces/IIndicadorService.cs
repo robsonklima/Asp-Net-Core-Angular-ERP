@@ -5,6 +5,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IIndicadorService
     {
-        List<Indicador> ObterIndicadoresClientes();
+        List<Indicador> ObterIndicadores();
     }
 }

@@ -7,7 +7,7 @@ namespace SAT.MODELS.Entities
     public class Cliente
     {
         [Key]
-        public int? CodCliente { get; set; }
+        public int CodCliente { get; set; }
         public int? CodFormaPagto { get; set; }
         public int? CodMoeda { get; set; }
         public int? CodTipoFrete { get; set; }

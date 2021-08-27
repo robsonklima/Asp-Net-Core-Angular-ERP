@@ -29,10 +29,6 @@ namespace SAT.MODELS.Entities
         [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }
         [ForeignKey("CodOS")]
-        public StatusSLAOSFechada StatusSLAOSFechada { get; set; }
-        [ForeignKey("CodOS")]
-        public StatusSLAOSAberta StatusSLAOSAberta { get; set; }
-        [ForeignKey("CodOS")]
         public List<Agendamento> Agendamentos { get; set; }
         public string DefeitoRelatado { get; set; }
         public string ObservacaoCliente { get; set; }
@@ -48,6 +44,8 @@ namespace SAT.MODELS.Entities
         public int? CodEquip { get; set; }
         public int CodTipoIntervencao { get; set; }
         public int? CodFilial { get; set; }
+        [ForeignKey("CodFilial")]
+        public Filial Filial { get; set; }
         public int? CodAutorizada { get; set; }
         public int? CodRegiao { get; set; }
         public int CodStatusServico { get; set; }
@@ -152,5 +150,7 @@ namespace SAT.MODELS.Entities
         public List<Alerta> Alertas { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
+        [ForeignKey("CodOS")]
+        public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
     }
 }

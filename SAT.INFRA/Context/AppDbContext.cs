@@ -38,8 +38,6 @@ namespace SAT.INFRA.Context
         public DbSet<AcordoNivelServico> AcordoNivelServico { get; set; }
         public DbSet<Navegacao> Navegacao { get; set; }
         public DbSet<NavegacaoConfiguracao> NavegacaoConfiguracao { get; set; }
-        public DbSet<StatusSLAOSAberta> StatusSLAOSAberta { get; set; }
-        public DbSet<StatusSLAOSFechada> StatusSLAOSFechada { get; set; }
         public DbSet<Pais> Pais { get; set; }
         public DbSet<UnidadeFederativa> UnidadeFederativa { get; set; }
         public DbSet<Cidade> Cidade { get; set; }
@@ -72,16 +70,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasOne<Navegacao>(nc => nc.Navegacao)
                         .WithMany(nc => nc.NavegacoesConfiguracao);
-
-            modelBuilder.Entity<StatusSLAOSFechada>()
-                        .HasOne(sf => sf.OrdemServico)
-                        .WithOne(sf => sf.StatusSLAOSFechada)
-                        .HasForeignKey<StatusSLAOSFechada>(sf => sf.CodOS);
-
-            modelBuilder.Entity<StatusSLAOSAberta>()
-                        .HasOne(sa => sa.OrdemServico)
-                        .WithOne(sa => sa.StatusSLAOSAberta)
-                        .HasForeignKey<StatusSLAOSAberta>(sa => sa.CodOS);
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);

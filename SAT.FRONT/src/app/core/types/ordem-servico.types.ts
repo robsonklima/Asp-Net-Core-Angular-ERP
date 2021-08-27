@@ -7,11 +7,10 @@ import { Filial } from "./filial.types";
 import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
 import { Regiao } from "./regiao.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { StatusServico } from "./status-servico.types";
-import { StatusSLAOSAberta } from "./status-sla-os-aberta.types";
-import { StatusSLAOSFechada } from "./status-sla-os-fechada.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
@@ -29,8 +28,6 @@ export interface OrdemServico {
     fotos: Foto[];
     cliente: Cliente;
     tecnico: Tecnico;
-    statusSLAOSFechada?: StatusSLAOSFechada;
-    statusSLAOSAberta?: StatusSLAOSAberta;
     agendamentos: Agendamento[];
     defeitoRelatado: string;
     observacaoCliente?: string;
@@ -146,6 +143,7 @@ export interface OrdemServico {
     codUsuarioOsmobileRecebida?: string;
     dataHoraIntegracaoRevisaoV2?: string;
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
+    prazosAtendimento: OSPrazoAtendimento[];
 }
 
 export interface OrdemServicoData extends Meta {

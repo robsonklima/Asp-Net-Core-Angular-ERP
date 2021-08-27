@@ -22,7 +22,7 @@ namespace SAT.API.Controllers
         [HttpGet]
         public List<Indicador> Get([FromQuery] IndicadorParameters parameters)
         {
-            return _indicadorService.ObterIndicadoresClientes();
+            return _indicadorService.ObterIndicadores();
         }
     }
 }

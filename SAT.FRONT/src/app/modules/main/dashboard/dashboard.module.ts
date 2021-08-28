@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
-import { SlaClienteComponent } from './sla-cliente/sla-cliente.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,8 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    SlaClienteComponent
+    DashboardComponent
   ],
   imports: [
     CommonModule,

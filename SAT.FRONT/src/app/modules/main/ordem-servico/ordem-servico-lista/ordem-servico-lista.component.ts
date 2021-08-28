@@ -115,11 +115,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
         this.dataSourceData = data;
         this.isLoading = false;
-
-
-        data.items.forEach(el => {
-            console.log(el.prazosAtendimento);    
-        });
     }
 
     private registrarEmitters(): void {

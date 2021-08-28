@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public LocalAtendimento Criar(LocalAtendimento localAtendimento)
         {
-            localAtendimento.CodPosto = _seqRepo.ObterContador(Constants.TABELA_LOCAL_ATENDIMENTO);
+            localAtendimento.CodPosto = _seqRepo.ObterContador("LocalAtendimento");
             _localRepo.Criar(localAtendimento);
             return localAtendimento;
         }

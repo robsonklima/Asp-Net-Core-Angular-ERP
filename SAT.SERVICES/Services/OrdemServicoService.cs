@@ -25,7 +25,7 @@ namespace SAT.SERVICES.Services
 
         public OrdemServico Criar(OrdemServico ordemServico)
         {
-            ordemServico.CodOS = _sequenciaRepo.ObterContador(Constants.TABELA_ORDEM_SERVICO);
+            ordemServico.CodOS = _sequenciaRepo.ObterContador("OS");
 
             _ordemServicoRepo.Criar(ordemServico);
 

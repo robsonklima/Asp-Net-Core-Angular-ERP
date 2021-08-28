@@ -21,8 +21,7 @@ namespace SAT.SERVICES.Services
 
         public RelatorioAtendimentoDetalhePeca Criar(RelatorioAtendimentoDetalhePeca ratDetalhePeca)
         {
-            ratDetalhePeca.CodRATDetalhePeca = _sequenciaRepo
-                .ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA);
+            ratDetalhePeca.CodRATDetalhePeca = _sequenciaRepo.ObterContador("RATDetalhesPecas");
             ratDetalhePeca.Peca = null;
             _ratDetalhePecaRepo.Criar(ratDetalhePeca);
             return ratDetalhePeca;

@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Pais Criar(Pais pais)
         {
-            pais.CodPais = _seqRepo.ObterContador(Constants.TABELA_PAIS);
+            pais.CodPais = _seqRepo.ObterContador("Pais");
             _paisRepo.Criar(pais);
 
             return pais;

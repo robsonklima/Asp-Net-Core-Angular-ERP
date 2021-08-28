@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoCausa Criar(TipoCausa tipoCausa)
         {
-            tipoCausa.CodTipoCausa = _seqRepo.ObterContador(Constants.TABELA_TIPO_CAUSA);
+            tipoCausa.CodTipoCausa = _seqRepo.ObterContador("TipoCausa");
             _tipoCausaRepo.Criar(tipoCausa);
             return tipoCausa;
         }

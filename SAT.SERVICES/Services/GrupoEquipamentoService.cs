@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public GrupoEquipamento Criar(GrupoEquipamento grupoEquipamento)
         {
-            grupoEquipamento.CodGrupoEquip = _seqRepo.ObterContador(Constants.TABELA_GRUPO_EQUIPAMENTO); ;
+            grupoEquipamento.CodGrupoEquip = _seqRepo.ObterContador("GrupoEquipamento"); ;
             _grupoEquipamentoRepo.Criar(grupoEquipamento: grupoEquipamento);
             return grupoEquipamento;
         }

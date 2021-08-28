@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public MotivoAgendamento Criar(MotivoAgendamento motivoAgendamento)
         {
-            motivoAgendamento.CodMotivo = _seqRepo.ObterContador(Constants.TABELA_MOTIVO_AGENDAMENTO);
+            motivoAgendamento.CodMotivo = _seqRepo.ObterContador("MotivoAgendamento");
             _motivoRepo.Criar(motivoAgendamento);
             return motivoAgendamento;
         }

@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoServico Criar(TipoServico tipoServico)
         {
-            tipoServico.CodServico = _seqRepo.ObterContador(Constants.TABELA_TIPO_SERVICO);
+            tipoServico.CodServico = _seqRepo.ObterContador("TipoServico");
             _tipoServicoRepo.Criar(tipoServico);
             return tipoServico;
         }

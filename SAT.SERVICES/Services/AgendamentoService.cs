@@ -27,7 +27,7 @@ namespace SAT.SERVICES.Services
 
         public Agendamento Criar(Agendamento agendamento)
         {
-            agendamento.CodAgendamento = _sequenciaRepo.ObterContador(Constants.TABELA_AGENDAMENTO);
+            agendamento.CodAgendamento = _sequenciaRepo.ObterContador("AgendamentoOS");
             _agendamentoRepo.Criar(agendamento);
             return agendamento;
         }

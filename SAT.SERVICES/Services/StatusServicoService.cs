@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public StatusServico Criar(StatusServico statusServico)
         {
-            statusServico.CodStatusServico = _seqRepo.ObterContador(Constants.TABELA_STATUS_SERVICO);
+            statusServico.CodStatusServico = _seqRepo.ObterContador("StatusServico");
             _statusServicoRepo.Criar(statusServico);
             return statusServico;
         }

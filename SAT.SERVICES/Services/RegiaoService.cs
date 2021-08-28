@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Regiao Criar(Regiao regiao)
         {
-            regiao.CodRegiao = _seqRepo.ObterContador(Constants.TABELA_REGIAO);
+            regiao.CodRegiao = _seqRepo.ObterContador("Regiao");
             _motivoRepo.Criar(regiao);
             return regiao;
         }

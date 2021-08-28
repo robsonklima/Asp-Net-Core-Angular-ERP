@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Perfil Criar(Perfil perfil)
         {
-            perfil.CodPerfil = _seqRepo.ObterContador(Constants.TABELA_PERFIL);
+            perfil.CodPerfil = _seqRepo.ObterContador("Perfil");
             _perfilRepo.Criar(perfil);
             return perfil;
         }

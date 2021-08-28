@@ -43,7 +43,7 @@ namespace SAT.SERVICES.Services
 
         public EquipamentoContrato Criar(EquipamentoContrato equipamentoContrato)
         {
-            equipamentoContrato.CodEquipContrato = this._seqRepo.ObterContador(Constants.TABELA_EQUIPAMENTO_CONTRATO);
+            equipamentoContrato.CodEquipContrato = this._seqRepo.ObterContador("EquipamentoContrato");
             var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip);
             equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
             equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;

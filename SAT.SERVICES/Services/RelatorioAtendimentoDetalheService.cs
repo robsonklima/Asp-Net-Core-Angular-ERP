@@ -18,7 +18,7 @@ namespace SAT.SERVICES.Services
 
         public RelatorioAtendimentoDetalhe Criar(RelatorioAtendimentoDetalhe detalhe)
         {
-            detalhe.CodRATDetalhe = _seqRepo.ObterContador(Constants.TABELA_RELATORIO_ATENDIMENTO_DETALHE);
+            detalhe.CodRATDetalhe = _seqRepo.ObterContador("RATDetalhes");
             detalhe.Acao = null;
             detalhe.Defeito = null;
             detalhe.TipoServico = null;

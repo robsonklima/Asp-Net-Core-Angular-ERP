@@ -40,7 +40,7 @@ namespace SAT.SERVICES.Services
 
         public Autorizada Criar(Autorizada autorizada)
         {
-            autorizada.CodAutorizada = _sequenciaRepo.ObterContador(Constants.TABELA_AUTORIZADA); ;
+            autorizada.CodAutorizada = _sequenciaRepo.ObterContador("Autorizada");
             _autorizadaRepo.Criar(autorizada: autorizada);
             return autorizada;
         }

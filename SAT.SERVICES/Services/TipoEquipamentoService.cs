@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoEquipamento Criar(TipoEquipamento tipoEquipamento)
         {
-            tipoEquipamento.CodTipoEquip = _seqRepo.ObterContador(Constants.TABELA_TIPO_EQUIPAMENTO);
+            tipoEquipamento.CodTipoEquip = _seqRepo.ObterContador("TipoEquipamento");
             _tipoEquipamentoRepo.Criar(tipoEquipamento);
             return tipoEquipamento;
         }

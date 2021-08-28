@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Tecnico Criar(Tecnico tecnico)
         {
-            tecnico.CodTecnico = _seqRepo.ObterContador(Constants.TABELA_TECNICO);
+            tecnico.CodTecnico = _seqRepo.ObterContador("Tecnico");
             _tecnicosRepo.Criar(tecnico);
             return tecnico;
         }

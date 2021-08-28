@@ -2,29 +2,6 @@
 {
     public class Constants
     {
-        // Tabelas
-        public static string TABELA_ACORDO_NIVEL_SERVICO = "sla_new";
-        public static string TABELA_EQUIPAMENTO_CONTRATO = "EquipamentoContrato";
-        public static string TABELA_GRUPO_EQUIPAMENTO = "GrupoEquipamento";
-        public static string TABELA_LOCAL_ATENDIMENTO = "LocalAtendimento";
-        public static string TABELA_TIPO_INTERVENCAO = "TipoIntervencao";
-        public static string TABELA_TIPO_EQUIPAMENTO = "TipoEquipamento";
-        public static string TABELA_RELATORIO_ATENDIMENTO = "RAT";
-        public static string TABELA_RELATORIO_ATENDIMENTO_DETALHE = "RATDetalhes";
-        public static string TABELA_RELATORIO_ATENDIMENTO_DETALHE_PECA = "RATDetalhesPecas";
-        public static string TABELA_STATUS_SERVICO = "StatusServico";
-        public static string TABELA_TIPO_SERVICO = "TipoServico";
-        public static string TABELA_AUTORIZADA = "Autorizada";
-        public static string TABELA_ORDEM_SERVICO = "OS";
-        public static string TABELA_DEFEITO = "Defeito";
-        public static string TABELA_PERFIL = "Perfil";
-        public static string TABELA_REGIAO = "Regiao";
-        public static string TABELA_MOTIVO_AGENDAMENTO = "MotivoAgendamento";
-        public static string TABELA_AGENDAMENTO = "AgendamentoOS";
-        public static string TABELA_TECNICO = "Tecnico";
-        public static string TABELA_TIPO_CAUSA = "TipoCausa";
-        public static string TABELA_PAIS = "Pais";
-        
         // Status de Serviço
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;

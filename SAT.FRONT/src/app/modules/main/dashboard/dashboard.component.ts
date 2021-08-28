@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { IndicadorService } from 'app/core/services/indicador.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Indicador } from 'app/core/types/indicador.types';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -41,18 +41,33 @@ export type ChartOptions = {
 export class DashboardComponent implements AfterViewInit {
   @ViewChild("chart") chart: ChartComponent;
   chartOptions: Partial<ChartOptions>;
+  data: Indicador[] = [];
   loading: boolean = true;
   
   constructor(
-    private _indicadorService: IndicadorService
+    private _cdr: ChangeDetectorRef
   ) {}
 
   async ngAfterViewInit() {
+   this.popularGrafico();
+  }
+
+  popularGrafico(): void {
+    this.data = this.obterDados(); // --> Carrega dados da API
+
+    const tipos: string[] = [];
+    const val: number[] = [];
+
+    this.data.shift().filho.shift().filho.shift().filho.map(i => { // --> Seleciona os dados para compor o grafico
+      tipos.push(i.nome);
+      val.push(i.valor);
+    });
+
     this.chartOptions = {
       series: [
         {
           name: "Chamados",
-          data: []
+          data: val
         }
       ],
       chart: {
@@ -62,10 +77,12 @@ export class DashboardComponent implements AfterViewInit {
         },
         type: "bar",
         events: {
-          click: function(chart, w, e) {}
+          click: function(chart, w, e) {
+            console.log(e);
+          }
         }
       },
-      colors: [],
+      colors: ['#1976D2'],
       plotOptions: {
         bar: {
           columnWidth: "45%",
@@ -82,7 +99,7 @@ export class DashboardComponent implements AfterViewInit {
         show: false
       },
       xaxis: {
-        categories: [],
+        categories: tipos,
         labels: {
           style: {
             colors: '#616161',
@@ -91,5 +108,147 @@ export class DashboardComponent implements AfterViewInit {
         }
       }
     };
+
+    this.loading = false;
+    this._cdr.detectChanges();
+  }
+
+  private obterDados(): Indicador[] {
+    var data: Indicador[] = [
+      {
+        nome: "OS",
+        valor: 250,
+        filho: [
+          {
+            nome: "Corretiva",
+            valor: 100,
+            filho: [
+              {
+                nome: "Aberto",
+                valor: 24,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 5
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 9
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 10
+                  }
+                ]
+              },
+              {
+                nome: "Fechado",
+                valor: 67,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 27
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 10
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 37
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            nome: "Instalação",
+            valor: 90,
+            filho: [
+              {
+                nome: "Aberto",
+                valor: 55,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 5
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 15
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 35
+                  }
+                ]
+              },
+              {
+                nome: "Fechado",
+                valor: 23,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 3
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 10
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            nome: "Preventiva",
+            valor: 60,
+            filho: [
+              {
+                nome: "Aberto",
+                valor: 49,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 19
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 10
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 20
+                  }
+                ]
+              },
+              {
+                nome: "Fechado",
+                valor: 32,
+                filho: [
+                  {
+                    nome: "FRS",
+                    valor: 2
+                  },
+                  {
+                    nome: "FSC",
+                    valor: 11
+                  },
+                  {
+                    nome: "FSP",
+                    valor: 19
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    return data;
   }
 }

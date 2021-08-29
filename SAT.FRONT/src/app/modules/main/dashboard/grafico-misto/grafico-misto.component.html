@@ -12,6 +12,7 @@
 
     <div class="items-center justify-center h-90">
         <apx-chart
+            *ngIf="!isLoading"
             [series]="chartOptions.series"
             [chart]="chartOptions.chart"
             [yaxis]="chartOptions.yaxis"
@@ -24,8 +25,8 @@
             [tooltip]="chartOptions.tooltip"
         ></apx-chart>
     
-        <mat-progress-spinner *ngIf="false" class="-mt-8" [diameter]="36"
-            [mode]="'indeterminate'">
-        </mat-progress-spinner>
+        <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center h-90">
+            <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
     </div>
 </div>

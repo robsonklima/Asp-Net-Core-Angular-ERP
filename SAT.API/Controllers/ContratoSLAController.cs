@@ -5,7 +5,9 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class ContratoSLAController : ControllerBase
     {

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SAT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class GoogleGeolocationController : ControllerBase
     {

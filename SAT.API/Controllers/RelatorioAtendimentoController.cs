@@ -9,6 +9,7 @@ namespace SAT.API.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class RelatorioAtendimentoController : ControllerBase
     {

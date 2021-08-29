@@ -12,10 +12,9 @@
     </div>
 
     <ng-container>
-        <form class="flex flex-col mt-0 p-8 pb-0" [formGroup]="form" *transloco="let t">
-
-            <div class="grid grid-cols-2 gap-4" *ngIf="!sessioData?.usuario?.filial?.codFilial">
-                <mat-form-field class="fuse-mat-textarea flex-auto">
+        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-0 overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="!sessioData?.usuario?.filial?.codFilial">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">
@@ -24,10 +23,8 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field>
+            
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('data de abertura') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerAbertura">
                         <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
@@ -37,7 +34,7 @@
                     <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('data de fechamento') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerFechamento">
                         <input formControlName="dataFechamentoInicio" matStartDate placeholder="Início">
@@ -46,10 +43,8 @@
                     <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
                     <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
                 </mat-form-field>
-            </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="fuse-mat-textarea flex-auto">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('status de servico') }}</mat-label>
 
                     <mat-select formControlName="codStatusServicos" multiple="true">
@@ -60,7 +55,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-textarea flex-auto">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('tipo de intervencao') }}</mat-label>
 
                     <mat-select formControlName="codTiposIntervencao" multiple="true">
@@ -70,33 +65,29 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="flex-auto">
+            
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('os perto') }}</mat-label>
                     <input matInput formControlName="codOS" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="flex-auto">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('os cliente') }}</mat-label>
                     <input matInput formControlName="numOSCliente" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
                     </mat-icon>
                 </mat-form-field>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="flex-auto">
+            
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('os quarteirizada') }}</mat-label>
                     <input matInput formControlName="numOSQuarteirizada" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-textarea flex-auto">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('cliente') }}</mat-label>
 
                     <mat-select formControlName="codClientes" multiple="true">
@@ -111,10 +102,8 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field class="flex-auto">
+            
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('pa') }}</mat-label>
                     <input matInput formControlName="pa" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">

@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class IndicadorController : ControllerBase
     {

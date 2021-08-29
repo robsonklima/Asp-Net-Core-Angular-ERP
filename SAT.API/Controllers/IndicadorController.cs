@@ -14,17 +14,33 @@ namespace SAT.API.Controllers
     {
         private readonly IIndicadorService _indicadorService;
 
-        public IndicadorController(
-            IIndicadorService indicadorService
-        )
+        public IndicadorController(IIndicadorService indicadorService)
         {
             _indicadorService = indicadorService;
         }
 
-        [HttpGet]
-        public List<Indicador> Get([FromQuery] IndicadorParameters parameters)
+        [HttpGet("/OrdemServico")]
+        public List<Indicador> ObterIndicadoresOrdemServico([FromQuery] IndicadorParameters parameters)
         {
-            return _indicadorService.ObterIndicadores();
+            return _indicadorService.ObterIndicadoresOrdemServico();
+        }
+
+        [HttpGet("/SLA")]
+        public List<Indicador> ObterIndicadoresSLA([FromQuery] IndicadorParameters parameters)
+        {
+            throw new Exception("Nao Implementado");
+        }
+
+        [HttpGet("/Pendencia")]
+        public List<Indicador> ObterIndicadoresPendencia([FromQuery] IndicadorParameters parameters)
+        {
+            throw new Exception("Nao Implementado");
+        }
+
+        [HttpGet("/Reincidencia")]
+        public List<Indicador> ObterIndicadoresReincidencia([FromQuery] IndicadorParameters parameters)
+        {
+            throw new Exception("Nao Implementado");
         }
     }
 }

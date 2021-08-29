@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SAT.MODELS
+namespace SAT.MODELS.Entities
 {
     [NotMapped]
     public class Indicador

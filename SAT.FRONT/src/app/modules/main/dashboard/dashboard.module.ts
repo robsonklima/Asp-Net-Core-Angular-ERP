@@ -16,6 +16,12 @@ import { GraficoBarrasComponent } from './grafico-barras/grafico-barras.componen
 import { GraficoLinhasComponent } from './grafico-linhas/grafico-linhas.component';
 import { GraficoMistoComponent } from './grafico-misto/grafico-misto.component';
 import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
+import { GraficoTreemapComponent } from './grafico-treemap/grafico-treemap.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,9 @@ import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
     GraficoBarrasComponent,
     GraficoLinhasComponent,
     GraficoMistoComponent,
-    GraficoAreaComponent
+    GraficoAreaComponent,
+    GraficoTreemapComponent,
+    DashboardFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +45,10 @@ import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
     MatTabsModule,
     NgApexchartsModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatFormFieldModule
   ]
 })
 export class DashboardModule { }

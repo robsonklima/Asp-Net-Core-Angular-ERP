@@ -60,7 +60,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cliente') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codCliente" [disabled]="!clientes.length">
+                        <mat-select class="min-h-10" formControlName="codCliente" [disabled]="!clientes?.length">
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                 {{ cliente.nomeFantasia }}
                             </mat-option>
@@ -72,7 +72,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('filial') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codFilial" [disabled]="!filiais.length">
+                        <mat-select class="min-h-10" formControlName="codFilial" [disabled]="!filiais?.length">
                             <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                                 {{ filial.nomeFilial }}
                             </mat-option>
@@ -84,7 +84,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('autorizada') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codAutorizada" [disabled]="!autorizadas.length">
+                        <mat-select class="min-h-10" formControlName="codAutorizada" [disabled]="!autorizadas?.length">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="autorizadasFiltro" placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
@@ -100,7 +100,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('regiao') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codRegiao" [disabled]="!regioes.length">
+                        <mat-select class="min-h-10" formControlName="codRegiao" [disabled]="!regioes?.length">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="regioesFiltro" placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
@@ -116,7 +116,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('tipo de rota') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codTipoRota" [disabled]="!tiposRota.length">
+                        <mat-select class="min-h-10" formControlName="codTipoRota" [disabled]="!tiposRota?.length">
                             <mat-option *ngFor="let tipoRota of tiposRota" [value]="tipoRota.codTipoRota">
                                 {{ tipoRota.nomeTipoRota }}
                             </mat-option>
@@ -142,7 +142,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('pais') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codPais" [disabled]="!paises.length">
+                        <mat-select class="min-h-10" formControlName="codPais" [disabled]="!paises?.length">
                             <mat-option *ngFor="let pais of paises" [value]="pais.codPais">
                                 {{ pais.nomePais }}
                             </mat-option>
@@ -154,7 +154,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('unidade federativa') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codUF" [disabled]="!ufs.length">
+                        <mat-select class="min-h-10" formControlName="codUF" [disabled]="!ufs?.length">
                             <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
                                 {{ uf.siglaUF }}
                             </mat-option>
@@ -166,7 +166,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cidade') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codCidade" [disabled]="!cidades.length">
+                        <mat-select class="min-h-10" formControlName="codCidade" [disabled]="!cidades?.length">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="cidadesFiltro" placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SAT.MODELS;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SAT.API.Controllers

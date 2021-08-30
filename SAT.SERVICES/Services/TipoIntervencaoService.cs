@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public TipoIntervencao Criar(TipoIntervencao tipoIntervencao)
         {
-            tipoIntervencao.CodTipoIntervencao = _seqRepo.ObterContador("TipoIntervencao";
+            tipoIntervencao.CodTipoIntervencao = _seqRepo.ObterContador("TipoIntervencao");
             _tiposIntervencaoRepo.Criar(tipoIntervencao);
             return tipoIntervencao;
         }

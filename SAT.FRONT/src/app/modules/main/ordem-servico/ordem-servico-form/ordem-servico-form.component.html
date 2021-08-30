@@ -44,7 +44,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tipo de intervencao') }}</mat-label>
 
-                        <mat-select formControlName="codTipoIntervencao" [disabled]="!tiposIntervencao.length">
+                        <mat-select formControlName="codTipoIntervencao" [disabled]="!tiposIntervencao?.length">
                             <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
                                 [value]="tipoIntervencao.codTipoIntervencao">
                                 {{tipoIntervencao.nomTipoIntervencao}}
@@ -57,7 +57,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
 
-                        <mat-select formControlName="codCliente" [disabled]="!clientes.length">
+                        <mat-select formControlName="codCliente" [disabled]="!clientes?.length">
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                 {{cliente.nomeFantasia}}
                             </mat-option>
@@ -76,7 +76,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('local de atendimento') }}</mat-label>
 
-                        <mat-select formControlName="codPosto" [disabled]="!locais.length">
+                        <mat-select formControlName="codPosto" [disabled]="!locais?.length">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="locaisFiltro" [searching]="searching"
                                     placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
@@ -97,7 +97,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento contrato') }}</mat-label>
 
-                        <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato.length">
+                        <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato?.length">
 
                             <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
                                 [value]="equipamentoContrato.codEquipContrato">
@@ -174,7 +174,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('autorizada') }}</mat-label>
 
-                        <mat-select formControlName="codAutorizada" [disabled]="!autorizadas.length">
+                        <mat-select formControlName="codAutorizada" [disabled]="!autorizadas?.length">
                             <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
                                 {{ autorizada.nomeFantasia }}
                             </mat-option>
@@ -186,7 +186,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('regiao') }}</mat-label>
 
-                        <mat-select formControlName="codRegiao" [disabled]="!regioes.length">
+                        <mat-select formControlName="codRegiao" [disabled]="!regioes?.length">
 
                             <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
                                 {{ regiao.nomeRegiao }}

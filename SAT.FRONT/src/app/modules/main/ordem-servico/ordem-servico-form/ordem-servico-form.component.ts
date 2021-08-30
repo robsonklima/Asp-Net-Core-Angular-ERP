@@ -242,7 +242,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Alerta de POG
   private async obterLocaisAoInformarAgenciaEPosto() {
     this.form.controls['agenciaPosto'].valueChanges.pipe(
       filter(query => !!query),
@@ -274,8 +273,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
           sortDirection: 'asc',
           indAtivo: 1,
           pageSize: 10,
-          //numAgencia: agencia,
-          //dcPosto: posto,
+          numAgencia: agencia,
+          dcPosto: posto,
           codCliente: this.form.controls['codCliente'].value
         }).toPromise();
 

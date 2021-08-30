@@ -67,9 +67,8 @@ namespace SAT.INFRA.Repositories
                 .Include(os => os.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.EquipamentoContrato.Contrato)
-                .Include(os => os.Fotos)
-                .Include(os => os.Agendamentos)
                 .Include(os => os.PrazosAtendimento)
+
                 .AsQueryable();
 
             if (parameters.CodOS != null)
@@ -227,7 +226,7 @@ namespace SAT.INFRA.Repositories
                 .Include(os => os.EquipamentoContrato.Contrato)
                 .Include(os => os.Fotos)
                 .Include(os => os.Agendamentos)
-                .Include(os => os.PrazosAtendimento)
+              //  .Include(os => os.PrazosAtendimento)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.ProtocolosSTN)
                 .Include(os => os.RelatoriosAtendimento)
@@ -254,17 +253,6 @@ namespace SAT.INFRA.Repositories
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;
-        }
-
-        public IEnumerable<OrdemServico> ObterTodos()
-        {
-            return _context.OrdemServico
-                .Include(os => os.TipoIntervencao)
-                .Include(os => os.StatusServico)
-                .Include(os => os.Filial)
-                .Include(os => os.Cliente)
-                .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.Tecnico);
         }
     }
 }

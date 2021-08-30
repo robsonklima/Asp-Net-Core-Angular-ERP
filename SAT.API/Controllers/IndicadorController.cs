@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace SAT.API.Controllers
@@ -23,7 +22,7 @@ namespace SAT.API.Controllers
         [HttpGet]
         public List<Indicador> ObterIndicadores([FromQuery] IndicadorParameters parameters)
         {
-            return _indicadorService.ObterIndicadoresOrdemServico(parameters);
+            return _indicadorService.ObterIndicadores(parameters);
         }
     }
 }

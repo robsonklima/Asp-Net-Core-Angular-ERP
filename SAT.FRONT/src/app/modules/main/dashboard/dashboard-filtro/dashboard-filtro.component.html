@@ -16,12 +16,54 @@
             <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('periodo') }}</mat-label>
-                    <mat-date-range-input [rangePicker]="pickerPeriodo">
-                        <input formControlName="periodoInicio" matStartDate placeholder="Início">
-                        <input formControlName="periodoFim" matEndDate placeholder="Fim">
+                    <mat-date-range-input [rangePicker]="pickerData">
+                        <input formControlName="dataInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataFim" matEndDate placeholder="Fim">
                     </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="pickerPeriodo"></mat-datepicker-toggle>
-                    <mat-date-range-picker #pickerPeriodo></mat-date-range-picker>
+                    <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerData></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('cliente') }}</mat-label>
+
+                    <mat-select formControlName="codClientes" multiple="true">
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                            {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="!usuarioSessao?.usuario?.filial?.codFilial">
+                    <mat-label>{{ t('filial') }}</mat-label>
+
+                    <mat-select formControlName="codFiliais" multiple="true">
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('status de servico') }}</mat-label>
+
+                    <mat-select formControlName="codStatusServicos" multiple="true">
+                        <mat-option *ngFor="let statusServico of statusServicos"
+                            [value]="statusServico.codStatusServico">
+                            {{ statusServico.nomeStatusServico }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
+
+                    <mat-select formControlName="codTiposIntervencao" multiple="true">
+                        <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
+                            [value]="tipoIntervencao.codTipoIntervencao">
+                            {{ tipoIntervencao.nomTipoIntervencao }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
 

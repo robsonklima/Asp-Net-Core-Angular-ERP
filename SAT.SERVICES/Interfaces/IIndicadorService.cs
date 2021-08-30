@@ -5,6 +5,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IIndicadorService
     {
-        List<Indicador> ObterIndicadoresOrdemServico(IndicadorParameters parameters);
+        List<Indicador> ObterIndicadores(IndicadorParameters parameters);
     }
 }

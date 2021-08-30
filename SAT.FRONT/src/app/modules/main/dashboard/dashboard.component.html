@@ -40,11 +40,11 @@
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 w-full">
                   <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
-                    <app-grafico-barras></app-grafico-barras>
+                    <app-grafico-misto></app-grafico-misto>
                   </div>
               
                   <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
-                    <app-grafico-linhas></app-grafico-linhas>
+                    <app-grafico-sla></app-grafico-sla>
                   </div>
                 </div>
               </ng-template>
@@ -113,7 +113,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
                       <app-grafico-treemap></app-grafico-treemap>
                       
-                      <app-grafico-area></app-grafico-area>
+
+                      <app-grafico-ordem-servico></app-grafico-ordem-servico>
                     </div>
                   </div>
                 </div>
@@ -123,11 +124,8 @@
             <mat-tab label="Pendência">
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    
-                      <app-grafico-misto></app-grafico-misto>
-                    
+                  <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <app-grafico-area></app-grafico-area>
                   </div>
                   
                   <!-- <div class="sm:col-span-3 lg:col-span-2 grid grid-cols-1 gap-y-6">

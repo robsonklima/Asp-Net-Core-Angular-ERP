@@ -11,6 +11,5 @@ namespace SAT.SERVICES.Interfaces
         void Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
-        IEnumerable<OrdemServico> ObterTodos();
     }
 }

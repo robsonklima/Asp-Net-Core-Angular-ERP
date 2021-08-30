@@ -6,8 +6,8 @@ namespace SAT.MODELS.Entities
     [NotMapped]
     public class Indicador
     {
-        public string Nome { get; set; }
+        public string Label { get; set; }
         public decimal Valor { get; set; }
-        public IEnumerable<Indicador> Filho { get; set; }
+        public List<Indicador> Filho { get; set; }
     }
 }

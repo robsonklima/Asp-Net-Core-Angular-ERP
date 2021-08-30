@@ -59,10 +59,5 @@ namespace SAT.SERVICES.Services
 
             return lista;
         }
-
-        public IEnumerable<OrdemServico> ObterTodos()
-        {
-            return _ordemServicoRepo.ObterTodos();
-        }
     }
 }

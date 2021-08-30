@@ -14,7 +14,7 @@ import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relato
 import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -35,7 +35,7 @@ import { TimeValidator } from 'app/core/validators/time.validator';
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   sidenav: MatSidenav;
-  sessionData: UsuarioSessionData;
+  sessionData: UsuarioSessao;
   codOS: number;
   ordemServico: OrdemServico;
   codRAT: number;

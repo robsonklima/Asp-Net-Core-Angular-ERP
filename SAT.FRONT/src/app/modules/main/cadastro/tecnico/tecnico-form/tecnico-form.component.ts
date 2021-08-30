@@ -22,7 +22,7 @@ import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.typ
 import { Regiao } from 'app/core/types/regiao.types';
 import { FrotaCobrancaGaragemEnum, FrotaFinalidadeUsoEnum, Tecnico } from 'app/core/types/tecnico.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -45,7 +45,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   ufs: UnidadeFederativa[] = [];
   cidades: Cidade[] = [];
   cidadesFiltro: FormControl = new FormControl();
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   frotaFinalidadesUso: any[] = [];
   frotaCobrancasGaragem: any[] = [];
   despesaCartoesCombustivel: DespesaCartaoCombustivel[] = [];

@@ -24,7 +24,7 @@ import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -50,7 +50,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
   locais: LocalAtendimento[] = [];
   locaisFiltro: FormControl = new FormControl();
   pontosEstrategicos: any [] =[]
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
   constructor(

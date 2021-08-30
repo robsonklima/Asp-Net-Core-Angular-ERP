@@ -9,7 +9,7 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 })
 export class OrdemServicoFiltroComponent implements OnInit {
   filtro: any;
-  sessioData: UsuarioSessionData;
+  sessioData: UsuarioSessao;
   @Input() sidenav: MatSidenav;
   form: FormGroup;
   filiais: Filial[] = [];

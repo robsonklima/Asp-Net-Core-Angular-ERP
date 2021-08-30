@@ -61,7 +61,7 @@ export interface UsuarioData extends Meta {
     items: Usuario[];
 };
 
-export interface UsuarioSessionData {
+export interface UsuarioSessao {
     usuario?: Usuario,
     navegacoes?: Navegacao[];
     filtros?: any[];

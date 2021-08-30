@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { UserService } from 'app/core/user/user.service';
     encapsulation: ViewEncapsulation.None
 })
 export class DefaultComponent {
-    sessionData: UsuarioSessionData;
+    sessionData: UsuarioSessao;
 
     constructor(
         private _userService: UserService

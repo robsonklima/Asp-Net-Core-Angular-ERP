@@ -24,7 +24,7 @@ import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { TipoRota, TipoRotaEnum } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
@@ -52,7 +52,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   tiposRota: TipoRota[] = [];
   filiais: Filial[] = [];
   equipamentosContrato: EquipamentoContrato[] = []; 
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
   constructor(

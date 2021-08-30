@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
@@ -15,11 +15,10 @@ import { UnidadeFederativa, UnidadeFederativaData } from 'app/core/types/unidade
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Cidade, CidadeData } from 'app/core/types/cidade.types';
 import { CidadeService } from 'app/core/services/cidade.service';
-import { TipoRota, TipoRotaData } from 'app/core/types/tipo-rota.types';
 import { TipoRotaService } from 'app/core/services/tipo-rota.services';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import moment from 'moment';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -32,7 +31,7 @@ export class AutorizadaFormComponent implements OnInit {
   isAddMode: boolean;
   form: FormGroup;
   autorizada: Autorizada;
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   filialFiltro: FormControl = new FormControl();
   cidadeFiltro: FormControl = new FormControl();
   tipoRotaFiltro: FormControl = new FormControl();

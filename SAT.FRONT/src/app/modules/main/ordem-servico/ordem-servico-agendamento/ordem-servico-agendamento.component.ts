@@ -7,7 +7,7 @@ import { MotivoAgendamentoService } from 'app/core/services/motivo-agendamento.s
 import { MotivoAgendamento, MotivoAgendamentoData, MotivoAgendamentoParameters } from 'app/core/types/motivo-agendamento.types';
 import { Agendamento } from 'app/core/types/agendamento.types';
 import { UserService } from 'app/core/user/user.service';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 
 @Component({
   selector: 'app-ordem-servico-agendamento',
@@ -17,7 +17,7 @@ export class OrdemServicoAgendamentoComponent implements OnInit {
   form: FormGroup;
   motivosAgendamento: MotivoAgendamento[] = [];
   motivoFilterCtrl: FormControl = new FormControl();
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   hoje: Moment = moment();
 
   constructor(

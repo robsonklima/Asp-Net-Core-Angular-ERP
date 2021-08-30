@@ -10,7 +10,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import moment from 'moment';
 import { UserService } from 'app/core/user/user.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -22,7 +22,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
   @Input() os: OrdemServico;
   tecnicos: Tecnico[];
   isLoading: boolean;
-  sessionData: UsuarioSessionData;
+  sessionData: UsuarioSessao;
 
   constructor(
     private _tecnicoService: TecnicoService,

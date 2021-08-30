@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PecaService } from 'app/core/services/peca.service';
-import { Peca, PecaParameters } from 'app/core/types/peca.types';
+import { Peca } from 'app/core/types/peca.types';
 import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca.type';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
 import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class RelatorioAtendimentoDetalhePecaFormComponent implements OnInit {
   pecas: Peca[] = [];
   pecasFiltro: FormControl = new FormControl();
   form: FormGroup;
-  sessionData: UsuarioSessionData;
+  sessionData: UsuarioSessao;
   raDetalhePeca: RelatorioAtendimentoDetalhePeca;
   protected _onDestroy = new Subject<void>();
 

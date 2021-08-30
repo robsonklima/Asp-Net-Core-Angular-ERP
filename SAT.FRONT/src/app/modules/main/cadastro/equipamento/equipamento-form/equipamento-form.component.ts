@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { Equipamento } from 'app/core/types/equipamento.types';
-import { UsuarioSessionData } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -19,7 +19,7 @@ export class EquipamentoFormComponent implements OnInit, OnDestroy {
   equipamento: Equipamento;
   isAddMode: boolean;
   form: FormGroup;
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
   constructor(

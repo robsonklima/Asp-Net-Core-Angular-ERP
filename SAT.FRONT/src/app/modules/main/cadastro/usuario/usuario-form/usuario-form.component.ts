@@ -10,19 +10,8 @@ import { FilialService } from 'app/core/services/filial.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
-import { TecnicoService } from 'app/core/services/tecnico.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
-import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
-import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
-import { DespesaCartaoCombustivel, DespesaCartaoCombustivelParameters } from 'app/core/types/despesa-cartao-combustivel.types';
-import { Filial, FilialParameters } from 'app/core/types/filial.types';
-import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
-import { Pais, PaisParameters } from 'app/core/types/pais.types';
-import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
-import { Regiao } from 'app/core/types/regiao.types';
-import { FrotaCobrancaGaragemEnum, FrotaFinalidadeUsoEnum, Tecnico } from 'app/core/types/tecnico.types';
-import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
-import { Usuario, UsuarioSessionData } from 'app/core/types/usuario.types';
+import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -38,7 +27,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   usuario: Usuario;
   isAddMode: boolean;
   form: FormGroup;
-  userSession: UsuarioSessionData;
+  userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
   constructor(

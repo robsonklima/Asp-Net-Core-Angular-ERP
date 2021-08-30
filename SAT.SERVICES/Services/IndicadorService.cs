@@ -17,10 +17,10 @@ namespace SAT.SERVICES.Services
             _osRepository = osRepository;
         }
 
-        public List<Indicador> ObterIndicadoresOrdemServico()
+        public List<Indicador> ObterIndicadoresOrdemServico(IndicadorParameters parameters)
         {
             List<Indicador> Indicadores = new List<Indicador>();
-            DateTime dataInicio = new DateTime(DateTime.Now.Year, 3, 1);
+            DateTime dataInicio = new DateTime(DateTime.Now.Year, 4, 1);
 
             var chamados = _osRepository
                 .ObterTodos()
@@ -40,11 +40,27 @@ namespace SAT.SERVICES.Services
                  })
                 .ToList();
 
-            Indicadores.Add(new Indicador()
+            switch (parameters.Agrupador)
             {
-                Nome = "OS",
-                Valor = chamados.Count()
-            });
+                case: "CLIENTE"
+                var clientes = chamados
+                .GroupBy(os => new { os.CodCliente, os.NomeFantasia })
+                .Select(os => new { cliente = os.Key, Count = os.Count() });
+
+                    foreach (var cliente in clientes)
+                    {
+                        Indicadores.Add(new Indicador()
+                        {
+                            Nome = cliente.cliente.NomeFantasia,
+                            Valor = cliente.Count
+                        });
+                    }
+
+                default:
+                    break;
+            }
+
+            
 
             return Indicadores;
         }

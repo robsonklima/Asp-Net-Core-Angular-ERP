@@ -79,23 +79,23 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
             y: el.valor
           });
         });
+        const cores = data.map(d => d.valor > 100 ? "#388E3C" : "#FFC107");
 
         this.haveData = true;
-        this.inicializarGrafico(gData);
+        this.inicializarGrafico(gData, cores);
       } 
 
       this.isLoading = false;
     }
   }
 
-  private inicializarGrafico(data: any[]) {
+  private inicializarGrafico(data: any[], cores: string[]) {
     this.chartOptions = {
       series: [
         {
           data: data
         }
       ],
-
       legend: {
         show: false
       },
@@ -104,8 +104,15 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
         type: "treemap"
       },
       title: {
-        //text: "Multi-dimensional Treemap",
+        text: "Chamados por Filial",
         align: "center"
+      },
+      colors: cores,
+      plotOptions: {
+        treemap: {
+          distributed: true,
+          enableShades: false
+        }
       }
     };
   }

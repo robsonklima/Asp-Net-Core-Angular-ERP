@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
@@ -12,6 +13,7 @@ import { TipoEquipamentoParameters } from 'app/core/types/tipo-equipamento.types
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-dashboard-filtro',
@@ -33,7 +35,8 @@ export class DashboardFiltroComponent implements OnInit {
     private _statusServicoService: StatusServicoService,
     private _filialService: FilialService,
     private _clienteService: ClienteService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _snack: CustomSnackbarService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
     this.filtro = this._userService.obterFiltro('dashboard');
@@ -128,8 +131,22 @@ export class DashboardFiltroComponent implements OnInit {
       parametros: form
     }
 
-    this._userService.registrarFiltro(filtro);
-    this.sidenav.close();
+    if (this.periodoValido(form.dataInicio, form.dataFim)) {
+      this._userService.registrarFiltro(filtro);
+      this.sidenav.close();
+    }
+  }
+
+  private periodoValido(dataInicio: string, dataFim: string): boolean {
+    var periodo = moment.duration(moment(dataFim).diff(moment(dataInicio)));
+    var meses = periodo.asMonths();
+
+    if (meses > 1) {
+      this._snack.exibirToast('Excedido período máximo de dois meses', 'error');
+      return false;
+    }
+
+    return true;
   }
 
   limpar(): void {

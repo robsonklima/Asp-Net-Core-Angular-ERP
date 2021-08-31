@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild } from "@angular/core";
 import { IndicadorService } from "app/core/services/indicador.service";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
@@ -42,7 +42,7 @@ export type ChartOptions = {
   selector: "app-grafico-sla-filial",
   templateUrl: "./grafico-sla-filial.component.html"
 })
-export class GraficoSLAFilialComponent {
+export class GraficoSLAFilialComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -58,6 +58,10 @@ export class GraficoSLAFilialComponent {
   }
 
   async ngOnInit() {
+    
+  }
+
+  ngOnChanges() {
     this.configurarFiltro();
     this.carregarGrafico();
   }
@@ -139,7 +143,7 @@ export class GraficoSLAFilialComponent {
         show: false
       },
       grid: {
-        show: false
+        show: true
       },
       xaxis: {
         categories: labels,
@@ -147,8 +151,11 @@ export class GraficoSLAFilialComponent {
           style: {
             colors: cores,
             fontSize: "12px"
-          }
+          },
         }
+      },
+      yaxis: {
+        max: 100
       }
     };
   }

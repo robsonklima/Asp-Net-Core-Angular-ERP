@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild } from "@angular/core";
 import { IndicadorService } from "app/core/services/indicador.service";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
@@ -28,7 +28,7 @@ export type ChartOptions = {
   selector: "app-grafico-ordem-servico-filial",
   templateUrl: "./grafico-ordem-servico-filial.component.html"
 })
-export class GraficoOrdemServicoFilialComponent {
+export class GraficoOrdemServicoFilialComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -38,16 +38,18 @@ export class GraficoOrdemServicoFilialComponent {
 
   constructor(
     private _indicadorService: IndicadorService,
-    private _userService: UserService,
-    private _cdr: ChangeDetectorRef
+    private _userService: UserService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
+    
+  }
+
+  ngOnChanges() {
     this.configurarFiltro();
     this.carregarGrafico();
-    this._cdr.detectChanges();
   }
 
   public async carregarGrafico() {

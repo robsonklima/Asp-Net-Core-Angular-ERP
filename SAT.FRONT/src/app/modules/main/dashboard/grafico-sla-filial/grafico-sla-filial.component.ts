@@ -15,24 +15,13 @@ import {
   ApexGrid
 } from "ng-apexcharts";
 
-type ApexXAxis = {
-  type?: "category" | "datetime" | "numeric";
-  categories?: any;
-  labels?: {
-    style?: {
-      colors?: string | string[];
-      fontSize?: string;
-    };
-  };
-};
-
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   yaxis: ApexYAxis;
-  xaxis: ApexXAxis;
+  xaxis: any;
   grid: ApexGrid;
   colors: string[];
   legend: ApexLegend;
@@ -82,8 +71,9 @@ export class GraficoSLAFilialComponent implements OnChanges {
     }
 
     if (this.filtro) {
-      const data = await this._indicadorService.obterPorParametros(params).toPromise();
-      
+      let data = await this._indicadorService.obterPorParametros(params).toPromise();
+      data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0))
+
       if (data.length) {
         const labels = data.map(d => d.label);
         const valores = data.map(d => d.valor);
@@ -132,8 +122,8 @@ export class GraficoSLAFilialComponent implements OnChanges {
         labels: {
           style: {
             colors: cores,
-            fontSize: "12px"
-          },
+            fontSize: "10px"
+          }
         }
       },
       yaxis: {

@@ -132,7 +132,7 @@ export class GraficoSLAClienteComponent implements OnChanges {
         labels: {
           style: {
             colors: cores,
-            fontSize: "12px"
+            fontSize: "10px"
           }
         }
       },

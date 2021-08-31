@@ -83,11 +83,13 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
 
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
+      console.log(data);
+      
 
       if (data?.length) {
         const labels = data.map(d => d.label.split(" ").shift());
         const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");
+        const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
         this.haveData = true;
         this.inicializarGrafico(labels, valores, cores);
       } 
@@ -125,7 +127,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
         show: false
       },
       grid: {
-        show: false
+        show: true
       },
       xaxis: {
         categories: labels,
@@ -137,7 +139,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 100,
+        max: 30,
         labels: {
           formatter: (value) => {
             return (value + "%").replace('.', ',');

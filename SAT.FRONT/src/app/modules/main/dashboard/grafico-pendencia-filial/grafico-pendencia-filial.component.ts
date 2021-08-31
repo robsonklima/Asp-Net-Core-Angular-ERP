@@ -74,7 +74,7 @@ export class GraficoPendenciaFilialComponent implements OnChanges {
 
         const labels = data.map(d => d.label);
         const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");
+        const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
         this.haveData = true;
         this.inicializarGrafico(labels, valores, cores);
       } 
@@ -94,9 +94,7 @@ export class GraficoPendenciaFilialComponent implements OnChanges {
       chart: {
         height: 350,
         type: "bar",
-        events: {
-          click: (chart, w, e) => {}
-        }
+        events: {}
       },
       colors: cores,
       plotOptions: {
@@ -124,7 +122,7 @@ export class GraficoPendenciaFilialComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 100,
+        max: 30,
         labels: {
           formatter: (value) => {
             return (value + "%").replace('.', ',');

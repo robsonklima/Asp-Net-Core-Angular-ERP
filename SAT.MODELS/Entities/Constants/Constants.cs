@@ -9,6 +9,8 @@
         public static int AGUARDANDO_DECLARACAO = 15;
         public static int CANCELADO_COM_ATENDIMENTO = 16;
         public static int FECHADO = 3;
+        public static int PECAS_PENDENTES = 7;
+
 
         // Mensagens
         public static string NAO_FOI_POSSIVEL_DELETAR = "Não foi possível deletar o registro";

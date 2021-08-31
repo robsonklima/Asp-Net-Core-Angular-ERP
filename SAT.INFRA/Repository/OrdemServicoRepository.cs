@@ -68,6 +68,7 @@ namespace SAT.INFRA.Repositories
                 .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.EquipamentoContrato.Contrato)
                 .Include(os => os.PrazosAtendimento)
+                .Include(os => os.RelatoriosAtendimento)
                 .AsQueryable();
 
             if (parameters.CodOS != null)

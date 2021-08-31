@@ -84,7 +84,7 @@ export class GraficoSLAClienteComponent implements OnChanges {
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
 
-      if (data.length) {
+      if (data?.length) {
         const labels = data.map(d => d.label.split(" ").shift());
         const valores = data.map(d => d.valor);
         const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");

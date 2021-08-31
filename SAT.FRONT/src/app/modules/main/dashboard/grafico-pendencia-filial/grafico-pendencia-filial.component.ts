@@ -28,10 +28,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: "app-grafico-sla-filial",
-  templateUrl: "./grafico-sla-filial.component.html"
+  selector: "app-grafico-pendencia-filial",
+  templateUrl: "./grafico-pendencia-filial.component.html"
 })
-export class GraficoSLAFilialComponent implements OnChanges {
+export class GraficoPendenciaFilialComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -56,7 +56,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
     const params: IndicadorParameters = {
       ...{
         agrupador: IndicadorAgrupadorEnum.FILIAL,
-        tipo: IndicadorTipoEnum.SLA,
+        tipo: IndicadorTipoEnum.PENDENCIA,
       },
       ...this.filtro?.parametros
     }
@@ -68,7 +68,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
 
     if (this.filtro) {
       let data = await this._indicadorService.obterPorParametros(params).toPromise();
-      
+
       if (data?.length) {
         data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
 

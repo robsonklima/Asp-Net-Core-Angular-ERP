@@ -70,7 +70,7 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
       
-      if (data.length) {
+      if (data?.length) {
         let gData: any[] = [];
 
         data.forEach(el => {

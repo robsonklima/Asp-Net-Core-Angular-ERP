@@ -16,20 +16,24 @@ import { GraficoOrdemServicoClienteComponent } from './grafico-ordem-servico-cli
 import { GraficoOrdemServicoFilialComponent } from './grafico-ordem-servico-filial/grafico-ordem-servico-filial.component';
 import { GraficoSLAFilialComponent } from './grafico-sla-filial/grafico-sla-filial.component';
 import { GraficoSLAClienteComponent } from './grafico-sla-cliente/grafico-sla-cliente.component';
-import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { GraficoOrdemServicoDataComponent } from './grafico-ordem-servico-data/grafico-ordem-servico-data.component';
+import { GraficoPendenciaClienteComponent } from './grafico-pendencia-cliente/grafico-pendencia-cliente.component';
+import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/grafico-pendencia-filial.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     GraficoOrdemServicoClienteComponent,
     GraficoOrdemServicoFilialComponent,
-    GraficoAreaComponent,
+    GraficoOrdemServicoDataComponent,
+    GraficoPendenciaClienteComponent,
+    GraficoPendenciaFilialComponent,
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
     DashboardFiltroComponent

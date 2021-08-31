@@ -37,6 +37,20 @@
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
           <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+            <mat-tab label="Pendência">
+              <ng-template matTabContent>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 w-full">
+                  <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
+                    <app-grafico-pendencia-filial [filtro]="filtro"></app-grafico-pendencia-filial>
+                  </div>
+              
+                  <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
+                    <app-grafico-pendencia-cliente [filtro]="filtro"></app-grafico-pendencia-cliente>
+                  </div>
+                </div>
+              </ng-template>
+            </mat-tab>
+
             <mat-tab label="SLA">
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 w-full">
@@ -64,17 +78,7 @@
                 </div>
 
                 <div class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mt-8">
-                  <app-grafico-area></app-grafico-area>
-                </div>
-              </ng-template>
-            </mat-tab>
-
-            <mat-tab label="Pendência">
-              <ng-template matTabContent>
-                <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
-                  <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <p>Em desenvolvimento.</p>
-                  </div>
+                  <app-grafico-ordem-servico-data [filtro]="filtro"></app-grafico-ordem-servico-data>
                 </div>
               </ng-template>
             </mat-tab>

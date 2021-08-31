@@ -26,6 +26,10 @@ namespace SAT.SERVICES.Services
                     return ObterIndicadorOrdemServico(parameters);
                 case IndicadorTipoEnum.SLA:
                     return ObterIndicadorSLA(parameters);
+                case IndicadorTipoEnum.PENDENCIA:
+                    return null;
+                case IndicadorTipoEnum.REINCIDENCIA:
+                    return null;
                 default:
                     return null;
             }
@@ -46,87 +50,14 @@ namespace SAT.SERVICES.Services
                 PageSize = Int32.MaxValue
             }).Where(w => w.PrazosAtendimento.Count > 0);
 
-
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    var clientes = chamados
-                        .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                        .Select(os => new { cliente = os.Key, Count = os.Count() });
-
-                    foreach (var c in clientes)
-                    {
-                        var dentro = chamados
-                            .Where(
-                                os => os.PrazosAtendimento
-                                    .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                                    .FirstOrDefault().DataHoraLimiteAtendimento >= os.DataHoraFechamento
-                                && os.CodCliente == c.cliente.CodCliente
-                            )
-                            .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                            .Select(os => new { d = os.Key, Count = os.Count() });
-
-                        var fora = chamados
-                            .Where(
-                                os => os.PrazosAtendimento
-                                    .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                                    .FirstOrDefault().DataHoraLimiteAtendimento < os.DataHoraFechamento
-                                && os.CodCliente == c.cliente.CodCliente
-                            )
-                            .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                            .Select(os => new { f = os.Key, Count = os.Count() });
-
-                        var d = dentro.Sum(d => d.Count);
-                        var f = fora.Sum(d => d.Count);
-                        var p = (Convert.ToDecimal(d) / (f + d)) * 100;
-
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = c.cliente.NomeFantasia,
-                            Valor = decimal.Round(p, 2, MidpointRounding.AwayFromZero)
-                        });
-                    }
-
+                    Indicadores = ObterIndicadorSLACliente(chamados);
                     break;
 
                 case IndicadorAgrupadorEnum.FILIAL:
-                    var filiais = chamados
-                       .GroupBy(os => new { os.Filial.CodFilial, os.Filial.NomeFilial })
-                       .Select(os => new { filial = os.Key, Count = os.Count() });
-
-                    foreach (var filial in filiais)
-                    {
-                        var dentro = chamados
-                            .Where(
-                                os => os.PrazosAtendimento
-                                    .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                                    .FirstOrDefault().DataHoraLimiteAtendimento >= os.DataHoraFechamento
-                                && os.CodFilial == filial.filial.CodFilial
-                            )
-                            .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                            .Select(os => new { d = os.Key, Count = os.Count() });
-
-                        var fora = chamados
-                            .Where(
-                                os => os.PrazosAtendimento
-                                    .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                                    .FirstOrDefault().DataHoraLimiteAtendimento < os.DataHoraFechamento
-                                && os.CodCliente == filial.filial.CodFilial
-                            )
-                            .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                            .Select(os => new { f = os.Key, Count = os.Count() });
-
-                        var d = dentro.Sum(d => d.Count);
-                        var f = fora.Sum(d => d.Count);
-                        var p = (Convert.ToDecimal(d) / (f + d)) * 100;
-
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = filial.filial.NomeFilial,
-                            Valor = decimal.Round(p, 2, MidpointRounding.AwayFromZero)
-                        });
-                    }
-
+                    Indicadores = ObterIndicadorSLAFilial(chamados);
                     break;
                 default:
                     break;
@@ -137,8 +68,6 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorOrdemServico(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
-
             var chamados = _osRepository.ObterPorParametros(new OrdemServicoParameters()
             {
                 DataAberturaInicio = parameters.DataInicio,
@@ -153,70 +82,226 @@ namespace SAT.SERVICES.Services
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    var clientes = chamados
-                        .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                        .Select(os => new { cliente = os.Key, Count = os.Count() });
-
-                    foreach (var cliente in clientes)
-                    {
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = cliente.cliente.NomeFantasia,
-                            Valor = cliente.Count
-                        });
-                    }
-
-                    break;
-
+                    return ObterIndicadorOrdemServicoCliente(chamados);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    var filiais = chamados
+                    return ObterIndicadorOrdemServicoFilial(chamados);
+                case IndicadorAgrupadorEnum.STATUS_SERVICO:
+                    return ObterIndicadorOrdemServicoStatusServico(chamados);
+                case IndicadorAgrupadorEnum.TIPO_INTERVENCAO:
+                    return ObterIndicadorOrdemServicoTipoIntervencao(chamados);
+                case IndicadorAgrupadorEnum.DATA:
+                    return ObterIndicadorOrdemServicoData(chamados);
+                default:
+                    return null;
+            }
+        }
+
+        private List<Indicador> ObterIndicadorSLACliente(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var clientes = chamados
+                .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                .Select(os => new { cliente = os.Key, Count = os.Count() });
+
+            foreach (var c in clientes)
+            {
+                var dentro = chamados
+                    .Where(
+                        os => os.PrazosAtendimento
+                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
+                            .FirstOrDefault().DataHoraLimiteAtendimento >= os.DataHoraFechamento
+                        && os.CodCliente == c.cliente.CodCliente
+                    )
+                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                    .Select(os => new { d = os.Key, Count = os.Count() });
+
+                var fora = chamados
+                    .Where(
+                        os => os.PrazosAtendimento
+                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
+                            .FirstOrDefault().DataHoraLimiteAtendimento < os.DataHoraFechamento
+                        && os.CodCliente == c.cliente.CodCliente
+                    )
+                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                    .Select(os => new { f = os.Key, Count = os.Count() });
+
+                var d = dentro.Sum(d => d.Count);
+                var f = fora.Sum(d => d.Count);
+                var s = f + d;
+                decimal p = 0;
+                if (s > 0)
+                {
+                    p = (Convert.ToDecimal(d) / (s)) * 100;
+                }
+                else
+                {
+                    p = 100;
+                }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = c.cliente.NomeFantasia,
+                    Valor = decimal.Round(p, 2, MidpointRounding.AwayFromZero)
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorSLAFilial(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var filiais = chamados
+                .Where(os => os.Filial != null)
+                .GroupBy(os => new { os.Filial.CodFilial, os.Filial.NomeFilial })
+                .Select(os => new { filial = os.Key, Count = os.Count() });
+
+            foreach (var filial in filiais)
+            {
+                var dentro = chamados
+                    .Where(
+                        os => os.PrazosAtendimento
+                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
+                            .FirstOrDefault().DataHoraLimiteAtendimento >= os.DataHoraFechamento
+                        && os.CodFilial == filial.filial.CodFilial
+                    )
+                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                    .Select(os => new { d = os.Key, Count = os.Count() });
+
+                var fora = chamados
+                    .Where(
+                        os => os.PrazosAtendimento
+                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
+                            .FirstOrDefault().DataHoraLimiteAtendimento < os.DataHoraFechamento
+                        && os.CodCliente == filial.filial.CodFilial
+                    )
+                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                    .Select(os => new { f = os.Key, Count = os.Count() });
+
+                var d = dentro.Sum(d => d.Count);
+                var f = fora.Sum(d => d.Count);
+                var s = f + d;
+                decimal p = 0;
+                if (s > 0)
+                {
+                    p = (Convert.ToDecimal(d) / (s)) * 100;
+                }
+                else
+                {
+                    p = 100;
+                }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = filial.filial.NomeFilial,
+                    Valor = decimal.Round(p, 2, MidpointRounding.AwayFromZero)
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorOrdemServicoFilial(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var filiais = chamados
+                        .Where(os => os.Filial != null)
                         .GroupBy(os => new { os.CodFilial, os.Filial.NomeFilial })
                         .Select(os => new { filial = os.Key, Count = os.Count() });
 
-                    foreach (var filial in filiais)
-                    {
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = filial.filial.NomeFilial,
-                            Valor = filial.Count
-                        });
-                    }
+            foreach (var filial in filiais)
+            {
+                Indicadores.Add(new Indicador()
+                {
+                    Label = filial.filial.NomeFilial,
+                    Valor = filial.Count
+                });
+            }
 
-                    break;
+            return Indicadores;
+        }
 
-                case IndicadorAgrupadorEnum.STATUS_SERVICO:
-                    var status = chamados
-                        .GroupBy(os => new { os.CodStatusServico, os.StatusServico.NomeStatusServico })
-                        .Select(os => new { status = os.Key, Count = os.Count() });
+        private List<Indicador> ObterIndicadorOrdemServicoCliente(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
 
-                    foreach (var st in status)
-                    {
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = st.status.NomeStatusServico,
-                            Valor = st.Count
-                        });
-                    }
+            var clientes = chamados
+                .Where(os => os.Cliente != null)
+                .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                .Select(os => new { cliente = os.Key, Count = os.Count() });
 
-                    break;
+            foreach (var cliente in clientes)
+            {
+                Indicadores.Add(new Indicador()
+                {
+                    Label = cliente.cliente.NomeFantasia,
+                    Valor = cliente.Count
+                });
+            }
 
-                case IndicadorAgrupadorEnum.TIPO_INTERVENCAO:
-                    var tipos = chamados
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorOrdemServicoData(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var datas = chamados
+                        .Where(os => os.DataHoraAberturaOS != null)
+                        .GroupBy(os => new { os.DataHoraAberturaOS.Value.Date })
+                        .Select(os => new { datas = os.Key, Count = os.Count() });
+
+            foreach (var data in datas)
+            {
+                Indicadores.Add(new Indicador()
+                {
+                    Label = data.datas.Date.ToString(),
+                    Valor = data.Count
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorOrdemServicoStatusServico(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var status = chamados
+                         .Where(os => os.Filial != null)
+                         .GroupBy(os => new { os.CodStatusServico, os.StatusServico.NomeStatusServico })
+                         .Select(os => new { status = os.Key, Count = os.Count() });
+
+            foreach (var st in status)
+            {
+                Indicadores.Add(new Indicador()
+                {
+                    Label = st.status.NomeStatusServico,
+                    Valor = st.Count
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorOrdemServicoTipoIntervencao(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var tipos = chamados
                         .GroupBy(os => new { os.CodTipoIntervencao, os.TipoIntervencao.NomTipoIntervencao })
                         .Select(os => new { tipos = os.Key, Count = os.Count() });
 
-                    foreach (var tipo in tipos)
-                    {
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = tipo.tipos.NomTipoIntervencao,
-                            Valor = tipo.Count
-                        });
-                    }
-
-                    break;
-                default:
-                    break;
+            foreach (var tipo in tipos)
+            {
+                Indicadores.Add(new Indicador()
+                {
+                    Label = tipo.tipos.NomTipoIntervencao,
+                    Valor = tipo.Count
+                });
             }
 
             return Indicadores;

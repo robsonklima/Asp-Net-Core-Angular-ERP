@@ -20,7 +20,8 @@ export enum IndicadorAgrupadorEnum
     CLIENTE,
     FILIAL,
     STATUS_SERVICO,
-    TIPO_INTERVENCAO
+    TIPO_INTERVENCAO,
+    DATA
 }
 export enum IndicadorTipoEnum
 {

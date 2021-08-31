@@ -85,9 +85,13 @@
 
             <mat-tab label="Reincidência">
               <ng-template matTabContent>
-                <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
-                  <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <p>Em desenvolvimento.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 w-full">
+                  <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
+                    <app-grafico-reincidencia-filial [filtro]="filtro"></app-grafico-reincidencia-filial>
+                  </div>
+              
+                  <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
+                    <app-grafico-reincidencia-cliente [filtro]="filtro"></app-grafico-reincidencia-cliente>
                   </div>
                 </div>
               </ng-template>

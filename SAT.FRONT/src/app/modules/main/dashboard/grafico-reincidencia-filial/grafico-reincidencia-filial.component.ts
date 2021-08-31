@@ -15,34 +15,23 @@ import {
   ApexGrid
 } from "ng-apexcharts";
 
-type ApexXAxis = {
-  type?: "category" | "datetime" | "numeric";
-  categories?: any;
-  labels?: {
-    style?: {
-      colors?: string | string[];
-      fontSize?: string;
-    };
-  };
-};
-
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   yaxis: ApexYAxis;
-  xaxis: ApexXAxis;
+  xaxis: any;
   grid: ApexGrid;
   colors: string[];
   legend: ApexLegend;
 };
 
 @Component({
-  selector: "app-grafico-pendencia-cliente",
-  templateUrl: "./grafico-pendencia-cliente.component.html"
+  selector: "app-grafico-reincidencia-filial",
+  templateUrl: "./grafico-reincidencia-filial.component.html"
 })
-export class GraficoPendenciaClienteComponent implements OnChanges {
+export class GraficoReincidenciaFilialComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -57,10 +46,6 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
-    
-  }
-
   ngOnChanges() {
     this.carregarGrafico();
   }
@@ -70,8 +55,8 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
 
     const params: IndicadorParameters = {
       ...{
-        agrupador: IndicadorAgrupadorEnum.CLIENTE,
-        tipo: IndicadorTipoEnum.PENDENCIA,
+        agrupador: IndicadorAgrupadorEnum.FILIAL,
+        tipo: IndicadorTipoEnum.REINCIDENCIA,
       },
       ...this.filtro?.parametros
     }
@@ -82,12 +67,14 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
     }
 
     if (this.filtro) {
-      const data = await this._indicadorService.obterPorParametros(params).toPromise();
+      let data = await this._indicadorService.obterPorParametros(params).toPromise();
 
       if (data?.length) {
-        const labels = data.map(d => d.label.split(" ").shift());
+        data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
+
+        const labels = data.map(d => d.label);
         const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
+        const cores = data.map(d => d.valor >= 35 ? "#FF4560" : "#26a69a");
         this.haveData = true;
         this.inicializarGrafico(labels, valores, cores);
       } 
@@ -107,9 +94,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
       chart: {
         height: 350,
         type: "bar",
-        events: {
-          click: function(chart, w, e) {}
-        }
+        events: {}
       },
       colors: cores,
       plotOptions: {
@@ -137,7 +122,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 30,
+        max: 100,
         labels: {
           formatter: (value) => {
             return (value + "%").replace('.', ',');

@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { GraficoOrdemServicoDataComponent } from './grafico-ordem-servico-data/grafico-ordem-servico-data.component';
 import { GraficoPendenciaClienteComponent } from './grafico-pendencia-cliente/grafico-pendencia-cliente.component';
 import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/grafico-pendencia-filial.component';
+import { GraficoReincidenciaClienteComponent } from './grafico-reincidencia-cliente/grafico-reincidencia-cliente.component';
+import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filial/grafico-reincidencia-filial.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/graf
     GraficoOrdemServicoDataComponent,
     GraficoPendenciaClienteComponent,
     GraficoPendenciaFilialComponent,
+    GraficoReincidenciaClienteComponent,
+    GraficoReincidenciaFilialComponent,
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
     DashboardFiltroComponent

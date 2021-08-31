@@ -411,12 +411,72 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorReincidenciaFilial(IEnumerable<OrdemServico> chamados)
         {
-            throw new NotImplementedException();
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var filiais = chamados
+                .Where(os => os.Filial != null)
+                .GroupBy(os => new { os.CodFilial, os.Filial.NomeFilial })
+                .Select(os => new { filial = os.Key, Count = os.Count() });
+
+            foreach (var f in filiais)
+            {
+                var osEquipamento = chamados
+                    .Where(os => os.CodFilial == f.filial.CodFilial)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new { equip = os.Key, Count = os.Count() });
+
+                int reinc = 0;
+                foreach (var os in osEquipamento)
+                {
+                    if (os.Count > 0)
+                    {
+                        reinc += os.Count - 1;
+                    }
+                }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = f.filial.NomeFilial,
+                    Valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero)
+                });
+            }
+
+            return Indicadores;
         }
 
         private List<Indicador> ObterIndicadorReincidenciaCliente(IEnumerable<OrdemServico> chamados)
         {
-            throw new NotImplementedException();
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var clientes = chamados
+                .Where(os => os.Cliente != null)
+                .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                .Select(os => new { cliente = os.Key, Count = os.Count() });
+
+            foreach (var c in clientes)
+            {
+                var osEquipamento = chamados
+                    .Where(os => os.CodCliente == c.cliente.CodCliente)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new { equip = os.Key, Count = os.Count() });
+
+                int reinc = 0;
+                foreach (var os in osEquipamento)
+                {
+                    if (os.Count > 0)
+                    {
+                        reinc += os.Count - 1;
+                    }
+                }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = c.cliente.NomeFantasia,
+                    Valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero)
+                });
+            }
+
+            return Indicadores;
         }
     }
 }

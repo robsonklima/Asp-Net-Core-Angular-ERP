@@ -39,10 +39,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: "app-grafico-pendencia-cliente",
-  templateUrl: "./grafico-pendencia-cliente.component.html"
+  selector: "app-grafico-reincidencia-cliente",
+  templateUrl: "./grafico-reincidencia-cliente.component.html"
 })
-export class GraficoPendenciaClienteComponent implements OnChanges {
+export class GraficoReincidenciaClienteComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -71,7 +71,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
     const params: IndicadorParameters = {
       ...{
         agrupador: IndicadorAgrupadorEnum.CLIENTE,
-        tipo: IndicadorTipoEnum.PENDENCIA,
+        tipo: IndicadorTipoEnum.REINCIDENCIA,
       },
       ...this.filtro?.parametros
     }
@@ -87,7 +87,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
       if (data?.length) {
         const labels = data.map(d => d.label.split(" ").shift());
         const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
+        const cores = data.map(d => d.valor >= 35 ? "#FF4560" : "#26a69a");
         this.haveData = true;
         this.inicializarGrafico(labels, valores, cores);
       } 
@@ -137,7 +137,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 30,
+        max: 100,
         labels: {
           formatter: (value) => {
             return (value + "%").replace('.', ',');

@@ -5,7 +5,8 @@ import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;

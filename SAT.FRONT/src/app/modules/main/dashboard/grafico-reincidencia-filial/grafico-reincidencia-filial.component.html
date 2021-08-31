@@ -1,0 +1,36 @@
+<div>
+    <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                Reincidência por Filial
+            </div>
+            <div class="font-medium text-secondary">
+                {{ filtro?.parametros.dataInicio | date:'dd/MM/yy' }} até 
+                {{ filtro?.parametros.dataFim | date:'dd/MM/yy' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="items-center justify-center h-90">
+        <apx-chart
+            *ngIf="!isLoading && haveData"
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions"
+            [yaxis]="chartOptions.yaxis"
+            [xaxis]="chartOptions.xaxis"
+            [legend]="chartOptions.legend"
+            [colors]="chartOptions.colors"
+            [grid]="chartOptions.grid"
+        ></apx-chart>
+          
+        <div *ngIf="!isLoading && !haveData" class="flex flex-col flex-auto items-center justify-center h-90">
+            Nenhum registro encontrado.
+        </div>
+    
+        <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center h-90">
+            <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
+    </div>
+</div>

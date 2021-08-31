@@ -2,6 +2,9 @@ import { Layout } from 'app/layout/layout.types';
 
 export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
+export type Api = 'https://localhost:44341/api' | 
+                  'https://sat.perto.com.br/SAT.V2.API/api' |
+                  'https://apisat-homologacao.perto.com.br/api' | string;
 
 export interface AppConfig
 {
@@ -9,7 +12,7 @@ export interface AppConfig
     scheme: Scheme;
     theme: Theme;
     google_key: string;
-    api: string;
+    api: Api;
     map_quest_keys: string[];
     tipo_intervencao: any;
     status_servico: any;
@@ -20,7 +23,6 @@ export const appConfig: AppConfig = {
     scheme: 'light',
     theme : 'brand',
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
-    //api: 'https://sat.perto.com.br/SAT.V2.API/api',
     api: 'https://localhost:44341/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',

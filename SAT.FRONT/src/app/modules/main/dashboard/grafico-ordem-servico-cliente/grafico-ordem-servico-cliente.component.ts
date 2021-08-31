@@ -47,12 +47,10 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
-    
-  }
-
   ngOnChanges() {
-    this.carregarGrafico();
+    if (this.filtro) {
+      this.carregarGrafico();
+    }
   }
 
   public async carregarGrafico() {
@@ -65,12 +63,7 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
       },
       ...this.filtro?.parametros
     }
-
-    if (!params.dataInicio || !params.dataFim) {
-      params.dataInicio = moment().startOf('month').format('YYYY-MM-DD 00:00');
-      params.dataFim = moment().endOf('month').format('YYYY-MM-DD 23:59');
-    }
-
+    
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
       

@@ -4,7 +4,7 @@
             <div class="text-lg font-medium tracking-tight leading-6 truncate">
                 Chamados por Filial
             </div>
-            <div class="font-medium text-secondary">
+            <div class="font-medium text-secondary" *ngIf="!isLoading && haveData">
                 {{ filtro?.parametros.dataInicio | date:'dd/MM/yy' }} até 
                 {{ filtro?.parametros.dataFim | date:'dd/MM/yy' }}
             </div>
@@ -22,7 +22,7 @@
             [legend]="chartOptions.legend"
         ></apx-chart>
 
-        <div *ngIf="!isLoading && !haveData" class="flex flex-col flex-auto items-center justify-center h-90">
+        <div *ngIf="!isLoading && !haveData || !filtro" class="flex flex-col flex-auto items-center justify-center h-90">
             Nenhum registro encontrado.
         </div>
         

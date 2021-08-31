@@ -51,11 +51,6 @@ export class GraficoOrdemServicoDataComponent implements OnChanges {
       ...this.filtro?.parametros
     }
 
-    if (!params.dataInicio || !params.dataFim) {
-      params.dataInicio = moment().startOf('month').format('YYYY-MM-DD 00:00');
-      params.dataFim = moment().endOf('month').format('YYYY-MM-DD 23:59');
-    }
-
     if (this.filtro) {
       let data = await this._indicadorService.obterPorParametros(params).toPromise();
       

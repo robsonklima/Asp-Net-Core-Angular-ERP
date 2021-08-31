@@ -4,7 +4,7 @@
             <div class="text-lg font-medium tracking-tight leading-6 truncate">
                 Chamados por Data
             </div>
-            <div class="font-medium text-secondary">
+            <div class="font-medium text-secondary" *ngIf="!isLoading && haveData">
                 {{ filtro?.parametros.dataInicio | date:'dd/MM/yy' }} até 
                 {{ filtro?.parametros.dataFim | date:'dd/MM/yy' }}
             </div>
@@ -21,6 +21,10 @@
             [tooltip]="chartOptions.tooltip"
             [dataLabels]="chartOptions.dataLabels"
         ></apx-chart>
+
+        <div *ngIf="!isLoading && !haveData || !filtro" class="flex flex-col flex-auto items-center justify-center h-90">
+            Nenhum registro encontrado.
+        </div>
 
         <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center h-90">
             <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>

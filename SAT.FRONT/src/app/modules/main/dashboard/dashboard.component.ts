@@ -18,7 +18,6 @@ export class DashboardComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
-    
   }
 
   async ngAfterViewInit() {

@@ -47,7 +47,9 @@ export class GraficoSLAFilialComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.carregarGrafico();
+    if (this.filtro) {
+      this.carregarGrafico();
+    }
   }
 
   public async carregarGrafico() {
@@ -59,11 +61,6 @@ export class GraficoSLAFilialComponent implements OnChanges {
         tipo: IndicadorTipoEnum.SLA,
       },
       ...this.filtro?.parametros
-    }
-
-    if (!params.dataInicio || !params.dataFim) {
-      params.dataInicio = moment().startOf('month').format('YYYY-MM-DD 00:00');
-      params.dataFim = moment().endOf('month').format('YYYY-MM-DD 23:59');
     }
 
     if (this.filtro) {

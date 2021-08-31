@@ -12,12 +12,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GraficoOrdemServicoComponent } from './grafico-ordem-servico/grafico-ordem-servico.component';
+import { GraficoOrdemServicoClienteComponent } from './grafico-ordem-servico-cliente/grafico-ordem-servico-cliente.component';
+import { GraficoOrdemServicoFilialComponent } from './grafico-ordem-servico-filial/grafico-ordem-servico-filial.component';
+import { GraficoSLAFilialComponent } from './grafico-sla-filial/grafico-sla-filial.component';
+import { GraficoSLAClienteComponent } from './grafico-sla-cliente/grafico-sla-cliente.component';
 import { GraficoLinhasComponent } from './grafico-linhas/grafico-linhas.component';
 import { GraficoMistoComponent } from './grafico-misto/grafico-misto.component';
 import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
 import { GraficoTreemapComponent } from './grafico-treemap/grafico-treemap.component';
-import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,12 +30,14 @@ import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     DashboardComponent,
-    GraficoOrdemServicoComponent,
+    GraficoOrdemServicoClienteComponent,
+    GraficoOrdemServicoFilialComponent,
     GraficoLinhasComponent,
     GraficoMistoComponent,
     GraficoAreaComponent,
     GraficoTreemapComponent,
-    GraficoSLAComponent,
+    GraficoSLAClienteComponent,
+    GraficoSLAFilialComponent,
     DashboardFiltroComponent
   ],
   imports: [

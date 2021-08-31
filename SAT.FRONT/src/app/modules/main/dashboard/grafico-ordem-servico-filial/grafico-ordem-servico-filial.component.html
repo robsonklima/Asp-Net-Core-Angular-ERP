@@ -1,12 +1,13 @@
 <div>
     <div class="flex items-center justify-between">
-        <div class="flex flex-col">
-        <div class="text-lg font-medium tracking-tight leading-6 truncate">
-            Gráfico
-        </div>
-        <div class="font-medium text-secondary">
-            Subtítulo do Gráfico
-        </div>
+        <div class="flex flex-col -mt-2 mb-4">
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                Chamados por Filial
+            </div>
+            <div class="font-medium text-secondary">
+                {{ filtro?.parametros.dataInicio | date:'dd/MM/yyyy' }} até 
+                {{ filtro?.parametros.dataFim | date:'dd/MM/yyyy' }}
+            </div>
         </div>
     </div>
     
@@ -17,10 +18,8 @@
             [chart]="chartOptions.chart"
             [dataLabels]="chartOptions.dataLabels"
             [plotOptions]="chartOptions.plotOptions"
-            [yaxis]="chartOptions.yaxis"
-            [xaxis]="chartOptions.xaxis"
-            [fill]="chartOptions.fill"
             [title]="chartOptions.title"
+            [legend]="chartOptions.legend"
         ></apx-chart>
 
         <div *ngIf="!isLoading && !haveData" class="flex flex-col flex-auto items-center justify-center h-90">

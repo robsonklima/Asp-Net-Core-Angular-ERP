@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import { IndicadorService } from "app/core/services/indicador.service";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
@@ -28,12 +28,12 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: "app-grafico-ordem-servico",
-  templateUrl: "./grafico-ordem-servico.component.html"
+  selector: "app-grafico-ordem-servico-cliente",
+  templateUrl: "./grafico-ordem-servico-cliente.component.html"
 })
-export class GraficoOrdemServicoComponent {
+export class GraficoOrdemServicoClienteComponent {
   @ViewChild("chart") chart: ChartComponent;
-  filtro: any;
+  @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
   public chartOptions: Partial<ChartOptions>;
   isLoading: boolean;
@@ -44,12 +44,11 @@ export class GraficoOrdemServicoComponent {
     private _userService: UserService,
     private _cdr: ChangeDetectorRef
   ) {
-    this.filtro = this._userService.obterFiltro('dashboard');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.carregarFiltro();
+    this.configurarFiltro();
     this.carregarGrafico();
     this._cdr.detectChanges();
   }
@@ -62,7 +61,7 @@ export class GraficoOrdemServicoComponent {
         agrupador: IndicadorAgrupadorEnum.CLIENTE,
         tipo: IndicadorTipoEnum.ORDEM_SERVICO,
       },
-      ...this.filtro.parametros
+      ...this.filtro?.parametros
     }
 
     if (!params.dataInicio || !params.dataFim) {
@@ -72,7 +71,7 @@ export class GraficoOrdemServicoComponent {
 
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
-
+      
       if (data.length) {
         const labels = data.map(d => d.label);
         const valores = data.map(d => d.valor);
@@ -84,9 +83,7 @@ export class GraficoOrdemServicoComponent {
     }
   }
 
-  public carregarFiltro(): void {
-    this.filtro = this._userService.obterFiltro('dashboard');
-
+  public configurarFiltro(): void {
     if (!this.filtro) {
         return;
     }

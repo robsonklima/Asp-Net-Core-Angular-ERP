@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { IndicadorService } from "app/core/services/indicador.service";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
@@ -39,12 +39,12 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: "app-grafico-sla",
-  templateUrl: "./grafico-sla.component.html"
+  selector: "app-grafico-sla-filial",
+  templateUrl: "./grafico-sla-filial.component.html"
 })
-export class GraficoSLAComponent {
+export class GraficoSLAFilialComponent {
   @ViewChild("chart") chart: ChartComponent;
-  filtro: any;
+  @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
   public chartOptions: Partial<ChartOptions>;
   isLoading: boolean;
@@ -52,17 +52,14 @@ export class GraficoSLAComponent {
 
   constructor(
     private _indicadorService: IndicadorService,
-    private _userService: UserService,
-    private _cdr: ChangeDetectorRef
+    private _userService: UserService
   ) {
-    this.filtro = this._userService.obterFiltro('dashboard');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.carregarFiltro();
+    this.configurarFiltro();
     this.carregarGrafico();
-    this._cdr.detectChanges();
   }
 
   public async carregarGrafico() {
@@ -70,10 +67,10 @@ export class GraficoSLAComponent {
 
     const params: IndicadorParameters = {
       ...{
-        agrupador: IndicadorAgrupadorEnum.CLIENTE,
+        agrupador: IndicadorAgrupadorEnum.FILIAL,
         tipo: IndicadorTipoEnum.SLA,
       },
-      ...this.filtro.parametros
+      ...this.filtro?.parametros
     }
 
     if (!params.dataInicio || !params.dataFim) {
@@ -96,9 +93,7 @@ export class GraficoSLAComponent {
     }
   }
 
-  public carregarFiltro(): void {
-    this.filtro = this._userService.obterFiltro('dashboard');
-
+  public configurarFiltro(): void {
     if (!this.filtro) {
         return;
     }

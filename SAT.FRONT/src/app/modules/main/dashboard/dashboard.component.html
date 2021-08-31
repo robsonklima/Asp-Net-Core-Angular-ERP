@@ -17,7 +17,8 @@
                 </ng-container>
                 <div class="flex items-center">
                   <div class="leading-6 truncate text-secondary">
-                    Indicadores, Métricas e Análise de Desempenho
+                    {{ filtro?.parametros.dataInicio | date:'dd/MM/yyyy' }} até 
+                    {{ filtro?.parametros.dataFim | date:'dd/MM/yyyy' }}
                   </div>
                 </div>
               </div>
@@ -40,11 +41,11 @@
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 w-full">
                   <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
-                    <app-grafico-misto></app-grafico-misto>
+                    <app-grafico-sla-filial [filtro]="filtro"></app-grafico-sla-filial>
                   </div>
               
                   <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-8">
-                    <app-grafico-sla></app-grafico-sla>
+                    <app-grafico-sla-cliente [filtro]="filtro"></app-grafico-sla-cliente>
                   </div>
                 </div>
               </ng-template>
@@ -53,69 +54,16 @@
             <mat-tab label="Chamados">
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                  <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Indicador</div>
-                    </div>
-                    <div class="flex flex-col items-center mt-2">
-                      <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
-                      <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Chamados</div>
-                      <div class="flex items-center justify-center w-full mt-5 text-secondary">
-                        <div class="text-md font-medium truncate">Atendidos:</div>
-                        <div class="ml-1.5 text-lg font-semibold">13</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Indicador</div>
-                    </div>
-                    <div class="flex flex-col items-center mt-2">
-                      <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">17</div>
-                      <div class="text-lg font-medium text-red-600 dark:text-red-500">Chamados</div>
-                      <div class="flex items-center justify-center w-full mt-5 text-secondary">
-                        <div class="text-md font-medium truncate">Fora do Prazo:</div>
-                        <div class="ml-1.5 text-lg font-semibold">9</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Indicador</div>
-                    </div>
-                    <div class="flex flex-col items-center mt-2">
-                      <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
-                      <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Chamados</div>
-                      <div class="flex items-center justify-center w-full mt-5 text-secondary">
-                        <div class="text-md font-medium truncate">Alerta:</div>
-                        <div class="ml-1.5 text-lg font-semibold">19</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Indicador</div>
-                    </div>
-                    <div class="flex flex-col items-center mt-2">
-                      <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">38</div>
-                      <div class="text-lg font-medium text-green-600 dark:text-green-500">Chamados</div>
-                      <div class="flex items-center justify-center w-full mt-5 text-secondary">
-                        <div class="text-md font-medium truncate">Cancelados:</div>
-                        <div class="ml-1.5 text-lg font-semibold">16</div>
-                      </div>
-                    </div>
-                  </div>
-                  
                   <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
-                      <app-grafico-treemap></app-grafico-treemap>
+                      <app-grafico-ordem-servico-filial [filtro]="filtro"></app-grafico-ordem-servico-filial>
                       
-
-                      <app-grafico-ordem-servico></app-grafico-ordem-servico>
+                      <app-grafico-ordem-servico-cliente [filtro]="filtro"></app-grafico-ordem-servico-cliente>
                     </div>
+                  </div>
+
+                  <div class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <app-grafico-area></app-grafico-area>
                   </div>
                 </div>
               </ng-template>
@@ -125,201 +73,27 @@
               <ng-template matTabContent>
                 <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
                   <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <app-grafico-area></app-grafico-area>
+                    <p>Em desenvolvimento.</p>
                   </div>
-                  
-                  <!-- <div class="sm:col-span-3 lg:col-span-2 grid grid-cols-1 gap-y-6">
-                    <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                      <div class="flex items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Detalhes</div>
-                      </div>
-                      <div class="flex items-center mt-1">
-                        <div class="flex flex-col">
-                          <div class="text-3xl font-semibold tracking-tight leading-tight">
-                            78
-                          </div>
-                          <div class="flex items-center">
-                            <mat-icon class="mr-1 icon-size-5 text-green-500" [svgIcon]="'heroicons_solid:trending-down'">
-                            </mat-icon>
-                            <div class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                              <span class="text-green-500">2%</span>
-                              status
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-col flex-auto ml-8">
+                </div>
+              </ng-template>
+            </mat-tab>
 
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                      <div class="flex items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Detalhes</div>
-                      </div>
-                      <div class="flex items-center mt-1">
-                        <div class="flex flex-col">
-                          <div class="text-3xl font-semibold tracking-tight leading-tight">
-                            98
-                          </div>
-                          <div class="flex items-center">
-                            <mat-icon class="mr-1 icon-size-5 text-red-500" [svgIcon]="'heroicons_solid:trending-up'">
-                            </mat-icon>
-                            <div class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                              <span class="text-red-500">4%</span>
-                              status
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-col flex-auto ml-8">
-
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                      <div class="flex items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Detalhes</div>
-                      </div>
-                      <div class="flex items-center mt-1">
-                        <div class="flex flex-col">
-                          <div class="text-3xl font-semibold tracking-tight leading-tight">
-                            100
-                          </div>
-                          <div class="flex items-center">
-                            <mat-icon class="mr-1 icon-size-5 text-red-500" [svgIcon]="'heroicons_solid:trending-up'">
-                            </mat-icon>
-                            <div class="font-medium text-sm text-secondary leading-none whitespace-nowrap">
-                              <span class="text-red-500">3%</span>
-                              status
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-col flex-auto ml-8">
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-
-                  <div
-                    class="sm:col-span-6 md:col-span-3 lg:col-span-3 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Lista</div>
-                    </div>
-                    <div class="flex flex-col mt-2 divide-y">
-                      <ng-container>
-                        <div class="flex flex-row items-center justify-between py-4 px-0.5">
-                          <div class="flex flex-col">
-                            <div class="font-medium">Nome do Item A</div>
-                            <div
-                              class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 1</div>
-                                </div>
-                              </ng-container>
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
-                                  </mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 2</div>
-                                </div>
-                              </ng-container>
-                            </div>
-                          </div>
-                          <button mat-icon-button>
-                            <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                          </button>
-                        </div>
-
-                        <div class="flex flex-row items-center justify-between py-4 px-0.5">
-                          <div class="flex flex-col">
-                            <div class="font-medium">Nome do Item B</div>
-                            <div
-                              class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 1</div>
-                                </div>
-                              </ng-container>
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
-                                  </mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 2</div>
-                                </div>
-                              </ng-container>
-                            </div>
-                          </div>
-                          <button mat-icon-button>
-                            <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                          </button>
-                        </div>
-                      </ng-container>
-                    </div>
+            <mat-tab label="Reincidência">
+              <ng-template matTabContent>
+                <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
+                  <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <p>Em desenvolvimento.</p>
                   </div>
-                  
-                  <div
-                    class="sm:col-span-6 md:col-span-3 lg:col-span-3 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Lista</div>
-                    </div>
-                    <div class="flex flex-col mt-2 divide-y">
-                      <ng-container>
-                        <div class="flex flex-row items-center justify-between py-4 px-0.5">
-                          <div class="flex flex-col">
-                            <div class="font-medium">Nome do Item A</div>
-                            <div
-                              class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 1</div>
-                                </div>
-                              </ng-container>
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
-                                  </mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 2</div>
-                                </div>
-                              </ng-container>
-                            </div>
-                          </div>
-                          <button mat-icon-button>
-                            <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                          </button>
-                        </div>
+                </div>
+              </ng-template>
+            </mat-tab>
 
-                        <div class="flex flex-row items-center justify-between py-4 px-0.5">
-                          <div class="flex flex-col">
-                            <div class="font-medium">Nome do Item B</div>
-                            <div
-                              class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 1</div>
-                                </div>
-                              </ng-container>
-                              <ng-container>
-                                <div class="flex items-center">
-                                  <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:location-marker'">
-                                  </mat-icon>
-                                  <div class="ml-1.5 text-md text-secondary">Detalhe 2</div>
-                                </div>
-                              </ng-container>
-                            </div>
-                          </div>
-                          <button mat-icon-button>
-                            <mat-icon [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                          </button>
-                        </div>
-                      </ng-container>
-                    </div>
+            <mat-tab label="Disponibilidade">
+              <ng-template matTabContent>
+                <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
+                  <div class="sm:col-span-6 lg:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <p>Em desenvolvimento.</p>
                   </div>
                 </div>
               </ng-template>
@@ -328,6 +102,5 @@
         </div>
       </div>
     </div>
-
   </mat-drawer-content>
 </mat-drawer-container>

@@ -16,10 +16,7 @@ import { GraficoOrdemServicoClienteComponent } from './grafico-ordem-servico-cli
 import { GraficoOrdemServicoFilialComponent } from './grafico-ordem-servico-filial/grafico-ordem-servico-filial.component';
 import { GraficoSLAFilialComponent } from './grafico-sla-filial/grafico-sla-filial.component';
 import { GraficoSLAClienteComponent } from './grafico-sla-cliente/grafico-sla-cliente.component';
-import { GraficoLinhasComponent } from './grafico-linhas/grafico-linhas.component';
-import { GraficoMistoComponent } from './grafico-misto/grafico-misto.component';
 import { GraficoAreaComponent } from './grafico-area/grafico-area.component';
-import { GraficoTreemapComponent } from './grafico-treemap/grafico-treemap.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -32,10 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
     DashboardComponent,
     GraficoOrdemServicoClienteComponent,
     GraficoOrdemServicoFilialComponent,
-    GraficoLinhasComponent,
-    GraficoMistoComponent,
     GraficoAreaComponent,
-    GraficoTreemapComponent,
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
     DashboardFiltroComponent

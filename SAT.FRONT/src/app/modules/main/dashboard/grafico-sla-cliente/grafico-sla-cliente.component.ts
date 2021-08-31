@@ -62,7 +62,6 @@ export class GraficoSLAClienteComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.configurarFiltro();
     this.carregarGrafico();
   }
 
@@ -86,7 +85,7 @@ export class GraficoSLAClienteComponent implements OnChanges {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
 
       if (data.length) {
-        const labels = data.map(d => d.label);
+        const labels = data.map(d => d.label.split(" ").shift());
         const valores = data.map(d => d.valor);
         const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");
         this.haveData = true;
@@ -95,23 +94,6 @@ export class GraficoSLAClienteComponent implements OnChanges {
 
       this.isLoading = false;
     }
-  }
-
-  public configurarFiltro(): void {
-    if (!this.filtro) {
-        return;
-    }
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
-    }
-
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
-    });
   }
 
   private inicializarGrafico(labels: string[], valores: number[], cores: string[]) {
@@ -155,7 +137,12 @@ export class GraficoSLAClienteComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 100
+        max: 100,
+        labels: {
+          formatter: (value) => {
+            return (value + "%").replace('.', ',');
+          }
+        }
       }
     };
   }

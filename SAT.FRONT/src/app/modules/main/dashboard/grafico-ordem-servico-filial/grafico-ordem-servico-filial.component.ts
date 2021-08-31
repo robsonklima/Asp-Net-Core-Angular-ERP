@@ -48,7 +48,6 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.configurarFiltro();
     this.carregarGrafico();
   }
 
@@ -87,23 +86,6 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
 
       this.isLoading = false;
     }
-  }
-
-  public configurarFiltro(): void {
-    if (!this.filtro) {
-        return;
-    }
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
-    }
-
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
-    });
   }
 
   private inicializarGrafico(data: any[]) {

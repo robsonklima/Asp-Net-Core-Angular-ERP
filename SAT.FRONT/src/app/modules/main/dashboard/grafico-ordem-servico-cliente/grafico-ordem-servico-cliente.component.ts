@@ -52,7 +52,6 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.configurarFiltro();
     this.carregarGrafico();
   }
 
@@ -76,7 +75,7 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
       
       if (data.length) {
-        const labels = data.map(d => d.label);
+        const labels = data.map(d => d.label.split(" ").shift());
         const valores = data.map(d => d.valor);
         this.haveData = true;
         this.inicializarGrafico(labels, valores);
@@ -84,23 +83,6 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
 
       this.isLoading = false;
     }
-  }
-
-  public configurarFiltro(): void {
-    if (!this.filtro) {
-        return;
-    }
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
-    }
-
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
-    });
   }
 
   private inicializarGrafico(labels: string[], valores: number[]) {
@@ -133,34 +115,12 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
           colors: ["#304758"]
         }
       },
-
       xaxis: {
         categories: labels,
-        position: "top",
         labels: {
-          offsetY: -18
-        },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
-        crosshairs: {
-          fill: {
-            type: "gradient",
-            gradient: {
-              colorFrom: "#D8E3F0",
-              colorTo: "#BED1E6",
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5
-            }
+          style: {
+            fontSize: "12px"
           }
-        },
-        tooltip: {
-          enabled: true,
-          offsetY: -35
         }
       },
       fill: {
@@ -188,14 +148,6 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
           formatter: function(val) {
             return val + "";
           }
-        }
-      },
-      title: {
-        text: "Título do Gráfico",
-        offsetY: 320,
-        align: "center",
-        style: {
-          color: "#444"
         }
       }
     };

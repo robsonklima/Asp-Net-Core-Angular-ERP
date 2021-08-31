@@ -62,7 +62,6 @@ export class GraficoSLAFilialComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.configurarFiltro();
     this.carregarGrafico();
   }
 
@@ -84,7 +83,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
 
     if (this.filtro) {
       const data = await this._indicadorService.obterPorParametros(params).toPromise();
-
+      
       if (data.length) {
         const labels = data.map(d => d.label);
         const valores = data.map(d => d.valor);
@@ -95,23 +94,6 @@ export class GraficoSLAFilialComponent implements OnChanges {
 
       this.isLoading = false;
     }
-  }
-
-  public configurarFiltro(): void {
-    if (!this.filtro) {
-        return;
-    }
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
-    }
-
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
-    });
   }
 
   private inicializarGrafico(labels: string[], valores: number[], cores: string[]) {
@@ -126,7 +108,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
         height: 350,
         type: "bar",
         events: {
-          click: function(chart, w, e) {}
+          click: (chart, w, e) => {}
         }
       },
       colors: cores,
@@ -155,7 +137,12 @@ export class GraficoSLAFilialComponent implements OnChanges {
         }
       },
       yaxis: {
-        max: 100
+        max: 100,
+        labels: {
+          formatter: (value) => {
+            return (value + "%").replace('.', ',');
+          }
+        }
       }
     };
   }

@@ -1,0 +1,54 @@
+laudo-page {
+    p {
+        font-size: 10pt !important;
+        color: #9E9E9E;
+    }
+
+    .p-msg {
+        margin: 16px auto !important;
+        width: 90%;
+        text-align: justify;
+    }
+
+    .p-msg-2 {
+        margin: 16px auto !important;
+        width: 90%;
+        text-align: center;
+    }
+
+    .icon-button {
+        font-size: 24px;
+    }
+
+    .first-divider-light {
+        margin-top: 1px;
+        text-align: left;
+        height: 48px;
+    }
+
+    .badge {
+        font-weight: inherit;
+    }
+
+    ion-slides {
+        margin-top: 0px;
+        height: 100%; width:100%;
+        overflow:auto;
+    }
+
+    .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+    }
+
+    .swiper-pagination-bullet {
+        display: none;
+    }
+
+    .img {
+        margin-top: 20px;
+        border: dashed 1px #cccccc;
+        width: 320px; 
+        height: 200px;
+    }
+}

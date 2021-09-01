@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Meu Usuário</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item class="gradient-bg">
+      <ion-avatar>
+        <img 
+          src="https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{{ dg?.usuario?.codUsuario }}.jpg" 
+          onError="this.src='assets/imgs/man.png';" />
+      </ion-avatar>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <button ion-button clear full (click)="tirarFoto()">Tirar Foto</button>
+  </ion-list>
+   
+  <form #f="ngForm" (ngSubmit)="salvarUsuario(f)" class="form">
+    <ion-list>
+      <ion-item >
+        <ion-label fixed>Nome</ion-label>
+        <ion-input 
+          type="text" 
+          name="nomeUsuario" 
+          maxlength="50"
+          [ngModel]="dg?.usuario?.nome"
+          placeholder="Digite o seu Nome"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Tel. Perto</ion-label>
+        <ion-input 
+          type="text" 
+          name="telefonePerto"
+          (keyup)="formatarCampo($event, '##-#########')"
+          maxlength="12"
+          [ngModel]="dg?.usuario?.fonePerto"
+          placeholder="Digite seu Telefone Perto"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Tel. Pessoal</ion-label>
+        <ion-input 
+          type="text" 
+          name="telefonePessoal"
+          maxlength="12"
+          (keyup)="formatarCampo($event, '##-#########')"
+          [ngModel]="dg?.usuario?.fone"
+          placeholder="Digite seu Telefone Pessoal"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>CPF</ion-label>
+        <ion-input 
+          type="text" 
+          name="cpf"
+          (keyup)="formatarCampo($event, '###.###.###-##')"
+          maxlength="14"
+          [ngModel]="dg?.usuario?.cpf"
+          placeholder="Digite o seu CPF"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>CEP</ion-label>
+        <ion-input 
+          type="text" 
+          name="cep"
+          maxlength="9"
+          [ngModel]="dg?.usuario?.cep"
+          (keyup)="formatarCampo($event, '#####-###')"
+          placeholder="Digite o seu CEP"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Endereço</ion-label>
+        <ion-input 
+          type="text" 
+          name="endereco"
+          maxlength="100"
+          [ngModel]="dg?.usuario?.endereco"
+          placeholder="Digite o seu Endereço"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Número</ion-label>
+        <ion-input 
+          type="number" 
+          name="numero"
+          [ngModel]="dg?.usuario?.numero"
+          maxlength="6"
+          placeholder="Número da Residência"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Bairro</ion-label>
+        <ion-input 
+          type="text" 
+          name="bairro"
+          maxlength="30" 
+          [ngModel]="dg?.usuario?.bairro"
+          placeholder="Digite o Bairro"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Cidade</ion-label>
+        <ion-input 
+          type="text" 
+          name="cidade"
+          maxlength="30"
+          [ngModel]="dg?.usuario?.cidade"
+          placeholder="Digite a Cidade"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Estado</ion-label>
+        <ion-input 
+          type="text" 
+          name="estado"
+          maxlength="2"
+          [ngModel]="dg?.usuario?.siglaUF"
+          placeholder="Digite o Estado"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Compl.</ion-label>
+        <ion-input 
+          name="complemento"
+          type="text" 
+          maxlength="20"
+          [ngModel]="dg?.usuario?.enderecoComplemento"
+          placeholder="Apt, Avenida, Referência"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div padding>
+      <button ion-button color="secondary" full [disabled]="!f.valid">Salvar</button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,69 @@
+rat-detalhe-page {
+    ion-slides {
+        margin-top: 2px;
+        height: 100%; width:100%;
+        overflow:auto;
+    }
+
+    ion-icon {
+        font-size: 20px;
+    }
+
+    .peca-label {
+        font-size: 11pt;
+    }
+
+    .slide-zoom {
+        height: 100%;
+    }
+
+    .slide-title {
+        margin-top: 2.8rem;
+    }
+
+    .slide-image {
+        max-height: 50%;
+        max-width: 60%;
+        margin: 18px 0;
+    }
+
+    .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+    }
+
+    .swiper-pagination-bullet {
+        display: none;
+    }
+
+    form {
+        padding-top: 4px !important;
+    }
+
+    .first-divider, .first-item {
+        padding-top: 6px !important;
+    }
+
+    .text-wrap-content {
+        color: #BBBBBB;
+        font-size: 12pt;
+    }
+
+    .message {
+        color: silver;
+        font-size: 10pt;
+    }
+
+    .input-divider {
+        height: 68px;
+        padding-bottom: 1px; 
+    }
+
+    ion-spinner * {
+        margin-top: 10px;
+        width: 28px;
+        height: 28px;
+        stroke: #444;
+        fill: #222;
+    }
+}

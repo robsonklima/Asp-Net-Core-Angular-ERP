@@ -1,0 +1,813 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button 
+        ion-button icon-only 
+        (click)="telaEquipamentosHistorico(chamado)">
+        <ion-icon name="clipboard"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Chamado {{ chamado?.codOs }}</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-title>{{ tituloSlide }}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="prosseguirSlide()" *ngIf="indexSlide == 1 || indexSlide == 3">
+        <ion-icon name="md-arrow-forward"></ion-icon>
+      </button>
+
+      <button ion-button icon-only *ngIf="indexSlide == 5" (click)="telaRatDetalhe()" [disabled]="chamado?.rats?.length == 0">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+      <button ion-button icon-only (click)="telaAssinaturaTecnico()" [disabled]="false" *ngIf="indexSlide == 6">
+        <ion-icon name="browsers"></ion-icon>
+      </button>
+
+      <button ion-button icon-only (click)="telaAssinaturaCliente()" [disabled]="true" *ngIf="indexSlide == 7">
+        <ion-icon name="browsers"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="chamado-content-page outer-content">
+  <ion-slides pager (ionSlideDidChange)="alterarSlide()" >
+    <!-- Informações da OS -->
+    <ion-slide>
+      <ion-list class="informacoes-os">
+        <ion-list-header text-left>
+          <ion-label>Informações Básicas</ion-label>
+        </ion-list-header>
+
+        <ion-item
+          class="first-item">
+          Data Abertura
+          <ion-note item-end>
+            {{ chamado?.dataHoraAberturaOS | date: 'dd/MM HH:mm' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Cliente
+          <ion-note item-end>
+            {{ chamado?.cliente?.numBanco }} - {{ chamado?.cliente?.nomeCliente }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          OS do Cliente
+          <ion-note item-end>
+            {{ chamado?.numOsCliente || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Estabelecimento
+          <ion-note item-end>
+            {{ chamado?.numEstabelecimentoCliente || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Terminal
+          <ion-note item-end>
+            {{ chamado?.numTerminal || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Rede
+          <ion-note item-end>
+            {{ chamado?.redeEquipamento || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Operadora
+          <ion-note item-end>
+            {{ chamado?.nomeOperadoraTelefonia || 'Não Informada' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Versão
+          <ion-note item-end>
+            {{ chamado?.versao || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS() && chamado?.cliente?.codCliente == 2">
+          Sim Card
+          <ion-note item-end>
+            {{ chamado?.simCard || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="chamado?.dataFimSLA">
+          SLA
+          <ion-note item-end>
+            {{ chamado?.dataFimSLA | date: 'dd/MM HH:mm' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!chamado?.dataFimSLA">
+          SLA
+          <ion-note item-end>
+            Não Informado
+          </ion-note>
+        </ion-item>
+
+        <ion-item 
+          *ngIf="chamado?.dataHoraAgendamento && !verificarSeEquipamentoEPOS()">
+          Agendado
+          <ion-note item-end>
+            {{ chamado?.dataHoraAgendamento | date: 'dd/MM HH:mm' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Status
+          <ion-note item-end>
+            {{ chamado?.statusServico?.nomeStatusServico || 'Não Informado' | lowercase | capitalize }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Intervenção
+          <ion-note item-end>
+            {{ chamado?.tipoIntervencao?.nomeTipoIntervencao || 'Não Informado' | lowercase | capitalize }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Num. Agência
+          <ion-note item-end>
+              {{ chamado?.localAtendimento?.numAgencia || '--' }} / {{ chamado?.localAtendimento?.dcPosto || '--' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Nome Agência
+          <ion-note item-end>
+            {{ chamado?.localAtendimento?.nomeLocalAtendimento || 'Não Informado' | ellipsis: 28 }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Solicitante
+          <ion-note item-end>
+            {{ chamado?.nomeSolicitante || 'Não Informado' | ellipsis: 28 }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Telefone do Solicitante
+          <ion-note item-end>
+            {{ chamado?.telefoneSolicitante || 'Não Informado' | ellipsis: 28 }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Reincidências
+          <ion-note [ngClass]="{ 'font-red': chamado?.numReincidencias }" item-end>
+            {{ chamado?.numReincidencias || 'Nenhuma' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Pendências
+          <ion-note [ngClass]="{ 'font-red': chamado?.qtdRatsPendentes }" item-end>
+            {{ chamado?.qtdRatsPendentes || 'Nenhuma' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Modelo
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.equipamento?.codEEquip || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Código Pai
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.contrato?.codPai || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Numero de Série
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.numSerie || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Nº do ATM
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.numSerieCliente || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Nro. Contrato
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.contrato?.nroContrato
+              || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          Nome Contrato
+          <ion-note item-end>
+            {{ chamado?.equipamentoContrato?.contrato?.nomeContrato
+              || 'Não Informado' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item *ngIf="chamado?.dataHoraSolicitacaoOS && chamado?.dataHoraAberturaOS != chamado?.dataHoraSolicitacaoOS && !verificarSeEquipamentoEPOS()">
+          Data Solicitação
+          <ion-note item-end>
+            {{ chamado?.dataHoraSolicitacaoOS | date: 'dd/MM HH:mm' }}
+          </ion-note>
+        </ion-item>
+
+        <ion-list-header text-left>
+          <ion-label>Endereço do Local</ion-label>
+        </ion-list-header>
+
+        <ion-item class="text-wrap" text-wrap>
+          <span class="text-wrap-content">{{ chamado?.localAtendimento.endereco || 'Não Informado' | lowercase | capitalize }}</span>
+        </ion-item>
+
+        <ion-list-header text-left>
+          <ion-label>Defeito Relatado</ion-label>
+        </ion-list-header>
+
+        <ion-item class="text-wrap" text-wrap>
+          <span class="text-wrap-content">{{ chamado?.defeitoRelatado || 'Não Informado' | lowercase | capitalize }}</span>
+        </ion-item>
+
+        <ion-list-header text-left>
+          <ion-label>Observações</ion-label>
+        </ion-list-header>
+
+        <ion-item class="text-wrap" text-wrap>
+          <span class="text-wrap-content">{{ chamado?.observacao || 'Não Informado' | lowercase | capitalize }}</span>
+        </ion-item>
+
+        <ion-list-header text-left>
+          <ion-label *ngIf="!verificarSeEquipamentoEPOS()">Marcações Especiais</ion-label>
+          <ion-label *ngIf="verificarSeEquipamentoEPOS()">Descrições Adicionais </ion-label>
+        </ion-list-header>
+
+        <ion-item class="text-wrap" text-wrap>
+          <span class="text-wrap-content">{{ chamado?.descMotivoMarcaEspecial || 'Não Informado' | lowercase | capitalize }}</span>
+        </ion-item>
+      </ion-list>
+
+      <span class="slide-msg">Deslize para prosseguir</span>
+    </ion-slide>
+    <!-- Informações -->
+
+    <!-- Deslocamento e Checkin -->
+    <ion-slide>
+      <ion-list>
+        <ion-item class="first-item">
+          <h2>{{ (!chamado?.indIntencaoAtendimento) ? 'Estou a Caminho' : 'Deslocamento Iniciado' }}</h2>
+          <h3 class="silver-h3">{{ chamado?.dataHoraIntencaoAtendimento }}</h3>
+          <button ion-button clear item-end (click)="informarIntencaoAtendimento()" *ngIf="!chamado?.indIntencaoAtendimento">Registrar</button>
+          <button ion-button clear item-end color="danger" (click)="cancelarIntencaoAtendimento()" *ngIf="chamado?.indIntencaoAtendimento">Cancelar</button>
+          <ion-icon name='ios-walk' item-start class="first-icon" color="primary"></ion-icon>
+        </ion-item>
+    
+        <ion-item>
+          <h2>{{ (!chamado?.checkin?.localizacao?.latitude && !chamado?.checkin?.localizacao?.longitude) ? 'Estou no Local' : 'Checkin Efetuado' }}</h2>
+          <h3 class="silver-h3">{{ chamado?.checkin?.dataHoraCadastro }}</h3>
+          <button ion-button clear item-end *ngIf="(!chamado?.checkin?.localizacao?.latitude  && !chamado?.checkin?.localizacao?.longitude)" [disabled]="!chamado?.indIntencaoAtendimento" (click)="efetuarCheckin()">Registrar</button>
+          <button ion-button clear color="danger" item-end *ngIf="chamado?.checkin?.localizacao?.latitude  && chamado?.checkin?.localizacao?.longitude" (click)="removerCheckin()">Cancelar</button>
+          <ion-icon name='md-locate' item-start color="primary"></ion-icon>
+        </ion-item>
+      </ion-list>
+
+      <ion-card text-left
+          class="card-chamado-bloqueado"
+          *ngIf="chamado?.indBloqueioReincidencia">
+          <ion-card-header color="danger">
+            <ion-icon
+              *ngIf="chamado.indBloqueioReincidencia"
+              name="lock" 
+              class="title-icon"
+              color="danger"
+              item-start>
+            </ion-icon>
+            Chamado Bloqueado!
+          </ion-card-header>
+          <ion-card-content>
+            Favor realizar contato com sua <b ion-text>Filial</b> ou 
+            <b ion-text>Suporte Técnico</b> para garantir as ações necessárias e liberação do chamado.
+          </ion-card-content>
+        </ion-card>
+    </ion-slide>
+    <!-- Deslocamento e Checkin -->
+
+    <!-- Imagens da RAT -->
+    <ion-slide>
+      <ion-item-group>
+        <ion-item-divider color="light" class="first-item">{{ indexSlide }}.1 RAT Física</ion-item-divider>
+
+        <ion-item>
+          <ion-avatar item-start (click)="telaFoto('RAT')">
+            <img src="{{ carregarFoto('RAT') }}">
+          </ion-avatar>
+          <h2>Capturar RAT Física</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('RAT')"
+            *ngIf="!verificarExistenciaFoto('RAT')"
+            [disabled]="chamado?.indRatEletronica || chamado?.tipoIntervencao?.codTipoIntervencao == 14">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('RAT')"
+            *ngIf="verificarExistenciaFoto('RAT')">
+            <ion-icon name="trash" color="danger"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item-divider color="light">{{ indexSlide }}.2 Fotos do Equipamento</ion-item-divider>
+
+        <ion-item>
+          <ion-avatar item-start (click)="telaFoto('ETIQUETANUMSERIE')">
+            <img src="{{ carregarFoto('ETIQUETANUMSERIE') }}">
+          </ion-avatar>
+          <h2>Etiqueta Número de Série</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('ETIQUETANUMSERIE')" 
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            *ngIf="!verificarExistenciaFoto('ETIQUETANUMSERIE')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('ETIQUETANUMSERIE')"
+            *ngIf="verificarExistenciaFoto('ETIQUETANUMSERIE')">
+            <ion-icon name="trash" color="danger"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          <ion-avatar item-start (click)="telaFoto('EQUIPAMENTOOPERACIONAL')">
+            <img src="{{ carregarFoto('EQUIPAMENTOOPERACIONAL') }}">
+          </ion-avatar>
+          <h2>Equipamento Operacional</h2>
+          <button ion-button clear item-end 
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            (click)="tirarFoto('EQUIPAMENTOOPERACIONAL')" 
+            *ngIf="!verificarExistenciaFoto('EQUIPAMENTOOPERACIONAL')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('EQUIPAMENTOOPERACIONAL')"
+            *ngIf="verificarExistenciaFoto('EQUIPAMENTOOPERACIONAL')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="!verificarSeEquipamentoEPOS()">
+          <ion-avatar item-start (click)="telaFoto('PARTEINTERNA')">
+            <img src="{{ carregarFoto('PARTEINTERNA') }}">
+          </ion-avatar>
+          <h2>Parte Interna</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('PARTEINTERNA')"
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            *ngIf="!verificarExistenciaFoto('PARTEINTERNA')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('PARTEINTERNA')"
+            *ngIf="verificarExistenciaFoto('PARTEINTERNA')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <!-- -->
+
+        <ion-item *ngIf="verificarSeExigeDocumentosAdicionaisInstalacao()">
+          <ion-avatar item-start (click)="telaFoto('TERMO_ACEITE')">
+            <img src="{{ carregarFoto('TERMO_ACEITE') }}">
+          </ion-avatar>
+          <h2>Termo de Aceite</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('TERMO_ACEITE')"
+            *ngIf="!verificarExistenciaFoto('TERMO_ACEITE')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('TERMO_ACEITE')"
+            *ngIf="verificarExistenciaFoto('TERMO_ACEITE')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeExigeDocumentosAdicionaisInstalacao()">
+          <ion-avatar item-start (click)="telaFoto('TERMO_ENTREGA')">
+            <img src="{{ carregarFoto('TERMO_ENTREGA') }}">
+          </ion-avatar>
+          <h2>Termo de Entrega</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('TERMO_ENTREGA')"
+            *ngIf="!verificarExistenciaFoto('TERMO_ENTREGA')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('TERMO_ENTREGA')"
+            *ngIf="verificarExistenciaFoto('TERMO_ENTREGA')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeExigeDocumentosAdicionaisInstalacao()">
+          <ion-avatar item-start (click)="telaFoto('TERMO_RECOLHIMENTO')">
+            <img src="{{ carregarFoto('TERMO_RECOLHIMENTO') }}">
+          </ion-avatar>
+          <h2>Termo de Recolhimento</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('TERMO_RECOLHIMENTO')"
+            *ngIf="!verificarExistenciaFoto('TERMO_RECOLHIMENTO')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('TERMO_RECOLHIMENTO')"
+            *ngIf="verificarExistenciaFoto('TERMO_RECOLHIMENTO')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeExigeDocumentosAdicionaisInstalacao()">
+          <ion-avatar item-start (click)="telaFoto('NOTA_FISCAL')">
+            <img src="{{ carregarFoto('NOTA_FISCAL') }}">
+          </ion-avatar>
+          <h2>Nota Fiscal</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('NOTA_FISCAL')"
+            *ngIf="!verificarExistenciaFoto('NOTA_FISCAL')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('NOTA_FISCAL')"
+            *ngIf="verificarExistenciaFoto('NOTA_FISCAL')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <!-- -->
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS()">
+          <ion-avatar item-start (click)="telaFoto('VERIFICACAOVERSAO')">
+            <img src="{{ carregarFoto('VERIFICACAOVERSAO') }}">
+          </ion-avatar>
+          <h2>Verificação da Versão</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('VERIFICACAOVERSAO')" 
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            *ngIf="!verificarExistenciaFoto('VERIFICACAOVERSAO')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('VERIFICACAOVERSAO')"
+            *ngIf="verificarExistenciaFoto('VERIFICACAOVERSAO')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS()">
+          <ion-avatar item-start (click)="telaFoto('COMPINICIALIZACAO')">
+            <img src="{{ carregarFoto('COMPINICIALIZACAO') }}">
+          </ion-avatar>
+          <h2>Comprovante Inicialização</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('COMPINICIALIZACAO')" 
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            *ngIf="!verificarExistenciaFoto('COMPINICIALIZACAO')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('COMPINICIALIZACAO')"
+            *ngIf="verificarExistenciaFoto('COMPINICIALIZACAO')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="verificarSeEquipamentoEPOS()">
+          <ion-avatar item-start (click)="telaFoto('PROTOCOLOVISITATECNICA')">
+            <img src="{{ carregarFoto('PROTOCOLOVISITATECNICA') }}">
+          </ion-avatar>
+          <h2>Protocolo da Visita Técnica</h2>
+          <button ion-button clear item-end 
+            (click)="tirarFoto('PROTOCOLOVISITATECNICA')" 
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14"
+            *ngIf="!verificarExistenciaFoto('PROTOCOLOVISITATECNICA')">
+            <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerFoto('PROTOCOLOVISITATECNICA')"
+            *ngIf="verificarExistenciaFoto('PROTOCOLOVISITATECNICA')">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item-divider color="light">{{ indexSlide }}.3 Laudo Técnico e Checklist</ion-item-divider>
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/imgs/attachment.png">
+          </ion-avatar>
+          <h2>Laudo</h2>
+       
+          <button ion-button clear item-end (click)="telaLaudo(chamado)"
+            *ngIf="!verificarExistenciaLaudo()"
+            [disabled]="chamado?.tipoIntervencao?.codTipoIntervencao == 14">
+            <ion-icon name="add-circle" color="primary"></ion-icon>
+          </button>
+
+          <button ion-button clear item-end (click)="removerLaudo()"
+            *ngIf="verificarExistenciaLaudo()">
+            <ion-icon name="trash" color="danger" class="trash-icon"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="assets/imgs/list_1.png">
+          </ion-avatar>
+          
+          <h2>Checklist Preventiva</h2>
+       
+          <button ion-button clear item-end 
+            (click)="telaChecklistPreventiva(chamado)"
+            [disabled]="!chamado?.checklistPreventiva?.itens.length">
+            <ion-icon *ngIf="!chamado?.checklistPreventiva?.realizado" name="add-circle" color="primary"></ion-icon>
+
+            <ion-icon *ngIf="chamado?.checklistPreventiva?.realizado" name="open" color="secondary"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-item-group>
+    </ion-slide>
+    <!-- Fotos da RAT -->
+
+    <!-- Informações da RAT -->
+    <ion-slide>
+      <form #f="ngForm" (ngSubmit)="salvarRat(f)" class="form">
+        <ion-list>
+          <ion-item col-6 class="pos-left">
+            <ion-label stacked>RAT</ion-label>
+            <ion-input
+              type="number"
+              name="numRat" 
+              [placeholder]="chamado?.indRatEletronica ? 'Nro Automático' : 'Número'" 
+              [disabled]="chamado?.indRatEletronica"
+              [ngModel]="chamado?.rats[0]?.numRat" 
+              [required]="!chamado?.indRatEletronica">
+            </ion-input>
+          </ion-item>
+
+          <ion-item col-6>
+            <ion-label stacked>Acompanhante</ion-label>
+            <ion-input 
+              type="text" 
+              placeholder="Nome" 
+              name="nomeAcompanhante"
+              [maxlength]="50"
+              [ngModel]="chamado?.rats[0]?.nomeAcompanhante">
+            </ion-input>
+          </ion-item>
+
+          <ion-row class="bg-silver-light">
+            <ion-col 
+              col-12
+              text-left
+              class="no-padding padding-left">
+              <ion-label
+                stacked
+                class="label-title"
+                left-align
+                style="margin-bottom: 0px;">Marcações de Ponto</ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="no-padding">
+              <ion-item class="bg-silver-light">
+                <ion-label 
+                  stacked
+                  class="label-title">Chegada</ion-label>
+                <ion-label class="label-content">
+                  {{ (usuarioPonto?.registros[0] | date:'HH:mm') || '--:--' }}
+                </ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col class="no-padding">
+              <ion-item class="bg-silver-light">
+                <ion-label 
+                  stacked
+                  class="label-title">Início</ion-label>
+                <ion-label class="label-content">
+                  {{ (usuarioPonto?.registros[1] | date:'HH:mm') || '--:--' }}
+                </ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col class="no-padding">
+              <ion-item class="bg-silver-light">
+                <ion-label 
+                  stacked 
+                  class="label-title">Fim</ion-label>
+                <ion-label class="label-content">
+                  {{ (usuarioPonto?.registros[2] | date:'HH:mm') || '--:--' }}
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            
+            <ion-col class="no-padding">
+              <ion-item class="bg-silver-light">
+                <ion-label stacked class="label-title">Saída</ion-label>
+                <ion-label class="label-content">
+                  {{ (usuarioPonto?.registros[3] | date:'HH:mm') || '--:--' }}
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col 
+              col-12
+              text-left
+              class="no-padding padding-left">
+              <ion-label
+                stacked
+                class="label-title"
+                left-align>Horários do Atendimento
+              </ion-label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="no-padding">
+              <ion-item>
+                <ion-label stacked>Data</ion-label>
+                <ion-datetime 
+                  displayFormat="DD/MM"
+                  pickerFormat="DD MMM"
+                  placeholder="01 Jan 2017"
+                  name="dataInicio"
+                  cancelText="Cancelar"
+                  doneText="Selecionar"
+                  [ngModel]="chamado?.rats[0]?.dataInicio || dataAtual"
+                  required></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col class="no-padding">
+              <ion-item>
+                <ion-label stacked>Hora Início</ion-label>
+                <ion-datetime 
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  placeholder="08:00" 
+                  name="horaInicio"
+                  cancelText="Cancelar"
+                  doneText="Selecionar"
+                  [initialValue]="horaAtual"
+                  [ngModel]="chamado?.rats[0]?.horaInicio"
+                  required>
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col class="no-padding">
+              <ion-item>
+                <ion-label stacked>Hora Solução</ion-label>
+                <ion-datetime 
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  placeholder="09:00"
+                  name="horaSolucao" 
+                  cancelText="Cancelar"
+                  doneText="Selecionar"
+                  [initialValue]="horaAtual"
+                  [ngModel]="chamado?.rats[0]?.horaSolucao"
+                  required>
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item>
+            <ion-label stacked>Solução</ion-label>
+            <ion-textarea 
+              placeholder="Descreva o serviço realizado" 
+              name="obsRAT"
+              [maxlength]="1000"
+              [ngModel]="chamado?.rats[0]?.obsRAT"
+              required>
+            </ion-textarea>
+          </ion-item>
+
+          <div padding>
+            <button
+              color="secondary"
+              ion-button 
+              block
+              [disabled]="!f.valid">
+              Salvar e Prosseguir
+            </button>
+          </div>
+        </ion-list>
+      </form>
+    </ion-slide>
+    <!-- Informações da RAT -->
+
+    <!-- Detalhes da RAT -->
+    <ion-slide>
+      <ion-list class="list-slide">
+        <ion-item
+          *ngFor="let ratDetalhe of chamado?.rats[0]?.ratDetalhes; let i = index">
+          <ion-label>
+            {{ ratDetalhe?.causa?.codECausa }} - {{ ratDetalhe?.causa?.nomeCausa }}
+          </ion-label>
+
+          <button
+            class="pecas-button"
+            ion-button
+            clear
+            item-end
+            (click)="telaRatDetalhePeca(chamado, i)">
+            Peças ({{ chamado.rats[0].ratDetalhes[i].pecas.length }})
+          </button>
+
+          <button ion-button clear item-end 
+            (click)="removerRatDetalhe(ratDetalhe, i)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item>
+
+        <ion-item *ngIf="chamado?.rats[0]?.ratDetalhes?.length == 0">
+          <p text-center class="p-msg">Insira os detalhes da RAT</p>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+    <!-- Detalhes da RAT -->
+
+    <!-- Assinatura do Tecnico -->
+    <ion-slide>
+      <p class="p-msg-2" *ngIf="!chamado?.rats[0]?.assinaturaTecnico">Por favor {{ dg?.usuario?.nome }} assine a RAT</p>
+      
+      <img class="img-assinatura" *ngIf="chamado?.rats[0]?.assinaturaTecnico" src="{{ chamado?.rats[0]?.assinaturaTecnico }}" alt="">
+    </ion-slide>
+    <!-- Assinatura do Cliente -->
+
+    <!-- Assinatura do Cliente -->
+    <ion-slide>
+      <p class="p-msg-2" *ngIf="!chamado?.rats[0]?.assinaturaCliente">Solicite a Assinatura do Cliente</p>
+      
+      <img class="img-assinatura" *ngIf="chamado?.rats[0]?.assinaturaCliente" src="{{ chamado?.rats[0]?.assinaturaCliente }}" alt="">
+    </ion-slide>
+    <!-- Assinatura do Cliente -->
+
+    <!-- Checkout e Fechamento -->
+    <ion-slide>
+      <ion-item>
+        <h2>{{ (!chamado?.checkout?.localizacao?.latitude && !chamado?.checkout?.localizacao?.longitude) ? 'Estou Saindo do Local' : 'Checkout' }}</h2>
+        <h3 class="silver-h3">{{ chamado?.checkout?.dataHoraCadastro }}</h3>
+        <button ion-button clear item-end *ngIf="!chamado?.checkout?.localizacao?.latitude  && !chamado?.checkout?.localizacao?.longitude" (click)="efetuarCheckout()">Registrar</button>
+        <button ion-button clear item-end *ngIf="chamado?.checkout?.localizacao?.latitude  && chamado?.checkout?.localizacao?.longitude" [disabled]="true">Registrado</button>
+        <ion-icon name='md-locate' item-start color="primary"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <h2>Conferir Informações</h2>
+        <button ion-button clear item-end [disabled]="!chamado?.checkout?.localizacao?.latitude  && !chamado?.checkout?.localizacao?.longitude" (click)="telaChamadoConf()">Conferir</button>
+        <ion-icon name='albums' item-start color="primary"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <h2>Fechar o Chamado</h2>
+        <button ion-button item-end color="secondary" [disabled]="!chamado?.checkout?.localizacao?.latitude  && !chamado?.checkout?.localizacao?.longitude" (click)="fecharChamado()">Fechar</button>
+        <ion-icon name='md-checkbox' item-start color="primary"></ion-icon>
+      </ion-item>
+    </ion-slide>
+    <!-- Checkout e Fechamento -->
+  </ion-slides>
+</ion-content>

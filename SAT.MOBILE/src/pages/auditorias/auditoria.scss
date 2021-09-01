@@ -1,0 +1,48 @@
+auditoria-page {
+    .swiper-pagination-bullet {
+        display: none;
+    }
+
+    .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+    }
+
+    ion-item-divider {
+        text-align: left !important;
+        font-size: 11pt !important;
+    }
+
+    p {
+        //padding: 0 40px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #60646B;
+
+        b {
+            color: #000000;
+        }
+    }
+
+    .trash-icon {
+        margin-right: 4px !important;
+        font-size: 20pt;
+    }
+
+    .add-icon {
+        font-size: 20pt;
+    }
+
+    .custom-save-icon {
+        margin-bottom: 1px !important;
+    }
+
+    .align-right {
+        .text-input{ text-align: right; }
+    }
+
+    .label-c {
+        font-size: 9pt !important;
+        color: #999999;
+    }
+}

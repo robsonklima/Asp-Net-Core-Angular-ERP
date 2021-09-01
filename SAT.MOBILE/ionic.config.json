@@ -1,0 +1,8 @@
+{
+  "name": "app-tecnicos-4",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "defaultBrowser": "chrome"
+}

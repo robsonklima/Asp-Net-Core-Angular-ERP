@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ pontoData.dataRegistro | date: 'dd/MM/yyyy' }}</ion-title>
+
+    <ion-buttons end>
+      <button 
+        ion-button 
+        icon-only 
+        (click)="fecharModal()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let pontoUsuario of pontoData.pontosUsuario; let i=index">
+      <ion-icon color="primary" name="md-clock" item-start></ion-icon>
+      <s *ngIf="!pontoUsuario.indAtivo"> {{ pontoUsuario.dataHoraRegistro | date: 'HH:mm' }} </s>
+      <span *ngIf="pontoUsuario.indAtivo"> {{ pontoUsuario.dataHoraRegistro | date: 'HH:mm' }} </span>
+
+      <button ion-button clear item-end icon-only color="danger" (click)="desativarPontoUsuario(i)" *ngIf="pontoUsuario.indAtivo">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <p *ngIf="!pontoData?.pontosUsuario?.length" text-center>Nenhum registro encontrado</p>
+
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="incluirPonto()"><ion-icon name="md-add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

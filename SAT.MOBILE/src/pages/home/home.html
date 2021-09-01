@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="abrirPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    
+    <ion-title>App Técnicos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-divider 
+      color="danger"
+      *ngIf="necessidadeRegistrarIntervalo">
+      Atenção! Não ultrapassar 6h contínuas de trabalho!
+    </ion-item-divider>
+
+    <button 
+      ion-item
+      class="first-item"
+      (click)="telaChamados()">
+      <ion-icon 
+        color="primary" 
+        name="clipboard" 
+        item-start></ion-icon>
+      Meus Chamados
+      <ion-badge 
+        item-end
+        *ngIf="chamados?.length" 
+        [ngClass]="{ 'bd-red': chamados?.length > 0 }">
+        {{ chamados?.length }}
+      </ion-badge>
+    </button>
+
+    <button 
+      ion-item
+      (click)="telaPontos()">
+      <ion-icon 
+        color="primary" 
+        name="md-time" 
+        item-start></ion-icon>
+      Ponto
+    </button>
+
+    <button 
+      ion-item
+      (click)="telaPecas()">
+      <ion-icon 
+        color="primary" 
+        name="build" 
+        item-start></ion-icon>
+      Consulta de Peças
+    </button>
+
+    <button 
+      ion-item 
+      (click)="telaMensagensTecnico()">
+      <ion-icon 
+        color="primary" 
+        name="mail" 
+        item-start></ion-icon>
+      Mensagens
+      <ion-badge 
+        item-end
+        *ngIf="qtdMensagensTecnicoNaoLidas"
+        [ngClass]="{ 'bd-red': qtdMensagensTecnicoNaoLidas }">
+        {{ qtdMensagensTecnicoNaoLidas }}
+      </ion-badge>
+    </button>
+
+    <button
+      ion-item
+      (click)="telaIndicadoresMenu()">
+      <ion-icon 
+        color="primary" 
+        name="pie" 
+        item-start></ion-icon>
+      Indicadores
+    </button>
+
+    <button
+      ion-item
+      (click)="telaAuditorias()">
+      <ion-icon 
+        color="primary" 
+        name="md-car" 
+        item-start></ion-icon>
+      Auditorias de Veículos
+      <p class="font-red" *ngIf="qtdAuditoriasPendentes">Realize a auditoria do seu veículo</p>
+    </button>
+
+    <button
+      ion-item
+      *ngIf="!platform.is('cordova')"
+      (click)="telaFerramentasTecnico()">
+      <ion-icon 
+        color="primary" 
+        name="md-briefcase" 
+        item-start></ion-icon>
+      Ferramentas
+    </button>
+
+    <button
+      ion-item
+      *ngIf="!platform.is('cordova')"
+      (click)="telaTeste()">
+      <ion-icon 
+        color="primary" 
+        name="logo-android" 
+        item-start></ion-icon>
+      Testes
+    </button>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="white">
+    <ion-title><span class="footer">V. {{ versaoApp }}</span></ion-title>
+  </ion-toolbar>
+</ion-footer>

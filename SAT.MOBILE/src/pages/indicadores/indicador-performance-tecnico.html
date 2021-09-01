@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Minha Produtividade</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cards-bg" text-center>
+  <ion-item-divider color="light" class="first-item">Chamados Acumulados do Mês Corrente</ion-item-divider>
+
+  <ion-card>
+    <ion-card-header>
+      Atendimentos
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfAtendimentosTecnicoValues.length == 0"></ion-spinner>
+
+      <canvas #grfAtendimentos></canvas>
+
+      <hr>
+      <span class="azul">Azul: Meus Dados</span> <br>
+      <span class="laranja">Laranja: Dados do Melhor Técnico</span>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+      <ion-card-header>
+        Média de Atendimentos Diários (Meta 4)
+      </ion-card-header>
+      <ion-card-content>
+        <ion-spinner *ngIf="grfMediaTecnicoValues.length == 0"></ion-spinner>
+  
+        <canvas #grfMediaTecnico></canvas>
+
+        <hr>
+        <span class="azul">Azul: Meus Dados</span> <br>
+        <span class="laranja">Laranja: Dados do Melhor Técnico</span>
+      </ion-card-content>
+    </ion-card>
+  
+  <ion-list no-border>
+    <ion-item-divider color="light">Resumo dos Chamados</ion-item-divider>
+
+    <ion-item>
+      Qtd de OS’s Atendidas
+      <ion-badge item-end>{{ qtdOSGeral }}</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      Qtd de OS’s com Peças Envolvida
+      <ion-badge item-end>{{ qtdPecasTrocadas }}</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-badge item-end>{{ percChamadosFechadosPecasTrocadas }}%</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      Qtd de OS’s com Peças Pendentes
+      <ion-badge item-end>{{ qtdPecasPendentes }}</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-badge item-end>{{ percChamadosFechadosPecasPendentes }}%</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-border>
+    <ion-item-divider color="light">As Três Peças Mais Trocadas</ion-item-divider>
+
+    <ion-spinner *ngIf="pecasMaisTrocadas.length == 0"></ion-spinner>
+
+    <ion-item *ngFor="let pecaTrocada of pecasMaisTrocadas; let i = index">
+      {{ i+1 }}&#186; &#8226; {{ pecaTrocada.nomePeca }}
+      <ion-badge item-end>{{ pecaTrocada.qtd }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-border>
+    <ion-item-divider color="light">As Três Peças Mais Pendenciadas</ion-item-divider>
+
+    <ion-spinner *ngIf="pecasMaisPendenciadas.length == 0"></ion-spinner>
+
+    <ion-item *ngFor="let pecaPendenciada of pecasMaisPendenciadas; let i = index">
+      {{ i+1 }}&#186; &#8226; {{ pecaPendenciada.nomePeca }}
+      <ion-badge item-end>{{ pecaPendenciada.qtd }}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

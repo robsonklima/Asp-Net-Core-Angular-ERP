@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button 
+        ion-button 
+        icon-only 
+        (click)="fecharModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Informar um Problema</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="separator"></div>
+
+  <h5>
+    Olá {{ dadosGlobais?.usuario?.nome }}
+  </h5>
+
+  <p text-justify>
+    Lamentamos que esteja experimentando problemas durante 
+    o uso do aplicativo. Estamos trabalhando constantemente
+    para aperfeiçoar o nosso algoritmo.
+  </p>
+
+  <hr />
+
+  <h5>
+      Entre em contato conosco
+  </h5>
+
+  <p text-justify>
+    Sua opinião é muito importante para nos ajudar a
+    elevar a experiência de uso do aplicativo. Se possível, nos 
+    envie imagens do erro encontrado.
+  </p>
+
+  <hr />
+
+  <p>
+    Telefone: (51) 2126 6944 - Ramal: 944 <br />
+    Email: equipe.sat@perto.com.br
+  </p>
+
+  <br />
+
+  <a 
+    href="mailto:equipe.sat@perto.com.br?Subject=Relato%20de%20problema%20durante%20o%20uso%20do%20App%20Técnicos%20-%20{{ dadosGlobais?.usuario?.nome }}%20-%20Versão%20{{ versao }}" 
+    target="_top">Informar um problema agora mesmo</a>
+</ion-content>

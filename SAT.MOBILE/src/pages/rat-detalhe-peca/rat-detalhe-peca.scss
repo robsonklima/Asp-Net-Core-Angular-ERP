@@ -1,0 +1,36 @@
+rat-detalhe-peca-page {
+    ion-icon {
+        font-size: 20px;
+    }
+
+    ion-label{
+        font-size: 11pt;
+    }
+
+    .message {
+        color: silver;
+        font-size: 10pt;
+    }
+
+    .text-wrap-content {
+        color: #BBBBBB;
+        font-size: 12pt;
+    }
+
+    .input-divider {
+        height: 68px;
+        padding-bottom: 1px; 
+    }
+
+    ion-spinner * {
+        margin-top: 10px;
+        width: 28px;
+        height: 28px;
+        stroke: #444;
+        fill: #222;
+    }
+
+    ion-content {
+        text-align: center;
+    }
+}

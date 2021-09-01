@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Minha Performance</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cards-bg" text-center>
+  <ion-card>
+    <ion-card-header>
+      Meu % de SLA
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfSLATecnicoValues.length == 0"></ion-spinner>
+      
+      <canvas #grfSLATecnico
+        [ngClass]="{ 'display-none': grfSLATecnicoValues.length == 0 }">
+      </canvas>
+
+      <p class="card-footer" *ngIf="slaMelhorTecnico">
+        Melhor Técnico: {{ slaMelhorTecnico }}% No Prazo
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Meu % de Pendência
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfPendenciaTecnicoValues.length == 0"></ion-spinner>
+
+      <canvas #grfPendenciaTecnico
+        [ngClass]="{ 'display-none': grfPendenciaTecnicoValues.length == 0 }">
+      </canvas>
+      <p class="card-footer">
+        Melhor Técnico: 0% Pendentes
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Meu % de Reincidência
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfReincidenciaTecnicoValues.length == 0"></ion-spinner>
+
+      <canvas #grfReincidenciaTecnico
+        [ngClass]="{ 'display-none': grfReincidenciaTecnicoValues.length == 0 }">
+      </canvas>
+      <p class="card-footer">
+        Melhor Técnico: 0% Reincidentes
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Auditorias de Veículos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button 
+      ion-item 
+      *ngFor="let auditoria of auditorias; let i=index" 
+      (click)="telaAuditoria(auditoria)"
+      [disabled]="auditoria.auditoriaStatus.codAuditoriaStatus !== 1">
+      Auditoria: {{ auditoria?.codAuditoria }}
+      <p>{{ auditoria.auditoriaStatus.nome }}</p>
+    </button>  
+  </ion-list>
+
+  <p *ngIf="!auditorias?.length" text-center>Nenhuma auditoria encontrada</p>
+</ion-content>

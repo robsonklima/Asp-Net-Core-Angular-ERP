@@ -1,0 +1,243 @@
+v<ion-header>
+  <ion-navbar>
+    <ion-title>Rat: {{ chamado?.rats[0]?.numRat || 'Automático' }}</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-buttons end>
+      <button 
+        ion-button 
+        icon-only 
+        (click)="fecharModalConfirmacao()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <button 
+        ion-button 
+        icon-only 
+        [disabled]="!ratDetalhe || (ratDetalhe.pecas.length == 0 && (ratDetalhe.acao.codAcao == 19 || ratDetalhe.acao.codAcao == 26))"
+        (click)="salvarRatDetalheNoChamadoESair()">
+        <ion-icon name="custom-save"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>{{ tituloSlide }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides 
+    pager 
+    (ionSlideDidChange)="alterarSlide()">
+    <ion-slide>
+      <ion-item-divider
+        class="first-divider" 
+        text-left 
+        color="light">Detalhe</ion-item-divider>
+
+      <ion-item 
+        *ngIf="ratDetalhe"
+        text-wrap>
+        <span class="text-wrap-content">
+          {{ ratDetalhe?.acao?.nomeAcao | lowercase | capitalize }} 
+          do(a) {{ ratDetalhe?.causa?.nomeCausa | lowercase }}
+          que apresentou/estava {{ ratDetalhe?.defeito?.nomeDefeito | lowercase }}
+        </span>
+      </ion-item>
+
+      <form 
+        #f="ngForm"
+        *ngIf="!ratDetalhe"
+        (ngSubmit)="salvarRatDetalhe(f)">
+        <ion-list>
+          <ion-item>
+            <ion-label>Tipo de Serviço</ion-label>
+            <ion-select 
+              name="tipoCausa" 
+              cancelText="Cancelar"
+              placeholder="Selecione..." 
+              (ionChange)="buscarTipoServicos($event.codTipoCausa); buscarModulosPorEquipamento($event.codTipoCausa)"
+              [ngModel]="ratDetalhe?.tipoCausa" 
+              interface="action-sheet"
+              required>
+              <ion-option 
+                *ngFor="let tipoCausa of tipoCausas" 
+                [value]="tipoCausa">
+                {{ tipoCausa.nomeTipoCausa }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Tipo de Causa</ion-label>
+            <ion-select 
+              placeholder="Selecione..." 
+              name="tipoServico" 
+              [disabled]="!tipoServicos"
+              [ngModel]="ratDetalhe?.tipoServico" 
+              interface="action-sheet"
+              cancelText="Cancelar"
+              required>
+              <ion-option 
+                *ngFor="let tipoServico of tipoServicos" 
+                [value]="tipoServico">
+                {{ tipoServico.codETipoServico }} - {{ tipoServico.nomeTipoServico }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Módulo</ion-label>
+            <ion-select 
+              placeholder="Selecione..." 
+              name="modulo" 
+              [disabled]="modulos?.length == 0"
+              interface="action-sheet"
+              cancelText="Cancelar"
+              (ionChange)="buscarSubModulosDefeitosEAcoes($event.codECausa)"
+              required>
+              <ion-option *ngFor="let modulo of modulos" [value]="modulo">
+                {{ modulo.codECausa }} - {{ modulo.nomeCausa | lowercase | capitalize }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Sub-Módulo</ion-label>
+            <ion-select 
+              placeholder="Selecione..."
+              name="subModulo" 
+              interface="action-sheet"
+              cancelText="Cancelar"
+              [disabled]="subModulos?.length == 0"
+              (ionChange)="buscarComponentes($event.codECausa)"
+              required>
+              <ion-option 
+                *ngFor="let subModulo of subModulos" 
+                [value]="subModulo">
+                {{ subModulo.codECausa }} - {{ subModulo.nomeCausa 
+                  | lowercase | capitalize }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Componente</ion-label>
+            <ion-select 
+              placeholder="Selecione..."
+              name="causa" 
+              [disabled]="componentes?.length == 0"
+              [ngModel]="ratDetalhe?.causa" 
+              interface="action-sheet"
+              cancelText="Cancelar"
+              required>
+              <ion-option 
+                *ngFor="let causa of componentes" 
+                [value]="causa">
+                {{ causa.codECausa }} - {{ causa.nomeCausa 
+                  | lowercase | capitalize }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Defeito</ion-label>
+            <ion-select 
+              placeholder="Selecione..." 
+              name="defeito" 
+              [ngModel]="ratDetalhe?.defeito" 
+              interface="action-sheet"
+              cancelText="Cancelar"
+              [disabled]="defeitos?.length == 0"
+              required>
+              <ion-option 
+                *ngFor="let defeito of defeitos" 
+                [value]="defeito">
+                {{ defeito.codEDefeito }} - {{ defeito.nomeDefeito 
+                  | lowercase | capitalize }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Ação</ion-label>
+            <ion-select 
+              placeholder="Selecione..." 
+              name="acao" 
+              interface="action-sheet"
+              cancelText="Cancelar"
+              [ngModel]="ratDetalhe?.acao"
+              [disabled]="acoes?.length == 0"
+              required>
+              <ion-option 
+                *ngFor="let acao of acoes" 
+                [value]="acao">
+                {{ acao.codEAcao }} - {{ acao.nomeAcao 
+                  | lowercase | capitalize }}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+          <div padding>
+            <button 
+              color="secondary" 
+              ion-button 
+              block
+              *ngIf="!ratDetalhe"
+              [disabled]="!f.valid">
+              Salvar e Prosseguir
+            </button>
+          </div>
+        </ion-list>
+      </form>
+    </ion-slide>
+    
+    <ion-slide>
+      <ion-item-divider
+        text-left 
+        color="light"
+        class="input-divider">
+        <ion-searchbar 
+          (ionInput)="filtrarPecas($event)" 
+          placeholder="Pesquisa por código/nome"
+          [(ngModel)]="inputPesquisar">
+        </ion-searchbar>
+      </ion-item-divider>
+
+      <ion-item 
+        *ngFor="let peca of pecas; let i = index" 
+        (click)="adicionarPeca(peca)">
+        <h2>{{ peca?.codMagnus }}</h2>
+        <p>{{ peca?.nomePeca.toUpperCase() }}</p>
+        <ion-icon name="add-circle" color="secondary" item-end></ion-icon>
+      </ion-item>
+
+      <div *ngIf="pecas?.length == 0">
+        <ion-item 
+          *ngFor="let peca of ratDetalhe?.pecas; let i = index">
+          <ion-label class="peca-label">{{ peca.codMagnus }} - {{ peca.nomePeca }}</ion-label>
+          <ion-select 
+            [(ngModel)]="peca.qtd" 
+            (ionChange)="alterarQtdPeca(peca.qtd, i)"
+            cancelText="Cancelar" okText="Salvar"
+            [selectOptions]="{ title: peca.codMagnus, subTitle: 'Selecione a quantidade', mode: 'md' }">
+            <ion-option 
+              *ngFor="let q of qtd" 
+              [selected]="peca.qtd == q"
+              value="{{ q }}">{{ q }}
+            </ion-option>
+          </ion-select>
+          <button ion-button clear item-end (click)="removerPeca(peca)"><ion-icon name="trash"></ion-icon></button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="ratDetalhe?.pecas?.length == 0 && pecas?.length == 0">
+        <p text-center class="message">Nenhuma peça adicionada</p>
+      </div>
+
+      <ion-spinner 
+        name="dots" 
+        color="primary"
+        *ngIf="spinner">
+      </ion-spinner>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

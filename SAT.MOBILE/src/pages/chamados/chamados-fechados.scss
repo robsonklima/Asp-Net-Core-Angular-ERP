@@ -1,0 +1,17 @@
+chamados-fechados-page {
+  ion-list {
+    margin-top: 3px !important; 
+
+    ion-item {
+      h2 {
+        font-weight: bold !important;
+      }
+    }
+
+    ion-note {
+      font-size: 12px;
+      align-self: flex-start;
+      margin-top: 15px !important;
+    }
+  }
+}

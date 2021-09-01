@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Performance das Filiais</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cards-bg" text-center>
+  <div class="separator"></div>
+
+  <ion-card>
+    <ion-card-header>
+      SLA por Filiais
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfSLAFiliaisValues.length == 0"></ion-spinner>
+      <canvas 
+        #grfSLAFiliais
+        [ngClass]="{ 'display-none': grfSLAFiliaisValues.length == 0 }">
+      </canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Pendência por Filiais
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfPendenciaFiliaisValues.length == 0"></ion-spinner>
+      <canvas 
+        #grfPendenciaFiliais
+        [ngClass]="{ 'display-none': grfPendenciaFiliaisValues.length == 0 }">
+      </canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Reincidência por Filiais
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfReincidenciaFiliaisValues.length == 0"></ion-spinner>
+      <canvas 
+        #grfReincidenciaFiliais
+        [ngClass]="{ 'display-none': grfReincidenciaFiliaisValues.length == 0 }">
+      </canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Disponibilidade Banco do Brasil {{ dg?.usuario?.filial?.nomeFilial }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-spinner *ngIf="grfDispBBFilialValues.length == 0"></ion-spinner>
+      <canvas 
+        #grfDispBBFilial
+        [ngClass]="{ 'display-none': grfDispBBFilialValues.length == 0 }">
+      </canvas>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

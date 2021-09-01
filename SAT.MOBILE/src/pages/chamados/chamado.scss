@@ -1,0 +1,278 @@
+chamado-page {
+    .chamado-content-page {
+        overflow-y: hidden;
+
+        .img-assinatura {
+            margin-top: 20px;
+            border: dashed 1px #cccccc;
+            width: 320px; 
+            height: 200px;
+        }
+
+        ion-slides {
+            margin-top: 0px;
+            height: 100%; width:100%;
+            overflow:auto;
+        }
+
+        .toolbar-background {
+            background: #fff;
+            border-color: transparent;
+        }
+
+        .icon-button-start {
+            margin-right: 6px;
+        }
+
+        .slide-zoom {
+            height: 100%;
+        }
+
+        .slide-title {
+            margin-top: 2.8rem;
+        }
+
+        .slide-image {
+            max-height: 50%;
+            max-width: 60%;
+            margin: 18px 0;
+        }
+
+        .title-icon {
+            padding-top: 2px;
+            margin-right: 4px !important;
+            font-size: 15pt;
+        }
+
+        .data {
+            margin-left: -7px !important;
+        }
+
+        b {
+            font-weight: 500;
+        }
+
+        p {
+            padding: 0 40px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #60646B;
+
+            b {
+                color: #000000;
+            }
+        }
+
+        .list-slide {
+            margin-top: 2px;
+        }
+
+        .p-msg {
+            margin-top: 6px;
+        }
+
+        .slide-msg {
+            font-size: 9pt !important;
+            color: #9E9E9E;
+            margin-top: 0px;
+            padding-bottom: 12px;
+        }
+
+        .silver-h3 {
+            color: #9E9E9E;
+        }
+
+        .swiper-slide {
+            overflow-y: scroll;
+            display: block;
+        }
+
+        .swiper-pagination-bullet {
+            display: none;
+        }
+
+        .texto-esquerda {
+            font-size: 12pt;
+            margin-right: 6px;
+            color: black;
+        }
+
+        .texto-direita {
+            color: #BBBBBB;
+            font-size: 12pt;
+        }
+
+        .text-wrap-content {
+            color: #BBBBBB;
+            border-bottom: none !important;
+            font-size: 11pt;
+        }
+
+        .checkin-button, .fechamento-button, 
+        .adicionar-acao-button, .adicionar-acao-label,
+        .adicionar-rat-button {
+            margin-left: 14px !important;
+            padding: 19px !important;
+        }
+
+        ion-icon {
+            font-size: 22px;
+        }
+
+        .light-label{
+            color: #979796;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .pecas-button {
+            padding-top: 1px;
+            font-size: 10pt;
+        }
+
+        .first-divider, .first-item {
+            padding-top: 6px !important;
+        }
+
+        .no-padding {
+            padding: 0px !important;
+        }
+
+        .padding-left {
+            padding-left: 16px !important;
+        }
+
+        .margin-left {
+            padding-left: 10px !important;
+        }
+
+        .pos-left {
+            float: left;
+        }
+
+        .no-border-bottom {
+            border: 0px !important;
+        }
+
+        .form {
+            margin-top: 8px;
+        }
+
+        .label-title, .label-content {
+            color: #9C9C9C;
+        }
+
+        .inf-bas-esq {
+            font-size: 12pt;
+            margin-right: 2px;
+        }
+
+        .inf-bas {
+            color: #BBBBBB;
+            font-size: 12pt;
+            text-align: justify;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .badge {
+            font-weight: inherit;
+        }
+
+        .card-chamado-bloqueado {
+            margin-top: 20px !important;
+            margin-bottom: 0px !important;
+        }
+
+        ion-card.adv-map p {
+            font-size: 0.7em !important;
+            padding-left: 0px !important;
+        }
+
+        ion-card.adv-map-titles {
+            padding-left: 0px !important;
+        }
+
+        .adv-map-icon {
+            margin-left: 2px !important;
+            margin-right: -8px !important;
+        }
+
+        .icon-checkin-button {
+            margin-top: -2px !important;
+        }
+
+        .first-icon {
+            padding-top: 2px !important;
+        }
+
+        .trash-icon {
+            margin-right: 2px !important;
+        }
+
+        .margin-top {
+            margin-top: 10px;
+        }
+
+        .photo {
+            text-align: left;
+        }
+
+        ion-item-group {
+            text-align: left;
+        }
+
+        .logo-whatsapp {
+            padding-right: 14px !important;
+            color: #BBB;
+        }
+
+        .btn-checkin, .btn-checkout {
+            height: 40px !important;
+            background-color: white;
+        }
+
+        .btn-fechar {
+            background-color: white;
+        }
+
+        .leaflet-bottom {
+            display: none;
+        }
+
+        .card-map p {
+            padding-left: 0px !important;
+        }
+
+        ion-card-content img {
+            margin-bottom: -10px !important;
+        }
+
+        .informacoes-os {
+            border-bottom: 0px !important;
+
+            ion-list-header {
+                border: 0px;
+                margin-bottom: -6px !important;
+                font-size: 11pt;
+            }
+
+            ion-item, ion-item-divider {
+                min-height: 0.5rem;
+                max-height: 3.25rem;
+                font-size: 11pt;
+            }
+
+            ion-note {
+                font-size: 11pt;
+            }
+        }
+
+        .text-wrap {
+            max-height: 31.0rem !important;
+        }
+    }
+}
+

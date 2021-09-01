@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="fecharModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Situação {{ laudo?.situacoes?.length+1 }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form #f="ngForm" (ngSubmit)="criarSituacao(f)" class="form">
+    <ion-item-divider color="light">Informações</ion-item-divider>
+
+    <ion-item col-12>
+      <ion-label stacked>Causa</ion-label>
+      <ion-textarea 
+        placeholder="Insira de forma clara e objetiva o que causou o problema"
+        name="causa"
+        [ngModel]=""
+        rows="2"
+        required>
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item col-12>
+      <ion-label stacked>Ação</ion-label>
+      <ion-textarea 
+        placeholder="Insira de forma clara e objetiva as ações praticadas ou à realizar"
+        name="acao"
+        [ngModel]=""
+        rows="2"
+        required>
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item-divider color="light">
+      Fotos ({{ qtdFotosLaudo }})
+      <ion-badge 
+        item-end
+        class="badge"
+        color="light">Máximo de 6 Fotos por Laudo</ion-badge>
+    </ion-item-divider>
+
+    <p class="p-msg" *ngIf="!situacao?.fotos.length">Para inserir uma foto, clique no botão <ion-icon color="secondary" name="camera"></ion-icon>. Utilize o celular na horizontal, o que permitirá melhorar a qualidade da(s) sua(s) foto(s). Lembre-se que você poderá anexar o máximo de 2 fotos por situação e essa(s) foto(s) deve(m) demonstrar e registrar a causa do problema descrito nessa situação.</p>
+
+    <ion-item *ngFor="let foto of situacao?.fotos; let i = index">
+      <ion-avatar item-start>
+        <img src="{{ foto.str }}">
+      </ion-avatar>
+      <h2>Foto {{ i+1 }}</h2>
+      <button ion-button clear item-end 
+        (click)="removerFoto(i)">
+        <ion-icon name="trash" color="danger" class="icon-button"></ion-icon>
+      </button>
+    </ion-item>
+
+    <div padding>
+      <button
+        color="secondary"
+        ion-button 
+        block
+        [disabled]="(!f.valid || (!situacao?.fotos.length && platform.is('cordova')))">
+        Salvar
+      </button>
+    </div>
+  </form>
+
+  <ion-fab right bottom>
+    <button 
+      ion-fab color="secondary" 
+      (click)="tirarFoto()"
+      [disabled]="qtdFotosLaudo >= 6">
+      <ion-icon name="camera"></ion-icon
+    ></button>
+  </ion-fab>
+</ion-content>

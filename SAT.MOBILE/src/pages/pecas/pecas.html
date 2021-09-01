@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Consulta de Peças
+    </ion-title>
+
+    <ion-buttons end>
+      <button 
+        ion-button 
+        icon-only 
+        (click)="atualizarBDLocal()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider text-left color="light" class="input-divider">
+    <ion-searchbar 
+      (ionInput)="filtrarPecas($event)" 
+      placeholder="Pesquisa por código/nome" 
+      [(ngModel)]="inputPesquisar"></ion-searchbar>
+  </ion-item-divider>
+
+  <ion-item 
+    *ngFor="let peca of pecas; let i = index" 
+    (click)="telaPeca(peca)">
+    <ion-avatar item-start>
+      <img 
+        src="https://sat.perto.com.br/prjSATWEB/archive/upload_peca_imagem/{{ peca?.codMagnus }}.jpg" 
+        onError="this.src='./assets/imgs/no-photo.png';"
+        title="Imagem">
+    </ion-avatar>
+    <h2>{{ peca?.codMagnus }}</h2>
+    <p>{{ peca?.nomePeca.toUpperCase() }}</p>
+  </ion-item>
+
+  <div *ngIf="pecas?.length == 0">
+    <p text-center class="message">Nenhuma peça encontrada</p>
+  </div>
+
+  <ion-spinner name="dots" color="primary" *ngIf="spinner"></ion-spinner>
+</ion-content>

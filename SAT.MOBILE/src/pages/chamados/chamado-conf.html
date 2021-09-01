@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button 
+        ion-button 
+        icon-only 
+        (click)="fecharModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Conferência</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider class="first-divider text-left" color="light">RAT</ion-item-divider>
+
+  <ion-item>
+    Número da RAT
+    <ion-note item-end>
+      {{ chamado?.rats[0]?.numRat || 'Automático' }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    Checkin
+    <ion-note item-end>
+      {{ chamado?.checkin?.dataHoraCadastro }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    Checkout
+    <ion-note item-end>
+      {{ chamado?.checkout?.dataHoraCadastro }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    Início do Atendimento
+    <ion-note item-end>
+      {{ chamado?.rats[0]?.dataInicio | date:'dd/MM' }}
+      {{ chamado?.rats[0]?.horaInicio }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    Solução do Atendimento
+    <ion-note item-end>
+      {{ chamado?.rats[0]?.dataInicio | date:'dd/MM' }}
+      {{ chamado?.rats[0]?.horaSolucao }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item>
+    Acompanhante
+    <ion-note item-end>
+      {{ chamado?.rats[0]?.nomeAcompanhante }}
+    </ion-note>
+  </ion-item>
+
+  <ion-item-divider 
+    color="light"
+    class="text-left">Solução </ion-item-divider>
+
+  <ion-item text-wrap>
+    <span class="inf-bas">
+      {{ chamado?.rats[0]?.obsRAT }}</span>
+  </ion-item>
+
+  <div *ngFor="let ratDetalhe of chamado?.rats[0]?.ratDetalhes; let i = index">
+    <ion-item-divider 
+      color="light"
+      class="text-left">
+      Detalhe 
+      <ion-badge 
+        item-end
+        class="badge"
+        color="light">{{ i + 1 }}/{{ chamado?.rats[0]?.ratDetalhes?.length }}</ion-badge>
+    </ion-item-divider>
+
+    <ion-item>
+      Tipo da Causa
+      <ion-note item-end>
+        {{ ratDetalhe?.tipoCausa?.nomeTipoCausa 
+          | lowercase | capitalize | ellipsis: 20 }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      Tipo de Serviço
+      <ion-note item-end>
+        {{ ratDetalhe?.tipoServico?.nomeTipoServico 
+          | lowercase | capitalize | ellipsis: 20 }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      Causa
+      <ion-note item-end>
+        {{ ratDetalhe?.causa?.codECausa }}
+        - {{ ratDetalhe?.causa?.nomeCausa | lowercase | capitalize | ellipsis: 22 }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      Defeito
+      <ion-note item-end>
+        {{ ratDetalhe?.defeito?.codEDefeito }}
+        - {{ ratDetalhe?.defeito?.nomeDefeito | lowercase | capitalize | ellipsis: 20 }}
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      Ação
+      <ion-note item-end>
+        {{ ratDetalhe?.acao?.codEAcao }}
+        - {{ ratDetalhe?.acao?.nomeAcao | lowercase | capitalize | ellipsis: 20}}
+      </ion-note>
+    </ion-item>
+
+    <div *ngFor="let peca of ratDetalhe?.pecas; let i = index">
+      <ion-item-divider 
+        color="light"
+        class="text-left">
+        Peça 
+        <ion-badge 
+          item-end
+          class="badge"
+          color="light">{{ i + 1 }}/{{ ratDetalhe?.pecas?.length }}</ion-badge>
+      </ion-item-divider>
+
+      <ion-item>
+        Peça
+        <ion-note item-end>
+          {{ peca?.nomePeca | lowercase | capitalize | ellipsis: 20 }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item>
+        Qtd
+        <ion-note item-end>
+          {{ peca.qtd }}
+        </ion-note>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>Fotos</ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+      <ion-buttons end>
+        <button 
+          ion-button 
+          icon-only 
+          (click)="fecharModal()">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+      
+      <ion-title>5.1 Inserindo {{ modalidade }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <div padding>
+      <button
+        ion-button
+        icon-left
+        block
+        outline
+        color="secondary"
+        type="button"
+        (click)="tirarFoto()"
+        *ngIf="chamado?.rats[0].fotos.length < qtdMaximaFotos">
+        <ion-icon name="camera" class="icon-camera-button"></ion-icon>
+        <span class="label-camera-button">Abrir Câmera</span>
+      </button>
+
+      <ion-item *ngIf="chamado?.rats[0].fotos.length == qtdMaximaFotos" no-lines>
+        <p text-center>Limite de {{ qtdMaximaFotos }} arquivos por atendimento</p>
+      </ion-item>
+    </div>
+
+    <ion-item-divider color="light" text-center>
+      {{ modalidade }}S Adicionados(as)
+    </ion-item-divider>
+
+    <ion-card *ngFor="let foto of chamado?.rats[0]?.fotos; let i = index" (click)="onOpenPlace(place, i)">
+      <img [src]="foto.str">
+      <button
+        ion-button
+        icon-left
+        block
+        outline
+        clear
+        class="remove-button"
+        color="danger"
+        type="button"
+        (click)="removerFoto(i)">
+        <ion-icon name="trash"></ion-icon>
+        <span>Remover Imagem</span>
+      </button>
+    </ion-card>
+
+    <ion-item *ngIf="chamado?.rats[0]?.fotos?.length == 0" no-lines>
+      <p text-center>Nenhum(a) {{ modalidade }} adicionado(a)</p>
+    </ion-item>
+  </ion-content>

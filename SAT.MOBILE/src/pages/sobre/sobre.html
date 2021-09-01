@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+      <ion-buttons end>
+        <button 
+          ion-button 
+          icon-only 
+          (click)="fecharModal()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+  
+      <ion-title>App Técnicos</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+    <div text-center>
+      <h1 class="titulo">Perto <strong>App Técnicos</strong></h1>
+      <p class="sub-titulo">Sistema de Assistência Técnica</p>
+    </div>
+  
+    <p text-justify padding>
+      O <b>App Técnicos</b> é um aplicativo para dispositivos móveis que possui 
+      suporte em múltiplas plataformas. O software foi desenvolvido para automatizar 
+      a coleta de informações dos atendimentos técnicos aos terminais bancários da empresa 
+      <b>Perto S.A.</b>, sendo utilizado por todas as filiais da empresa em 
+      território nacional. O App Técnicos é desenvolvido e mantido pela <b>Equipe SAT</b>, 
+      um time de desenvolvimento que faz parte da empresa Perto.
+    </p>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar color="light">
+      <ion-title><span class="footer">SAT &trade; &#8226; 2017.{{ anoAtual }} &#8226; {{ versaoApp || '??' }}</span></ion-title>
+    </ion-toolbar>
+  </ion-footer>

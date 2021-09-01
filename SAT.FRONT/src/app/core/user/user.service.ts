@@ -71,6 +71,12 @@ export class UserService {
     localStorage.setItem("filtros", JSON.stringify(filtros));
   }
 
+  removerFiltro(filtro: any): void {
+    let filtros = JSON.parse(localStorage.getItem('filtros')) || [];
+    filtros = filtros.filter(f => f.nome !== filtro.nome);
+    localStorage.setItem("filtros", JSON.stringify(filtros));
+  }
+
   obterFiltro(nome: string): any {
     let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
     return filtros.filter(f => f.nome === nome).shift();

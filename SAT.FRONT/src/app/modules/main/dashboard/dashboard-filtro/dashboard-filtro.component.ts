@@ -151,7 +151,7 @@ export class DashboardFiltroComponent implements OnInit {
 
   limpar(): void {
     this.form.reset();
-    this.aplicar();
+    this._userService.removerFiltro(this.filtro);
     this.sidenav.close();
   }
 }

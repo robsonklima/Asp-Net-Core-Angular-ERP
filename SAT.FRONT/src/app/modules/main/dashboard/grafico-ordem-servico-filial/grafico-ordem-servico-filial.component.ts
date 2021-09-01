@@ -60,26 +60,24 @@ export class GraficoOrdemServicoFilialComponent implements OnChanges {
       ...this.filtro?.parametros
     }
 
-    if (this.filtro) {
-      const data = await this._indicadorService.obterPorParametros(params).toPromise();
-      
-      if (data?.length) {
-        let gData: any[] = [];
+    const data = await this._indicadorService.obterPorParametros(params).toPromise();
 
-        data.forEach(el => {
-          gData.push({
-            x: el.label,
-            y: el.valor
-          });
+    if (data?.length) {
+      let gData: any[] = [];
+
+      data.forEach(el => {
+        gData.push({
+          x: el.label,
+          y: el.valor
         });
-        const cores = data.map(d => d.valor > 100 ? "#388E3C" : "#FFC107");
+      });
+      const cores = data.map(d => d.valor > 100 ? "#388E3C" : "#FFC107");
 
-        this.haveData = true;
-        this.inicializarGrafico(gData, cores);
-      } 
-
-      this.isLoading = false;
+      this.haveData = true;
+      this.inicializarGrafico(gData, cores);
     }
+
+    this.isLoading = false;
   }
 
   private inicializarGrafico(data: any[], cores: string[]) {

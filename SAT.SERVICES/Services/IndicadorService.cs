@@ -19,6 +19,7 @@ namespace SAT.SERVICES.Services
             _osRepository = osRepository;
         }
 
+
         private IEnumerable<OrdemServico> ObterOrdensServico(IndicadorParameters parameters)
         {
             return _osRepository.ObterPorParametros(new OrdemServicoParameters()
@@ -32,6 +33,7 @@ namespace SAT.SERVICES.Services
                 PageSize = Int32.MaxValue
             }).Where(w => w.PrazosAtendimento.Count > 0);
         }
+
 
         public List<Indicador> ObterIndicadores(IndicadorParameters parameters)
         {

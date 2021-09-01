@@ -16,7 +16,7 @@
                   </div>
                 </ng-container>
                 <div class="flex items-center">
-                  <div class="leading-6 truncate text-secondary">
+                  <div class="leading-6 truncate text-secondary" *ngIf="filtro">
                     {{ filtro?.parametros.dataInicio | date:'dd/MM/yy' }} até 
                     {{ filtro?.parametros.dataFim | date:'dd/MM/yy' }}
                   </div>

@@ -63,21 +63,19 @@ export class GraficoReincidenciaFilialComponent implements OnChanges {
       ...this.filtro?.parametros
     }
 
-    if (this.filtro) {
-      let data = await this._indicadorService.obterPorParametros(params).toPromise();
+    let data = await this._indicadorService.obterPorParametros(params).toPromise();
 
-      if (data?.length) {
-        data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
+    if (data?.length) {
+      data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
 
-        const labels = data.map(d => d.label);
-        const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor >= 35 ? "#FF4560" : "#26a69a");
-        this.haveData = true;
-        this.inicializarGrafico(labels, valores, cores);
-      } 
+      const labels = data.map(d => d.label);
+      const valores = data.map(d => d.valor);
+      const cores = data.map(d => d.valor >= 35 ? "#FF4560" : "#26a69a");
+      this.haveData = true;
+      this.inicializarGrafico(labels, valores, cores);
+    } 
 
-      this.isLoading = false;
-    }
+    this.isLoading = false;
   }
 
   private inicializarGrafico(labels: string[], valores: number[], cores: string[]) {

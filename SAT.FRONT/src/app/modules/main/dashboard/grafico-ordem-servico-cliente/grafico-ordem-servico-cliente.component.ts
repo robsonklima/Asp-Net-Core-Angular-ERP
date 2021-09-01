@@ -64,18 +64,16 @@ export class GraficoOrdemServicoClienteComponent implements OnChanges {
       ...this.filtro?.parametros
     }
     
-    if (this.filtro) {
-      const data = await this._indicadorService.obterPorParametros(params).toPromise();
-      
-      if (data?.length) {
-        const labels = data.map(d => d.label.split(" ").shift());
-        const valores = data.map(d => d.valor);
-        this.haveData = true;
-        this.inicializarGrafico(labels, valores);
-      } 
+    const data = await this._indicadorService.obterPorParametros(params).toPromise();
+    
+    if (data?.length) {
+      const labels = data.map(d => d.label.split(" ").shift());
+      const valores = data.map(d => d.valor);
+      this.haveData = true;
+      this.inicializarGrafico(labels, valores);
+    } 
 
-      this.isLoading = false;
-    }
+    this.isLoading = false;
   }
 
   private inicializarGrafico(labels: string[], valores: number[]) {

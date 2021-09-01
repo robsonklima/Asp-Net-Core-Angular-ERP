@@ -74,19 +74,17 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
       ...this.filtro?.parametros
     }
 
-    if (this.filtro) {
-      const data = await this._indicadorService.obterPorParametros(params).toPromise();
+    const data = await this._indicadorService.obterPorParametros(params).toPromise();
 
-      if (data?.length) {
-        const labels = data.map(d => d.label.split(" ").shift());
-        const valores = data.map(d => d.valor);
-        const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
-        this.haveData = true;
-        this.inicializarGrafico(labels, valores, cores);
-      } 
-
-      this.isLoading = false;
+    if (data?.length) {
+      const labels = data.map(d => d.label.split(" ").shift());
+      const valores = data.map(d => d.valor);
+      const cores = data.map(d => d.valor >= 5 ? "#FF4560" : "#26a69a");
+      this.haveData = true;
+      this.inicializarGrafico(labels, valores, cores);
     }
+
+    this.isLoading = false;
   }
 
   private inicializarGrafico(labels: string[], valores: number[], cores: string[]) {
@@ -101,7 +99,7 @@ export class GraficoPendenciaClienteComponent implements OnChanges {
         height: 350,
         type: "bar",
         events: {
-          click: function(chart, w, e) {}
+          click: function (chart, w, e) { }
         }
       },
       colors: cores,

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -36,7 +36,7 @@ export class DashboardFiltroComponent implements OnInit {
     private _filialService: FilialService,
     private _clienteService: ClienteService,
     private _userService: UserService,
-    private _snack: CustomSnackbarService
+    private _snack: CustomSnackbarService,
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
     this.filtro = this._userService.obterFiltro('dashboard');
@@ -151,7 +151,8 @@ export class DashboardFiltroComponent implements OnInit {
 
   limpar(): void {
     this.form.reset();
-    this._userService.removerFiltro(this.filtro);
+    this._userService.removerFiltro('dashboard');
+    this.filtro = this._userService.obterFiltro('dashboard');
     this.sidenav.close();
   }
 }

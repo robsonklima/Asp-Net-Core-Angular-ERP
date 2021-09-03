@@ -8,17 +8,17 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAIADmqhw1t0S1c5ws8MGDfwAAAAACAAAAAAADZgAAwAAAABAAAADC2s1KkjSC0PgUUfCh8g1XAAAAAASAAACgAAAAEAAAABmugvKpQrlxKdmShqoGZVcYAAAAA1lc12tiHq0sY1hINiSu3dPR+BqCSD19FAAAAHmUnQUkWwYCb0uKKH9X5k4iK7IJ</EncryptedPassword>
     <_PublishTargetUrl>ftp://10.1.1.60/Branch/SAT.V2/SAT.API</_PublishTargetUrl>
-    <History>True|2021-08-31T16:29:53.6365560Z;True|2021-08-31T13:28:59.8661109-03:00;True|2021-08-30T17:41:44.2260063-03:00;True|2021-08-27T17:46:09.3432948-03:00;False|2021-08-27T17:45:26.8255373-03:00;True|2021-08-26T17:45:28.5781939-03:00;True|2021-08-25T17:08:16.5580278-03:00;True|2021-08-23T17:40:18.5087097-03:00;True|2021-08-23T17:39:15.3125475-03:00;True|2021-08-20T16:46:07.3189372-03:00;True|2021-08-20T16:44:53.9294350-03:00;True|2021-08-17T17:40:28.6927290-03:00;True|2021-08-13T17:45:25.5033602-03:00;True|2021-08-12T10:26:29.8872351-03:00;True|2021-08-06T12:34:52.9412604-03:00;False|2021-08-06T12:33:59.7486232-03:00;True|2021-08-06T12:30:36.0019015-03:00;True|2021-07-26T13:08:55.7191737-03:00;True|2021-07-23T17:37:31.2003494-03:00;True|2021-07-12T00:16:45.1425027-03:00;True|2021-07-12T00:15:44.6471293-03:00;False|2021-07-12T00:14:59.0384999-03:00;True|2021-07-04T22:57:10.9064570-03:00;False|2021-07-04T22:56:06.7859965-03:00;True|2021-06-22T09:00:49.7325901-03:00;</History>
+    <History>True|2021-09-03T20:34:48.5968761Z;False|2021-09-03T17:34:07.9512030-03:00;True|2021-08-31T13:29:53.6365560-03:00;True|2021-08-31T13:28:59.8661109-03:00;True|2021-08-30T17:41:44.2260063-03:00;True|2021-08-27T17:46:09.3432948-03:00;False|2021-08-27T17:45:26.8255373-03:00;True|2021-08-26T17:45:28.5781939-03:00;True|2021-08-25T17:08:16.5580278-03:00;True|2021-08-23T17:40:18.5087097-03:00;True|2021-08-23T17:39:15.3125475-03:00;True|2021-08-20T16:46:07.3189372-03:00;True|2021-08-20T16:44:53.9294350-03:00;True|2021-08-17T17:40:28.6927290-03:00;True|2021-08-13T17:45:25.5033602-03:00;True|2021-08-12T10:26:29.8872351-03:00;True|2021-08-06T12:34:52.9412604-03:00;False|2021-08-06T12:33:59.7486232-03:00;True|2021-08-06T12:30:36.0019015-03:00;True|2021-07-26T13:08:55.7191737-03:00;True|2021-07-23T17:37:31.2003494-03:00;True|2021-07-12T00:16:45.1425027-03:00;True|2021-07-12T00:15:44.6471293-03:00;False|2021-07-12T00:14:59.0384999-03:00;True|2021-07-04T22:57:10.9064570-03:00;False|2021-07-04T22:56:06.7859965-03:00;True|2021-06-22T09:00:49.7325901-03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App.Config">
-      <publishTime>08/05/2021 07:56:26</publishTime>
+      <publishTime>09/03/2021 14:13:37</publishTime>
     </File>
     <File Include="appsettings.Development.json">
-      <publishTime>08/05/2021 07:56:26</publishTime>
+      <publishTime>03/09/2021 14:13:37</publishTime>
     </File>
     <File Include="appsettings.json">
-      <publishTime>08/26/2021 13:46:46</publishTime>
+      <publishTime>03/09/2021 14:13:37</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Authentication.JwtBearer.dll">
       <publishTime>06/18/2021 15:15:24</publishTime>
@@ -33,16 +33,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>08/25/2020 23:24:48</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
-      <publishTime>03/11/2021 18:35:30</publishTime>
+      <publishTime>11/03/2021 18:35:30</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.dll">
-      <publishTime>03/11/2021 18:35:48</publishTime>
+      <publishTime>11/03/2021 18:35:48</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
-      <publishTime>03/11/2021 18:36:28</publishTime>
+      <publishTime>11/03/2021 18:36:28</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
-      <publishTime>03/11/2021 18:36:44</publishTime>
+      <publishTime>11/03/2021 18:36:44</publishTime>
     </File>
     <File Include="Microsoft.Extensions.DependencyInjection.dll">
       <publishTime>11/26/2020 01:59:12</publishTime>
@@ -75,7 +75,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/17/2021 20:03:36</publishTime>
     </File>
     <File Include="NLog.config">
-      <publishTime>08/05/2021 07:56:26</publishTime>
+      <publishTime>03/09/2021 14:13:37</publishTime>
     </File>
     <File Include="NLog.dll">
       <publishTime>03/24/2021 22:05:20</publishTime>
@@ -102,7 +102,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>08/25/2020 20:31:56</publishTime>
     </File>
     <File Include="runtimes/win-arm64/native/sni.dll">
-      <publishTime>07/12/2017 11:24:24</publishTime>
+      <publishTime>12/07/2017 11:24:24</publishTime>
     </File>
     <File Include="runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll">
       <publishTime>08/25/2020 20:34:56</publishTime>
@@ -111,7 +111,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>08/25/2020 20:31:56</publishTime>
     </File>
     <File Include="runtimes/win-x64/native/sni.dll">
-      <publishTime>07/12/2017 11:24:22</publishTime>
+      <publishTime>12/07/2017 11:24:22</publishTime>
     </File>
     <File Include="runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll">
       <publishTime>08/25/2020 20:34:56</publishTime>
@@ -120,7 +120,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>08/25/2020 20:31:56</publishTime>
     </File>
     <File Include="runtimes/win-x86/native/sni.dll">
-      <publishTime>07/12/2017 11:24:22</publishTime>
+      <publishTime>12/07/2017 11:24:22</publishTime>
     </File>
     <File Include="runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll">
       <publishTime>07/20/2020 21:33:24</publishTime>
@@ -135,40 +135,40 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/19/2020 18:49:30</publishTime>
     </File>
     <File Include="SAT.API.deps.json">
-      <publishTime>08/31/2021 13:29:37</publishTime>
+      <publishTime>09/03/2021 17:34:28</publishTime>
     </File>
     <File Include="SAT.API.dll">
-      <publishTime>08/31/2021 13:29:36</publishTime>
+      <publishTime>09/03/2021 17:34:27</publishTime>
     </File>
     <File Include="SAT.API.dll.config">
-      <publishTime>08/05/2021 07:56:26</publishTime>
+      <publishTime>03/09/2021 14:13:37</publishTime>
     </File>
     <File Include="SAT.API.exe">
-      <publishTime>08/31/2021 13:29:37</publishTime>
+      <publishTime>09/03/2021 17:34:27</publishTime>
     </File>
     <File Include="SAT.API.pdb">
-      <publishTime>08/31/2021 13:29:36</publishTime>
+      <publishTime>09/03/2021 17:34:27</publishTime>
     </File>
     <File Include="SAT.API.runtimeconfig.json">
-      <publishTime>08/31/2021 13:28:09</publishTime>
+      <publishTime>03/09/2021 17:33:36</publishTime>
     </File>
     <File Include="SAT.INFRA.dll">
-      <publishTime>08/31/2021 13:28:05</publishTime>
+      <publishTime>03/09/2021 17:33:33</publishTime>
     </File>
     <File Include="SAT.INFRA.pdb">
-      <publishTime>08/31/2021 13:28:05</publishTime>
+      <publishTime>03/09/2021 17:33:33</publishTime>
     </File>
     <File Include="SAT.MODELS.dll">
-      <publishTime>08/31/2021 13:28:04</publishTime>
+      <publishTime>03/09/2021 17:33:32</publishTime>
     </File>
     <File Include="SAT.MODELS.pdb">
-      <publishTime>08/31/2021 13:28:04</publishTime>
+      <publishTime>03/09/2021 17:33:32</publishTime>
     </File>
     <File Include="SAT.SERVICES.dll">
-      <publishTime>08/31/2021 13:28:07</publishTime>
+      <publishTime>03/09/2021 17:33:35</publishTime>
     </File>
     <File Include="SAT.SERVICES.pdb">
-      <publishTime>08/31/2021 13:28:07</publishTime>
+      <publishTime>03/09/2021 17:33:35</publishTime>
     </File>
     <File Include="Swashbuckle.AspNetCore.Swagger.dll">
       <publishTime>09/23/2020 12:47:20</publishTime>
@@ -201,7 +201,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/19/2020 18:52:26</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>08/31/2021 13:29:38</publishTime>
+      <publishTime>09/03/2021 17:34:28</publishTime>
     </File>
   </ItemGroup>
 </Project>

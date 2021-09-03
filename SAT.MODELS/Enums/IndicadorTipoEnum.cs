@@ -4,6 +4,7 @@
     {
         ORDEM_SERVICO,
         SLA,
+        SPA,
         PENDENCIA,
         REINCIDENCIA
     }

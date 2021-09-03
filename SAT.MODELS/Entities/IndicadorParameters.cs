@@ -13,6 +13,7 @@ namespace SAT.MODELS.Entities
         public string CodFiliais { get; set; }
         public string CodStatusServicos { get; set; }
         public string CodTiposIntervencao { get; set; }
-
+        public string CodAutorizadas { get; set; }
+        public string CodTiposGrupo { get; set; }
     }
 }

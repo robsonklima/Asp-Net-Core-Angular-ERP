@@ -120,80 +120,61 @@ namespace SAT.INFRA.Repositories
                 );
             }
 
+            if (parameters.CodTiposGrupo != null)
+            {
+                query = query.Where(
+                    os => 
+                    os.EquipamentoContrato != null &&
+                    parameters.CodTiposGrupo.Contains(os.EquipamentoContrato.CodTipoEquip.ToString())
+                );
+            }
+
             if (parameters.CodStatusServicos != null)
             {
-                var paramsSplit = parameters.CodStatusServicos.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                string condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodStatusServico={0}", paramsSplit[i]);
-
-                    if (i < paramsSplit.Length - 1)
-                    {
-                        condicoes += " Or ";
-                    }
-                }
-
-                query = query.Where(condicoes);
+                query = query.Where(
+                    os =>
+                    parameters.CodStatusServicos.Contains(os.CodStatusServico.ToString())
+                );
             }
 
             if (parameters.CodTiposIntervencao != null)
             {
-                var paramsSplit = parameters.CodTiposIntervencao.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                string condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodTipoIntervencao={0}", paramsSplit[i]);
-
-                    if (i < paramsSplit.Length - 1)
-                    {
-                        condicoes += " Or ";
-                    }
-                }
-
-                query = query.Where(condicoes);
+                query = query.Where(
+                    os =>
+                    parameters.CodTiposIntervencao.Contains(os.CodTipoIntervencao.ToString())
+                );
             }
 
             if (parameters.CodClientes != null)
             {
-                var paramsSplit = parameters.CodClientes.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                string condicoes = string.Empty;
+                query = query.Where(
+                    os =>
+                    parameters.CodClientes.Contains(os.CodCliente.ToString())
+                );
+            }
 
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodCliente={0}", paramsSplit[i]);
-
-                    if (i < paramsSplit.Length - 1)
-                    {
-                        condicoes += " Or ";
-                    }
-                }
-
-                query = query.Where(condicoes);
+            if (parameters.CodEquipamentos != null)
+            {
+                query = query.Where(
+                    os =>
+                    parameters.CodEquipamentos.Contains(os.CodEquip.ToString())
+                );
             }
 
             if (parameters.CodFiliais != null)
             {
-                var paramsSplit = parameters.CodFiliais.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                string condicoes = string.Empty;
+                query = query.Where(
+                    os =>
+                    parameters.CodFiliais.Contains(os.CodFilial.ToString())
+                );
+            }
 
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
-
-                    if (i < paramsSplit.Length - 1)
-                    {
-                        condicoes += " Or ";
-                    }
-                }
-
-                query = query.Where(condicoes);
+            if (parameters.CodAutorizadas != null)
+            {
+                query = query.Where(
+                    os =>
+                    parameters.CodAutorizadas.Contains(os.CodAutorizada.ToString())
+                );
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

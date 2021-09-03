@@ -30,6 +30,8 @@ namespace SAT.SERVICES.Services
                 CodFiliais = parameters.CodFiliais,
                 CodStatusServicos = parameters.CodStatusServicos,
                 CodTiposIntervencao = parameters.CodTiposIntervencao,
+                CodAutorizadas = parameters.CodAutorizadas,
+                CodTiposGrupo = parameters.CodTiposGrupo,
                 PageSize = Int32.MaxValue
             }).Where(w => w.PrazosAtendimento.Count > 0);
         }
@@ -47,6 +49,8 @@ namespace SAT.SERVICES.Services
                     return ObterIndicadorPendencia(parameters);
                 case IndicadorTipoEnum.REINCIDENCIA:
                     return ObterIndicadorReincidencia(parameters);
+                case IndicadorTipoEnum.SPA:
+                    return ObterIndicadorSPA(parameters);
                 default:
                     throw new NotImplementedException("Não Implementado");
             }
@@ -66,6 +70,27 @@ namespace SAT.SERVICES.Services
 
                 case IndicadorAgrupadorEnum.FILIAL:
                     Indicadores = ObterIndicadorSLAFilial(chamados);
+                    break;
+                default:
+                    break;
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorSPA(IndicadorParameters parameters)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+            var chamados = ObterOrdensServico(parameters);
+
+            switch (parameters.Agrupador)
+            {
+                case IndicadorAgrupadorEnum.CLIENTE:
+                    Indicadores = ObterIndicadorSPACliente(chamados);
+                    break;
+
+                case IndicadorAgrupadorEnum.FILIAL:
+                    Indicadores = ObterIndicadorSPAFilial(chamados);
                     break;
                 default:
                     break;
@@ -245,6 +270,117 @@ namespace SAT.SERVICES.Services
             return Indicadores;
         }
 
+        private List<Indicador> ObterIndicadorSPACliente(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var clientes = chamados
+                .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
+                .Select(os => new { cliente = os.Key, Count = os.Count() });
+
+            foreach (var cliente in clientes)
+            {
+                var chamadosCliente = chamados
+                    .Where(os => os.RelatoriosAtendimento != null)
+                    .Where(os => os.CodCliente == cliente.cliente.CodCliente);
+
+                int spaForaQtd = 0;
+                foreach (var os in chamadosCliente)
+                {
+                    if (os.RelatoriosAtendimento.Count() > 1)
+                    {
+                        spaForaQtd++;
+                    }
+
+                    var chamadosSPA = chamadosCliente
+                        .Where(
+                            o =>
+                            o.CodEquipContrato == os.CodEquipContrato &&
+                            o.DataHoraAberturaOS >= os.DataHoraAberturaOS &&
+                            o.DataHoraAberturaOS <= os.DataHoraAberturaOS.Value.AddDays(3) &&
+                            o.CodTipoIntervencao == Constants.CORRETIVA &&
+                            o.CodOS != os.CodOS
+                        );
+
+                    if (chamadosSPA.Count() > 0)
+                    {
+                        spaForaQtd++;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = valor - decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosCliente.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = cliente.cliente.NomeFantasia,
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorSPAFilial(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var filiais = chamados
+                .Where(os => os.Filial != null)
+                .GroupBy(os => new { os.Filial.CodFilial, os.Filial.NomeFilial })
+                .Select(os => new { filial = os.Key, Count = os.Count() });
+
+            foreach (var filial in filiais)
+            {
+                var chamadosFilial = chamados
+                    .Where(os => os.RelatoriosAtendimento != null)
+                    .Where(os => os.CodFilial == filial.filial.CodFilial);
+
+                int spaForaQtd = 0;
+                foreach (var os in chamadosFilial)
+                {
+                    if (os.RelatoriosAtendimento.Count() > 1)
+                    {
+                        spaForaQtd++;
+                    }
+
+                    var chamadosSPA = chamadosFilial
+                        .Where(
+                            o =>
+                            o.CodEquipContrato == os.CodEquipContrato &&
+                            o.DataHoraAberturaOS >= os.DataHoraAberturaOS &&
+                            o.DataHoraAberturaOS <= os.DataHoraAberturaOS.Value.AddDays(3) &&
+                            o.CodTipoIntervencao == Constants.CORRETIVA &&
+                            o.CodOS != os.CodOS
+                        );
+
+                    if (chamadosSPA.Count() > 0)
+                    {
+                        spaForaQtd++;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = valor - decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosFilial.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = filial.filial.NomeFilial,
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
         private List<Indicador> ObterIndicadorOrdemServicoFilial(IEnumerable<OrdemServico> chamados)
         {
             List<Indicador> Indicadores = new List<Indicador>();
@@ -370,10 +506,17 @@ namespace SAT.SERVICES.Services
                     .Where(os => os.CodFilial == f.filial.CodFilial)
                     .Count();
 
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(pendentes) / total) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
                 Indicadores.Add(new Indicador()
                 {
                     Label = f.filial.NomeFilial,
-                    Valor = decimal.Round((Convert.ToDecimal(pendentes) / total) * 100, 2, MidpointRounding.AwayFromZero)
+                    Valor = valor
                 });
             }
 
@@ -401,10 +544,17 @@ namespace SAT.SERVICES.Services
                     .Where(os => os.CodCliente == c.cliente.CodCliente)
                     .Count();
 
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(pendentes) / total) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) {}
+
                 Indicadores.Add(new Indicador()
                 {
                     Label = c.cliente.NomeFantasia,
-                    Valor = decimal.Round((Convert.ToDecimal(pendentes) / total) * 100, 2, MidpointRounding.AwayFromZero)
+                    Valor = valor
                 });
             }
 
@@ -436,10 +586,17 @@ namespace SAT.SERVICES.Services
                     }
                 }
 
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
                 Indicadores.Add(new Indicador()
                 {
                     Label = f.filial.NomeFilial,
-                    Valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero)
+                    Valor = valor
                 });
             }
 
@@ -471,10 +628,17 @@ namespace SAT.SERVICES.Services
                     }
                 }
 
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
                 Indicadores.Add(new Indicador()
                 {
                     Label = c.cliente.NomeFantasia,
-                    Valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero)
+                    Valor = valor
                 });
             }
 

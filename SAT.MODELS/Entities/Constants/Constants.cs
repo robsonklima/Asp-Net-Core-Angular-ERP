@@ -11,6 +11,13 @@
         public static int FECHADO = 3;
         public static int PECAS_PENDENTES = 7;
 
+        // Tipos de Intervenção
+        public static int ALTERACAO_ENGENHARIA = 1;
+        public static int CORRETIVA = 2;
+        public static int DESINSTALACAO = 3;
+        public static int INSTALACAO = 4;
+        public static int PREVENTIVA = 6;
+        public static int REINSTALACAO = 7;
 
         // Mensagens
         public static string NAO_FOI_POSSIVEL_DELETAR = "Não foi possível deletar o registro";

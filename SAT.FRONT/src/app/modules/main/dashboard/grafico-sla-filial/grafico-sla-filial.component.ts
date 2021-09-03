@@ -63,6 +63,9 @@ export class GraficoSLAFilialComponent implements OnChanges {
       ...this.filtro?.parametros
     }
 
+    console.log(params);
+    
+
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
     
     if (data?.length) {

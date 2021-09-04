@@ -29,6 +29,7 @@ import { GraficoReincidenciaClienteComponent } from './grafico-reincidencia-clie
 import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filial/grafico-reincidencia-filial.component';
 import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
 import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
+import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-fili
     GraficoPendenciaFilialComponent,
     GraficoReincidenciaClienteComponent,
     GraficoReincidenciaFilialComponent,
+    GraficoSLAComponent,
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
     DashboardFiltroComponent

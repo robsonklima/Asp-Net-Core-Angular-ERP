@@ -15,23 +15,34 @@ import {
   ApexGrid
 } from "ng-apexcharts";
 
+type ApexXAxis = {
+  type?: "category" | "datetime" | "numeric";
+  categories?: any;
+  labels?: {
+    style?: {
+      colors?: string | string[];
+      fontSize?: string;
+    };
+  };
+};
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   yaxis: ApexYAxis;
-  xaxis: any;
+  xaxis: ApexXAxis;
   grid: ApexGrid;
   colors: string[];
   legend: ApexLegend;
 };
 
 @Component({
-  selector: "app-grafico-sla-filial",
-  templateUrl: "./grafico-sla-filial.component.html"
+  selector: "app-grafico-spa-cliente",
+  templateUrl: "./grafico-spa-cliente.component.html"
 })
-export class GraficoSLAFilialComponent implements OnChanges {
+export class GraficoSPAClienteComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -46,6 +57,10 @@ export class GraficoSLAFilialComponent implements OnChanges {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
+  async ngOnInit() {
+    
+  }
+
   ngOnChanges() {
     if (this.filtro) {
       this.carregarGrafico();
@@ -57,18 +72,16 @@ export class GraficoSLAFilialComponent implements OnChanges {
 
     const params: IndicadorParameters = {
       ...{
-        agrupador: IndicadorAgrupadorEnum.FILIAL,
-        tipo: IndicadorTipoEnum.SLA,
+        agrupador: IndicadorAgrupadorEnum.CLIENTE,
+        tipo: IndicadorTipoEnum.SPA,
       },
       ...this.filtro?.parametros
     }
 
-    let data = await this._indicadorService.obterPorParametros(params).toPromise();
-    
-    if (data?.length) {
-      data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
+    const data = await this._indicadorService.obterPorParametros(params).toPromise();
 
-      const labels = data.map(d => d.label);
+    if (data?.length) {
+      const labels = data.map(d => d.label.split(" ").shift());
       const valores = data.map(d => d.valor);
       const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");
       this.haveData = true;
@@ -90,7 +103,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
         height: 350,
         type: "bar",
         events: {
-          click: (chart, w, e) => {}
+          click: function(chart, w, e) {}
         }
       },
       colors: cores,
@@ -107,7 +120,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
         show: false
       },
       grid: {
-        show: true
+        show: false
       },
       xaxis: {
         categories: labels,

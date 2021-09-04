@@ -27,6 +27,8 @@ import { GraficoPendenciaClienteComponent } from './grafico-pendencia-cliente/gr
 import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/grafico-pendencia-filial.component';
 import { GraficoReincidenciaClienteComponent } from './grafico-reincidencia-cliente/grafico-reincidencia-cliente.component';
 import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filial/grafico-reincidencia-filial.component';
+import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
+import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filia
     GraficoOrdemServicoFilialComponent,
     GraficoOrdemServicoDataComponent,
     GraficoPendenciaClienteComponent,
+    GraficoSPAClienteComponent,
+    GraficoSPAFilialComponent,
     GraficoPendenciaFilialComponent,
     GraficoReincidenciaClienteComponent,
     GraficoReincidenciaFilialComponent,

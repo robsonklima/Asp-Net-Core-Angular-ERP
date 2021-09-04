@@ -28,10 +28,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: "app-grafico-sla-filial",
-  templateUrl: "./grafico-sla-filial.component.html"
+  selector: "app-grafico-spa-filial",
+  templateUrl: "./grafico-spa-filial.component.html"
 })
-export class GraficoSLAFilialComponent implements OnChanges {
+export class GraficoSPAFilialComponent implements OnChanges {
   @ViewChild("chart") chart: ChartComponent;
   @Input() filtro: any;
   usuarioSessao: UsuarioSessao;
@@ -58,7 +58,7 @@ export class GraficoSLAFilialComponent implements OnChanges {
     const params: IndicadorParameters = {
       ...{
         agrupador: IndicadorAgrupadorEnum.FILIAL,
-        tipo: IndicadorTipoEnum.SLA,
+        tipo: IndicadorTipoEnum.SPA,
       },
       ...this.filtro?.parametros
     }

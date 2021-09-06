@@ -30,6 +30,8 @@ namespace SAT.MODELS.Entities
         public Tecnico Tecnico { get; set; }
         [ForeignKey("CodOS")]
         public List<Agendamento> Agendamentos { get; set; }
+        [ForeignKey("CodOS")]
+        public List<Intencao> Intencoes { get; set; }
         public string DefeitoRelatado { get; set; }
         public string ObservacaoCliente { get; set; }
         public DateTime? DataHoraCad { get; set; }

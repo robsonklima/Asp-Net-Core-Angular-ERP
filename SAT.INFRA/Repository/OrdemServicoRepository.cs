@@ -70,7 +70,6 @@ namespace SAT.INFRA.Repositories
                 .Include(os => os.PrazosAtendimento)
                 .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(r => r.CheckinsCheckouts)
                 .AsQueryable();
 
             if (parameters.CodOS != null)
@@ -209,7 +208,8 @@ namespace SAT.INFRA.Repositories
                 .Include(os => os.EquipamentoContrato.Contrato)
                 .Include(os => os.Fotos)
                 .Include(os => os.Agendamentos)
-              //  .Include(os => os.PrazosAtendimento)
+                .Include(os => os.PrazosAtendimento)
+                .Include(os => os.Intencoes)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.ProtocolosSTN)
                 .Include(os => os.RelatoriosAtendimento)
@@ -233,6 +233,8 @@ namespace SAT.INFRA.Repositories
                     .ThenInclude(a => a.StatusServico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.TipoServico)
+                .Include(os => os.RelatoriosAtendimento)
+                    .ThenInclude(a => a.CheckinsCheckouts)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

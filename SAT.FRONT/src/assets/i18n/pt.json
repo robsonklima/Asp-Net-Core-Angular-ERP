@@ -242,5 +242,6 @@
     "modelos": "Modelos",
     "pa": "PA",
     "dashboard": "Dashboard",
-    "periodo": "Período"
+    "periodo": "Período",
+    "periodo invalido": "Período Inválido"
 }

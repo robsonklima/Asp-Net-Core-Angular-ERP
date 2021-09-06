@@ -83,11 +83,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));      
       this.form.patchValue(this.relatorioAtendimento);
     } else {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
+
+    this.form.controls['horaInicio'].valueChanges.subscribe(() => {      
+      console.log(this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value));
+    })
+
+    this.form.controls['horaFim'].valueChanges.subscribe(() => {      
+      console.log(this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value));
+    })
 
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
       indAtivo: 1,
@@ -248,6 +256,23 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       horaFim: [undefined, [TimeValidator(), Validators.required]],
       obsRAT: [undefined],
     });
+  }
+
+  private validaTempoAtendimento(horainicial: string , horafinal: string): void {
+    let inicio = moment(horainicial, 'h:mm A');
+    let fim = moment(horafinal, 'h:mm A');
+
+    const duracao = moment.duration(fim.diff(inicio)).asMinutes();
+ 
+    if ( duracao < 20 )
+    {
+      this.form.controls['horaFim'].setErrors({
+        'periodoInvalido': true        
+      })      
+    } else{
+      this.form.controls['horaFim'].setErrors(null)
+    }
+
   }
 
   async salvar() {

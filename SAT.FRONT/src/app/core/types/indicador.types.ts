@@ -13,6 +13,9 @@ export interface IndicadorParameters extends QueryStringParameters {
     codClientes?: string;
     dataInicio?: string;
     dataFim?: string;
+    codTiposIntervencao: string;
+    codAutorizadas: string;
+    codTiposGrupo: string;
 };
 
 export enum IndicadorAgrupadorEnum

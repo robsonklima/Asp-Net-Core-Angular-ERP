@@ -13,6 +13,8 @@ namespace SAT.MODELS.Entities
         public string NumRAT { get; set; }
         public string NomeRespCliente { get; set; }
         public string NomeAcompanhante { get; set; }
+        [ForeignKey("CodRAT")]
+        public List<CheckinCheckout> CheckinsCheckouts { get; set; }
         public DateTime? DataHoraChegada { get; set; }
         public DateTime DataHoraInicio { get; set; }
         public DateTime? DataHoraFim { get; set; }

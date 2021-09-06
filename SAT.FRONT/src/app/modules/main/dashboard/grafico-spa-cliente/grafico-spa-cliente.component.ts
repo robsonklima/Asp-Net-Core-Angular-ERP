@@ -74,6 +74,9 @@ export class GraficoSPAClienteComponent implements OnChanges {
       ...{
         agrupador: IndicadorAgrupadorEnum.CLIENTE,
         tipo: IndicadorTipoEnum.SPA,
+        codTiposIntervencao: "1,2,3,4,6,7",
+        codAutorizadas: "8, 10, 13, 40, 48, 102, 108, 119, 130, 132, 141, 169, 172, 177, 178, 182, 183, 189, 190, 191, 192, 202",
+        codTiposGrupo: "1,3,5,7,8,9,10,11"
       },
       ...this.filtro?.parametros
     }

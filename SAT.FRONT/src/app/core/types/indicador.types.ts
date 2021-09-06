@@ -27,6 +27,7 @@ export enum IndicadorTipoEnum
 {
     ORDEM_SERVICO,
     SLA,
+    SPA,
     PENDENCIA,
     REINCIDENCIA
 }

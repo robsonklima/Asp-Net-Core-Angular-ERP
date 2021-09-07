@@ -4,27 +4,39 @@ moment.locale('pt-br')
 
 export const calendars = [
     {
-        id     : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',
+        id     : '1',
         title  : 'Ademir Santana',
         color  : 'bg-teal-500',
         visible: true
     },
     {
-        id     : '5dab5f7b-757a-4467-ace1-305fe07b11fe',
+        id     : '2',
         title  : 'João Oliveira',
         color  : 'bg-indigo-500',
         visible: true
     },
     {
-        id     : '09887870-f85a-40eb-8171-1b13d7a7f529',
+        id     : '3',
         title  : 'Cesar Ribeiro da Silva',
         color  : 'bg-pink-500',
+        visible: true
+    },
+    {
+        id     : '4',
+        title  : 'Tiago Rosa Pimentel',
+        color  : 'bg-blue-500',
+        visible: true
+    },
+    {
+        id     : '5',
+        title  : 'Adriana Lorenço',
+        color  : 'bg-yellow-500',
         visible: true
     }
 ];
 export const events = [
     {
-        id         : '660f0dcd-48f8-4266-a89a-8ee0789c074a',
+        id         : '1',
         calendarId : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',
         title      : '6599890',
         description: 'Descrição do evento!',
@@ -33,7 +45,7 @@ export const events = [
         duration   : null,
     },
     {
-        id         : '7471b840-5efb-45da-9092-a0f04ee5617b',
+        id         : '2',
         calendarId : '09887870-f85a-40eb-8171-1b13d7a7f529',
         title      : '6599876',
         description: 'Descrição do evento!',
@@ -42,7 +54,7 @@ export const events = [
         duration   : null,
     },
     {
-        id         : '7471b840-5efb-45da-9092-a0f04ee5617i',
+        id         : '3',
         calendarId : '09887870-f85a-40eb-8171-1b13d7a7f529',
         title      : '6599109',
         description: 'Descrição do evento!',
@@ -51,16 +63,16 @@ export const events = [
         duration   : null,
     },
     {
-        id         : '7471b840-5efb-45da-9092-a0f04ee5617i',
+        id         : '3',
         calendarId : '5dab5f7b-757a-4467-ace1-305fe07b11fe',
         title      : '6599980',
         description: 'Descrição do evento!',
-        start      : moment().date(6).hour(12).minute(0).second(0).millisecond(0).toISOString(),
-        end        : moment().date(6).hour(13).minute(0).second(0).millisecond(0).toISOString(),
+        start      : moment().date(7).hour(12).minute(0).second(0).millisecond(0).toISOString(),
+        end        : moment().date(7).hour(13).minute(0).second(0).millisecond(0).toISOString(),
         duration   : null,
     },
     {
-        id         : '7471b840-5efb-45da-9092-a0f04ee5617p',
+        id         : '4',
         calendarId : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',
         title      : '6599144',
         description: 'Descrição do evento!',

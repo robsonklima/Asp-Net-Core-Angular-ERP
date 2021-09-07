@@ -452,7 +452,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             // Set the event's title to '(No title)' if event title is not available
             if ( !calendarEvent.event.title )
             {
-                calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
+                //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
             }
         }
 

@@ -1,9 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { cloneDeep } from 'lodash-es';
 import { Calendar } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
 import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
 import { calendarColors } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-colors';
@@ -29,8 +27,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
      */
     constructor(
         private _agendaTecnicoService: AgendaTecnicoService,
-        private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef
+        private _overlay: Overlay
     )
     {
     }

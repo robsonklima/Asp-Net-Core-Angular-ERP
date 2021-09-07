@@ -40,7 +40,7 @@
                     </button>
 
                     <button
-                        class="hidden md:inline-flex"
+                        class="hidden md:inline-flex ml-2"
                         mat-icon-button
                         (click)="today()">
                         <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
@@ -192,14 +192,15 @@
                             class="flex flex-col w-full p-6 pt-8 sm:pt-10 sm:pr-8"
                             [formGroup]="eventForm">
 
-                            <p class="text-2xl">Agenda</p>
+                            <p class="text-2xl font-semibold">Agenda</p>
 
                             <div class="flex items-start mt-6">
                                 <mat-icon
                                     class="hidden sm:inline-flex mt-3 mr-6"
                                     [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
                                 <div class="flex-auto">
-                                    <fuse-date-range
+                                    <fuse-date-range 
+                                        [disabled]="true"
                                         [formControlName]="'range'"
                                         [dateFormat]="settings.dateFormat"
                                         [timeRange]="!eventForm.get('allDay').value"

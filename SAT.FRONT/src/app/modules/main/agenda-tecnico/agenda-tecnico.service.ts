@@ -21,20 +21,10 @@ export class AgendaTecnicoService
     private _settings: BehaviorSubject<CalendarSettings | null> = new BehaviorSubject(null);
     private _weekdays: BehaviorSubject<CalendarWeekday[] | null> = new BehaviorSubject(null);
 
-    /**
-     * Constructor
-     */
     constructor(private _httpClient: HttpClient)
     {
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Getter for calendars
-     */
+    
     get calendars$(): Observable<Calendar[]>
     {
         return this._calendars.asObservable();

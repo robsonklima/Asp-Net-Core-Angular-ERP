@@ -218,9 +218,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         };
     }
 
-    /**
-     * After view init
-     */
     ngAfterViewInit(): void
     {
         // Get the full calendar API
@@ -238,9 +235,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
@@ -253,6 +247,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             this._eventPanelOverlayRef.dispose();
         }
     }
+
     toggleDrawer(): void
     {
         this._drawer.toggle();
@@ -333,12 +328,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Prefetch future events
         this._agendaTecnicoService.prefetchFutureEvents(end).subscribe();
     }
-
-    /**
-     * On date click
-     *
-     * @param calendarEvent
-     */
+    
     onDateClick(calendarEvent): void
     {
         // Prepare the event
@@ -376,12 +366,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Change the event panel mode
         this.changeEventPanelMode('add');
     }
-
-    /**
-     * On event click
-     *
-     * @param calendarEvent
-     */
+    
     onEventClick(calendarEvent): void
     {
         // Find the event with the clicked event's id
@@ -419,12 +404,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Open the event panel
         this._openEventPanel(calendarEvent);
     }
-
-    /**
-     * On event render
-     *
-     * @param calendarEvent
-     */
+    
     onEventRender(calendarEvent): void
     {
         // Get event's calendar
@@ -475,21 +455,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Set the event's visibility
         calendarEvent.el.style.display = calendar.visible ? 'flex' : 'none';
     }
-
-    /**
-     * On calendar updated
-     *
-     * @param calendar
-     */
+    
     onCalendarUpdated(calendar): void
     {
         // Re-render the events
         this._fullCalendarApi.rerenderEvents();
     }
-
-    /**
-     * Add event
-     */
+    
     addEvent(): void
     {
         // Get the clone of the event form value
@@ -612,13 +584,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             });
         }
     }
-
-    /**
-     * Delete the given event
-     *
-     * @param event
-     * @param mode
-     */
+    
     deleteEvent(event, mode: CalendarEventEditMode = 'single'): void
     {
         // If the event is a recurring event...
@@ -645,16 +611,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             });
         }
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Create the event panel overlay
-     *
-     * @private
-     */
+    
     private _createEventPanelOverlay(positionStrategy): void
     {
         // Create the overlay
@@ -671,12 +628,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             this._closeEventPanel();
         });
     }
-
-    /**
-     * Open the event panel
-     *
-     * @private
-     */
+    
     private _openEventPanel(calendarEvent): void
     {
         const positionStrategy = this._overlay.position().flexibleConnectedTo(calendarEvent.el).withFlexibleDimensions(false).withPositions([
@@ -727,12 +679,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
-
-    /**
-     * Close the event panel
-     *
-     * @private
-     */
+    
     private _closeEventPanel(): void
     {
         // Detach the overlay from the portal
@@ -745,12 +692,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
-
-    /**
-     * Update the recurrence rule based on the event if needed
-     *
-     * @private
-     */
+    
     private _updateRecurrenceRule(): void
     {
         // Get the event
@@ -825,12 +767,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Update the recurrence rule
         this.eventForm.get('recurrence').setValue(rrule);
     }
-
-    /**
-     * Update the end value based on the recurrence and duration
-     *
-     * @private
-     */
+    
     private _updateEndValue(): void
     {
         // Get the event recurrence

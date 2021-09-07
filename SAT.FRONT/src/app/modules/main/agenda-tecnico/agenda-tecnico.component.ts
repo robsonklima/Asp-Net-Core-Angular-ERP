@@ -470,6 +470,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let newEvent = clone(this.eventForm.value);
+        newEvent.title = '65799807';
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);

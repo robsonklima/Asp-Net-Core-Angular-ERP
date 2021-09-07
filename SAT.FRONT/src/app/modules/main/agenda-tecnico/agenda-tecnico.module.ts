@@ -19,11 +19,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { FuseDateRangeModule } from '@fuse/components/date-range';
 import { SharedModule } from 'app/shared/shared.module';
-import { CalendarComponent } from 'app/modules/main/calendar/calendar.component';
-import { CalendarRecurrenceComponent } from 'app/modules/main/calendar/recurrence/recurrence.component';
-import { CalendarSettingsComponent } from 'app/modules/main/calendar/settings/settings.component';
-import { CalendarSidebarComponent } from 'app/modules/main/calendar/sidebar/sidebar.component';
-import { calendarRoutes } from 'app/modules/main/calendar/calendar.routing';
+import { AgendaTecnicoComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico.component';
+import { AgendaTecnicoConfiguracoesComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-configuracoes/agenda-tecnico-configuracoes.component';
+import { AgendaTecnicoSidebarComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-sidebar.component';
+import { agendaTecnicoRoutes } from 'app/modules/main/agenda-tecnico/agenda-tecnico.routing';
 
 export const FORMATO_DATA = {
     parse: {
@@ -39,13 +38,12 @@ export const FORMATO_DATA = {
 
 @NgModule({
     declarations: [
-        CalendarComponent,
-        CalendarRecurrenceComponent,
-        CalendarSettingsComponent,
-        CalendarSidebarComponent
+        AgendaTecnicoComponent,
+        AgendaTecnicoConfiguracoesComponent,
+        AgendaTecnicoSidebarComponent
     ],
     imports     : [
-        RouterModule.forChild(calendarRoutes),
+        RouterModule.forChild(agendaTecnicoRoutes),
         ScrollingModule,
         MatButtonModule,
         MatButtonToggleModule,
@@ -72,6 +70,6 @@ export const FORMATO_DATA = {
         }
     ]
 })
-export class CalendarModule
+export class AgendaTecnicoModule
 {
 }

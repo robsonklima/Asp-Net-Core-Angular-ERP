@@ -6,7 +6,6 @@ import { DOCUMENT } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Calendar as FullCalendar } from '@fullcalendar/core';
@@ -18,32 +17,32 @@ import rrulePlugin from '@fullcalendar/rrule';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { clone, cloneDeep, isEqual, omit } from 'lodash-es';
 import * as moment from 'moment';
-moment.locale('pt-br')
 import { RRule } from 'rrule';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { CalendarRecurrenceComponent } from 'app/modules/main/calendar/recurrence/recurrence.component';
-import { CalendarService } from 'app/modules/main/calendar/calendar.service';
+import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
 import {
     Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
-} from 'app/modules/main/calendar/calendar.types';
+} from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
 
 @Component({
-    selector       : 'calendar',
-    templateUrl    : './calendar.component.html',
-    styleUrls      : ['./calendar.component.scss'],
+    selector       : 'app-agenda-tecnico',
+    templateUrl    : './agenda-tecnico.component.html',
+    styleUrls      : ['./agenda-tecnico.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation  : ViewEncapsulation.None
 })
-export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
+export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild('eventPanel') private _eventPanel: TemplateRef<any>;
     @ViewChild('fullCalendar') private _fullCalendar: FullCalendarComponent;
     @ViewChild('drawer') private _drawer: MatDrawer;
 
     calendars: Calendar[];
-    calendarPlugins: any[] = [ dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
+    calendarPlugins: any[] = [ 
+        dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin 
+    ];
     drawerMode: CalendarDrawerMode = 'side';
     drawerOpened: boolean = true;
     event: CalendarEvent;
@@ -61,33 +60,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
-        private _calendarService: CalendarService,
+        private _agendaTecnicoService: AgendaTecnicoService,
         private _changeDetectorRef: ChangeDetectorRef,
         @Inject(DOCUMENT) private _document: Document,
         private _formBuilder: FormBuilder,
-        private _matDialog: MatDialog,
         private _overlay: Overlay,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _viewContainerRef: ViewContainerRef
-    ) { }
-
-    get recurrenceStatus(): string
-    {
-        // Get the recurrence from event form
-        const recurrence = this.eventForm.get('recurrence').value;
-
-        // Return null, if there is no recurrence on the event
-        if ( !recurrence )
-        {
-            return null;
-        }
-
-        // Convert the recurrence rule to text
-        let ruleText = RRule.fromString(recurrence).toText();
-        ruleText = ruleText.charAt(0).toUpperCase() + ruleText.slice(1);
-
-        // Return the rule text
-        return ruleText;
+    ) { 
+        moment.locale('pt-br')
     }
     
     ngOnInit(): void
@@ -138,19 +119,8 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             }
         });
 
-        // Subscribe to 'recurrence' field changes
-        this.eventForm.get('recurrence').valueChanges.subscribe((value) => {
-
-            // If this is a recurring event...
-            if ( value )
-            {
-                // Update the end value
-                this._updateEndValue();
-            }
-        });
-
         // Get calendars
-        this._calendarService.calendars$
+        this._agendaTecnicoService.calendars$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((calendars) => {
 
@@ -162,7 +132,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         // Get events
-        this._calendarService.events$
+        this._agendaTecnicoService.events$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((events) => {
 
@@ -175,10 +145,9 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         // Get settings
-        this._calendarService.settings$
+        this._agendaTecnicoService.settings$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((settings) => {
-
                 // Store the settings
                 this.settings = settings;
 
@@ -198,7 +167,6 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({matchingAliases}) => {
-
                 // Set the drawerMode and drawerOpened if the given breakpoint is active
                 if ( matchingAliases.includes('md') )
                 {
@@ -232,14 +200,14 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
                 },
                 columnHeaderHtml  : (date): string => `<span class="fc-weekday">${moment(date).format('ddd')}</span>
                                                        <span class="fc-date">${moment(date).format('D')}</span>`,
-                slotDuration      : '03:00:00',
+                slotDuration      : '01:00:00',
                 slotLabelFormat   : this.eventTimeFormat,                
             },
             timeGridWeek: {},
             timeGridDay : {
                 slotDuration: '01:00:00',
                 minTime: '08:00:00',
-                maxTime: '18:00:00',
+                maxTime: '20:00:00',
             },
             listYear    : {
                 allDayText      : 'All day',
@@ -263,11 +231,11 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
 
         // Get the view's current start and end dates, add/subtract
         // 60 days to create a ~150 days period to fetch the data for
-        const viewStart = moment(this._fullCalendarApi.view.currentStart).subtract(60, 'days');
-        const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(60, 'days');
+        const viewStart = moment(this._fullCalendarApi.view.currentStart).subtract(30, 'days');
+        const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(30, 'days');
 
         // Get events
-        this._calendarService.getEvents(viewStart, viewEnd, true).subscribe();
+        this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
     }
 
     /**
@@ -285,70 +253,11 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             this._eventPanelOverlayRef.dispose();
         }
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Toggle Drawer
-     */
     toggleDrawer(): void
     {
-        // Toggle the drawer
         this._drawer.toggle();
     }
-
-    /**
-     * Open recurrence panel
-     */
-    openRecurrenceDialog(): void
-    {
-        // Open the dialog
-        const dialogRef = this._matDialog.open(CalendarRecurrenceComponent, {
-            panelClass: 'calendar-event-recurrence-dialog',
-            data      : {
-                event: this.eventForm.value
-            }
-        });
-
-        // After dialog closed
-        dialogRef.afterClosed().subscribe((result) => {
-
-            // Return if canceled
-            if ( !result || !result.recurrence )
-            {
-                return;
-            }
-
-            // Only update the recurrence if it actually changed
-            if ( this.eventForm.get('recurrence').value === result.recurrence )
-            {
-                return;
-            }
-
-            // If returned value is 'cleared'...
-            if ( result.recurrence === 'cleared' )
-            {
-                // Clear the recurrence field if recurrence cleared
-                this.eventForm.get('recurrence').setValue(null);
-            }
-            // Otherwise...
-            else
-            {
-                // Update the recurrence field with the result
-                this.eventForm.get('recurrence').setValue(result.recurrence);
-            }
-        });
-    }
-
-    /**
-     * Change the event panel mode between view and edit
-     * mode while setting the event edit mode
-     *
-     * @param panelMode
-     * @param eventEditMode
-     */
+    
     changeEventPanelMode(panelMode: CalendarEventPanelMode, eventEditMode: CalendarEventEditMode = 'single'): void
     {
         // Set the panel mode
@@ -362,12 +271,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             this._eventPanelOverlayRef.updatePosition();
         });
     }
-
-    /**
-     * Get calendar by id
-     *
-     * @param id
-     */
+    
     getCalendar(id): Calendar
     {
         if ( !id )
@@ -377,12 +281,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
 
         return this.calendars.find(calendar => calendar.id === id);
     }
-
-    /**
-     * Change the calendar view
-     *
-     * @param view
-     */
+    
     changeView(view: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listYear'): void
     {
         // Store the view
@@ -398,10 +297,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             this.viewTitle = this._fullCalendarApi.view.title;
         }
     }
-
-    /**
-     * Moves the calendar one stop back
-     */
+    
     previous(): void
     {
         // Go to previous stop
@@ -414,24 +310,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         const start = moment(this._fullCalendarApi.view.currentStart);
 
         // Prefetch past events
-        this._calendarService.prefetchPastEvents(start).subscribe();
+        this._agendaTecnicoService.prefetchPastEvents(start).subscribe();
     }
-
-    /**
-     * Moves the calendar to the current date
-     */
+    
     today(): void
     {
-        // Go to today
         this._fullCalendarApi.today();
-
-        // Update the view title
         this.viewTitle = this._fullCalendarApi.view.title;
     }
-
-    /**
-     * Moves the calendar one stop forward
-     */
+    
     next(): void
     {
         // Go to next stop
@@ -444,7 +331,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         const end = moment(this._fullCalendarApi.view.currentEnd);
 
         // Prefetch future events
-        this._calendarService.prefetchFutureEvents(end).subscribe();
+        this._agendaTecnicoService.prefetchFutureEvents(end).subscribe();
     }
 
     /**
@@ -619,10 +506,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         newEvent = omit(newEvent, ['range', 'recurringEventId']);
 
         // Add the event
-        this._calendarService.addEvent(newEvent).subscribe(() => {
+        this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
 
             // Reload events
-            this._calendarService.reloadEvents().subscribe();
+            this._agendaTecnicoService.reloadEvents().subscribe();
 
             // Close the event panel
             this._closeEventPanel();
@@ -655,10 +542,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         if ( event.recurrence && event.recurringEventId )
         {
             // Update the recurring event on the server
-            this._calendarService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
+            this._agendaTecnicoService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
 
                 // Reload events
-                this._calendarService.reloadEvents().subscribe();
+                this._agendaTecnicoService.reloadEvents().subscribe();
 
                 // Close the event panel
                 this._closeEventPanel();
@@ -672,7 +559,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         if ( !event.recurrence && !event.recurringEventId )
         {
             // Update the event on the server
-            this._calendarService.updateEvent(event.id, event).subscribe(() => {
+            this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
 
                 // Close the event panel
                 this._closeEventPanel();
@@ -692,10 +579,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             event = omit(event, ['range', 'recurringEventId']);
 
             // Update the event on the server
-            this._calendarService.updateEvent(event.id, event).subscribe(() => {
+            this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
 
                 // Reload events
-                this._calendarService.reloadEvents().subscribe();
+                this._agendaTecnicoService.reloadEvents().subscribe();
 
                 // Close the event panel
                 this._closeEventPanel();
@@ -715,10 +602,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
             event.duration = null;
 
             // Update the recurring event on the server
-            this._calendarService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
+            this._agendaTecnicoService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
 
                 // Reload events
-                this._calendarService.reloadEvents().subscribe();
+                this._agendaTecnicoService.reloadEvents().subscribe();
 
                 // Close the event panel
                 this._closeEventPanel();
@@ -738,10 +625,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         if ( event.recurrence )
         {
             // Delete the recurring event on the server
-            this._calendarService.deleteRecurringEvent(event, mode).subscribe(() => {
+            this._agendaTecnicoService.deleteRecurringEvent(event, mode).subscribe(() => {
 
                 // Reload events
-                this._calendarService.reloadEvents().subscribe();
+                this._agendaTecnicoService.reloadEvents().subscribe();
 
                 // Close the event panel
                 this._closeEventPanel();
@@ -751,7 +638,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnDestroy
         else
         {
             // Update the event on the server
-            this._calendarService.deleteEvent(event.id).subscribe(() => {
+            this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
 
                 // Close the event panel
                 this._closeEventPanel();

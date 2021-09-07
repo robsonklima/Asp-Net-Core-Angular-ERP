@@ -1,0 +1,32 @@
+<div class="flex flex-col flex-auto min-h-full p-8">
+    <div class="pb-6 text-4xl font-extrabold tracking-tight">Agenda</div>
+
+    <!-- Calendars -->
+    <div class="group flex items-center justify-between mb-3">
+        <span class="text-lg font-medium">Técnicos</span>
+    </div>
+    <ng-container *ngFor="let calendar of calendars">
+        <div class="group flex items-center justify-between mt-2">
+            <div
+                class="flex items-center"
+                (click)="toggleCalendarVisibility(calendar)">
+                <mat-icon
+                    class="cursor-pointer"
+                    [svgIcon]="calendar.visible ? 'check_box' : 'check_box_outline_blank'"></mat-icon>
+                <span
+                    class="w-3 h-3 ml-2 rounded-full"
+                    [ngClass]="calendar.color"></span>
+                <span class="ml-2 leading-none">{{calendar.title}}</span>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="-mx-4 mt-auto">
+        <a
+            class="flex items-center w-full py-3 px-4 rounded-full hover:bg-hover"
+            [routerLink]="['agenda-tecnico-configuracoes']">
+            <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+            <span class="ml-2 font-medium leading-none">Configurações</span>
+        </a>
+    </div>
+</div>

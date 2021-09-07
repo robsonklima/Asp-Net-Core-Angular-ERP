@@ -4,16 +4,16 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
-import { Calendar } from 'app/modules/main/calendar/calendar.types';
-import { CalendarService } from 'app/modules/main/calendar/calendar.service';
-import { calendarColors } from 'app/modules/main/calendar/sidebar/calendar-colors';
+import { Calendar } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
+import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
+import { calendarColors } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-colors';
 
 @Component({
-    selector     : 'calendar-sidebar',
-    templateUrl  : './sidebar.component.html',
+    selector     : 'app-agenda-tecnico-sidebar',
+    templateUrl  : './agenda-tecnico-sidebar.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class CalendarSidebarComponent implements OnInit, OnDestroy
+export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
 {
     @Output() readonly calendarUpdated: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('editPanel') private _editPanel: TemplateRef<any>;
@@ -28,7 +28,7 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _calendarService: CalendarService,
+        private _agendaTecnicoService: AgendaTecnicoService,
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef
     )
@@ -45,7 +45,7 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Get calendars
-        this._calendarService.calendars$
+        this._agendaTecnicoService.calendars$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((calendars) => {
 
@@ -69,32 +69,7 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
             this._editPanelOverlayRef.dispose();
         }
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Open edit panel
-     */
-    openEditPanel(calendar: Calendar): void
-    {
-        // Set the calendar
-        this.calendar = cloneDeep(calendar);
-
-        // Create the overlay if it doesn't exist
-        if ( !this._editPanelOverlayRef )
-        {
-            this._createEditPanelOverlay();
-        }
-
-        // Attach the portal to the overlay
-        this._editPanelOverlayRef.attach(new TemplatePortal(this._editPanel, this._viewContainerRef));
-    }
-
-    /**
-     * Close the edit panel
-     */
+    
     closeEditPanel(): void
     {
         // Detach the overlay from the portal
@@ -117,36 +92,14 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
         // Update the calendar
         this.saveCalendar(calendar);
     }
-
-    /**
-     * Add calendar
-     */
-    addCalendar(): void
-    {
-        // Create a new calendar with default values
-        const calendar = {
-            id     : null,
-            title  : '',
-            color  : 'bg-blue-500',
-            visible: true
-        };
-
-        // Open the edit panel
-        this.openEditPanel(calendar);
-    }
-
-    /**
-     * Save the calendar
-     *
-     * @param calendar
-     */
+    
     saveCalendar(calendar: Calendar): void
     {
         // If there is no id on the calendar...
         if ( !calendar.id )
         {
             // Add calendar to the server
-            this._calendarService.addCalendar(calendar).subscribe(() => {
+            this._agendaTecnicoService.addCalendar(calendar).subscribe(() => {
 
                 // Close the edit panel
                 this.closeEditPanel();
@@ -159,7 +112,7 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
         else
         {
             // Update the calendar on the server
-            this._calendarService.updateCalendar(calendar.id, calendar).subscribe(() => {
+            this._agendaTecnicoService.updateCalendar(calendar.id, calendar).subscribe(() => {
 
                 // Close the edit panel
                 this.closeEditPanel();
@@ -169,16 +122,11 @@ export class CalendarSidebarComponent implements OnInit, OnDestroy
             });
         }
     }
-
-    /**
-     * Delete the calendar
-     *
-     * @param calendar
-     */
+    
     deleteCalendar(calendar: Calendar): void
     {
         // Delete the calendar on the server
-        this._calendarService.deleteCalendar(calendar.id).subscribe(() => {
+        this._agendaTecnicoService.deleteCalendar(calendar.id).subscribe(() => {
 
             // Close the edit panel
             this.closeEditPanel();

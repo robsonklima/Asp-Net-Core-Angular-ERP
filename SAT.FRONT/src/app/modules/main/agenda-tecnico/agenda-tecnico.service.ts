@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Moment } from 'moment';
-import { Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, CalendarWeekday } from 'app/modules/main/calendar/calendar.types';
+import { Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, CalendarWeekday } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CalendarService
+export class AgendaTecnicoService
 {
     // Private
     private _calendars: BehaviorSubject<Calendar[] | null> = new BehaviorSubject(null);

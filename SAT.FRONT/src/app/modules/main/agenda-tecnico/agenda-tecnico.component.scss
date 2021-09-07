@@ -1,10 +1,4 @@
-calendar {
-
-    /* Tweak: FullCalendar CSS only height to improve resize performance */
-    /* With this tweak, we can disable "handleWindowResize" option of FullCalendar */
-    /* which disables the height calculations on window resize and increases the */
-    /* overall performance. */
-    /* This tweak only affects the Calendar app's FullCalendar. */
+app-agenda-tecnico {
     full-calendar {
         display: flex;
         flex-direction: column;
@@ -20,10 +14,6 @@ calendar {
             height: 100%;
 
             .fc-view {
-
-                /* Day grid - Month view */
-                /* Time grid - Week view */
-                /* Time grid - Day view */
                 &.fc-dayGridMonth-view,
                 &.fc-timeGridWeek-view,
                 &.fc-timeGridDay-view {
@@ -59,7 +49,6 @@ calendar {
                                         flex: 1 1 auto;
                                         overflow: hidden scroll !important;
                                         height: auto !important;
-
                                     }
                                 }
                             }
@@ -69,15 +58,10 @@ calendar {
 
                 /* Day grid - Month view */
                 &.fc-dayGridMonth-view {
-
                     > table {
-
                         > tbody {
-
                             > tr {
-
                                 > td {
-
                                     .fc-scroller {
                                         display: flex;
 

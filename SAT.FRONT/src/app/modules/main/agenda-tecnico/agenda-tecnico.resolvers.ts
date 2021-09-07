@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CalendarService } from 'app/modules/main/calendar/calendar.service';
-import { Calendar, CalendarSettings, CalendarWeekday } from 'app/modules/main/calendar/calendar.types';
+import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
+import { Calendar, CalendarSettings, CalendarWeekday } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ export class CalendarCalendarsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _calendarService: CalendarService)
+    constructor(private _agendaTecnicoService: AgendaTecnicoService)
     {
     }
 
@@ -28,7 +28,7 @@ export class CalendarCalendarsResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Calendar[]>
     {
-        return this._calendarService.getCalendars();
+        return this._agendaTecnicoService.getCalendars();
     }
 }
 
@@ -40,7 +40,7 @@ export class CalendarSettingsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _calendarService: CalendarService)
+    constructor(private _agendaTecnicoService: AgendaTecnicoService)
     {
     }
 
@@ -56,7 +56,7 @@ export class CalendarSettingsResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarSettings>
     {
-        return this._calendarService.getSettings();
+        return this._agendaTecnicoService.getSettings();
     }
 }
 
@@ -68,7 +68,7 @@ export class CalendarWeekdaysResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _calendarService: CalendarService)
+    constructor(private _agendaTecnicoService: AgendaTecnicoService)
     {
     }
 
@@ -84,6 +84,6 @@ export class CalendarWeekdaysResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarWeekday[]>
     {
-        return this._calendarService.getWeekdays();
+        return this._agendaTecnicoService.getWeekdays();
     }
 }

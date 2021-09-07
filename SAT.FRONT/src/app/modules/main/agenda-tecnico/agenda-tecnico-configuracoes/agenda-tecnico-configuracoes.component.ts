@@ -2,15 +2,15 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CalendarService } from 'app/modules/main/calendar/calendar.service';
+import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
 
 @Component({
-    selector       : 'calendar-settings',
-    templateUrl    : './settings.component.html',
+    selector       : 'app-agenda-tecnico-configuracoes',
+    templateUrl    : './agenda-tecnico-configuracoes.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation  : ViewEncapsulation.None
 })
-export class CalendarSettingsComponent implements OnInit, OnDestroy
+export class AgendaTecnicoConfiguracoesComponent implements OnInit, OnDestroy
 {
     settingsForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -19,7 +19,7 @@ export class CalendarSettingsComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _calendarService: CalendarService,
+        private _agendaTecnicoService: AgendaTecnicoService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     )
@@ -55,7 +55,7 @@ export class CalendarSettingsComponent implements OnInit, OnDestroy
         });
 
         // Get settings
-        this._calendarService.settings$
+        this._agendaTecnicoService.settings$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((settings) => {
 
@@ -87,7 +87,7 @@ export class CalendarSettingsComponent implements OnInit, OnDestroy
         const settings = this.settingsForm.value;
 
         // Update the settings on the server
-        this._calendarService.updateSettings(settings).subscribe((updatedSettings) => {
+        this._agendaTecnicoService.updateSettings(settings).subscribe((updatedSettings) => {
             // Reset the form with the updated settings
             this.settingsForm.reset(updatedSettings);
         });

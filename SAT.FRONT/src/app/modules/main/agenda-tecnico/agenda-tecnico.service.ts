@@ -53,14 +53,7 @@ export class AgendaTecnicoService
     {
         return this._weekdays.asObservable();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Get calendars
-     */
+    
     getCalendars(): Observable<Calendar[]>
     {
         return this._httpClient.get<Calendar[]>('api/apps/calendar/calendars').pipe(

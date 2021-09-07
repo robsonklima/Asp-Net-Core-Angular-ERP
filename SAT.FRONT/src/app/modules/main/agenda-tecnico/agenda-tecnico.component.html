@@ -19,7 +19,7 @@
                     </button>
 
                     <div class="ml-4 text-2xl font-semibold tracking-tight whitespace-nowrap">
-                        {{ viewTitle | date: 'dd/MM/yyyy' }}
+                        {{ viewTitle }}
                     </div>
 
                     <button
@@ -52,7 +52,6 @@
                                 (selectionChange)="changeView(viewChanger.value)"
                                 [value]="view"
                                 #viewChanger="matSelect">
-                                <mat-option [value]="'dayGridMonth'">Mensal</mat-option>
                                 <mat-option [value]="'timeGridWeek'">Semanal</mat-option>
                                 <mat-option [value]="'timeGridDay'">Diário</mat-option>
                                 <mat-option [value]="'listYear'">Agenda</mat-option>
@@ -84,12 +83,6 @@
                             </mat-menu>
 
                             <mat-menu #actionsViewsMenu="matMenu">
-                                <button
-                                    mat-menu-item
-                                    [disabled]="view === 'dayGridMonth'"
-                                    (click)="changeView('dayGridMonth')">
-                                    <span>Mensal</span>
-                                </button>
                                 <button
                                     mat-menu-item
                                     [disabled]="view === 'timeGridWeek'"
@@ -127,6 +120,8 @@
                         (dateClick)="onDateClick($event)"
                         (eventClick)="onEventClick($event)"
                         (eventRender)="onEventRender($event)"
+                        [locales]="locales"
+                        locale="pt"
                         #fullCalendar
                     ></full-calendar>
                 </div>
@@ -142,7 +137,9 @@
                                         <div class="text-3xl font-semibold tracking-tight leading-none">
                                             {{ event.title || '(Sem Título)' }}
                                         </div>
-                                        <div class="mt-0.5 text-secondary">{{event.start | date:'dd/MM/yyyy'}}</div>
+                                        <div class="mt-0.5 text-secondary">
+                                            {{event.start | date:'dd/MM/yyyy'}}
+                                        </div>
                                     </div>
                                     <!-- Actions -->
                                     <div class="flex -mt-2 -mr-2 ml-10">
@@ -189,27 +186,12 @@
 
                     <ng-container *ngIf="panelMode === 'add' || panelMode === 'edit'">
                         <form
-                            class="flex flex-col w-full p-6 pt-8 sm:pt-10 sm:pr-8"
+                            class="flex flex-col w-120 p-6 pt-8 sm:pt-10 sm:pr-8"
                             [formGroup]="eventForm">
 
                             <p class="text-2xl font-semibold">Agenda</p>
 
-                            <div class="flex items-start mt-6">
-                                <mat-icon
-                                    class="hidden sm:inline-flex mt-3 mr-6"
-                                    [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
-                                <div class="flex-auto">
-                                    <fuse-date-range 
-                                        [disabled]="true"
-                                        [formControlName]="'range'"
-                                        [dateFormat]="settings.dateFormat"
-                                        [timeRange]="!eventForm.get('allDay').value"
-                                        [timeFormat]="settings.timeFormat"
-                                    ></fuse-date-range>
-                                </div>
-                            </div>
-
-                            <!-- Técnicos -->
+                            <!-- Calendars -->
                             <div class="flex items-center mt-6">
                                 <mat-icon
                                     class="hidden sm:inline-flex mr-6"

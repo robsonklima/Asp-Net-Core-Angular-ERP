@@ -25,6 +25,7 @@ import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tec
 import {
     Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
 } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
+import ptLocale from '@fullcalendar/core/locales/pt';
 
 @Component({
     selector       : 'app-agenda-tecnico',
@@ -39,6 +40,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild('fullCalendar') private _fullCalendar: FullCalendarComponent;
     @ViewChild('drawer') private _drawer: MatDrawer;
 
+    locales = [ptLocale];
     calendars: Calendar[];
     calendarPlugins: any[] = [ 
         dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin 
@@ -52,7 +54,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     events: CalendarEvent[] = [];
     panelMode: CalendarEventPanelMode = 'view';
     settings: CalendarSettings;
-    view: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
+    view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
     views: any;
     viewTitle: string;
     private _eventPanelOverlayRef: OverlayRef;
@@ -67,9 +69,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         private _overlay: Overlay,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _viewContainerRef: ViewContainerRef
-    ) { 
-        moment.locale('pt-br')
-    }
+    ) {}
     
     ngOnInit(): void
     {
@@ -201,13 +201,17 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
                 columnHeaderHtml  : (date): string => `<span class="fc-weekday">${moment(date).format('ddd')}</span>
                                                        <span class="fc-date">${moment(date).format('D')}</span>`,
                 slotDuration      : '01:00:00',
-                slotLabelFormat   : this.eventTimeFormat,                
+                slotLabelFormat   : this.eventTimeFormat,
             },
-            timeGridWeek: {},
+            timeGridWeek: {
+                slotDuration: '01:00:00',
+                minTime: '08:00:00',
+                maxTime: '19:00:00',
+            },
             timeGridDay : {
                 slotDuration: '01:00:00',
                 minTime: '08:00:00',
-                maxTime: '20:00:00',
+                maxTime: '19:00:00',
             },
             listYear    : {
                 allDayText      : 'All day',
@@ -277,7 +281,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         return this.calendars.find(calendar => calendar.id === id);
     }
     
-    changeView(view: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listYear'): void
+    changeView(view: 'timeGridWeek' | 'timeGridDay' | 'listYear'): void
     {
         // Store the view
         this.view = view;
@@ -345,8 +349,8 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             allDay          : false,
             recurrence      : null,
             range           : {
-                start: moment(calendarEvent.date).startOf('day').toISOString(),
-                end  : moment(calendarEvent.date).endOf('day').toISOString()
+                start: moment(calendarEvent.date).toISOString(),
+                end  : moment(calendarEvent.date).add(1, 'hours').toISOString()
             }
         };
 
@@ -466,13 +470,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let newEvent = clone(this.eventForm.value);
-
-        // If the event is a recurring event...
-        if ( newEvent.recurrence )
-        {
-            // Set the event duration
-            newEvent.duration = moment(newEvent.range.end).diff(moment(newEvent.range.start), 'minutes');
-        }
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);

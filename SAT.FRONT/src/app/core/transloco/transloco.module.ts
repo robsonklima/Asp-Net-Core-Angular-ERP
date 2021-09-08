@@ -9,7 +9,6 @@ import { TranslocoHttpLoader } from 'app/core/transloco/transloco.http-loader';
     ],
     providers: [
         {
-            // Provide the default Transloco configuration
             provide : TRANSLOCO_CONFIG,
             useValue: translocoConfig({
                 availableLangs      : [

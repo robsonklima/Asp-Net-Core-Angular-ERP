@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 @Component({
     selector       : 'app-agenda-tecnico-configuracoes',

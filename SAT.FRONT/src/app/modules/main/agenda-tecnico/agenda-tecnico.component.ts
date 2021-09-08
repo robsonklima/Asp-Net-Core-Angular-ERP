@@ -21,10 +21,10 @@ import { RRule } from 'rrule';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import {
     Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
-} from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
+} from 'app/core/types/agenda-tecnico.types';
 import ptLocale from '@fullcalendar/core/locales/pt';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
-import { Calendar, CalendarSettings, CalendarWeekday } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+import { Calendar, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'

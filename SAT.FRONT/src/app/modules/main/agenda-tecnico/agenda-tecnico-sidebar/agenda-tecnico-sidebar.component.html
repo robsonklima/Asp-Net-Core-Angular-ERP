@@ -1,9 +1,9 @@
-<div class="flex flex-col flex-auto min-h-full p-8">
-    <div class="pb-6 text-4xl font-extrabold tracking-tight">Agenda</div>
+<div class="flex flex-col flex-auto min-h-full p-8" *transloco="let t">
+    <div class="pb-6 text-4xl font-extrabold tracking-tight">{{ t('agenda') }}</div>
 
     <!-- Calendars -->
     <div class="group flex items-center justify-between mb-3">
-        <span class="text-lg font-medium">Técnicos</span>
+        <span class="text-lg font-medium">{{ t('tecnicos') }}</span>
     </div>
     <ng-container *ngFor="let calendar of calendars">
         <div class="group flex items-center justify-between mt-2">
@@ -30,7 +30,7 @@
             class="flex items-center w-full mt-4 py-3 px-4 rounded-full hover:bg-hover"
             [routerLink]="['agenda-tecnico-configuracoes']">
             <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
-            <span class="ml-2 font-medium leading-none">Configurações</span>
+            <span class="ml-2 font-medium leading-none">{{ t('configuracoes') }}</span>
         </a>
     </div>
 </div>

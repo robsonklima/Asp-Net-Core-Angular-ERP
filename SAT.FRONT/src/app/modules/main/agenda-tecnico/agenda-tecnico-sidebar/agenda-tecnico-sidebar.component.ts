@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef, ViewCh
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Calendar } from 'app/modules/main/agenda-tecnico/agenda-tecnico.types';
-import { AgendaTecnicoService } from 'app/modules/main/agenda-tecnico/agenda-tecnico.service';
+import { Calendar } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { calendarColors } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-colors';
 
 @Component({

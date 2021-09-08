@@ -242,5 +242,8 @@
     "pa": "AP",
     "dashboard": "Dashboard",
     "periodo": "Time course",
-    "agenta técnicos": "Technical Schedule"
+    "agenta técnicos": "Technical Schedule",
+    "semanal": "Weekly",
+    "diario": "Daily",
+    "agenda": "Schedule"
 }

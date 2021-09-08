@@ -23,6 +23,7 @@ import { AgendaTecnicoComponent } from 'app/modules/main/agenda-tecnico/agenda-t
 import { AgendaTecnicoConfiguracoesComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-configuracoes/agenda-tecnico-configuracoes.component';
 import { AgendaTecnicoSidebarComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-sidebar.component';
 import { agendaTecnicoRoutes } from 'app/modules/main/agenda-tecnico/agenda-tecnico.routing';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const FORMATO_DATA = {
     parse: {
@@ -61,7 +62,8 @@ export const FORMATO_DATA = {
         MatTooltipModule,
         FullCalendarModule,
         FuseDateRangeModule,
-        SharedModule
+        SharedModule,
+        TranslocoModule
     ],
     providers   : [
         {

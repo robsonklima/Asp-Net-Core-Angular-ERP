@@ -1,4 +1,4 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden dark:bg-gray-900">
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden dark:bg-gray-900" *transloco="let t">
     <mat-drawer-container class="flex-auto h-full bg-transparent">
         <mat-drawer
             class="w-60 dark:bg-gray-900"
@@ -52,9 +52,9 @@
                                 (selectionChange)="changeView(viewChanger.value)"
                                 [value]="view"
                                 #viewChanger="matSelect">
-                                <mat-option [value]="'timeGridWeek'">Semanal</mat-option>
-                                <mat-option [value]="'timeGridDay'">Diário</mat-option>
-                                <mat-option [value]="'listYear'">Agenda</mat-option>
+                                <mat-option [value]="'timeGridWeek'">{{ t('semanal') }}</mat-option>
+                                <mat-option [value]="'timeGridDay'">{{ t('diario') }}</mat-option>
+                                <mat-option [value]="'listYear'">{{ t('agenda') }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -166,23 +166,23 @@
                                 </div>
                             </div>
 
-                            <!-- Description -->
-                            <div
-                                class="flex mt-6"
-                                *ngIf="event.description">
-                                <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
-                                <div class="flex-auto ml-6">{{event.description}}</div>
-                            </div>
-
                             <!-- Calendar -->
                             <div class="flex mt-6">
-                                <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                                <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
                                 <div class="flex flex-auto items-center ml-6">
                                     <div
                                         class="w-2 h-2 rounded-full"
                                         [ngClass]="getCalendar(event.calendarId).color"></div>
                                     <div class="ml-3 leading-none">{{getCalendar(event.calendarId).title}}</div>
                                 </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div
+                                class="flex mt-6"
+                                *ngIf="event.description">
+                                <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
+                                <div class="flex-auto ml-6">{{event.description}}</div>
                             </div>
                         </div>
                     </ng-container>

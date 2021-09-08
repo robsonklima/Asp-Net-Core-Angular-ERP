@@ -83,7 +83,7 @@ export const events = [
 ];
 export const exceptions = [];
 export const settings = {
-    dateFormat : 'LL',
+    dateFormat : 'DD/MM/YYYY',
     timeFormat : '24',
     startWeekOn: 1,
     

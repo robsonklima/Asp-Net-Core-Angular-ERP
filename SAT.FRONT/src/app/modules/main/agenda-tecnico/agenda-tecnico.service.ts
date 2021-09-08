@@ -10,7 +10,6 @@ import { Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, Calen
 })
 export class AgendaTecnicoService
 {
-    // Private
     private _calendars: BehaviorSubject<Calendar[] | null> = new BehaviorSubject(null);
     private _events: BehaviorSubject<CalendarEvent[] | null> = new BehaviorSubject(null);
     private _loadedEventsRange: { start: Moment | null; end: Moment | null } = {
@@ -21,34 +20,25 @@ export class AgendaTecnicoService
     private _settings: BehaviorSubject<CalendarSettings | null> = new BehaviorSubject(null);
     private _weekdays: BehaviorSubject<CalendarWeekday[] | null> = new BehaviorSubject(null);
 
-    constructor(private _httpClient: HttpClient)
-    {
-    }
+    constructor(
+        private _httpClient: HttpClient
+    ) {}
     
     get calendars$(): Observable<Calendar[]>
     {
         return this._calendars.asObservable();
     }
-
-    /**
-     * Getter for events
-     */
+    
     get events$(): Observable<CalendarEvent[]>
     {
         return this._events.asObservable();
     }
-
-    /**
-     * Getter for settings
-     */
+    
     get settings$(): Observable<CalendarSettings>
     {
         return this._settings.asObservable();
     }
-
-    /**
-     * Getter for weekdays
-     */
+    
     get weekdays$(): Observable<CalendarWeekday[]>
     {
         return this._weekdays.asObservable();
@@ -63,11 +53,6 @@ export class AgendaTecnicoService
         );
     }
 
-    /**
-     * Add calendar
-     *
-     * @param calendar
-     */
     addCalendar(calendar: Calendar): Observable<Calendar>
     {
         return this.calendars$.pipe(
@@ -115,12 +100,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Delete calendar
-     *
-     * @param id
-     */
+    
     deleteCalendar(id: string): Observable<any>
     {
         return this.calendars$.pipe(
@@ -151,14 +131,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Get events
-     *
-     * @param start
-     * @param end
-     * @param replace
-     */
+    
     getEvents(start: Moment, end: Moment, replace = false): Observable<CalendarEvent[]>
     {
         // Set the new start date for loaded events
@@ -206,10 +179,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Reload events using the loaded events range
-     */
+    
     reloadEvents(): Observable<CalendarEvent[]>
     {
         // Get the events
@@ -229,12 +199,7 @@ export class AgendaTecnicoService
             })
         );
     }
-
-    /**
-     * Prefetch future events
-     *
-     * @param end
-     */
+    
     prefetchFutureEvents(end: Moment): Observable<CalendarEvent[]>
     {
         // Calculate the remaining prefetched days
@@ -256,12 +221,7 @@ export class AgendaTecnicoService
         // Prefetch the events
         return this.getEvents(start, end);
     }
-
-    /**
-     * Prefetch past events
-     *
-     * @param start
-     */
+    
     prefetchPastEvents(start: Moment): Observable<CalendarEvent[]>
     {
         // Calculate the remaining prefetched days
@@ -283,12 +243,7 @@ export class AgendaTecnicoService
         // Prefetch the events
         return this.getEvents(start, end);
     }
-
-    /**
-     * Add event
-     *
-     * @param event
-     */
+    
     addEvent(event): Observable<CalendarEvent>
     {
         return this.events$.pipe(
@@ -307,13 +262,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Update event
-     *
-     * @param id
-     * @param event
-     */
+    
     updateEvent(id: string, event): Observable<CalendarEvent>
     {
         return this.events$.pipe(
@@ -339,14 +288,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Update recurring event
-     *
-     * @param event
-     * @param originalEvent
-     * @param mode
-     */
+    
     updateRecurringEvent(event, originalEvent, mode: CalendarEventEditMode): Observable<boolean>
     {
         return this._httpClient.patch<boolean>('api/apps/calendar/recurring-event', {
@@ -355,12 +297,7 @@ export class AgendaTecnicoService
             mode
         });
     }
-
-    /**
-     * Delete event
-     *
-     * @param id
-     */
+    
     deleteEvent(id: string): Observable<CalendarEvent>
     {
         return this.events$.pipe(
@@ -383,13 +320,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Delete recurring event
-     *
-     * @param event
-     * @param mode
-     */
+    
     deleteRecurringEvent(event, mode: CalendarEventEditMode): Observable<boolean>
     {
         return this._httpClient.delete<boolean>('api/apps/calendar/recurring-event', {
@@ -399,10 +330,7 @@ export class AgendaTecnicoService
             }
         });
     }
-
-    /**
-     * Get settings
-     */
+    
     getSettings(): Observable<CalendarSettings>
     {
         return this._httpClient.get<CalendarSettings>('api/apps/calendar/settings').pipe(
@@ -411,10 +339,7 @@ export class AgendaTecnicoService
             })
         );
     }
-
-    /**
-     * Update settings
-     */
+    
     updateSettings(settings: CalendarSettings): Observable<CalendarSettings>
     {
         return this.events$.pipe(
@@ -437,10 +362,7 @@ export class AgendaTecnicoService
             ))
         );
     }
-
-    /**
-     * Get weekdays
-     */
+    
     getWeekdays(): Observable<CalendarWeekday[]>
     {
         return this._httpClient.get<CalendarWeekday[]>('api/apps/calendar/weekdays').pipe(

@@ -310,9 +310,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
 
         // Get the view's current start date
         const start = moment(this._fullCalendarApi.view.currentStart);
-
-        // Prefetch past events
-        this._agendaTecnicoService.prefetchPastEvents(start).subscribe();
     }
     
     today(): void
@@ -333,7 +330,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         const end = moment(this._fullCalendarApi.view.currentEnd);
 
         // Prefetch future events
-        this._agendaTecnicoService.prefetchFutureEvents(end).subscribe();
+        //this._agendaTecnicoService.prefetchFutureEvents(end).subscribe();
     }
     
     onDateClick(calendarEvent): void
@@ -346,6 +343,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             isFirstInstance : false,
             title           : '',
             description     : '',
+            color           : calendarEvent.color,
             start           : moment(calendarEvent.date).startOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
             end             : moment(calendarEvent.date).endOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
             duration        : null,
@@ -376,14 +374,8 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     
     onEventClick(calendarEvent): void
     {
-        console.log(calendarEvent);
-        
-
         // Find the event with the clicked event's id
         const event: any = cloneDeep(this.events.find(item => item.id === calendarEvent.event.id));
-
-        console.log(event);
-        
 
         // Set the event
         this.event = event;
@@ -490,7 +482,11 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let newEvent = clone(this.eventForm.value);
-        newEvent.title = '65799807';
+        newEvent.title = '8888888';
+        newEvent.dataHoraCad = '2019-09-09';
+        newEvent.codUsuarioCad = 'rklima';
+        newEvent.duration = newEvent.duration || 60;
+        newEvent.color = 'bg-green-500';
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);

@@ -185,65 +185,14 @@ export class AgendaTecnicoService
         );
     }
     
-    prefetchFutureEvents(end: Moment): Observable<CalendarEvent[]>
-    {
-        // Calculate the remaining prefetched days
-        const remainingDays = this._loadedEventsRange.end.diff(end, 'days');
-
-        // Return if remaining days is bigger than the number
-        // of days to prefetch. This means we were already been
-        // there and fetched the events data so no need for doing
-        // it again.
-        if ( remainingDays >= this._numberOfDaysToPrefetch )
-        {
-            return of([]);
-        }
-
-        // Figure out the start and end dates
-        const start = this._loadedEventsRange.end.clone().add(1, 'day');
-        end = this._loadedEventsRange.end.clone().add(this._numberOfDaysToPrefetch - remainingDays, 'days');
-
-        // Prefetch the events
-        //return this.getEvents(start, end);
-    }
-    
-    prefetchPastEvents(start: Moment): Observable<CalendarEvent[]>
-    {
-        // Calculate the remaining prefetched days
-        const remainingDays = start.diff(this._loadedEventsRange.start, 'days');
-
-        // Return if remaining days is bigger than the number
-        // of days to prefetch. This means we were already been
-        // there and fetched the events data so no need for doing
-        // it again.
-        if ( remainingDays >= this._numberOfDaysToPrefetch )
-        {
-            return of([]);
-        }
-
-        // Figure out the start and end dates
-        start = this._loadedEventsRange.start.clone().subtract(this._numberOfDaysToPrefetch - remainingDays, 'days');
-        const end = this._loadedEventsRange.start.clone().subtract(1, 'day');
-
-        // Prefetch the events
-        //return this.getEvents(start, end);
-    }
-    
     addEvent(event): Observable<CalendarEvent>
     {
-        event.dataHoraCad = '2019-09-09';
-        event.codUsuarioCad = 'rklima';
-        event.duration = event.duration || 60;
-
         return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
             tap((data) => {
-                console.log(data)
-
                 data.id = data.id.toString();
                 var lista = this._events.value;
                 lista.push(data);
                 this._events.next(lista);
-                console.log(this._events.value)
             })
         );
     }

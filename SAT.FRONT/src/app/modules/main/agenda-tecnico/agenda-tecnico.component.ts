@@ -273,7 +273,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     
     getCalendar(id): Calendar
     {
-        if ( !id )
+        if (!id)
         {
             return;
         }
@@ -459,10 +459,31 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Set the event's visibility
         calendarEvent.el.style.display = calendar.visible ? 'flex' : 'none';
     }
+
+    onEventDrop(calendarEvent): void {
+        const event = this.events.find(item => item.id === calendarEvent.event.id);
+
+        event.start = calendarEvent.event.start;
+        event.end = calendarEvent.event.end;
+        
+        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
+            this._agendaTecnicoService.reloadEvents().subscribe();
+        });
+    }
+
+    onEventResize(calendarEvent): void {
+        const event = this.events.find(item => item.id === calendarEvent.event.id);
+        
+        event.start = calendarEvent.event.start;
+        event.end = calendarEvent.event.end;
+        
+        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
+            this._agendaTecnicoService.reloadEvents().subscribe();
+        });
+    }
     
     onCalendarUpdated(calendar): void
     {
-        // Re-render the events
         this._fullCalendarApi.rerenderEvents();
     }
     
@@ -491,8 +512,8 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Get the clone of the event form value
         let event = clone(this.eventForm.value);
         const {
-                  range,
-                  ...eventWithoutRange
+                range,
+                ...eventWithoutRange
               } = event;
 
         // Get the original event

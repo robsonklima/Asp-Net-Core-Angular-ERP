@@ -12,14 +12,15 @@ export interface CalendarEvent
 {
     id: string;
     calendarId: string;
-    recurringEventId: string | null;
-    isFirstInstance: boolean;
+    recurringEventId?: string | null;
+    isFirstInstance?: boolean;
+    duration: number;
     title: string;
     description: string;
     start: string | null;
     end: string | null;
-    allDay: boolean;
-    recurrence: string;
+    allDay?: boolean;
+    recurrence?: string;
 }
 
 export interface CalendarEventException

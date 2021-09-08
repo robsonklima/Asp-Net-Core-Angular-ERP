@@ -37,7 +37,7 @@ export const calendars = [
 export const events = [
     {
         id         : '1',
-        calendarId : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',
+        calendarId : '1',
         title      : '6599890',
         description: 'Descrição do evento!',
         start      : moment().date(10).hour(11).minute(0).second(0).millisecond(0).toISOString(),
@@ -46,7 +46,7 @@ export const events = [
     },
     {
         id         : '2',
-        calendarId : '09887870-f85a-40eb-8171-1b13d7a7f529',
+        calendarId : '2',
         title      : '6599876',
         description: 'Descrição do evento!',
         start      : moment().date(11).hour(9).minute(0).second(0).millisecond(0).toISOString(),
@@ -55,7 +55,7 @@ export const events = [
     },
     {
         id         : '3',
-        calendarId : '09887870-f85a-40eb-8171-1b13d7a7f529',
+        calendarId : '2',
         title      : '6599109',
         description: 'Descrição do evento!',
         start      : moment().date(6).hour(12).minute(0).second(0).millisecond(0).toISOString(),
@@ -63,8 +63,8 @@ export const events = [
         duration   : null,
     },
     {
-        id         : '3',
-        calendarId : '5dab5f7b-757a-4467-ace1-305fe07b11fe',
+        id         : '4',
+        calendarId : '3',
         title      : '6599980',
         description: 'Descrição do evento!',
         start      : moment().date(7).hour(12).minute(0).second(0).millisecond(0).toISOString(),
@@ -72,8 +72,8 @@ export const events = [
         duration   : null,
     },
     {
-        id         : '4',
-        calendarId : '1a470c8e-40ed-4c2d-b590-a4f1f6ead6cc',
+        id         : '5',
+        calendarId : '4',
         title      : '6599144',
         description: 'Descrição do evento!',
         start      : moment().date(6).hour(12).minute(0).second(0).millisecond(0).toISOString(),

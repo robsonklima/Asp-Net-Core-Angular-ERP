@@ -110,6 +110,7 @@
                 <div class="flex flex-col flex-auto">
                     <full-calendar
                         [defaultView]="view"
+                        [editable]="true"
                         [events]="events"
                         [firstDay]="settings.startWeekOn"
                         [handleWindowResize]="false"
@@ -120,6 +121,8 @@
                         (dateClick)="onDateClick($event)"
                         (eventClick)="onEventClick($event)"
                         (eventRender)="onEventRender($event)"
+                        (eventDrop)="onEventDrop($event)"
+                        (eventResize)="onEventResize($event)"
                         [locales]="locales"
                         locale="pt"
                         #fullCalendar

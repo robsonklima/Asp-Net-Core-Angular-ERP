@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Calendar } from 'app/core/types/agenda-tecnico.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
-import { calendarColors } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-colors';
 
 @Component({
     selector     : 'app-agenda-tecnico-sidebar',
@@ -17,28 +16,15 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
     @ViewChild('editPanel') private _editPanel: TemplateRef<any>;
 
     calendar: Calendar | null;
-    calendarColors: any = calendarColors;
     calendars: Calendar[];
     private _editPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
     constructor(
         private _agendaTecnicoService: AgendaTecnicoService,
         private _overlay: Overlay
-    )
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
+    ) { }
+    
     ngOnInit(): void
     {
         // Get calendars
@@ -50,10 +36,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
                 this.calendars = calendars;
             });
     }
-
-    /**
-     * On destroy
-     */
+    
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
@@ -75,12 +58,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
             this._editPanelOverlayRef.detach();
         }
     }
-
-    /**
-     * Toggle the calendar visibility
-     *
-     * @param calendar
-     */
+    
     toggleCalendarVisibility(calendar: Calendar): void
     {
         // Toggle the visibility
@@ -132,16 +110,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
             this.calendarUpdated.emit();
         });
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Create the edit panel overlay
-     *
-     * @private
-     */
+    
     private _createEditPanelOverlay(): void
     {
         // Create the overlay

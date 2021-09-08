@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Moment } from 'moment';
-import { Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
+import { appConfig as c } from 'app/core/config/app.config'
+import {
+    AgendaTecnicoParameters, Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, CalendarWeekday
+} from 'app/core/types/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
@@ -43,12 +46,42 @@ export class AgendaTecnicoService
     {
         return this._weekdays.asObservable();
     }
-    
-    getCalendars(): Observable<Calendar[]>
-    {
-        return this._httpClient.get<Calendar[]>('api/apps/calendar/calendars').pipe(
-            tap((response) => {
-                this._calendars.next(response);
+
+    obterPorParametros(parameters: AgendaTecnicoParameters): Observable<Calendar[]> {
+        let params = new HttpParams();
+        
+        Object.keys(parameters).forEach(key => {
+          if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this._httpClient.get<Calendar[]>(`${c.api}/AgendaTecnico`, { params: params }).pipe(
+            tap((data) => {
+                var calendars = [];
+                var events = [];
+
+                data.forEach((ag: any) => {
+                    calendars.push({
+                        id: ag.id.toString(),
+                        title: ag.title,
+                        color: ag.color,
+                        visible: true
+                    });
+
+                    ag.eventos.forEach(ev => {
+                        events.push({
+                            id: ev.id.toString(),
+                            calendarId: ev.calendarId.toString(),
+                            duration: ev.duration || 60,
+                            title: ev.title,
+                            description: ev.description,
+                            start: ev.start,
+                            end: ev.end
+                        });
+                    });
+                });
+
+                this._calendars.next(calendars);
+                this._events.next(events);
             })
         );
     }
@@ -132,54 +165,6 @@ export class AgendaTecnicoService
         );
     }
     
-    getEvents(start: Moment, end: Moment, replace = false): Observable<CalendarEvent[]>
-    {
-        // Set the new start date for loaded events
-        if ( replace || !this._loadedEventsRange.start || start.isBefore(this._loadedEventsRange.start) )
-        {
-            this._loadedEventsRange.start = start;
-        }
-
-        // Set the new end date for loaded events
-        if ( replace || !this._loadedEventsRange.end || end.isAfter(this._loadedEventsRange.end) )
-        {
-            this._loadedEventsRange.end = end;
-        }
-
-        // Get the events
-        return this._httpClient.get<CalendarEvent[]>('api/apps/calendar/events', {
-            params: {
-                start: start.toISOString(true),
-                end  : end.toISOString(true)
-            }
-        }).pipe(
-            switchMap(response => this._events.pipe(
-                take(1),
-                map((events) => {
-
-                    // If replace...
-                    if ( replace )
-                    {
-                        // Execute the observable with the response replacing the events object
-                        this._events.next(response);
-                    }
-                    // Otherwise...
-                    else
-                    {
-                        // If events is null, replace it with an empty array
-                        events = events || [];
-
-                        // Execute the observable by appending the response to the current events
-                        this._events.next([...events, ...response]);
-                    }
-
-                    // Return the response
-                    return response;
-                })
-            ))
-        );
-    }
-    
     reloadEvents(): Observable<CalendarEvent[]>
     {
         // Get the events
@@ -219,7 +204,7 @@ export class AgendaTecnicoService
         end = this._loadedEventsRange.end.clone().add(this._numberOfDaysToPrefetch - remainingDays, 'days');
 
         // Prefetch the events
-        return this.getEvents(start, end);
+        //return this.getEvents(start, end);
     }
     
     prefetchPastEvents(start: Moment): Observable<CalendarEvent[]>
@@ -241,25 +226,25 @@ export class AgendaTecnicoService
         const end = this._loadedEventsRange.start.clone().subtract(1, 'day');
 
         // Prefetch the events
-        return this.getEvents(start, end);
+        //return this.getEvents(start, end);
     }
     
     addEvent(event): Observable<CalendarEvent>
     {
-        return this.events$.pipe(
-            take(1),
-            switchMap(events => this._httpClient.post<CalendarEvent>('api/apps/calendar/event', {
-                event
-            }).pipe(
-                map((addedEvent) => {
+        event.dataHoraCad = '2019-09-09';
+        event.codUsuarioCad = 'rklima';
+        event.duration = event.duration || 60;
 
-                    // Update the events
-                    this._events.next(events);
+        return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
+            tap((data) => {
+                console.log(data)
 
-                    // Return the added event
-                    return addedEvent;
-                })
-            ))
+                data.id = data.id.toString();
+                var lista = this._events.value;
+                lista.push(data);
+                this._events.next(lista);
+                console.log(this._events.value)
+            })
         );
     }
     
@@ -267,10 +252,9 @@ export class AgendaTecnicoService
     {
         return this.events$.pipe(
             take(1),
-            switchMap(events => this._httpClient.patch<CalendarEvent>('api/apps/calendar/event', {
-                id,
+            switchMap(events => this._httpClient.patch<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, 
                 event
-            }).pipe(
+            ).pipe(
                 map((updatedEvent) => {
 
                     // Find the index of the updated event

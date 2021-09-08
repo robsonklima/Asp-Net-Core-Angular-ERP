@@ -8,7 +8,7 @@ using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class RegiaoAutorizadaRepository : IRegiaoAutorizadaRepository
     {

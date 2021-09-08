@@ -5,7 +5,7 @@ using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class PaisRepository : IPaisRepository
     {

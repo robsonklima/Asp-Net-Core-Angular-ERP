@@ -6,7 +6,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class EquipamentoRepository : IEquipamentoRepository
     {

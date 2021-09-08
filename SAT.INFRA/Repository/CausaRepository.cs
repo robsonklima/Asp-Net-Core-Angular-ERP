@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using SAT.INFRA.Interfaces;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class CausaRepository : ICausaRepository
     {

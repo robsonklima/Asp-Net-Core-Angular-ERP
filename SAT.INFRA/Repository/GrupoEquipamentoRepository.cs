@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class GrupoEquipamentoRepository : IGrupoEquipamentoRepository
     {

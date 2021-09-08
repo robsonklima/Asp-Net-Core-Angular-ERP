@@ -8,7 +8,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class OrdemServicoRepository : IOrdemServicoRepository
     {

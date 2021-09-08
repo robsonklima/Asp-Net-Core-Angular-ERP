@@ -11,7 +11,7 @@ using Microsoft.OpenApi.Models;
 using SAT.API.Support;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
-using SAT.INFRA.Repositories;
+using SAT.INFRA.Repository;
 using SAT.SERVICES.Interfaces;
 using SAT.SERVICES.Services;
 using System;
@@ -46,6 +46,7 @@ namespace SAT.API
             services.AddMvc();
             services.AddSession();
 
+            // Repositories
             services.AddTransient<IOrdemServicoRepository, OrdemServicoRepository>();
             services.AddTransient<IRelatorioAtendimentoRepository, RelatorioAtendimentoRepository>();
             services.AddTransient<IStatusServicoRepository, StatusServicoRepository>();
@@ -85,7 +86,9 @@ namespace SAT.API
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
+            services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
 
+            // Services
             services.AddTransient<IAcaoService, AcaoService>();
             services.AddTransient<IAcordoNivelServicoService, AcordoNivelServicoService>();
             services.AddTransient<IAutorizadaService, AutorizadaService>();
@@ -124,7 +127,8 @@ namespace SAT.API
             services.AddTransient<IIndicadorService, IndicadorService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrdemServicoService, OrdemServicoService>();
-            
+            services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
+
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 

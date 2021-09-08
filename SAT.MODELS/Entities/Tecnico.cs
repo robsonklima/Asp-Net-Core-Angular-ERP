@@ -71,5 +71,7 @@ namespace SAT.MODELS.Entities
         public string CNHvalidade { get; set; }
         public List<OrdemServico> OrdensServico { get; set; }
         public virtual Usuario Usuario { get; set; }
+        [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
+        public RegiaoAutorizada RegiaoAutorizada { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Reflection;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class RelatorioAtendimentoRepository : IRelatorioAtendimentoRepository
     {

@@ -5,7 +5,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using SAT.INFRA.Context;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class TipoServicoRepository : ITipoServicoRepository
     {

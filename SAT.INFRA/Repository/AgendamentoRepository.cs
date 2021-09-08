@@ -8,7 +8,7 @@ using System.Linq.Dynamic.Core;
 using System;
 using System.Linq;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class AgendamentoRepository : IAgendamentoRepository
     {

@@ -6,7 +6,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class ClienteRepository : IClienteRepository
     {

@@ -15,7 +15,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import momentPlugin from '@fullcalendar/moment';
 import rrulePlugin from '@fullcalendar/rrule';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { clone, cloneDeep, isEqual, omit } from 'lodash-es';
+import { clone, cloneDeep, omit } from 'lodash-es';
 import * as moment from 'moment';
 import { RRule } from 'rrule';
 import { Subject } from 'rxjs';
@@ -69,7 +69,9 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         private _overlay: Overlay,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _viewContainerRef: ViewContainerRef
-    ) {}
+    ) {
+        moment.locale('pt');
+    }
     
     ngOnInit(): void
     {
@@ -212,6 +214,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
                 slotDuration: '01:00:00',
                 minTime: '08:00:00',
                 maxTime: '19:00:00',
+                nowIndicator: true
             },
             listYear    : {
                 allDayText      : 'All day',
@@ -236,7 +239,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(30, 'days');
 
         // Get events
-        this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
+        //this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
     }
 
     ngOnDestroy(): void
@@ -343,14 +346,14 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             isFirstInstance : false,
             title           : '',
             description     : '',
-            start           : moment(calendarEvent.date).startOf('day').toISOString(),
-            end             : moment(calendarEvent.date).endOf('day').toISOString(),
+            start           : moment(calendarEvent.date).startOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
+            end             : moment(calendarEvent.date).endOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
             duration        : null,
             allDay          : false,
             recurrence      : null,
             range           : {
-                start: moment(calendarEvent.date).toISOString(),
-                end  : moment(calendarEvent.date).add(1, 'hours').toISOString()
+                start: moment(calendarEvent.date).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
+                end  : moment(calendarEvent.date).add(1, 'hours').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ')
             }
         };
 
@@ -373,8 +376,14 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     
     onEventClick(calendarEvent): void
     {
+        console.log(calendarEvent);
+        
+
         // Find the event with the clicked event's id
         const event: any = cloneDeep(this.events.find(item => item.id === calendarEvent.event.id));
+
+        console.log(event);
+        
 
         // Set the event
         this.event = event;
@@ -382,18 +391,8 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Prepare the end value
         let end;
 
-        // If this is a recurring event...
-        if ( event.recuringEventId )
-        {
-            // Calculate the end value using the duration
-            end = moment(event.start).add(event.duration, 'minutes').toISOString();
-        }
         // Otherwise...
-        else
-        {
-            // Set the end value from the end
-            end = event.end;
-        }
+        end = event.end;
 
         // Set the range on the event
         event.range = {
@@ -467,7 +466,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         event.end = calendarEvent.event.end;
         
         this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-            this._agendaTecnicoService.reloadEvents().subscribe();
+            //this._agendaTecnicoService.reloadEvents().subscribe();
         });
     }
 
@@ -478,7 +477,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         event.end = calendarEvent.event.end;
         
         this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-            this._agendaTecnicoService.reloadEvents().subscribe();
+            //this._agendaTecnicoService.reloadEvents().subscribe();
         });
     }
     
@@ -496,11 +495,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);
 
+        console.log(newEvent)
+
         // Add the event
         this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
 
             // Reload events
-            this._agendaTecnicoService.reloadEvents().subscribe();
+            //this._agendaTecnicoService.reloadEvents().subscribe();
 
             // Close the event panel
             this._closeEventPanel();
@@ -511,97 +512,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let event = clone(this.eventForm.value);
-        const {
-                range,
-                ...eventWithoutRange
-              } = event;
+  
+        // Update the event on the server
+        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
 
-        // Get the original event
-        const originalEvent = this.events.find(item => item.id === event.id);
-
-        // Return if there are no changes made to the event
-        if (isEqual(eventWithoutRange, originalEvent))
-        {
             // Close the event panel
             this._closeEventPanel();
-
-            // Return
-            return;
-        }
-
-        // If the event is a recurring event...
-        if ( event.recurrence && event.recurringEventId )
-        {
-            // Update the recurring event on the server
-            this._agendaTecnicoService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
-
-                // Reload events
-                this._agendaTecnicoService.reloadEvents().subscribe();
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-
-            // Return
-            return;
-        }
-
-        // If the event is a non-recurring event...
-        if ( !event.recurrence && !event.recurringEventId )
-        {
-            // Update the event on the server
-            this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-
-            // Return
-            return;
-        }
-
-        // If the event was a non-recurring event but now it will be a recurring event...
-        if ( event.recurrence && !event.recurringEventId )
-        {
-            // Set the event duration
-            event.duration = moment(event.range.end).diff(moment(event.range.start), 'minutes');
-
-            // Omit unnecessary fields
-            event = omit(event, ['range', 'recurringEventId']);
-
-            // Update the event on the server
-            this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-
-                // Reload events
-                this._agendaTecnicoService.reloadEvents().subscribe();
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-
-            // Return
-            return;
-        }
-
-        // If the event was a recurring event but now it will be a non-recurring event...
-        if ( !event.recurrence && event.recurringEventId )
-        {
-            // Set the end date
-            event.end = moment(event.start).add(event.duration, 'minutes').toISOString();
-
-            // Set the duration as null
-            event.duration = null;
-
-            // Update the recurring event on the server
-            this._agendaTecnicoService.updateRecurringEvent(event, originalEvent, this.eventEditMode).subscribe(() => {
-
-                // Reload events
-                this._agendaTecnicoService.reloadEvents().subscribe();
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-        }
+        });
     }
     
     deleteEvent(event, mode: CalendarEventEditMode = 'single'): void
@@ -613,7 +530,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             this._agendaTecnicoService.deleteRecurringEvent(event, mode).subscribe(() => {
 
                 // Reload events
-                this._agendaTecnicoService.reloadEvents().subscribe();
+                //this._agendaTecnicoService.reloadEvents().subscribe();
 
                 // Close the event panel
                 this._closeEventPanel();

@@ -8,7 +8,7 @@ using System.Linq;
 using SAT.MODELS.Entities.Constants;
 using System;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class AcordoNivelServicoRepository : IAcordoNivelServicoRepository
     {

@@ -17,9 +17,9 @@
                     class="w-3 h-3 ml-2 rounded-full"
                     [ngClass]="calendar.color"></span>
                 <span class="ml-2 leading-none"
-                    [matTooltip]="calendar.title"
+                    [matTooltip]="calendar.title | titlecase"
                     matTooltipPosition="above">
-                    {{ calendar.title.split(" ")[0] }}
+                    {{ calendar.title?.split(" ")[0] | titlecase }}
                 </span>
             </div>
         </div>

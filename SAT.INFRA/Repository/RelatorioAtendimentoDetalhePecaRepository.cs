@@ -6,7 +6,7 @@ using SAT.MODELS.Entities.Constants;
 using System;
 using System.Linq;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class RelatorioAtendimentoDetalhePecaRepository : IRelatorioAtendimentoDetalhePecaRepository
     {

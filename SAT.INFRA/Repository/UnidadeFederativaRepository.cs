@@ -6,7 +6,7 @@ using SAT.MODELS.Helpers;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class UnidadeFederativaRepository : IUnidadeFederativaRepository
     {

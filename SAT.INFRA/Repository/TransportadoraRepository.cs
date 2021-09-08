@@ -6,7 +6,7 @@ using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class TransportadoraRepository : ITransportadoraRepository
     {

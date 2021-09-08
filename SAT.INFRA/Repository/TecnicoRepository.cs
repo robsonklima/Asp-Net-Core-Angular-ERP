@@ -6,7 +6,7 @@ using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace SAT.INFRA.Repositories
+namespace SAT.INFRA.Repository
 {
     public class TecnicoRepository : ITecnicoRepository
     {
@@ -66,6 +66,7 @@ namespace SAT.INFRA.Repositories
                 .Include(t => t.TipoRota)
                 .Include(t => t.Regiao)
                 .Include(t => t.Usuario)
+                .Include(t => t.RegiaoAutorizada)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -110,10 +111,16 @@ namespace SAT.INFRA.Repositories
                 tecnicos = tecnicos.Where(t => t.CodAutorizada == parameters.CodAutorizada);
             }
 
+            if (parameters.PA != null)
+            {
+                tecnicos = tecnicos.Where(t => t.RegiaoAutorizada.PA == parameters.PA);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
+
 
             if (parameters.CodStatusServicos != null)
             {

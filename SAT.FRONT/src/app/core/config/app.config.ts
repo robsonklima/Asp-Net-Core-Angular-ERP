@@ -24,7 +24,7 @@ export const appConfig: AppConfig = {
     scheme: 'light',
     theme : 'brand',
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
-    api: 'https://localhost:5001/api',
+    api: 'https://localhost:44341/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',

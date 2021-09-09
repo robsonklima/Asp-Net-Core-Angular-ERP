@@ -184,6 +184,8 @@ export class AgendaTecnicoService
     {
         return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
             tap((data) => {
+                let calendars = this._calendars.value;
+                
                 this._events.next([...this._events.value, ...[data]]);
             })
         );

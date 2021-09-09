@@ -189,26 +189,6 @@ export class AgendaTecnicoService
         );
     }
     
-    reloadEvents(): Observable<CalendarEvent[]>
-    {
-        // Get the events
-        return this._httpClient.get<CalendarEvent[]>('api/apps/calendar/events', {
-            params: {
-                start: this._loadedEventsRange.start.toISOString(),
-                end  : this._loadedEventsRange.end.toISOString()
-            }
-        }).pipe(
-            map((response) => {
-
-                // Execute the observable with the response replacing the events object
-                this._events.next(response);
-
-                // Return the response
-                return response;
-            })
-        );
-    }
-    
     addEvent(event): Observable<CalendarEvent>
     {
         return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
@@ -220,26 +200,20 @@ export class AgendaTecnicoService
     
     updateEvent(id: string, event): Observable<CalendarEvent>
     {
-        return this.events$.pipe(
-            take(1),
-            switchMap(events => this._httpClient.patch<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, 
-                event
-            ).pipe(
-                map((updatedEvent) => {
+        return this._httpClient.put<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
+            tap((updatedEvent) => {
+                let events = this._events.value;
+                const index = events.findIndex(item => item.id.toString() === id);
 
-                    // Find the index of the updated event
-                    const index = events.findIndex(item => item.id === id);
+                // Update the event
+                events[index] = updatedEvent;
 
-                    // Update the event
-                    events[index] = updatedEvent;
+                // Update the events
+                this._events.next(events);
 
-                    // Update the events
-                    this._events.next(events);
-
-                    // Return the updated event
-                    return updatedEvent;
-                })
-            ))
+                // Return the updated event
+                return updatedEvent;
+            })
         );
     }
     

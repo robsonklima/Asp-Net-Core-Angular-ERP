@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendaTecnicoParameters, Calendar, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
 
@@ -43,6 +43,42 @@ export class CalendarWeekdaysResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarWeekday[]>
     {
-        return this._agendaTecnicoService.getWeekdays();
+        return of([
+            {
+                abbr : 'S',
+                label: 'Segunda',
+                value: 'Se'
+            },
+            {
+                abbr : 'T',
+                label: 'Terça',
+                value: 'Te'
+            },
+            {
+                abbr : 'Q',
+                label: 'Quarta',
+                value: 'Qu'
+            },
+            {
+                abbr : 'Q',
+                label: 'Quinta',
+                value: 'Qu'
+            },
+            {
+                abbr : 'S',
+                label: 'Sexta',
+                value: 'Se'
+            },
+            {
+                abbr : 'S',
+                label: 'Sábado',
+                value: 'Sa'
+            },
+            {
+                abbr : 'D',
+                label: 'Domingo',
+                value: 'Do'
+            }
+        ]);
     }
 }

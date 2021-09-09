@@ -9,15 +9,10 @@ export const agendaTecnicoRoutes: Route[] = [
         component: AgendaTecnicoComponent,
         resolve  : {
             calendars: CalendarCalendarsResolver,
-            settings : CalendarSettingsResolver,
-            weekdays : CalendarWeekdaysResolver
         }
     },
     {
         path     : 'agenda-tecnico-configuracoes',
-        component: AgendaTecnicoConfiguracoesComponent,
-        resolve  : {
-            settings: CalendarSettingsResolver
-        }
+        component: AgendaTecnicoConfiguracoesComponent
     }
 ];

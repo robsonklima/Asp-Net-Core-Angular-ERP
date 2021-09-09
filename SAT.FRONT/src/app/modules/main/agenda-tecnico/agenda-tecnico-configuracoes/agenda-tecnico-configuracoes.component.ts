@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 @Component({
@@ -54,17 +53,11 @@ export class AgendaTecnicoConfiguracoesComponent implements OnInit, OnDestroy
             startWeekOn: ['']
         });
 
-        // Get settings
-        this._agendaTecnicoService.settings$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((settings) => {
-
-                // Fill the settings form
-                this.settingsForm.patchValue(settings);
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        this.settingsForm.patchValue({
+            dateFormat : 'DD/MM/YYYY',
+            timeFormat : '24',
+            startWeekOn: 1,
+        });
     }
 
     /**

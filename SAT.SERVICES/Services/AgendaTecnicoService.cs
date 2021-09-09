@@ -81,9 +81,11 @@ namespace SAT.SERVICES.Services
             _agendaRepo.DeletarEvento(codigo);
         }
 
-        public void AtualizarEvento(AgendaTecnicoEvento evento)
+        public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
         {
             _agendaRepo.AtualizarEvento(evento);
+
+            return evento;
         }
 
         private string ObterCor()

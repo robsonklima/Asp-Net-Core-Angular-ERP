@@ -11,6 +11,6 @@ namespace SAT.SERVICES.Interfaces
 
         AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento);
         void DeletarEvento(int codigo);
-        void AtualizarEvento(AgendaTecnicoEvento evento);
+        AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento);
     }
 }

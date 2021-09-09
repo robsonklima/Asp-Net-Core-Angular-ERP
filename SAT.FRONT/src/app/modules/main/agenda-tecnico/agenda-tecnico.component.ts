@@ -491,8 +491,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);
 
-        console.log(newEvent)
-
         // Add the event
         this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
 

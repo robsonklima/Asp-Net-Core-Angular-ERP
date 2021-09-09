@@ -164,6 +164,54 @@ export class AgendaTecnicoService
             ))
         );
     }
+
+    getEvents(start: Moment, end: Moment, replace = false): Observable<CalendarEvent[]>
+    {
+        // Set the new start date for loaded events
+        if ( replace || !this._loadedEventsRange.start || start.isBefore(this._loadedEventsRange.start) )
+        {
+            this._loadedEventsRange.start = start;
+        }
+
+        // Set the new end date for loaded events
+        if ( replace || !this._loadedEventsRange.end || end.isAfter(this._loadedEventsRange.end) )
+        {
+            this._loadedEventsRange.end = end;
+        }
+
+        // Get the events
+        return this._httpClient.get<CalendarEvent[]>('api/apps/calendar/events', {
+            params: {
+                start: start.toISOString(true),
+                end  : end.toISOString(true)
+            }
+        }).pipe(
+            switchMap(response => this._events.pipe(
+                take(1),
+                map((events) => {
+
+                    // If replace...
+                    if ( replace )
+                    {
+                        // Execute the observable with the response replacing the events object
+                        this._events.next(response);
+                    }
+                    // Otherwise...
+                    else
+                    {
+                        // If events is null, replace it with an empty array
+                        events = events || [];
+
+                        // Execute the observable by appending the response to the current events
+                        this._events.next([...events, ...response]);
+                    }
+
+                    // Return the response
+                    return response;
+                })
+            ))
+        );
+    }
     
     reloadEvents(): Observable<CalendarEvent[]>
     {
@@ -189,10 +237,7 @@ export class AgendaTecnicoService
     {
         return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
             tap((data) => {
-                data.id = data.id.toString();
-                var lista = this._events.value;
-                lista.push(data);
-                this._events.next(lista);
+                this._events.next([...this._events.value, ...[data]]);
             })
         );
     }

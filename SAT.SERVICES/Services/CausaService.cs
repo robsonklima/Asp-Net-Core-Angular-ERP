@@ -35,6 +35,7 @@ namespace SAT.SERVICES.Services
         public Causa Criar(Causa causa)
         {
             _causaRepo.Criar(causa);
+
             return causa;
         }
 

@@ -375,29 +375,16 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     onEventClick(calendarEvent): void
     {
         // Find the event with the clicked event's id
-        const event: any = cloneDeep(this.events.find(item => item.id === calendarEvent.event.id));
-
-        // Set the event
-        this.event = event;
-
-        // Prepare the end value
-        let end;
-
-        // Otherwise...
-        end = event.end;
-
-        // Set the range on the event
-        event.range = {
-            start: event.start,
-            end
-        };
+        const event: any = cloneDeep(this.events.find(item => item.id.toString() === calendarEvent.event.id));
 
         // Reset the form and fill the event
         this.eventForm.reset();
         this.eventForm.patchValue(event);
 
+        calendarEvent.event.width = "200";
+
         // Open the event panel
-        this._openEventPanel(calendarEvent);
+        this._openEventPanel(calendarEvent.event);
     }
     
     onEventRender(calendarEvent): void
@@ -493,10 +480,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
 
         // Add the event
         this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
-
-            // Reload events
-            //this._agendaTecnicoService.reloadEvents().subscribe();
-
             // Close the event panel
             this._closeEventPanel();
         });

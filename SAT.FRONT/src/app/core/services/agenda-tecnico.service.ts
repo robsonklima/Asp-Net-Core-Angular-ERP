@@ -47,7 +47,7 @@ export class AgendaTecnicoService
         return this._weekdays.asObservable();
     }
 
-    obterPorParametros(parameters: AgendaTecnicoParameters): Observable<Calendar[]> {
+    obterCalendariosEEventos(parameters: AgendaTecnicoParameters): Observable<Calendar[]> {
         let params = new HttpParams();
         
         Object.keys(parameters).forEach(key => {
@@ -56,32 +56,8 @@ export class AgendaTecnicoService
 
         return this._httpClient.get<Calendar[]>(`${c.api}/AgendaTecnico`, { params: params }).pipe(
             tap((data) => {
-                var calendars = [];
-                var events = [];
-
-                data.forEach((ag: any) => {
-                    calendars.push({
-                        id: ag.id.toString(),
-                        title: ag.title,
-                        color: ag.color,
-                        visible: true
-                    });
-
-                    ag.eventos.forEach(ev => {
-                        events.push({
-                            id: ev.id.toString(),
-                            calendarId: ev.calendarId.toString(),
-                            duration: ev.duration || 60,
-                            title: ev.title,
-                            description: ev.description,
-                            start: ev.start,
-                            end: ev.end
-                        });
-                    });
-                });
-
-                this._calendars.next(calendars);
-                this._events.next(events);
+                this._calendars.next(data);
+                this._events.next(data.map(d => d.eventos).reduce((a, b) => a.concat(b), []).map(o => o));
             })
         );
     }

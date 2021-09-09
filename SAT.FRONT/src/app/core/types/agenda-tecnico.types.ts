@@ -10,7 +10,7 @@ export interface Calendar
     visible: boolean;
     dataHoraCad: string;
     codTecnico: number;
-    Eventos: CalendarEvent[]
+    eventos: CalendarEvent[]
 }
 
 export type CalendarDrawerMode = 'over' | 'side';

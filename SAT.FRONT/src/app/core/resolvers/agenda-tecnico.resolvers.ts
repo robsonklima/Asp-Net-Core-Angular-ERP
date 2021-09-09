@@ -15,7 +15,7 @@ export class CalendarCalendarsResolver implements Resolve<any>
     {
         var params: AgendaTecnicoParameters = { codFilial: 4, pageSize: 500 };
 
-        return this._agendaTecnicoService.obterPorParametros(params);
+        return this._agendaTecnicoService.obterCalendariosEEventos(params);
     }
 }
 

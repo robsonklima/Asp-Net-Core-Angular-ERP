@@ -107,6 +107,10 @@
                             <div *ngIf="form.get('horaInicio').hasError('invalidFormat')">
                                 {{ t('formato invalido') }}
                             </div>
+
+                            <div *ngIf="form.get('horaInicio').hasError('periodoInvalido')">
+                                {{ t('periodo invalido') }}
+                            </div>                            
                         </mat-error>
                     </mat-form-field>
 
@@ -123,6 +127,10 @@
 
                             <div *ngIf="form.get('horaFim').hasError('invalidFormat')">
                                 {{ t('formato invalido') }}
+                            </div>
+                            
+                            <div *ngIf="form.get('horaFim').hasError('periodoInvalido')">
+                                {{ t('periodo invalido') }}
                             </div>
                         </mat-error>
                     </mat-form-field>

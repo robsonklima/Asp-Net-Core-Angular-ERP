@@ -245,5 +245,6 @@
     "agenta técnicos": "Technical Schedule",
     "semanal": "Weekly",
     "diario": "Daily",
-    "agenda": "Schedule"
+    "agenda": "Schedule",
+    "periodo invalido": "Invalid Period"
 }

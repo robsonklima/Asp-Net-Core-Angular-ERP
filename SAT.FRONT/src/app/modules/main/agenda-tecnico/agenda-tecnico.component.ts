@@ -43,7 +43,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     locales = [ptLocale];
     calendars: Calendar[];
     calendarPlugins: any[] = [ 
-        dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin 
+        dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin
     ];
     drawerMode: CalendarDrawerMode = 'side';
     drawerOpened: boolean = true;

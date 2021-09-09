@@ -84,30 +84,21 @@ export class AgendaTecnicoService
         );
     }
 
-    updateCalendar(id: string, calendar: Calendar): Observable<Calendar>
+    updateCalendar(id: string, calendar: Calendar): Calendar
     {
-        return this.calendars$.pipe(
-            take(1),
-            switchMap(calendars => this._httpClient.patch<Calendar>('api/apps/calendar/calendars', {
-                id,
-                calendar
-            }).pipe(
-                map((updatedCalendar) => {
+        let calendars = this._calendars.value;
 
-                    // Find the index of the updated calendar
-                    const index = calendars.findIndex(item => item.id === id);
+         // Find the index of the updated calendar
+         const index = calendars.findIndex(item => item.id === id);
 
-                    // Update the calendar
-                    calendars[index] = updatedCalendar;
+         // Update the calendar
+         calendars[index] = calendar;
 
-                    // Update the calendars
-                    this._calendars.next(calendars);
+         // Update the calendars
+         this._calendars.next(calendars);
 
-                    // Return the updated calendar
-                    return updatedCalendar;
-                })
-            ))
-        );
+         // Return the updated calendar
+         return calendar;
     }
     
     deleteCalendar(id: string): Observable<any>

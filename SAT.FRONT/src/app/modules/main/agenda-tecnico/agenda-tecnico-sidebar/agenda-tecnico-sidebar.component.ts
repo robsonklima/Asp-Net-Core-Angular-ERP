@@ -65,37 +65,14 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
         calendar.visible = !calendar.visible;
 
         // Update the calendar
-        this.saveCalendar(calendar);
+        this.updateCalendar(calendar);
     }
     
-    saveCalendar(calendar: Calendar): void
+    updateCalendar(calendar: Calendar): void
     {
-        // If there is no id on the calendar...
-        if ( !calendar.id )
-        {
-            // Add calendar to the server
-            this._agendaTecnicoService.addCalendar(calendar).subscribe(() => {
+        this._agendaTecnicoService.updateCalendar(calendar.id, calendar);
 
-                // Close the edit panel
-                this.closeEditPanel();
-
-                // Emit the calendarUpdated event
-                this.calendarUpdated.emit();
-            });
-        }
-        // Otherwise...
-        else
-        {
-            // Update the calendar on the server
-            this._agendaTecnicoService.updateCalendar(calendar.id, calendar).subscribe(() => {
-
-                // Close the edit panel
-                this.closeEditPanel();
-
-                // Emit the calendarUpdated event
-                this.calendarUpdated.emit();
-            });
-        }
+        this.calendarUpdated.emit();
     }
     
     deleteCalendar(calendar: Calendar): void
@@ -108,25 +85,6 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
 
             // Emit the calendarUpdated event
             this.calendarUpdated.emit();
-        });
-    }
-    
-    private _createEditPanelOverlay(): void
-    {
-        // Create the overlay
-        this._editPanelOverlayRef = this._overlay.create({
-            hasBackdrop     : true,
-            scrollStrategy  : this._overlay.scrollStrategies.reposition(),
-            positionStrategy: this._overlay.position()
-                                  .global()
-                                  .centerHorizontally()
-                                  .centerVertically()
-        });
-
-        // Detach the overlay from the portal on backdrop click
-        this._editPanelOverlayRef.backdropClick().subscribe(() => {
-            this.closeEditPanel();
-            this.calendar = null;
         });
     }
 }

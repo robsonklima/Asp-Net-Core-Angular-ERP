@@ -8,10 +8,12 @@ namespace SAT.SERVICES.Services
     public class PecaService : IPecaService
     {
         private readonly IPecaRepository _pecaRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public PecaService(IPecaRepository pecaRepo)
+        public PecaService(IPecaRepository pecaRepo, ISequenciaRepository sequenciaRepo)
         {
             _pecaRepo = pecaRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(PecaParameters parameters)
@@ -34,23 +36,18 @@ namespace SAT.SERVICES.Services
 
         public Peca Criar(Peca peca)
         {
+            peca.CodPeca = _sequenciaRepo.ObterContador("Peca");
             _pecaRepo.Criar(peca);
             return peca;
         }
 
-        public void Deletar(int codigo)
-        {
+        public void Deletar(int codigo) =>
             _pecaRepo.Deletar(codigo);
-        }
 
-        public void Atualizar(Peca peca)
-        {
+        public void Atualizar(Peca peca) =>
             _pecaRepo.Atualizar(peca);
-        }
 
-        public Peca ObterPorCodigo(int codigo)
-        {
-            return _pecaRepo.ObterPorCodigo(codigo);
-        }
+        public Peca ObterPorCodigo(int codigo) =>
+            _pecaRepo.ObterPorCodigo(codigo);
     }
 }

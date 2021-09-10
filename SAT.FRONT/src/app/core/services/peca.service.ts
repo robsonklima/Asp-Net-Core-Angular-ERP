@@ -18,8 +18,8 @@ export class PecaService {
             if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
         });
 
-        return this.http.get(`${c.api}/Peca`, { params: params }).pipe(
-            map((data: PecaData) => data)
+        return this.http.get<PecaData>(`${c.api}/Peca`, { params: params }).pipe(
+            map((data) => data)
         )
     }
 
@@ -38,15 +38,13 @@ export class PecaService {
 
     atualizar(peca: Peca): Observable<Peca> {
         const url = `${c.api}/Peca`;
-
         return this.http.put<Peca>(url, peca).pipe(
-            map((obj) => obj)
+                ((obj) => obj)
         );
     }
 
     deletar(codPeca: number): Observable<Peca> {
         const url = `${c.api}/Peca/${codPeca}`;
-
         return this.http.delete<Peca>(url).pipe(
             map((obj) => obj)
         );

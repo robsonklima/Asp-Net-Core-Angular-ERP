@@ -245,5 +245,17 @@
     "agenta técnicos": "Technical Schedule",
     "semanal": "Weekly",
     "diario": "Daily",
-    "agenda": "Schedule"
+    "agenda": "Schedule",
+    "cod magnus": "Magnus Code",
+    "custo brl": "Cost (R$)",
+    "custo usd": "Cost (U$)",
+    "custo eur": "Cost (€)",
+    "venda brl": "Sale Price (R$)",
+    "venda usd": "Sale Price (U$)",
+    "venda eur": "Sale Price (€)",
+    "valor peca assistencia": "Assistance Price (R$)",
+    "ipi peca assistencia": "Assistance IPI (%)",
+    "ipi": "IPI (%)",
+    "quantidade min venda": "Min. quantity for sale",
+    "ncm": "NCM"
 }

@@ -246,5 +246,17 @@
     "agenda técnicos": "Agenda Técnicos",
     "semanal": "Semanal",
     "diario": "Diário",
-    "agenda": "Agenda"
+    "agenda": "Agenda",
+    "cod magnus": "Cód. Magnus",
+    "custo brl": "Custo (R$)",
+    "custo usd": "Custo (U$)",
+    "custo eur": "Custo (€)",
+    "venda brl": "Venda (R$)",
+    "venda usd": "Venda (U$)",
+    "venda eur": "Venda (€)",
+    "valor peca assistencia": "Valor Assistência (R$)",
+    "ipi peca assistencia": "Valor IPI Assistência (%)",
+    "ipi": "IPI (%)",
+    "quantidade min venda": "Qtd. Mínima para Venda",
+    "ncm": "NCM"
 }

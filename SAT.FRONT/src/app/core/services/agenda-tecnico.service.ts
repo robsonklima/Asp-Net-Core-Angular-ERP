@@ -184,9 +184,12 @@ export class AgendaTecnicoService
     {
         return this._httpClient.post<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
             tap((data) => {
-                let calendars = this._calendars.value;
-                
                 this._events.next([...this._events.value, ...[data]]);
+
+                let calendars = this._calendars.value;
+                const index = calendars.findIndex(c => c.id === data.calendarId);
+                calendars[index].eventos.push(data);
+                this._calendars.next(calendars);
             })
         );
     }
@@ -196,6 +199,7 @@ export class AgendaTecnicoService
         return this._httpClient.put<CalendarEvent>(`${c.api}/AgendaTecnico/Evento`, event).pipe(
             tap((updatedEvent) => {
                 let events = this._events.value;
+
                 const index = events.findIndex(item => item.id.toString() === id);
 
                 // Update the event
@@ -210,35 +214,20 @@ export class AgendaTecnicoService
         );
     }
     
-    updateRecurringEvent(event, originalEvent, mode: CalendarEventEditMode): Observable<boolean>
-    {
-        return this._httpClient.patch<boolean>('api/apps/calendar/recurring-event', {
-            event,
-            originalEvent,
-            mode
-        });
-    }
-    
     deleteEvent(id: string): Observable<CalendarEvent>
     {
-        return this.events$.pipe(
-            take(1),
-            switchMap(events => this._httpClient.delete<CalendarEvent>('api/apps/calendar/event', {params: {id}}).pipe(
-                map((isDeleted) => {
+        return this._httpClient.delete<CalendarEvent>(`${c.api}/AgendaTecnico/Evento/${id}`).pipe(
+            tap((data) => {
+                let events = this._events.value;
+                const iEvent = events.findIndex(e => e.id === data.id);
+                events.slice(iEvent, 0);
+                this._events.next(events);
 
-                    // Find the index of the deleted event
-                    const index = events.findIndex(item => item.id === id);
-
-                    // Delete the event
-                    events.splice(index, 1);
-
-                    // Update the events
-                    this._events.next(events);
-
-                    // Return the deleted status
-                    return isDeleted;
-                })
-            ))
+                let calendars = this._calendars.value;
+                const iCalendar = calendars.findIndex(c => c.id === data.calendarId);
+                calendars[iCalendar].eventos.slice(iCalendar, 0);
+                this._calendars.next(calendars);
+            })
         );
     }
     

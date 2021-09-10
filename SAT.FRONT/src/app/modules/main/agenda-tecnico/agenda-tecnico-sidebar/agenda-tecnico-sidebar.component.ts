@@ -33,7 +33,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
             .subscribe((calendars) => {
 
                 // Store the calendars
-                this.calendars = calendars;
+                this.calendars = calendars.filter(c => c.eventos.length > 0);
             });
     }
     

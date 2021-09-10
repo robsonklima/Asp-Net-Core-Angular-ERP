@@ -252,9 +252,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         // 60 days to create a ~150 days period to fetch the data for
         const viewStart = moment(this._fullCalendarApi.view.currentStart).subtract(30, 'days');
         const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(30, 'days');
-
-        // Get events
-        //this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
     }
 
     ngOnDestroy(): void
@@ -274,6 +271,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         const params: OrdemServicoParameters = {
             codFiliais: "4",
             pa: 1,
+            codStatusServicos: "1",
             filter: filtro,
             sortActive: 'codOS',
             sortDirection: 'desc'
@@ -432,40 +430,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
             return;
         }
 
-        // If current view is year list...
-        if ( this.view === 'listYear' )
+        // Set the color class of the event
+        calendarEvent.el.classList.add(calendar.color);
+
+        // Set the event's title to '(No title)' if event title is not available
+        if ( !calendarEvent.event.title )
         {
-            // Create a new 'fc-list-item-date' node
-            const fcListItemDate1 = `<td class="fc-list-item-date">
-                                            <span>
-                                                <span>${moment(calendarEvent.event.start).format('D')}</span>
-                                                <span>${moment(calendarEvent.event.start).format('MMM')}, ${moment(calendarEvent.event.start).format('ddd')}</span>
-                                            </span>
-                                        </td>`;
-
-            // Insert the 'fc-list-item-date' into the calendar event element
-            calendarEvent.el.insertAdjacentHTML('afterbegin', fcListItemDate1);
-
-            // Set the color class of the event dot
-            calendarEvent.el.getElementsByClassName('fc-event-dot')[0].classList.add(calendar.color);
-
-            // Set the event's title to '(No title)' if event title is not available
-            if ( !calendarEvent.event.title )
-            {
-                calendarEvent.el.querySelector('.fc-list-item-title').innerText = '(No title)';
-            }
-        }
-        // If current view is not month list...
-        else
-        {
-            // Set the color class of the event
-            calendarEvent.el.classList.add(calendar.color);
-
-            // Set the event's title to '(No title)' if event title is not available
-            if ( !calendarEvent.event.title )
-            {
-                //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
-            }
+            //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
         }
 
         // Set the event's visibility
@@ -509,6 +480,8 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
         // Add the event
         this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
+            this.obterOrdensServico();
+
             // Close the event panel
             this._closeEventPanel();
         });
@@ -518,9 +491,11 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     {
         // Get the clone of the event form value
         let event = clone(this.eventForm.value);
+        event.title = event.codOS;        
   
         // Update the event on the server
         this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe(() => {
+            this.obterOrdensServico();
 
             // Close the event panel
             this._closeEventPanel();

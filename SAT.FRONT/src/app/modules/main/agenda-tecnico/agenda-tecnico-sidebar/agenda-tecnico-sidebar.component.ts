@@ -70,20 +70,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
     
     updateCalendar(calendar: Calendar): void
     {
-        this._agendaTecnicoService.updateCalendar(calendar.id, calendar);
-
-        this.calendarUpdated.emit();
-    }
-    
-    deleteCalendar(calendar: Calendar): void
-    {
-        // Delete the calendar on the server
-        this._agendaTecnicoService.deleteCalendar(calendar.id).subscribe(() => {
-
-            // Close the edit panel
-            this.closeEditPanel();
-
-            // Emit the calendarUpdated event
+        this._agendaTecnicoService.updateCalendar(calendar.id, calendar).subscribe(() => {
             this.calendarUpdated.emit();
         });
     }

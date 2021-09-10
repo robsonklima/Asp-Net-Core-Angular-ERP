@@ -69,20 +69,4 @@ export class AgendaTecnicoConfiguracoesComponent implements OnInit, OnDestroy
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    updateSettings(): void
-    {
-        // Get the settings
-        const settings = this.settingsForm.value;
-
-        // Update the settings on the server
-        this._agendaTecnicoService.updateSettings(settings).subscribe((updatedSettings) => {
-            // Reset the form with the updated settings
-            this.settingsForm.reset(updatedSettings);
-        });
-    }
 }

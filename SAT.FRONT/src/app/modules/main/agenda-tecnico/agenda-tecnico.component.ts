@@ -18,8 +18,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { clone, cloneDeep, omit } from 'lodash-es';
 import * as moment from 'moment';
 import { RRule } from 'rrule';
-import { Subject } from 'rxjs';
-import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
+import { interval, Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import {
@@ -87,6 +87,15 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     
     ngOnInit(): void
     {
+        interval(5 * 1000)
+            .pipe(
+                startWith(0),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(() => {
+                //this._agendaTecnicoService.obterCalendariosEEventos({ pa: 1, codFilial: 4 }).subscribe();
+            });
+
         this.obterOrdensServico();
 
         this.eventForm = this._formBuilder.group({
@@ -153,7 +162,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((calendars) => {
 
-                // Store the calendars
+                // Store the calendars and events
                 this.calendars = calendars;
 
                 // Mark for check
@@ -279,6 +288,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
         const data = await this._ordemServicoService.obterPorParametros(params).toPromise();
         this.ordensServico = data.items;
+        
     }
 
     toggleDrawer(): void
@@ -505,28 +515,11 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     deleteEvent(event, mode: CalendarEventEditMode = 'single'): void
     {
         // If the event is a recurring event...
-        if ( event.recurrence )
-        {
-            // Delete the recurring event on the server
-            this._agendaTecnicoService.deleteRecurringEvent(event, mode).subscribe(() => {
+        this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
 
-                // Reload events
-                //this._agendaTecnicoService.reloadEvents().subscribe();
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-        }
-        // If the event is a non-recurring, normal event...
-        else
-        {
-            // Update the event on the server
-            this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-        }
+            // Close the event panel
+            this._closeEventPanel();
+        });
     }
     
     private _createEventPanelOverlay(positionStrategy): void

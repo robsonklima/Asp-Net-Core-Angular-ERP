@@ -22,21 +22,6 @@ export class CalendarCalendarsResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class CalendarSettingsResolver implements Resolve<any>
-{
-    constructor(private _agendaTecnicoService: AgendaTecnicoService)
-    {
-    }
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarSettings>
-    {
-        return this._agendaTecnicoService.getSettings();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
 export class CalendarWeekdaysResolver implements Resolve<any>
 {
     constructor(private _agendaTecnicoService: AgendaTecnicoService) { }

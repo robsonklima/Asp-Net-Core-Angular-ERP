@@ -65,6 +65,8 @@ export interface AgendaTecnicoParameters extends QueryStringParameters {
     pa?: number;
     codFilial?: number;
     codTecnico?: number;
+    inicio?: string;
+    fim?: string;
 }
 
 export interface AgendaTecnicoData extends Meta {

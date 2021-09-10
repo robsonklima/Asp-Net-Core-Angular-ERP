@@ -23,6 +23,7 @@ import { debounceTime, delay, filter, map, startWith, takeUntil } from 'rxjs/ope
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import {
+    AgendaTecnicoParameters,
     Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
 } from 'app/core/types/agenda-tecnico.types';
 import ptLocale from '@fullcalendar/core/locales/pt';
@@ -85,13 +86,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     
     ngOnInit(): void
     {
-        interval(5 * 1000)
+        interval(0.5 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                //this._agendaTecnicoService.obterCalendariosEEventos({ pa: 1, codFilial: 4 }).subscribe();
+                this.obterAgendas();
             });
 
         this.obterOrdensServico();
@@ -272,6 +273,17 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         {
             this._eventPanelOverlayRef.dispose();
         }
+    }
+
+    private obterAgendas() {
+        var params: AgendaTecnicoParameters = { 
+            codFilial: this.userSession.usuario?.codFilial,
+            pageSize: 5000,
+            inicio: moment().subtract(7, "days").toISOString(),
+            fim: moment().add(7, "days").toISOString()
+        };
+
+        this._agendaTecnicoService.obterCalendariosEEventos(params).subscribe();
     }
 
     private async obterOrdensServico(filtro: string = '') {

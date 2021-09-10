@@ -32,12 +32,6 @@ namespace SAT.API.Controllers
             _agendaServ.AtualizarAgenda(agenda);
         }
 
-        [HttpDelete("{codAgendaTecnico}")]
-        public void Delete(int codAgendaTecnico)
-        {
-            _agendaServ.DeletarAgenda(codAgendaTecnico);
-        }
-
          
         [HttpPost("Evento")]
         public AgendaTecnicoEvento CriarEvento([FromBody] AgendaTecnicoEvento evento)

@@ -119,12 +119,20 @@ namespace SAT.INFRA.Repository
             return _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
         }
 
-        public PagedList<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters)
+        public PagedList<AgendaTecnico> ObterAgendasPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico
                 .Include(a => a.Tecnico)
-                .Include(a => a.Eventos)
                 .AsQueryable();
+
+            if (parameters.Inicio != DateTime.MinValue && parameters.Fim != DateTime.MinValue)
+            {
+                agendas = agendas.Include(a => a.Eventos.Where(
+                    a =>
+                    a.Start >= parameters.Inicio &&
+                    a.End <= parameters.Fim)
+                );
+            }
 
             if (parameters.CodTecnico != null)
             {

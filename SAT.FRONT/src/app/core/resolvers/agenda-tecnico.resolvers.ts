@@ -5,6 +5,7 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendaTecnicoParameters, Calendar, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
 import { UserService } from '../user/user.service';
 import { UsuarioSessao } from '../types/usuario.types';
+import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,12 @@ export class CalendarCalendarsResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Calendar[]>
     {
-        var params: AgendaTecnicoParameters = { codFilial: this.userSession.usuario?.codFilial, pageSize: 5000 };
+        var params: AgendaTecnicoParameters = { 
+            codFilial: this.userSession.usuario?.codFilial,
+            pageSize: 5000,
+            inicio: moment().subtract(7, "days").toISOString(),
+            fim: moment().add(7, "days").toISOString()
+        };
 
         return this._agendaTecnicoService.obterCalendariosEEventos(params);
     }

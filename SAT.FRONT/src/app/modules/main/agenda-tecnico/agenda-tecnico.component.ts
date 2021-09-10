@@ -86,7 +86,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     
     ngOnInit(): void
     {
-        interval(0.5 * 60 * 1000)
+        interval(1 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._unsubscribeAll)

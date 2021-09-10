@@ -47,25 +47,25 @@
                             <mat-menu #actionsMenu="matMenu">
                                 <button mat-menu-item (click)="today()">
                                     <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
-                                    <span>Hoje</span>
+                                    <span>{{ t('hoje') }}</span>
                                 </button>
                                 <button [matMenuTriggerFor]="actionsViewsMenu" mat-menu-item>
                                     <mat-icon [svgIcon]="'heroicons_outline:view-grid'"></mat-icon>
-                                    <span>Visão</span>
+                                    <span>{{ t('visao') }}</span>
                                 </button>
                             </mat-menu>
 
                             <mat-menu #actionsViewsMenu="matMenu">
                                 <button mat-menu-item [disabled]="view === 'timeGridWeek'"
                                     (click)="changeView('timeGridWeek')">
-                                    <span>Semanal</span>
+                                    <span>{{ t('semanal') }}</span>
                                 </button>
                                 <button mat-menu-item [disabled]="view === 'timeGridDay'"
                                     (click)="changeView('timeGridDay')">
-                                    <span>Diário</span>
+                                    <span>{{ t('diario') }}</span>
                                 </button>
                                 <button mat-menu-item [disabled]="view === 'listYear'" (click)="changeView('listYear')">
-                                    <span>Agenda</span>
+                                    <span>{{ t('agenda') }}</span>
                                 </button>
                             </mat-menu>
                         </button>
@@ -103,6 +103,10 @@
 
                                         <!-- Non-recurring event -->
                                         <ng-container>
+                                            <!-- Edit -->
+                                            <button mat-icon-button [routerLink]="['/ordem-servico/detalhe/'+event.codOS]">
+                                                <mat-icon [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
+                                            </button>
                                             <!-- Edit -->
                                             <button mat-icon-button (click)="changeEventPanelMode('edit', 'single')">
                                                 <mat-icon [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
@@ -198,11 +202,11 @@
                             <div class="ml-auto mt-6">
                                 <button class="add" *ngIf="panelMode === 'add'" mat-flat-button type="button"
                                     [color]="'primary'" (click)="addEvent()" [disabled]="eventForm.invalid">
-                                    Adicionar
+                                    {{ t('adicionar') }}
                                 </button>
                                 <button class="save" *ngIf="panelMode === 'edit'" mat-flat-button type="button"
                                     [color]="'primary'" (click)="updateEvent()" [disabled]="eventForm.invalid">
-                                    Salvar
+                                    {{ t('salvar') }}
                                 </button>
                             </div>
                         </form>

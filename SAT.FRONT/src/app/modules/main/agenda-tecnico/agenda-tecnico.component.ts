@@ -42,13 +42,10 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     @ViewChild('eventPanel') private _eventPanel: TemplateRef<any>;
     @ViewChild('fullCalendar') private _fullCalendar: FullCalendarComponent;
     @ViewChild('drawer') private _drawer: MatDrawer;
-
     locales = [ptLocale];
     calendars: Calendar[];
+    userSession: UsuarioSessao;
     ordensServico: OrdemServico[] = [];
-    calendarPlugins: any[] = [ 
-        dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin
-    ];
     drawerMode: CalendarDrawerMode = 'side';
     drawerOpened: boolean = true;
     event: CalendarEvent;
@@ -58,15 +55,15 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     eventTimeFormat: any;
     events: CalendarEvent[] = [];
     panelMode: CalendarEventPanelMode = 'view';
+    views: any;
+    viewTitle: string;
     settings: CalendarSettings = {
         dateFormat : 'DD/MM/YYYY',
         timeFormat : '24',
         startWeekOn: 1,
     };
     view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
-    views: any;
-    viewTitle: string;
-    userSession: UsuarioSessao;
+    calendarPlugins: any[] = [  dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
     private _eventPanelOverlayRef: OverlayRef;
     private _fullCalendarApi: FullCalendar;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -288,7 +285,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
         const data = await this._ordemServicoService.obterPorParametros(params).toPromise();
         this.ordensServico = data.items;
-        
     }
 
     toggleDrawer(): void

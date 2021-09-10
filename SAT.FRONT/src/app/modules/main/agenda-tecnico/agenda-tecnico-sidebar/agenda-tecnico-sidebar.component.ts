@@ -13,8 +13,6 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
 {
     @Output() readonly calendarUpdated: EventEmitter<any> = new EventEmitter<any>();
-    @ViewChild('editPanel') private _editPanel: TemplateRef<any>;
-
     calendar: Calendar | null;
     calendars: Calendar[];
     private _editPanelOverlayRef: OverlayRef;

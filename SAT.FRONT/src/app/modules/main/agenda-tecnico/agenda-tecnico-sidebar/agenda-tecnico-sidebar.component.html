@@ -17,10 +17,15 @@
                     [matTooltip]="calendar.title | titlecase"
                     matTooltipPosition="above">
                     {{ calendar.title?.split(" ").shift() | titlecase }}
+                    <span class="text-secondary">
+                        ({{ calendar.eventos?.length }})
+                    </span>
                 </span>
             </div>
         </div>
     </ng-container>
+
+    <p *ngIf="!calendars?.length">{{ t('nenhum registro encontrado') }}</p>
 
     <div class="-mx-4 mt-auto">
         <a

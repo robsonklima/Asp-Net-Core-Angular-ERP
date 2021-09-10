@@ -26,8 +26,8 @@ namespace SAT.API.Controllers
             return _agendaServ.ObterAgendaPorParametros(parameters);
         }
 
-        [HttpPut("{codAgendaTecnico}")]
-        public void Put(int id, [FromBody] AgendaTecnico agenda)
+        [HttpPut]
+        public void Put(AgendaTecnico agenda)
         {
             _agendaServ.AtualizarAgenda(agenda);
         }
@@ -52,7 +52,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpDelete("Evento/{codAgendaTecnicoEvento}")]
-        public void DeletarEvento([FromBody] int codAgendaTecnicoEvento)
+        public void DeletarEvento(int codAgendaTecnicoEvento)
         {
             _agendaServ.DeletarEvento(codAgendaTecnicoEvento);
         }

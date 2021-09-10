@@ -30,6 +30,7 @@ import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServico, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OSPrazoAtendimento } from 'app/core/types/os-prazo-atendimento.types';
 
 @Component({
     selector       : 'app-agenda-tecnico',
@@ -275,10 +276,10 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
     private async obterOrdensServico(filtro: string = '') {
         const params: OrdemServicoParameters = {
-            codFiliais: "4",
-            pa: 1,
+            codFiliais: this.userSession.usuario?.codFilial,
             codStatusServicos: "1",
             filter: filtro,
+            pageSize: 100,
             sortActive: 'codOS',
             sortDirection: 'desc'
         }
@@ -479,7 +480,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         newEvent.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
         newEvent.codUsuarioCad = this.userSession.usuario.codUsuario;
         newEvent.duration = newEvent.duration || 60;
-        newEvent.title = newEvent.codOS;
+
+        const os = this.ordensServico.find(os => os.codOS === newEvent.codOS);
+        newEvent.title = `${newEvent.codOS} - ${os.localAtendimento.nomeLocal}`;
+
+        const prazo: OSPrazoAtendimento = os.prazosAtendimento
+            .sort((a, b) => (a.codOSPrazoAtendimento > b.codOSPrazoAtendimento) ? 1 : ((b.codOSPrazoAtendimento > a.codOSPrazoAtendimento) ? -1 : 0)).shift();
+        newEvent.description = `SLA: ${ moment(prazo.dataHoraLimiteAtendimento).format('DD/MM/YY HH:mm') }`;
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);
@@ -512,6 +519,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
     {
         // If the event is a recurring event...
         this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
+            this.obterOrdensServico();
 
             // Close the event panel
             this._closeEventPanel();

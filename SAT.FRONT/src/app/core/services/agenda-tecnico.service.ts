@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Moment } from 'moment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { appConfig as c } from 'app/core/config/app.config'
-import {
-    AgendaTecnicoParameters, Calendar, CalendarEvent, CalendarEventEditMode, CalendarSettings, CalendarWeekday
-} from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoParameters, Calendar, CalendarEvent } from 'app/core/types/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
@@ -105,13 +102,13 @@ export class AgendaTecnicoService
         return this._httpClient.delete<CalendarEvent>(`${c.api}/AgendaTecnico/Evento/${id}`).pipe(
             tap((data) => {
                 let events = this._events.value;
-                const iEvent = events.findIndex(e => e.id === data.id);
-                events.slice(iEvent, 0);
+                const iEvent = events.findIndex(e => e.id === id);
+                events.splice(iEvent, 1);
                 this._events.next(events);
 
                 let calendars = this._calendars.value;
-                const iCalendar = calendars.findIndex(c => c.id === data.calendarId);
-                calendars[iCalendar].eventos.slice(iCalendar, 0);
+                const iCalendar = calendars.findIndex(c => c.id === events[iEvent]?.calendarId);
+                calendars[iCalendar]?.eventos?.splice(iCalendar, 1);
                 this._calendars.next(calendars);
             })
         );

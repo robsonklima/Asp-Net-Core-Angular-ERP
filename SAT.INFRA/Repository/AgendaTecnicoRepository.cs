@@ -131,6 +131,11 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
             }
 
+            if (parameters.CodFilial != null)
+            {
+                agendas = agendas.Where(a => a.Tecnico.CodFilial == parameters.CodFilial);
+            }
+
             if (parameters.Filter != null)
             {
                 agendas = agendas.Where(

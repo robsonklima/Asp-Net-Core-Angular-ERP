@@ -1,5 +1,6 @@
 import { Meta } from "@angular/platform-browser";
 import { QueryStringParameters } from "./generic.types";
+import { OrdemServico } from "./ordem-servico.types";
 import { Tecnico } from "./tecnico.types";
 
 export interface Calendar
@@ -7,7 +8,7 @@ export interface Calendar
     id: string;
     title: string;
     color: string;
-    visible: boolean;
+    visible: number;
     dataHoraCad: string;
     codTecnico: number;
     eventos: CalendarEvent[]
@@ -27,6 +28,7 @@ export interface CalendarEvent
     end: string | null;
     dataHoraCad?: string;
     codUsuarioCad?: string;
+    ordemServico?: OrdemServico;
     allDay?: boolean;
     recurrence?: string;
     recurringEventId?: string | null;

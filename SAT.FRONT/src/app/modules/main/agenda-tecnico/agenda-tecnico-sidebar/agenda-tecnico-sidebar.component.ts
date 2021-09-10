@@ -60,7 +60,7 @@ export class AgendaTecnicoSidebarComponent implements OnInit, OnDestroy
     toggleCalendarVisibility(calendar: Calendar): void
     {
         // Toggle the visibility
-        calendar.visible = !calendar.visible;
+        calendar.visible = calendar.visible ? 0 : 1;
 
         // Update the calendar
         this.updateCalendar(calendar);

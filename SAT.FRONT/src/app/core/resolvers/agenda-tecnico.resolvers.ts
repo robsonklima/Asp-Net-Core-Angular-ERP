@@ -3,17 +3,26 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { Observable, of } from 'rxjs';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendaTecnicoParameters, Calendar, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
+import { UserService } from '../user/user.service';
+import { UsuarioSessao } from '../types/usuario.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CalendarCalendarsResolver implements Resolve<any>
 {
-    constructor(private _agendaTecnicoService: AgendaTecnicoService) { }
+    userSession: UsuarioSessao;
+
+    constructor(
+        private _agendaTecnicoService: AgendaTecnicoService,
+        private _userService: UserService
+    ) {
+        this.userSession = JSON.parse(this._userService.userSession)
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Calendar[]>
     {
-        var params: AgendaTecnicoParameters = { codFilial: 4, pageSize: 500 };
+        var params: AgendaTecnicoParameters = { codFilial: this.userSession.usuario?.codFilial, pageSize: 5000 };
 
         return this._agendaTecnicoService.obterCalendariosEEventos(params);
     }

@@ -153,6 +153,24 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>Código Substituição</mat-label>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:puzzle'"></mat-icon>
+                        <mat-select formControlName="codPecaSubstituicao" [disabled]="!pecasSubstituicao.length">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'Nenhum registro encontrado'"
+                                    [formControl]="pecasSubstituicaoFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value='0' selected></mat-option>
+                            <mat-option *ngFor="let peca of pecasSubstituicao" [value]="peca.codPeca">
+                                <span class="opacity-60 text-sm">{{ peca.codPeca }}</span>
+                                <span> - </span>
+                                <span class="text-md"> {{ peca.nomePeca }}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PecaService } from 'app/core/services/peca.service';
-import { Peca, PecaStatus } from 'app/core/types/peca.types';
+import { Peca, PecaParameters, PecaStatus } from 'app/core/types/peca.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-peca-form',
@@ -18,12 +20,15 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 export class PecaFormComponent implements OnInit 
 {
 
-  userSession: UsuarioSessao;
-  codPeca: number;
-  peca: Peca;
-  isAddMode: boolean;
-  form: FormGroup;
-  pecaStatus: any[] = [];
+  public codPeca: number;
+  public isAddMode: boolean;
+  public pecaStatus: any[] = [];
+  public pecasSubstituicao: Peca[] = [];
+  public pecasSubstituicaoFiltro: FormControl = new FormControl();
+  public _onDestroy = new Subject<void>();
+  public form: FormGroup;
+  private userSession: UsuarioSessao;
+  private peca: Peca;
 
   constructor(
     private _router: Router,
@@ -42,6 +47,7 @@ export class PecaFormComponent implements OnInit
     this.isAddMode = !this.codPeca;
 
     this.inicializarForm();
+    this.obterPecaSubstituicao();
     this.obterStatus();
     
     if (!this.isAddMode) 
@@ -91,14 +97,29 @@ export class PecaFormComponent implements OnInit
       this.pecaStatus.push({ codPecaStatus: i+1, label: tr }));
   }
 
-  private async obterFamilias() 
+  private async obterPecaSubstituicao() 
   {
-    // todo
-  }
+    this.pecasSubstituicao = (await this._pecaService.obterPorParametros({
+      sortActive: 'nomePeca',
+      sortDirection: 'asc',
+      pageSize: 100,
+    }).toPromise()).items;
 
-  private async obterCodigoSubstituicao() 
-  {
-    // todo
+    this.pecasSubstituicaoFiltro
+        .valueChanges
+        .pipe(filter(query => !!query),
+          takeUntil(this._onDestroy),
+          debounceTime(700),
+          map(async query => (await this._pecaService.obterPorParametros({
+            sortActive: 'nomePeca',
+            sortDirection: 'asc',
+            filter: query,
+            pageSize: 100
+          }).toPromise()).items.slice()),
+          delay(500),
+          takeUntil(this._onDestroy))
+        .subscribe(async data => 
+          this.pecasSubstituicao = await data);
   }
 
   public salvar(): void { this.isAddMode ? this.criar() : this.atualizar(); }
@@ -175,5 +196,11 @@ export class PecaFormComponent implements OnInit
         this._snack.exibirToast('Erro ao remover peça', 'error');
       })
     });
+  }
+
+  ngOnDestroy() 
+  {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

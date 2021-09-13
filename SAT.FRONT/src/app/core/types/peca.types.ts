@@ -46,10 +46,7 @@ export interface PecaData extends Meta
     items: Peca[];
 };
 
-export interface PecaParameters extends QueryStringParameters 
-{
-    
-};
+export interface PecaParameters extends QueryStringParameters { };
 
 export enum PecaStatus
 {

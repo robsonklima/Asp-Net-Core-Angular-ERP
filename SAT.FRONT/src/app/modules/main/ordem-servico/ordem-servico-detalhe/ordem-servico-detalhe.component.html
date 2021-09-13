@@ -75,7 +75,7 @@
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
                                 </button>   
-                                <button mat-menu-item (click)="cancelarOrdemServico()"
+                                <button mat-menu-item (click)="cancelar()"
                                     [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
                                     {{ t('cancelar') }} 
@@ -306,10 +306,10 @@
 
                             <ng-template matTabContent>
                                 <div class="prose prose-sm max-w-3xl ml-5 mt-2">
-                                        <p>
-                                            {{ t('nenhum registro encontrado') }}
-                                        </p>
-                                    </div>
+                                    <p>
+                                        {{ t('nenhum registro encontrado') }}
+                                    </p>
+                                </div>
                             </ng-template>
                         </mat-tab>
 
@@ -435,6 +435,18 @@
                                 <div class="h-120 w-full w-100 shadow">
                                     <div class="shadow" id="map"></div>
                                 </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab [disabled]="!os?.codEquipContrato">
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('historico') }}
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <app-ordem-servico-historico [codOS]="codOS" [codEquipContrato]="os.codEquipContrato"></app-ordem-servico-historico>
                             </ng-template>
                         </mat-tab>
                     </mat-tab-group>

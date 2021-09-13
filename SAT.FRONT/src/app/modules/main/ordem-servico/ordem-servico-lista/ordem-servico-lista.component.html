@@ -96,13 +96,10 @@
 
                                 <ng-container>
                                     <ng-container *ngFor="let os of dataSourceData?.items">
-                                        <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b"
-                                            *transloco="let t">
+                                        <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
+                                            <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
                                             <div class="flex items-center">
-                                                <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS"
-                                                    class="text-primary">
-                                                    {{ os.codOS }}
-                                                </a>
+                                                {{ os.codOS }}
                                             </div>
 
                                             <div class="hidden md:block truncate">
@@ -200,6 +197,7 @@
                                                 {{ os.numReincidencia ? os.numReincidencia : '--' }}
                                             </div>
                                         </div>
+                                        </a>
                                     </ng-container>
                                 </ng-container>
                             </div>

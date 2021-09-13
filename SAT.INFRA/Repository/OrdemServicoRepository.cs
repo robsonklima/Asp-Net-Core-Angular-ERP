@@ -6,7 +6,6 @@ using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using System;
-using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -237,6 +236,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.CheckinsCheckouts)
+                .Include(os => os.OrdensServicoRelatorioInstalacao)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

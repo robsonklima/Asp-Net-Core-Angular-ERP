@@ -26,9 +26,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   codOS: number;
   os: OrdemServico;
   statusServico: StatusServico;
-
   userSession: UsuarioSessao;
-
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
@@ -41,14 +39,19 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     private _snack: CustomSnackbarService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
-    ) {
+  )
+  {
       this.userSession = JSON.parse(this._userService.userSession);
-    }
+  }
 
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
-    this.registrarEmitters();
+
+    this.sidenav.closedStart.subscribe(() => {
+      this.obterDadosOrdemServico();
+    })
+
     this._cdr.detectChanges();
   }
 
@@ -90,12 +93,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     }
   }
 
-  private registrarEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.obterDadosOrdemServico();
-    })
-  }
-
   agendar() {
     const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
       data: {
@@ -115,8 +112,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     });
   }
 
-  cancelarOrdemServico(){
-
+  cancelar(){
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',

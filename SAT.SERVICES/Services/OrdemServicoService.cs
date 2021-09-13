@@ -1,9 +1,8 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System.Collections.Generic;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -41,13 +40,15 @@ namespace SAT.SERVICES.Services
 
         public OrdemServico ObterPorCodigo(int codigo)
         {
-            return _ordemServicoRepo.ObterPorCodigo(codigo);
+            var os = _ordemServicoRepo.ObterPorCodigo(codigo);
+            os.Alertas = ObterAlertas(os.CodOS);
+            return os;
         }
 
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
-
+            
             var lista = new ListViewModel
             {
                 Items = ordensServico,
@@ -60,6 +61,17 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
+        }
+
+        private List<Alerta> ObterAlertas(int codos) {
+            List<Alerta> Alertas = new List<Alerta>();
+            Alertas.Add(new Alerta() {
+                Tipo="ALERTA_1",
+                Titulo="Chamado Bloquio STN",
+                Descricao= "Chamado bloqueado devido a...."
+            });
+
+            return Alertas;
         }
     }
 }

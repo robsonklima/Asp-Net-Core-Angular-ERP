@@ -247,5 +247,6 @@
     "diario": "Daily",
     "agenda": "Schedule",
     "periodo invalido": "Invalid Period",
-    "alteracao orcamento invalida": "Without permission to change the intervention, contact the Budgets area"
+    "alteracao orcamento invalida": "Without permission to change the intervention, contact the Budgets area",
+    "historico": "Historic"
 }

@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatCheckboxModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatTooltipModule,
     MatMenuModule
   ]
 })

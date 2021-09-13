@@ -1,32 +1,31 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-    <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+    <div *transloco="let t"
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8">
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('defeitos') }}</div>
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
-                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-
-                <mat-menu #menu>
-                    <button mat-menu-item [routerLink]="['/defeito/form']">
-                        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                        {{ t('adicionar') }}
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
-                        {{ t('exportar') }}
-                    </button>
-                </mat-menu>
-            </button>
         </div>
     </div>
-
+    <div 
+    *transloco="let t">
+        <button mat-flat-button 
+        [routerLink]="['/defeito/form']" 
+        [matTooltip]="t('novo')"
+        class="fuse-mat-button-rounded m-2 text-gray-100 bg-green-500 hover:bg-green-600">
+        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+        </button>
+        <button mat-flat-button 
+            [matTooltip]="t('exportar')"
+            class="fuse-mat-button-rounded m-2 text-gray-100 bg-blue-500  hover:bg-blue-600 ">
+            <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+        </button>
+    </div>
     <div class="flex flex-auto overflow-hidden">
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
             <ng-container>

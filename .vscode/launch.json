@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".DEBUG API",
+            "name": "API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",

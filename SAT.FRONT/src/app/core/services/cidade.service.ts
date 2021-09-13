@@ -9,7 +9,7 @@ import { Cidade, CidadeData, CidadeParameters } from '../types/cidade.types';
     providedIn: 'root'
 })
 export class CidadeService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: CidadeParameters): Observable<CidadeData> {
         let params = new HttpParams();
@@ -26,7 +26,7 @@ export class CidadeService {
     obterPorCodigo(codCidade: number): Observable<Cidade> {
         const url = `${c.api}/Cidade/${codCidade}`;
         return this.http.get<Cidade>(url).pipe(
-          map((obj) => obj)
+            map((obj) => obj)
         );
     }
 
@@ -36,10 +36,9 @@ export class CidadeService {
         );
     }
 
-    atualizar(cidade: Cidade): Observable<Cidade> {
+    atualizar(tecnico: Cidade): Observable<Cidade> {
         const url = `${c.api}/Cidade`;
-
-        return this.http.put<Cidade>(url, cidade).pipe(
+        return this.http.put<Cidade>(url, tecnico).pipe(
             map((obj) => obj)
         );
     }

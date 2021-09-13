@@ -1,5 +1,6 @@
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Regiao } from "./regiao.types";
 import { UnidadeFederativa } from "./unidade-federativa.types";
 
 export class Cidade {
@@ -21,13 +22,13 @@ export class Cidade {
     dataHoraManut: string;
     latitudeMetros: number;
     longitudeMetros: number;
-    regiao: number;
+    regiao: Regiao;
     horasRAcesso: number;
     codRegiaoPOS: number;
 }
 
 export interface CidadeData extends Meta {
-    cidades: Cidade[];
+    items: Cidade[];
 };
 
 export interface CidadeParameters extends QueryStringParameters {

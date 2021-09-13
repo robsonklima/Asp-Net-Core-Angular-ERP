@@ -1,0 +1,144 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/cidade">
+                        {{ t('cidades') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codCidade }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('cidade') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('identificacao') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('nome') }}</mat-label>
+                        <input matInput formControlName="nomeCidade">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('localizacao') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('unidade federativa') }}</mat-label>
+                        <mat-select formControlName="codUF" [disabled]="!unidadesFederativas.length || form.disabled">
+                            <mat-option *ngFor="let unidadeFederativa of unidadesFederativas"
+                                [value]="unidadeFederativa.codUF">
+                                {{ unidadeFederativa.siglaUF }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('filial') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codFilial"
+                            [disabled]="!filiais.length || form.disabled">
+                            <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                {{ filial.nomeFilial }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('latitude') }}</mat-label>
+                        <input matInput formControlName="latitude">
+
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('longitude') }}</mat-label>
+                        <input matInput formControlName="longitude">
+
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                </div>
+
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button [routerLink]="['/cidade']" mat-button [disabled]="!form.valid || form.disabled">
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'warn'" (click)="deletar()"
+                        [disabled]="!form.valid || form.disabled">
+                        {{ t('remover') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
+                        [disabled]="!form.valid || form.disabled">
+                        {{ t('salvar') }}
+                    </button>
+
+                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

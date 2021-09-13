@@ -21,3 +21,11 @@
     background-color: #455A64 !important;
     color: white !important;
 }
+
+.remove-arrows {
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+    }
+}

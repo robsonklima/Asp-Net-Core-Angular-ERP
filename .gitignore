@@ -4,3 +4,5 @@ obj
 .vs
 dist
 sqltools*.log
+.suo
+.v2

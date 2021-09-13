@@ -18,9 +18,11 @@ namespace SAT.SERVICES.Services
             _sequenciaRepo = sequenciaRepo;
         }
 
-        public void Atualizar(OrdemServico ordemServico)
+        public OrdemServico Atualizar(OrdemServico ordemServico)
         {
             _ordemServicoRepo.Atualizar(ordemServico);
+
+            return ordemServico;
         }
 
         public OrdemServico Criar(OrdemServico ordemServico)

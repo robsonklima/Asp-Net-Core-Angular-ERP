@@ -15,30 +15,19 @@ export interface AppConfig
     google_key: string;
     api: Api;
     map_quest_keys: string[];
-    tipo_intervencao: any;
-    status_servico: any;
 }
 
 export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme : 'brand',
-    google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     api: 'https://localhost:5001/api',
+    google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',
         'bP1zqnkhSVsAj5gL8GucMipVqDRPNmID', 'A0bAhXKQNNEqjFWUUOvR2HhAStiElB0L',
         'EDvdlS7xGN5U8WqHFiXMWXmXGwNSAhvh', 'XsjlWnkAo5fPMGhJ8l3RTwEpQfPINIGU', 
         'tbYhdvKIFCxkDFjoGATSHmVPL54ItdlC', 'l19CNtzjRZmwVCncGjBycgFV5WSUGYQ1',
-    ],
-    status_servico: {
-        aberto: 1,
-        cancelado: 2,
-        transferido: 8
-    },
-    tipo_intervencao: {
-        corretiva: 2,
-        preventiva: 6
-    },
+    ]
 };

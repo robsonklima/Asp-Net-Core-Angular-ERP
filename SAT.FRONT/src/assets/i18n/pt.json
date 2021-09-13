@@ -247,5 +247,6 @@
     "semanal": "Semanal",
     "diario": "Diário",
     "agenda": "Agenda",
-    "periodo invalido": "Período Inválido"
+    "periodo invalido": "Período Inválido",
+    "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos"
 }

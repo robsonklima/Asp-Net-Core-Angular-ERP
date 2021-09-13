@@ -38,9 +38,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut]
-        public void Put([FromBody] OrdemServico ordemServico)
+        public OrdemServico Put([FromBody] OrdemServico ordemServico)
         {
-            _osService.Atualizar(ordemServico);
+            return _osService.Atualizar(ordemServico);
         }
 
         [HttpDelete("{codOS}")]

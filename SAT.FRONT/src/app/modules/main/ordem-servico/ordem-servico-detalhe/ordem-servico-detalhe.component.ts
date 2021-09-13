@@ -9,6 +9,11 @@ import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/o
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
+import moment from 'moment';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -20,6 +25,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   codOS: number;
   os: OrdemServico;
+  statusServico: StatusServico;
+
+  userSession: UsuarioSessao;
+
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
@@ -28,10 +37,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
     private _agendamentoService: AgendamentoService,
+    private _userService: UserService,    
     private _snack: CustomSnackbarService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
-  ) { }
+    ) {
+      this.userSession = JSON.parse(this._userService.userSession);
+    }
 
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
@@ -98,6 +110,43 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           this.obterDadosOrdemServico();
         }, e => {
           this._snack.exibirToast(e?.error, 'success');
+        });
+      }
+    });
+  }
+
+  cancelarOrdemServico(){
+
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja cancelar este chamado?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        let obj = {
+          ...this.os,   
+          ...{
+            dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+            codUsuarioManut: this.userSession.usuario.codUsuario,
+            codStatusServico: statusServicoConst.CANCELADO
+          }
+        };
+    
+        Object.keys(obj).forEach((key) => {
+          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        });
+    
+        this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
+          this.obterDadosOrdemServico();
+    
+            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");      
         });
       }
     });

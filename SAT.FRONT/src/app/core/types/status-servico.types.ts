@@ -24,3 +24,10 @@ export interface StatusServicoParameters extends QueryStringParameters {
 	codStatusServico?: number;
 	indAtivo?: number;
 };
+
+export const statusServicoConst = {
+	ABERTO: 1,
+	FECHADO: 3,
+	CANCELADO: 2,
+	TRANSFERIDO: 8
+}

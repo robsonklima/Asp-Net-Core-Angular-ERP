@@ -31,7 +31,7 @@
                                     </h2>
                                 </div>
                             </div>
-                        </div>
+                        </div>                
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
@@ -58,13 +58,6 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-indigo-500" mat-flat-button
-                                [matTooltip]="t('imprimir')"
-                                matTooltipPosition="above"
-                                [routerLink]="['/ordem-servico/impressao/' + codOS]">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
-                            </button>
-
                             <button class="fuse-mat-button-rounded bg-indigo-700" mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
                                 [matTooltip]="t('transferir')"
@@ -73,6 +66,22 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
                         </div>
+                       
+                        <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700"  mat-flat-button [matMenuTriggerFor]="menu" *transloco="let t">
+                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+    
+                            <mat-menu #menu>
+                                <button mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                                    {{ t('imprimir') }}
+                                </button>   
+                                <button mat-menu-item (click)="cancelarOrdemServico()"
+                                    [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
+                                    {{ t('cancelar') }} 
+                                </button>                                                                                      
+                            </mat-menu>  
+                        </button>                        
                     </div>
                 </div>
             </div>

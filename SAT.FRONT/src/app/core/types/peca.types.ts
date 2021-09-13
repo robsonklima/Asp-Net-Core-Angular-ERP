@@ -1,7 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
-import { PecaStatus } from "./peca-status.types";
 
-export class Peca {
+export class Peca 
+{
     codPeca: number;
     codMagnus: string;
     codPecaFamilia?: any;
@@ -41,10 +41,17 @@ export class Peca {
     dataAtualizacao: string;
 }
 
-export interface PecaData extends Meta {
+export interface PecaData extends Meta 
+{
     items: Peca[];
 };
 
-export interface PecaParameters extends QueryStringParameters {
-    
+export interface PecaParameters extends QueryStringParameters { };
+
+export enum PecaStatus
+{
+    "Liberada" = 1,
+    "Indísponível" = 2,
+    "Substituída" = 3,
+    "Descontinuada" = 4
 };

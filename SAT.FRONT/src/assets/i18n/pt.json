@@ -248,6 +248,21 @@
     "semanal": "Semanal",
     "diario": "Diário",
     "agenda": "Agenda",
+<<<<<<< HEAD
     "periodo invalido": "Período Inválido",
     "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos"
+=======
+    "cod magnus": "Cód. Magnus",
+    "custo brl": "Custo",
+    "custo usd": "Custo Dólar",
+    "custo eur": "Custo Euro",
+    "venda brl": "Venda",
+    "venda usd": "Venda Dólar",
+    "venda eur": "Venda Euro",
+    "valor peca assistencia": "Valor Assistência",
+    "ipi peca assistencia": "IPI Assistência",
+    "ipi": "IPI",
+    "quantidade min venda": "Qtd. Mínima para Venda",
+    "ncm": "NCM"
+>>>>>>> peca-crud
 }

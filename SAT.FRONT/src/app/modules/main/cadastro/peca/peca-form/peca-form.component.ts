@@ -3,12 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PecaService } from 'app/core/services/peca.service';
-import { Peca, PecaParameters } from 'app/core/types/peca.types';
+import { Peca, PecaStatus } from 'app/core/types/peca.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Location } from '@angular/common';
-import { PecaStatus } from 'app/core/types/peca-status.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
@@ -24,7 +23,7 @@ export class PecaFormComponent implements OnInit
   peca: Peca;
   isAddMode: boolean;
   form: FormGroup;
-  pecaStatus: PecaStatus[] = [];
+  pecaStatus: any[] = [];
 
   constructor(
     private _router: Router,
@@ -41,13 +40,15 @@ export class PecaFormComponent implements OnInit
   {
     this.codPeca = +this._route.snapshot.paramMap.get('codPeca');
     this.isAddMode = !this.codPeca;
-    this.inicializarForm();
 
+    this.inicializarForm();
+    this.obterStatus();
+    
     if (!this.isAddMode) 
     {
       const data = await this._pecaService
-      .obterPorCodigo(this.codPeca)
-      .toPromise();
+        .obterPorCodigo(this.codPeca)
+        .toPromise();
 
       this.form.patchValue(data);
       this.peca = data;
@@ -78,13 +79,16 @@ export class PecaFormComponent implements OnInit
       ncm: [undefined, Validators.required],
       pecaFamilia: [undefined],
       codPecaSubstituicao: [undefined],
-      pecaStatus: [undefined]
+      codPecaStatus: [undefined, Validators.required]
     });
   }
 
-  private async obterStatus() 
+  private async obterStatus(): Promise<void>
   {
-    // todo
+    Object.keys(PecaStatus)
+    .filter((e) => isNaN(Number(e)))
+    .forEach((tr, i) => 
+      this.pecaStatus.push({ codPecaStatus: i+1, label: tr }));
   }
 
   private async obterFamilias() 
@@ -97,23 +101,21 @@ export class PecaFormComponent implements OnInit
     // todo
   }
 
-  public salvar(): void 
-  {
-    this.isAddMode ? this.criar() : this.atualizar();
-  }
+  public salvar(): void { this.isAddMode ? this.criar() : this.atualizar(); }
 
   public atualizar(): void 
   {
-    let peca = 
+    var peca = 
     {
       ...this.peca,
       ...this.form.getRawValue(),
-      ...{
+      ...
+      {
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario
       }
     };
-    debugger;
+
     this._pecaService.atualizar(peca).subscribe(() => 
     {
       this._snack.exibirToast(`Peça ${peca.nomePeca} atualizada com sucesso!`, "success");
@@ -130,44 +132,48 @@ export class PecaFormComponent implements OnInit
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
-        codPecaStatus: 1,
         indObrigRastreabilidade: 1,
         indValorFixo: 1
       }
     };
-    console.log(peca);
 
-    // this._pecaService.criar(peca).subscribe(() => 
-    // {
-    //    this._snack.exibirToast(`Peça ${peca.nomePeca} criada com sucesso!`, "success");
-    //    this._location.back();
-    // });
+    this._pecaService.criar(peca).subscribe(() => 
+    {
+      this._snack.exibirToast(`Peça ${peca.nomePeca} criada com sucesso!`, "success");
+      this._location.back();
+    });
   }
 
   public remover(): void
   {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent,
+    {
+      data: 
+      {
         titulo: 'Confirmação',
         message: `Deseja remover a peça ${this.peca.nomePeca}?`,
-        buttonText: {
+        buttonText: 
+        {
           ok: 'Sim',
           cancel: 'Não'
         }
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) 
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => 
+    {
+      if (!confirmacao) return;
+      
+      this._pecaService.deletar(this.codPeca).subscribe(() => 
       {
-        this._pecaService.deletar(this.codPeca).subscribe(() => {
-          this._snack.exibirToast(`${this.peca.nomePeca} removida com sucesso!`, 'success');
-          this._router.navigate(['/peca']);
-        }, e => {
-          console.log(e);
-          this._snack.exibirToast('Erro ao remover peça', 'error');
-        })
-      }
+        this._snack.exibirToast(`${this.peca.nomePeca} removida com sucesso!`, 'success');
+        this._router.navigate(['/peca']);
+      }, 
+      e => 
+      {
+        console.log(e);
+        this._snack.exibirToast('Erro ao remover peça', 'error');
+      })
     });
   }
 }

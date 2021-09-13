@@ -1,5 +1,4 @@
 import { Meta, QueryStringParameters } from "./generic.types";
-import { PecaStatus } from "./peca-status.types";
 
 export class Peca 
 {
@@ -50,4 +49,12 @@ export interface PecaData extends Meta
 export interface PecaParameters extends QueryStringParameters 
 {
     
+};
+
+export enum PecaStatus
+{
+    "Liberada" = 1,
+    "Indísponível" = 2,
+    "Substituída" = 3,
+    "Descontinuada" = 4
 };

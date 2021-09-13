@@ -19,11 +19,13 @@ import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
+import { TipoIntervencao, tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -37,6 +39,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isAddMode: boolean;
   usuario: any;
+  perfis: any;
+
+  userSession: UsuarioSessao;
+
   clientes: Cliente[] = [];
   autorizadas: Autorizada[] = [];
   regioes: Regiao[] = [];
@@ -64,7 +70,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     private _autorizadaService: AutorizadaService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService
   ) {
-    this.usuario = JSON.parse(this._userService.userSession).usuario;
+    this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
@@ -72,6 +78,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codOS;
     this.inicializarForm();
 
+    this.perfis = PerfilEnum;
+    
     // Init
     this.obterTiposIntervencao();
     this.obterClientes();
@@ -89,6 +97,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     // Main Obj
     this.obterOrdemServico();
+
+    this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() => {
+      this.validaIntervencao();
+    })
   }
 
   private inicializarForm(): void {
@@ -120,7 +132,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       agenciaPosto: [undefined]
     });
   }
-
+ 
   private async obterOrdemServico() {
     if (!this.isAddMode) {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
@@ -325,6 +337,52 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
+  private validaInformacoesAdicionais(): void{
+    let perfil = this.userSession.usuario.perfil?.codPerfil;
+
+    let colecaoPerfil = [
+      PerfilEnum.CLIENTE_BASICO_BIOMETRIA,
+      PerfilEnum.CLIENTE_BASICO_C_RESTRICOES
+    ];
+
+    if (colecaoPerfil.includes(perfil)) {      
+      
+    } else{
+          
+        }
+  }
+
+  private validaIntervencao(): void{    
+    let perfil = this.userSession.usuario.perfil?.codPerfil;
+    let intervencao = this.form.controls['codTipoIntervencao'].value;                 
+
+    let colecaoPerfil = [
+                    PerfilEnum.ADMINISTRADOR, 
+                    PerfilEnum.FINANCEIRO_COORDENADOR, 
+                    PerfilEnum.FINANCEIRO_ADMINISTRATIVO,
+                    PerfilEnum.PONTO_FINANCEIRO, 
+                    PerfilEnum.FINANCEIRO_COORDENADOR_PONTO, 
+                    PerfilEnum.FILIAIS_SUPERVISOR, 
+                    PerfilEnum.FILIAL_COORDENADOR,
+                    PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORD
+    ];
+
+    let colecaoIntervencao = [
+                    tipoIntervencaoConst.ORC_APROVADO,
+                    tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
+                    tipoIntervencaoConst.ORC_REPROVADO
+    ];                 
+
+    if (!colecaoPerfil.includes(perfil)) {
+      if (colecaoIntervencao.includes(intervencao))  
+          this.form.controls['codTipoIntervencao'].setErrors({
+          'naoPermiteAlterarOrcamento': true        
+    })      
+    } else{
+          this.form.controls['codTipoIntervencao'].setErrors(null)
+        }
+  }
+
   private atualizar(): void {
     this.form.disable();
 
@@ -334,7 +392,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.usuario.codUsuario
+        codUsuarioManut: this.usuario?.codUsuario
       }
     };
 

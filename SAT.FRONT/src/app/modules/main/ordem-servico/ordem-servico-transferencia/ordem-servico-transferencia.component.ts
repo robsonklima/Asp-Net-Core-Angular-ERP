@@ -11,6 +11,7 @@ import moment from 'moment';
 import { UserService } from 'app/core/user/user.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { statusServicoConst } from 'app/core/types/status-servico.types';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -72,7 +73,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
     this.isLoading = true;
     this.os.codTecnico = tecnico.codTecnico;
     this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
-    this.os.codStatusServico = c.status_servico.transferido;
+    this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
     this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     this._ordemServicoService.atualizar(this.os).subscribe(() => {
       this.isLoading = false;

@@ -38,7 +38,7 @@ namespace SAT.API.Controllers
             return _cidadeService.Criar(cidade);
         }
 
-        [HttpPut("{codCidade}")]
+        [HttpPut]
         public void Put([FromBody] Cidade cidade)
         {
             _cidadeService.Atualizar(cidade);

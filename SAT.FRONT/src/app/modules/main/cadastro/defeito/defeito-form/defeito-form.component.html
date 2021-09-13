@@ -59,6 +59,18 @@
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
+                </div>                
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                </div>
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">                           
+                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

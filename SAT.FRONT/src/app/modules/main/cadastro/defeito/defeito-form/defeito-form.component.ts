@@ -47,7 +47,8 @@ export class DefeitoFormComponent implements OnInit, OnDestroy {
         }, 
       ],
       codEDefeito: ['', [Validators.required, Validators.maxLength(3)]],
-      nomeDefeito: ['', Validators.required]
+      nomeDefeito: ['', Validators.required],
+      indAtivo: [0]
     });
 
     if (!this.isAddMode) {

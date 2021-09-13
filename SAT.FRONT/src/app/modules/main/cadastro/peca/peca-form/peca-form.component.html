@@ -60,7 +60,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('custo brl') }}</mat-label>
-                        <input matInput formControlName="valCusto">
+                        <input matInput formControlName="valCusto" mask="separator" thousandSeparator="." prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -68,7 +68,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('custo usd') }}</mat-label>
-                        <input matInput formControlName="valCustoDolar">
+                        <input matInput formControlName="valCustoDolar" mask="separator" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -76,12 +76,12 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('custo eur') }}</mat-label>
-                        <input matInput formControlName="valCustoEuro">
+                        <input matInput formControlName="valCustoEuro" mask="separator" thousandSeparator="." suffix="€" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda brl') }}</mat-label>
-                        <input matInput formControlName="valPeca">
+                        <input matInput formControlName="valPeca" mask="separator" thousandSeparator="." prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -89,7 +89,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda usd') }}</mat-label>
-                        <input matInput formControlName="valPecaDolar">
+                        <input matInput formControlName="valPecaDolar" mask="separator" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -97,12 +97,12 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda eur') }}</mat-label>
-                        <input matInput formControlName="valPecaEuro">
+                        <input matInput formControlName="valPecaEuro" mask="separator" thousandSeparator="." suffix="€" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('valor peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valPecaAssistencia">
+                        <input matInput formControlName="valPecaAssistencia" mask="separator" thousandSeparator="." prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -110,7 +110,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valIpiassistencia">
+                        <input matInput formControlName="valIpiassistencia" mask="separator" thousandSeparator="." suffix="%"[showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -118,7 +118,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi') }}</mat-label>
-                        <input matInput formControlName="valIPI">
+                        <input matInput formControlName="valIPI" mask="separator" 
+                        thousandSeparator="." suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -126,7 +127,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('quantidade min venda') }}</mat-label>
-                        <input matInput formControlName="qtdMinimaVenda">
+                        <input type="number" matInput formControlName="qtdMinimaVenda">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>

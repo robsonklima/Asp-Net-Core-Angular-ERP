@@ -21,13 +21,10 @@ namespace SAT.MODELS.Entities
         public decimal ValIPI { get; set; }
         public int QtdMinimaVenda { get; set; }
         public string Ncm { get; set; }
-
         public string CodUsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
         [ForeignKey("CodPecaFamilia")]
         public PecaFamilia PecaFamilia { get; set; }
         public int? CodPecaFamilia { get; set; }
@@ -38,6 +35,7 @@ namespace SAT.MODELS.Entities
         public int IndObrigRastreabilidade { get; set; }
         public int IndValorFixo { get; set; }
         public DateTime? DataHoraAtualizacaoValor { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int IsValorAtualizado { get; set; }
         public byte? ListaBackup { get; set; }
         public string DtObsoleto { get; set; }

@@ -113,7 +113,7 @@ export class PecaFormComponent implements OnInit
         codUsuarioManut: this.userSession.usuario.codUsuario
       }
     };
-
+    debugger;
     this._pecaService.atualizar(peca).subscribe(() => 
     {
       this._snack.exibirToast(`Peça ${peca.nomePeca} atualizada com sucesso!`, "success");
@@ -123,7 +123,7 @@ export class PecaFormComponent implements OnInit
 
   public criar(): void 
   {
-    let peca: Peca = 
+    var peca: Peca = 
     {
       ...this.peca,
       ...this.form.getRawValue(),
@@ -135,12 +135,13 @@ export class PecaFormComponent implements OnInit
         indValorFixo: 1
       }
     };
+    console.log(peca);
 
-    this._pecaService.criar(peca).subscribe(() => 
-    {
-       this._snack.exibirToast(`Peça ${peca.nomePeca} criada com sucesso!`, "success");
-       this._location.back();
-    });
+    // this._pecaService.criar(peca).subscribe(() => 
+    // {
+    //    this._snack.exibirToast(`Peça ${peca.nomePeca} criada com sucesso!`, "success");
+    //    this._location.back();
+    // });
   }
 
   public remover(): void

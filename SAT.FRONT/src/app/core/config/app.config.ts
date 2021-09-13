@@ -3,6 +3,7 @@ import { Layout } from 'app/layout/layout.types';
 export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
 export type Api = 'https://localhost:44341/api' | 
+                  'https://localhost:5001/api' | 
                   'https://sat.perto.com.br/SAT.V2.API/api' |
                   'https://apisat-homologacao.perto.com.br/api' | 
                   'https://localhost:5001/api' | string;

@@ -8,10 +8,15 @@ namespace SAT.SERVICES.Services
     public class DefeitoService : IDefeitoService
     {
         private readonly IDefeitoRepository _defeitoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public DefeitoService(IDefeitoRepository defeitoRepo)
+        public DefeitoService(
+            IDefeitoRepository defeitoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _defeitoRepo = defeitoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(DefeitoParameters parameters)
@@ -34,7 +39,10 @@ namespace SAT.SERVICES.Services
 
         public Defeito Criar(Defeito defeito)
         {
+            defeito.CodDefeito = _sequenciaRepo.ObterContador("Defeito");
+
             _defeitoRepo.Criar(defeito);
+            
             return defeito;
         }
 

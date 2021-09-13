@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -26,16 +27,10 @@ namespace SAT.API.Controllers
             return _agendaServ.ObterAgendaPorParametros(parameters);
         }
 
-        [HttpPut("{codAgendaTecnico}")]
-        public void Put(int id, [FromBody] AgendaTecnico agenda)
+        [HttpPut]
+        public void Put(AgendaTecnico agenda)
         {
             _agendaServ.AtualizarAgenda(agenda);
-        }
-
-        [HttpDelete("{codAgendaTecnico}")]
-        public void Delete(int codAgendaTecnico)
-        {
-            _agendaServ.DeletarAgenda(codAgendaTecnico);
         }
 
          
@@ -46,13 +41,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut("Evento")]
-        public void AtualizarEvento([FromBody] AgendaTecnicoEvento evento)
+        public AgendaTecnicoEvento AtualizarEvento([FromBody] AgendaTecnicoEvento evento)
         {
-            _agendaServ.AtualizarEvento(evento);
+            return _agendaServ.AtualizarEvento(evento);
         }
 
         [HttpDelete("Evento/{codAgendaTecnicoEvento}")]
-        public void DeletarEvento([FromBody] int codAgendaTecnicoEvento)
+        public void DeletarEvento(int codAgendaTecnicoEvento)
         {
             _agendaServ.DeletarEvento(codAgendaTecnicoEvento);
         }

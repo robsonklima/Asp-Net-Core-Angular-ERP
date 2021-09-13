@@ -20,13 +20,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrdemServicoParameters parameters)
+        public ListViewModel ObterPorParametros([FromQuery] OrdemServicoParameters parameters)
         {
             return _osService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codOS}")]
-        public OrdemServico Get(int codOS)
+        public OrdemServico ObterPorCodigo(int codOS)
         {
             return _osService.ObterPorCodigo(codOS);
         }
@@ -38,13 +38,13 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut]
-        public void Put([FromBody] OrdemServico ordemServico)
+        public void Atualizar([FromBody] OrdemServico ordemServico)
         {
             _osService.Atualizar(ordemServico);
         }
 
         [HttpDelete("{codOS}")]
-        public void Delete(int codOS)
+        public void Deletar(int codOS)
         {
             _osService.Deletar(codOS);
         }

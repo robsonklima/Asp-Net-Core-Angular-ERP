@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
             foreach (Tecnico tecnico in tecnicos)
             {
                 var parametros = new AgendaTecnicoParameters() { CodTecnico = tecnico.CodTecnico};
-                var agendaDB = _agendaRepo.ObterAgendaPorParametros(parametros);
+                var agendaDB = _agendaRepo.ObterAgendasPorParametros(parametros);
 
                 if (agendaDB.Count == 0)
                 {
@@ -56,7 +56,9 @@ namespace SAT.SERVICES.Services
                 i++;
             }
 
-            return _agendaRepo.ObterAgendaPorParametros(parameters);
+            var agendas = _agendaRepo.ObterAgendasPorParametros(parameters);
+
+            return agendas;
         }
 
         public void AtualizarAgenda(AgendaTecnico agenda)
@@ -81,9 +83,11 @@ namespace SAT.SERVICES.Services
             _agendaRepo.DeletarEvento(codigo);
         }
 
-        public void AtualizarEvento(AgendaTecnicoEvento evento)
+        public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
         {
             _agendaRepo.AtualizarEvento(evento);
+
+            return evento;
         }
 
         private string ObterCor()

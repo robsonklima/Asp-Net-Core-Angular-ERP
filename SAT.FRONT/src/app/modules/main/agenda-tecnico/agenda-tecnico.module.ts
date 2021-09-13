@@ -24,6 +24,7 @@ import { AgendaTecnicoConfiguracoesComponent } from 'app/modules/main/agenda-tec
 import { AgendaTecnicoSidebarComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-sidebar.component';
 import { agendaTecnicoRoutes } from 'app/modules/main/agenda-tecnico/agenda-tecnico.routing';
 import { TranslocoModule } from '@ngneat/transloco';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 export const FORMATO_DATA = {
     parse: {
@@ -62,6 +63,7 @@ export const FORMATO_DATA = {
         MatTooltipModule,
         FullCalendarModule,
         FuseDateRangeModule,
+        NgxMatSelectSearchModule,
         SharedModule,
         TranslocoModule
     ],

@@ -11,7 +11,6 @@ import { appConfig } from 'app/core/config/app.config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { mockApiServices } from './mock-api';
 
 const routerConfig: ExtraOptions = {
     scrollPositionRestoration: 'enabled',
@@ -40,9 +39,6 @@ const routerConfig: ExtraOptions = {
 
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
-
-        // Mock API
-        FuseMockApiModule.forRoot(mockApiServices)
     ],
     bootstrap: [
         AppComponent

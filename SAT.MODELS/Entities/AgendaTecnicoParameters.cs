@@ -1,4 +1,5 @@
 ﻿using SAT.MODELS.Entities.Helpers;
+using System;
 
 namespace SAT.MODELS.Entities
 {
@@ -7,5 +8,7 @@ namespace SAT.MODELS.Entities
         public int? PA { get; set; }
         public int? CodFilial { get; set; }
         public int? CodTecnico { get; set; }
+        public DateTime? Inicio { get; set; }
+        public DateTime? Fim { get; set; }
     }
 }

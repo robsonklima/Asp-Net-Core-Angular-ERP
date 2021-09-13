@@ -27,7 +27,7 @@ export class EquipamentoFormComponent implements OnInit, OnDestroy {
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
     private _userService: UserService,
-    private _equipamentoService: EquipamentoService
+    private _equipamentoService: EquipamentoService,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -35,19 +35,7 @@ export class EquipamentoFormComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.codEquip = +this._route.snapshot.paramMap.get('codEquip');
     this.isAddMode = !this.codEquip;
-    this.inicializarForm();
     
-    if (!this.isAddMode) {
-      this._equipamentoService.obterPorCodigo(this.codEquip)
-      .pipe(first())
-      .subscribe(data => {
-        this.form.patchValue(data);
-        this.equipamento = data;
-      });
-    }
-  }
-
-  private inicializarForm() {
     this.form = this._formBuilder.group({
       codEquip: [
         {
@@ -57,6 +45,15 @@ export class EquipamentoFormComponent implements OnInit, OnDestroy {
       ],
       nomeEquip: [undefined, Validators.required],
     });
+    
+    if (!this.isAddMode) {
+      this._equipamentoService.obterPorCodigo(this.codEquip)
+        .pipe(first())
+        .subscribe(data => {
+          this.form.patchValue(data);
+          this.equipamento = data;
+        });
+    }
   }
 
   salvar(): void {

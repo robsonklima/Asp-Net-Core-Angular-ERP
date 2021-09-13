@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendaTecnicoParameters, Calendar, CalendarSettings, CalendarWeekday } from 'app/core/types/agenda-tecnico.types';
+import { UserService } from '../user/user.service';
+import { UsuarioSessao } from '../types/usuario.types';
+import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CalendarCalendarsResolver implements Resolve<any>
 {
-    constructor(private _agendaTecnicoService: AgendaTecnicoService) { }
+    userSession: UsuarioSessao;
+
+    constructor(
+        private _agendaTecnicoService: AgendaTecnicoService,
+        private _userService: UserService
+    ) {
+        this.userSession = JSON.parse(this._userService.userSession)
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Calendar[]>
     {
-        var params: AgendaTecnicoParameters = { codFilial: 4, pageSize: 500 };
+        var params: AgendaTecnicoParameters = { 
+            codFilial: this.userSession.usuario?.codFilial,
+            pageSize: 5000,
+            inicio: moment().subtract(7, "days").toISOString(),
+            fim: moment().add(7, "days").toISOString()
+        };
 
-        return this._agendaTecnicoService.obterPorParametros(params);
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class CalendarSettingsResolver implements Resolve<any>
-{
-    constructor(private _agendaTecnicoService: AgendaTecnicoService)
-    {
-    }
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarSettings>
-    {
-        return this._agendaTecnicoService.getSettings();
+        return this._agendaTecnicoService.obterCalendariosEEventos(params);
     }
 }
 
@@ -43,6 +43,42 @@ export class CalendarWeekdaysResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CalendarWeekday[]>
     {
-        return this._agendaTecnicoService.getWeekdays();
+        return of([
+            {
+                abbr : 'S',
+                label: 'Segunda',
+                value: 'Se'
+            },
+            {
+                abbr : 'T',
+                label: 'Terça',
+                value: 'Te'
+            },
+            {
+                abbr : 'Q',
+                label: 'Quarta',
+                value: 'Qu'
+            },
+            {
+                abbr : 'Q',
+                label: 'Quinta',
+                value: 'Qu'
+            },
+            {
+                abbr : 'S',
+                label: 'Sexta',
+                value: 'Se'
+            },
+            {
+                abbr : 'S',
+                label: 'Sábado',
+                value: 'Sa'
+            },
+            {
+                abbr : 'D',
+                label: 'Domingo',
+                value: 'Do'
+            }
+        ]);
     }
 }

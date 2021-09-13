@@ -3,7 +3,7 @@ import {
     OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -18,14 +18,20 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { clone, cloneDeep, omit } from 'lodash-es';
 import * as moment from 'moment';
 import { RRule } from 'rrule';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { interval, Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import {
+    AgendaTecnicoParameters,
     Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
 } from 'app/core/types/agenda-tecnico.types';
 import ptLocale from '@fullcalendar/core/locales/pt';
+import { UserService } from 'app/core/user/user.service';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { OrdemServico, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OSPrazoAtendimento } from 'app/core/types/os-prazo-atendimento.types';
 
 @Component({
     selector       : 'app-agenda-tecnico',
@@ -34,29 +40,32 @@ import ptLocale from '@fullcalendar/core/locales/pt';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation  : ViewEncapsulation.None
 })
-export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
-{
+export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('eventPanel') private _eventPanel: TemplateRef<any>;
     @ViewChild('fullCalendar') private _fullCalendar: FullCalendarComponent;
     @ViewChild('drawer') private _drawer: MatDrawer;
-
     locales = [ptLocale];
     calendars: Calendar[];
-    calendarPlugins: any[] = [ 
-        dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin
-    ];
+    userSession: UsuarioSessao;
+    ordensServico: OrdemServico[] = [];
     drawerMode: CalendarDrawerMode = 'side';
     drawerOpened: boolean = true;
     event: CalendarEvent;
     eventEditMode: CalendarEventEditMode = 'single';
     eventForm: FormGroup;
+    ordemServicoFiltro: FormControl = new FormControl();
     eventTimeFormat: any;
     events: CalendarEvent[] = [];
     panelMode: CalendarEventPanelMode = 'view';
-    settings: CalendarSettings;
-    view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
     views: any;
     viewTitle: string;
+    settings: CalendarSettings = {
+        dateFormat : 'DD/MM/YYYY',
+        timeFormat : '24',
+        startWeekOn: 1,
+    };
+    view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
+    calendarPlugins: any[] = [  dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
     private _eventPanelOverlayRef: OverlayRef;
     private _fullCalendarApi: FullCalendar;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -68,17 +77,34 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         private _formBuilder: FormBuilder,
         private _overlay: Overlay,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _viewContainerRef: ViewContainerRef
+        private _viewContainerRef: ViewContainerRef,
+        private _userService: UserService,
+        private _ordemServicoService: OrdemServicoService
     ) {
-        moment.locale('pt');
+        this.userSession = JSON.parse(this._userService.userSession);
     }
     
     ngOnInit(): void
     {
+        interval(1 * 60 * 1000)
+            .pipe(
+                startWith(0),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(() => {
+                this.obterAgendas();
+            });
+
+        this.obterOrdensServico();
+
         this.eventForm = this._formBuilder.group({
             id              : [''],
-            calendarId      : [''],
+            calendarId      : ['', [Validators.required]],
             recurringEventId: [null],
+            codUsuarioCad   : [null],
+            codUsuarioManu  : [null],
+            dataHoraCad     : [null],
+            datahoraManut   : [null],
             title           : [''],
             description     : [''],
             start           : [null],
@@ -86,8 +112,17 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             duration        : [null],
             allDay          : [null],
             recurrence      : [null],
+            codOS           : [null, [Validators.required]],
             range           : [{}]
         });
+
+        this.ordemServicoFiltro.valueChanges.pipe(
+            filter(query => !!query),
+            debounceTime(700),
+            delay(500),
+            takeUntil(this._unsubscribeAll),
+            map(async query => { this.obterOrdensServico(query) })
+          ).subscribe(() => {});
 
         // Subscribe to 'range' field value changes
         this.eventForm.get('range').valueChanges.subscribe((value) => {
@@ -126,7 +161,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((calendars) => {
 
-                // Store the calendars
+                // Store the calendars and events
                 this.calendars = calendars;
 
                 // Mark for check
@@ -146,24 +181,12 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get settings
-        this._agendaTecnicoService.settings$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((settings) => {
-                // Store the settings
-                this.settings = settings;
-
-                // Set the FullCalendar event time format based on the time format setting
-                this.eventTimeFormat = {
-                    hour    : settings.timeFormat === '12' ? 'numeric' : '2-digit',
-                    hour12  : settings.timeFormat === '12',
-                    minute  : '2-digit',
-                    meridiem: settings.timeFormat === '12' ? 'short' : false,
-                };
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        this.eventTimeFormat = {
+            hour    : this.settings.timeFormat === '12' ? 'numeric' : '2-digit',
+            hour12  : this.settings.timeFormat === '12',
+            minute  : '2-digit',
+            meridiem: this.settings.timeFormat === '12' ? 'short' : false,
+        };
 
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
@@ -237,9 +260,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         // 60 days to create a ~150 days period to fetch the data for
         const viewStart = moment(this._fullCalendarApi.view.currentStart).subtract(30, 'days');
         const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(30, 'days');
-
-        // Get events
-        //this._agendaTecnicoService.getEvents(viewStart, viewEnd, true).subscribe();
     }
 
     ngOnDestroy(): void
@@ -253,6 +273,31 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
         {
             this._eventPanelOverlayRef.dispose();
         }
+    }
+
+    private obterAgendas() {
+        var params: AgendaTecnicoParameters = { 
+            codFilial: this.userSession.usuario?.codFilial,
+            pageSize: 5000,
+            inicio: moment().subtract(7, "days").toISOString(),
+            fim: moment().add(7, "days").toISOString()
+        };
+
+        this._agendaTecnicoService.obterCalendariosEEventos(params).subscribe();
+    }
+
+    private async obterOrdensServico(filtro: string = '') {
+        const params: OrdemServicoParameters = {
+            codFiliais: this.userSession.usuario?.codFilial,
+            codStatusServicos: "1",
+            filter: filtro,
+            pageSize: 100,
+            sortActive: 'codOS',
+            sortDirection: 'desc'
+        }
+
+        const data = await this._ordemServicoService.obterPorParametros(params).toPromise();
+        this.ordensServico = data.items;
     }
 
     toggleDrawer(): void
@@ -375,21 +420,14 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     onEventClick(calendarEvent): void
     {
         // Find the event with the clicked event's id
-        const event: any = cloneDeep(this.events.find(item => item.id === calendarEvent.event.id));
+        const event: any = cloneDeep(this.events.find(item => item.id.toString() === calendarEvent.event.id));
 
         // Set the event
         this.event = event;
 
-        // Prepare the end value
-        let end;
-
-        // Otherwise...
-        end = event.end;
-
-        // Set the range on the event
         event.range = {
-            start: event.start,
-            end
+            start: event?.start,
+            end: event?.end
         };
 
         // Reset the form and fill the event
@@ -411,40 +449,13 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
             return;
         }
 
-        // If current view is year list...
-        if ( this.view === 'listYear' )
+        // Set the color class of the event
+        calendarEvent.el.classList.add(calendar.color);
+
+        // Set the event's title to '(No title)' if event title is not available
+        if ( !calendarEvent.event.title )
         {
-            // Create a new 'fc-list-item-date' node
-            const fcListItemDate1 = `<td class="fc-list-item-date">
-                                            <span>
-                                                <span>${moment(calendarEvent.event.start).format('D')}</span>
-                                                <span>${moment(calendarEvent.event.start).format('MMM')}, ${moment(calendarEvent.event.start).format('ddd')}</span>
-                                            </span>
-                                        </td>`;
-
-            // Insert the 'fc-list-item-date' into the calendar event element
-            calendarEvent.el.insertAdjacentHTML('afterbegin', fcListItemDate1);
-
-            // Set the color class of the event dot
-            calendarEvent.el.getElementsByClassName('fc-event-dot')[0].classList.add(calendar.color);
-
-            // Set the event's title to '(No title)' if event title is not available
-            if ( !calendarEvent.event.title )
-            {
-                calendarEvent.el.querySelector('.fc-list-item-title').innerText = '(No title)';
-            }
-        }
-        // If current view is not month list...
-        else
-        {
-            // Set the color class of the event
-            calendarEvent.el.classList.add(calendar.color);
-
-            // Set the event's title to '(No title)' if event title is not available
-            if ( !calendarEvent.event.title )
-            {
-                //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
-            }
+            //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
         }
 
         // Set the event's visibility
@@ -452,25 +463,21 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     onEventDrop(calendarEvent): void {
-        const event = this.events.find(item => item.id === calendarEvent.event.id);
+        const event = this.events.find(item => item.id.toString() === calendarEvent.event.id);
 
-        event.start = calendarEvent.event.start;
-        event.end = calendarEvent.event.end;
+        event.start = moment(calendarEvent.event.start).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
+        event.end = moment(calendarEvent.event.end).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
         
-        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-            //this._agendaTecnicoService.reloadEvents().subscribe();
-        });
+        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe();
     }
 
     onEventResize(calendarEvent): void {
-        const event = this.events.find(item => item.id === calendarEvent.event.id);
+        const event = this.events.find(item => item.id.toString() === calendarEvent.event.id);
+
+        event.start = moment(calendarEvent.event.start).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
+        event.end = moment(calendarEvent.event.end).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
         
-        event.start = calendarEvent.event.start;
-        event.end = calendarEvent.event.end;
-        
-        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
-            //this._agendaTecnicoService.reloadEvents().subscribe();
-        });
+        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe();
     }
     
     onCalendarUpdated(calendar): void
@@ -482,20 +489,23 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let newEvent = clone(this.eventForm.value);
-        newEvent.title = '8888888';
-        newEvent.dataHoraCad = '2019-09-09';
-        newEvent.codUsuarioCad = 'rklima';
+        newEvent.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
+        newEvent.codUsuarioCad = this.userSession.usuario.codUsuario;
         newEvent.duration = newEvent.duration || 60;
-        newEvent.color = 'bg-green-500';
+
+        const os = this.ordensServico.find(os => os.codOS === newEvent.codOS);
+        newEvent.title = `${newEvent.codOS} - ${os.localAtendimento.nomeLocal}`;
+
+        const prazo: OSPrazoAtendimento = os.prazosAtendimento
+            .sort((a, b) => (a.codOSPrazoAtendimento > b.codOSPrazoAtendimento) ? 1 : ((b.codOSPrazoAtendimento > a.codOSPrazoAtendimento) ? -1 : 0)).shift();
+        newEvent.description = `SLA: ${ moment(prazo.dataHoraLimiteAtendimento).format('DD/MM/YY HH:mm') }`;
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);
 
         // Add the event
         this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
-
-            // Reload events
-            //this._agendaTecnicoService.reloadEvents().subscribe();
+            this.obterOrdensServico();
 
             // Close the event panel
             this._closeEventPanel();
@@ -506,9 +516,11 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Get the clone of the event form value
         let event = clone(this.eventForm.value);
+        event.title = event.codOS;        
   
         // Update the event on the server
-        this._agendaTecnicoService.updateEvent(event.id, event).subscribe(() => {
+        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe(() => {
+            this.obterOrdensServico();
 
             // Close the event panel
             this._closeEventPanel();
@@ -518,28 +530,12 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy
     deleteEvent(event, mode: CalendarEventEditMode = 'single'): void
     {
         // If the event is a recurring event...
-        if ( event.recurrence )
-        {
-            // Delete the recurring event on the server
-            this._agendaTecnicoService.deleteRecurringEvent(event, mode).subscribe(() => {
+        this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
+            this.obterOrdensServico();
 
-                // Reload events
-                //this._agendaTecnicoService.reloadEvents().subscribe();
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-        }
-        // If the event is a non-recurring, normal event...
-        else
-        {
-            // Update the event on the server
-            this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
-
-                // Close the event panel
-                this._closeEventPanel();
-            });
-        }
+            // Close the event panel
+            this._closeEventPanel();
+        });
     }
     
     private _createEventPanelOverlay(positionStrategy): void

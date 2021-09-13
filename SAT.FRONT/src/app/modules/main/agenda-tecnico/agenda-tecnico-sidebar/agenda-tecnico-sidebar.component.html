@@ -1,10 +1,7 @@
 <div class="flex flex-col flex-auto min-h-full p-8" *transloco="let t">
-    <div class="pb-6 text-4xl font-extrabold tracking-tight">{{ t('agenda') }}</div>
+    <div class="pb-4 text-4xl font-extrabold tracking-tight">{{ t('agenda') }}</div>
 
     <!-- Calendars -->
-    <div class="group flex items-center justify-between mb-3">
-        <span class="text-lg font-medium">{{ t('tecnicos') }}</span>
-    </div>
     <ng-container *ngFor="let calendar of calendars">
         <div class="group flex items-center justify-between mt-2">
             <div
@@ -16,14 +13,19 @@
                 <span
                     class="w-3 h-3 ml-2 rounded-full"
                     [ngClass]="calendar.color"></span>
-                <span class="ml-2 leading-none"
+                <span class="ml-2 leading-none truncate"
                     [matTooltip]="calendar.title | titlecase"
                     matTooltipPosition="above">
-                    {{ calendar.title?.split(" ")[0] | titlecase }}
+                    {{ calendar.title?.split(" ").shift() | titlecase }}
+                    <span class="text-secondary">
+                        ({{ calendar.eventos?.length }})
+                    </span>
                 </span>
             </div>
         </div>
     </ng-container>
+
+    <p *ngIf="!calendars?.length">{{ t('nenhum registro encontrado') }}</p>
 
     <div class="-mx-4 mt-auto">
         <a

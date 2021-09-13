@@ -36,12 +36,10 @@ namespace SAT.API
             {
                 options.AddPolicy("CorsApi",
                     builder => builder
-                        .WithOrigins("https://sat-homologacao.perto.com.br")
-                        .WithOrigins("https://sat.perto.com.br")
-                        .WithOrigins("http://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .WithExposedHeaders("X-Pagination"));
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithExposedHeaders("X-Pagination"));
             });
             services.AddMvc();
             services.AddSession();

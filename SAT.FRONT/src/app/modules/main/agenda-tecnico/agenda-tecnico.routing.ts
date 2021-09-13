@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { AgendaTecnicoComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico.component';
 import { AgendaTecnicoConfiguracoesComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-configuracoes/agenda-tecnico-configuracoes.component';
-import { CalendarCalendarsResolver, CalendarSettingsResolver, CalendarWeekdaysResolver } from 'app/core/resolvers/agenda-tecnico.resolvers';
+import { CalendarCalendarsResolver } from 'app/core/resolvers/agenda-tecnico.resolvers';
 
 export const agendaTecnicoRoutes: Route[] = [
     {
@@ -9,15 +9,10 @@ export const agendaTecnicoRoutes: Route[] = [
         component: AgendaTecnicoComponent,
         resolve  : {
             calendars: CalendarCalendarsResolver,
-            settings : CalendarSettingsResolver,
-            weekdays : CalendarWeekdaysResolver
         }
     },
     {
         path     : 'agenda-tecnico-configuracoes',
-        component: AgendaTecnicoConfiguracoesComponent,
-        resolve  : {
-            settings: CalendarSettingsResolver
-        }
+        component: AgendaTecnicoConfiguracoesComponent
     }
 ];

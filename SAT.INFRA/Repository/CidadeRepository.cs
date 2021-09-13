@@ -74,7 +74,7 @@ namespace SAT.INFRA.Repository
                 cidades = cidades.Where(c => c.CodCidade == parameters.CodCidade);
             }
 
-           if (parameters.IndAtivo != null)
+            if (parameters.IndAtivo != null)
             {
                 cidades = cidades.Where(c => c.IndAtivo == parameters.IndAtivo);
             }

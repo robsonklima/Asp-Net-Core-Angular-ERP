@@ -79,11 +79,8 @@ export const appRoutes: Route[] = [
             {path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule)},
             {path: 'agenda-tecnico', loadChildren: () => import('app/modules/main/agenda-tecnico/agenda-tecnico.module').then(m => m.AgendaTecnicoModule)},
             {path: 'configuracoes', loadChildren: () => import('app/modules/main/configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)},
-<<<<<<< HEAD
             {path: 'peca', loadChildren: () => import('app/modules/main/cadastro/peca/peca.module').then(m => m.PecaModule)},
-=======
             {path: 'defeito', loadChildren: () => import('app/modules/main/cadastro/defeito/defeito.module').then(m => m.DefeitoModule)},
->>>>>>> eab00929c50589182a7cc67ab23b76aef26a1adc
 
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/error/error-404/error-404.module').then(m => m.Error404Module)},

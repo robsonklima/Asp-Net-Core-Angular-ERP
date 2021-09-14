@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -30,8 +31,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(Peca peca)
         {
-            _context.Add(peca);
-            _context.SaveChanges();
+            try
+            {
+                _context.Add(peca);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Deletar(int codPeca)

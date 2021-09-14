@@ -50,15 +50,15 @@ export class PecaFormComponent implements OnInit
     this.obterPecaSubstituicao();
     this.obterStatus();
     
-    if (!this.isAddMode) 
-    {
-      const data = await this._pecaService
+    if (this.isAddMode) return;
+    
+    const data = await this._pecaService
         .obterPorCodigo(this.codPeca)
         .toPromise();
 
-      this.form.patchValue(data);
-      this.peca = data;
-    }
+    this.form.patchValue(data);
+    this.peca = data;
+    
   }
 
   private inicializarForm(): void 
@@ -153,8 +153,8 @@ export class PecaFormComponent implements OnInit
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
-        indObrigRastreabilidade: 1,
-        indValorFixo: 1
+        indObrigRastreabilidade: 0,
+        indValorFixo: 0
       }
     };
 
@@ -189,16 +189,11 @@ export class PecaFormComponent implements OnInit
       {
         this._snack.exibirToast(`${this.peca.nomePeca} removida com sucesso!`, 'success');
         this._router.navigate(['/peca']);
-      }, 
-      e => 
-      {
-        console.log(e);
-        this._snack.exibirToast('Erro ao remover peça', 'error');
-      })
+      }, _ => this._snack.exibirToast('Erro ao remover peça', 'error'))
     });
   }
 
-  ngOnDestroy() 
+  public ngOnDestroy(): void 
   {
     this._onDestroy.next();
     this._onDestroy.complete();

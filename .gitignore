@@ -6,3 +6,8 @@ dist
 sqltools*.log
 .suo
 .v2
+SAT.FRONT/.idea/.gitignore
+SAT.FRONT/.idea/modules.xml
+SAT.FRONT/.idea/SAT.FRONT.iml
+SAT.FRONT/.idea/vcs.xml
+SAT.FRONT/.idea/inspectionProfiles/Project_Default.xml

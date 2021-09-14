@@ -249,10 +249,8 @@
     "semanal": "Weekly",
     "diario": "Daily",
     "agenda": "Schedule",
-<<<<<<< HEAD
     "periodo invalido": "Invalid Period",
-    "alteracao orcamento invalida": "Without permission to change the intervention, contact the Budgets area"
-=======
+    "alteracao orcamento invalida": "Without permission to change the intervention, contact the Budgets area",
     "cod magnus": "Magnus Code",
     "custo brl": "Cost (R$)",
     "custo usd": "Cost (U$)",
@@ -265,5 +263,4 @@
     "ipi": "IPI (%)",
     "quantidade min venda": "Min. quantity for sale",
     "ncm": "NCM"
->>>>>>> peca-crud
 }

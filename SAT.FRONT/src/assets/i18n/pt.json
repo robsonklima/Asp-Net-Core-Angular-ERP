@@ -251,10 +251,8 @@
     "semanal": "Semanal",
     "diario": "Diário",
     "agenda": "Agenda",
-<<<<<<< HEAD
     "periodo invalido": "Período Inválido",
-    "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos"
-=======
+    "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos",
     "cod magnus": "Cód. Magnus",
     "custo brl": "Custo",
     "custo usd": "Custo Dólar",
@@ -267,5 +265,4 @@
     "ipi": "IPI",
     "quantidade min venda": "Qtd. Mínima para Venda",
     "ncm": "NCM"
->>>>>>> peca-crud
 }

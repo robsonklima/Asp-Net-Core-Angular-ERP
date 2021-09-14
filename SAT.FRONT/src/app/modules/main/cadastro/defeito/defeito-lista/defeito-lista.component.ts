@@ -93,7 +93,6 @@ export class DefeitoListaComponent implements OnInit {
     }
 
     const data = await this._defeitoService.obterPorParametros(parametros).toPromise();
-    console.log(data);
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();

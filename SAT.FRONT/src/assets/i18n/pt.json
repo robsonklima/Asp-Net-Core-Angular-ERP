@@ -249,5 +249,6 @@
     "diario": "Diário",
     "agenda": "Agenda",
     "periodo invalido": "Período Inválido",
-    "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos"
+    "alteracao orcamento invalida": "Sem permissão para alterar a intervenção, contatar a área de Orçamentos",
+    "bloqueio reincidencia": "EQUIPAMENTO CRÍTICO! Chamado bloqueado! O STN deve ser contatado obrigatóriamente antes e durante este atendimento"
 }

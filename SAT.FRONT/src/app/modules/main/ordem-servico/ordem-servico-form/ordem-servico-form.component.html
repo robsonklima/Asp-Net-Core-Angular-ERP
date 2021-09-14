@@ -225,7 +225,10 @@
                     </div>
                 </div>
 
-                <div *ngIf="userSession.usuario.perfil?.codPerfil !== perfis['PV_COORDENADOR_DE_CONTRATO']">
+                <div *ngIf="
+                    userSession.usuario.perfil?.codPerfil !== perfis['CLIENTE_BASICO_C_RESTRICOES'] && 
+                    userSession.usuario.perfil?.codPerfil !== perfis['CLIENTE_BASICO_BIOMETRIA']
+                ">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
                         <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
                     </div>

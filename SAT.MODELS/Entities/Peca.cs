@@ -25,13 +25,13 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
+        public int? CodPecaFamilia { get; set; }
         [ForeignKey("CodPecaFamilia")]
         public PecaFamilia PecaFamilia { get; set; }
-        public int? CodPecaFamilia { get; set; }
         public int? CodPecaSubstituicao { get; set; }
+        public int CodPecaStatus { get; set; }
         [ForeignKey("CodPecaStatus")]
         public PecaStatus PecaStatus { get; set; }
-        public int CodPecaStatus { get; set; }
         public int IndObrigRastreabilidade { get; set; }
         public int IndValorFixo { get; set; }
         public DateTime? DataHoraAtualizacaoValor { get; set; }

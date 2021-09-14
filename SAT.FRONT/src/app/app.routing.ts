@@ -80,6 +80,7 @@ export const appRoutes: Route[] = [
             {path: 'agenda-tecnico', loadChildren: () => import('app/modules/main/agenda-tecnico/agenda-tecnico.module').then(m => m.AgendaTecnicoModule)},
             {path: 'configuracoes', loadChildren: () => import('app/modules/main/configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)},
             {path: 'peca', loadChildren: () => import('app/modules/main/cadastro/peca/peca.module').then(m => m.PecaModule)},
+            {path: 'defeito', loadChildren: () => import('app/modules/main/cadastro/defeito/defeito.module').then(m => m.DefeitoModule)},
 
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/error/error-404/error-404.module').then(m => m.Error404Module)},

@@ -22,7 +22,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme : 'brand',
-    api: 'https://localhost:5001/api',
+    api: 'https://sat.perto.com.br/SAT.V2.API/api',
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',

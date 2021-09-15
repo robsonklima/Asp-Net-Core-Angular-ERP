@@ -65,7 +65,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         startWeekOn: 1,
     };
     view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
-    calendarPlugins: any[] = [  dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
+    calendarPlugins: any[] = [ dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
     private _eventPanelOverlayRef: OverlayRef;
     private _fullCalendarApi: FullCalendar;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -211,11 +211,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
         
         // Build the view specific FullCalendar options
         this.views = {
-            dayGridMonth: {
-                eventLimit     : 3,
-                eventTimeFormat: this.eventTimeFormat,
-                fixedWeekCount : false
-            },
             timeGrid    : {
                 allDayText        : '',
                 columnHeaderFormat: {
@@ -238,12 +233,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
                 minTime: '08:00:00',
                 maxTime: '19:00:00',
                 nowIndicator: true
-            },
-            listYear    : {
-                allDayText      : 'All day',
-                eventTimeFormat : this.eventTimeFormat,
-                listDayFormat   : false,
-                listDayAltFormat: false
             }
         };
     }
@@ -255,11 +244,6 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
         // Get the current view's title
         this.viewTitle = this._fullCalendarApi.view.title;
-
-        // Get the view's current start and end dates, add/subtract
-        // 60 days to create a ~150 days period to fetch the data for
-        const viewStart = moment(this._fullCalendarApi.view.currentStart).subtract(30, 'days');
-        const viewEnd = moment(this._fullCalendarApi.view.currentEnd).add(30, 'days');
     }
 
     ngOnDestroy(): void
@@ -498,7 +482,7 @@ export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy 
 
         const prazo: OSPrazoAtendimento = os.prazosAtendimento
             .sort((a, b) => (a.codOSPrazoAtendimento > b.codOSPrazoAtendimento) ? 1 : ((b.codOSPrazoAtendimento > a.codOSPrazoAtendimento) ? -1 : 0)).shift();
-        newEvent.description = `SLA: ${ moment(prazo.dataHoraLimiteAtendimento).format('DD/MM/YY HH:mm') }`;
+        newEvent.description = `SLA: ${ moment(prazo?.dataHoraLimiteAtendimento).format('DD/MM/YY HH:mm') }`;
 
         // Modify the event before sending it to the server
         newEvent = omit(newEvent, ['range', 'recurringEventId']);

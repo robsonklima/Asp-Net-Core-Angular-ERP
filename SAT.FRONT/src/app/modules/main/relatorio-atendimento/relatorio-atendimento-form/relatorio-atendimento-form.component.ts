@@ -7,7 +7,7 @@ import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendim
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
-import { StatusServico } from 'app/core/types/status-servico.types';
+import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
@@ -101,13 +101,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.validaBloqueioReincidencia();
     })
 
-
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
       indAtivo: 1,
       pageSize: 100,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
-    }).toPromise()).items;
+    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       indAtivo: 1,

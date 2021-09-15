@@ -183,7 +183,7 @@ export class AutorizadaFormComponent implements OnInit {
       indAtivo: 1,
       codUF: codUF
     }).subscribe((data: CidadeData) => {
-      this.cidades = data.cidades;
+      this.cidades = data.items;
     });
   }
 

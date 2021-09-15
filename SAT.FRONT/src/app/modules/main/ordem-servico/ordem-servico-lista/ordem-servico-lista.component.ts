@@ -44,7 +44,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     selectedItem: OrdemServico | null = null;
     filtro: any;
     isLoading: boolean = false;
-    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -70,25 +69,12 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.registrarEmitters();
 
         if (this.sort && this.paginator) {
-            fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-                map((event: any) => {
-                    return event.target.value;
-                })
-                , debounceTime(700)
-                , distinctUntilChanged()
-            ).subscribe((text: string) => {
-                this.paginator.pageIndex = 0;
-                this.searchInputControl.nativeElement.val = text;
-                this.obterOrdensServico();
-            });
-
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
             this.sort.sortChange.subscribe(() => {
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
-                this.fecharDetalhes();
             });
         }
 
@@ -103,7 +89,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
             pageSize: this.paginator?.pageSize,
-            filter: this.searchInputControl.nativeElement.val
         };
 
         const data: OrdemServicoData = await this._ordemServicoService
@@ -147,27 +132,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     paginar() {
         this.obterOrdensServico();
-    }
-
-    async alternarDetalhes(codigo: number) {
-        this.isLoading = true;
-
-        if (this.selectedItem && this.selectedItem.codOS === codigo) {
-            this.isLoading = false;
-            this.fecharDetalhes();
-            return;
-        }
-
-        const os: OrdemServico = await this._ordemServicoService
-            .obterPorCodigo(codigo)
-            .toPromise();
-
-        this.selectedItem = os;
-        this.isLoading = false;
-    }
-
-    fecharDetalhes(): void {
-        this.selectedItem = null;
     }
 
     ngOnDestroy() {

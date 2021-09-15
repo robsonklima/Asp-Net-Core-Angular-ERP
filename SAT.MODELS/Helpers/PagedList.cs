@@ -23,9 +23,16 @@ namespace SAT.MODELS.Helpers
 
         public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
-            var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            try
+            {
+                var count = source.Count();
+                var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

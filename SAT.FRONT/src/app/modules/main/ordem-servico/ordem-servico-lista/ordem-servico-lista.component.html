@@ -16,29 +16,17 @@
                         {{ t('chamados') }}
                     </div>
                 </div>
-                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
-                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
-                    </mat-form-field>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
+                    <button mat-icon-button [routerLink]="['/ordem-servico/form']">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
 
-                    <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
-                        <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                    <button class="ml-2" mat-icon-button>
+                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
+                    </button>
 
-                        <mat-menu #menu>
-                            <button mat-menu-item [routerLink]="['/ordem-servico/form']">
-                                <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                                {{ t('adicionar') }}
-                            </button>
-                            <button mat-menu-item>
-                                <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
-                                {{ t('exportar') }}
-                            </button>
-                            <button mat-menu-item (click)="sidenav.toggle()">
-                                <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-                                {{ t('filtrar') }}
-                            </button>
-                        </mat-menu>
+                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -96,13 +84,10 @@
 
                                 <ng-container>
                                     <ng-container *ngFor="let os of dataSourceData?.items">
-                                        <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b"
-                                            *transloco="let t">
+                                        <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
+                                            <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
                                             <div class="flex items-center">
-                                                <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS"
-                                                    class="text-primary">
-                                                    {{ os.codOS }}
-                                                </a>
+                                                {{ os.codOS }}
                                             </div>
 
                                             <div class="hidden md:block truncate">
@@ -200,6 +185,7 @@
                                                 {{ os.numReincidencia ? os.numReincidencia : '--' }}
                                             </div>
                                         </div>
+                                        </a>
                                     </ng-container>
                                 </ng-container>
                             </div>

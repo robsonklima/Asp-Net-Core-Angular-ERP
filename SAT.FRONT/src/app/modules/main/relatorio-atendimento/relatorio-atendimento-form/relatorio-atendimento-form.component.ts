@@ -106,7 +106,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       pageSize: 100,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
-    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
+    }).toPromise()).items.filter(
+      o => o.codStatusServico !== statusServicoConst.CANCELADO &&
+           o.codStatusServico !== statusServicoConst.TRANSFERIDO && 
+           o.codStatusServico !== statusServicoConst.ABERTO
+    );
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       indAtivo: 1,

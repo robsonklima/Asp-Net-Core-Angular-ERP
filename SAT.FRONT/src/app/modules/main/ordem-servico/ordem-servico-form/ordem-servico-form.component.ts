@@ -38,11 +38,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   ordemServico: OrdemServico;
   form: FormGroup;
   isAddMode: boolean;
-  usuario: any;
   perfis: any;
-
   userSession: UsuarioSessao;
-
   clientes: Cliente[] = [];
   autorizadas: Autorizada[] = [];
   regioes: Regiao[] = [];
@@ -143,9 +140,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       );
     } 
 
-    const codFilial = this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial;
+    const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
 
-    if (this.usuario?.filial?.codFilial) {
+    if (this.userSession.usuario?.filial?.codFilial) {
       this.form.controls['codFilial'].setValue(codFilial);
       this.form.controls['codFilial'].disable();
 
@@ -187,7 +184,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         pageSize: 500,
         sortActive: 'nomeFantasia',
         sortDirection: 'asc',
-        codFilial: this.ordemServico?.filial?.codFilial || this.usuario?.filial?.codFilial
+        codFilial: this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial
       }).toPromise()).items;
   }
 
@@ -392,7 +389,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.usuario?.codUsuario
+        codUsuarioManut: this.userSession.usuario?.codUsuario
       }
     };
 
@@ -415,7 +412,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.usuario.codUsuario,
+        codUsuarioCad: this.userSession.usuario?.codUsuario,
         indStatusEnvioReincidencia: -1,
         indRevisaoReincidencia: 1,
         codStatusServico: 1

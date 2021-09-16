@@ -34,10 +34,8 @@ export class PecaService {
         );
     }
     
-    exportarExcel(): Promise<ArrayBuffer> {
-        return this.http.get<any>(`${c.api}/Peca/export`, this.requestOptions).pipe(map((file:ArrayBuffer) => {
-            return file;
-          })).toPromise();
+    exportarExcel(): any {
+        return this.http.get<any>(`${c.api}/Peca/export`, this.requestOptions)
     }
 
     criar(peca: Peca): Observable<Peca> {

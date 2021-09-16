@@ -285,7 +285,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     if ( bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== 8)
     {
       this.form.controls['codStatusServico'].setErrors({
-        'bloqueioReincidencia': true        
+        'bloqueioReincidencia': true          
       })      
     } else{
       this.form.controls['codStatusServico'].setErrors(null)

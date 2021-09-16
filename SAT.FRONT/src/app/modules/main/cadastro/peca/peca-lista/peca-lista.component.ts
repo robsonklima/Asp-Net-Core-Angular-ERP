@@ -92,15 +92,10 @@ export class PecaListaComponent implements OnInit
 
   public async exportarExcel()
   {
-    console.log("inicio");
     const data = await this._pecaService.exportarExcel();
-    const blob = new Blob([data], {type:'application/octet-stream'});
-    console.log(data);
-    console.log(blob);
+    const blob = new Blob([data], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;'}, );
     var url = window.URL.createObjectURL(blob);
     window.open(url);
-
-    console.log("fim");
   }
 
   public paginar() { this.obterDados(); }

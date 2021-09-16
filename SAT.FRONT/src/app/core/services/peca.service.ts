@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
@@ -10,6 +10,10 @@ import { Peca, PecaData, PecaParameters } from '../types/peca.types';
 })
 export class PecaService {
     constructor(private http: HttpClient) {}
+
+    requestOptions: Object = {
+        responseType: 'arraybuffer'
+    }
 
     obterPorParametros(parameters: PecaParameters): Observable<PecaData> {
         let params = new HttpParams();
@@ -30,9 +34,8 @@ export class PecaService {
         );
     }
     
-    exportarExcel(): Observable<PecaData> {
-
-        return this.http.get<PecaData>(`${c.api}/Peca/export`).pipe(
+    exportarExcel(): Observable<any> {
+        return this.http.get<any>(`${c.api}/Peca/export`, this.requestOptions).pipe(
             map((data) => data)
         )
     }

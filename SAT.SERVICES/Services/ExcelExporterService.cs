@@ -51,7 +51,8 @@ namespace SAT.SERVICES.Services
             FormatSheets(mainSheet);
 
             mainSheet.Columns().AdjustToContents();
-            mainSheet.RangeUsed().Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+            mainSheet.RangeUsed().Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium);
+            mainSheet.RangeUsed().Style.Border.SetInsideBorder(XLBorderStyleValues.Medium);
             SaveFile(workbook);
             
             return GenerateFile();
@@ -85,6 +86,7 @@ namespace SAT.SERVICES.Services
             IXLCells headerRowCells = mainSheet.FirstRow().Cells();
 
             headerRowCells.Style.Font.SetBold();
+            headerRowCells.Style.Font.FontColor = XLColor.FromHtml("#fff");
             headerRowCells.Style.Fill.BackgroundColor = XLColor.FromHtml("#1c3a70");
         }
 

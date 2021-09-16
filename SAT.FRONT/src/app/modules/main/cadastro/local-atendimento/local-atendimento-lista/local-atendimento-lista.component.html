@@ -65,51 +65,51 @@
 
                         <ng-container>
                             <ng-container *ngFor="let local of dataSourceData?.items">
-                                <div
-                                    class="list-grid-la grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
-                                    <div class="flex items-center">
-                                        <a [routerLink]="['/local-atendimento/form/' + local.codPosto]" class="text-primary">
-                                            {{ local.codPosto }}
-                                        </a>
-                                    </div>
+                                <a [routerLink]="['/local-atendimento/form/' + local.codPosto]">
+                                    <div
+                                        class="list-grid-la grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                                {{ local.codPosto }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.numAgencia) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.numAgencia) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.dcPosto) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.dcPosto) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.nomeLocal || t('nao informado')) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.nomeLocal || t('nao informado')) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.cliente?.nomeFantasia || t('nao informado')) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.cliente?.nomeFantasia || t('nao informado')) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.filial?.nomeFilial || t('nao informado')) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.filial?.nomeFilial || t('nao informado')) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.autorizada?.nomeFantasia || t('nao informado')) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.autorizada?.nomeFantasia || t('nao informado')) | uppercase }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ (local.regiao?.nomeRegiao || t('nao informado')) | uppercase }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ (local.regiao?.nomeRegiao || t('nao informado')) | uppercase }}
+                                        </div>
 
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!local.indAtivo"
-                                            [class.text-green-500]="local.indAtivo">
-                                            {{ local.indAtivo ? t('sim') : t('nao') }}
-                                        </span>
+                                        <div class="flex">
+                                            <span
+                                                class="font-semibold"
+                                                [class.text-red-500]="!local.indAtivo"
+                                                [class.text-green-500]="local.indAtivo">
+                                                {{ local.indAtivo ? t('sim') : t('nao') }}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

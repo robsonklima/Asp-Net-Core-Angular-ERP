@@ -1,16 +1,12 @@
-<div
-  class="
+<div class="
     sm:absolute sm:inset-0
     flex flex-col flex-auto
     min-w-0
     sm:overflow-hidden
     bg-card
     dark:bg-transparent
-  "
->
-  <div
-    *transloco="let t"
-    class="
+  ">
+  <div *transloco="let t" class="
       relative
       flex flex-col
       sm:flex-row
@@ -19,8 +15,7 @@
       pt-6
       px-6
       md:px-8
-    "
-  >
+    ">
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
       <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
@@ -29,9 +24,7 @@
     </div>
   </div>
 
-  <div
-    *transloco="let t"
-    class="
+  <div *transloco="let t" class="
       grid grid-cols-2
       sm:flex-row
       flex-0
@@ -39,52 +32,36 @@
       px-6
       my-2
       md:px-8
-    "
-  >
+    ">
     <div *transloco="let t" class="sm:my-2">
-      <button
-        mat-flat-button
-        [routerLink]="['/defeito/form']"
-        [matTooltip]="t('novo')"
-        class="rounded  text-gray-100 bg-green-500 hover:bg-green-600"
-      >
+      <button mat-flat-button [routerLink]="['/defeito/form']" [matTooltip]="t('novo')"
+        class="rounded  text-gray-100 bg-green-500 hover:bg-green-600">
         <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
       </button>
-      <button
-        mat-flat-button
-        [matTooltip]="t('exportar')"
-        class="rounded ml-2 text-gray-100 bg-blue-500 hover:bg-blue-600"
-      >
+      <button mat-flat-button [matTooltip]="t('exportar')"
+        class="rounded ml-2 text-gray-100 bg-blue-500 hover:bg-blue-600">
         <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
       </button>
     </div>
-    <div *transloco="let t"  >
+    <div *transloco="let t">
       <mat-form-field style="float:right" class="fuse-mat-dense fuse-mat-no-subscript min-w-40">
         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-        <input
-          matInput
-          #searchInputControl
-          [autocomplete]="'off'"
-          [placeholder]="'Pesquisar...'"
-        />
+        <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'" />
       </mat-form-field>
     </div>
   </div>
 
   <div class="flex flex-auto overflow-hidden">
-    <div
-      class="
+    <div class="
         flex flex-col flex-auto
         sm:mb-18
         overflow-hidden
         sm:overflow-y-auto
-      "
-    >
+      ">
       <ng-container>
         <ng-container>
           <div class="grid" *transloco="let t">
-            <div
-              class="
+            <div class="
                 list-grid-def
                 z-10
                 sticky
@@ -100,11 +77,7 @@
                 text-secondary
                 bg-gray-50
                 dark:bg-black dark:bg-opacity-5
-              "
-              matSort
-              matSortDisableClear
-              *transloco="let t"
-            >
+              " matSort matSortDisableClear *transloco="let t">
               <div class="md:block" [mat-sort-header]="'codDefeito'">
                 {{ t("codigo") }}
               </div>
@@ -121,8 +94,7 @@
 
             <ng-container>
               <ng-container *ngFor="let defeito of dataSourceData?.items">
-                <div
-                  class="
+                <div class="
                     cursor-pointer
                     hover:bg-gray-200
                     list-grid-def
@@ -136,13 +108,9 @@
                     text-sm
                     md:px-8
                     border-b
-                  "
-                  [routerLink]="['/defeito/form/' + defeito.codDefeito]"
-                >
+                  " [routerLink]="['/defeito/form/' + defeito.codDefeito]">
                   <div class="flex items-center">
-                    <a class="text-primary">
                       {{ defeito.codDefeito }}
-                    </a>
                   </div>
                   <div class="truncate">
                     {{ defeito.codEDefeito | titlecase }}
@@ -151,11 +119,8 @@
                     {{ defeito.nomeDefeito | titlecase }}
                   </div>
                   <div class="flex">
-                    <span
-                      class="font-semibold"
-                      [class.text-red-500]="!defeito.indAtivo"
-                      [class.text-green-500]="defeito.indAtivo"
-                    >
+                    <span class="font-semibold" [class.text-red-500]="!defeito.indAtivo"
+                      [class.text-green-500]="defeito.indAtivo">
                       {{ defeito.indAtivo ? t("sim") : t("nao") }}
                     </span>
                   </div>
@@ -164,23 +129,15 @@
             </ng-container>
           </div>
 
-          <mat-paginator
-            [hidden]="!dataSourceData?.items?.length"
-            class="
+          <mat-paginator [hidden]="!dataSourceData?.items?.length" class="
               sm:absolute sm:inset-x-0 sm:bottom-0
               border-b
               sm:border-t sm:border-b-0
               z-10
               bg-gray-50
               dark:bg-transparent
-            "
-            [ngClass]="{ 'pointer-events-none': isLoading }"
-            [length]="dataSourceData?.totalCount"
-            [pageSize]="10"
-            [pageSizeOptions]="[5, 10, 25, 100]"
-            [showFirstLastButtons]="true"
-            (page)="paginar()"
-          >
+            " [ngClass]="{ 'pointer-events-none': isLoading }" [length]="dataSourceData?.totalCount" [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" (page)="paginar()">
           </mat-paginator>
         </ng-container>
       </ng-container>

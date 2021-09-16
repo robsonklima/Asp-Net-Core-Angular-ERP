@@ -50,26 +50,26 @@
 
                         <ng-container>
                             <ng-container *ngFor="let grupo of dataSourceData?.items">
-                                <div
-                                    class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
-                                    <div class="flex items-center">
-                                        <a [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip]" class="text-primary">
+                                <a [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip]">
+                                    <div
+                                        class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="flex items-center">
                                             {{ grupo.codGrupoEquip }}
-                                        </a>
-                                    </div>
+                                        </div>
 
-                                    <div class="hidden lg:block truncate">
-                                        {{ grupo.codEGrupoEquip || t('nao informado') }}
-                                    </div>
+                                        <div class="hidden lg:block truncate">
+                                            {{ grupo.codEGrupoEquip || t('nao informado') }}
+                                        </div>
 
-                                    <div class="truncate">
-                                        {{ grupo.nomeGrupoEquip || t('nao informado') }}
-                                    </div>
+                                        <div class="truncate">
+                                            {{ grupo.nomeGrupoEquip || t('nao informado') }}
+                                        </div>
 
-                                    <div class="hidden lg:block truncate">
-                                        {{ grupo.tipoEquipamento.nomeTipoEquip || t('nao informado') }}
+                                        <div class="hidden lg:block truncate">
+                                            {{ grupo.tipoEquipamento.nomeTipoEquip || t('nao informado') }}
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

@@ -33,9 +33,6 @@
                             <div class="hidden md:block">
                                 {{ t('ativo') }}
                             </div>
-                            <div>
-                                {{ t('acoes') }}
-                            </div>
                         </div>
                     </div>
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
@@ -49,28 +46,22 @@
 
             <ng-container>
                 <ng-container *ngFor="let regiao of dataSourceData?.items">
-                    <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
-                        *transloco="let t">
-                        <div class="hidden md:block truncate">
-                            {{ regiao.codRegiao }}
-                        </div>
+                    <a [routerLink]="['/regiao/form/' + regiao.codRegiao]">
+                        <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                            *transloco="let t">
+                            <div class="hidden md:block truncate">
+                                {{ regiao.codRegiao }}
+                            </div>
 
-                        <div class="hidden md:block truncate">
-                            {{ regiao.nomeRegiao }}
-                        </div>
+                            <div class="hidden md:block truncate">
+                                {{ regiao.nomeRegiao }}
+                            </div>
 
-                        <div class="hidden md:block truncate">
-                            {{ regiao.indAtivo ? 'Sim' : 'Não' }}
+                            <div class="hidden md:block truncate">
+                                {{ regiao.indAtivo ? 'Sim' : 'Não' }}
+                            </div>
                         </div>
-
-                        <div>
-                            <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6" [routerLink]="['/regiao/form/' + regiao.codRegiao]">
-                                <mat-icon class="icon-size-5" color="primary"
-                                    [svgIcon]="'heroicons_solid:pencil'">
-                                </mat-icon>
-                            </button>
-                        </div>
-                    </div>
+                    </a>
                 </ng-container>
             </ng-container>
 

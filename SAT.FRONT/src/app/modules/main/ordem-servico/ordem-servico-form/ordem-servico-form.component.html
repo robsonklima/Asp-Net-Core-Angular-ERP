@@ -75,13 +75,6 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('agencia e posto') }}</mat-label>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'" matPrefix>
-                        </mat-icon>
-                        <input matInput formControlName="agenciaPosto" [dropSpecialCharacters]="false" mask="00000/AA">
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('local de atendimento') }}</mat-label>
 
                         <mat-select formControlName="codPosto" [disabled]="!locais?.length">

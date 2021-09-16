@@ -7,7 +7,7 @@ import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendim
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
-import { StatusServico } from 'app/core/types/status-servico.types';
+import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
@@ -90,11 +90,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     this.form.controls['horaInicio'].valueChanges.subscribe(() => {      
-      console.log(this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value));
+      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
     })
 
     this.form.controls['horaFim'].valueChanges.subscribe(() => {      
-      console.log(this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value));
+      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
+    })
+
+    this.form.controls['codStatusServico'].valueChanges.subscribe(() => {      
+      this.validaBloqueioReincidencia();
     })
 
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
@@ -102,7 +106,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       pageSize: 100,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
-    }).toPromise()).items;
+    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
@@ -274,6 +278,20 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  private validaBloqueioReincidencia(): void {
+    let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;    
+
+    if ( bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== 8)
+    {
+      this.form.controls['codStatusServico'].setErrors({
+        'bloqueioReincidencia': true          
+      })      
+    } else{
+      this.form.controls['codStatusServico'].setErrors(null)
+    }
+
+  }  
 
   async salvar() {
     this.isAddMode ? this.criar() : this.atualizar();

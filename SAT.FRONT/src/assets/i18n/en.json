@@ -262,5 +262,6 @@
     "ipi peca assistencia": "Assistance IPI (%)",
     "ipi": "IPI (%)",
     "quantidade min venda": "Min. quantity for sale",
-    "ncm": "NCM"
+    "ncm": "NCM",
+    "bloqueio reincidencia": "CRITICAL EQUIPMENT! Work order blocked! The STN must be contacted obligatorily before and during this service."
 }

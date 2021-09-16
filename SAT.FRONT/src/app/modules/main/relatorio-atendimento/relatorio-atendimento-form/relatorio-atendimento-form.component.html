@@ -67,7 +67,16 @@
                             </mat-option>
                         </mat-select>
 
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                        <mat-error *ngIf="form.get('codStatusServico').dirty">
+                            <div *ngIf="form.get('codStatusServico').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
+
+                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
+                                {{ t('bloqueio reincidencia') }}
+                            </div>                            
+                        </mat-error>
+                        
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">

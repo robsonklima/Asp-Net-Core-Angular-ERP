@@ -265,5 +265,6 @@
     "ipi": "IPI",
     "quantidade min venda": "Qtd. Mínima para Venda",
     "ncm": "NCM",
-    "historico": "Histórico"
+    "historico": "Histórico",
+    "bloqueio reincidencia": "EQUIPAMENTO CRÍTICO! Chamado bloqueado! O STN deve ser contatado obrigatóriamente antes e durante este atendimento"
 }

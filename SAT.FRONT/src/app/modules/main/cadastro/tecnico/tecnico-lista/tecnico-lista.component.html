@@ -60,42 +60,42 @@
 
                         <ng-container>
                             <ng-container *ngFor="let tecnico of dataSourceData?.items">
-                                <div
-                                    class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
-                                    <div class="flex items-center">
-                                        <a [routerLink]="['/tecnico/form/' + tecnico.codTecnico]" class="text-primary">
+                                <a [routerLink]="['/tecnico/form/' + tecnico.codTecnico]">
+                                    <div
+                                        class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="flex items-center">
                                             {{ tecnico.codTecnico }}
-                                        </a>
+                                        </div>
+                                        <div class="truncate">
+                                            {{ tecnico.nome || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ tecnico.filial?.nomeFilial || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ tecnico.autorizada?.nomefantasia || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ tecnico.regiao?.nomeRegiao || t('nao informado') }}
+                                        </div>
+                                        <div class="flex">
+                                            <span
+                                                class="font-semibold"
+                                                [class.text-red-500]="tecnico.indFerias"
+                                                [class.text-green-500]="!tecnico.indFerias">
+                                                {{ tecnico.indFerias ? t('sim') : t('nao') }}
+                                            </span>
+                                        </div>
+                                        <div class="flex">
+                                            <span
+                                                class="font-semibold"
+                                                [class.text-red-500]="!tecnico.indAtivo"
+                                                [class.text-green-500]="tecnico.indAtivo">
+                                                {{ tecnico.indAtivo ? t('sim') : t('nao') }}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="truncate">
-                                        {{ tecnico.nome || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ tecnico.filial?.nomeFilial || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ tecnico.autorizada?.nomefantasia || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ tecnico.regiao?.nomeRegiao || t('nao informado') }}
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="tecnico.indFerias"
-                                            [class.text-green-500]="!tecnico.indFerias">
-                                            {{ tecnico.indFerias ? t('sim') : t('nao') }}
-                                        </span>
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!tecnico.indAtivo"
-                                            [class.text-green-500]="tecnico.indAtivo">
-                                            {{ tecnico.indAtivo ? t('sim') : t('nao') }}
-                                        </span>
-                                    </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

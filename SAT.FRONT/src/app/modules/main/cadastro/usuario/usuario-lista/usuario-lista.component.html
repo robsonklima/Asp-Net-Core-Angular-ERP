@@ -53,31 +53,31 @@
 
                         <ng-container>
                             <ng-container *ngFor="let usuario of dataSourceData?.items">
-                                <div
-                                    class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
-                                    <div class="flex items-center">
-                                        <a [routerLink]="['/usuario/form/' + usuario.codUsuario]" class="text-primary">
+                                <a [routerLink]="['/usuario/form/' + usuario.codUsuario]">
+                                    <div
+                                        class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="flex items-center">
                                             {{ usuario.codUsuario }}
-                                        </a>
+                                        </div>
+                                        <div class="truncate">
+                                            {{ usuario.nomeUsuario || t('nao informado') | titlecase }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ (usuario.cargo?.nomeCargo || t('nao informado')) | titlecase }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ (usuario.perfil?.nomePerfil || t('nao informado')) | titlecase }}
+                                        </div>
+                                        <div class="flex">
+                                            <span
+                                                class="font-semibold"
+                                                [class.text-red-500]="!usuario.indAtivo"
+                                                [class.text-green-500]="usuario.indAtivo">
+                                                {{ usuario.indAtivo ? t('sim') : t('nao') }}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="truncate">
-                                        {{ usuario.nomeUsuario || t('nao informado') | titlecase }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ (usuario.cargo?.nomeCargo || t('nao informado')) | titlecase }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ (usuario.perfil?.nomePerfil || t('nao informado')) | titlecase }}
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!usuario.indAtivo"
-                                            [class.text-green-500]="usuario.indAtivo">
-                                            {{ usuario.indAtivo ? t('sim') : t('nao') }}
-                                        </span>
-                                    </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

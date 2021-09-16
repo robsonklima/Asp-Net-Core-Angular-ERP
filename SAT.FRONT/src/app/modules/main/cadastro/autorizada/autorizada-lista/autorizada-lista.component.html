@@ -48,26 +48,26 @@
 
             <ng-container>
                 <ng-container *ngFor="let autorizada of dataSourceData?.items">
-                    <div class="list-grid-autorizada grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b"
-                        *transloco="let t">
-                        <div class="hidden md:block truncate ">
-                            <a [routerLink]="['/autorizada/form/' + autorizada.codAutorizada]" class="text-primary">
+                    <a [routerLink]="['/autorizada/form/' + autorizada.codAutorizada]">
+                        <div class="list-grid-autorizada grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                            *transloco="let t">
+                            <div class="hidden md:block truncate ">
                                 {{ autorizada.codAutorizada }}
-                            </a>
-                        </div>
+                            </div>
 
-                        <div class="hidden md:block truncate">
-                            {{ autorizada.nomeFantasia }}
-                        </div>
+                            <div class="hidden md:block truncate">
+                                {{ autorizada.nomeFantasia }}
+                            </div>
 
-                        <div class="hidden md:block truncate">
-                            {{ autorizada.filial?.nomeFilial }}
-                        </div>                        
+                            <div class="hidden md:block truncate">
+                                {{ autorizada.filial?.nomeFilial }}
+                            </div>                        
 
-                        <div class="hidden md:block truncate">
-                            {{ autorizada.indAtivo ? 'Sim' : 'Não' }}
+                            <div class="hidden md:block truncate">
+                                {{ autorizada.indAtivo ? 'Sim' : 'Não' }}
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </ng-container>
             </ng-container>
 

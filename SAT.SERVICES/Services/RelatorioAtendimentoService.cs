@@ -38,6 +38,11 @@ namespace SAT.SERVICES.Services
         public RelatorioAtendimento Criar(RelatorioAtendimento relatorioAtendimento)
         {
             relatorioAtendimento.CodRAT = _seqRepo.ObterContador("RAT");
+
+            if (relatorioAtendimento.NumRAT == null) {
+                relatorioAtendimento.NumRAT = relatorioAtendimento.CodRAT.ToString() + "-E";
+            }
+
             relatorioAtendimento.RelatorioAtendimentoDetalhes = null;
             _relatorioAtendimentoRepo.Criar(relatorioAtendimento);
 

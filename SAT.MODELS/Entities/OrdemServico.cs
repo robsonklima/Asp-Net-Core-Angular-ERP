@@ -156,5 +156,7 @@ namespace SAT.MODELS.Entities
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
         [ForeignKey("CodOS")]
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
+        [NotMapped]
+        public bool? IndNumRATObrigatorio { get; set; }
     }
 }

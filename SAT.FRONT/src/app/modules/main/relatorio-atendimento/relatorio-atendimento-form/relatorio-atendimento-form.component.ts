@@ -71,7 +71,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
     this.inicializarForm();
-
+    
     this.ordemServico = await this._ordemServicoService
       .obterPorCodigo(this.codOS)
       .toPromise();

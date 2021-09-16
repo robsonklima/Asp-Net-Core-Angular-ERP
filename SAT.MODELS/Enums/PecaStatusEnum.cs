@@ -1,6 +1,6 @@
 ﻿namespace SAT.MODELS.Enums
 {
-    public enum PecaStatus
+    public enum PecaStatusEnum
     {
         LIBERADA = 1,
         INDISPONIVEL = 2,

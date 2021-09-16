@@ -144,6 +144,7 @@ export interface OrdemServico {
     dataHoraIntegracaoRevisaoV2?: string;
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
+    indNumRATObrigatorio?: boolean;
 }
 
 export interface OrdemServicoData extends Meta {

@@ -5,7 +5,7 @@ import { Tecnico } from "./tecnico.types";
 
 export interface RelatorioAtendimento {
     codRAT?: number;
-    numRAT: string;
+    numRAT?: string;
     nomeRespCliente: string;
     nomeAcompanhante: string;
     dataHoraChegada: string;

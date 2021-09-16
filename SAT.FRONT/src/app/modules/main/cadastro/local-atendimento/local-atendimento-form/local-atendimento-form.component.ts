@@ -256,7 +256,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     const data = await this._cidadeService.obterPorParametros(params).toPromise();
-    this.cidades = data.cidades;
+    this.cidades = data.items;
   }
 
   private async obterClientes() {

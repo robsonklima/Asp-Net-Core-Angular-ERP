@@ -29,6 +29,13 @@ export class PecaService {
             map((obj) => obj)
         );
     }
+    
+    exportarExcel(): Observable<PecaData> {
+
+        return this.http.get<PecaData>(`${c.api}/Peca/export`).pipe(
+            map((data) => data)
+        )
+    }
 
     criar(peca: Peca): Observable<Peca> {
         return this.http.post<Peca>(`${c.api}/Peca`, peca).pipe(

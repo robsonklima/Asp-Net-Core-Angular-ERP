@@ -36,6 +36,7 @@ export class PecaListaComponent implements OnInit
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   @ViewChild(MatSort) private sort: MatSort;
   dataSourceData: PecaData;
+  byteArray;
   isLoading: boolean = false;
   
   constructor(private _cdr: ChangeDetectorRef, private _pecaService: PecaService) { }
@@ -87,6 +88,12 @@ export class PecaListaComponent implements OnInit
     this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  public async exportarExcel()
+  {
+    this.byteArray = await this._pecaService.exportarExcel().toPromise();
+    console.log(this.byteArray);
   }
 
   public paginar() { this.obterDados(); }

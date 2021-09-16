@@ -1,9 +1,11 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAT.SERVICES.Services
 {
@@ -60,6 +62,12 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
+        }
+
+        public IActionResult ExportToExcel(OrdemServicoParameters parameters)
+        {
+            var os = _ordemServicoRepo.ObterPorParametros(parameters);
+            return new ExcelExporterService<OrdemServico>().WriteToExcel(os.Cast<OrdemServico>().ToList());
         }
     }
 }

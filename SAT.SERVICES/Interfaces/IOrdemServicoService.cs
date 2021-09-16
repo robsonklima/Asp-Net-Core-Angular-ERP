@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using System.Collections.Generic;
 
@@ -11,5 +12,6 @@ namespace SAT.SERVICES.Interfaces
         OrdemServico Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
+        IActionResult ExportToExcel(OrdemServicoParameters parameters);
     }
 }

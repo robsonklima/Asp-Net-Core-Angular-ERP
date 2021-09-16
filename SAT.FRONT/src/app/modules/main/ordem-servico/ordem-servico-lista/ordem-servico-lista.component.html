@@ -30,7 +30,7 @@
                                 <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                                 {{ t('adicionar') }}
                             </button>
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="exportarExcel()">
                                 <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
                                 {{ t('exportar') }}
                             </button>

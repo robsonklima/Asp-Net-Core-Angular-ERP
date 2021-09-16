@@ -48,5 +48,11 @@ namespace SAT.API.Controllers
         {
             _osService.Deletar(codOS);
         }
+
+        [HttpGet("export")]
+        public IActionResult ExportToExcel([FromQuery] OrdemServicoParameters parameters)
+        {
+            return _osService.ExportToExcel(parameters);
+        }
     }
 }

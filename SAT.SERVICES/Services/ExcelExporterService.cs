@@ -13,6 +13,7 @@ namespace SAT.SERVICES.Services
         private string FilePath;
         private string Extension;
         private T Entity;
+        private readonly int STARTING_INDEX = 1;
 
         public ExcelExporterService()
         {
@@ -45,9 +46,12 @@ namespace SAT.SERVICES.Services
             workbook.Worksheets.Add("Main Sheet");
             IXLWorksheet mainSheet = workbook.Worksheets.First();
 
-            WriteHeaders(this.Entity, mainSheet);
             WriteDataContent(rows, mainSheet);
+            WriteHeaders(this.Entity, mainSheet);
             FormatSheets(mainSheet);
+
+            mainSheet.Columns().AdjustToContents();
+            mainSheet.RangeUsed().Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
             SaveFile(workbook);
             
             return GenerateFile();
@@ -81,8 +85,7 @@ namespace SAT.SERVICES.Services
             IXLCells headerRowCells = mainSheet.FirstRow().Cells();
 
             headerRowCells.Style.Font.SetBold();
-            // headerRowCells.Style.Font.SetFontColor(XLColor.BabyBlue);
-            // headerRowCells.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+            headerRowCells.Style.Fill.BackgroundColor = XLColor.FromHtml("#1c3a70");
         }
 
         private void WriteDataContent(List<T> rows, IXLWorksheet mainSheet)
@@ -110,6 +113,6 @@ namespace SAT.SERVICES.Services
             "DataIntegracaoLogix"
         };
 
-        private readonly int STARTING_INDEX = 1;
+        
     }
 }

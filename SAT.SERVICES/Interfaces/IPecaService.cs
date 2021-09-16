@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
@@ -10,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(Peca peca);
         Peca ObterPorCodigo(int codigo);
+        IActionResult ExportToExcel(PecaParameters parameters);
     }
 }

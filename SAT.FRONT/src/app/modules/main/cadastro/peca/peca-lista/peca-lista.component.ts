@@ -100,7 +100,9 @@ export class PecaListaComponent implements OnInit
 
   public async exportarExcel()
   {
+    this.isLoading = true;
     window.open(await this._fileService.downloadLink("Peca", FileMime.Excel)); 
+    this.isLoading = false;
   }
 
   public paginar() { this.obterDados(); }

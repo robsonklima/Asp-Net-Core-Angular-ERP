@@ -12,7 +12,7 @@ export class PecaService {
     constructor(private http: HttpClient) {}
 
     requestOptions: Object = {
-        responseType: 'arraybuffer'
+        responseType: 'blob'
     }
 
     obterPorParametros(parameters: PecaParameters): Observable<PecaData> {
@@ -35,9 +35,8 @@ export class PecaService {
     }
     
     exportarExcel(): Observable<any> {
-        return this.http.get<any>(`${c.api}/Peca/export`, this.requestOptions).pipe(
-            map((data) => data)
-        )
+        return this.http.get<any>(`${c.api}/Peca/export`, this.requestOptions)
+        
     }
 
     criar(peca: Peca): Observable<Peca> {

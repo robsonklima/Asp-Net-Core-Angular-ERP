@@ -92,8 +92,9 @@ export class PecaListaComponent implements OnInit
 
   public async exportarExcel()
   {
-    this.byteArray = await this._pecaService.exportarExcel().toPromise();
-    console.log(this.byteArray);
+    await this._pecaService.exportarExcel().pipe(map((file:ArrayBuffer) => {
+      return file;
+    })).toPromise();
   }
 
   public paginar() { this.obterDados(); }

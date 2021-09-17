@@ -52,10 +52,10 @@ namespace SAT.SERVICES.Services
         public Peca ObterPorCodigo(int codigo) =>
             _pecaRepo.ObterPorCodigo(codigo);
 
-        public IActionResult ExportToExcel(PecaParameters parameters) 
+        public IActionResult ExportToExcel(PecaParameters parameters)
         {
-            var pecas = _pecaRepo.ObterPorParametros(parameters);
-            return new ExcelExporterService<Peca>().WriteToExcel(pecas.Cast<Peca>().ToList());
+            var os = _pecaRepo.ObterPorParametros(parameters);
+            return new BaseExcelService<Peca>().CreateWorkbook(os.Cast<Peca>().ToList());
         }
     }
 }

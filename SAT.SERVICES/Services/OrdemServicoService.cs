@@ -67,7 +67,7 @@ namespace SAT.SERVICES.Services
         public IActionResult ExportToExcel(OrdemServicoParameters parameters)
         {
             var os = _ordemServicoRepo.ObterPorParametros(parameters);
-            return new ExcelExporterService<OrdemServico>().WriteToExcel(os.Cast<OrdemServico>().ToList());
+            return new OrdemServicoExcelService().CreateWorkbook(os.Cast<OrdemServico>().ToList());
         }
     }
 }

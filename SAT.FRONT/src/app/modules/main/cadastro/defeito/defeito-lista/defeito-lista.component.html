@@ -119,7 +119,9 @@
                     {{ defeito.nomeDefeito | titlecase }}
                   </div>
                   <div class="flex">
-                    <span class="font-semibold" [class.text-red-500]="!defeito.indAtivo"
+                    <span 
+                      class="font-semibold" 
+                      [class.text-red-500]="!defeito.indAtivo"
                       [class.text-green-500]="defeito.indAtivo">
                       {{ defeito.indAtivo ? t("sim") : t("nao") }}
                     </span>

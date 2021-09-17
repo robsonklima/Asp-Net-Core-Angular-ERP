@@ -47,7 +47,7 @@
                                     <div>
                                         {{ t('numero-contrato') }}
                                     </div>
-                                    <div>
+                                    <div class="hidden md:block truncate">
                                         {{ t('nome-contrato') }}
                                     </div>
                                     <div class="hidden lg:block">
@@ -67,10 +67,10 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{ contrato.codCliente}}
+                                                {{ contrato.cliente.razaoSocial}}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
+                                            <div>
                                                 {{ contrato.nroContrato}}
                                             </div>
 
@@ -79,10 +79,13 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{ (contrato.codTipoContrato) }}
+                                                {{ (contrato.tipoContrato.nomeTipoContrato) }}
                                             </div>
-                                            <div>
-                                                {{ contrato.indAtivo }}
+                                            <div
+                                            class="font-semibold" 
+                                            [class.text-red-500]="!contrato.indAtivo"
+                                            [class.text-green-500]="contrato.indAtivo">
+                                                {{ contrato.indAtivo? t("sim") : t("nao")  }}
                                             </div>
                                         </div>
                                         </a>

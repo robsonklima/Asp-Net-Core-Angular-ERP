@@ -1,4 +1,3 @@
-import { Cliente } from 'app/core/types/cliente.types';
 import { ClienteService } from './../../../../../core/services/cliente.service';
 import { ContratoParameters } from './../../../../../core/types/contrato.types';
 import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
@@ -18,18 +17,18 @@ import { startWith, takeUntil } from 'rxjs/operators';
   templateUrl: './contrato-lista.component.html',
   styles: [`
         .list-grid-contrato {
-            grid-template-columns: 48px 120px 150px auto 70px 30px ;
+            grid-template-columns: 48px 250px 150px auto 120px 30px;
             
             @screen sm {
-                grid-template-columns: 48px 120px 150px auto 70px 30px;
+                grid-template-columns: 48px 250px 150px auto 120px 30px;
             }
         
             @screen md{
-                grid-template-columns: 48px 120px  150px auto 70px 30px;
+                grid-template-columns: 48px 250px 150px auto 120px 30px;
             }
         
             @screen lg {
-                grid-template-columns: 48px 120px 150px auto 70px 30px;
+                grid-template-columns: 48px 250px 150px auto 120px 30px;
             }
         }
     `],
@@ -72,7 +71,7 @@ export class ContratoListaComponent implements OnInit {
                 this.obterContratos();
             });
 
-        this.registrarEmitters();
+        /* this.registrarEmitters(); */
 
         if (this.sort && this.paginator) {
             this.sort.disableClear = true;
@@ -114,14 +113,7 @@ export class ContratoListaComponent implements OnInit {
             .toPromise();
 
         this.dataSourceData = data;
-        this;this.obterNomeCliente(1280);
         this.isLoading = false;
-    }
-
-    async obterNomeCliente(codCliente: number){
-
-        const data = await this._clienteService.obterPorCodigo(codCliente);
-        console.log(data);
     }
 
     carregarFiltro(): void {

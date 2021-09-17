@@ -12,9 +12,9 @@ namespace SAT.SERVICES.Services
     {
         private readonly int STARTING_INDEX = 1;
 
-        protected List<string> IgnoredProperties { get; set; }
-        protected List<string> ComplexProperties { get; set; }
-        protected Dictionary<string, string> SimpleProperties { get; set; }
+        protected List<string> IgnoredProperties { get; set; } = new List<string>();
+        protected List<string> ComplexProperties { get; set; } = new List<string>();
+        protected Dictionary<string, string> SimpleProperties { get; set; } = new Dictionary<string, string>();
         private XLWorkbook Workbook { get; set; }
 
         public IActionResult CreateWorkbook(List<T> data)

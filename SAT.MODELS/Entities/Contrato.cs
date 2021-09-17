@@ -10,6 +10,8 @@ namespace SAT.MODELS.Entities
         public int CodContrato { get; set; }
         public int? CodContratoPai { get; set; }
         public int? CodCliente { get; set; }
+        [ForeignKey("CodCliente")]
+        public Cliente Cliente { get; set; }
         public int? CodTipoContrato { get; set; }
         public string Cnpj { get; set; }
         public string NroContrato { get; set; }

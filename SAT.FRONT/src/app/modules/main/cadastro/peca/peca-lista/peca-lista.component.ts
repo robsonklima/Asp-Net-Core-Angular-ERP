@@ -1,3 +1,5 @@
+import { FileMime } from './../../../../../core/types/file.types';
+import { FileService } from './../../../../../core/services/file.service';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -5,6 +7,7 @@ import { PecaService } from 'app/core/services/peca.service';
 import { PecaData, PecaParameters } from 'app/core/types/peca.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-peca-lista',
@@ -36,11 +39,18 @@ export class PecaListaComponent implements OnInit
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   @ViewChild(MatSort) private sort: MatSort;
   dataSourceData: PecaData;
+  byteArray;
   isLoading: boolean = false;
   
-  constructor(private _cdr: ChangeDetectorRef, private _pecaService: PecaService) { }
+  constructor(
+    private _cdr: ChangeDetectorRef, 
+    private _pecaService: PecaService,
+    private _fileService: FileService
+    ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    
+   }
 
   ngAfterViewInit(): void 
   {
@@ -87,6 +97,22 @@ export class PecaListaComponent implements OnInit
     this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  public async exportar()
+   {      
+
+   this.isLoading = true;
+   
+    const params: PecaParameters = 
+    {
+      pageNumber: 50,
+      sortDirection: 'desc',
+      pageSize: 1000,
+    }
+
+    window.open(await this._fileService.downloadLink("Peca", FileMime.Excel,params)); 
+    this.isLoading = false;
   }
 
   public paginar() { this.obterDados(); }

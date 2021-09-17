@@ -1,4 +1,5 @@
-﻿using SAT.INFRA.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
@@ -38,7 +39,9 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Contrato> ObterPorParametros(ContratoParameters parameters)
         {
-            var contratos = _context.Contrato.AsQueryable();
+            var contratos = _context.Contrato
+                                .Include(c => c.Cliente)
+                                .AsQueryable();
 
             if (parameters.Filter != null)
             {

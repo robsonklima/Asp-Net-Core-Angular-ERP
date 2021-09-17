@@ -107,12 +107,15 @@ namespace SAT.SERVICES.Services
                     {
                         string mainprop = SimpleProperties.First(sp => sp.Key == prop.PropertyType.Name).Value;
 
-                        cellValue = prop.PropertyType.GetProperties()
-                                        .FirstOrDefault(p => p.Name == mainprop)
-                                        .GetValue(prop.GetValue(d))?.ToString();
+                        var obj = prop.GetValue(d);
+                        if (obj != null)
+                            cellValue = prop.PropertyType.GetProperties()?
+                                            .First(p => p.Name == mainprop)?
+                                            .GetValue(obj)?.ToString();
                     }
                     else if (ComplexProperties.Contains(prop.Name))
                     {
+                        // TO DO
                         continue;
                     }
                     else

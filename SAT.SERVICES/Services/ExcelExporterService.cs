@@ -104,18 +104,16 @@ namespace SAT.SERVICES.Services
                     {
                         value = prop.PropertyType.GetProperties()
                                                  .FirstOrDefault(p => p.Name.StartsWith("Nom"))?
-                                                 .GetValue(r, null)?
-                                                 .ToString();
+                                                 .GetValue(prop.GetValue(r))?.ToString();
 
                         if (string.IsNullOrEmpty(value))
                             value = prop.PropertyType.GetProperties()
                                                  .FirstOrDefault(p => p.Name.StartsWith("Cod"))?
-                                                 .GetValue(r, null)?
-                                                 .ToString();
+                                                 .GetValue(prop.GetValue(r))?.ToString();
                     }
                     else
                     {
-                        value = prop.GetValue(r, null)?.ToString();
+                        value = prop.GetValue(r)?.ToString();
                     }
 
                     mainSheet.Cell(rowIndex, cellIndex).Value = value;

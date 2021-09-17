@@ -151,8 +151,16 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     public async exportarExcel()
     {
         this.isLoading = true;
-        window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel)); 
-        this.isLoading = false;
+        const params: OrdemServicoParameters = {
+            sortDirection: 'desc',
+            pageSize: 1000,
+        };
+
+        window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
+                ...this.filtro?.parametros,
+                ...params
+        })); 
+        this.isLoading = false;  
     }
 
     paginar() {

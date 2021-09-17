@@ -12,9 +12,9 @@ namespace SAT.SERVICES.Services
     {
         private readonly int STARTING_INDEX = 1;
 
-        protected List<string> IgnoredProperties { get; set; }
-        protected List<string> ComplexProperties { get; set; }
-        protected Dictionary<string, string> SimpleProperties { get; set; }
+        protected List<string> IgnoredProperties { get; set; } = new List<string>();
+        protected List<string> ComplexProperties { get; set; } = new List<string>();
+        protected Dictionary<string, string> SimpleProperties { get; set; } = new Dictionary<string, string>();
         private XLWorkbook Workbook { get; set; }
 
         public IActionResult CreateWorkbook(List<T> data)
@@ -107,12 +107,15 @@ namespace SAT.SERVICES.Services
                     {
                         string mainprop = SimpleProperties.First(sp => sp.Key == prop.PropertyType.Name).Value;
 
-                        cellValue = prop.PropertyType.GetProperties()
-                                        .FirstOrDefault(p => p.Name == mainprop)
-                                        .GetValue(prop.GetValue(d))?.ToString();
+                        var obj = prop.GetValue(d);
+                        if (obj != null)
+                            cellValue = prop.PropertyType.GetProperties()?
+                                            .First(p => p.Name == mainprop)?
+                                            .GetValue(obj)?.ToString();
                     }
                     else if (ComplexProperties.Contains(prop.Name))
                     {
+                        // TO DO
                         continue;
                     }
                     else

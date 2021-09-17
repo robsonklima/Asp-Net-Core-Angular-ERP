@@ -7,6 +7,7 @@ import { PecaService } from 'app/core/services/peca.service';
 import { PecaData, PecaParameters } from 'app/core/types/peca.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-peca-lista',
@@ -44,7 +45,7 @@ export class PecaListaComponent implements OnInit
   constructor(
     private _cdr: ChangeDetectorRef, 
     private _pecaService: PecaService,
-    private _fileService: FileService,
+    private _fileService: FileService
     ) { }
 
   ngOnInit(): void {
@@ -98,9 +99,10 @@ export class PecaListaComponent implements OnInit
     this._cdr.detectChanges();
   }
 
-  public async exportarExcel()
-  {
-    this.isLoading = true;
+  public async exportar()
+   {      
+
+   this.isLoading = true;
    
     const params: PecaParameters = 
     {

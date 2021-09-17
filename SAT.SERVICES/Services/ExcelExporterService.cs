@@ -8,7 +8,7 @@ using System.IO;
 
 namespace SAT.SERVICES.Services
 {
-    public class ExcelExporterService<T> where T: new()
+    public class ExcelExporterService<T> where T : new()
     {
         private string FilePath;
         private string Extension;
@@ -19,8 +19,8 @@ namespace SAT.SERVICES.Services
         {
             this.Entity = new T();
             this.Extension = ".xlsx";
-            this.FilePath = Path.Combine(Path.GetTempPath(), 
-                                            String.Concat(Entity.GetType().Name, 
+            this.FilePath = Path.Combine(Path.GetTempPath(),
+                                            String.Concat(Entity.GetType().Name,
                                             String.Join("", DateTime.Now.ToString().Where(d => Char.IsDigit(d))), this.Extension));
         }
         private bool ValidateHeader(string header)
@@ -33,7 +33,7 @@ namespace SAT.SERVICES.Services
 
         private void FormatSheets(IXLWorksheet mainSheet)
         {
-            mainSheet.FirstRow().CellsUsed().ToList().ForEach(c => 
+            mainSheet.FirstRow().CellsUsed().ToList().ForEach(c =>
             {
                 if (!ValidateHeader(c.Value.ToString()))
                     mainSheet.Column(c.WorksheetColumn().ColumnNumber()).Delete();
@@ -54,11 +54,11 @@ namespace SAT.SERVICES.Services
             mainSheet.RangeUsed().Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium);
             mainSheet.RangeUsed().Style.Border.SetInsideBorder(XLBorderStyleValues.Medium);
             SaveFile(workbook);
-            
+
             return GenerateFile();
         }
 
-        private void SaveFile(XLWorkbook workbook) 
+        private void SaveFile(XLWorkbook workbook)
         {
             workbook.SaveAs(this.FilePath);
         }
@@ -71,12 +71,12 @@ namespace SAT.SERVICES.Services
 
         private void WriteHeaders(T entity, IXLWorksheet mainSheet)
         {
-             int cellIndex = STARTING_INDEX;
-             foreach (PropertyInfo prop in typeof(T).GetProperties())
-             {
-                 mainSheet.Cell(STARTING_INDEX, cellIndex).Value = prop.Name;
-                 cellIndex++;
-             }
+            int cellIndex = STARTING_INDEX;
+            foreach (PropertyInfo prop in typeof(T).GetProperties())
+            {
+                mainSheet.Cell(STARTING_INDEX, cellIndex).Value = prop.Name;
+                cellIndex++;
+            }
 
             FormatHeader(mainSheet);
         }
@@ -98,23 +98,43 @@ namespace SAT.SERVICES.Services
                 int cellIndex = STARTING_INDEX;
                 foreach (PropertyInfo prop in r.GetType().GetProperties())
                 {
-                    mainSheet.Cell(rowIndex, cellIndex).Value = prop.GetValue(r, null)?.ToString();
+                    string value = "";
+
+                    if (!prop.PropertyType.IsPrimitive)
+                    {
+                        value = prop.PropertyType.GetProperties()
+                                                 .FirstOrDefault(p => p.Name.StartsWith("Nom"))?
+                                                 .GetValue(r, null)?
+                                                 .ToString();
+
+                        if (string.IsNullOrEmpty(value))
+                            value = prop.PropertyType.GetProperties()
+                                                 .FirstOrDefault(p => p.Name.StartsWith("Cod"))?
+                                                 .GetValue(r, null)?
+                                                 .ToString();
+                    }
+                    else
+                    {
+                        value = prop.GetValue(r, null)?.ToString();
+                    }
+
+                    mainSheet.Cell(rowIndex, cellIndex).Value = value;
                     cellIndex++;
                 }
                 rowIndex++;
             });
         }
 
-        private readonly string[] IgnoredColumns = 
-        { 
-            "DataHoraManut", 
-            "DataHoraCad", 
-            "DataHoraAtualizacaoValor", 
+        private readonly string[] IgnoredColumns =
+        {
+            "DataHoraManut",
+            "DataHoraCad",
+            "DataHoraAtualizacaoValor",
             "IsValorAtualizado",
             "DataAtualizacao",
             "DataIntegracaoLogix"
         };
 
-        
+
     }
 }

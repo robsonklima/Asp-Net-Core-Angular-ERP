@@ -1,3 +1,4 @@
+import { FileService } from './../../../../core/services/file.service';
 import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
@@ -11,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -49,7 +51,8 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _fileService: FileService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
     }
@@ -128,6 +131,21 @@ export class OrdemServicoListaComponent implements AfterViewInit {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()
             };
         });
+    }
+
+    public async exportar()
+    {
+        this.isLoading = true;
+        const params: OrdemServicoParameters = {
+            sortDirection: 'desc',
+            pageSize: 6000,
+        };
+
+        window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
+                ...this.filtro?.parametros,
+                ...params
+        })); 
+        this.isLoading = false;  
     }
 
     paginar() {

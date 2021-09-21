@@ -40,8 +40,8 @@ namespace SAT.INFRA.Repository
         public PagedList<Contrato> ObterPorParametros(ContratoParameters parameters)
         {
             var contratos = _context.Contrato
-                                .Include(c => c.Cliente)
-                                .AsQueryable();
+                .Include(c => c.Cliente)                
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {

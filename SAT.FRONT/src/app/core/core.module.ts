@@ -8,6 +8,8 @@ import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
         AuthModule,
         IconsModule,
         TranslocoCoreModule
+    ],
+    declarations: [
     ]
 })
 export class CoreModule

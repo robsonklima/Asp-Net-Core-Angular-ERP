@@ -1,4 +1,6 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
@@ -49,5 +51,11 @@ namespace SAT.SERVICES.Services
 
         public Peca ObterPorCodigo(int codigo) =>
             _pecaRepo.ObterPorCodigo(codigo);
+
+        public IActionResult ExportToExcel(PecaParameters parameters)
+        {
+            var os = _pecaRepo.ObterPorParametros(parameters);
+            return new BaseExcelService<Peca>().CreateWorkbook(os.Cast<Peca>().ToList());
+        }
     }
 }

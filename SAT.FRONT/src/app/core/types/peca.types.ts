@@ -51,7 +51,7 @@ export interface PecaParameters extends QueryStringParameters { };
 export enum PecaStatus
 {
     "Liberada" = 1,
-    "Indísponível" = 2,
+    "Indisponível" = 2,
     "Substituída" = 3,
     "Descontinuada" = 4
 };

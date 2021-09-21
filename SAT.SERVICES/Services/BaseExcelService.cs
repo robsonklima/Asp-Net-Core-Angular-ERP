@@ -8,10 +8,9 @@ using System.IO;
 
 namespace SAT.SERVICES.Services
 {
-    public class BaseExcelService<T> where T : new()
+    public class BaseExcelService<T> where T : class, new()
     {
         private readonly int STARTING_INDEX = 1;
-
         protected List<string> IgnoredProperties { get; set; } = new List<string>();
         protected List<string> ComplexProperties { get; set; } = new List<string>();
         protected Dictionary<string, string> SimpleProperties { get; set; } = new Dictionary<string, string>();
@@ -45,19 +44,18 @@ namespace SAT.SERVICES.Services
             if (!Workbook.TryGetWorksheet(entityName, out sheet))
             {
                 sheet = Workbook.Worksheets.Add(entityName);
-                WriteHeaders(new T(), sheet);
+                WriteHeaders(data.FirstOrDefault(), sheet);
             }
 
             WriteDataContent(data, sheet);
-
-            sheet.Columns().AdjustToContents();
+            FormatSheet(sheet);
             return sheet;
         }
 
-        private void WriteHeaders(T entity, IXLWorksheet mainSheet)
+        private void WriteHeaders(object entity, IXLWorksheet mainSheet)
         {
             int cellIndex = STARTING_INDEX;
-            foreach (PropertyInfo prop in typeof(T).GetProperties())
+            foreach (PropertyInfo prop in entity.GetType().GetProperties())
             {
                 if (!IgnoredProperties.Contains(prop.Name) && !ComplexProperties.Contains(prop.Name))
                 {
@@ -132,7 +130,7 @@ namespace SAT.SERVICES.Services
                 rowIndex++;
             });
         }
-
+        
         private string GenerateFilePath()
         {
             return Path.Combine(Path.GetTempPath(),

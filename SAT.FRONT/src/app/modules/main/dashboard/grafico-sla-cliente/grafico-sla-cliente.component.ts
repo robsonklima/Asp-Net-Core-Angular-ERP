@@ -3,7 +3,7 @@ import { IndicadorService } from "app/core/services/indicador.service";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
 import { UserService } from "app/core/user/user.service";
-import moment from "moment";
+
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -62,9 +62,7 @@ export class GraficoSLAClienteComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    if (this.filtro) {
-      this.carregarGrafico();
-    }
+    if (this.filtro) this.carregarGrafico();
   }
 
   public async carregarGrafico() {

@@ -5,7 +5,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace SAT.SERVICES.Services
@@ -55,7 +54,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
-            
+
             var lista = new ListViewModel
             {
                 Items = ordensServico,
@@ -70,12 +69,14 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        private List<Alerta> ObterAlertas(int codos) {
+        private List<Alerta> ObterAlertas(int codos)
+        {
             List<Alerta> Alertas = new List<Alerta>();
-            Alertas.Add(new Alerta() {
-                Tipo="ALERTA_1",
-                Titulo="Chamado Bloquio STN",
-                Descricao= "Chamado bloqueado devido a...."
+            Alertas.Add(new Alerta()
+            {
+                Tipo = "ALERTA_1",
+                Titulo = "Chamado Bloquio STN",
+                Descricao = "Chamado bloqueado devido a...."
             });
 
             return Alertas;

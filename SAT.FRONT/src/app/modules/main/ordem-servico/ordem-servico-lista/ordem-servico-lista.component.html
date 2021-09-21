@@ -17,15 +17,15 @@
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
-                    <button mat-icon-button [routerLink]="['/ordem-servico/form']">
+                    <button mat-icon-button [matTooltip]="t('novo')" [routerLink]="['/ordem-servico/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
-                    <button class="ml-2" mat-icon-button (click)="exportar()">
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
+                    <button class="ml-2 " mat-icon-button [matTooltip]="t('exportar')" (click)="exportar()">
+                        <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                     </button>
 
-                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
+                    <button class="ml-2" mat-icon-button [matTooltip]="t('filtros')" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>

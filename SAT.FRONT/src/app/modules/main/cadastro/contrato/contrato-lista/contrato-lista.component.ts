@@ -11,6 +11,8 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { FileMime } from 'app/core/types/file.types';
+import { FileService } from 'app/core/services/file.service';
 
 @Component({
   selector: 'app-contrato-lista',
@@ -49,8 +51,8 @@ export class ContratoListaComponent implements OnInit {
   constructor(        
         private _cdr: ChangeDetectorRef,
         private _contratoService: ContratoService,
-        private _clienteService: ClienteService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _fileService: FileService
         ) { 
 
         this.userSession = JSON.parse(this._userService.userSession);
@@ -113,6 +115,7 @@ export class ContratoListaComponent implements OnInit {
             .toPromise();
 
         this.dataSourceData = data;
+        console.log(data);
         this.isLoading = false;
     }
 
@@ -133,6 +136,21 @@ export class ContratoListaComponent implements OnInit {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()
             };
         });
+    }
+
+    public async exportar()
+    {
+        this.isLoading = true;
+        const params: ContratoParameters = {
+            sortDirection: 'desc',
+            pageSize: 100000,
+        };
+
+        window.open(await this._fileService.downloadLink("Contrato", FileMime.Excel, {
+                ...this.filtro?.parametros,
+                ...params
+        })); 
+        this.isLoading = false;  
     }
 
     paginar() {

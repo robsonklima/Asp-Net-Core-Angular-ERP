@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +30,8 @@ import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filia
 import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
 import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
 import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { TelaMapaComponent } from './tela-mapa/tela-mapa.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +48,8 @@ import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
     GraficoSLAComponent,
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
-    DashboardFiltroComponent
-  ],
+    DashboardFiltroComponent,
+    TelaMapaComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
@@ -64,7 +66,9 @@ import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
     MatTooltipModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    MatSelectModule
-  ]
+    MatSelectModule,
+    GoogleChartsModule
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DashboardModule { }

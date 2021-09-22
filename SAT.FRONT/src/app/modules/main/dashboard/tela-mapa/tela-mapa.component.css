@@ -1,0 +1,9 @@
+#landmarks-brazil path { fill: #bf90ee }
+#landmarks-brazil path:hover { fill: #6e06d6 }
+#landmarks-brazil text { fill: #fff; font: 12px Arial-BoldMT, sans-serif; cursor: pointer }
+#landmarks-brazil a { text-decoration: none }
+#landmarks-brazil a:hover { cursor: pointer; text-decoration: none }
+#landmarks-brazil a:hover path { fill: #006064 !important }
+#landmarks-brazil .circle { fill: #66ccff }
+#landmarks-brazil a:hover .circle { fill: #003399 !important;  cursor: pointer }
+#landmarks-brazil { width: 35%; margin-top: -20px; }

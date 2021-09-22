@@ -1,6 +1,4 @@
-﻿using SAT.MODELS.Enums;
-
-namespace SAT.MODELS.Entities.Helpers
+﻿namespace SAT.MODELS.Entities.Helpers
 {
     public abstract class QueryStringParameters
     {
@@ -8,13 +6,12 @@ namespace SAT.MODELS.Entities.Helpers
         public string Filter { get; set; }
         public string SortActive { get; set; }
         public string SortDirection { get; set; }
-        public bool SortByDesc { get; set; }
-        private int? _pageSize;
+        private int _pageSize = 10;
         public int PageSize
         {
             get
             {
-                return _pageSize ?? int.MaxValue;
+                return _pageSize;
             }
             set
             {

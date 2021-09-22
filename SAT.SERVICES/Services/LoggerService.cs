@@ -20,22 +20,22 @@ namespace SAT.SERVICES.Services
 
         public static void LogDebug(string message)
         {
-            _logger.Debug(message);
+            _logger.Debug($"{DateTime.Now} - {message}");
         }
 
         public static void LogError(string message)
         {
-            _logger.Error(message);
+            _logger.Error($"{DateTime.Now} - {message}");
         }
 
         public static void LogInfo(string message)
         {
-            _logger.Info(message);
+            _logger.Info($"{DateTime.Now} - {message}");
         }
 
         public static void LogWarn(string message)
         {
-            _logger.Warn(message);
+            _logger.Warn($"{DateTime.Now} - {message}");
         }
 
         #region Implenetacoes Interface

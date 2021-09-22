@@ -35,7 +35,7 @@ namespace SAT.SERVICES.Services
             }
 
             var navegacoes = usuarioLogado.Perfil?.NavegacoesConfiguracao
-                .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
+                .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null).OrderBy(n => n.Ordem).ToList();
             usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
 

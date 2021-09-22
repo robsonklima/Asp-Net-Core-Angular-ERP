@@ -50,11 +50,5 @@ namespace SAT.API.Controllers
         {
             _pecaService.Deletar(codPeca);
         }
-
-        [HttpGet("export")]
-        public IActionResult ExportToExcel([FromQuery] PecaParameters parameters)
-        {
-            return _pecaService.ExportToExcel(parameters);
-        }
     }
 }

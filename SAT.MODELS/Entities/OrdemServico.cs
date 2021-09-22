@@ -154,9 +154,5 @@ namespace SAT.MODELS.Entities
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
         [ForeignKey("CodOS")]
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
-        [ForeignKey("CodOS")]
-        public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
-        [NotMapped]
-        public bool? IndNumRATObrigatorio { get; set; }
     }
 }

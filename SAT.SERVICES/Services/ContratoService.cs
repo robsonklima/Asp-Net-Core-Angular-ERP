@@ -8,10 +8,15 @@ namespace SAT.SERVICES.Services
     public class ContratoService : IContratoService
     {
         private readonly IContratoRepository _contratoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public ContratoService(IContratoRepository contratoRepo)
+        public ContratoService(
+            IContratoRepository contratoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _contratoRepo = contratoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(ContratoParameters parameters)
@@ -34,7 +39,10 @@ namespace SAT.SERVICES.Services
 
         public Contrato Criar(Contrato contrato)
         {
+            contrato.CodContrato = _sequenciaRepo.ObterContador("Contrato");
+            
             _contratoRepo.Criar(contrato);
+            
             return contrato;
         }
 

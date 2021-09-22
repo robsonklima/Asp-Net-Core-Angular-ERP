@@ -133,12 +133,12 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         });
     }
 
-    public async exportarExcel()
+    public async exportar()
     {
         this.isLoading = true;
         const params: OrdemServicoParameters = {
             sortDirection: 'desc',
-            pageSize: 10000,
+            pageSize: 6000,
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {

@@ -30,7 +30,7 @@ import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filia
 import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
 import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
 import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
-import { TelaMapaComponent } from './tela-mapa/tela-mapa.component';
+import { MapaComponent } from './mapa/mapa.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { TelaMapaComponent } from './tela-mapa/tela-mapa.component';
     GraficoSLAClienteComponent,
     GraficoSLAFilialComponent,
     DashboardFiltroComponent,
-    TelaMapaComponent ],
+    MapaComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),

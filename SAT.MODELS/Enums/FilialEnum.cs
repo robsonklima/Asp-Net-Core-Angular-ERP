@@ -2,7 +2,7 @@ namespace SAT.MODELS.Enums
 {
     public enum FilialEnum
     {
-        DSR	= 21,
+        // DSR	= 21,
         FAM	= 27,
         FBA	= 6,
         FBU	= 23,
@@ -26,7 +26,7 @@ namespace SAT.MODELS.Enums
         FSC	= 12,
         FSP	= 5,
         FTO	= 28,
-        IND	= 33,
-        Perto_EXP = 7
+        // IND	= 33,
+        // Perto_EXP = 7
     }
 }

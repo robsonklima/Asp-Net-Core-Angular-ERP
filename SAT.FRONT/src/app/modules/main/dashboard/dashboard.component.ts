@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
-import { UserService } from 'app/core/user/user.service';
+import { interval, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { Dashboard, dashboardsConst } from 'app/core/types/dashboard.types'
 
 @Component({
   selector: 'app-dashboard',
@@ -10,42 +11,41 @@ import { UserService } from 'app/core/user/user.service';
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
-  usuarioSessao: UsuarioSessao;
-  visaoSelecionada: string = 'Performances das Filiais e Resultado Geral do DSS';
+  dashboards: Dashboard[] = [];
+  visaoSelecionada: number = 1;
+  protected _onDestroy = new Subject<void>();
   filtro: any;
 
-  constructor(
-    private _userService: UserService,
-    private _cdr: ChangeDetectorRef
-  ) {
-    this.usuarioSessao = JSON.parse(this._userService.userSession);
+  constructor() {
+    this.dashboards = dashboardsConst;
   }
 
   async ngAfterViewInit() {
-    this.configurarFiltro();
-    this._cdr.detectChanges();
+    
+    console.log(this.dashboards);
 
-    this.sidenav.closedStart.subscribe(() => {
-      this.configurarFiltro();
+    this.dashboards.forEach((d) => {
+      console.log(d.nome);
+      
     })
+
+    interval(.2 * 60 * 1000)
+      .pipe(
+          startWith(0),
+          takeUntil(this._onDestroy)
+      )
+      .subscribe(() => {
+          console.log('Atualizando');
+          
+      });
   }
 
-  private configurarFiltro(): void {
-    this.filtro = this._userService.obterFiltro('dashboard');
+  teste(e: string) {
+    console.log(e);
+  }
 
-    if (!this.filtro) {
-        return;
-    }
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
-    }
-
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
-    });
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

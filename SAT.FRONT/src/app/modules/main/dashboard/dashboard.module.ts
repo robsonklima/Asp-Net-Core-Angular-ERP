@@ -13,18 +13,18 @@ import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MapaComponent } from './mapa/mapa.component';
+import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardFiltroComponent,
-    MapaComponent ],
+    MapaComponent,
+    ChamadosMaisAntigosComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),

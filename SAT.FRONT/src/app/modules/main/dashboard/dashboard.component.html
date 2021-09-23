@@ -28,7 +28,7 @@
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
           <div class="flex items-center">
             <div class="px-4 py-2 rounded-tl-xl rounded-bl-xl overflow-hidden bg-hover">
-              <div class="sm:text-lg leading-6 truncate">{{ visaoSelecionada }}</div>
+              <div class="sm:text-lg leading-6 truncate">{{ dashboardSelecionado }}</div>
             </div>
             <!-- Buttons -->
             <div class="ml-px rounded-tr-xl rounded-br-xl bg-hover">
@@ -36,12 +36,12 @@
                 <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
               </button>
               <mat-menu #projectsMenu="matMenu">
-                <button mat-menu-item (click)="visaoSelecionada = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
                   <span class="truncate">Performance das Filiais e Resultado Geral</span>
                 </button>
 
-                <button mat-menu-item (click)="visaoSelecionada = dashboardEnum.DISPONIBILIDADE_BBTS_REGIOES">
-                  <span class="truncate">Disponibilidade BBTS por Regiões</span>
+                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                  <span class="truncate">Disponibilidade BBTS</span>
                 </button>
               </mat-menu>
             </div>
@@ -57,7 +57,7 @@
       <!-- Tabs -->
       <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
         <!-- Tab -->
-        <mat-tab label="Status das Filiais" *ngIf="visaoSelecionada == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+        <mat-tab label="Status das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
           <ng-template matTabContent>
             <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
               <!-- Status das Filiais -->
@@ -89,7 +89,7 @@
         </mat-tab>
 
         <!-- Tab -->
-        <mat-tab label="Resultado Geral do DSS" *ngIf="visaoSelecionada == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+        <mat-tab label="Resultado Geral do DSS" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
           <ng-template matTabContent>
             <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
               <!-- Resultado Geral do DSS -->
@@ -121,32 +121,39 @@
         </mat-tab>
 
         <!-- Tab -->
-        <mat-tab label="Performance das Filiais" *ngIf="visaoSelecionada == dashboardEnum.DISPONIBILIDADE_BBTS_REGIOES">
+        <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
           <ng-template matTabContent>
             <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Resultado Geral do DSS -->
+              <!-- Disponibilidade das Regiões -->
               <div
                 class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col sm:flex-row items-start justify-between">
                   <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Resultado Geral do DSS
+                    Disponibilidade das Regiões
                   </div>
                 </div>
                 <div class="flex flex-col flex-auto mt-6">
 
                 </div>
               </div>
-              <!-- Chamados Mais Antigos -->
+              <!-- Disponibilidade das Filiais -->
               <div
                 class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col sm:flex-row items-start justify-between">
                   <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Chamados Mais Antigos
+                    Disponibilidade das Filiais
                   </div>
                 </div>
                 <div class="flex flex-col flex-auto mt-6">
-                  <app-chamados-mais-antigos></app-chamados-mais-antigos>
+                  
                 </div>
+              </div>
+
+              <div
+                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <p>
+                  * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas negativas.
+                </p>
               </div>
             </div>
           </ng-template>

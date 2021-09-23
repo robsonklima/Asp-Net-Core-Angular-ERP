@@ -15,7 +15,7 @@ export class DashboardComponent implements AfterViewInit {
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  visaoSelecionada: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   protected _onDestroy = new Subject<void>();
 
@@ -24,7 +24,7 @@ export class DashboardComponent implements AfterViewInit {
   ) { }
 
   async ngAfterViewInit() {
-    interval(1 * 60 * 1000)
+    interval(2 * 60 * 1000)
       .pipe(
         takeUntil(this._onDestroy)
       )
@@ -37,12 +37,12 @@ export class DashboardComponent implements AfterViewInit {
     let dashboards: string[] = Object.values(this.dashboardEnum);
 
     if (this.slideSelecionado == this.tabGroup._tabs.length - 1) {
-      let dashboardIndex = dashboards.indexOf(this.visaoSelecionada);
+      let dashboardIndex = dashboards.indexOf(this.dashboardSelecionado);
 
       if (dashboardIndex == dashboards.length - 1) {
-        this.visaoSelecionada = dashboards[0];
+        this.dashboardSelecionado = dashboards[0];
       } else {
-        this.visaoSelecionada = dashboards[dashboardIndex + 1];
+        this.dashboardSelecionado = dashboards[dashboardIndex + 1];
       }
 
       this.slideSelecionado = 0;

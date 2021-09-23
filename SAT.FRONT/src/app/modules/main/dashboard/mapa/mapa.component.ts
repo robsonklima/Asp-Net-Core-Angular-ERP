@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit  } from '@angular/core';
+import { AfterViewInit, Component  } from '@angular/core';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import { FilialEnum } from 'app/shared/enums/FilialEnum';
@@ -14,7 +14,7 @@ import moment from 'moment';
 export class MapaComponent implements AfterViewInit 
 {
   private paths: SVGPathElement[] = [];
-  private circles: SVGCircleElement[] = [];
+  private ellipses: SVGEllipseElement[] = [];
   private codFiliais: string[] = [];
   
   constructor(private _indicadorService: IndicadorService) { }
@@ -32,21 +32,26 @@ export class MapaComponent implements AfterViewInit
       t.setAttribute("transform", "translate(" + (b.x + b.width/1.6) + " " + (b.y + b.height/1.7) + ")");
       t.textContent = p.id.toUpperCase();
       t.setAttribute("fill", "black");
+      t.setAttribute("pointer-events", "none");
       t.setAttribute("text-anchor", "middle");
       t.setAttribute("font-weight", "bold");
-      t.setAttribute("cursor", "pointer");
       t.setAttribute("font-size", "12");
       p.parentNode.insertBefore(t, p.nextSibling);
 
       if (!p.id.startsWith("f")) return;
 
-      var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      var c = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
       c.cx.baseVal.value = 8;
       c.cy.baseVal.value = 8;
-      c.r.baseVal.value = 8;
+      c.rx.baseVal.value = 8;
+      c.ry.baseVal.value = 8;
       c.style.fill = "white";
+      c.setAttribute("cursor", "pointer");
       c.setAttribute("transform", "translate(" + (b.x + b.width/2) + " " + (b.y + b.height/2) + ")");
       c.setAttribute("id", p.id);
+      c.onclick = this.selectedEllipse;
+      c.onmouseover = this.highlightEllipse;
+      c.onmouseleave = this.unhighlightEllipse;
       p.parentNode.insertBefore(c, t);
   }
 
@@ -55,7 +60,7 @@ export class MapaComponent implements AfterViewInit
     for (var p in this.paths)
       this.addElements(this.paths[p]);
 
-    this.getCircles();
+    this.getEllipses();
     this.getData();
   }
 
@@ -84,24 +89,39 @@ export class MapaComponent implements AfterViewInit
     Object.keys(FilialEnum).filter((e) => isNaN(Number(e))).forEach((i) => this.codFiliais.push(this.parseFilialCod(i)));
   }
 
-  private getCircles(): void
+  private getEllipses(): void
   {
-    this.circles = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("circle"));
+    this.ellipses = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("ellipse"));
   }
 
   private updateData(data: Indicador[]): void
   {
-    data.forEach(d => this.paintCircle(d));
+    data.forEach(d => this.paintEllipse(d));
   }
 
-  private paintCircle(filial: Indicador)
+  private paintEllipse(filial: Indicador)
   {
-    var c = this.circles.find(c => c.id.toLocaleUpperCase() == filial.label.toUpperCase());
+    var c = this.ellipses.find(c => c.id.toLocaleUpperCase() == filial.label.toUpperCase());
     c.style.fill = filial.valor >= 95 ? 'green' : filial.valor >= 90 ? 'yellow' : 'red';
   }
 
   private parseFilialCod(sigla: string): string
   {
     return FilialEnum[sigla].toString();
+  }
+
+  private selectedEllipse(this, ev: MouseEvent)
+  {
+    alert("oi, eu sou a filial " + (this as SVGEllipseElement).id + ", cod " + FilialEnum[(this as SVGEllipseElement).id.toUpperCase()]);
+  }
+
+  private highlightEllipse(this, ev: MouseEvent)
+  {
+    // todo
+  }
+
+  private unhighlightEllipse(this, ev: MouseEvent)
+  {
+    // todo
   }
 }

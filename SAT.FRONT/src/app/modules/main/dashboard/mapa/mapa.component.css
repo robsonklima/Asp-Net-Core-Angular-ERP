@@ -1,5 +1,6 @@
-#landmarks-brazil path { fill: #b28afc; cursor: pointer; position: relative;  }
-#landmarks-brazil path:hover { fill: #511a6b }
+#landmarks-brazil path { fill: #b28afc; }
+#landmarks-brazil path:hover { fill: #7f419d }
 #landmarks-brazil { width: 100%; margin-top: -20px; }
-#landmarks-brazil .spArea:hover~.spArea, .spArea:hover { fill: #511a6b }
+#landmarks-brazil .spArea:hover~.spArea, .spArea:hover { fill: #7f419d; }
 #landmarks-brazil .noHover { pointer-events: none; }
+ellipse:hover { color: #fce57e !important; }

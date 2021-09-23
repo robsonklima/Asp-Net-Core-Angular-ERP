@@ -17,7 +17,6 @@ export class MapaComponent implements OnInit
   initializeMap(): void
   {
     var paths: SVGPathElement[] = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("path"));
-    debugger;
     for (var p in paths)
     {
       this.addElements(paths[p]);

@@ -16,7 +16,8 @@ export class MapaComponent implements OnInit
 
   initializeMap(): void
   {
-    var paths: SVGPathElement[] = Array.from(document.querySelectorAll("path"));
+    var paths: SVGPathElement[] = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("path"));
+    debugger;
     for (var p in paths)
     {
       this.addElements(paths[p]);
@@ -35,6 +36,8 @@ export class MapaComponent implements OnInit
       t.setAttribute("cursor", "pointer");
       t.setAttribute("font-size", "12");
       p.parentNode.insertBefore(t, p.nextSibling);
+
+      if (!p.id.startsWith("f")) return;
 
       var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       c.cx.baseVal.value = 8;

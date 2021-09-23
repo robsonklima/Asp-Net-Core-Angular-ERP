@@ -3,4 +3,3 @@
 #landmarks-brazil { width: 100%; margin-top: -20px; }
 #landmarks-brazil .spArea:hover~.spArea, .spArea:hover { fill: #7f419d; }
 #landmarks-brazil .noHover { pointer-events: none; }
-ellipse:hover { color: #fce57e !important; }

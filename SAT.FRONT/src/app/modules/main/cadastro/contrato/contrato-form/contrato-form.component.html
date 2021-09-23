@@ -53,29 +53,27 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('nome-contrato') }}</mat-label>
-                        <mat-icon class="icon-size-5" >
-                        </mat-icon>
                         <input matInput formControlName="nomeContrato" maxlength="50">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('numero-contrato') }}</mat-label>
-                        <mat-icon class="icon-size-5" >
-                        </mat-icon>
                         <input matInput formControlName="numeroContrato">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('contrato pai') }}</mat-label>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"></mat-icon>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'" matPrefix></mat-icon>
                         <input matInput formControlName="contratoPai" maxlength="20">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('tipo-contrato') }}</mat-label>
-                        <mat-icon class="icon-size-5">
-                        </mat-icon>
-                        <input matInput formControlName="codTipoContrato" maxlength="20">
+                        <mat-select formControlName="codCliente">
+                            <mat-option *ngFor="let tipo of tipoContrato" [value]="tipo" >
+                                {{tipo}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -99,20 +97,57 @@
                         <input matInput formControlName="valorContrato" maxlength="25">
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('data contrato') }}</mat-label>
+                        <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataContrato">
+                        <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
+                        <mat-datepicker #contratoData disabled="false"></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('data assinatura') }}</mat-label>
+                        <input matInput (click)="assinaturaData.open()" (keydown)="false" [matDatepicker]="assinaturaData" formControlName="dataAssinatura">
+                        <mat-datepicker-toggle matSuffix [for]="assinaturaData"></mat-datepicker-toggle>
+                        <mat-datepicker #assinaturaData disabled="false"></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('indice reajuste') }}</mat-label>
+                        <input matInput formControlName="indiceReajuste" mask="percent" suffix="%" placeholder="%" [showTemplate]="true">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('batata') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'" matPrefix></mat-icon>
+                        <input matInput formControlName="contratoPai" maxlength="20">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('batata') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'" matPrefix></mat-icon>
+                        <input matInput formControlName="contratoPai" maxlength="20">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('batata') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'" matPrefix></mat-icon>
+                        <input matInput formControlName="contratoPai" maxlength="20">
+                    </mat-form-field>
+
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('objeto contrato') }}</mat-label>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                         <textarea matInput formControlName="objetoContrato" [rows]="4"
                             maxlength="1000"></textarea>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('gerar orcamento para') }}</mat-label>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                         <textarea matInput formControlName="orcamentoPara" [rows]="4"
-                            maxlength="1000"></textarea>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                            maxlength="1000"></textarea>                        
                     </mat-form-field>
 
                 </div>
@@ -125,19 +160,15 @@
                     <div class="flex flex-col gt-xs:flex-row">
                         <div class="flex flex-col">
                             <mat-checkbox class="mb-1" [color]="'primary'"
-                                [formControlName]="'indLiberacaoFechaduraCofre'">
-                                {{ t('liberacao de fechadura do cofre') }}
-                            </mat-checkbox>
-
-                            <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indIntegracao'">
-                                {{ t('chamado de integracao') }}
+                                [formControlName]="'permitePecaEspecifica'">
+                                {{ t('permite peca especifica') }}
                             </mat-checkbox>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                    <button class  ="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

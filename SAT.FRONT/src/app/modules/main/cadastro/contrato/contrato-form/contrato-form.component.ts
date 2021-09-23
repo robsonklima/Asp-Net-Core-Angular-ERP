@@ -43,7 +43,14 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
   clientes: Cliente[] = [];
   searching: boolean;
   protected _onDestroy = new Subject<void>();
-
+  tipoContrato = [
+    "Manutenção",
+    "Garantia",
+    "Locação",
+    "Ext Garantia",
+    "Locação Outros",
+    "Demonstração"
+  ];
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
@@ -107,8 +114,9 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
     } 
   }
 
-  private async obterClientes() {
+  private async obterClientes(filter: string = '') {
     this.clientes = (await this._clienteService.obterPorParametros({
+      filter: filter,
       indAtivo: 1,
       pageSize: 500,
       sortActive: 'nomeFantasia',

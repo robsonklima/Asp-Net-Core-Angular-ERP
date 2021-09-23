@@ -121,8 +121,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi') }}</mat-label>
-                        <input matInput formControlName="valIPI" mask="separator.2" 
-                        thousandSeparator="." suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <input matInput formControlName="valIPI" mask="percentage" 
+                        suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>

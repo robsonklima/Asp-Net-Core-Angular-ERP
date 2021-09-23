@@ -25,6 +25,8 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
+import { Agendamento } from 'app/core/types/agendamento.types';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
 
 
 @Component({
@@ -40,6 +42,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   ordemServico: OrdemServico;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
+  agendamentos: Agendamento;
   form: FormGroup;
   isAddMode: boolean;
   tecnicosFiltro: FormControl = new FormControl();
@@ -59,6 +62,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
+    private _agendamentoService: AgendamentoService,
     private _snack: CustomSnackbarService,
     private _router: Router,
     private _dialog: MatDialog
@@ -74,7 +78,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     
     this.ordemServico = await this._ordemServicoService
       .obterPorCodigo(this.codOS)
-      .toPromise();
+      .toPromise(); 
 
     if (!this.isAddMode) {
       this.relatorioAtendimento = await this._raService
@@ -89,12 +93,16 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
 
-    this.form.controls['horaInicio'].valueChanges.subscribe(() => {      
-      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
+    this.form.controls['data'].valueChanges.subscribe((data) => {      
+      this.validaDataHoraRAT();
+    })    
+
+    this.form.controls['horaInicio'].valueChanges.subscribe((horaInicio) => {      
+      this.validaDataHoraRAT();
     })
 
-    this.form.controls['horaFim'].valueChanges.subscribe(() => {      
-      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
+    this.form.controls['horaFim'].valueChanges.subscribe((horaFim) => {      
+      this.validaDataHoraRAT();
     })
 
     this.form.controls['codStatusServico'].valueChanges.subscribe(() => {      
@@ -262,23 +270,56 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private validaTempoAtendimento(horainicial: string , horafinal: string): void {
-    let inicio = moment(horainicial, 'h:mm A');
-    let fim = moment(horafinal, 'h:mm A');
+  private validaDataHoraRAT(): void {
+    let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
+    let horaFim =  moment(this.form.controls['horaFim'].value, 'h:mm A');
+    
+    const duracaoEmMinutos = moment.duration(horaFim.diff(horaInicio)).asMinutes();
 
-    const duracao = moment.duration(fim.diff(inicio)).asMinutes();
- 
-    if ( duracao < 20 )
+    this.form.controls['horaFim'].setErrors(null)
+    
+    if (duracaoEmMinutos < 20)
+    {
+      this.form.controls['horaInicio'].setErrors({
+        'periodoInvalido': true        
+      });     
+    } else{
+      this.form.controls['horaInicio'].setErrors(null)
+    }
+
+
+    if (duracaoEmMinutos < 20)
     {
       this.form.controls['horaFim'].setErrors({
         'periodoInvalido': true        
-      })      
+      });     
     } else{
       this.form.controls['horaFim'].setErrors(null)
-    }
+    }   
 
+    let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() }); 
+    let dataHoraOS = moment(this.ordemServico.dataHoraAberturaOS);
+    let dataHoraAgendamento = moment(this.ordemServico.dataHoraAberturaOS);  
+
+    if (dataHoraRAT < dataHoraOS)
+    {
+      this.form.controls['data'].setErrors({
+        'dataRATInvalida': true 
+      })
+    } else{
+      this.form.controls['data'].setErrors(null)
+    }  
+    
+    if (dataHoraRAT < dataHoraAgendamento)
+    {
+      this.form.controls['data'].setErrors({
+        'dataRATInvalida': true 
+      })
+    } else{
+      this.form.controls['data'].setErrors(null)
+    }      
   }
-
+  
   private validaBloqueioReincidencia(): void {
     let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;    
 

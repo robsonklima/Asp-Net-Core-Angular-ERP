@@ -266,5 +266,7 @@
     "quantidade min venda": "Qtd. Mínima para Venda",
     "ncm": "NCM",
     "historico": "Histórico",
-    "bloqueio reincidencia": "EQUIPAMENTO CRÍTICO! Chamado bloqueado! O STN deve ser contatado obrigatóriamente antes e durante este atendimento"
+    "bloqueio reincidencia": "EQUIPAMENTO CRÍTICO! Chamado bloqueado! O STN deve ser contatado obrigatóriamente antes e durante este atendimento",
+    "data RAT Invalida": "Data da RAT deve ser maior que a data de Abertura/Agendamento",
+    "periodo de atendimento": "Período de atendimento"
 }

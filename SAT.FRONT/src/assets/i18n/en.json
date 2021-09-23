@@ -263,5 +263,7 @@
     "ipi": "IPI (%)",
     "quantidade min venda": "Min. quantity for sale",
     "ncm": "NCM",
-    "bloqueio reincidencia": "CRITICAL EQUIPMENT! Work order blocked! The STN must be contacted obligatorily before and during this service."
+    "bloqueio reincidencia": "CRITICAL EQUIPMENT! Work order blocked! The STN must be contacted obligatorily before and during this service.",
+    "data RAT Invalida": "RAT date must be greater than the Opening / Scheduling date",
+    "periodo de atendimento": "Service period"
 }

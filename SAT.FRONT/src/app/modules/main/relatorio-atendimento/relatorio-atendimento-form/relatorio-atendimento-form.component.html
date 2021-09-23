@@ -93,13 +93,17 @@
                         </mat-icon>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-
+                </div>    
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('periodo de atendimento') }}</p>
+                </div>                                
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data') }}</mat-label>
                         <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
                         <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
                         <mat-datepicker #pickerData disabled="false"></mat-datepicker>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -108,19 +112,6 @@
                             [dropSpecialCharacters]="false" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
-                        <mat-error *ngIf="form.get('horaInicio').dirty">
-                            <div *ngIf="form.get('horaInicio').hasError('required')">
-                                {{ t('preencher campo') }}
-                            </div>
-
-                            <div *ngIf="form.get('horaInicio').hasError('invalidFormat')">
-                                {{ t('formato invalido') }}
-                            </div>
-
-                            <div *ngIf="form.get('horaInicio').hasError('periodoInvalido')">
-                                {{ t('periodo invalido') }}
-                            </div>                            
-                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -129,20 +120,26 @@
                             [dropSpecialCharacters]="false" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
-                        <mat-error *ngIf="form.get('horaFim').dirty">
-                            <div *ngIf="form.get('horaFim').hasError('required')">
-                                {{ t('preencher campo') }}
-                            </div>
-
-                            <div *ngIf="form.get('horaFim').hasError('invalidFormat')">
-                                {{ t('formato invalido') }}
-                            </div>
-                            
-                            <div *ngIf="form.get('horaFim').hasError('periodoInvalido')">
-                                {{ t('periodo invalido') }}
-                            </div>
-                        </mat-error>
                     </mat-form-field>
+
+                    <mat-error class="fuse-mat-dense sm:col-span-12"  *ngIf="form.get('data').dirty || form.get('horaInicio').dirty || form.get('horaFim').dirty">
+                        <div *ngIf="form.get('data').hasError('invalidFormat') || form.get('horaInicio').hasError('invalidFormat') || form.get('horaFim').hasError('invalidFormat')">
+                            {{ t('formato invalido') }}
+                        </div>                      
+
+                        <div *ngIf="form.get('data').hasError('required') || form.get('horaInicio').hasError('required') || form.get('horaFim').hasError('required')">
+                            {{ t('preencher campo') }}
+                        </div>
+                        
+                        <div *ngIf="form.get('horaInicio').hasError('periodoInvalido') || form.get('horaFim').hasError('periodoInvalido')">
+                            {{ t('periodo invalido') }}
+                        </div>
+
+                        <div *ngIf="form.get('data').hasError('dataRATInvalida') || form.get('horaInicio').hasError('dataRATInvalida') || form.get('horaFim').hasError('dataRATInvalida')">
+                            {{ t('data RAT Invalida') }}
+                        </div>                            
+                    </mat-error>           
+                             
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>

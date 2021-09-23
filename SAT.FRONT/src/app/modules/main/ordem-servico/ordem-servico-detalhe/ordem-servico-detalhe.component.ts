@@ -124,6 +124,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
       }
     });
 
+    console.log(dialogRef);    
+
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao) {
         let obj = {

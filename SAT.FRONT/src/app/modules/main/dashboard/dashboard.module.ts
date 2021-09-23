@@ -12,41 +12,17 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GraficoOrdemServicoClienteComponent } from './grafico-ordem-servico-cliente/grafico-ordem-servico-cliente.component';
-import { GraficoOrdemServicoFilialComponent } from './grafico-ordem-servico-filial/grafico-ordem-servico-filial.component';
-import { GraficoSLAFilialComponent } from './grafico-sla-filial/grafico-sla-filial.component';
-import { GraficoSLAClienteComponent } from './grafico-sla-cliente/grafico-sla-cliente.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { GraficoOrdemServicoDataComponent } from './grafico-ordem-servico-data/grafico-ordem-servico-data.component';
-import { GraficoPendenciaClienteComponent } from './grafico-pendencia-cliente/grafico-pendencia-cliente.component';
-import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/grafico-pendencia-filial.component';
-import { GraficoReincidenciaClienteComponent } from './grafico-reincidencia-cliente/grafico-reincidencia-cliente.component';
-import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filial/grafico-reincidencia-filial.component';
-import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
-import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
-import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
 import { MapaComponent } from './mapa/mapa.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GraficoOrdemServicoClienteComponent,
-    GraficoOrdemServicoFilialComponent,
-    GraficoOrdemServicoDataComponent,
-    GraficoPendenciaClienteComponent,
-    GraficoSPAClienteComponent,
-    GraficoSPAFilialComponent,
-    GraficoPendenciaFilialComponent,
-    GraficoReincidenciaClienteComponent,
-    GraficoReincidenciaFilialComponent,
-    GraficoSLAComponent,
-    GraficoSLAClienteComponent,
-    GraficoSLAFilialComponent,
     DashboardFiltroComponent,
     MapaComponent ],
   imports: [

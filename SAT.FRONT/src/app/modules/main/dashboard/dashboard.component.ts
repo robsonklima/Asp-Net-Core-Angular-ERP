@@ -3,6 +3,7 @@ import { interval, Subject } from 'rxjs';
 import { MatTabGroup } from '@angular/material/tabs';
 import { DashboardEnum } from 'app/core/types/dashboard.types';
 import { takeUntil } from 'rxjs/operators';
+import { appConfig as c } from 'app/core/config/app.config'
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ export class DashboardComponent implements AfterViewInit {
   ) { }
 
   async ngAfterViewInit() {
-    interval(2 * 60 * 1000)
+    interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
       .pipe(
         takeUntil(this._onDestroy)
       )

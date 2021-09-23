@@ -16,7 +16,6 @@ export class IndicadoresFiliaisComponent {
 
   displayedColumns: string[] = ['status', 'filial', 'sla', 'pendencia', 'reincidencia', 'spa'];
   element_data: IndicadorFilial[] = [];
-  dataSource = new MatTableDataSource<IndicadorFilial>(this.element_data);
   loading: boolean = true;
   filiais: Filial[] = [];
 
@@ -39,13 +38,6 @@ export class IndicadoresFiliaisComponent {
         spa: this.obterDados(IndicadorTipoEnum.SPA)
       }).subscribe(data => {
 
-        let filtraDados = [
-          ...data.sla.map(item => item.label),
-          ...data.pendencia.map(item => item.label),
-          ...data.reincidencia.map(item => item.label),
-          ...data.spa.map(item => item.label),
-        ].filter((value, index, self) => self.indexOf(value) === index);
-
         this.filiais.forEach(filial => {
           this.element_data.push({
             filial: filial.nomeFilial,
@@ -57,7 +49,6 @@ export class IndicadoresFiliaisComponent {
         });
 
         this.element_data.sort((a, b) => (a.sla > b.sla ? -1 : 1));
-        this.dataSource.data = this.element_data as IndicadorFilial[];
         this.loading = false;
       });
   }

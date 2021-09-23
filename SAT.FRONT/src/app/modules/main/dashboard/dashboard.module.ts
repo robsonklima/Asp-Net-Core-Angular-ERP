@@ -20,7 +20,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MapaComponent } from './mapa/mapa.component';
 import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
 import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
-import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,6 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatTableModule
   ]
 })
 export class DashboardModule { }

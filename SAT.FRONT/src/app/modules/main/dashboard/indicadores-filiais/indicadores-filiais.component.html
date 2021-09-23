@@ -5,52 +5,34 @@
     </div>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="w-full h-auto text-xs" *ngIf="!loading">
-    <!-- Status -->
-    <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let indicador">
-            <span class="flex items-center p-3">
-                <span class="w-4 h-4 rounded-full" matTooltipPosition="above"
-                    [matTooltip]="indicador.sla >= 95 ? 'Ótimo' : (indicador.sla >= 92? 'Atenção' : 'Alta Criticidade')"
-                    [class.bg-green-500]="indicador.sla >= 95"
-                    [class.bg-yellow-500]="indicador.sla >= 92"
-                    [class.bg-red-400]="indicador.sla >= 0"
-                ></span>
-            </span>
-        </td>
-    </ng-container>
-
-    <!-- Filial -->
-    <ng-container matColumnDef="filial">
-        <th mat-header-cell *matHeaderCellDef> Filial </th>
-        <td mat-cell *matCellDef="let element"> {{element.filial}} </td>
-    </ng-container>
-
-    <!-- SLA -->
-    <ng-container matColumnDef="sla">
-        <th mat-header-cell *matHeaderCellDef> SLA </th>
-        <td mat-cell *matCellDef="let element"> {{element.sla}}% </td>
-    </ng-container>
-
-    <!-- Pendência -->
-    <ng-container matColumnDef="pendencia">
-        <th mat-header-cell *matHeaderCellDef> Pendência </th>
-        <td mat-cell *matCellDef="let element"> {{element.pendencia}}% </td>
-    </ng-container>
-
-    <!-- Reincidência -->
-    <ng-container matColumnDef="reincidencia">
-        <th mat-header-cell *matHeaderCellDef> Reincidência </th>
-        <td mat-cell *matCellDef="let element"> {{element.reincidencia}}% </td>
-    </ng-container>
-
-    <!-- SPA -->
-    <ng-container matColumnDef="spa">
-        <th mat-header-cell *matHeaderCellDef> SPA </th>
-        <td mat-cell *matCellDef="let element"> {{element.spa}}% </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<table class="w-full" *ngIf="!loading">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Filial</th>
+            <th>SLA</th>
+            <th>Pendência</th>
+            <th>Reincidência</th>
+            <th>SPA</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of element_data">
+            <td>
+                <span class="flex items-center p-3">
+                    <span class="w-1 h-1 rounded-full" matTooltipPosition="above"
+                        [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
+                        [class.bg-green-500]="data.sla >= 95"
+                        [class.bg-yellow-500]="data.sla >= 92"
+                        [class.bg-red-400]="data.sla >= 0"
+                    ></span>
+                </span>
+            </td>
+            <td>{{ data.filial }}</td>
+            <td>{{ data.sla }}%</td>
+            <td>{{ data.pendencia }}%</td>
+            <td>{{ data.reincidencia }}%</td>
+            <td>{{ data.spa }}%</td>
+        </tr>
+    </tbody>
 </table>

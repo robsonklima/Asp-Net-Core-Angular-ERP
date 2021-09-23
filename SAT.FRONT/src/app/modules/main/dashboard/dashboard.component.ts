@@ -25,8 +25,7 @@ export class DashboardComponent implements AfterViewInit {
     console.log(this.dashboards);
 
     this.dashboards.forEach((d) => {
-      console.log(d.nome);
-      
+      console.log(d.nome);      
     })
 
     interval(.2 * 60 * 1000)

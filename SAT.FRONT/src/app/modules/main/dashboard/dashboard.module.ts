@@ -19,12 +19,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MapaComponent } from './mapa/mapa.component';
 import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
+import { MatTableModule } from '@angular/material/table';
+import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MapaComponent,
-    ChamadosMaisAntigosComponent ],
+    ChamadosMaisAntigosComponent,
+  IndicadoresFiliaisComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
@@ -41,7 +44,8 @@ import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-m
     MatTooltipModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
     ]
 })
 export class DashboardModule { }

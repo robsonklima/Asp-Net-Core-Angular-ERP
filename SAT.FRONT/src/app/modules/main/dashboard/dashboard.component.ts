@@ -11,6 +11,7 @@ import { UserService } from 'app/core/user/user.service';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
+  visaoSelecionada: string = 'Dashboard A';
   filtro: any;
 
   constructor(

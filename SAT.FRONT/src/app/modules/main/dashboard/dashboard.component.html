@@ -1,43 +1,71 @@
 <mat-drawer-container class="flex-auto h-full">
   <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-      <app-dashboard-filtro [sidenav]="sidenav"></app-dashboard-filtro>
+    <app-dashboard-filtro [sidenav]="sidenav"></app-dashboard-filtro>
   </mat-drawer>
 
   <mat-drawer-content>
     <div class="flex flex-col flex-auto min-w-0">
-      <div class="bg-card border-b">
+      <div class="bg-card dark:border-b">
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-          <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-8">
+          <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
+            <!-- Avatar and name -->
             <div class="flex flex-auto items-center min-w-0">
               <div class="flex flex-col min-w-0 ml-4">
                 <ng-container *transloco="let t">
                   <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-                    Dashboard
-                  </div>
+                    Dashboard</div>
                 </ng-container>
-                <div class="flex items-center">
-                  <div class="leading-6 truncate text-secondary" *ngIf="filtro">
-                    {{ filtro?.parametros.dataInicio | date:'dd/MM/yy' }} até 
-                    {{ filtro?.parametros.dataFim | date:'dd/MM/yy' }}
-                  </div>
+              </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+              <div class="flex items-center">
+                <div class="px-4 py-2 rounded-tl-xl overflow-hidden bg-hover">
+                  <div class="sm:text-lg leading-6 truncate">{{visaoSelecionada}}</div>
+                </div>
+                <div class="ml-px rounded-tr-xl bg-hover">
+                  <button [matMenuTriggerFor]="projectsMenu" mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
+                  </button>
+                  <mat-menu #projectsMenu="matMenu">
+                    <button mat-menu-item (click)="visaoSelecionada='Dashboard A'">Dashboard A
+                    </button>
+                    <button mat-menu-item (click)="visaoSelecionada='Dashboard B'">Dashboard B
+                    </button>
+                  </mat-menu>
                 </div>
               </div>
             </div>
-
-            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-              <button class="fuse-mat-button-rounded" mat-flat-button [color]="'primary'" (click)="sidenav.toggle()">
-                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:adjustments'"></mat-icon>
-                <span class="ml-2">Filtrar</span>
-              </button>
-            </div>
           </div>
+          <!-- Project selector -->
+          
         </div>
       </div>
 
+      <!-- Main -->
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
-          <app-mapa></app-mapa>
-         </div>
+          <!-- Tabs -->
+          <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+            <!-- Tab A -->
+            <mat-tab label="Slide A">
+              <ng-template matTabContent>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                  <app-mapa></app-mapa>
+                </div>
+              </ng-template>
+            </mat-tab>
+
+            <!-- Tab A -->
+            <mat-tab label="Slide B">
+              <ng-template matTabContent>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+
+                </div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
       </div>
     </div>
   </mat-drawer-content>

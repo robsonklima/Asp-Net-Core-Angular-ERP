@@ -122,9 +122,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           cancel: 'Não'
         }
       }
-    });
-
-    console.log(dialogRef);    
+    });  
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao) {
@@ -139,13 +137,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     
         Object.keys(obj).forEach((key) => {
           typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });
-    
-        this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
-          this.obterDadosOrdemServico();
-    
-            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");      
-        });
+        });       
+
+        if(this.os.relatoriosAtendimento.length === 0) {
+          this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
+            this.obterDadosOrdemServico();
+
+            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");  
+          });   
+        } else{
+          this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error"); 
+        }
+
       }
     });
   }

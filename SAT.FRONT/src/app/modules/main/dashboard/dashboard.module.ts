@@ -41,6 +41,7 @@ import { CincoPecasMaisFaltantesComponent } from './cinco-pecas-mais-faltantes/c
 import { PecasFaltantesMaisCriticasComponent } from './pecas-faltantes-mais-criticas/pecas-faltantes-mais-criticas.component';
 import { MonitoramentoSatComponent } from './monitoramento-sat/monitoramento-sat.component';
 import { DensidadeComponent } from './densidade/densidade.component';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,7 @@ import { DensidadeComponent } from './densidade/densidade.component';
     CincoPecasMaisFaltantesComponent,
     PecasFaltantesMaisCriticasComponent,
     MonitoramentoSatComponent,
-    DensidadeComponent,
+    DensidadeComponent
   ],
   imports: [
     CommonModule,
@@ -77,6 +78,7 @@ import { DensidadeComponent } from './densidade/densidade.component';
     MatIconModule,
     SharedModule,
     TranslocoModule,
+    LeafletMarkerClusterModule,
     MatButtonToggleModule,
     MatMenuModule,
     MatTabsModule,
@@ -87,6 +89,6 @@ import { DensidadeComponent } from './densidade/densidade.component';
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
-  ]
+  ],
 })
 export class DashboardModule { }

@@ -1,4 +1,7 @@
-<div class="map"
-     leaflet
-     [leafletOptions]="options">
+<div class="w-full">
+    <div class="map"
+        leaflet
+        [leafletOptions]="options"
+        (leafletMapReady)="onMapReady($event)">
+    </div>
 </div>

@@ -27,11 +27,13 @@ import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-fili
 import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
+import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MapaComponent,
+    MapaDisponibilidadeComponent,
     ChamadosMaisAntigosComponent,
     IndicadoresFiliaisComponent,
     DisponibilidadeTecnicosComponent,

@@ -12,7 +12,8 @@ import {
   ApexPlotOptions,
   ApexYAxis,
   ApexLegend,
-  ApexGrid
+  ApexGrid,
+  ApexStates
 } from "ng-apexcharts";
 
 export type ChartOptions = 
@@ -26,13 +27,15 @@ export type ChartOptions =
   grid: ApexGrid;
   colors: string[];
   legend: ApexLegend;
+  states: ApexStates;
 };
 
 @Component({
   selector: 'app-dashboard-spa',
   templateUrl: './dashboard-spa.component.html'
 })
-export class DashboardSpaComponent implements OnInit {
+export class DashboardSpaComponent implements OnInit 
+{
   @ViewChild("chart") chart: ChartComponent;
   usuarioSessao: UsuarioSessao;
   public chartOptions: Partial<ChartOptions>;
@@ -60,10 +63,10 @@ export class DashboardSpaComponent implements OnInit {
         codTiposIntervencao: "1,2,3,4,6,7",
         codAutorizadas: "8, 10, 13, 40, 48, 102, 108, 119, 130, 132, 141, 169, 172, 177, 178, 182, 183, 189, 190, 191, 192, 202",
         codTiposGrupo: "1,3,5,7,8,9,10,11",
-        dataInicio: moment().startOf('month').toISOString(),
-        dataFim: moment().endOf('month').toISOString()
-        // dataInicio: moment().subtract(1, 'year').startOf('month').toISOString(),
-        // dataFim: moment().subtract(1, 'year').endOf('month').toISOString(),
+        //dataInicio: moment().startOf('month').toISOString(),
+        //dataFim: moment().endOf('month').toISOString()
+        dataInicio: moment().subtract(1, 'year').startOf('month').toISOString(),
+        dataFim: moment().subtract(1, 'year').endOf('month').toISOString(),
     }
 
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
@@ -73,8 +76,9 @@ export class DashboardSpaComponent implements OnInit {
       data = data.sort((a,b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
       const labels = data.map(d => d.label);
       const valores = data.map(d => d.valor);
-      const cores = data.map(d => d.valor <= 95 ? "#FF4560" : "#26a69a");
+      const cores = data.map(d => d.valor < 85 ?  "#cc0000" : "#009900" );
       this.haveData = true;
+
       this.inicializarGrafico(labels, valores, cores);
     } 
 
@@ -85,48 +89,64 @@ export class DashboardSpaComponent implements OnInit {
   {
     this.chartOptions = 
     {
-      series: [
-        {
+        series: [{
           name: "Percentual",
           data: valores
-        }
-      ],
+        }],
       chart: {
         height: 350,
-        type: "bar",
-        events: {
-          click: (chart, w, e) => {}
-        }
+        type: "bar"
       },
       colors: cores,
-      plotOptions: {
-        bar: {
+      plotOptions: 
+      {
+        bar: 
+        {
           columnWidth: "45%",
           distributed: true
         }
       },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: false
-      },
-      grid: {
-        show: true
-      },
-      xaxis: {
-        categories: labels,
-        labels: {
-          style: {
-            colors: cores,
-            fontSize: "10px"
+      states: 
+      {
+        active:
+         {
+          filter: 
+          {
+            type: "none"
           }
         }
       },
-      yaxis: {
+      dataLabels: 
+      {
+        enabled: false
+      },
+      legend: 
+      {
+        show: false
+      },
+      grid: 
+      {
+        show: true
+      },
+      xaxis: 
+      {
+        categories: labels,
+        labels:
+        {
+          style: 
+          {
+            colors: cores,
+            fontSize: "12px"
+          }
+        }
+      },
+      yaxis: 
+      {
         max: 100,
-        labels: {
-          formatter: (value) => {
+        labels: 
+        {
+          formatter: (value) => 
+          {
             return (value + "%").replace('.', ',');
           }
         }

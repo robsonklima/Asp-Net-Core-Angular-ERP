@@ -27,6 +27,7 @@ import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regi
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
+import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
 import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
 import { TecnicosMaisReincidentesComponent } from './tecnicos-mais-reincidentes/tecnicos-mais-reincidentes.component';
 import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
@@ -45,6 +46,7 @@ import { DensidadeComponent } from './densidade/densidade.component';
   declarations: [
     DashboardComponent,
     MapaComponent,
+    MapaDisponibilidadeComponent,
     ChamadosMaisAntigosComponent,
     IndicadoresFiliaisComponent,
     DisponibilidadeTecnicosComponent,

@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service'
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
-import { xor } from 'lodash';
 import moment from 'moment';
 import { forkJoin } from 'rxjs';
 
@@ -15,7 +13,8 @@ import { forkJoin } from 'rxjs';
   ]
 })
 
-export class IndicadoresFiliaisComponent {
+export class IndicadoresFiliaisComponent 
+{
 
   displayedColumns: string[] = ['status', 'filial', 'sla', 'pendencia', 'reincidencia', 'spa'];
   element_data: IndicadorFilial[] = [];
@@ -27,7 +26,8 @@ export class IndicadoresFiliaisComponent {
     private _filialService: FilialService,
     private _indicadorService: IndicadorService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
     this.loading = true;
     this.obterFiliais();
     this.montaDashboard();

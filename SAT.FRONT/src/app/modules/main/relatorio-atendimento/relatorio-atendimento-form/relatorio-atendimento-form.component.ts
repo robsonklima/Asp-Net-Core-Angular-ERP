@@ -334,7 +334,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }  
 
     if ( 
-          (tipoIntervencaoConst.ORCAMENTO || tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE || tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO) 
+          (
+            this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORCAMENTO || 
+            this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE || 
+            this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+          ) 
           && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
         )
     {     

@@ -1,7 +1,6 @@
 <div class="flex justify-center items-center" *ngIf="loading">
     <div class="text-center">
-        <mat-progress-spinner [diameter]="45" [mode]="'indeterminate'">
-        </mat-progress-spinner>
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>
 
@@ -17,10 +16,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of element_data">
-            <td>
-                <span class="flex items-center p-3">
-                    <span class="w-1 h-1 rounded-full" matTooltipPosition="above"
+        <tr *ngFor="let data of element_data" class="">
+            <td class="center">
+                <span class="flex items-center">
+                    <span class="w-4 h-4 rounded-full"
+                        matTooltipPosition="above"
                         [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
                         [class.bg-green-500]="data.sla >= 95"
                         [class.bg-yellow-500]="data.sla >= 92"
@@ -28,11 +28,11 @@
                     ></span>
                 </span>
             </td>
-            <td>{{ data.filial }}</td>
-            <td>{{ data.sla }}%</td>
-            <td>{{ data.pendencia }}%</td>
-            <td>{{ data.reincidencia }}%</td>
-            <td>{{ data.spa }}%</td>
+            <td class="center">{{ data.filial }}</td>
+            <td class="center">{{ data.sla }}%</td>
+            <td class="center">{{ data.pendencia }}%</td>
+            <td class="center">{{ data.reincidencia }}%</td>
+            <td class="center">{{ data.spa }}%</td>
         </tr>
     </tbody>
 </table>

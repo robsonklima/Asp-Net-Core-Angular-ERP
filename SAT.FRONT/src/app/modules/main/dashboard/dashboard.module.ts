@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { dashboardRoutes } from './dashboard.routing';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
@@ -24,10 +25,22 @@ import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/dis
 import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
 import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
-import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
 import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
+import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
+import { TecnicosMaisReincidentesComponent } from './tecnicos-mais-reincidentes/tecnicos-mais-reincidentes.component';
+import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
+import { PendenciaFiliaisComponent } from './pendencia-filiais/pendencia-filiais.component';
+import { TecnicosMenosPendentesComponent } from './tecnicos-menos-pendentes/tecnicos-menos-pendentes.component';
+import { TecnicosMaisPendentesComponent } from './tecnicos-mais-pendentes/tecnicos-mais-pendentes.component';
+import { EquipamentosMaisReincidentesComponent } from './equipamentos-mais-reincidentes/equipamentos-mais-reincidentes.component';
+import { ReincidenciaClientesComponent } from './reincidencia-clientes/reincidencia-clientes.component';
+import { PecasFaltantesFiliaisComponent } from './pecas-faltantes-filiais/pecas-faltantes-filiais.component';
+import { CincoPecasMaisFaltantesComponent } from './cinco-pecas-mais-faltantes/cinco-pecas-mais-faltantes.component';
+import { PecasFaltantesMaisCriticasComponent } from './pecas-faltantes-mais-criticas/pecas-faltantes-mais-criticas.component';
+import { MonitoramentoSatComponent } from './monitoramento-sat/monitoramento-sat.component';
+import { DensidadeComponent } from './densidade/densidade.component';
 
 @NgModule({
   declarations: [
@@ -40,13 +53,26 @@ import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-dispon
     MediaGlobalAtendimentoTecnicoComponent,
     DisponibilidadeBbtsRegioesComponent,
     DisponibilidadeBbtsFiliaisComponent,
-    ResultadoGeralDssComponent,
     DashboardSpaComponent,
-    SlaClientesComponent
+    SlaClientesComponent,
+    ReincidenciaFiliaisComponent,
+    TecnicosMaisReincidentesComponent,
+    TecnicosMenosReincidentesComponent,
+    PendenciaFiliaisComponent,
+    TecnicosMenosPendentesComponent,
+    TecnicosMaisPendentesComponent,
+    EquipamentosMaisReincidentesComponent,
+    ReincidenciaClientesComponent,
+    PecasFaltantesFiliaisComponent,
+    CincoPecasMaisFaltantesComponent,
+    PecasFaltantesMaisCriticasComponent,
+    MonitoramentoSatComponent,
+    DensidadeComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
+    LeafletModule,
     MatButtonModule,
     MatIconModule,
     SharedModule,

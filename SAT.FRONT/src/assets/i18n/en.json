@@ -276,5 +276,14 @@
     "responsavel perto": "Responsible Perto",
     "responsavel cliente": "Responsible Customer",
     "gerar orcamento para": "Budget For: ",
-    "permite peca especifica": "Allows specific part"
+    "permite peca especifica": "Allows specific part",
+    "dias para substituicao": "Days for Replacement",
+    "data contrato": "Contract Date",
+    "data assinatura": "Signature Date",
+    "tipo-reajuste": "Tipo de Reajuste",
+    "indice reajuste": "Índice do Reajuste",
+    "inicio vigencia": "Beginning of Term",
+    "termino vigencia": "Ending of Term",
+    "inicio periodo reajuste": "Start of Readjustment Period",
+    "termino periodo reajuste": "End of Readjustment Period"
 }

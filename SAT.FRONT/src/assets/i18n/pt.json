@@ -278,5 +278,14 @@
     "responsavel perto": "Responsável Perto",
     "responsavel cliente": "Responsável Cliente",
     "gerar orcamento para": "Gerar Orçamento Para: ",
-    "permite peca especifica": "Permite peça específica"
+    "permite peca especifica": "Permite peça específica",
+    "data contrato": "Data do Contrato",
+    "data assinatura": "Data da Assinatura",
+    "tipo-reajuste": "Tipo de Reajuste",
+    "indice reajuste": "Índice do Reajuste",
+    "dias para substituicao": "Dias p/ Subs. Equip.",
+    "inicio vigencia": "Início da Vigência",
+    "termino vigencia": "Término da Vigência",
+    "inicio periodo reajuste": "Início do período de reajuste",
+    "termino periodo reajuste": "Término do período de reajuste"
 }

@@ -60,7 +60,7 @@
 
                                 <ng-container>
                                     <ng-container *ngFor="let contrato of dataSourceData?.items">
-                                        <a [routerLink]="'/contrato/detalhe/'+ contrato.codContrato">
+                                        <a [routerLink]="'/contrato/form/'+ contrato.codContrato">
                                             <div class="list-grid-contrato grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
                                             <div class="flex items-center">
                                                 {{ contrato.codContrato }}

@@ -1,3 +1,4 @@
+import { Contrato } from './../../../../../core/types/contrato.types';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,7 +36,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
   styleUrls: ['./contrato-form.component.scss']
 })
 export class ContratoFormComponent implements OnInit {codContrato: number;
-  contratoServico: ContratoService;
+  contrato: Contrato;
   form: FormGroup;
   isAddMode: boolean;
   perfis: any;
@@ -43,14 +44,9 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
   clientes: Cliente[] = [];
   searching: boolean;
   protected _onDestroy = new Subject<void>();
-  tipoContrato = [
-    "Manutenção",
-    "Garantia",
-    "Locação",
-    "Ext Garantia",
-    "Locação Outros",
-    "Demonstração"
-  ];
+  tipoContrato;
+  tipoReajuste;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
@@ -72,6 +68,8 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
     
     // Init
     this.obterClientes();
+    this.obterTipoContrato();
+    this.obterTipoReajuste();
 
     // Main Obj
     await this.obterContrato();
@@ -85,32 +83,88 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
           disabled: true,
         }, [Validators.required]
       ],
-      numOSCliente: [undefined],
-      numOSQuarteirizada: [undefined],
-      nomeSolicitante: [undefined],
-      nomeContato: [undefined],
-      telefoneSolicitante: [undefined],
+      codContratoPai:[undefined],
       codCliente: [undefined, Validators.required],
-      codTipoIntervencao: [undefined, Validators.required],
-      codPosto: [undefined, Validators.required],
-      defeitoRelatado: [undefined, Validators.required],
-      codEquipContrato: [undefined],
-      codEquip: [undefined],
-      codFilial: [undefined, Validators.required],
-      codRegiao: [undefined, Validators.required],
-      codAutorizada: [undefined, Validators.required],
-      indLiberacaoFechaduraCofre: [undefined],
-      indIntegracao: [undefined],
-      observacaoCliente: [undefined],
-      descMotivoMarcaEspecial: [undefined],
-      agenciaPosto: [undefined]
+      codTipoContrato: [undefined, Validators.required],
+      codTipoReajuste: [undefined, Validators.required],
+      percReajuste: [undefined, Validators.required],
+      nroContrato: [undefined, Validators.required],
+      nomeContrato: [undefined, Validators.required],
+      dataContrato: [undefined, Validators.required],
+      dataAssinatura:[undefined, Validators.required],
+      dataInicioVigencia: [undefined, Validators.required],
+      dataFimVigencia: [undefined, Validators.required],
+      dataInicioPeriodoReajuste:[undefined, Validators.required],
+      dataFimPeriodoReajuste: [undefined, Validators.required],
+      nomeResponsavelPerto: [undefined, Validators.required],
+      nomeResponsavelCliente: [undefined, Validators.required],
+      objetoContrato: [undefined],
+      semCobertura: [undefined],
+      valTotalContrato: [undefined, Validators.required],
+      indPermitePecaEspecifica: [undefined, Validators.required],
+      numDiasSubstEquip: [undefined, Validators.required]
+
     });
   }
  
+  private async obterTipoContrato() {
+    this.tipoContrato = [
+      {
+        "codTipoContrato": 1,
+        "nomeTipoContrato": "Manutenção"
+      },
+      {
+        "codTipoContrato": 2,
+        "nomeTipoContrato": "Garantia"
+      },
+      {
+        "codTipoContrato": 3,
+        "nomeTipoContrato": "Locação"
+      },
+      {
+        "codTipoContrato": 4,
+        "nomeTipoContrato": "Ext Garantia"
+      },
+      {
+        "codTipoContrato": 5,
+        "nomeTipoContrato": "Locação Outros"
+      },
+      {
+        "codTipoContrato": 6,
+        "nomeTipoContrato": "Demonstração"
+      }
+    ];
+  }
+  private async obterTipoReajuste() {
+    this.tipoReajuste = [
+      {
+        "codTipoReajuste": 1,
+        "nomeTipoReajuste": "IGPM-FGV"
+      },
+      {
+        "codTipoReajuste": 2,
+        "nomeTipoReajuste": "IPC-FIPE"
+      },
+      {
+        "codTipoReajuste": 3,
+        "nomeTipoReajuste": "INPC"
+      },
+      {
+        "codTipoReajuste": 4,
+        "nomeTipoReajuste": "IPCA-IBGE"
+      },
+      {
+        "codTipoReajuste": 5,
+        "nomeTipoReajuste": "Acorde entre as Partes"
+      }
+    ];
+  }
   private async obterContrato() {
     if (!this.isAddMode) {
-      //this.contratoServico = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
-      this.form.patchValue(this.contratoServico);
+      let data = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
+      console.log(data)
+      this.contrato = data;
+      this.form.patchValue(this.contrato);
     } 
   }
 
@@ -133,7 +187,7 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
 
     const form: any = this.form.getRawValue();
     let obj = {
-      ...this.contratoServico,
+      ...this.contrato,
       ...form,
       ...{
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -154,16 +208,12 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
   private criar(): void {
     const form: any = this.form.getRawValue();
     let obj = {
-      ...this.contratoServico,
+      ...this.contrato,
       ...form,
       ...{
         dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario,
-        indStatusEnvioReincidencia: -1,
-        indRevisaoReincidencia: 1,
-        codStatusServico: 1
       }
     };
 

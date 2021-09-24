@@ -1,7 +1,2 @@
-#landmarks-brazil-disp path { fill: #5fecab; }
-#landmarks-brazil-disp { width: 100%; margin-top: -20px; }
-#landmarks-brazil-disp .noHover { pointer-events: none; }
-#landmarks-brazil-disp .south { fill: #7270e7; }
-#landmarks-brazil-disp .southeast { fill: #33d13b; }
-#landmarks-brazil-disp .northeast { fill: #f39367; }
-#landmarks-brazil-disp .midwest { fill: #bddd08; }
+#landmarks-brazil-disp { margin-top: -20px; }
+#landmarks-brazil-disp path { pointer-events: none; }

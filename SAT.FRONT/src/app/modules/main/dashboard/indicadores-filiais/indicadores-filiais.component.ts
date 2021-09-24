@@ -31,7 +31,6 @@ export class IndicadoresFiliaisComponent {
     this.loading = true;
     this.obterFiliais();
     this.montaDashboard();
-    this.calculaResultadoGeralDSS();
   }
 
   private montaDashboard(): void {
@@ -55,24 +54,33 @@ export class IndicadoresFiliaisComponent {
 
         this.element_data.sort((a, b) => (a.sla > b.sla ? -1 : 1));
         this.loading = false;
+        this.calculaResultadoGeralDSS();
       });
   }
 
   private calculaResultadoGeralDSS(): void
   {
-      var nroFiliais: number = this.filiais.length > 0 ? this.filiais.length : 1;
-      var avgSLA: number = this.element_data.reduce(function (acc, obj) { return acc + obj.sla; }, 0);
-      var avgSPA: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
-      var avgReincidencia: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
-      var avgPendencia: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
+      var nroFiliais: number = this.element_data.length > 0 ? this.element_data.length : 1;
+      var avgSLA: number = 0;
+      var avgSPA: number = 0;
+      var avgReincidencia: number = 0;
+      var avgPendencia: number = 0;
 
+      this.element_data.forEach(d =>
+      {
+        avgSLA += d.sla;
+        avgSPA += d.spa;
+        avgReincidencia += d.reincidencia;
+        avgPendencia += d.pendencia;
+      });
+      
       this.resultado_geral_dss =
       {
         filial: "dss",
-        sla: avgSLA / nroFiliais,
-        pendencia: avgPendencia / nroFiliais,
-        reincidencia: avgReincidencia / nroFiliais,
-        spa: avgSPA / nroFiliais
+        sla: Math.round(avgSLA / nroFiliais),
+        pendencia: Math.round(avgPendencia / nroFiliais),
+        reincidencia: Math.round(avgReincidencia / nroFiliais),
+        spa: Math.round(avgSPA / nroFiliais)
       }
   }
 

@@ -1,32 +1,30 @@
-<table class="w-full" *ngIf="!loading">
-    <thead>
+<table class="w-full table-auto" *ngIf="!loading">
+    <thead class="pointer-events-none">
         <tr>
-            <th class="text-left">Filial</th>
-            <th>SLA</th>
-            <th>Pend.</th>
-            <th>Reinc.</th>
-            <th>SPA</th>
+            <th>Status</th>
+            <th>Filial</th>
+            <th class="text-right">SLA</th>
+            <th class="text-right">Pend.</th>
+            <th class="text-right">Reinc.</th>
+            <th class="text-right">SPA</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let data of element_data">
-            <td class="center">
-                <span class="flex items-center">
-                    <span class="w-4 h-4 rounded-full"
-                        matTooltipPosition="above"
-                        [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
-                        [class.bg-green-500]="data.sla >= 95"
-                        [class.bg-yellow-500]="data.sla >= 92"
-                        [class.bg-red-400]="data.sla >= 0"
-                    ></span>
-
-                    <span class="ml-10">{{ data.filial }}</span>
-                </span>
+            <td class="text-center">
+                <div class="w-4 h-4 rounded-full m-auto"
+                    matTooltipPosition="above"
+                    [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
+                    [class.bg-green-500]="data.sla >= 95"
+                    [class.bg-yellow-500]="data.sla >= 92"
+                    [class.bg-red-400]="data.sla >= 0">
+                </div>
             </td>
-            <td class="text-right">{{ data.sla }}%</td>
-            <td class="text-right">{{ data.pendencia }}%</td>
-            <td class="text-right">{{ data.reincidencia }}%</td>
-            <td class="text-right">{{ data.spa }}%</td>
+            <td class="text-center pointer-events-none">{{ data.filial }}</td>
+            <td class="text-right pointer-events-none">{{ data.sla }}%</td>
+            <td class="text-right pointer-events-none">{{ data.pendencia }}%</td>
+            <td class="text-right pointer-events-none">{{ data.reincidencia }}%</td>
+            <td class="text-right pointer-events-none">{{ data.spa }}%</td>
         </tr>
     </tbody>
 </table>

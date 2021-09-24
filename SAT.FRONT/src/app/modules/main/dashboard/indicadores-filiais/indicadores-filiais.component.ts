@@ -9,7 +9,9 @@ import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-indicadores-filiais',
-  templateUrl: './indicadores-filiais.component.html'
+  templateUrl: './indicadores-filiais.component.html',
+  styleUrls: ['./indicadores-filiais.component.css'
+  ]
 })
 
 export class IndicadoresFiliaisComponent {

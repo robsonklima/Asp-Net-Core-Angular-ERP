@@ -437,8 +437,12 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
-                        <mat-tab [disabled]="!os?.codEquipContrato">
+                        <mat-tab 
+                            *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
+                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
+                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
+                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS"
+                            [disabled]="!os?.codEquipContrato">
                             <ng-template matTabLabel>
                                 <span>
                                     {{ t('historico') }}

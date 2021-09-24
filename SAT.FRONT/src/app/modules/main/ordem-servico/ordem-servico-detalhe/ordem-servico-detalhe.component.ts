@@ -14,6 +14,7 @@ import moment from 'moment';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -26,10 +27,14 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   codOS: number;
   os: OrdemServico;
   statusServico: StatusServico;
+  perfis: any;
   userSession: UsuarioSessao;
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
+  public get perfilEnum(): typeof PerfilEnum {
+    return PerfilEnum;
+  }
   
   constructor(
     private _route: ActivatedRoute,
@@ -47,7 +52,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
-
+  
+    this.perfis = PerfilEnum;
+    
     this.sidenav.closedStart.subscribe(() => {
       this.obterDadosOrdemServico();
     })

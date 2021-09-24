@@ -26,6 +26,7 @@ import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regi
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
 import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
+import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
     DisponibilidadeBbtsFiliaisComponent,
     ResultadoGeralDssComponent,
     DashboardSpaComponent,
+    SlaClientesComponent
   ],
   imports: [
     CommonModule,

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sla-clientes',
-  templateUrl: './sla-clientes.component.html',
-  styleUrls: ['./sla-clientes.component.scss']
+  templateUrl: './sla-clientes.component.html'
 })
 export class SlaClientesComponent implements OnInit {
 

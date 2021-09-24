@@ -52,7 +52,7 @@
                   <span class="truncate">Dashboard SPA</span>
                 </button>
 
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTE">
+                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTES">
                   <span class="truncate">Índice de SLA por Cliente</span>
                 </button>
               </mat-menu>
@@ -225,7 +225,7 @@
         </mat-tab>
 
         <!-- Tab -->
-        <mat-tab label="Dashboard SPA" *ngIf="dashboardSelecionado == dashboardEnum.SLA_CLIENTE">
+        <mat-tab label="Dashboard SPA" *ngIf="dashboardSelecionado == dashboardEnum.SLA_CLIENTES">
           <ng-template matTabContent>
             <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
               <!-- Panel -->

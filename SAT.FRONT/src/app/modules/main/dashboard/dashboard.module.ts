@@ -20,13 +20,33 @@ import { MatSelectModule } from '@angular/material/select';
 import { MapaComponent } from './mapa/mapa.component';
 import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
 import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
+import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/disponibilidade-tecnicos.component';
+import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
+import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
+import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
+import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
+import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
+import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
+import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
+import { TecnicosMaisReincidentesComponent } from './tecnicos-mais-reincidentes/tecnicos-mais-reincidentes.component';
+import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MapaComponent,
     ChamadosMaisAntigosComponent,
-    IndicadoresFiliaisComponent
+    IndicadoresFiliaisComponent,
+    DisponibilidadeTecnicosComponent,
+    MediaGlobalAtendimentoTecnicoComponent,
+    DisponibilidadeBbtsRegioesComponent,
+    DisponibilidadeBbtsFiliaisComponent,
+    ResultadoGeralDssComponent,
+    DashboardSpaComponent,
+    SlaClientesComponent,
+    ReincidenciaFiliaisComponent,
+    TecnicosMaisReincidentesComponent,
+    TecnicosMenosReincidentesComponent
   ],
   imports: [
     CommonModule,

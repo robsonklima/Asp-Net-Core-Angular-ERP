@@ -16,7 +16,7 @@ export class DashboardComponent implements AfterViewInit {
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.DENSIDADE; //PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   protected _onDestroy = new Subject<void>();
 
@@ -25,13 +25,13 @@ export class DashboardComponent implements AfterViewInit {
   ) { }
 
   async ngAfterViewInit() {
-    interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
-      .pipe(
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(() => {
-        this.trocarDashboardOuSlide();
-      });
+    // interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
+    //   .pipe(
+    //     takeUntil(this._onDestroy)
+    //   )
+    //   .subscribe(() => {
+    //     this.trocarDashboardOuSlide();
+    //   });
   }
 
   private trocarDashboardOuSlide(): void {

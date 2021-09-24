@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { dashboardRoutes } from './dashboard.routing';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
@@ -24,7 +25,6 @@ import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/dis
 import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
 import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
-import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
 import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
@@ -51,7 +51,6 @@ import { DensidadeComponent } from './densidade/densidade.component';
     MediaGlobalAtendimentoTecnicoComponent,
     DisponibilidadeBbtsRegioesComponent,
     DisponibilidadeBbtsFiliaisComponent,
-    ResultadoGeralDssComponent,
     DashboardSpaComponent,
     SlaClientesComponent,
     ReincidenciaFiliaisComponent,
@@ -71,6 +70,7 @@ import { DensidadeComponent } from './densidade/densidade.component';
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
+    LeafletModule,
     MatButtonModule,
     MatIconModule,
     SharedModule,

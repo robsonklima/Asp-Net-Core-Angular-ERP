@@ -1,22 +1,15 @@
-<div class="flex justify-center items-center" *ngIf="loading">
-    <div class="text-center">
-        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-    </div>
-</div>
-
 <table class="w-full" *ngIf="!loading">
     <thead>
         <tr>
-            <th>Status</th>
-            <th>Filial</th>
+            <th class="text-left">Filial</th>
             <th>SLA</th>
-            <th>Pendência</th>
-            <th>Reincidência</th>
+            <th>Pend.</th>
+            <th>Reinc.</th>
             <th>SPA</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of element_data" class="">
+        <tr *ngFor="let data of element_data">
             <td class="center">
                 <span class="flex items-center">
                     <span class="w-4 h-4 rounded-full"
@@ -26,13 +19,20 @@
                         [class.bg-yellow-500]="data.sla >= 92"
                         [class.bg-red-400]="data.sla >= 0"
                     ></span>
+
+                    <span class="ml-10">{{ data.filial }}</span>
                 </span>
             </td>
-            <td class="center">{{ data.filial }}</td>
-            <td class="center">{{ data.sla }}%</td>
-            <td class="center">{{ data.pendencia }}%</td>
-            <td class="center">{{ data.reincidencia }}%</td>
-            <td class="center">{{ data.spa }}%</td>
+            <td class="text-right">{{ data.sla }}%</td>
+            <td class="text-right">{{ data.pendencia }}%</td>
+            <td class="text-right">{{ data.reincidencia }}%</td>
+            <td class="text-right">{{ data.spa }}%</td>
         </tr>
     </tbody>
 </table>
+
+<div class="flex justify-center items-center" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

@@ -3,5 +3,6 @@ export enum DashboardEnum {
 	DISPONIBILIDADE_BBTS = 'Disponibilidade BBTS',
 	DISPONIBILIDADE_DOS_TECNICOS= 'Disponibilidade dos Técnicos',
 	DASHBOARD_SPA= 'Dashboard SPA',
-	SLA_CLIENTES= 'Índicde de SLA por Cliente',
+	SLA_CLIENTES= 'Índice de SLA por Cliente',
+	REINCIDENCIA_FILIAIS= 'Reincidências por Filiais',
 }

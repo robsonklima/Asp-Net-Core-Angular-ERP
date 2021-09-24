@@ -27,6 +27,9 @@ import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-fili
 import { ResultadoGeralDssComponent } from './resultado-geral-dss/resultado-geral-dss.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
+import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
+import { TecnicosMaisReincidentesComponent } from './tecnicos-mais-reincidentes/tecnicos-mais-reincidentes.component';
+import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
     DisponibilidadeBbtsFiliaisComponent,
     ResultadoGeralDssComponent,
     DashboardSpaComponent,
-    SlaClientesComponent
+    SlaClientesComponent,
+    ReincidenciaFiliaisComponent,
+    TecnicosMaisReincidentesComponent,
+    TecnicosMenosReincidentesComponent
   ],
   imports: [
     CommonModule,

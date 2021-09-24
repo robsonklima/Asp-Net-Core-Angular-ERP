@@ -55,6 +55,10 @@
                 <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTES">
                   <span class="truncate">Índice de SLA por Cliente</span>
                 </button>
+
+                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
+                  <span class="truncate">Reincidências das Filiais</span>
+                </button>
               </mat-menu>
             </div>
           </div>
@@ -243,6 +247,60 @@
             </div>
           </ng-template>
         </mat-tab>
+
+        <!-- Tab -->
+        <mat-tab label="Reincidências das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+          <ng-template matTabContent>
+            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+              <!-- Panel -->
+              <div
+                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                    Reincidência das Filiais
+                  </div>
+                </div>
+                <div class="flex flex-col flex-auto mt-6">
+                  <app-reincidencia-filiais></app-reincidencia-filiais>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Tab -->
+        <mat-tab label="Reincidências dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+          <ng-template matTabContent>
+            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+              <!-- Panel -->
+              <div
+                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                    Técnicos Mais Reincidentes
+                  </div>
+                </div>
+                <div class="flex flex-col flex-auto mt-6">
+                  <app-tecnicos-mais-reincidentes></app-tecnicos-mais-reincidentes>
+                </div>
+              </div>
+
+              <!-- Panel -->
+              <div
+                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                    Técnicos menos Reincidentes
+                  </div>
+                </div>
+                <div class="flex flex-col flex-auto mt-6">
+                  <app-tecnicos-menos-reincidentes></app-tecnicos-menos-reincidentes>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
       </mat-tab-group>
     </div>
   </div>

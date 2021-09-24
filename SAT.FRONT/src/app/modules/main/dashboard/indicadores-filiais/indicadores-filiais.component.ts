@@ -4,6 +4,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service'
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { xor } from 'lodash';
 import moment from 'moment';
 import { forkJoin } from 'rxjs';
 
@@ -18,6 +19,7 @@ export class IndicadoresFiliaisComponent {
 
   displayedColumns: string[] = ['status', 'filial', 'sla', 'pendencia', 'reincidencia', 'spa'];
   element_data: IndicadorFilial[] = [];
+  resultado_geral_dss: IndicadorFilial;
   loading: boolean = true;
   filiais: Filial[] = [];
 
@@ -29,9 +31,10 @@ export class IndicadoresFiliaisComponent {
     this.loading = true;
     this.obterFiliais();
     this.montaDashboard();
+    this.calculaResultadoGeralDSS();
   }
 
-  montaDashboard(): void {
+  private montaDashboard(): void {
     forkJoin(
       {
         sla: this.obterDados(IndicadorTipoEnum.SLA),
@@ -55,14 +58,32 @@ export class IndicadoresFiliaisComponent {
       });
   }
 
-  obterFiliais(): void {
+  private calculaResultadoGeralDSS(): void
+  {
+      var nroFiliais: number = this.filiais.length > 0 ? this.filiais.length : 1;
+      var avgSLA: number = this.element_data.reduce(function (acc, obj) { return acc + obj.sla; }, 0);
+      var avgSPA: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
+      var avgReincidencia: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
+      var avgPendencia: number = this.element_data.reduce(function (acc, obj) { return acc + obj.spa; }, 0);
+
+      this.resultado_geral_dss =
+      {
+        filial: "dss",
+        sla: avgSLA / nroFiliais,
+        pendencia: avgPendencia / nroFiliais,
+        reincidencia: avgReincidencia / nroFiliais,
+        spa: avgSPA / nroFiliais
+      }
+  }
+
+  private obterFiliais(): void {
     this._filialService.obterPorParametros({}).subscribe((data: FilialData) => {
       // Remover EXP e IND
       this.filiais = data.items.filter((f) => f.codFilial != 7 && f.codFilial != 33);
     });
   }
 
-  obterDados(indicadorTipoEnum: IndicadorTipoEnum): Promise<Indicador[]> {
+  private obterDados(indicadorTipoEnum: IndicadorTipoEnum): Promise<Indicador[]> {
     const params = {
       tipo: indicadorTipoEnum,
       agrupador: IndicadorAgrupadorEnum.FILIAL,

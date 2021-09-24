@@ -27,6 +27,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
+import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
 
 
 @Component({
@@ -106,7 +107,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     })
 
     this.form.controls['codStatusServico'].valueChanges.subscribe(() => {      
-      this.validaBloqueioReincidencia();
+      this.validaBloqueioStatus();
     })
 
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
@@ -320,18 +321,27 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }      
   }
   
-  private validaBloqueioReincidencia(): void {
+  private validaBloqueioStatus(): void {
     let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;    
 
-    if ( bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== 8)
+    if ( bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO)
     {
       this.form.controls['codStatusServico'].setErrors({
         'bloqueioReincidencia': true          
       })      
     } else{
       this.form.controls['codStatusServico'].setErrors(null)
-    }
+    }  
 
+    if ( 
+          (tipoIntervencaoConst.ORCAMENTO || tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE || tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO) 
+          && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
+        )
+    {     
+      this.form.controls['codStatusServico'].setErrors({
+        'bloqueioOrcamento': true          
+      })      
+    } 
   }  
 
   async salvar() {

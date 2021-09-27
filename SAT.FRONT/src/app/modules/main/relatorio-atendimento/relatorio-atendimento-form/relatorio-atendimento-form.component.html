@@ -245,7 +245,7 @@
                                                         </span>
                                                     </div>
 
-                                                    <div>
+                                                    <div *ngIf="ordemServico.tipoIntervencao.codTipoIntervencao !== 18">
                                                         <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
                                                             (click)="removerPeca(detalhe, i)">
                                                             <mat-icon class="icon-size-5"
@@ -256,7 +256,7 @@
                                             </div>
                                         </div>
 
-                                        <div>
+                                        <div >
                                             <span class="text-sm"
                                                 *ngIf="detalhe.codAcao !== 19 && detalhe.codAcao !== 26">
                                                 {{ t('nao se aplica') }}
@@ -279,7 +279,7 @@
                         </p>
                     </div>
 
-                    <div class="flex justify-end p-8">
+                    <div class="flex justify-end p-8" *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
                         <button class="px-4 mr-2" mat-button (click)="inserirDetalhe()"
                             [matTooltip]="t('adicionar detalhe')">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>

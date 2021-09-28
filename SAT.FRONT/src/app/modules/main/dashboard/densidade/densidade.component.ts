@@ -40,7 +40,7 @@ export class DensidadeComponent implements OnInit {
   onMapReady(map: Map): void {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
-
+    
     this.obterAutorizadas();
     this.obterTecnicos();
     this.obterEquipamentosContrato();

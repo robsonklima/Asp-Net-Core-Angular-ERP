@@ -7,5 +7,6 @@ namespace SAT.MODELS.Entities
         public int? CodEquipContrato { get; set; }
         public int? CodPosto { get; set; }
         public int? IndAtivo { get; set; }
+        public int? CodFilial { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
-import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import * as L from "leaflet";
-import { latLng, tileLayer, Map, MarkerClusterGroup } from 'leaflet';
+import 'leaflet.markercluster';
+import { latLng, tileLayer, Map } from 'leaflet';
 
 import 'leaflet.heat/dist/leaflet-heat.js'
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 
 @Component({
   selector: 'app-densidade',
@@ -13,7 +14,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 })
 export class DensidadeComponent implements OnInit {
   map: Map;
-  markerClusterGroup: MarkerClusterGroup;
+  markerClusterGroup: L.MarkerClusterGroup;
   markerClusterData = [];
   
   options = {
@@ -28,7 +29,7 @@ export class DensidadeComponent implements OnInit {
 
   constructor(
     private _autorizadaSvc: AutorizadaService,
-    private _localAtendimentoSvc: LocalAtendimentoService,
+    private _equipamentoContratoSvc: EquipamentoContratoService,
     private _tecnicoSvc: TecnicoService
   ) { }
 
@@ -38,15 +39,16 @@ export class DensidadeComponent implements OnInit {
 
   onMapReady(map: Map): void {
     this.map = map;
+    this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
     this.obterAutorizadas();
     this.obterTecnicos();
-    this.obterLocaisAtendimento();
+    this.obterEquipamentosContrato();
   }
 
   private async obterAutorizadas() {
     const data = await this._autorizadaSvc.obterPorParametros({ 
-      codFilial: 4,
+      codFilial: 2,
       indAtivo: 1
     }).toPromise();
 
@@ -58,13 +60,20 @@ export class DensidadeComponent implements OnInit {
         count: 1
       }
     });
+
+    var icon = new L.Icon({
+      iconUrl: 'assets/icons/destination-32.png',
+      iconSize: [32, 32],
+      iconAnchor: [15, 32],
+      popupAnchor: [1, -32]
+    });
     
-    this.addMarkersOnMap(markers, 'blue');
+    this.addMarkersOnMap(markers, icon);
   }
 
   private async obterTecnicos() {
     const data = await this._tecnicoSvc.obterPorParametros({ 
-      codFilial: 4,
+      codFilial: 2,
       indAtivo: 1
     }).toPromise();
 
@@ -75,36 +84,44 @@ export class DensidadeComponent implements OnInit {
         toolTip: tecnico.nome
       }
     });
+
+    var icon = new L.Icon({
+      iconUrl: 'assets/icons/home-32.png',
+      iconSize: [32, 32],
+      iconAnchor: [15, 32],
+      popupAnchor: [1, -32]
+    });
     
-    this.addMarkersOnMap(markers, 'green');
+    this.addMarkersOnMap(markers, icon);
   }
 
-  private async obterLocaisAtendimento() {
-    const data = await this._localAtendimentoSvc.obterPorParametros({indAtivo: 1, codFilial: 4}).toPromise();
+  private async obterEquipamentosContrato() {
+    const data = await this._equipamentoContratoSvc.obterPorParametros({ 
+      codFilial: 2,
+      indAtivo: 1
+    }).toPromise();
 
-    let markers: any[] = data.items.filter(l => this.isFloat(+l.latitude) && this.isFloat(+l.longitude)).map((local) => {
+    let markers: any[] = data.items.filter(e => this.isFloat(+e.localAtendimento.latitude) && this.isFloat(+e.localAtendimento.longitude)).map((equip) => {
       return {
-        lat: +local.latitude,
-        lng: +local.longitude,
-        toolTip: local.nomeLocal
+        lat: +equip.localAtendimento.latitude,
+        lng: +equip.localAtendimento.longitude,
+        toolTip: equip.numSerie
       }
     });
 
-    this.addLayer(markers);
+    var icon = new L.Icon({
+      iconUrl: 'assets/icons/bank-64.png',
+      iconSize: [32, 32],
+      iconAnchor: [15, 32],
+      popupAnchor: [1, -32]
+    });
+    
+    this.addLayer(markers, icon);
   }
 
-  private addMarkersOnMap(markers: any[], color:string='red'): void {
-    var greenIcon = new L.Icon({
-      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-
+  private addMarkersOnMap(markers: any[], icon: L.Icon): void {
     markers.forEach((m, i) => {
-      let marker = new L.Marker([ +m.lat, +m.lng ], {icon : greenIcon}).bindPopup(m.toolTip);
+      let marker = new L.Marker([ +m.lat, +m.lng ], {icon : icon}).bindPopup(m.toolTip);
       marker.addTo(this.map);
     });
 
@@ -119,8 +136,6 @@ export class DensidadeComponent implements OnInit {
       minOpacity: 0,
       blur: .9,
       gradient: {
-        // enter n keys between 0 and 1 here
-        // for gradient color customization
         '.5': 'blue',
         '.8': 'red',
         '.95': 'white'
@@ -129,31 +144,13 @@ export class DensidadeComponent implements OnInit {
 
     let newAddressPoints = markers.map(function (m) { return [m.lat, m.lng]; });
     const heat = (L as any).heatLayer(newAddressPoints).addTo(this.map);
-
   }
 
-  private addLayer(markers: any[]): void {
-    var icon = new L.Icon({
-      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png`,
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    });
-
-    console.log(markers);
-    
-
+  private addLayer(markers: any[], icon: L.Icon): void {
     markers.forEach((m, i) => {
-      // let marker = new L.Marker([ +m.lat, +m.lng ], {icon : greenIcon}).bindPopup(m.toolTip);
-      // marker.addTo(this.map);
-      
-      let layer = L.marker(L.latLng([m.lat, m.lng])).bindPopup(m.toolTip).setIcon(icon);
+      let layer = L.marker(L.latLng([m.lat, m.lng]), {icon : icon}).bindPopup(m.toolTip);
       this.markerClusterGroup.addLayer(layer).addTo(this.map);
     });
-
-    
   }
 
   private isFloat(n) {

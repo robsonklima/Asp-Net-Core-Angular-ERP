@@ -119,6 +119,11 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
             }
 
+            if (parameters.CodFilial != null)
+            {
+                equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);

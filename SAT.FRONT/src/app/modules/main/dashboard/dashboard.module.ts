@@ -42,10 +42,12 @@ import { PecasFaltantesMaisCriticasComponent } from './pecas-faltantes-mais-crit
 import { MonitoramentoSatComponent } from './monitoramento-sat/monitoramento-sat.component';
 import { DensidadeComponent } from './densidade/densidade.component';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
+    DashboardFiltroComponent,
     MapaComponent,
     MapaDisponibilidadeComponent,
     ChamadosMaisAntigosComponent,

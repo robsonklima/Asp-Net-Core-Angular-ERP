@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AutorizadaService } from 'app/core/services/autorizada.service';
+import { Component, Input, OnInit } from '@angular/core';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
@@ -7,15 +6,29 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.heat/dist/leaflet-heat.js'
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
+import { FilialService } from 'app/core/services/filial.service';
+import { Filial } from 'app/core/types/filial.types';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
+import { Regiao } from 'app/core/types/regiao.types';
+import { Autorizada } from 'app/core/types/autorizada.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { Filtro } from 'app/core/types/filtro.types';
 
 @Component({
   selector: 'app-densidade',
   templateUrl: './densidade.component.html'
 })
 export class DensidadeComponent implements OnInit {
+  @Input() filtro: Filtro;
+  usuarioSessao: UsuarioSessao;
+  filiais: Filial[] = [];
   map: Map;
   markerClusterGroup: L.MarkerClusterGroup;
   markerClusterData = [];
+  codFilial: number = 4;
+  regioes: Regiao[] = [];
+  autorizadas: Autorizada[] = [];
   
   options = {
     layers: [
@@ -28,31 +41,40 @@ export class DensidadeComponent implements OnInit {
   };
 
   constructor(
-    private _autorizadaSvc: AutorizadaService,
     private _equipamentoContratoSvc: EquipamentoContratoService,
-    private _tecnicoSvc: TecnicoService
-  ) { }
+    private _tecnicoSvc: TecnicoService,
+    private _filialSvc: FilialService,
+    private _regiaoAutorizadaSvc: RegiaoAutorizadaService,
+    private _userSvc: UserService
+  ) {
+    this.usuarioSessao = JSON.parse(this._userSvc.userSession);
+  }
 
   async ngOnInit() {
     
   }
 
-  onMapReady(map: Map): void {
-    this.map = map;
-    this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
-    
-    this.obterAutorizadas();
-    this.obterTecnicos();
-    this.obterEquipamentosContrato();
+  ngOnChanges() {
+    if (this.filtro) {
+      this.obterRegioesAutorizadas();
+      this.obterTecnicos();
+      this.obterEquipamentosContrato();
+    }
   }
 
-  private async obterAutorizadas() {
-    const data = await this._autorizadaSvc.obterPorParametros({ 
-      codFilial: 2,
-      indAtivo: 1
+  onMapReady(map: Map): void {
+    this.map = map;
+  }
+
+  private async obterRegioesAutorizadas() {
+    const data = await this._regiaoAutorizadaSvc.obterPorParametros({ 
+      ...{ indAtivo: 1 }, ...this.filtro?.parametros
     }).toPromise();
 
-    let markers: any[] = data.items.filter(a => this.isFloat(+a.latitude) && this.isFloat(+a.longitude)).map((autorizada) => {
+    this.regioes = data.items.map(ra => ra.regiao);
+    this.autorizadas = data.items.map(ra => ra.autorizada);
+
+    let markers: any[] = this.autorizadas.filter(a => this.isFloat(+a.latitude) && this.isFloat(+a.longitude)).map((autorizada) => {
       return {
         lat: +autorizada.latitude,
         lng: +autorizada.longitude,
@@ -73,8 +95,7 @@ export class DensidadeComponent implements OnInit {
 
   private async obterTecnicos() {
     const data = await this._tecnicoSvc.obterPorParametros({ 
-      codFilial: 2,
-      indAtivo: 1
+      ...{ indAtivo: 1 }, ...this.filtro?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
@@ -97,8 +118,7 @@ export class DensidadeComponent implements OnInit {
 
   private async obterEquipamentosContrato() {
     const data = await this._equipamentoContratoSvc.obterPorParametros({ 
-      codFilial: 2,
-      indAtivo: 1
+      ...{ indAtivo: 1 }, ...this.filtro?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(e => this.isFloat(+e.localAtendimento.latitude) && this.isFloat(+e.localAtendimento.longitude)).map((equip) => {
@@ -129,24 +149,9 @@ export class DensidadeComponent implements OnInit {
     this.map.invalidateSize();
   }
 
-  private addHeatMap(markers: any[]): void {
-    var cfg = {
-      radius: 10,
-      maxOpacity: .5,
-      minOpacity: 0,
-      blur: .9,
-      gradient: {
-        '.5': 'blue',
-        '.8': 'red',
-        '.95': 'white'
-      }
-    };
-
-    let newAddressPoints = markers.map(function (m) { return [m.lat, m.lng]; });
-    const heat = (L as any).heatLayer(newAddressPoints).addTo(this.map);
-  }
-
   private addLayer(markers: any[], icon: L.Icon): void {
+    this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
+
     markers.forEach((m, i) => {
       let layer = L.marker(L.latLng([m.lat, m.lng]), {icon : icon}).bindPopup(m.toolTip);
       this.markerClusterGroup.addLayer(layer).addTo(this.map);

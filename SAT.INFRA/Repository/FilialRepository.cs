@@ -55,6 +55,21 @@ namespace SAT.INFRA.Repository
                 filiais = filiais.Where(f => f.CodFilial == parameters.CodFilial);
             }
 
+            if (parameters.CodFiliais != null)
+            {
+                var paramsSplit = parameters.CodFiliais.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                filiais = filiais.Where(condicoes);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 filiais = filiais.Where(f => f.IndAtivo == parameters.IndAtivo);

@@ -1,511 +1,524 @@
-<div class="flex flex-col flex-auto min-w-0">
-  <div class="bg-card">
-    <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-      <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
-        <!-- Header -->
-        <div class="flex flex-auto items-center min-w-0">
-          <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center font-medium">
-              <div>
-                <a class="whitespace-nowrap text-primary-500" routerLink="/default">
-                  Home
-                </a>
+<mat-drawer-container class="flex-auto h-full">
+  <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+      <app-dashboard-filtro [sidenav]="sidenav"></app-dashboard-filtro>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="flex flex-col flex-auto min-w-0">
+      <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+          <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
+            <!-- Header -->
+            <div class="flex flex-auto items-center min-w-0">
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center font-medium">
+                  <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/default">
+                      Home
+                    </a>
+                  </div>
+                  <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">Indicadores</span>
+                  </div>
+                </div>
+    
+                <div class="mt-2">
+                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Dashboard
+                  </h2>
+                </div>
               </div>
-              <div class="flex items-center ml-1 whitespace-nowrap">
-                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                <span class="ml-1 text-secondary">Indicadores</span>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+              <div class="flex items-center">
+                <div class="px-4 py-2 rounded-tl-xl rounded-bl-xl overflow-hidden bg-hover">
+                  <div class="sm:text-lg leading-6 truncate">{{ dashboardSelecionado }}</div>
+                </div>
+                <!-- Buttons -->
+                <div class="ml-px rounded-tr-xl rounded-br-xl bg-hover">
+                  <button [matMenuTriggerFor]="projectsMenu" mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
+                  </button>
+                  <mat-menu #projectsMenu="matMenu">
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+                      <span class="truncate">Performance das Filiais e Resultado Geral</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                      <span class="truncate">Disponibilidade BBTS</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
+                      <span class="truncate">Disponibilidade dos Técnicos</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DASHBOARD_SPA">
+                      <span class="truncate">Dashboard SPA</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTES">
+                      <span class="truncate">Índice de SLA por Cliente</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
+                      <span class="truncate">Reincidência por Filiais</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_CLIENTES">
+                      <span class="truncate">Reincidência por Clientes</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PENDENCIA_FILIAIS">
+                      <span class="truncate">Pendência por Filiais</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PECAS_FALTANTES_FILIAIS">
+                      <span class="truncate">Peças Faltantes por Filiais</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.TOP_PECAS_FALTANTES">
+                      <span class="truncate">Peças Faltantes Mais Críticas</span>
+                    </button>
+                    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.MONITORAMENTO_SAT">
+                      <span class="truncate">Monitoramento SAT</span>
+                    </button>
+    
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DENSIDADE">
+                      <span class="truncate">Dashboard Densidade</span>
+                    </button>
+                  </mat-menu>
+                </div>
               </div>
             </div>
 
-            <div class="mt-2">
-              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                Dashboard
-              </h2>
-            </div>
-          </div>
-        </div>
-        <!-- Actions -->
-        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-          <div class="flex items-center">
-            <div class="px-4 py-2 rounded-tl-xl rounded-bl-xl overflow-hidden bg-hover">
-              <div class="sm:text-lg leading-6 truncate">{{ dashboardSelecionado }}</div>
-            </div>
-            <!-- Buttons -->
-            <div class="ml-px rounded-tr-xl rounded-br-xl bg-hover">
-              <button [matMenuTriggerFor]="projectsMenu" mat-icon-button>
-                <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
+            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+              <button class="fuse-mat-button-rounded" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:adjustments'"></mat-icon>
               </button>
-              <mat-menu #projectsMenu="matMenu">
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
-                  <span class="truncate">Performance das Filiais e Resultado Geral</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
-                  <span class="truncate">Disponibilidade BBTS</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
-                  <span class="truncate">Disponibilidade dos Técnicos</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DASHBOARD_SPA">
-                  <span class="truncate">Dashboard SPA</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTES">
-                  <span class="truncate">Índice de SLA por Cliente</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
-                  <span class="truncate">Reincidência por Filiais</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_CLIENTES">
-                  <span class="truncate">Reincidência por Clientes</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PENDENCIA_FILIAIS">
-                  <span class="truncate">Pendência por Filiais</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PECAS_FALTANTES_FILIAIS">
-                  <span class="truncate">Peças Faltantes por Filiais</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.TOP_PECAS_FALTANTES">
-                  <span class="truncate">Peças Faltantes Mais Críticas</span>
-                </button>
-                
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.MONITORAMENTO_SAT">
-                  <span class="truncate">Monitoramento SAT</span>
-                </button>
-
-                <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DENSIDADE">
-                  <span class="truncate">Dashboard Densidade</span>
-                </button>
-              </mat-menu>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Main -->
-  <div class="flex-auto mt-4 sm:mt-6">
-    <div class="w-full max-w-screen-xl mx-auto">
-      <!-- Tabs -->
-      <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
-        <!-- Tab -->
-        <mat-tab label="Status das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-l lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Status das Filiais
+    
+      <!-- Main -->
+      <div class="flex-auto mt-4 sm:mt-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+          <!-- Tabs -->
+          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+            <!-- Tab -->
+            <mat-tab label="Status das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-l lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Status das Filiais
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-mapa></app-mapa>
+                    </div>
+                  </div>
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Indicadores das Filiais
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-indicadores-filiais></app-indicadores-filiais>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-mapa></app-mapa>
-                </div>
-              </div>
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Indicadores das Filiais
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Resultado Geral do DSS" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Chamados Mais Antigos
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-chamados-mais-antigos></app-chamados-mais-antigos>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-indicadores-filiais></app-indicadores-filiais>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Resultado Geral do DSS" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Chamados Mais Antigos
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Disponibilidade das Regiões
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-disponibilidade-bbts-regioes></app-disponibilidade-bbts-regioes>
+                    </div>
+                  </div>
+                  <!-- Panel -->
+                  <!-- <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Disponibilidade das Filiais
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-disponibilidade-bbts-filiais></app-disponibilidade-bbts-filiais>
+                    </div>
+                  </div> -->
+    
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <p>
+                      * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas negativas.
+                    </p>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-chamados-mais-antigos></app-chamados-mais-antigos>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Disponibilidade das Regiões
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Disponibilidade dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Indicador de Disponibilidade dos Técnicos - Últimos 30 dias
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
+                    </div>
+                  </div>
+    
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Média Global de Atendimentos Técnicos por Dia
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-media-global-atendimento-tecnico></app-media-global-atendimento-tecnico>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-disponibilidade-bbts-regioes></app-disponibilidade-bbts-regioes>
-                </div>
-              </div>
-              <!-- Panel -->
-              <!-- <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Disponibilidade das Filiais
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Dashboard SPA" *ngIf="dashboardSelecionado == dashboardEnum.DASHBOARD_SPA">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                      SPA - Solução no Primeiro Atendimento
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-dashboard-spa></app-dashboard-spa>
+                    </div>
+                  </div>
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <p>
+                      * Meta de SPA deve ser maior ou igual a <b>85%</b>.
+                    </p>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-disponibilidade-bbts-filiais></app-disponibilidade-bbts-filiais>
-                </div>
-              </div> -->
-
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <p>
-                  * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas negativas.
-                </p>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Disponibilidade dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Indicador de Disponibilidade dos Técnicos - Últimos 30 dias
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="SLA por Clientes" *ngIf="dashboardSelecionado == dashboardEnum.SLA_CLIENTES">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Índice de SLA por Cliente
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-sla-clientes></app-sla-clientes>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
-                </div>
-              </div>
-
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Média Global de Atendimentos Técnicos por Dia
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Reincidência das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Reincidência das Filiais
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-reincidencia-filiais></app-reincidencia-filiais>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-media-global-atendimento-tecnico></app-media-global-atendimento-tecnico>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Dashboard SPA" *ngIf="dashboardSelecionado == dashboardEnum.DASHBOARD_SPA">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                  SPA - Solução no Primeiro Atendimento
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Reincidência dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Técnicos Mais Reincidentes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-tecnicos-mais-reincidentes></app-tecnicos-mais-reincidentes>
+                    </div>
+                  </div>
+    
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Técnicos menos Reincidentes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-tecnicos-menos-reincidentes></app-tecnicos-menos-reincidentes>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-dashboard-spa></app-dashboard-spa>
-                </div>
-              </div>
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <p>
-                  * Meta de SPA deve ser maior ou igual a <b>85%</b>.
-                </p>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="SLA por Clientes" *ngIf="dashboardSelecionado == dashboardEnum.SLA_CLIENTES">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Índice de SLA por Cliente
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Reincidência por Clientes" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Reincidência por Clientes - Mês Corrente
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-reincidencia-clientes></app-reincidencia-clientes>
+                    </div>
                   </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-sla-clientes></app-sla-clientes>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Reincidência das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Reincidência das Filiais
-                  </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-reincidencia-filiais></app-reincidencia-filiais>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Reincidência dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Técnicos Mais Reincidentes
-                  </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-tecnicos-mais-reincidentes></app-tecnicos-mais-reincidentes>
-                </div>
-              </div>
-
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Técnicos menos Reincidentes
-                  </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-tecnicos-menos-reincidentes></app-tecnicos-menos-reincidentes>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Reincidência por Clientes" *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Reincidência por Clientes - Mês Corrente
-                  </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-reincidencia-clientes></app-reincidencia-clientes>
-                </div>
-              </div>
-
-               <!-- Panel -->
-               <div
-               class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-               <div class="flex flex-col sm:flex-row items-start justify-between">
-                 <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                   Equipamentos Mais Reincidentes
+    
+                   <!-- Panel -->
+                   <div
+                   class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                   <div class="flex flex-col sm:flex-row items-start justify-between">
+                     <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                       Equipamentos Mais Reincidentes
+                     </div>
+                   </div>
+                   <div class="flex flex-col flex-auto mt-6">
+                     <app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
+                   </div>
                  </div>
-               </div>
-               <div class="flex flex-col flex-auto mt-6">
-                 <app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
-               </div>
-             </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Pendência das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Pendência das Filiais
+                </div>
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Pendência das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Pendência das Filiais
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-pendencia-filiais></app-pendencia-filiais>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-pendencia-filiais></app-pendencia-filiais>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Pendência dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Técnicos Mais Pendentes
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Pendência dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Técnicos Mais Pendentes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-tecnicos-mais-pendentes></app-tecnicos-mais-pendentes>
+                    </div>
+                  </div>
+    
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Técnicos menos Pendentes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-tecnicos-menos-pendentes></app-tecnicos-menos-pendentes>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-tecnicos-mais-pendentes></app-tecnicos-mais-pendentes>
-                </div>
-              </div>
-
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Técnicos menos Pendentes
+              </ng-template>
+            </mat-tab>
+            
+            <!-- Tab -->
+            <mat-tab label="Peças Faltantes Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Peças Faltantes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-pecas-faltantes-filiais></app-pecas-faltantes-filiais>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-tecnicos-menos-pendentes></app-tecnicos-menos-pendentes>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-        
-        <!-- Tab -->
-        <mat-tab label="Peças Faltantes Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Peças Faltantes
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="5 Peças Mais Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        5 Peças Mais Faltantes
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-cinco-pecas-mais-faltantes></app-cinco-pecas-mais-faltantes>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-pecas-faltantes-filiais></app-pecas-faltantes-filiais>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="5 Peças Mais Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    5 Peças Mais Faltantes
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Top Peças Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.TOP_PECAS_FALTANTES">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Peças Faltantes Mais Críticas
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-cinco-pecas-mais-faltantes></app-cinco-pecas-mais-faltantes>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Top Peças Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.TOP_PECAS_FALTANTES">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Peças Faltantes Mais Críticas
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Monitoramento SAT" *ngIf="dashboardSelecionado == dashboardEnum.MONITORAMENTO_SAT">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Monitoramento SAT
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-monitoramento-sat></app-monitoramento-sat>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Monitoramento SAT" *ngIf="dashboardSelecionado == dashboardEnum.MONITORAMENTO_SAT">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Monitoramento SAT
+              </ng-template>
+            </mat-tab>
+    
+            <!-- Tab -->
+            <mat-tab label="Dashboard Densidade" *ngIf="dashboardSelecionado == dashboardEnum.DENSIDADE">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">Mapa de Densidade</div>
+                  </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <div class="w-full">
+                        <app-densidade [filtro]="filtro"></app-densidade>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-monitoramento-sat></app-monitoramento-sat>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <!-- Tab -->
-        <mat-tab label="Dashboard Densidade" *ngIf="dashboardSelecionado == dashboardEnum.DENSIDADE">
-          <ng-template matTabContent>
-            <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-              <!-- Panel -->
-              <div
-                class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row items-start justify-between">
-                  <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                    Dashboard Densidade
-                  </div>
-                </div>
-                <div class="flex flex-col flex-auto mt-6">
-                  <app-densidade></app-densidade>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-        
-      </mat-tab-group>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -39,7 +39,7 @@ export interface AutorizadaData extends Meta {
 
 export interface AutorizadaParameters extends QueryStringParameters {
     codAutorizada?: number;
-    codAutorizadas?: string;
     codFilial?: number;
+    codFiliais?: string;
     indAtivo?: number;
 };

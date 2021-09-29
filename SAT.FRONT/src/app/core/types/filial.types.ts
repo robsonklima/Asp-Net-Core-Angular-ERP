@@ -14,5 +14,6 @@ export interface FilialData extends Meta {
 
 export interface FilialParameters extends QueryStringParameters {
     codFilial?: number;
+    codFiliais?: string;
     indAtivo?: number;
 };

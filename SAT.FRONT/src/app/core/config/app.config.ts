@@ -30,6 +30,6 @@ export const appConfig: AppConfig = {
         'EDvdlS7xGN5U8WqHFiXMWXmXGwNSAhvh', 'XsjlWnkAo5fPMGhJ8l3RTwEpQfPINIGU', 
         'tbYhdvKIFCxkDFjoGATSHmVPL54ItdlC', 'l19CNtzjRZmwVCncGjBycgFV5WSUGYQ1',
     ],
-    tempo_atualizacao_dashboard_minutos: 3,
+    tempo_atualizacao_dashboard_minutos: 5,
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
 };

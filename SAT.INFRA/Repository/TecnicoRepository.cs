@@ -121,6 +121,20 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
+            if (parameters.CodFiliais != null)
+            {
+                var paramsSplit = parameters.CodFiliais.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                tecnicos = tecnicos.Where(condicoes);
+            }
 
             if (parameters.CodStatusServicos != null)
             {

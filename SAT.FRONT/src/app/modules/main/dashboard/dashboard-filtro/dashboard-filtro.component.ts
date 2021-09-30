@@ -1,12 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { Filtro } from 'app/core/types/filtro.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
@@ -27,8 +30,10 @@ export class DashboardFiltroComponent implements OnInit {
   clientes: Cliente[] = [];
   statusServicos: StatusServico[] = [];
   filiais: Filial[] = [];
+  equipamentos: Equipamento[] = [];
   usuarioSessao: UsuarioSessao;
   filtro: Filtro;
+  @ViewChild('selectEquipamentos') private selectEquipamentos: MatOption;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -38,6 +43,7 @@ export class DashboardFiltroComponent implements OnInit {
     private _clienteService: ClienteService,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
+    private _equipamentoService: EquipamentoService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
     this.filtro = this._userService.obterFiltro('dashboard');
@@ -49,6 +55,7 @@ export class DashboardFiltroComponent implements OnInit {
     this.obterStatusServicos();
     this.obterFiliais();
     this.obterTiposIntervencao();
+    this.obterEquipamentos();
   }
 
   private inicializarForm(): void {
@@ -59,6 +66,7 @@ export class DashboardFiltroComponent implements OnInit {
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
+      codEquipamentos: [undefined],
     });
 
     this.form.patchValue(this.filtro?.parametros);
@@ -69,7 +77,6 @@ export class DashboardFiltroComponent implements OnInit {
       indAtivo: 1,
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      pageSize: 50
     };
 
     const data = await this._filialService
@@ -79,11 +86,23 @@ export class DashboardFiltroComponent implements OnInit {
     this.filiais = data.items;
   }
 
+  async obterEquipamentos() {
+    let params: EquipamentoParameters = {
+      sortActive: 'nomeEquip',
+      sortDirection: 'asc',
+    };
+
+    const data = await this._equipamentoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.equipamentos = data.items;
+  }
+
   async obterTiposIntervencao() {
     let params: TipoEquipamentoParameters = {
       sortActive: 'nomTipoIntervencao',
       sortDirection: 'asc',
-      pageSize: 50
     }
 
     const data = await this._tipoIntervencaoService
@@ -98,7 +117,6 @@ export class DashboardFiltroComponent implements OnInit {
       indAtivo: 1,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc',
-      pageSize: 50
     };
 
     const data = await this._statusServicoService
@@ -114,7 +132,6 @@ export class DashboardFiltroComponent implements OnInit {
       indAtivo: 1,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      pageSize: 300
     };
 
     const data = await this._clienteService
@@ -155,5 +172,21 @@ export class DashboardFiltroComponent implements OnInit {
     this._userService.removerFiltro('dashboard');
     this.filtro = this._userService.obterFiltro('dashboard');
     this.sidenav.close();
+  }
+
+  selecionarTodos(tipo: string) {
+    switch (tipo) {
+      case 'equipamentos':
+        if (this.selectEquipamentos.selected) {
+          this.form.controls.codEquipamentos
+          .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
+        } else {
+          this.form.controls.codEquipamentos.patchValue([]);
+        }
+        break;
+    
+      default:
+        break;
+    }
   }
 }

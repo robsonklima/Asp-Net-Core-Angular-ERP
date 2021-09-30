@@ -6,7 +6,6 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.heat/dist/leaflet-heat.js'
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
-import { FilialService } from 'app/core/services/filial.service';
 import { Filial } from 'app/core/types/filial.types';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { Regiao } from 'app/core/types/regiao.types';
@@ -43,7 +42,6 @@ export class DensidadeComponent implements OnInit {
   constructor(
     private _equipamentoContratoSvc: EquipamentoContratoService,
     private _tecnicoSvc: TecnicoService,
-    private _filialSvc: FilialService,
     private _regiaoAutorizadaSvc: RegiaoAutorizadaService,
     private _userSvc: UserService
   ) {

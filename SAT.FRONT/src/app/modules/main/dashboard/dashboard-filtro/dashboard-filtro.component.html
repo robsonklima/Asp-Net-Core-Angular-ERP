@@ -65,6 +65,19 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('modelo') }}</mat-label>
+
+                    <mat-select formControlName="codEquipamentos" multiple="true">
+                        <mat-option #selectEquipamentos (click)="selecionarTodos('equipamentos')" [value]="0">Todos</mat-option>
+
+                        <mat-option *ngFor="let equip of equipamentos"
+                            [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div class="mt-6 border-t"></div>

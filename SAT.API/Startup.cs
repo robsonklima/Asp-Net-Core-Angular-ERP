@@ -99,6 +99,7 @@ namespace SAT.API
             services.AddTransient<IDefeitoService, DefeitoService>();
             services.AddTransient<IDespesaCartaoCombustivelService, DespesaCartaoCombustivelService>();
             services.AddTransient<IEquipamentoContratoService, EquipamentoContratoService>();
+            services.AddTransient<IEquipamentoService, EquipamentoService>();
             services.AddTransient<IFeriadoService, FeriadoService>();
             services.AddTransient<IGrupoCausaService, GrupoCausaService>();
             services.AddTransient<IGrupoEquipamentoService, GrupoEquipamentoService>();

@@ -121,7 +121,7 @@ export class CidadeFormComponent implements OnInit {
 
     if (nomeCidade !== null && uf !== null) {
       const query = `${nomeCidade}, ${uf}`;
-      this._googleGeolocationService.buscarPorEnderecoOuCEP(query.trim()).subscribe((data: GoogleGeolocation) => {
+      this._googleGeolocationService.obterPorParametros({ enderecoCep: query.trim()}).subscribe((data: GoogleGeolocation) => {
         if (data && data.results.length > 0) {
           const res = data.results.shift();
           this.form.controls['latitude'].setValue(res.geometry.location.lat);

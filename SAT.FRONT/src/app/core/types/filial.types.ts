@@ -6,6 +6,8 @@ export interface Filial {
     razaoSocial: string;
     nomeFilial: string;
     cidade: Cidade;
+    endereco: string;
+    cep: string;
 }
 
 export interface FilialData extends Meta {
@@ -16,4 +18,5 @@ export interface FilialParameters extends QueryStringParameters {
     codFilial?: number;
     codFiliais?: string;
     indAtivo?: number;
+    SiglaUF?: string;
 };

@@ -9,7 +9,7 @@ import { Indicador, IndicadorParameters } from '../types/indicador.types';
   providedIn: 'root'
 })
 export class IndicadorService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterPorParametros(parameters: IndicadorParameters): Observable<Indicador[]> {
     let params = new HttpParams();
@@ -21,5 +21,12 @@ export class IndicadorService {
     return this.http.get(`${c.api}/Indicador`, { params: params }).pipe(
       map((data: Indicador[]) => data)
     )
+  }
+
+  obterIndicadoresFiliais(): Observable<Indicador[]> {
+    const url = `${c.api}/Indicador/IndicadoresFiliais`;
+    return this.http.get<Indicador[]>(url).pipe(
+      map((obj) => obj)
+    );
   }
 }

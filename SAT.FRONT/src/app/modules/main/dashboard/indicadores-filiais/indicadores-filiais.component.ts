@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service'
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import moment from 'moment';
 import { forkJoin } from 'rxjs';
+import { SharedService } from 'app/shared.service';
+import { MapaComponent } from '../mapa/mapa.component';
 
 @Component({
   selector: 'app-indicadores-filiais',
@@ -13,21 +15,34 @@ import { forkJoin } from 'rxjs';
   ]
 })
 
-export class IndicadoresFiliaisComponent 
-{
+export class IndicadoresFiliaisComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['status', 'filial', 'sla', 'pendencia', 'reincidencia', 'spa'];
-  element_data: IndicadorFilial[] = [];
-  resultado_geral_dss: IndicadorFilial;
-  loading: boolean = true;
-  filiais: Filial[] = [];
+  private filiais: Filial[] = [];
+
+  public element_data: IndicadorFilial[] = [];
+  public resultado_geral_dss: IndicadorFilial;
+  public loading: boolean = true;
+  public selecionaLinhas: boolean = false;
+  public ufSelecionada: string;
 
   constructor(
+    private _sharedService: SharedService,
     private _filialService: FilialService,
-    private _indicadorService: IndicadorService) { }
+    private _indicadorService: IndicadorService,
+    private _cdr: ChangeDetectorRef) {
+  }
 
-  ngOnInit(): void 
-  {
+  ngAfterViewInit(): void {
+    // Faz o highlight das linhas pelo mapa
+    this._sharedService.getClickEvent(MapaComponent).subscribe((params) => {
+      this.ufSelecionada = params[0].estado;
+      this.selecionaLinhas = params[0].seleciona;
+
+      this._cdr.detectChanges();
+    });
+  }
+
+  ngOnInit(): void {
     this.loading = true;
     this.obterFiliais();
     this.montaDashboard();
@@ -48,7 +63,8 @@ export class IndicadoresFiliaisComponent
             sla: data.sla.filter((pend) => pend.label == filial.nomeFilial).map((valor) => valor.valor).shift() || 0,
             pendencia: data.pendencia.filter((pend) => pend.label == filial.nomeFilial).map((valor) => valor.valor).shift() || 0,
             reincidencia: data.reincidencia.filter((pend) => pend.label == filial.nomeFilial).map((valor) => valor.valor).shift() || 0,
-            spa: data.spa.filter((pend) => pend.label == filial.nomeFilial).map((valor) => valor.valor).shift() || 0
+            spa: data.spa.filter((pend) => pend.label == filial.nomeFilial).map((valor) => valor.valor).shift() || 0,
+            siglaUF: filial.cidade.unidadeFederativa.siglaUF
           })
         });
 
@@ -58,30 +74,28 @@ export class IndicadoresFiliaisComponent
       });
   }
 
-  private calculaResultadoGeralDSS(): void
-  {
-      var nroFiliais: number = this.element_data.length > 0 ? this.element_data.length : 1;
-      var avgSLA: number = 0;
-      var avgSPA: number = 0;
-      var avgReincidencia: number = 0;
-      var avgPendencia: number = 0;
+  private calculaResultadoGeralDSS(): void {
+    var nroFiliais: number = this.element_data.length > 0 ? this.element_data.length : 1;
+    var avgSLA: number = 0;
+    var avgSPA: number = 0;
+    var avgReincidencia: number = 0;
+    var avgPendencia: number = 0;
 
-      this.element_data.forEach(d =>
-      {
-        avgSLA += d.sla;
-        avgSPA += d.spa;
-        avgReincidencia += d.reincidencia;
-        avgPendencia += d.pendencia;
-      });
-      
-      this.resultado_geral_dss =
-      {
-        filial: "dss",
-        sla: Math.round(avgSLA / nroFiliais),
-        pendencia: Math.round(avgPendencia / nroFiliais),
-        reincidencia: Math.round(avgReincidencia / nroFiliais),
-        spa: Math.round(avgSPA / nroFiliais)
-      }
+    this.element_data.forEach(d => {
+      avgSLA += d.sla;
+      avgSPA += d.spa;
+      avgReincidencia += d.reincidencia;
+      avgPendencia += d.pendencia;
+    });
+
+    this.resultado_geral_dss =
+    {
+      filial: "dss",
+      sla: Math.round(avgSLA / nroFiliais),
+      pendencia: Math.round(avgPendencia / nroFiliais),
+      reincidencia: Math.round(avgReincidencia / nroFiliais),
+      spa: Math.round(avgSPA / nroFiliais)
+    }
   }
 
   private obterFiliais(): void {
@@ -108,6 +122,7 @@ export class IndicadoresFiliaisComponent
 
 export interface IndicadorFilial {
   filial: string;
+  siglaUF?: string;
   sla: number;
   pendencia: number;
   reincidencia: number;

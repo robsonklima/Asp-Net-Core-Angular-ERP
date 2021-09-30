@@ -7,5 +7,6 @@ namespace SAT.MODELS.Entities
         public int? CodFilial { get; set; }
         public string CodFiliais { get; set; }
         public int? IndAtivo { get; set; }
+        public string SiglaUF { get; set; }
     }
 }

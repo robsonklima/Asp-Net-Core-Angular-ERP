@@ -272,7 +272,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterLatLngPorEndereco(end: string) {
-    this._googleGeolocationService.buscarPorEnderecoOuCEP(end.trim()).subscribe((data: GoogleGeolocation ) => {
+    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim()}).subscribe((data: GoogleGeolocation ) => {
       if (data && data.results.length > 0) {
         const res = data.results.shift();
 

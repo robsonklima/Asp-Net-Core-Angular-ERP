@@ -1,4 +1,5 @@
-<table class="w-full table-auto" *ngIf="!loading">
+<table class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
+    *ngIf="!loading">
     <thead class="pointer-events-none">
         <tr>
             <th>Status</th>
@@ -10,13 +11,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of element_data">
+        <tr *ngFor="let data of element_data" class="leading-none text-xs"
+            [class.bg-blue-300]="selecionaLinhas &&  ufSelecionada == data.siglaUF">
             <td class="text-center">
-                <div class="w-4 h-4 rounded-full m-auto"
-                    matTooltipPosition="above"
+                <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
                     [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
-                    [class.bg-green-500]="data.sla >= 95"
-                    [class.bg-yellow-500]="data.sla >= 92"
+                    [class.bg-green-500]="data.sla >= 95" [class.bg-yellow-500]="data.sla >= 92"
                     [class.bg-red-400]="data.sla >= 0">
                 </div>
             </td>

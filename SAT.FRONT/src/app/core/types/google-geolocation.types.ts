@@ -1,3 +1,5 @@
+import { Meta, QueryStringParameters } from "./generic.types";
+
 export interface AddressComponent {
     long_name: string;
     short_name: string;
@@ -59,3 +61,6 @@ export interface GoogleGeolocation {
     status: string;
 }
 
+export interface GoogleGeolocationParameters extends QueryStringParameters {
+    enderecoCep: string;
+};

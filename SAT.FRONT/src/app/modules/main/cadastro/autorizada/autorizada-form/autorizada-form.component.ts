@@ -188,7 +188,7 @@ export class AutorizadaFormComponent implements OnInit {
   }
 
   private async obterLatLngPorCep(cep: string = '') {
-    const data = await this._googleGeolocationService.buscarPorEnderecoOuCEP(cep).toPromise();
+    const data = await this._googleGeolocationService.obterPorParametros({ enderecoCep: cep}).toPromise();
 
     if (data.results.length) {
       const resultado = data.results.shift();

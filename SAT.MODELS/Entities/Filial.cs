@@ -11,6 +11,8 @@ namespace SAT.MODELS.Entities
         public string NomeFilial { get; set; }
         [ForeignKey("CodCidade")]
         public Cidade Cidade { get; set; }
+        public string Endereco { get; set; }
+        public string Cep { get; set; }
         public byte? IndAtivo { get; set; }
     }
 }

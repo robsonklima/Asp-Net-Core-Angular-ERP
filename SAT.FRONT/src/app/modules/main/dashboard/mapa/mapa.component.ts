@@ -1,8 +1,16 @@
-import { AfterViewInit, Component  } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service';
+import { Filial, FilialData } from 'app/core/types/filial.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
-import { FilialEnum } from 'app/shared/enums/FilialEnum';
 import moment from 'moment';
+import { SharedService } from 'app/shared.service';
+import * as L from "leaflet";
+import 'leaflet.markercluster';
+import { latLng, tileLayer, Map } from 'leaflet';
+import { HttpClient } from '@angular/common/http';
+import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { NominatimService } from 'app/core/services/nominatim.service';
 
 @Component({
   selector: 'app-mapa',
@@ -11,117 +19,150 @@ import moment from 'moment';
   ]
 })
 
-export class MapaComponent implements AfterViewInit 
-{
-  private paths: SVGPathElement[] = [];
-  private ellipses: SVGEllipseElement[] = [];
-  private codFiliais: string[] = [];
-  
-  constructor(private _indicadorService: IndicadorService) { }
-  ngAfterViewInit(): void
-  {
-    this.getPaths();
-    this.getFiliais();
-    this.initializeMap();
+export class MapaComponent implements AfterViewInit {
+
+  private map: Map;
+  private indicadores: Indicador[] = [];
+  private filiais: Filial[] = [];
+
+  public markerClusterGroup: L.MarkerClusterGroup;
+  public markerClusterData = [];
+
+  public options = {
+    layers: [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+      })
+    ],
+    zoom: 4,
+    center: latLng([-15.7801, -47.9292])
+  };
+
+  constructor(
+    private _sharedService: SharedService,
+    private _filialService: FilialService,
+    private _indicadorService: IndicadorService,
+    private _googleGeolocationService: GoogleGeolocationService,
+    private _nominatimService: NominatimService,
+    private _http: HttpClient) { }
+
+  ngAfterViewInit(): void {
+    this._sharedService.clearListEvents();
+    this.obterFiliais();
   }
 
-  public addElements(p: SVGPathElement): void
-  {
-      var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      var b = p.getBBox();
-      t.setAttribute("transform", "translate(" + (b.x + b.width/1.6) + " " + (b.y + b.height/1.7) + ")");
-      t.textContent = p.id.toUpperCase();
-      t.setAttribute("fill", "black");
-      t.setAttribute("pointer-events", "none");
-      t.setAttribute("text-anchor", "middle");
-      t.setAttribute("font-weight", "bold");
-      t.setAttribute("font-size", "12");
-      p.parentNode.insertBefore(t, p.nextSibling);
+  onMapReady(map: Map): void {
+    this.map = map;
+    this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
-      if (!p.id.startsWith("f")) return;
+    this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
+      L.geoJSON(json, {
+        style: {
+          weight: 1,
+          color: '#254441',
+          fillColor: '#43AA8B'
+        },
+        onEachFeature: (feature, layer) => {
+          this.colorlayer(feature, layer, this._sharedService);
+        }
 
-      var c = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-      c.cx.baseVal.value = 8;
-      c.cy.baseVal.value = 8;
-      c.rx.baseVal.value = 8;
-      c.ry.baseVal.value = 8;
-      c.style.fill = "white";
-      c.setAttribute("cursor", "pointer");
-      c.setAttribute("transform", "translate(" + (b.x + b.width/2) + " " + (b.y + b.height/2) + ")");
-      c.setAttribute("id", p.id);
-      c.onclick = this.selectedEllipse;
-      c.onmouseover = this.highlightEllipse;
-      c.onmouseleave = this.unhighlightEllipse;
-      p.parentNode.insertBefore(c, t);
+      }).addTo(map);
+    });
   }
 
-  public initializeMap(): void
-  {
-    for (var p in this.paths)
-      this.addElements(this.paths[p]);
-
-    this.getEllipses();
-    this.getData();
+  private colorlayer(feature, layer, _sharedService: SharedService): void {
+    layer.on('mouseover', function () {
+      layer.setStyle({
+        color: "blue",
+        fillColor: 'blue',
+        weight: 1
+      });
+      _sharedService.sendClickEvent(MapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
+    });
+    layer.on('mouseout', function () {
+      layer.setStyle({
+        weight: 1,
+        color: '#254441',
+        fillColor: '#43AA8B'
+      });
+      _sharedService.sendClickEvent(MapaComponent, [{ estado: null, seleciona: false }]);
+    });
   }
 
-  public async getData(): Promise<void>
-  {
-    var params: IndicadorParameters = 
+  private async obterFiliais() {
+
+    // Indicadores
+    var params: IndicadorParameters =
     {
       agrupador: IndicadorAgrupadorEnum.FILIAL,
       tipo: IndicadorTipoEnum.SLA,
-      codFiliais: this.codFiliais.join(','),
+      codFiliais: this.filiais.map((f) => f.codFilial).join(','),
       dataInicio: moment().startOf('month').toISOString(),
       dataFim: moment().endOf('month').toISOString()
     };
 
-    var data = await this._indicadorService.obterPorParametros(params).toPromise();
-    this.updateData(data);
-  }
+    var indicadores = await this._indicadorService.obterPorParametros(params).toPromise();
 
-  private getPaths(): void
-  {
-    this.paths = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("path"));
-  }
+    let markers: any[] = [];
 
-  private getFiliais(): void
-  {
-    Object.keys(FilialEnum).filter((e) => isNaN(Number(e))).forEach((i) => this.codFiliais.push(this.parseFilialCod(i)));
-  }
+    this._filialService.obterPorParametros({}).subscribe((data: FilialData) => {
 
-  private getEllipses(): void
-  {
-    this.ellipses = Array.from(document.querySelector("#landmarks-brazil").querySelectorAll("ellipse"));
-  }
+      this.filiais.push(...data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33)); // Remover EXP,OUT,IND
 
-  private updateData(data: Indicador[]): void
-  {
-    data.forEach(d => this.paintEllipse(d));
-  }
+      this.filiais.forEach(async (filial) => {
 
-  private paintEllipse(filial: Indicador)
-  {
-    var c = this.ellipses.find(c => c.id.toLocaleUpperCase() == filial.label.toUpperCase());
-    c.style.fill = filial.valor >= 95 ? 'green' : filial.valor >= 90 ? 'yellow' : 'red';
-  }
+        // Google
+        // Tenta pelo cep (nem sempre os endereços são corretos)
+        let mapService = (await this._googleGeolocationService.obterPorParametros
+          ({ enderecoCep: filial.cep }).toPromise()).results.shift();
 
-  private parseFilialCod(sigla: string): string
-  {
-    return FilialEnum[sigla].toString();
-  }
+        // Se não encontra pelo cep, tenta pelo endereço
+        if (!mapService) {
+          mapService = (await this._googleGeolocationService.obterPorParametros
+            ({ enderecoCep: filial.endereco }).toPromise()).results.shift();
+        }
 
-  private selectedEllipse(this, ev: MouseEvent)
-  {
-    alert("oi, eu sou a filial " + (this as SVGEllipseElement).id + ", cod " + FilialEnum[(this as SVGEllipseElement).id.toUpperCase()]);
-  }
+        // Nominatim
+        // // Tenta pelo cep (nem sempre os endereços são corretos)
+        // let mapService = (await this._nominatimService.buscarEndereco(filial.cep).toPromise()).results.shift();
+        // // Se não encontra pelo cep, tenta pelo endereço
+        // if (!mapService) {
+        //   mapService = (await this._nominatimService.buscarEndereco(filial.endereco).toPromise()).results.shift();
+        // }
 
-  private highlightEllipse(this, ev: MouseEvent)
-  {
-    // todo
-  }
+        if (mapService) {
 
-  private unhighlightEllipse(this, ev: MouseEvent)
-  {
-    // todo
+          let mark = {
+            lat: +mapService.geometry.location.lat,
+            lng: +mapService.geometry.location.lng,
+            toolTip: filial.nomeFilial,
+            count: 1
+          };
+
+          let valorIndicador = indicadores?.find(f => f.label == filial.nomeFilial)?.valor || 0;
+
+          var icon = new L.Icon({
+            iconUrl:
+              valorIndicador >= 95 ?
+                'assets/icons/marker-green-32.svg' :
+                valorIndicador >= 92 ?
+                  'assets/icons/marker-yellow-32.svg' :
+                  'assets/icons/marker-red-32.svg'
+            ,
+            iconSize: [32, 32],
+            iconAnchor: [15, 32],
+            popupAnchor: [1, -32]
+          });
+
+          let marker = new L.Marker([+mapService.geometry.location.lat, +mapService.geometry.location.lng],
+            { icon: icon }).bindPopup(filial.nomeFilial);
+
+          marker.addTo(this.map);
+          markers.push(mark);
+          this.map.fitBounds(markers);
+          this.map.invalidateSize();
+        }
+      });
+    });
   }
 }

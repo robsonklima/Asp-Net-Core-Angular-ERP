@@ -53,5 +53,10 @@ namespace SAT.SERVICES.Services
                     throw new NotImplementedException("Não Implementado");
             }
         }
+
+        public List<Indicador> ObterIndicadoresFiliais()
+        {
+            return null;
+        }
     }
 }

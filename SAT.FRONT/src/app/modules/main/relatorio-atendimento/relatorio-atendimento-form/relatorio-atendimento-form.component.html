@@ -85,7 +85,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="this.ordemServico?.indNumRATObrigatorio">
                         <mat-label>{{ t('numero do RAT') }}</mat-label>
-                        <input matInput formControlName="numRAT" mask="0000000000" [showMaskTyped]="false" required>
+                        <input matInput formControlName="numRAT" mask="0000000000" [showMaskTyped]="false">
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>

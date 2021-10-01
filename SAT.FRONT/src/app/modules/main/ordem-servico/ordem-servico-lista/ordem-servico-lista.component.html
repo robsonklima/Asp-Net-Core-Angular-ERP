@@ -99,21 +99,7 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                <span class="flex items-center">
-                                                    <span class="w-2 h-2 rounded-full"
-                                                        [matTooltip]="os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS"
-                                                        matTooltipPosition="above"
-                                                        [ngClass]="{'bg-red-500': (os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS) == 'FORA',
-                                                                    'bg-green-500': (os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS) == 'DENTRO',
-                                                                    'bg-gray-400': !(os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS)}"></span>
-                                                    <span class="ml-3 leading-4">
-                                                        {{
-                                                        ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento ||
-                                                        os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM
-                                                        HH:mm') || '--'
-                                                        }}
-                                                    </span>
-                                                </span>
+                                                {{ (os.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
                                             </div>
 
                                             <div class="hidden md:block">

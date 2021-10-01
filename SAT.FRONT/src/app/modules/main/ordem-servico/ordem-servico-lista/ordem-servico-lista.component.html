@@ -16,8 +16,14 @@
                         {{ t('chamados') }}
                     </div>
                 </div>
-                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
-                    <button mat-icon-button [routerLink]="['/ordem-servico/form']">
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                   
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                    </mat-form-field>
+
+                    <button class="ml-4" mat-icon-button [routerLink]="['/ordem-servico/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 

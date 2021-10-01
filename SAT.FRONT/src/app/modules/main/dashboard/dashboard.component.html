@@ -32,13 +32,13 @@
             </div>
             <!-- Actions -->
             <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-              <div [matMenuTriggerFor]="projectsMenu" class="flex items-center cursor-pointer bg-hover">
+              <div [matMenuTriggerFor]="projectsMenu" class="flex items-center cursor-pointer bg-hover rounded-2xl">
                 <div class="px-4 py-2 rounded-tl-xl rounded-bl-xl overflow-hidden">
                   <div class="sm:text-lg leading-6 truncate">{{ dashboardSelecionado }}</div>
                 </div>
                 <!-- Buttons -->
                 <div class="ml-px rounded-tr-xl rounded-br-xl">
-                  <button [matMenuTriggerFor]="projectsMenu" mat-icon-button>
+                  <button mat-icon-button>
                     <mat-icon [svgIcon]="'arrow_drop_down'"></mat-icon>
                   </button>
                   <mat-menu #projectsMenu="matMenu">

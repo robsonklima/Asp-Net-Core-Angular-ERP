@@ -1,128 +1,115 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscEventcalendarView, MbscCalendarEvent, Notifications } from '@mobiscroll/angular';
+import { setOptions, MbscEventcalendarView, MbscCalendarEvent } from '@mobiscroll/angular';
 import { HttpClient } from '@angular/common/http';
 
 setOptions({
     //locale: localePtBR,
-    theme: 'ios',
+    theme: 'windows',
     themeVariant: 'light',
     clickToCreate: true,
     dragToCreate: true,
     dragToMove: true,
-    dragToResize: true
+    dragToResize: true,
+    calendarWidth: 600
+    //height: 500
 });
 
 @Component({
     selector: 'app-agenda-tecnico',
     templateUrl: './agenda-tecnico.component.html',
-    providers: [Notifications]
+    styleUrls: ['./agenda-tecnico.component.scss'],
 })
 export class AgendaTecnicoComponent implements OnInit {
 
-    constructor(private http: HttpClient, private notify: Notifications) {}
+    constructor(
+        private http: HttpClient
+    ) {}
 
-    myEvents: MbscCalendarEvent[] = [];
-    view = 'week';
-    calView: MbscEventcalendarView = {
+    view: MbscEventcalendarView = {
         timeline: {
             type: 'week',
-            timeCellStep: 720,
-            timeLabelStep: 1440
+            startDay: 1,
+            endDay: 5
         }
     };
 
-    myResources = [{
-        id: 1,
-        name: 'Ryan',
-        color: '#ff0101',
-        title: 'Cloud System Engineer',
-        img: 'https://img.mobiscroll.com/demos/m1.png'
-    }, {
-        id: 2,
-        name: 'Kate',
-        color: '#239a21',
-        title: 'Help Desk Specialist',
-        img: 'https://img.mobiscroll.com/demos/f1.png'
-    }, {
-        id: 3,
-        name: 'John',
-        color: '#8f1ed6',
-        title: 'Application Developer',
-        img: 'https://img.mobiscroll.com/demos/m2.png'
-    }, {
-        id: 4,
-        name: 'Mark',
-        color: '#01adff',
-        title: 'Network Administrator',
-        img: 'https://img.mobiscroll.com/demos/m3.png'
-    }, {
-        id: 5,
-        name: 'Sharon',
-        color: '#d8ca1a',
-        title: 'Data Quality Manager',
-        img: 'https://img.mobiscroll.com/demos/f2.png'
-    }];
+    myEvents: MbscCalendarEvent[] = [];
 
-    myInvalids = [{
-        start: '00:00',
-        end: '06:00',
-        recurring: {
-            repeat: 'weekly',
-            weekDays: 'MO,TU,WE,TH,FR'
+    myResources = [
+        {
+            id: 1,
+            name: 'Nome do Técnico',
+            color: '#fdf500'
+        }, {
+            id: 2,
+            name: 'Nome do Técnico',
+            color: '#ff0101'
+        }, {
+            id: 3,
+            name: 'Nome do Técnico',
+            color: '#01adff'
+        }, {
+            id: 4,
+            name: 'Nome do Técnico',
+            color: '#239a21'
+        }, {
+            id: 5,
+            name: 'Nome do Técnico',
+            color: '#ff4600'
+        }, {
+            id: 6,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 7,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 8,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 9,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 10,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 11,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 12,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 13,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 14,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 15,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 16,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
+        }, {
+            id: 17,
+            name: 'Nome do Técnico',
+            color: '#8f1ed6'
         }
-    }, {
-        start: '20:00',
-        end: '23:59',
-        recurring: {
-            repeat: 'weekly',
-            weekDays: 'MO,TU,WE,TH,FR'
-        }
-    }, {
-        recurring: {
-            repeat: 'weekly',
-            weekDays: 'SA,SU'
-        }
-    }];
+    ];
 
     ngOnInit(): void {
-        this.http.jsonp < MbscCalendarEvent[] > ('https://trial.mobiscroll.com/timeline-events/', 'callback').subscribe((resp) => {
+        this.http.jsonp < MbscCalendarEvent[] > ('https://trial.mobiscroll.com/daily-weekly-events/', 'callback').subscribe((resp) => {
             this.myEvents = resp;
-        });
-    }
-
-    changeView(): void {
-        setTimeout(() => {
-            switch (this.view) {
-                case 'day':
-                    this.calView = {
-                        timeline: { type: 'day' }
-                    };
-                    break;
-                case 'workweek':
-                    this.calView = {
-                        timeline: {
-                            type: 'week',
-                            startDay: 1,
-                            endDay: 5
-                        }
-                    };
-                    break;
-                case 'week':
-                    this.calView = {
-                        timeline: {
-                            type: 'week',
-                            timeCellStep: 720,
-                            timeLabelStep: 1440
-                        }
-                    };
-                    break;
-            }
-        });
-    }
-
-    eventUpdateFail(): void {
-        this.notify.toast({
-            message: 'Can\'t schedule outside of working hours'
         });
     }
 }

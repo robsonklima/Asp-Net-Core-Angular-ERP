@@ -51,11 +51,11 @@ export class AgendaTecnicoComponent implements OnInit {
     }
 
     private async obterTecnicos() {
-        const data = this._tecnicoSvc.obterPorParametros({indAtivo:1, pageSize: 10}).toPromise();
+        const data = this._tecnicoSvc.obterPorParametros({indAtivo: 1, codFilial: 4, codPerfil: 35, sortActive: 'nome', sortDirection: 'asc'}).toPromise();
         this.resources = (await data).items.map(tecnico => {
             return {
                 id: tecnico.codTecnico,
-                name: tecnico.nome,
+                name: `${tecnico.nome}`,
             }
         });
     }
@@ -67,6 +67,5 @@ export class AgendaTecnicoComponent implements OnInit {
         });
 
         console.log(event);
-        
     }
 }

@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
-import { Indicador, IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import moment from 'moment';
 import { SharedService } from 'app/shared.service';
 import * as L from "leaflet";
@@ -22,7 +22,6 @@ import { NominatimService } from 'app/core/services/nominatim.service';
 export class MapaComponent implements AfterViewInit {
 
   private map: Map;
-  private indicadores: Indicador[] = [];
   private filiais: Filial[] = [];
 
   public markerClusterGroup: L.MarkerClusterGroup;

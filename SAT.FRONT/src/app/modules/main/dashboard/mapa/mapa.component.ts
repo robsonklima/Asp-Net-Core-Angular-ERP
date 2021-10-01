@@ -47,7 +47,7 @@ export class MapaComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this._sharedService.clearListEvents();
-    this.obterFiliais();
+   // this.obterFiliais();
   }
 
   onMapReady(map: Map): void {

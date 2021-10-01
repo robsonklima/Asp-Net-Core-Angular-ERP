@@ -1,1 +1,25 @@
-<p>sdf</p>
+<div class="md-switching-timeline-view-cont">
+    <mbsc-eventcalendar [data]="myEvents" [view]="calView" [resources]="myResources" [invalid]="myInvalids" [height]="450"
+        [headerTemplate]="myHeaderTemplate" [resourceTemplate]="myResourceTemplate">
+        <ng-template #myHeaderTemplate>
+            <mbsc-calendar-nav class="md-work-week-nav"></mbsc-calendar-nav>
+            <div class="md-work-week-picker">
+                <mbsc-segmented-group [(ngModel)]="view" (change)="changeView()">
+                    <mbsc-segmented value="day">Day</mbsc-segmented>
+                    <mbsc-segmented value="workweek">Work week</mbsc-segmented>
+                    <mbsc-segmented value="week">Week</mbsc-segmented>
+                </mbsc-segmented-group>
+            </div>
+            <mbsc-calendar-prev class="md-work-week-prev"></mbsc-calendar-prev>
+            <mbsc-calendar-today class="md-work-week-today"></mbsc-calendar-today>
+            <mbsc-calendar-next class="md-work-week-next"></mbsc-calendar-next>
+        </ng-template>
+    </mbsc-eventcalendar>
+    <ng-template #myResourceTemplate let-resource>
+        <div class="md-work-week-cont">
+            <div class="md-work-week-name" [innerHTML]="resource.name"></div>
+            <div class="md-work-week-title" [innerHTML]="resource.title"></div>
+            <img class="md-work-week-avatar" [src]="resource.img" />
+        </div>
+    </ng-template>
+</div>

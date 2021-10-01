@@ -33,14 +33,17 @@ namespace SAT.API
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
-            {
-                options.AddPolicy("CorsApi",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithExposedHeaders("X-Pagination"));
-            });
+           {
+               options.AddPolicy(name: "CorsApi",
+                builder =>
+                    {
+                        builder.WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    }
+                );
+           });
+
             services.AddMvc();
             services.AddSession();
 
@@ -198,7 +201,7 @@ namespace SAT.API
             {
                 endpoints.MapControllers();
             });
-            
+
         }
     }
 }

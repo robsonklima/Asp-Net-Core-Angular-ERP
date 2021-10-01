@@ -141,7 +141,7 @@
             </mat-tab>
     
             <!-- Tab -->
-            <mat-tab label="Resultado Geral do DSS" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+            <mat-tab label="Chamados mais antigos" *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -149,10 +149,10 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Chamados Mais Antigos
+                        5 Chamados mais antigos em aberto
                       </div>
                     </div>
-                    <div class="flex flex-col flex-auto mt-6">
+                    <div class="flex flex-col flex-auto">
                       <app-chamados-mais-antigos></app-chamados-mais-antigos>
                     </div>
                   </div>

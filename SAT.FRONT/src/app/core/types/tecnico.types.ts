@@ -82,6 +82,7 @@ export interface TecnicoParameters extends QueryStringParameters {
     codAutorizada?: number;
     codPerfil?: number;
     codigosStatusServico?: string;
+    codAutorizadas?: string;
 };
 
 

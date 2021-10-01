@@ -1,10 +1,10 @@
 import { FileService } from './../../../../core/services/file.service';
 import {
-    AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
+    AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { fromEvent, interval, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { interval, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';

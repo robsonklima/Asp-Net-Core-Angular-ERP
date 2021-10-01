@@ -91,6 +91,14 @@ namespace SAT.INFRA.Repository
                 autorizadas = autorizadas.Where(a => a.CodAutorizada == parameters.CodAutorizada);
             }
 
+            if (parameters.CodAutorizadas != null)
+            {
+                autorizadas = autorizadas.Where(
+                    a =>
+                    parameters.CodAutorizadas.Contains(a.CodAutorizada.ToString())
+                );
+            }
+
             if (parameters.CodFilial != null)
             {
                 autorizadas = autorizadas.Where(a => a.CodFilial == parameters.CodFilial);

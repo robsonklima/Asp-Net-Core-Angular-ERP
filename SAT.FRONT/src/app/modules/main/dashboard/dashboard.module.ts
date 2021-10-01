@@ -7,54 +7,80 @@ import { RouterModule } from '@angular/router';
 import { dashboardRoutes } from './dashboard.routing';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GraficoOrdemServicoClienteComponent } from './grafico-ordem-servico-cliente/grafico-ordem-servico-cliente.component';
-import { GraficoOrdemServicoFilialComponent } from './grafico-ordem-servico-filial/grafico-ordem-servico-filial.component';
-import { GraficoSLAFilialComponent } from './grafico-sla-filial/grafico-sla-filial.component';
-import { GraficoSLAClienteComponent } from './grafico-sla-cliente/grafico-sla-cliente.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { GraficoOrdemServicoDataComponent } from './grafico-ordem-servico-data/grafico-ordem-servico-data.component';
-import { GraficoPendenciaClienteComponent } from './grafico-pendencia-cliente/grafico-pendencia-cliente.component';
-import { GraficoPendenciaFilialComponent } from './grafico-pendencia-filial/grafico-pendencia-filial.component';
-import { GraficoReincidenciaClienteComponent } from './grafico-reincidencia-cliente/grafico-reincidencia-cliente.component';
-import { GraficoReincidenciaFilialComponent } from './grafico-reincidencia-filial/grafico-reincidencia-filial.component';
-import { GraficoSPAClienteComponent } from './grafico-spa-cliente/grafico-spa-cliente.component';
-import { GraficoSPAFilialComponent } from './grafico-spa-filial/grafico-spa-filial.component';
-import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
+import { MapaComponent } from './mapa/mapa.component';
+import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
+import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
+import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/disponibilidade-tecnicos.component';
+import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
+import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
+import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
+import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
+import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
+import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
+import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
+import { TecnicosMaisReincidentesComponent } from './tecnicos-mais-reincidentes/tecnicos-mais-reincidentes.component';
+import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
+import { PendenciaFiliaisComponent } from './pendencia-filiais/pendencia-filiais.component';
+import { TecnicosMenosPendentesComponent } from './tecnicos-menos-pendentes/tecnicos-menos-pendentes.component';
+import { TecnicosMaisPendentesComponent } from './tecnicos-mais-pendentes/tecnicos-mais-pendentes.component';
+import { EquipamentosMaisReincidentesComponent } from './equipamentos-mais-reincidentes/equipamentos-mais-reincidentes.component';
+import { ReincidenciaClientesComponent } from './reincidencia-clientes/reincidencia-clientes.component';
+import { PecasFaltantesFiliaisComponent } from './pecas-faltantes-filiais/pecas-faltantes-filiais.component';
+import { CincoPecasMaisFaltantesComponent } from './cinco-pecas-mais-faltantes/cinco-pecas-mais-faltantes.component';
+import { PecasFaltantesMaisCriticasComponent } from './pecas-faltantes-mais-criticas/pecas-faltantes-mais-criticas.component';
+import { MonitoramentoSatComponent } from './monitoramento-sat/monitoramento-sat.component';
+import { DensidadeComponent } from './densidade/densidade.component';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    GraficoOrdemServicoClienteComponent,
-    GraficoOrdemServicoFilialComponent,
-    GraficoOrdemServicoDataComponent,
-    GraficoPendenciaClienteComponent,
-    GraficoSPAClienteComponent,
-    GraficoSPAFilialComponent,
-    GraficoPendenciaFilialComponent,
-    GraficoReincidenciaClienteComponent,
-    GraficoReincidenciaFilialComponent,
-    GraficoSLAComponent,
-    GraficoSLAClienteComponent,
-    GraficoSLAFilialComponent,
-    DashboardFiltroComponent
+    DashboardFiltroComponent,
+    MapaComponent,
+    MapaDisponibilidadeComponent,
+    ChamadosMaisAntigosComponent,
+    IndicadoresFiliaisComponent,
+    DisponibilidadeTecnicosComponent,
+    MediaGlobalAtendimentoTecnicoComponent,
+    DisponibilidadeBbtsRegioesComponent,
+    DisponibilidadeBbtsFiliaisComponent,
+    DashboardSpaComponent,
+    SlaClientesComponent,
+    ReincidenciaFiliaisComponent,
+    TecnicosMaisReincidentesComponent,
+    TecnicosMenosReincidentesComponent,
+    PendenciaFiliaisComponent,
+    TecnicosMenosPendentesComponent,
+    TecnicosMaisPendentesComponent,
+    EquipamentosMaisReincidentesComponent,
+    ReincidenciaClientesComponent,
+    PecasFaltantesFiliaisComponent,
+    CincoPecasMaisFaltantesComponent,
+    PecasFaltantesMaisCriticasComponent,
+    MonitoramentoSatComponent,
+    DensidadeComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
+    LeafletModule,
     MatButtonModule,
     MatIconModule,
     SharedModule,
     TranslocoModule,
+    LeafletMarkerClusterModule,
     MatButtonToggleModule,
     MatMenuModule,
     MatTabsModule,
@@ -64,7 +90,7 @@ import { GraficoSLAComponent } from './grafico-sla/grafico-sla.component';
     MatTooltipModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    MatSelectModule
-  ]
+    MatSelectModule,
+  ],
 })
 export class DashboardModule { }

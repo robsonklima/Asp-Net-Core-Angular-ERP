@@ -16,7 +16,6 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
-import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-usuario-form',

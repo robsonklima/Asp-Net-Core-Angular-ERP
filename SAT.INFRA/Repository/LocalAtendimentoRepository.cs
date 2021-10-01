@@ -135,6 +135,11 @@ namespace SAT.INFRA.Repository
                 locais = locais.Where(l => l.CodRegiao == parameters.CodRegiao);
             }
 
+            if (parameters.CodFilial != null)
+            {
+                locais = locais.Where(l => l.CodFilial == parameters.CodFilial);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 locais = locais.Where(l => l.IndAtivo == parameters.IndAtivo);

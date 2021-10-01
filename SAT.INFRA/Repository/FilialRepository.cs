@@ -4,6 +4,7 @@ using SAT.MODELS.Entities;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -39,6 +40,8 @@ namespace SAT.INFRA.Repository
         public PagedList<Filial> ObterPorParametros(FilialParameters parameters)
         {
             var filiais = _context.Filial
+                .Include(i => i.Cidade)
+                .Include(i => i.Cidade.UnidadeFederativa)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -55,9 +58,32 @@ namespace SAT.INFRA.Repository
                 filiais = filiais.Where(f => f.CodFilial == parameters.CodFilial);
             }
 
+            if (parameters.CodFiliais != null)
+            {
+                var paramsSplit = parameters.CodFiliais.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                filiais = filiais.Where(condicoes);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 filiais = filiais.Where(f => f.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
+            {
+                filiais.Include(i => i.Cidade)
+                        .Include(i => i.Cidade.UnidadeFederativa);
+
+                filiais = filiais.Where(f => f.Cidade.UnidadeFederativa.SiglaUF == parameters.SiglaUF);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

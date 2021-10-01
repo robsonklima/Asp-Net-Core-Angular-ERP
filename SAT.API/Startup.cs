@@ -33,14 +33,17 @@ namespace SAT.API
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
 
             services.AddCors(options =>
-            {
-                options.AddPolicy("CorsApi",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithExposedHeaders("X-Pagination"));
-            });
+           {
+               options.AddPolicy(name: "CorsApi",
+                builder =>
+                    {
+                        builder.WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    }
+                );
+           });
+
             services.AddMvc();
             services.AddSession();
 
@@ -99,6 +102,7 @@ namespace SAT.API
             services.AddTransient<IDefeitoService, DefeitoService>();
             services.AddTransient<IDespesaCartaoCombustivelService, DespesaCartaoCombustivelService>();
             services.AddTransient<IEquipamentoContratoService, EquipamentoContratoService>();
+            services.AddTransient<IEquipamentoService, EquipamentoService>();
             services.AddTransient<IFeriadoService, FeriadoService>();
             services.AddTransient<IGrupoCausaService, GrupoCausaService>();
             services.AddTransient<IGrupoEquipamentoService, GrupoEquipamentoService>();

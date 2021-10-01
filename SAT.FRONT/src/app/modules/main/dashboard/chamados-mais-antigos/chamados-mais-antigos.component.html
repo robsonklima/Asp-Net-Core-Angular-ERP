@@ -1,0 +1,87 @@
+<div >
+    <!-- <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div class="text-lg font-medium tracking-tight leading-6 truncate">5 Chamados Mais Antigos</div>
+    </div> -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+        <!-- Intervenção Corretiva -->
+        <div class="flex flex-col flex-auto">
+            <div class="font-medium text-secondary">Intervenção Corretiva</div>
+            <div class="flex flex-col flex-auto mt-2">
+                <!-- Tabela -->
+                <table
+                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
+                    *ngIf="!loading_corretivas">
+                    <thead class="pointer-events-none">
+                        <tr>
+                            <th></th>
+                            <th>Filial</th>
+                            <th class="text-center">Cliente</th>
+                            <th class="text-center">Modelo</th>
+                            <th class="text-center">OS</th>
+                            <th>Data Abertura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of element_data_corretivas" class="leading-none text-md w-8 h-8">
+                            <td class="text-center">
+                                <div class="w-4 h-4 rounded-full m-auto bg-red-400"></div>
+                            </td>
+                            <td class="text-center pointer-events-none">{{ data?.filial?.nomeFilial }}</td>
+                            <td class="text-center pointer-events-none">{{ data?.cliente?.nomeFantasia}}</td>
+                            <td class="text-center pointer-events-none">{{ data?.equipamento?.nomeEquip }}</td>
+                            <td class="text-center pointer-events-none">{{ data?.codOS }}</td>
+                            <td class="text-right pointer-events-none pr-8">{{ data?.dataHoraAberturaOS |
+                                date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="flex justify-center items-center" *ngIf="loading_corretivas">
+                    <div class="text-center">
+                        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                    </div>
+                </div>
+                <!-- /Tabela -->
+            </div>
+        </div>
+        <!-- Orçamento Aprovado -->
+        <div class="flex flex-col flex-auto">
+            <div class="font-medium text-secondary">Orçamento Aprovado</div>
+            <div class="flex flex-col flex-auto mt-2">
+                <!-- Tabela -->
+                <table
+                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
+                    *ngIf="!loading_orcamentos">
+                    <thead class="pointer-events-none">
+                        <tr>
+                            <th></th>
+                            <th>Filial</th>
+                            <th class="text-center">Cliente</th>
+                            <th class="text-center">Modelo</th>
+                            <th class="text-center">OS</th>
+                            <th>Data Abertura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of element_data_orcamentos" class="leading-none text-md w-8 h-8">
+                            <td class="text-center">
+                                <div class="w-4 h-4 rounded-full m-auto bg-red-400"></div>
+                            </td>
+                            <td class="text-center pointer-events-none">{{ data?.filial?.nomeFilial }}</td>
+                            <td class="text-center pointer-events-none">{{ data?.cliente?.nomeFantasia}}</td>
+                            <td class="text-center pointer-events-none">{{ data?.equipamento?.nomeEquip }}</td>
+                            <td class="text-center pointer-events-none">{{ data?.codOS }}</td>
+                            <td class="text-right pointer-events-none pr-8">{{ data?.dataHoraAberturaOS |
+                                date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="flex justify-center items-center" *ngIf="loading_orcamentos">
+                    <div class="text-center">
+                        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                    </div>
+                </div>
+                <!-- /Tabela -->
+            </div>
+        </div>
+    </div>
+</div>

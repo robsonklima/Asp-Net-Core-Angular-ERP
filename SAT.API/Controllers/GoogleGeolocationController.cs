@@ -14,14 +14,14 @@ namespace SAT.API.Controllers
     [ApiController]
     public class GoogleGeolocationController : ControllerBase
     {
-        [HttpGet("{endereco}")]
-        public async Task<GoogleGeolocation> Get(string endereco)
+        [HttpGet]
+        public async Task<GoogleGeolocation> Get([FromQuery] GoogleGeolocationParameters parameters)
         {
             var client = new HttpClient();
             GoogleGeolocation res = new GoogleGeolocation();
 
             var response = await client.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                endereco + "&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
+                parameters.EnderecoCep + "&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var conteudo = await response.Content.ReadAsStringAsync();

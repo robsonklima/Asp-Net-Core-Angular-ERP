@@ -119,9 +119,44 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
             }
 
+            if (parameters.CodFilial != null)
+            {
+                equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.CodFiliais != null)
+            {
+                var paramsSplit = parameters.CodFiliais.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                equips = equips.Where(condicoes);
+            }
+
+            if (parameters.CodEquipamentos != null)
+            {
+                var paramsSplit = parameters.CodEquipamentos.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodEquip={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                equips = equips.Where(condicoes);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

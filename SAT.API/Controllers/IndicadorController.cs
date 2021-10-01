@@ -24,5 +24,11 @@ namespace SAT.API.Controllers
         {
             return _indicadorService.ObterIndicadores(parameters);
         }
+
+        //[HttpGet("IndicadoresFiliais")]
+        //public List<Indicador> ObterIndicadoresFiliais()
+        //{
+        //    return _indicadorService.ObterIndicadoresFiliais();
+        //}
     }
 }

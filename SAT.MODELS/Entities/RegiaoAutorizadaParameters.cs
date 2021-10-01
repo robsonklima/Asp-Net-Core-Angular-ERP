@@ -7,6 +7,7 @@ namespace SAT.MODELS.Entities
         public int? CodRegiao { get; set; }
         public int? CodAutorizada { get; set; }
         public int? CodFilial { get; set; }
+        public string CodFiliais { get; set; }
         public int? CodCidade { get; set; }
         public int? IndAtivo { get; set; }
     }

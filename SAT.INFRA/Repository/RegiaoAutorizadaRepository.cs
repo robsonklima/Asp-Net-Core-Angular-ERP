@@ -114,6 +114,21 @@ namespace SAT.INFRA.Repository
                 regioesAutorizadas = regioesAutorizadas.Where(r => r.IndAtivo == parameters.IndAtivo);
             }
 
+            if (parameters.CodFiliais != null)
+            {
+                var paramsSplit = parameters.CodFiliais.Split(',');
+                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var condicoes = string.Empty;
+
+                for (int i = 0; i < paramsSplit.Length; i++)
+                {
+                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
+                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
+                }
+
+                regioesAutorizadas = regioesAutorizadas.Where(condicoes);
+            }
+
             if (parameters.Filter != null)
             {
                 regioesAutorizadas = regioesAutorizadas.Where(

@@ -125,7 +125,7 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTiposGrupo != null)
             {
                 query = query.Where(
-                    os => 
+                    os =>
                     os.EquipamentoContrato != null &&
                     parameters.CodTiposGrupo.Contains(os.EquipamentoContrato.CodTipoEquip.ToString())
                 );
@@ -165,6 +165,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodFiliais != null)
             {
+                int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f)).ToArray();
                 query = query.Where(
                     os =>
                     parameters.CodFiliais.Contains(os.CodFilial.ToString())

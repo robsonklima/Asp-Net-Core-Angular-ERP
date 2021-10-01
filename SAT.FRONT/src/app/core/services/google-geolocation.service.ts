@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from '../../core/config/app.config'
-import { GoogleGeolocation } from '../types/google-geolocation.types';
+import { GoogleGeolocation, GoogleGeolocationParameters } from '../types/google-geolocation.types';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +11,18 @@ import { GoogleGeolocation } from '../types/google-geolocation.types';
 export class GoogleGeolocationService {
   constructor(
     private http: HttpClient
-  ) {}
+  ) { }
 
-  buscarPorEnderecoOuCEP(endCep: string): Observable<GoogleGeolocation> {
-    const url = `${c.api}/GoogleGeolocation/${endCep}`;
+  obterPorParametros(parameters: GoogleGeolocationParameters): Observable<GoogleGeolocation> {
+    let params = new HttpParams();
 
-    return this.http.get<GoogleGeolocation>(url).pipe(
-      map((obj) => obj)
-    );
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/GoogleGeolocation`, { params: params }).pipe(
+      map((data: GoogleGeolocation) => data)
+    )
   }
+
 }

@@ -96,6 +96,7 @@ export interface EquipamentoContratoParameters extends QueryStringParameters {
     codEquipContrato?: number;
     codPosto?: number;
     indAtivo?: number;
+    codFilial?: number;
 };
 
 export enum PontoEstrategicoEnum {

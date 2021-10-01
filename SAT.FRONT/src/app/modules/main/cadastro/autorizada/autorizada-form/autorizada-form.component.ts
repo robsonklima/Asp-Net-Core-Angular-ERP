@@ -79,7 +79,7 @@ export class AutorizadaFormComponent implements OnInit {
       debounceTime(700),
       delay(500),
       takeUntil(this._onDestroy),
-      map(async cep => { 
+      map(async cep => {
         if (cep.length === 9) {
           this.obterLatLngPorCep(cep);
         }
@@ -99,7 +99,7 @@ export class AutorizadaFormComponent implements OnInit {
         .pipe(first())
         .subscribe(autorizada => {
           this.autorizada = autorizada;
-          this.form.patchValue(this.autorizada);          
+          this.form.patchValue(this.autorizada);
           this.form.controls['codPais'].setValue(this.autorizada.cidade?.unidadeFederativa?.codPais);
           this.form.controls['codUF'].setValue(this.autorizada.cidade?.codUF);
         });
@@ -187,9 +187,9 @@ export class AutorizadaFormComponent implements OnInit {
     });
   }
 
-  private async obterLatLngPorCep(cep: string='') {
-    const data = await this._googleGeolocationService.buscarPorEnderecoOuCEP(cep).toPromise();
-    
+  private async obterLatLngPorCep(cep: string = '') {
+    const data = await this._googleGeolocationService.obterPorParametros({ enderecoCep: cep}).toPromise();
+
     if (data.results.length) {
       const resultado = data.results.shift();
 

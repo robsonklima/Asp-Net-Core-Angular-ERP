@@ -11,5 +11,6 @@ namespace SAT.MODELS.Entities
         public string DCPosto{ get; set; }
         public int? CodAutorizada { get; set; }
         public int? CodRegiao { get; set; }
+        public int? CodFilial { get; set; }
     }
 }

@@ -1,10 +1,9 @@
-import { FormsModule } from '@angular/forms';
 import { MbscModule } from '@mobiscroll/angular';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
-import { FuseMockApiModule } from '@fuse/lib/mock-api';
 import { MarkdownModule } from 'ngx-markdown';
 import { FuseModule } from '@fuse';
 import { FuseConfigModule } from '@fuse/services/config';
@@ -25,7 +24,8 @@ const routerConfig: ExtraOptions = {
         AppComponent
     ],
     imports: [ 
-        FormsModule,  
+    MbscModule, 
+        FormsModule,
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),

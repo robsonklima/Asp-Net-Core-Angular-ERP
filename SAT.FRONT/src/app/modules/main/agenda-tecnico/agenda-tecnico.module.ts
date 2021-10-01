@@ -20,8 +20,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { FuseDateRangeModule } from '@fuse/components/date-range';
 import { SharedModule } from 'app/shared/shared.module';
 import { AgendaTecnicoComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico.component';
-import { AgendaTecnicoConfiguracoesComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-configuracoes/agenda-tecnico-configuracoes.component';
-import { AgendaTecnicoSidebarComponent } from 'app/modules/main/agenda-tecnico/agenda-tecnico-sidebar/agenda-tecnico-sidebar.component';
 import { agendaTecnicoRoutes } from 'app/modules/main/agenda-tecnico/agenda-tecnico.routing';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -41,8 +39,6 @@ export const FORMATO_DATA = {
 @NgModule({
     declarations: [
         AgendaTecnicoComponent,
-        AgendaTecnicoConfiguracoesComponent,
-        AgendaTecnicoSidebarComponent
     ],
     imports     : [
         RouterModule.forChild(agendaTecnicoRoutes),

@@ -115,7 +115,7 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                <span [matTooltip]="os.tipoIntervencao?.nomTipoIntervencao"
+                                                <span [matTooltip]="os.defeitoRelatado || os.tipoIntervencao?.nomTipoIntervencao"
                                                     matTooltipPosition="above">
                                                     {{ os.tipoIntervencao?.codETipoIntervencao }}
                                                 </span>

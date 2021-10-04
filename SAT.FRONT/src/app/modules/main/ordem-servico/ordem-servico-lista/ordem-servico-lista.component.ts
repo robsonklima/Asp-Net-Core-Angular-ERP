@@ -19,18 +19,18 @@ import { FileMime } from 'app/core/types/file.types';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
+            grid-template-columns: 48px 72px 92px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
             
             @screen sm {
                 grid-template-columns: 48px auto 32px;
             }
         
             @screen md {
-                grid-template-columns: 48px 72px 72px 92px 38px 36px auto 58px 58px 58px 58px 58px;
+                grid-template-columns: 48px 72px 92px 92px 38px 36px auto 58px 58px 58px 58px 58px;
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
+                grid-template-columns: 48px 72px 92px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
             }
         }
     `],

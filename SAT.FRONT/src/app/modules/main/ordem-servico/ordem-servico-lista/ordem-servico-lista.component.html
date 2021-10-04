@@ -90,16 +90,16 @@
                                                 {{ os.codOS }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
+                                            <div class="hidden md:block">
                                                 {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block truncate" [ngClass]="{'text-purple-500': os.agendamentos?.length > 0}">
-                                                {{ os.agendamentos?.length > 0 ? os.agendamentos[os.agendamentos.length - 1].dataAgendamento : os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                            <div class="hidden md:block" [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
+                                                {{ (os.agendamentos?.length > 0 ? os.agendamentos[os.agendamentos.length - 1].dataAgendamento : os.dataHoraSolicitacao) | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
-                                                {{ (os.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
+                                            <div class="hidden md:block">
+                                                {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
 
                                             <div class="hidden md:block">

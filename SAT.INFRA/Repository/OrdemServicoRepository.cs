@@ -126,7 +126,7 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTiposGrupo != null)
             {
                 query = query.Where(
-                    os => 
+                    os =>
                     os.EquipamentoContrato != null &&
                     parameters.CodTiposGrupo.Contains(os.EquipamentoContrato.CodTipoEquip.ToString())
                 );
@@ -182,7 +182,83 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                var property = parameters.SortActive;
+
+                switch (property)
+                {
+                    case "fimSLA":
+                        query = parameters.SortDirection == "asc" ?
+                        query.Where(q => q.PrazosAtendimento.Any())
+                             .OrderBy(q => q.PrazosAtendimento
+                             .OrderBy(pa => pa.DataHoraLimiteAtendimento)
+                             .Select(pa => pa.DataHoraLimiteAtendimento)
+                             .FirstOrDefault()) :
+                        query.Where(q => q.PrazosAtendimento.Any())
+                             .OrderByDescending(q => q.PrazosAtendimento
+                             .OrderByDescending(pa => pa.DataHoraLimiteAtendimento)
+                             .Select(pa => pa.DataHoraLimiteAtendimento)
+                             .FirstOrDefault());
+                        break;
+
+                    case "statusOS":
+                        query = parameters.SortDirection == "asc" ?
+                            query.OrderBy(q => q.StatusServico.Abrev) :
+                            query.OrderByDescending(q => q.StatusServico.Abrev);
+                        break;
+
+                    case "nomeRegiao":
+                        query = parameters.SortDirection == "asc" ?
+                            query.OrderBy(q => q.EquipamentoContrato.Regiao.NomeRegiao) :
+                            query.OrderByDescending(q => q.EquipamentoContrato.Regiao.NomeRegiao);
+                        break;
+
+                    case "pa":
+                        query = parameters.SortDirection == "asc" ?
+                            query.OrderBy(q => q.RegiaoAutorizada.PA) :
+                            query.OrderByDescending(q => q.RegiaoAutorizada.PA);
+                        break;
+                    case "nomeLocal":
+                        query = parameters.SortDirection == "asc" ?
+                            query.OrderBy(q => q.LocalAtendimento.NomeLocal) :
+                            query.OrderByDescending(q => q.LocalAtendimento.NomeLocal);
+                        break;
+
+                    case "numBanco":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.Cliente.NumBanco))
+                                 .OrderBy(q => q.Cliente.NumBanco) :
+                            query.Where(q => !string.IsNullOrEmpty(q.Cliente.NumBanco))
+                                 .OrderByDescending(q => q.Cliente.NumBanco);
+                        break;
+
+                    case "nomeEquip":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.Equipamento.NomeEquip))
+                                 .OrderBy(q => q.Equipamento.NomeEquip) :
+                        query.Where(q => !string.IsNullOrEmpty(q.Equipamento.NomeEquip))
+                             .OrderByDescending(q => q.Equipamento.NomeEquip);
+                        break;
+
+                    case "nomeSLA":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.AcordoNivelServico.NomeSLA))
+                                 .OrderBy(q => q.EquipamentoContrato.AcordoNivelServico.NomeSLA) :
+                            query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.AcordoNivelServico.NomeSLA))
+                                .OrderByDescending(q => q.EquipamentoContrato.AcordoNivelServico.NomeSLA);
+                        break;
+
+                    case "numSerie":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.NumSerie))
+                                 .OrderBy(q => q.EquipamentoContrato.NumSerie) :
+                            query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.NumSerie))
+                                 .OrderByDescending(q => q.EquipamentoContrato.NumSerie);
+                        break;
+
+                    default:
+                        query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                        break;
+                }
             }
 
             return PagedList<OrdemServico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);

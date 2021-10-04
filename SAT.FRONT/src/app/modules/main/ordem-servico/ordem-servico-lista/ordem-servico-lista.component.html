@@ -47,37 +47,37 @@
                                     <div class="hidden sm:block" [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
-                                    <div>
+                                    <div [mat-sort-header]="'fimSLA'">
                                         {{ t('fim sla') }}
                                     </div>
-                                    <div>
+                                    <div [mat-sort-header]="'statusOS'">
                                         S
                                     </div>
-                                    <div class="hidden sm:block">
+                                    <div class="hidden sm:block" [mat-sort-header]="'tipoIntervencao'">
                                         Interv
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'nomeRegiao'">
                                         PAT
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'pa'">
                                         PA
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'nomeLocal'">
                                         {{ t('local') }}
                                     </div>
-                                    <div>
+                                    <div [mat-sort-header]="'numBanco'">
                                         {{ t('cliente') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'nomeEquip'">
                                         {{ t('equipamento') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'numReincidencia'">
                                         R
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                             </div>
 
                                             <div class="hidden sm:block" [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
-                                                {{ (os.agendamentos?.length > 0 ? os.agendamentos[os.agendamentos.length - 1].dataAgendamento : os.dataHoraSolicitacao) | date:'dd/MM HH:mm' }}
+                                                {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
                                             </div>
 
                                             <div>
@@ -153,8 +153,7 @@
                                                     [matTooltip]="os.equipamentoContrato?.acordoNivelServico?.nomeSLA || t('nao informado')"
                                                     matTooltipPosition="above">
                                                     {{
-                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA ?
-                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--'
+                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
                                                     }}
                                                 </span>
                                             </div>

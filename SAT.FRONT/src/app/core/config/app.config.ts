@@ -21,7 +21,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme : 'brand',
-    api: 'https://apisat-homologacao.perto.com.br/api',
+    api: 'https://localhost:5001/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',

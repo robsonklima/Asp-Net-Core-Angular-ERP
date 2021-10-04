@@ -94,8 +94,8 @@
                                                 {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
-                                                {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                            <div class="hidden md:block truncate" [ngClass]="{'text-purple-500': os.agendamentos?.length > 0}">
+                                                {{ os.agendamentos?.length > 0 ? os.agendamentos[os.agendamentos.length - 1].dataAgendamento : os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
                                             </div>
 
                                             <div class="hidden md:block truncate">

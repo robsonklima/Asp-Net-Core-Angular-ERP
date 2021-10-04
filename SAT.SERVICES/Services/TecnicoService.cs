@@ -1,4 +1,6 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System;
+using System.Linq;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -9,11 +11,17 @@ namespace SAT.SERVICES.Services
     public class TecnicoService : ITecnicoService
     {
         private readonly ITecnicoRepository _tecnicosRepo;
+        private readonly IOrdemServicoRepository _osRepo;
         private readonly ISequenciaRepository _seqRepo;
 
-        public TecnicoService(ITecnicoRepository tecnicosRepo, ISequenciaRepository seqRepo)
+        public TecnicoService(
+            ITecnicoRepository tecnicosRepo, 
+            ISequenciaRepository seqRepo,
+            IOrdemServicoRepository osRepo
+        )
         {
             _tecnicosRepo = tecnicosRepo;
+            _osRepo = osRepo;
             _seqRepo = seqRepo;
         }
 
@@ -31,6 +39,11 @@ namespace SAT.SERVICES.Services
                 HasNext = tecnicos.HasNext,
                 HasPrevious = tecnicos.HasPrevious
             };
+
+            foreach(Tecnico tecnico in lista.Items)
+            {
+                tecnico.MediaTempoAtendMinutosUlt30Dias = CalculaMediaAtendimentoMinutos(tecnico.CodTecnico);
+            }
 
             return lista;
         }
@@ -55,6 +68,28 @@ namespace SAT.SERVICES.Services
         public Tecnico ObterPorCodigo(int codigo)
         {
             return _tecnicosRepo.ObterPorCodigo(codigo);
+        }
+
+        private double CalculaMediaAtendimentoMinutos(int codTecnico) {
+            var primeroDiaDoMes = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var ultimoDiaDoMes = primeroDiaDoMes.AddMonths(1);
+
+            var chamados = _osRepo
+                .ObterPorParametros(new OrdemServicoParameters() {
+                    CodTecnico = codTecnico,
+                    DataAberturaInicio = primeroDiaDoMes,
+                    DataAberturaFim = ultimoDiaDoMes,
+                    PageSize = 100
+                })
+                .Select(os => new { data = os.DataHoraAberturaOS, cep = os.Cep })
+                .ToList();
+
+            // var diasTrabalhados = chamados
+            //     .GroupBy(os => new { os.DataHoraAberturaOS.Value.Date })
+            //     .Select(os => new { datas = os.Key, Count = os.Count() })
+            //     .Count();
+
+            return 0;
         }
     }
 }

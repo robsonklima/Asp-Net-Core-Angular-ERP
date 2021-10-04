@@ -20,7 +20,7 @@ import { SharedModule } from 'app/shared/shared.module';
         ReactiveFormsModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        TranslocoModule,
+        TranslocoModule
         
     ],
     providers: [],

@@ -1,12 +1,11 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    class AgendamentoService : IAgendamentoService
+    public class AgendamentoService : IAgendamentoService
     {
         private readonly IAgendamentoRepository _agendamentoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;

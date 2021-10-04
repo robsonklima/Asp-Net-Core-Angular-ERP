@@ -199,7 +199,7 @@
                                             <div class="my-2">
                                                 <div>{{ t('fim sla') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    TODO
+                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') || '--' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">

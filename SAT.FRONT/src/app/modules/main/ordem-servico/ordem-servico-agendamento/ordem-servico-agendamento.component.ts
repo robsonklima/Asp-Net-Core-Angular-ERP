@@ -77,6 +77,7 @@ export class OrdemServicoAgendamentoComponent implements OnInit {
       dataAgendamento: dataHora,
       codUsuarioAgendamento: this.userSession.usuario.codUsuario
     }
+
     this.dialogRef.close({ agendamento: agendamento });
   }
 }

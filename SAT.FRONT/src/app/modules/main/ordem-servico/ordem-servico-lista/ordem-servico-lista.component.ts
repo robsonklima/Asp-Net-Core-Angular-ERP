@@ -22,7 +22,7 @@ import { FileMime } from 'app/core/types/file.types';
             grid-template-columns: 48px 72px 92px 92px 28px 48px 116px 36px auto 56px 136px 36px 136px 24px;
             
             @screen sm {
-                grid-template-columns: 48px auto 32px;
+                grid-template-columns:  48px 72px 92px 92px 38px 36px auto 56px;
             }
         
             @screen md {

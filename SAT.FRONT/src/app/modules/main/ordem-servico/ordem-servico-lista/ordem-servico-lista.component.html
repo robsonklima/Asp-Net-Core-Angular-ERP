@@ -41,19 +41,19 @@
                                     <div class="md:block" [mat-sort-header]="'codOS'">
                                         {{ t('os') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraAberturaOS'">
+                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraAberturaOS'">
                                         {{ t('abertura') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraSolicitacao'">
+                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div>
                                         {{ t('fim sla') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div>
                                         S
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden sm:block">
                                         Interv
                                     </div>
                                     <div class="hidden md:block">
@@ -90,19 +90,19 @@
                                                 {{ os.codOS }}
                                             </div>
 
-                                            <div class="hidden md:block">
+                                            <div class="hidden sm:block">
                                                 {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block" [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
+                                            <div class="hidden sm:block" [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
                                                 {{ (os.agendamentos?.length > 0 ? os.agendamentos[os.agendamentos.length - 1].dataAgendamento : os.dataHoraSolicitacao) | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block">
+                                            <div>
                                                 {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
 
-                                            <div class="hidden md:block">
+                                            <div>
                                                 <span [matTooltip]="os.statusServico?.nomeStatusServico"
                                                     matTooltipPosition="above">
                                                     <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
@@ -114,7 +114,7 @@
                                                 </span>
                                             </div>
 
-                                            <div class="hidden md:block truncate">
+                                            <div class="hidden sm:block">
                                                 <span [matTooltip]="os.defeitoRelatado || os.tipoIntervencao?.nomTipoIntervencao"
                                                     matTooltipPosition="above">
                                                     {{ os.tipoIntervencao?.codETipoIntervencao }}

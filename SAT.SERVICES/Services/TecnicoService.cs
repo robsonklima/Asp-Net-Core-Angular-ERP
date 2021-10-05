@@ -2,7 +2,6 @@
 using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -40,9 +39,32 @@ namespace SAT.SERVICES.Services
                 HasPrevious = tecnicos.HasPrevious
             };
 
+            var relatorios = _osRepo
+                .ObterPorParametros(new OrdemServicoParameters() {
+                    CodFiliais = parameters.CodFiliais,
+                    DataAberturaInicio = DateTime.Now.AddDays(-7),
+                    DataAberturaFim = DateTime.Now,
+                })
+                .Where(os => os.RelatoriosAtendimento != null)
+                .SelectMany(os => os.RelatoriosAtendimento)
+                .Select(r => new { 
+                    CodTecnico = r.CodTecnico, 
+                    DataHoraInicio = r.DataHoraInicio, 
+                    DataHoraSolucao = r.DataHoraSolucao
+                })
+                .ToList();
+
             foreach(Tecnico tecnico in lista.Items)
             {
-                //tecnico.MediaTempoAtendMinutosUlt30Dias = CalculaMediaAtendimentoMinutos(tecnico.CodTecnico);
+                var qtd = relatorios
+                    .Where(r => r.CodTecnico == tecnico.CodTecnico)
+                    .Count();
+
+                var soma = relatorios
+                    .Where(r => r.CodTecnico == tecnico.CodTecnico)
+                    .Sum(r => (r.DataHoraSolucao - r.DataHoraInicio).Minutes);
+
+                tecnico.MediaTempoAtendMinutosUlt30Dias = soma / (qtd > 0 ? qtd : 1);
             }
 
             return lista;
@@ -68,28 +90,6 @@ namespace SAT.SERVICES.Services
         public Tecnico ObterPorCodigo(int codigo)
         {
             return _tecnicosRepo.ObterPorCodigo(codigo);
-        }
-
-        private double CalculaMediaAtendimentoMinutos(int codTecnico) {
-            var primeroDiaDoMes = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var ultimoDiaDoMes = primeroDiaDoMes.AddMonths(1);
-
-            var chamados = _osRepo
-                .ObterPorParametros(new OrdemServicoParameters() {
-                    CodTecnico = codTecnico,
-                    DataAberturaInicio = primeroDiaDoMes,
-                    DataAberturaFim = ultimoDiaDoMes,
-                    PageSize = 100
-                })
-                .Select(os => new { data = os.DataHoraAberturaOS, cep = os.Cep })
-                .ToList();
-
-            // var diasTrabalhados = chamados
-            //     .GroupBy(os => new { os.DataHoraAberturaOS.Value.Date })
-            //     .Select(os => new { datas = os.Key, Count = os.Count() })
-            //     .Count();
-
-            return 0;
         }
     }
 }

@@ -46,6 +46,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     selectedItem: OrdemServico | null = null;
     filtro: any;
     isLoading: boolean = false;
+    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -71,6 +72,17 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
         this.registrarEmitters();
 
+        fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+                map((event: any) => {
+                    return event.target.value;
+                })
+                , debounceTime(1000)
+                , distinctUntilChanged()
+            ).subscribe((text: string) => {
+                this.paginator.pageIndex = 0;
+                this.obterOrdensServico(text);
+            });           
+
         if (this.sort && this.paginator) {
             this.sort.disableClear = true;
             this._cdr.markForCheck();
@@ -84,7 +96,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    async obterOrdensServico() {
+    async obterOrdensServico(filter: string='') {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
@@ -92,6 +104,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
             pageSize: this.paginator?.pageSize,
+            filter: filter
         };
 
         const data: OrdemServicoData = await this._ordemServicoService
@@ -106,7 +119,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     }
 
     private registrarEmitters(): void {
-        // Quando o sidebar fecha
         this.sidenav.closedStart.subscribe(() => {
             this.paginator.pageIndex = 0;
             this.carregarFiltro();

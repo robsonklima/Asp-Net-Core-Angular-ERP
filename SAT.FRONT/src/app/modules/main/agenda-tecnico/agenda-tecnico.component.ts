@@ -76,10 +76,12 @@ export class AgendaTecnicoComponent implements OnInit {
             return {
                 id: tecnico.codTecnico,
                 name: tecnico.nome,
+                //img: 'https://img.mobiscroll.com/demos/f3.png',
+                img: 'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg',
             }
         });
 
-        console.log((await data).items);
+        console.log(this.resources);
     }
 
     onCellDoubleClick(event: any): void {

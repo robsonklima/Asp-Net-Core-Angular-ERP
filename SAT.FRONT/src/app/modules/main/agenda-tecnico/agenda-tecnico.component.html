@@ -9,16 +9,17 @@
             [dragTimeStep]="15"
             [data]="events"
             [resources]="resources"
-            [resourceTemplate]="resourceTemp"
+            [resourceTemplate]="resourceTemplate"
             (onCellDoubleClick)="onCellDoubleClick($event)"
         >
         </mbsc-eventcalendar>
     </div>
 
-    <ng-template #resourceTemp let-resource>
+    <ng-template #resourceTemplate let-resource>
         <div class="md-resource-details-cont">
-            <div class="md-resource-details-name" [innerHTML]="resource.name"></div>
-        </div>
+            <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
+            <img class="md-meeting-participant-avatar" [src]="resource.img"  onError="this.src='./assets/images/avatars/profile.jpg';" />
+        </div>        
     </ng-template>
 </div>
 

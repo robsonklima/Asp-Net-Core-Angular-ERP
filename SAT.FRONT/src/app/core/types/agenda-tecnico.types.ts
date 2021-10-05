@@ -72,3 +72,9 @@ export interface AgendaTecnicoParameters extends QueryStringParameters {
 export interface AgendaTecnicoData extends Meta {
     items: Calendar[]
 };
+
+
+export class Coordenada
+{
+    cordenadas: [string, string];
+}

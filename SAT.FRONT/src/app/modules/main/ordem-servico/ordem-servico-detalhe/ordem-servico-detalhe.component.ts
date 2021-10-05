@@ -100,7 +100,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     }
   }
 
-  agendar() {
+  async agendar() {
     const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
       data: {
         codOS: this.os.codOS
@@ -114,6 +114,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           this.obterDadosOrdemServico();
         }, e => {
           this._snack.exibirToast(e?.error, 'success');
+          this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+          this._ordemServicoService.atualizar(this.os);
         });
       }
     });

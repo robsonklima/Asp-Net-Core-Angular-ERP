@@ -47,43 +47,43 @@
                                     <div class="md:block" [mat-sort-header]="'codOS'">
                                         {{ t('os') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraAberturaOS'">
+                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraAberturaOS'">
                                         {{ t('abertura') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'dataHoraSolicitacao'">
+                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div [mat-sort-header]="'fimSLA'">
                                         {{ t('fim sla') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div [mat-sort-header]="'statusOS'">
                                         S
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden sm:block" [mat-sort-header]="'tipoIntervencao'">
                                         Interv
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'nomeRegiao'">
                                         PAT
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'pa'">
                                         PA
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'nomeLocal'">
                                         {{ t('local') }}
                                     </div>
-                                    <div>
+                                    <div [mat-sort-header]="'numBanco'">
                                         {{ t('cliente') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'nomeEquip'">
                                         {{ t('equipamento') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
-                                    <div class="hidden md:block">
+                                    <div class="hidden md:block" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block" [mat-sort-header]="'numReincidencia'">
                                         R
                                     </div>
                                 </div>
@@ -96,33 +96,19 @@
                                                 {{ os.codOS }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
+                                            <div class="hidden sm:block">
                                                 {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
+                                            <div class="hidden sm:block" [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
                                                 {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
                                             </div>
 
-                                            <div class="hidden md:block truncate">
-                                                <span class="flex items-center">
-                                                    <span class="w-2 h-2 rounded-full"
-                                                        [matTooltip]="os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS"
-                                                        matTooltipPosition="above"
-                                                        [ngClass]="{'bg-red-500': (os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS) == 'FORA',
-                                                                    'bg-green-500': (os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS) == 'DENTRO',
-                                                                    'bg-gray-400': !(os.statusSLAOSAberta?.statusSLAOS || os.statusSLAOSFechada?.statusSLAOS)}"></span>
-                                                    <span class="ml-3 leading-4">
-                                                        {{
-                                                        ((os.statusSLAOSAberta?.dataHoraLimiteAtendimento ||
-                                                        os.statusSLAOSFechada?.dataHoraLimiteAtendimento) | date:'dd/MM
-                                                        HH:mm') || '--'
-                                                        }}
-                                                    </span>
-                                                </span>
+                                            <div>
+                                                {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
 
-                                            <div class="hidden md:block">
+                                            <div>
                                                 <span [matTooltip]="os.statusServico?.nomeStatusServico"
                                                     matTooltipPosition="above">
                                                     <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
@@ -134,8 +120,8 @@
                                                 </span>
                                             </div>
 
-                                            <div class="hidden md:block truncate">
-                                                <span [matTooltip]="os.tipoIntervencao?.nomTipoIntervencao"
+                                            <div class="hidden sm:block">
+                                                <span [matTooltip]="os.defeitoRelatado || os.tipoIntervencao?.nomTipoIntervencao"
                                                     matTooltipPosition="above">
                                                     {{ os.tipoIntervencao?.codETipoIntervencao }}
                                                 </span>
@@ -173,8 +159,7 @@
                                                     [matTooltip]="os.equipamentoContrato?.acordoNivelServico?.nomeSLA || t('nao informado')"
                                                     matTooltipPosition="above">
                                                     {{
-                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA ?
-                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA : '--'
+                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
                                                     }}
                                                 </span>
                                             </div>
@@ -199,7 +184,7 @@
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                                [pageSize]="50" [pageSizeOptions]="[5, 10, 25, 50, 100]" [showFirstLastButtons]="true"
                                 (page)="paginar()">
                             </mat-paginator>
                         </ng-container>

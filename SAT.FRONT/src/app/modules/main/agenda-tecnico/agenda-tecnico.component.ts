@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { setOptions, MbscEventcalendarView, MbscCalendarEvent, localePtBR, Notifications } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { Tecnico } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 
 setOptions({
@@ -20,6 +21,8 @@ setOptions({
     styleUrls: ['./agenda-tecnico.component.scss'],
 })
 export class AgendaTecnicoComponent implements OnInit {
+    tecnicos: Tecnico[] = [];
+
     constructor(
         private _notify: Notifications,
         private _tecnicoSvc: TecnicoService,
@@ -40,31 +43,11 @@ export class AgendaTecnicoComponent implements OnInit {
     resources = [];
 
     ngOnInit(): void {
-        this.obterTecnicos();
-        this.obterChamados();
+        this.obterDados();
     }
 
-    private async obterChamados() {
-        const data = this._osSvc.obterPorParametros({
-            codFiliais: "4",
-            codStatusServicos: "8"
-        }).toPromise();
-
-        this.events = (await data).items.map(os => {
-                return {
-                    start: moment(os.dataHoraTransf),
-                    end: moment(os.dataHoraTransf).add('hour', 1),
-                    title: os.codOS.toString(),
-                    color: '#388E3C',
-                    editable: true,
-                    resource: os.tecnico.codTecnico,
-                }
-            }
-        )
-    }
-
-    private async obterTecnicos() {
-        const data = this._tecnicoSvc.obterPorParametros({
+    private async obterDados() {
+        const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
             codPerfil: 35,
@@ -72,14 +55,32 @@ export class AgendaTecnicoComponent implements OnInit {
             sortDirection: 'asc'
         }).toPromise();
 
-        this.resources = (await data).items.map(tecnico => {
+        this.resources = tecnicos.items.map(tecnico => {
             return {
                 id: tecnico.codTecnico,
                 name: tecnico.nome,
             }
         });
 
-        console.log((await data).items);
+        const chamados = await this._osSvc.obterPorParametros({
+            codFiliais: "4",
+            codStatusServicos: "8"
+        }).toPromise();
+        
+
+        this.events = chamados.items.map(os => {
+                const tecnico = tecnicos.items.filter(t => t.codTecnico == os.codTecnico).shift();
+
+                return {
+                    start: moment(os.dataHoraTransf),
+                    end: moment(os.dataHoraTransf).add('minutes', tecnico?.mediaTempoAtendMinutosUlt30Dias || 60),
+                    title: os.codOS.toString(),
+                    color: '#388E3C',
+                    editable: true,
+                    resource: os.tecnico.codTecnico,
+                }
+            }
+        )
     }
 
     onCellDoubleClick(event: any): void {

@@ -39,14 +39,11 @@ namespace SAT.SERVICES.Services
                 HasPrevious = tecnicos.HasPrevious
             };
 
-            var primeroDiaDoMes = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var ultimoDiaDoMes = primeroDiaDoMes.AddMonths(1);
-
             var relatorios = _osRepo
                 .ObterPorParametros(new OrdemServicoParameters() {
-                    CodFiliais = "4",
-                    DataAberturaInicio = primeroDiaDoMes,
-                    DataAberturaFim = ultimoDiaDoMes,
+                    CodFiliais = parameters.CodFiliais,
+                    DataAberturaInicio = DateTime.Now.AddDays(-7),
+                    DataAberturaFim = DateTime.Now,
                 })
                 .Where(os => os.RelatoriosAtendimento != null)
                 .SelectMany(os => os.RelatoriosAtendimento)

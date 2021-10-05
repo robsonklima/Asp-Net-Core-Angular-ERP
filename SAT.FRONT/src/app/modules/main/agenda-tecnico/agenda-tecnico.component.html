@@ -1,27 +1,29 @@
-<div class="w-11/12">
-    <div class="md-resource-details">
-        <mbsc-eventcalendar
-            [view]="view"
-            [clickToCreate]="true"
-            [dragToCreate]="false"
-            [dragToMove]="true"
-            [dragToResize]="false"
-            [dragTimeStep]="15"
-            [data]="events"
-            [resources]="resources"
-            [resourceTemplate]="resourceTemp"
-            (onCellDoubleClick)="onCellDoubleClick($event)"
-        >
-        </mbsc-eventcalendar>
-    </div>
-
-    <ng-template #resourceTemp let-resource>
-        <div class="md-resource-details-cont">
-            <div class="md-resource-details-name" [innerHTML]="resource.name"></div>
+<div class="grid lg:grid-cols-6 sm:grid-cols-6 md:grid-cols-2 gap-6 w-full min-w-0">
+    <div class="col-span-5">
+        <div class="md-resource-details">
+            <mbsc-eventcalendar
+                [view]="view"
+                [clickToCreate]="true"
+                [dragToCreate]="false"
+                [dragToMove]="true"
+                [dragToResize]="false"
+                [dragTimeStep]="15"
+                [data]="events"
+                [resources]="resources"
+                [resourceTemplate]="resourceTemp"
+                (onCellDoubleClick)="onCellDoubleClick($event)"
+            >
+            </mbsc-eventcalendar>
         </div>
-    </ng-template>
-</div>
-
-<div class="w-1/6">
-
+    
+        <ng-template #resourceTemp let-resource>
+            <div class="md-resource-details-cont">
+                <div class="md-resource-details-name" [innerHTML]="resource.name"></div>
+            </div>
+        </ng-template>
+    </div>
+    
+    <div class="col-span-1">
+        Outro
+    </div>
 </div>

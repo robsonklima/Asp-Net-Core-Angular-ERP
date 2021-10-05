@@ -180,6 +180,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodTecnico != null)
+            {
+                query = query.Where(os => parameters.CodTecnico == os.Tecnico.CodTecnico);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

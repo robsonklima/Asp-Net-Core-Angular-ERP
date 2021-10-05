@@ -42,7 +42,7 @@ namespace SAT.SERVICES.Services
 
             foreach(Tecnico tecnico in lista.Items)
             {
-                tecnico.MediaTempoAtendMinutosUlt30Dias = CalculaMediaAtendimentoMinutos(tecnico.CodTecnico);
+                //tecnico.MediaTempoAtendMinutosUlt30Dias = CalculaMediaAtendimentoMinutos(tecnico.CodTecnico);
             }
 
             return lista;

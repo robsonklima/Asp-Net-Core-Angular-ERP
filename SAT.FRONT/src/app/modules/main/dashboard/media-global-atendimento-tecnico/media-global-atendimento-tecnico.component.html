@@ -1,1 +1,36 @@
-<p>media-global-atendimento-tecnico works!</p>
+<table class="w-full table-auto text-md font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
+    <thead class="text-center">
+        <tr>
+            <th>CLASSIFICAÇÃO</th>
+            <th>MÉDIA</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        <tr>
+            <td>TODAS INTERVENÇÕES</td>
+            <td>{{mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes| number:'1.1-1'}}</td>
+        </tr>
+        <tr>
+            <td>SOMENTE CORRETIVOS</td>
+            <td>{{mediaGlobalAtendimentoTecnicosModel.qntCorretivos| number:'1.1-1'}}</td>
+        </tr>
+        <tr>
+            <td>SOMENTE PREVENTIVOS</td>
+            <td>{{mediaGlobalAtendimentoTecnicosModel.qntPreventivos| number:'1.1-1'}}</td>
+        </tr>
+        <tr>
+            <td>SOMENTE INSTALAÇÃO</td>
+            <td>{{mediaGlobalAtendimentoTecnicosModel.qntInstalacoes| number:'1.1-1'}}</td>
+        </tr>
+        <tr>
+            <td>SOMENTE ALTERAÇÃO DE ENGENHARIA</td>
+            <td>{{mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia| number:'1.1-1'}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="flex justify-center items-center" *ngIf="loading">
+    <div class="">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

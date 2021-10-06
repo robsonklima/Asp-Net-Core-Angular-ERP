@@ -61,8 +61,6 @@ export class AgendaTecnicoComponent implements OnInit {
             sortDirection: 'asc'
         }).toPromise();
 
-        this.tecnicos = tecnicos.items;
-
         this.resources = tecnicos.items.map(tecnico => {
             return {
                 id: tecnico.codTecnico,
@@ -71,6 +69,7 @@ export class AgendaTecnicoComponent implements OnInit {
                 img: 'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg',
             }
         });
+        
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
             codStatusServicos: "8",
@@ -78,13 +77,19 @@ export class AgendaTecnicoComponent implements OnInit {
             sortDirection: 'asc'
         }).toPromise();
         
-        this.chamados = chamados.items;
-
-        this.addEvents(chamados).then(res => 
+       this.events = chamados.items.map(os =>
         {
-            this.events = res;
-            console.log(this.events);
-        });
+                const tecnico = tecnicos.items.filter(t => t.codTecnico == os.codTecnico).shift();
+                return {
+                    start: moment(os.dataHoraTransf),
+                    end: moment(os.dataHoraTransf).add(tecnico?.mediaTempoAtendMinutosUlt30Dias || 60, 'minutes'),
+                    title: os.codOS.toString(),
+                    color: '#388E3C',
+                    editable: true,
+                    resource: os.tecnico.codTecnico,
+                }
+            }
+        )
     }
 
     onCellDoubleClick(event: any): void {

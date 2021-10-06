@@ -35,7 +35,7 @@ export type ChartOptions =
     labels: string[];
   };
 
-@Component({  
+@Component({
   selector: 'app-reincidencia-filiais',
   templateUrl: './reincidencia-filiais.component.html'
 })

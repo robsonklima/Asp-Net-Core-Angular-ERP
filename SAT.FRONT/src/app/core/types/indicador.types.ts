@@ -18,16 +18,16 @@ export interface IndicadorParameters extends QueryStringParameters {
     codTiposGrupo?: string;
 };
 
-export enum IndicadorAgrupadorEnum
-{
+export enum IndicadorAgrupadorEnum {
     CLIENTE,
     FILIAL,
     STATUS_SERVICO,
     TIPO_INTERVENCAO,
-    DATA
+    DATA,
+    TECNICO_PERCENT_REINCIDENTES,
+    TECNICO_QNT_CHAMADOS_REINCIDENTES
 }
-export enum IndicadorTipoEnum
-{
+export enum IndicadorTipoEnum {
     ORDEM_SERVICO,
     SLA,
     SPA,

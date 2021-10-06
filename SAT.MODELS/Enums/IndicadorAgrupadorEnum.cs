@@ -6,6 +6,7 @@
         FILIAL,
         STATUS_SERVICO,
         TIPO_INTERVENCAO,
-        DATA
+        DATA,
+        TECNICO
     }
 }

@@ -1,17 +1,10 @@
 <div>
     <div class="items-center justify-center h-90">
-        <apx-chart
-            *ngIf="!isLoading && haveData"
-            [series]="chartOptions.series"
-            [chart]="chartOptions.chart"
-            [dataLabels]="chartOptions.dataLabels"
-            [plotOptions]="chartOptions.plotOptions"
-            [yaxis]="chartOptions.yaxis"
-            [xaxis]="chartOptions.xaxis"
-            [legend]="chartOptions.legend"
-            [colors]="chartOptions.colors"
-            [grid]="chartOptions.grid"></apx-chart>
-        <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center h-90">
+        <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
+            [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
+            [title]="chartOptions.title"></apx-chart>
+        <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center h-90">
             <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
         </div>
     </div>

@@ -37,7 +37,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     this.obterTecnicos();
   }
 
-  async obterTecnicos() {
+  private async obterTecnicos() {
     this.loading = true;
 
     let listaTecnicos = (await this._tecnicoService

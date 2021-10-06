@@ -132,11 +132,17 @@ export class AgendaTecnicoComponent implements OnInit {
         })
     }
 
-    onCellDoubleClick(event: any): void {
+    public onCellDoubleClick(event: any): void {
         this._notify.alert({
             title: 'Click',
             message: event.date + ' resource ' + event.resource
         });
+    }
+
+    public onEventCreated(event: any): void {
+        const chamadoIndex = this.externalEvents.map(function(e) { return e.title; }).indexOf(event.event.title);
+
+        this.externalEvents.splice(chamadoIndex, 1);
     }
 
     private async addEvents(chamados: OrdemServicoData): Promise<MbscCalendarEvent[]>

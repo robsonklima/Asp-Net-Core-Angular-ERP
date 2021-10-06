@@ -91,15 +91,13 @@ export class AgendaTecnicoComponent implements OnInit {
 
         this.events = Enumerable.from(chamados.items).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
-            const tecnico = tecnicos.items.filter(t => t.codTecnico == osPorTecnico.key()).shift();
-            var mediaTecnico = tecnico?.mediaTempoAtendMinutosUlt30Dias > 30 ? tecnico.mediaTempoAtendMinutosUlt30Dias : 30;
             var ultimoEvento: MbscCalendarEvent;
 
             return osPorTecnico.toArray().map(os =>
             {
                 var date = ultimoEvento != null && moment(ultimoEvento.end).isValid() ? ultimoEvento.end : os.dataHoraTransf;
                 var start: string = moment(date).add(30, 'minutes').toISOString();
-                var end: string = moment(start).add(mediaTecnico, 'minutes').toISOString();
+                var end: string = moment(start).add(30, 'minutes').toISOString();
 
                 var evento: MbscCalendarEvent = 
                 {
@@ -149,7 +147,7 @@ export class AgendaTecnicoComponent implements OnInit {
             return this.calculaDeslocamento(os).then(inicio =>
                 {
                     const tecnico = this.tecnicos.filter(t => t.codTecnico == os.codTecnico).shift();
-                    const fim = moment(inicio).add(tecnico?.mediaTempoAtendMinutosUlt30Dias || 60, 'minutes');
+                    const fim = moment(inicio).add(60, 'minutes');
                     return {
                         start: inicio,
                         end:  fim,

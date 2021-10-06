@@ -39,34 +39,6 @@ namespace SAT.SERVICES.Services
                 HasPrevious = tecnicos.HasPrevious
             };
 
-            var relatorios = _osRepo
-                .ObterPorParametros(new OrdemServicoParameters() {
-                    CodFiliais = parameters.CodFiliais,
-                    DataAberturaInicio = DateTime.Now.AddDays(-7),
-                    DataAberturaFim = DateTime.Now,
-                })
-                .Where(os => os.RelatoriosAtendimento != null)
-                .SelectMany(os => os.RelatoriosAtendimento)
-                .Select(r => new { 
-                    CodTecnico = r.CodTecnico, 
-                    DataHoraInicio = r.DataHoraInicio, 
-                    DataHoraSolucao = r.DataHoraSolucao
-                })
-                .ToList();
-
-            foreach(Tecnico tecnico in lista.Items)
-            {
-                var qtd = relatorios
-                    .Where(r => r.CodTecnico == tecnico.CodTecnico)
-                    .Count();
-
-                var soma = relatorios
-                    .Where(r => r.CodTecnico == tecnico.CodTecnico)
-                    .Sum(r => (r.DataHoraSolucao - r.DataHoraInicio).Minutes);
-
-                tecnico.MediaTempoAtendMinutosUlt30Dias = soma / (qtd > 0 ? qtd : 1);
-            }
-
             return lista;
         }
 

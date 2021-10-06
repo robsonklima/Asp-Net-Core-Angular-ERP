@@ -68,7 +68,6 @@ export class Tecnico {
     distanciaResidenciaLocalAtendimento: number;
     tempoResidenciaLocalAtendimento: string;
     usuario: Usuario;
-    mediaTempoAtendMinutosUlt30Dias: number;
 }
 
 export interface TecnicoData extends Meta {

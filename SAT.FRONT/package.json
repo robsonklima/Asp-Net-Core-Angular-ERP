@@ -43,6 +43,7 @@
         "leaflet.heat": "^0.2.0",
         "leaflet.markercluster": "^1.5.1",
         "linq": "^4.0.0",
+        "linqjs": "^1.0.2",
         "lodash-es": "4.17.21",
         "moment": "2.29.1",
         "ng-apexcharts": "1.5.12",

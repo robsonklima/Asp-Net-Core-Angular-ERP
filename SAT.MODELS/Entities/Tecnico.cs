@@ -73,7 +73,5 @@ namespace SAT.MODELS.Entities
         public virtual Usuario Usuario { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
-        [NotMapped]
-        public double MediaTempoAtendMinutosUlt30Dias { get; set; }
     }
 }

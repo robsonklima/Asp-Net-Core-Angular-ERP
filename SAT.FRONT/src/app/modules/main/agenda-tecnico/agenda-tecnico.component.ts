@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscEventcalendarView, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -18,8 +18,6 @@ setOptions({
     dragToMove: true,
     dragToResize: true
 });
-
-const now = new Date();
 
 @Component({
     selector: 'app-agenda-tecnico',
@@ -50,6 +48,7 @@ export class AgendaTecnicoComponent implements OnInit {
         },
         dragToMove: true,
         externalDrop: true,
+<<<<<<< HEAD
         
         onEventCreate: (args, inst) => 
         {
@@ -100,12 +99,25 @@ export class AgendaTecnicoComponent implements OnInit {
         start: moment(),
         end: moment().add(60, 'minutes')
     };
+=======
+        onEventCreate: (args) => {
+            this._notify.toast({
+                message: args.event.title + ' adicionado'
+            });
+        }
+    };
+
+    events: MbscCalendarEvent[] = [];
+    resources = [];
+    externalEvents = [];
+>>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
 
     ngOnInit(): void {
-        this.obterDados();
+        this.obterTecnicosEChamadosTransferidos();
+        this.obterChamadosAbertos();
     }
 
-    private async obterDados() {
+    private async obterTecnicosEChamadosTransferidos() {
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
@@ -118,8 +130,7 @@ export class AgendaTecnicoComponent implements OnInit {
             return {
                 id: tecnico.codTecnico,
                 name: tecnico.nome,
-                //img: 'https://img.mobiscroll.com/demos/f3.png',
-                img: 'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg',
+                img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
             }
         });
         
@@ -147,12 +158,16 @@ export class AgendaTecnicoComponent implements OnInit {
     {
         this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
+<<<<<<< HEAD
             const tecnico = tecnicos.filter(t => t.codTecnico == osPorTecnico.key()).shift();
             var mediaTecnico = tecnico?.mediaTempoAtendMinutosUlt30Dias > 30 ? tecnico.mediaTempoAtendMinutosUlt30Dias : 30;
+=======
+>>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
             var ultimoEvento: MbscCalendarEvent;
 
             return osPorTecnico.toArray().map(os =>
             {
+<<<<<<< HEAD
                 var dates = ultimoEvento != null ? 
                     [moment(ultimoEvento.end).add(30, 'minutes'), moment(os.dataHoraTransf).add(30, 'minutes')] : [moment(os.dataHoraTransf)];
 
@@ -175,6 +190,11 @@ export class AgendaTecnicoComponent implements OnInit {
                     start = moment(this.fimAlmoco).add(30, 'minutes');
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
+=======
+                var date = ultimoEvento != null && moment(ultimoEvento.end).isValid() ? ultimoEvento.end : os.dataHoraTransf;
+                var start: string = moment(date).add(30, 'minutes').toISOString();
+                var end: string = moment(start).add(30, 'minutes').toISOString();
+>>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
 
                 var evento: MbscCalendarEvent = 
                 {
@@ -192,6 +212,7 @@ export class AgendaTecnicoComponent implements OnInit {
         }).toArray());
     }
 
+<<<<<<< HEAD
     private carregaSugestaoAlmoco(tecnicos: Tecnico[])
     {
         this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
@@ -209,6 +230,29 @@ export class AgendaTecnicoComponent implements OnInit {
             }
             return evento;
         }).toArray());
+=======
+    private async obterChamadosAbertos() {
+        const data = await this._osSvc.obterPorParametros({
+            codStatusServicos: "1",
+            codFiliais: "4"
+        }).toPromise();
+
+        this.externalEvents = data.items.map(os => {
+            return {
+                title: os.codOS.toString(),
+                color: '#1064b0',
+                start: moment(),
+                end: moment().add(60, 'minutes')
+            }
+        })
+    }
+
+    onCellDoubleClick(event: any): void {
+        this._notify.alert({
+            title: 'Click',
+            message: event.date + ' resource ' + event.resource
+        });
+>>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
     }
 
     private async addEvents(chamados: OrdemServicoData): Promise<MbscCalendarEvent[]>
@@ -217,8 +261,7 @@ export class AgendaTecnicoComponent implements OnInit {
        {
             return this.calculaDeslocamento(os).then(inicio =>
                 {
-                    const tecnico = this.tecnicos.filter(t => t.codTecnico == os.codTecnico).shift();
-                    const fim = moment(inicio).add(tecnico?.mediaTempoAtendMinutosUlt30Dias || 60, 'minutes');
+                    const fim = moment(inicio).add(60, 'minutes');
                     return {
                         start: inicio,
                         end:  fim,

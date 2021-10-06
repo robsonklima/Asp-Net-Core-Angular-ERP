@@ -50,7 +50,7 @@ export class AgendaTecnicoComponent implements OnInit {
         externalDrop: true,
         onEventCreate: (args) => {
             this._notify.toast({
-                message: args.event.title + ' added'
+                message: args.event.title + ' adicionado'
             });
         }
     };
@@ -146,7 +146,6 @@ export class AgendaTecnicoComponent implements OnInit {
        {
             return this.calculaDeslocamento(os).then(inicio =>
                 {
-                    const tecnico = this.tecnicos.filter(t => t.codTecnico == os.codTecnico).shift();
                     const fim = moment(inicio).add(60, 'minutes');
                     return {
                         start: inicio,

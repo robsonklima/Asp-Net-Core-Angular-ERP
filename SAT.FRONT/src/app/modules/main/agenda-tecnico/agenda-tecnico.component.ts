@@ -50,12 +50,33 @@ export class AgendaTecnicoComponent implements OnInit {
         },
         dragToMove: true,
         externalDrop: true,
-        onEventCreate: (args) => {
-            this._notify.toast({
-                message: args.event.title + ' added'
-            });
+        
+        onEventCreate: (args, inst) => 
+        {
+            if (this.hasOverlap(args, inst)) {
+                this._notify.toast({
+                    message: 'Os eventos não podem se sobrepor.'
+                });
+                return false;
+            }
+        },
+        onEventUpdate: (args, inst) => 
+        {
+            if (this.hasOverlap(args, inst)) {
+                this._notify.toast({
+                    message: 'Os eventos não podem se sobrepor.'
+                });
+                return false;
+            }
         }
     };
+
+    hasOverlap(args, inst) 
+    {
+        var ev = args.event;
+        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource);
+        return events.length > 0;
+    }
 
     view: MbscEventcalendarView = {
         
@@ -63,6 +84,8 @@ export class AgendaTecnicoComponent implements OnInit {
 
     events: MbscCalendarEvent[] = [];
     resources = [];
+    inicioAlmoco = moment().set({hour:12,minute:0,second:0,millisecond:0});
+    fimAlmoco = moment().set({hour:13,minute:0,second:0,millisecond:0});
 
     retreatData = {
         title: 'Team retreat',
@@ -107,17 +130,51 @@ export class AgendaTecnicoComponent implements OnInit {
             sortDirection: 'asc'
         }).toPromise();
 
-        this.events = Enumerable.from(chamados.items).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
+        this.carregaSugestaoAlmoco(tecnicos.items);
+        this.carregaEventos(chamados.items, tecnicos.items);
+
+        console.log(this.events);
+    }
+
+    onCellDoubleClick(event: any): void {
+        this._notify.alert({
+            title: 'Click',
+            message: event.date + ' resource ' + event.resource
+        });
+    }
+
+    private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[])
+    {
+        this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
-            const tecnico = tecnicos.items.filter(t => t.codTecnico == osPorTecnico.key()).shift();
+            const tecnico = tecnicos.filter(t => t.codTecnico == osPorTecnico.key()).shift();
             var mediaTecnico = tecnico?.mediaTempoAtendMinutosUlt30Dias > 30 ? tecnico.mediaTempoAtendMinutosUlt30Dias : 30;
             var ultimoEvento: MbscCalendarEvent;
 
             return osPorTecnico.toArray().map(os =>
             {
-                var date = ultimoEvento != null && moment(ultimoEvento.end).isValid() ? ultimoEvento.end : os.dataHoraTransf;
-                var start: string = moment(date).add(30, 'minutes').toISOString();
-                var end: string = moment(start).add(mediaTecnico, 'minutes').toISOString();
+                var dates = ultimoEvento != null ? 
+                    [moment(ultimoEvento.end).add(30, 'minutes'), moment(os.dataHoraTransf).add(30, 'minutes')] : [moment(os.dataHoraTransf)];
+
+                // se começa durante a sugestão de intervalo ou deopis das 18h
+                var start: Moment = moment.max(dates);
+                if (start.isBetween(this.inicioAlmoco, this.fimAlmoco))
+                {
+                    start = start.set({hour:13,minute:30,second:0,millisecond:0});
+                }
+                else if (start.hour() >= 18)
+                {
+                    start = moment(start).add(1, 'day');
+                    start.set({hour:8,minute:30,second:0,millisecond:0})
+                }
+
+                // se termina durante a sugestao de intervalo
+                var end: Moment = moment(start).add(mediaTecnico, 'minutes');
+                if (end.isBetween(this.inicioAlmoco, this.fimAlmoco))
+                {
+                    start = moment(this.fimAlmoco).add(30, 'minutes');
+                    end = moment(start).add(mediaTecnico, 'minutes');
+                }
 
                 var evento: MbscCalendarEvent = 
                 {
@@ -132,16 +189,26 @@ export class AgendaTecnicoComponent implements OnInit {
                 ultimoEvento = evento;
                 return evento;
             })
-        }).toArray();
-
-        console.log(this.events);
+        }).toArray());
     }
 
-    onCellDoubleClick(event: any): void {
-        this._notify.alert({
-            title: 'Click',
-            message: event.date + ' resource ' + event.resource
-        });
+    private carregaSugestaoAlmoco(tecnicos: Tecnico[])
+    {
+        this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
+        {
+            var start = this.inicioAlmoco;
+            var end = this.fimAlmoco;
+            var evento: MbscCalendarEvent = 
+            {
+                start:start,
+                end: end,
+                title: "INTERVALO",
+                color: '#808080',
+                editable: true,
+                resource: tecnico.codTecnico,
+            }
+            return evento;
+        }).toArray());
     }
 
     private async addEvents(chamados: OrdemServicoData): Promise<MbscCalendarEvent[]>

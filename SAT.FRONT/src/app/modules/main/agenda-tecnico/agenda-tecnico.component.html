@@ -1,12 +1,7 @@
 <div class="w-5/6">
     <div class="md-resource-details">
         <mbsc-eventcalendar
-            [view]="view"
-            [clickToCreate]="true"
-            [dragToCreate]="false"
-            [dragToMove]="true"
-            [dragToResize]="false"
-            [dragTimeStep]="15"
+            [options]="calendarOptions"
             [data]="events"
             [resources]="resources"
             [resourceTemplate]="resourceTemplate"
@@ -24,5 +19,25 @@
 </div>
 
 <div class="w-1/6">
-
+    <div class="flex flex-col flex-auto p-6 bg-card overflow-hidden h-full">
+        <div class="flex items-start justify-between">
+            <div class="mbsc-col-sm-3">
+                <div class="mbsc-form-group-title">Available tasks</div>
+                
+                <div mbsc-draggable [dragData]="meetingData" class="external-drop-task" [ngStyle]="{background: '#cf4343'}">
+                    <div>QA meeting</div>
+                    <div>1 day</div>
+                </div>
+    
+                <div mbsc-draggable [dragData]="retreatData" class="external-drop-task" [ngStyle]="{background: '#1064b0'}">
+                    <div>Team retreat</div>
+                    <div>2 days</div>
+                </div>
+    
+                <div mbsc-draggable class="external-drop-task external-drop-task-blank">
+                    <div>Blank event</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

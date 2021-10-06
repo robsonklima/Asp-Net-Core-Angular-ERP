@@ -82,6 +82,8 @@ export class AgendaTecnicoComponent implements OnInit {
     events: MbscCalendarEvent[] = [];
     resources = [];
     externalEvents = [];
+    inicioExpediente = moment().set({hour:8,minute:0,second:0,millisecond:0});
+    fimExpediente = moment().set({hour:18,minute:0,second:0,millisecond:0});
     inicioAlmoco = moment().set({hour:12,minute:0,second:0,millisecond:0});
     fimAlmoco = moment().set({hour:13,minute:0,second:0,millisecond:0});
 
@@ -129,40 +131,35 @@ export class AgendaTecnicoComponent implements OnInit {
         }).toPromise();
 
         this.carregaSugestaoAlmoco(tecnicos.items);
-        this.carregaEventos(chamados.items, tecnicos.items);
-
-        console.log(this.events);
+        this.carregaEventos(chamados.items);
     }
 
-    private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[])
+    private carregaEventos(chamados: OrdemServico[])
     {
         this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
             var mediaTecnico = 30;
             var ultimoEvento: MbscCalendarEvent;
 
-            return osPorTecnico.toArray().map(os =>
+            return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os =>
             {
-                var dates = ultimoEvento != null ? 
-                    [moment(ultimoEvento.end).add(30, 'minutes'), moment(os.dataHoraTransf).add(30, 'minutes')] : [moment(os.dataHoraTransf)];
+                var start = ultimoEvento != null ? moment(ultimoEvento.end).add(mediaTecnico, 'minutes') : this.inicioExpediente;
 
                 // se começa durante a sugestão de intervalo ou deopis das 18h
-                var start: Moment = moment.max(dates);
                 if (start.isBetween(this.inicioAlmoco, this.fimAlmoco))
                 {
-                    start = start.set({hour:13,minute:30,second:0,millisecond:0});
+                    start = moment(this.fimAlmoco);
                 }
-                else if (start.hour() >= 18)
+                else if (start.hour() >= this.fimExpediente.hour())
                 {
-                    start = moment(start).add(1, 'day');
-                    start.set({hour:8,minute:30,second:0,millisecond:0})
+                    start = moment(this.inicioExpediente).add(1, 'day');
                 }
 
                 // se termina durante a sugestao de intervalo
                 var end: Moment = moment(start).add(mediaTecnico, 'minutes');
                 if (end.isBetween(this.inicioAlmoco, this.fimAlmoco))
                 {
-                    start = moment(this.fimAlmoco).add(30, 'minutes');
+                    start = moment(this.fimAlmoco);
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
 
@@ -178,7 +175,7 @@ export class AgendaTecnicoComponent implements OnInit {
 
                 ultimoEvento = evento;
                 return evento;
-            })
+            }))
         }).toArray());
     }
 

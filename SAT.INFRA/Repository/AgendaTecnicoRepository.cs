@@ -125,13 +125,9 @@ namespace SAT.INFRA.Repository
                 .Include(a => a.Tecnico)
                 .AsQueryable();
 
-            if (parameters.Inicio != DateTime.MinValue && parameters.Fim != DateTime.MinValue)
+            if (parameters.CodOS != null)
             {
-                agendas = agendas.Include(a => a.Eventos.Where(
-                    a =>
-                    a.Start >= parameters.Inicio &&
-                    a.End <= parameters.Fim)
-                );
+                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
             }
 
             if (parameters.CodTecnico != null)

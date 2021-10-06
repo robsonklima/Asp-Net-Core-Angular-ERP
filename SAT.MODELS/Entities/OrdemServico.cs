@@ -158,5 +158,7 @@ namespace SAT.MODELS.Entities
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
         [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
+        [NotMapped]
+        public AgendaTecnico AgendaTecnico { get; set; }
     }
 }

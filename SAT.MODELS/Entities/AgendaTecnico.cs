@@ -9,14 +9,19 @@ namespace SAT.MODELS.Entities
     {
         [Key]
         public int Id { get; set; }
+
         public int CodTecnico { get; set; }
         [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }
+
+        public int CodOS { get; set; }
+        [ForeignKey("CodOS")]
+        public OrdemServico OS { get; set; }
+
         public string Title { get; set; }
         public string Color { get; set; }
         public byte? Visible { get; set; }
+
         public DateTime? DataHoraCad { get; set; }
-        [ForeignKey("CalendarId")]
-        public List<AgendaTecnicoEvento> Eventos { get; set; }
     }
 }

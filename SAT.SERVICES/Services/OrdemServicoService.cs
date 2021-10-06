@@ -13,11 +13,13 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
+        private readonly IAgendaTecnicoRepository _agendaTecnicoRepo;
 
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo)
+        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, IAgendaTecnicoRepository agendaTecnicoRepo, ISequenciaRepository sequenciaRepo)
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
+            _agendaTecnicoRepo = agendaTecnicoRepo;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
@@ -47,6 +49,7 @@ namespace SAT.SERVICES.Services
 
             os.Alertas = ObterAlertas(os.CodOS);
             os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
+            os.AgendaTecnico = ObterPrevisaoAgendamento(os.CodOS, os.CodTecnico.Value);
 
             return os;
         }
@@ -81,6 +84,14 @@ namespace SAT.SERVICES.Services
 
             return Alertas;
         }
+
+        private AgendaTecnico ObterPrevisaoAgendamento(int codOS, int codTecnico) =>
+        _agendaTecnicoRepo.ObterAgendasPorParametros(new AgendaTecnicoParameters
+            {
+                CodTecnico = codTecnico,
+                CodOS = codOS
+
+            }).FirstOrDefault();
 
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {

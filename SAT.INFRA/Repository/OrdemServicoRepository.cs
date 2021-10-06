@@ -68,7 +68,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.EquipamentoContrato.Contrato)
                 .Include(os => os.PrazosAtendimento)
                 .Include(os => os.RelatoriosAtendimento)
-                .Include(os => os.RelatoriosAtendimento)
+                .Include(os => os.AgendaTecnico)
                 .AsQueryable();
 
             if (parameters.CodOS != null)
@@ -238,6 +238,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.CheckinsCheckouts)
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
+                .Include(os => os.AgendaTecnico)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

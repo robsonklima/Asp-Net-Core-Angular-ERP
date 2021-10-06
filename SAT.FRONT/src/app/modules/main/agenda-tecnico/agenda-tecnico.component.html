@@ -1,29 +1,28 @@
-<div class="grid lg:grid-cols-6 sm:grid-cols-6 md:grid-cols-2 gap-6 w-full min-w-0">
-    <div class="col-span-5">
-        <div class="md-resource-details">
-            <mbsc-eventcalendar
-                [view]="view"
-                [clickToCreate]="true"
-                [dragToCreate]="false"
-                [dragToMove]="true"
-                [dragToResize]="false"
-                [dragTimeStep]="15"
-                [data]="events"
-                [resources]="resources"
-                [resourceTemplate]="resourceTemp"
-                (onCellDoubleClick)="onCellDoubleClick($event)"
-            >
-            </mbsc-eventcalendar>
-        </div>
-    
-        <ng-template #resourceTemp let-resource>
-            <div class="md-resource-details-cont">
-                <div class="md-resource-details-name" [innerHTML]="resource.name"></div>
-            </div>
-        </ng-template>
+<div class="w-5/6">
+    <div class="md-resource-details">
+        <mbsc-eventcalendar
+            [view]="view"
+            [clickToCreate]="true"
+            [dragToCreate]="false"
+            [dragToMove]="true"
+            [dragToResize]="false"
+            [dragTimeStep]="15"
+            [data]="events"
+            [resources]="resources"
+            [resourceTemplate]="resourceTemplate"
+            (onCellDoubleClick)="onCellDoubleClick($event)"
+        >
+        </mbsc-eventcalendar>
     </div>
-    
-    <div class="col-span-1">
-        Outro
-    </div>
+
+    <ng-template #resourceTemplate let-resource>
+        <div class="md-resource-details-cont">
+            <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
+            <img class="md-meeting-participant-avatar" [src]="resource.img"  onError="this.src='./assets/images/avatars/profile.jpg';" />
+        </div>        
+    </ng-template>
+</div>
+
+<div class="w-1/6">
+
 </div>

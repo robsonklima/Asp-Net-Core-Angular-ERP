@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscEventcalendarView, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -77,8 +77,7 @@ export class AgendaTecnicoComponent implements OnInit {
             return {
                 id: tecnico.codTecnico,
                 name: tecnico.nome,
-                //img: 'https://img.mobiscroll.com/demos/f3.png',
-                img: 'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg',
+                img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
             }
         });
         

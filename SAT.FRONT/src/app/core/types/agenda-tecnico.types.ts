@@ -64,6 +64,7 @@ export interface CalendarWeekday
 export interface AgendaTecnicoParameters extends QueryStringParameters {
     pa?: number;
     codFilial?: number;
+    codOS?: number;
     codTecnico?: number;
     inicio?: string;
     fim?: string;
@@ -73,8 +74,20 @@ export interface AgendaTecnicoData extends Meta {
     items: Calendar[]
 };
 
-
 export class Coordenada
 {
     cordenadas: [string, string];
+}
+
+export class AgendaTecnico
+{
+    id: number;
+    codTecnico: number;
+    codOS: number;
+    visible: boolean;
+    title: string;
+    color: string;
+    lastUpdate: string;
+    inicio: string;
+    fim: string;
 }

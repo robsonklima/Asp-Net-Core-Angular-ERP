@@ -33,23 +33,23 @@ namespace SAT.API.Controllers
             _agendaServ.AtualizarAgenda(agenda);
         }
 
-         
-        [HttpPost("Evento")]
-        public AgendaTecnicoEvento CriarEvento([FromBody] AgendaTecnicoEvento evento)
-        {
-           return _agendaServ.CriarEvento(evento);
-        }
 
-        [HttpPut("Evento")]
-        public AgendaTecnicoEvento AtualizarEvento([FromBody] AgendaTecnicoEvento evento)
-        {
-            return _agendaServ.AtualizarEvento(evento);
-        }
-
-        [HttpDelete("Evento/{codAgendaTecnicoEvento}")]
-        public void DeletarEvento(int codAgendaTecnicoEvento)
-        {
-            _agendaServ.DeletarEvento(codAgendaTecnicoEvento);
-        }
+        //         [HttpPost("Evento")]
+        //         public AgendaTecnicoEvento CriarEvento([FromBody] AgendaTecnicoEvento evento)
+        //         {
+        //            return _agendaServ.CriarEvento(evento);
+        //         }
+        // 
+        //         [HttpPut("Evento")]
+        //         public AgendaTecnicoEvento AtualizarEvento([FromBody] AgendaTecnicoEvento evento)
+        //         {
+        //             return _agendaServ.AtualizarEvento(evento);
+        //         }
+        // 
+        //         [HttpDelete("Evento/{codAgendaTecnicoEvento}")]
+        //         public void DeletarEvento(int codAgendaTecnicoEvento)
+        //         {
+        //             _agendaServ.DeletarEvento(codAgendaTecnicoEvento);
+        //         }
     }
 }

@@ -7,6 +7,7 @@ import { Coordenada } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico, OrdemServicoData } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
+import Enumerable from 'linq';
 
 setOptions({
     locale: localePtBR,
@@ -76,20 +77,35 @@ export class AgendaTecnicoComponent implements OnInit {
             sortActive: 'dataHoraTransf',
             sortDirection: 'asc'
         }).toPromise();
-        
-       this.events = chamados.items.map(os =>
+
+        this.events = Enumerable.from(chamados.items).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
-                const tecnico = tecnicos.items.filter(t => t.codTecnico == os.codTecnico).shift();
-                return {
-                    start: moment(os.dataHoraTransf),
-                    end: moment(os.dataHoraTransf).add(tecnico?.mediaTempoAtendMinutosUlt30Dias || 60, 'minutes'),
+            const tecnico = tecnicos.items.filter(t => t.codTecnico == osPorTecnico.key()).shift();
+            var mediaTecnico = tecnico?.mediaTempoAtendMinutosUlt30Dias > 30 ? tecnico.mediaTempoAtendMinutosUlt30Dias : 30;
+            var ultimoEvento: MbscCalendarEvent;
+
+            return osPorTecnico.toArray().map(os =>
+            {
+                var date = ultimoEvento != null && moment(ultimoEvento.end).isValid() ? ultimoEvento.end : os.dataHoraTransf;
+                var start: string = moment(date).add(30, 'minutes').toISOString();
+                var end: string = moment(start).add(mediaTecnico, 'minutes').toISOString();
+
+                var evento: MbscCalendarEvent = 
+                {
+                    start: start,
+                    end: end,
                     title: os.codOS.toString(),
                     color: '#388E3C',
                     editable: true,
                     resource: os.tecnico.codTecnico,
                 }
-            }
-        )
+
+                ultimoEvento = evento;
+                return evento;
+            })
+        }).toArray();
+
+        console.log(this.events);
     }
 
     onCellDoubleClick(event: any): void {

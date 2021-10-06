@@ -29,14 +29,14 @@ namespace SAT.SERVICES.Services
                 CodFilial = parameters.CodFilial,
                 PageSize = int.MaxValue,
                 IndAtivo = 1,
-                SortActive= "nome",
+                SortActive = "nome",
                 SortDirection = "asc"
             });
 
             var i = 0;
             foreach (Tecnico tecnico in tecnicos)
             {
-                var parametros = new AgendaTecnicoParameters() { CodTecnico = tecnico.CodTecnico};
+                var parametros = new AgendaTecnicoParameters() { CodTecnico = tecnico.CodTecnico };
                 var agendaDB = _agendaRepo.ObterAgendasPorParametros(parametros);
 
                 if (agendaDB.Count == 0)
@@ -47,9 +47,9 @@ namespace SAT.SERVICES.Services
                         Color = ObterCor(),
                         Title = tecnico.Nome,
                         Visible = 1,
-                        DataHoraCad = DateTime.Now
+                        LastUpdate = DateTime.Now
                     };
-                    
+
                     _agendaRepo.CriarAgenda(agenda);
                 }
 
@@ -71,29 +71,29 @@ namespace SAT.SERVICES.Services
             _agendaRepo.DeletarAgenda(codigo);
         }
 
-        public AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento)
-        {
-            _agendaRepo.CriarEvento(evento);
-
-            return evento;
-        }
-
-        public void DeletarEvento(int codigo)
-        {
-            _agendaRepo.DeletarEvento(codigo);
-        }
-
-        public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
-        {
-            _agendaRepo.AtualizarEvento(evento);
-
-            return evento;
-        }
+        //         public AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento)
+        //         {
+        //             _agendaRepo.CriarEvento(evento);
+        // 
+        //             return evento;
+        //         }
+        // 
+        //         public void DeletarEvento(int codigo)
+        //         {
+        //             _agendaRepo.DeletarEvento(codigo);
+        //         }
+        // 
+        //         public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
+        //         {
+        //             _agendaRepo.AtualizarEvento(evento);
+        // 
+        //             return evento;
+        //         }
 
         private string ObterCor()
         {
             string[] cores = {
-                "bg-black", "bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700", 
+                "bg-black", "bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700",
                 "bg-gray-800", "bg-gray-900", "bg-red-300", "bg-red-400", "bg-red-500", "bg-red-600",
                 "bg-red-700", "bg-red-800", "bg-red-900", "bg-yellow-300", "bg-yellow-400",
                 "bg-yellow-500", "bg-yellow-600", "bg-yellow-700", "bg-yellow-800", "bg-yellow-900",

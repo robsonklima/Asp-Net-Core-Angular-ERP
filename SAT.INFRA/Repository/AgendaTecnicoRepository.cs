@@ -34,42 +34,11 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void AtualizarEvento(AgendaTecnicoEvento evento)
-        {
-            AgendaTecnicoEvento e = _context.AgendaTecnicoEvento.SingleOrDefault(e => e.Id == evento.Id);
-
-            if (e != null)
-            {
-                try
-                {
-                    _context.Entry(e).CurrentValues.SetValues(evento);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-        }
-
         public void CriarAgenda(AgendaTecnico agenda)
         {
             try
             {
                 _context.Add(agenda);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void CriarEvento(AgendaTecnicoEvento evento)
-        {
-            try
-            {
-                _context.Add(evento);
                 _context.SaveChanges();
             }
             catch (DbUpdateException ex)
@@ -116,13 +85,19 @@ namespace SAT.INFRA.Repository
 
         public AgendaTecnico ObterAgendaPorCodigo(int codigo)
         {
-            return _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
+            var agendas = _context.AgendaTecnico
+               .Include(a => a.Tecnico)
+               .Include(a => a.OS)
+               .AsQueryable();
+
+            return agendas.SingleOrDefault(a => a.Id == codigo);
         }
 
         public PagedList<AgendaTecnico> ObterAgendasPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico
                 .Include(a => a.Tecnico)
+                .Include(a => a.OS)
                 .AsQueryable();
 
             if (parameters.CodOS != null)

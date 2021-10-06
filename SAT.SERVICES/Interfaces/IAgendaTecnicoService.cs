@@ -8,9 +8,5 @@ namespace SAT.SERVICES.Interfaces
         List<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters);
         void AtualizarAgenda(AgendaTecnico agenda);
         void DeletarAgenda(int codigo);
-
-        AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento);
-        void DeletarEvento(int codigo);
-        AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento);
     }
 }

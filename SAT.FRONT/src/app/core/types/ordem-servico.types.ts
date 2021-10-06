@@ -1,3 +1,4 @@
+import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
@@ -145,6 +146,7 @@ export class OrdemServico {
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
+    agendaTecnico: AgendaTecnico;
 }
 
 export interface OrdemServicoData extends Meta {

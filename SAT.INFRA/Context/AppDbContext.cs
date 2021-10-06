@@ -75,6 +75,12 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);
+
+            modelBuilder.Entity<AgendaTecnico>()
+                        .HasOne<OrdemServico>(at => at.OS);
+
+            modelBuilder.Entity<AgendaTecnico>()
+                        .HasOne<Tecnico>(at => at.Tecnico);
         }
     }
 }

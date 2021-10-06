@@ -87,11 +87,11 @@ namespace SAT.SERVICES.Services
 
         private AgendaTecnico ObterPrevisaoAgendamento(int codOS, int codTecnico) =>
         _agendaTecnicoRepo.ObterAgendasPorParametros(new AgendaTecnicoParameters
-            {
-                CodTecnico = codTecnico,
-                CodOS = codOS
+        {
+            CodTecnico = codTecnico,
+            CodOS = codOS
 
-            }).FirstOrDefault();
+        }).FirstOrDefault();
 
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {

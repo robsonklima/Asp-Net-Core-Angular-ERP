@@ -14,7 +14,7 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export interface OrdemServico {
+export class OrdemServico {
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;

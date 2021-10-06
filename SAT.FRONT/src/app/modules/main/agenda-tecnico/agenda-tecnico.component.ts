@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscEventcalendarView, MbscCalendarEvent, localePtBR, Notifications } from '@mobiscroll/angular';
+import { setOptions, MbscEventcalendarView, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -19,6 +19,8 @@ setOptions({
     dragToResize: true
 });
 
+const now = new Date();
+
 @Component({
     selector: 'app-agenda-tecnico',
     templateUrl: './agenda-tecnico.component.html',
@@ -36,18 +38,45 @@ export class AgendaTecnicoComponent implements OnInit {
         private _nominatimSvc: NominatimService
     ) { }
 
-    view: MbscEventcalendarView = {
-        timeline: {
-            type: 'day',
-            allDay: false,
-            startDay: 1,
-            startTime: '08:00',
-            endTime: '19:00'
+    calendarOptions: MbscEventcalendarOptions = {
+        view: {
+            timeline: {
+                type: 'day',
+                allDay: false,
+                startDay: 1,
+                startTime: '08:00',
+                endTime: '19:00'
+            }
+        },
+        dragToMove: true,
+        externalDrop: true,
+        onEventCreate: (args) => {
+            this._notify.toast({
+                message: args.event.title + ' added'
+            });
         }
+    };
+
+    view: MbscEventcalendarView = {
+        
     };
 
     events: MbscCalendarEvent[] = [];
     resources = [];
+
+    retreatData = {
+        title: 'Team retreat',
+        color: '#1064b0',
+        start: moment(),
+        end: moment().add(60, 'minutes')
+    };
+
+    meetingData = {
+        title: 'QA meeting',
+        color: '#cf4343',
+        start: moment(),
+        end: moment().add(60, 'minutes')
+    };
 
     ngOnInit(): void {
         this.obterDados();

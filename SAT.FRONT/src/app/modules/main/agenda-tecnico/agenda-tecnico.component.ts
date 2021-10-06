@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -48,8 +48,6 @@ export class AgendaTecnicoComponent implements OnInit {
         },
         dragToMove: true,
         externalDrop: true,
-<<<<<<< HEAD
-        
         onEventCreate: (args, inst) => 
         {
             if (this.hasOverlap(args, inst)) {
@@ -83,6 +81,7 @@ export class AgendaTecnicoComponent implements OnInit {
 
     events: MbscCalendarEvent[] = [];
     resources = [];
+    externalEvents = [];
     inicioAlmoco = moment().set({hour:12,minute:0,second:0,millisecond:0});
     fimAlmoco = moment().set({hour:13,minute:0,second:0,millisecond:0});
 
@@ -99,18 +98,6 @@ export class AgendaTecnicoComponent implements OnInit {
         start: moment(),
         end: moment().add(60, 'minutes')
     };
-=======
-        onEventCreate: (args) => {
-            this._notify.toast({
-                message: args.event.title + ' adicionado'
-            });
-        }
-    };
-
-    events: MbscCalendarEvent[] = [];
-    resources = [];
-    externalEvents = [];
->>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
 
     ngOnInit(): void {
         this.obterTecnicosEChamadosTransferidos();
@@ -147,27 +134,15 @@ export class AgendaTecnicoComponent implements OnInit {
         console.log(this.events);
     }
 
-    onCellDoubleClick(event: any): void {
-        this._notify.alert({
-            title: 'Click',
-            message: event.date + ' resource ' + event.resource
-        });
-    }
-
     private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[])
     {
         this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
-<<<<<<< HEAD
-            const tecnico = tecnicos.filter(t => t.codTecnico == osPorTecnico.key()).shift();
-            var mediaTecnico = tecnico?.mediaTempoAtendMinutosUlt30Dias > 30 ? tecnico.mediaTempoAtendMinutosUlt30Dias : 30;
-=======
->>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
+            var mediaTecnico = 30;
             var ultimoEvento: MbscCalendarEvent;
 
             return osPorTecnico.toArray().map(os =>
             {
-<<<<<<< HEAD
                 var dates = ultimoEvento != null ? 
                     [moment(ultimoEvento.end).add(30, 'minutes'), moment(os.dataHoraTransf).add(30, 'minutes')] : [moment(os.dataHoraTransf)];
 
@@ -190,11 +165,6 @@ export class AgendaTecnicoComponent implements OnInit {
                     start = moment(this.fimAlmoco).add(30, 'minutes');
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
-=======
-                var date = ultimoEvento != null && moment(ultimoEvento.end).isValid() ? ultimoEvento.end : os.dataHoraTransf;
-                var start: string = moment(date).add(30, 'minutes').toISOString();
-                var end: string = moment(start).add(30, 'minutes').toISOString();
->>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
 
                 var evento: MbscCalendarEvent = 
                 {
@@ -212,7 +182,6 @@ export class AgendaTecnicoComponent implements OnInit {
         }).toArray());
     }
 
-<<<<<<< HEAD
     private carregaSugestaoAlmoco(tecnicos: Tecnico[])
     {
         this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
@@ -230,7 +199,8 @@ export class AgendaTecnicoComponent implements OnInit {
             }
             return evento;
         }).toArray());
-=======
+    }
+
     private async obterChamadosAbertos() {
         const data = await this._osSvc.obterPorParametros({
             codStatusServicos: "1",
@@ -252,7 +222,6 @@ export class AgendaTecnicoComponent implements OnInit {
             title: 'Click',
             message: event.date + ' resource ' + event.resource
         });
->>>>>>> ede654432389bfdca94a16e995761fcdc1fb257e
     }
 
     private async addEvents(chamados: OrdemServicoData): Promise<MbscCalendarEvent[]>

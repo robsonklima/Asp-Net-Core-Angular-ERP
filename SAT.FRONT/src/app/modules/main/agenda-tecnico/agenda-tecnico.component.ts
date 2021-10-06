@@ -19,8 +19,6 @@ setOptions({
     dragToResize: true
 });
 
-const now = new Date();
-
 @Component({
     selector: 'app-agenda-tecnico',
     templateUrl: './agenda-tecnico.component.html',
@@ -57,32 +55,16 @@ export class AgendaTecnicoComponent implements OnInit {
         }
     };
 
-    view: MbscEventcalendarView = {
-        
-    };
-
     events: MbscCalendarEvent[] = [];
     resources = [];
-
-    retreatData = {
-        title: 'Team retreat',
-        color: '#1064b0',
-        start: moment(),
-        end: moment().add(60, 'minutes')
-    };
-
-    meetingData = {
-        title: 'QA meeting',
-        color: '#cf4343',
-        start: moment(),
-        end: moment().add(60, 'minutes')
-    };
+    externalEvents = [];
 
     ngOnInit(): void {
-        this.obterDados();
+        this.obterTecnicosEChamadosTransferidos();
+        this.obterChamadosAbertos();
     }
 
-    private async obterDados() {
+    private async obterTecnicosEChamadosTransferidos() {
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
@@ -135,6 +117,22 @@ export class AgendaTecnicoComponent implements OnInit {
         }).toArray();
 
         console.log(this.events);
+    }
+
+    private async obterChamadosAbertos() {
+        const data = await this._osSvc.obterPorParametros({
+            codStatusServicos: "1",
+            codFiliais: "4"
+        }).toPromise();
+
+        this.externalEvents = data.items.map(os => {
+            return {
+                title: os.codOS.toString(),
+                color: '#1064b0',
+                start: moment(),
+                end: moment().add(60, 'minutes')
+            }
+        })
     }
 
     onCellDoubleClick(event: any): void {

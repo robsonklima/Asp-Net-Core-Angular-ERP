@@ -52,7 +52,7 @@ export class AgendaTecnicoComponent implements OnInit {
         {
             if (this.hasOverlap(args, inst)) {
                 this._notify.toast({
-                    message: 'Os eventos não podem se sobrepor.'
+                    message: 'Os atendimentos não podem se sobrepor.'
                 });
                 return false;
             }
@@ -61,7 +61,13 @@ export class AgendaTecnicoComponent implements OnInit {
         {
             if (this.hasOverlap(args, inst)) {
                 this._notify.toast({
-                    message: 'Os eventos não podem se sobrepor.'
+                    message: 'Os atendimentos não podem se sobrepor.'
+                });
+                return false;
+            }
+            else if (this.hasChangedResource(args, inst)) {
+                this._notify.toast({
+                    message: 'O atendimento não pode ser transferido para outro técnico.'
                 });
                 return false;
             }
@@ -73,6 +79,11 @@ export class AgendaTecnicoComponent implements OnInit {
         var ev = args.event;
         var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource);
         return events.length > 0;
+    }
+
+    hasChangedResource(args, inst)
+    {
+        return args.event.resource != args.oldEvent.resource;
     }
 
     view: MbscEventcalendarView = {

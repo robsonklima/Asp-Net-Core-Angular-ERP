@@ -20,8 +20,10 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.CLIENTE:
                     Indicadores = ObterIndicadorReincidenciaCliente(chamados);
                     break;
-
                 case IndicadorAgrupadorEnum.FILIAL:
+                    Indicadores = ObterIndicadorReincidenciaFilial(chamados);
+                    break;
+                case IndicadorAgrupadorEnum.TECNICO:
                     Indicadores = ObterIndicadorReincidenciaFilial(chamados);
                     break;
                 default:
@@ -108,6 +110,48 @@ namespace SAT.SERVICES.Services
                 Indicadores.Add(new Indicador()
                 {
                     Label = c.cliente.NomeFantasia,
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorReincidenciaTecnico(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var tecnicos = chamados
+                .Where(os => os.Cliente != null)
+                .GroupBy(os => new { os.Tecnico.CodTecnico })
+                .Select(os => new { tecnico = os.Key, Count = os.Count() });
+
+            foreach (var c in tecnicos)
+            {
+                var osEquipamento = chamados
+                    .Where(os => os.CodTecnico == c.tecnico.CodTecnico)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new { equip = os.Key, Count = os.Count() });
+
+                int reinc = 0;
+                foreach (var os in osEquipamento)
+                {
+                    if (os.Count > 0)
+                    {
+                        reinc += os.Count - 1;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = c.tecnico.CodTecnico.ToString(),
                     Valor = valor
                 });
             }

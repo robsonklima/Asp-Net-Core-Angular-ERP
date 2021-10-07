@@ -58,7 +58,11 @@
 
                             <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteAlterarOrcamento')">
                                 {{ t('alteracao orcamento invalida') }}
-                            </div>                         
+                            </div>       
+                            
+                            <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteAlterarCorretiva')">
+                                {{ t('alteracao corretiva invalida') }}
+                            </div>                                                        
                         </mat-error>               
                     </mat-form-field>
 

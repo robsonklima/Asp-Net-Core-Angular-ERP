@@ -65,18 +65,21 @@ namespace SAT.INFRA.Repository
                 .Include(p => p.PecaFamilia)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
+            if (!string.IsNullOrEmpty(parameters.Filter))
             {
-                pecas = pecas.Where(
-                    p =>
-                    p.CodPeca.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    p.CodMagnus.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    p.NomePeca.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-
+                pecas = pecas.Where(p =>
+                    p.CodPeca.ToString().Contains(parameters.Filter) ||
+                    p.CodMagnus.Contains(parameters.Filter) ||
+                    p.NomePeca.Contains(parameters.Filter)
                 );
             }
 
-            if (parameters.CodPeca != null)
+            if (parameters.CodPeca.HasValue)
+            {
+                pecas = pecas.Where(p => p.CodPeca == parameters.CodPeca);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodMagnus))
             {
                 pecas = pecas.Where(p => p.CodPeca == parameters.CodPeca);
             }

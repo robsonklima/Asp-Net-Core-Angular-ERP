@@ -266,5 +266,6 @@
     "bloqueio reincidencia": "CRITICAL EQUIPMENT! Work order blocked! The STN must be contacted obligatorily before and during this service.",
     "data RAT Invalida": "RAT date must be greater than the Opening / Scheduling date",
     "periodo de atendimento": "Service period",
-    "bloqueio orcamento": "Budget Lock: You do not have permission to close this ticket because you are in the budget process, please contact PEAR's Budget area"
+    "bloqueio orcamento": "Budget Lock: You do not have permission to close this ticket because you are in the budget process, please contact PEAR's Budget area",
+    "alteracao corretiva invalida": "Without permission to change the intervention, contact the RPV area"
 }

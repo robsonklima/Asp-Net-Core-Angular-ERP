@@ -201,7 +201,7 @@ export class AgendaTecnicoComponent implements OnInit {
                     start: start,
                     end: end,
                     title: os.codOS.toString(),
-                    color: '#388E3C',
+                    color: this.getInterventionColor(os.tipoIntervencao.codTipoIntervencao),
                     editable: true,
                     resource: os.tecnico.codTecnico,
                 }
@@ -276,5 +276,22 @@ export class AgendaTecnicoComponent implements OnInit {
         destino.cordenadas = [os.localAtendimento.latitude, os.localAtendimento.longitude]; 
 
         return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
+    }
+
+    private getInterventionColor(tipoIntervencao: number): string
+    {
+        switch(tipoIntervencao) 
+        { 
+            case 1: //alteracao engenharia
+                return "#067A52"; 
+            case 2: //corretiva
+                return "#3FC283"; 
+            case 4: //instalacao
+                return "#00A064";
+            case 4: //preventiva
+                return "#87E9A9"; 
+            default:
+                return "#D7F4D2"; 
+        }
     }
 }

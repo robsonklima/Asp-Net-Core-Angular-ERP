@@ -24,12 +24,12 @@
         </div>
     </mat-drawer>
 
-    <mat-drawer-content class="lg:max-h-200 md:max-h-200">
-        <div class="w-full items-end">
-            <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-            </button>
-            
+    <mat-drawer-content>
+        <button class="kc_fab_main_btn" (click)="sidenav.toggle()">
+            <mat-icon [svgIcon]="'heroicons_outline:adjustments'" class="text-white"></mat-icon>
+        </button>
+
+        <div class="lg:max-h-200 md:max-h-200">
             <div class="md-resource-details lg:max-h-full md:max-h-full">
                 <mbsc-eventcalendar
                     [options]="calendarOptions"

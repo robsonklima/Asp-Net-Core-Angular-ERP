@@ -48,6 +48,9 @@ export class AgendaTecnicoComponent implements OnInit {
         },
         dragToMove: true,
         externalDrop: true,
+        dragToResize: false,
+        dragToCreate: false,
+        clickToCreate: false,
         onEventCreate: (args, inst) => 
         {
             if (this.hasOverlap(args, inst)) {
@@ -56,6 +59,9 @@ export class AgendaTecnicoComponent implements OnInit {
                 });
                 return false;
             }
+
+            const eventIndex = this.externalEvents.map(function(e) { return e.title; }).indexOf(args.event.title);
+            this.externalEvents.splice(eventIndex, 1);
         },
         onEventUpdate: (args, inst) => 
         {
@@ -103,7 +109,6 @@ export class AgendaTecnicoComponent implements OnInit {
         var newEventTime = moment(args.event.start);
         return moment(args.event.start) > this.limiteIntervalo;
     }
-
 
     view: MbscEventcalendarView = { };
 
@@ -270,20 +275,7 @@ export class AgendaTecnicoComponent implements OnInit {
                 end: moment().add(60, 'minutes')
             }
         })
-    }
-
-    public onCellDoubleClick(event: any): void {
-        this._notify.alert({
-            title: 'Click',
-            message: event.date + ' resource ' + event.resource
-        });
-    }
-
-    public onEventCreated(event: any): void {
-        const chamadoIndex = this.externalEvents.map(function(e) { return e.title; }).indexOf(event.event.title);
-
-        this.externalEvents.splice(chamadoIndex, 1);
-    }
+    } 
 
     private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
     {

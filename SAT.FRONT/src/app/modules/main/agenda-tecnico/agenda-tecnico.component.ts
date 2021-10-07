@@ -162,18 +162,18 @@ export class AgendaTecnicoComponent implements OnInit {
                 // se começa durante a sugestão de intervalo ou deopis das 18h
                 if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
                 {
-                    start = moment(this.fimIntervalo);
+                    start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
                 }
                 else if (start.hour() >= this.fimExpediente.hour())
                 {
-                    start = moment(this.inicioExpediente).add(1, 'day');
+                    start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
                 }
 
                 // se termina durante a sugestao de intervalo
                 var end: Moment = moment(start).add(mediaTecnico, 'minutes');
                 if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
                 {
-                    start = moment(this.fimIntervalo);
+                    start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
 

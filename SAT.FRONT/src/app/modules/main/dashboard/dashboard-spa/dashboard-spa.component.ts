@@ -71,8 +71,8 @@ export class DashboardSpaComponent implements OnInit {
       codTiposGrupo: "1,3,5,7,8,9,10,11",
       //dataInicio: moment().startOf('month').toISOString(),
       //dataFim: moment().endOf('month').toISOString()
-      dataInicio: moment().subtract(1, 'year').startOf('month').toISOString(),
-      dataFim: moment().subtract(1, 'year').endOf('month').toISOString(),
+      dataInicio: moment().startOf('month').toISOString(),
+      dataFim: moment().endOf('month').toISOString(),
     }
 
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
@@ -97,7 +97,8 @@ export class DashboardSpaComponent implements OnInit {
         {
           name: "Percentual",
           type: "column",
-          data: valoresColuna
+          data: valoresColuna,
+          
         },
         {
           name: "Meta de Reincidência",
@@ -134,6 +135,7 @@ export class DashboardSpaComponent implements OnInit {
           }
         }
       },
+      
       stroke: {
         width: [0, 2]
       },

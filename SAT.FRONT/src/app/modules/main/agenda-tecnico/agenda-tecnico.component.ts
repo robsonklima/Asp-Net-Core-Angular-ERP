@@ -77,8 +77,14 @@ export class AgendaTecnicoComponent implements OnInit {
                 });
                 return false;
             }
+            else if (this.invalidMove(args, inst)){
+                this._notify.toast({
+                    message: 'O atendimento não pode ser movido para antes da linha do tempo.'
+                });
+                return false;
+            }
 
-            if (this.isInterval(args, inst) && this.invalidInterval(args, inst)) {
+            if (this.isTechnicianInterval(args, inst) && this.invalidTechnicianInterval(args, inst)) {
                 this._notify.toast({
                     message: 'O intervalo deve ser feito até às 14h.'
                 });
@@ -86,6 +92,7 @@ export class AgendaTecnicoComponent implements OnInit {
             }
         }
     };
+
 
     hasOverlap(args, inst) 
     {
@@ -99,15 +106,20 @@ export class AgendaTecnicoComponent implements OnInit {
         return args.event.resource != args.oldEvent.resource;
     }
 
-    isInterval(args, inst)
+    isTechnicianInterval(args, inst)
     {
         return args.event.title === "INTERVALO";
     }
 
-    invalidInterval(args, inst)
+    invalidTechnicianInterval(args, inst)
     {
-        var newEventTime = moment(args.event.start);
         return moment(args.event.start) > this.limiteIntervalo;
+    }
+
+    invalidMove(args, inst)
+    {   //não pode mover evento posterior a linha do tempo para antes da linha do tempo
+        var now = moment();
+        return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
 
     view: MbscEventcalendarView = { };
@@ -179,14 +191,12 @@ export class AgendaTecnicoComponent implements OnInit {
         
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
-            // codStatusServicos: "8",
-            dataTransfInicio: moment().add(-1, 'days').toISOString(),
-            dataTransfFim:  moment().add(1, 'days').toISOString(),
+            codStatusServicos: "8",
+            //dataTransfInicio: moment().add(-1, 'days').toISOString(),
+            //dataTransfFim:  moment().add(1, 'days').toISOString(),
             sortActive: 'dataHoraTransf',
             sortDirection: 'asc'
         }).toPromise();
-
-        console.log(chamados);
 
         this.carregaSugestaoAlmoco(tecnicos.items);
         this.carregaEventos(chamados.items);
@@ -194,7 +204,7 @@ export class AgendaTecnicoComponent implements OnInit {
 
     private carregaEventos(chamados: OrdemServico[])
     {
-        this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
+        this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
             var mediaTecnico = 30;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
@@ -311,7 +321,6 @@ export class AgendaTecnicoComponent implements OnInit {
 
     private getStatusColor(statusOS: number): string
     {
-        console.log(statusOS);
         switch(statusOS) 
         { 
             case 1: //aberto

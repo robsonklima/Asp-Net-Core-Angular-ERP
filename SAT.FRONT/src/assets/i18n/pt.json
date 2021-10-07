@@ -269,5 +269,6 @@
     "bloqueio reincidencia": "EQUIPAMENTO CRÍTICO! Chamado bloqueado! O STN deve ser contatado obrigatóriamente antes e durante este atendimento",
     "data RAT Invalida": "Data da RAT deve ser maior que a data de Abertura/Agendamento",
     "periodo de atendimento": "Período de atendimento",
-    "bloqueio orcamento": "Você não tem permissão para fechar este chamado devido estar em processo de orçamento, favor contatar a área de Orçamentos da PERTO"
+    "bloqueio orcamento": "Você não tem permissão para fechar este chamado devido estar em processo de orçamento, favor contatar a área de Orçamentos da PERTO",
+    "alteracao corretiva invalida": "Sem permissão para alterar a intervenção, contatar a área RPV"
 }

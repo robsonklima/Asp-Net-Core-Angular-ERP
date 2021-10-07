@@ -300,10 +300,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
   private validaIntervencao(): void{    
     let perfil = this.userSession.usuario.perfil?.codPerfil;
-    let intervencao = this.form.controls['codTipoIntervencao'].value;                 
+    let intervencao = this.form.controls['codTipoIntervencao'].value;   
+    let intervencaoOriginal = this.ordemServico.codTipoIntervencao;                     
 
     let colecaoPerfil = [
-                    PerfilEnum.ADMINISTRADOR, 
+                    //PerfilEnum.ADMINISTRADOR, 
                     PerfilEnum.FINANCEIRO_COORDENADOR, 
                     PerfilEnum.FINANCEIRO_ADMINISTRATIVO,
                     PerfilEnum.PONTO_FINANCEIRO, 
@@ -317,7 +318,16 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
                     tipoIntervencaoConst.ORC_APROVADO,
                     tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
                     tipoIntervencaoConst.ORC_REPROVADO
-    ];                 
+    ];        
+    
+    let colecaoIntervencaoPerfilFilial = [
+      tipoIntervencaoConst.ORCAMENTO,
+      tipoIntervencaoConst.ORC_APROVADO,
+      tipoIntervencaoConst.ORC_REPROVADO,
+      tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
+      tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO,
+      tipoIntervencaoConst.CORRETIVA
+    ];  
 
     if (!colecaoPerfil.includes(perfil)) {
       if (colecaoIntervencao.includes(intervencao))  
@@ -327,6 +337,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     } else{
           this.form.controls['codTipoIntervencao'].setErrors(null)
         }
+
+    let colecaoPerfilAlteraCorretiva = [
+          PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+    ];
+
+    let intervencaoCorretiva = [tipoIntervencaoConst.CORRETIVA];                 
+
+    if (colecaoPerfilAlteraCorretiva.includes(perfil)) {
+      if (intervencaoCorretiva.includes(intervencaoOriginal)) {
+        if (!colecaoIntervencaoPerfilFilial.includes(intervencao))
+        this.form.controls['codTipoIntervencao'].setErrors({
+        'naoPermiteAlterarCorretiva': true            
+        })
+      }      
+    }
+    
   }
 
   private atualizar(): void {

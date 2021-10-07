@@ -174,12 +174,14 @@ export class AgendaTecnicoComponent implements OnInit {
         
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
-            codStatusServicos: "8",
-            // dataTransfInicio: moment().add(-1, 'days').toString(),
-            // dataTransfFim:  moment().toString(),
+            // codStatusServicos: "8",
+            dataTransfInicio: moment().add(-1, 'days').toISOString(),
+            dataTransfFim:  moment().add(1, 'days').toISOString(),
             sortActive: 'dataHoraTransf',
             sortDirection: 'asc'
         }).toPromise();
+
+        console.log(chamados);
 
         this.carregaSugestaoAlmoco(tecnicos.items);
         this.carregaEventos(chamados.items);
@@ -224,7 +226,7 @@ export class AgendaTecnicoComponent implements OnInit {
                     title: os.codOS.toString(),
                     color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
                     editable: true,
-                    resource: os.tecnico.codTecnico,
+                    resource: os.tecnico?.codTecnico,
                 }
 
                 ultimoEvento = evento;
@@ -290,12 +292,12 @@ export class AgendaTecnicoComponent implements OnInit {
 
         // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
         if(osAnterior != null)
-            origem.cordenadas = [osAnterior.localAtendimento.latitude, osAnterior.localAtendimento.longitude];
+            origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
         // Se o técnico não possui nada agendado, parte do endereoç deste
         else 
-            origem.cordenadas = [os.tecnico.latitude, os.tecnico.longitude];
+            origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
 
-        destino.cordenadas = [os.localAtendimento.latitude, os.localAtendimento.longitude]; 
+        destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude]; 
 
         return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
     }

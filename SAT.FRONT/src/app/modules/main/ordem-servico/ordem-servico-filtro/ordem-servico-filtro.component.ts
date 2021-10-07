@@ -3,16 +3,20 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import { Regiao } from 'app/core/types/regiao.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import Enumerable from 'linq'
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -20,11 +24,12 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 })
 export class OrdemServicoFiltroComponent implements OnInit {
   filtro: any;
-  sessioData: UsuarioSessao;
+  sessionData: UsuarioSessao;
   @Input() sidenav: MatSidenav;
   form: FormGroup;
   filiais: Filial[] = [];
   clientes: Cliente[] = [];
+  regioes: Regiao[] = [];
   statusServicos: StatusServico[] =[];
   tiposIntervencao: TipoIntervencao[] = [];
   clienteFilterCtrl: FormControl = new FormControl();
@@ -36,10 +41,11 @@ export class OrdemServicoFiltroComponent implements OnInit {
     private _statusServicoService: StatusServicoService,
     private _clienteService: ClienteService,
     private _userService: UserService,
+    private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _formBuilder: FormBuilder
   ) {
     this.filtro = this._userService.obterFiltro('ordem-servico');
-    this.sessioData = JSON.parse(this._userService.userSession);
+    this.sessionData = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
@@ -49,11 +55,13 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.obterStatusServicos();
     this.registrarEmitters();
     this.inicializarForm();
+    this.obterRegioes();
   }
 
   private inicializarForm(): void {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
+      codRegioes: [undefined],
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
@@ -113,6 +121,21 @@ export class OrdemServicoFiltroComponent implements OnInit {
       .toPromise();
 
     this.clientes = data.items;
+  }
+
+  async obterRegioes(filter: string = '') {
+    let params: RegiaoAutorizadaParameters = {
+      filter: filter,
+      indAtivo: 1,
+      codAutorizada: this.sessionData.usuario.codAutorizada,
+      pageSize: 1000
+    };
+
+    const data = await this._regiaoAutorizadaService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.regioes =  Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
   }
 
   async obterStatusServicos() {

@@ -140,6 +140,12 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodRegioes != null)
+            {
+                var regioes = parameters.CodRegioes.Split(",");
+                query = query.Where(os => regioes.Any(r => r == os.RegiaoAutorizada.CodRegiao.ToString()));
+            }
+
             if (parameters.CodTiposIntervencao != null)
             {
                 query = query.Where(

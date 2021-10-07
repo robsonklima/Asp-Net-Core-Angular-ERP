@@ -7,6 +7,7 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MbscModule } from '@mobiscroll/angular';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { SharedModule } from 'app/shared/shared.module';
         ReactiveFormsModule,
         HttpClientModule,
         HttpClientJsonpModule,
-        TranslocoModule
+        TranslocoModule,
+        MatSidenavModule
         
     ],
     providers: [],

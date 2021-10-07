@@ -1,35 +1,50 @@
-<div class="w-5/6">
-    <div class="md-resource-details">
-        <mbsc-eventcalendar
-            [options]="calendarOptions"
-            [data]="events"
-            [resources]="resources"
-            [resourceTemplate]="resourceTemplate"
-            (onCellDoubleClick)="onCellDoubleClick($event)"
-            (onEventCreated)="onEventCreated($event)"
-        >
-        </mbsc-eventcalendar>
-    </div>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        sdf
+    </mat-drawer>
 
-    <ng-template #resourceTemplate let-resource>
-        <div class="md-resource-details-cont">
-            <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
-            <img class="md-meeting-participant-avatar" [src]="resource.img"  onError="this.src='./assets/images/avatars/profile.jpg';" />
-        </div>        
-    </ng-template>
-</div>
+    <mat-drawer-content>
+        <div class="grid grid-cols-6 gap-1">
+            <div class="col-span-5">
+                <div class="md-resource-details">
+                    <mbsc-eventcalendar
+                        [options]="calendarOptions"
+                        [data]="events"
+                        [resources]="resources"
+                        [resourceTemplate]="resourceTemplate"
+                        (onCellDoubleClick)="onCellDoubleClick($event)"
+                        (onEventCreated)="onEventCreated($event)"
+                    >
+                    </mbsc-eventcalendar>
+                </div>
 
-<div class="w-1/6">
-    <div class="flex flex-col flex-auto p-6 bg-card overflow-visible">
-        <div class="flex items-start justify-between">
-            <div class="mbsc-col-sm-3">
-                <div class="mbsc-form-group-title mb-5">Chamados Não Transferidos</div>
-                
-                <div *ngFor="let event of externalEvents" mbsc-draggable [dragData]="event" class="external-drop-task" [ngStyle]="{background: event.color}">
-                    <div>{{ event.title }}</div>
-                    <!-- <div>Detalhes</div> -->
+                <ng-template #resourceTemplate let-resource>
+                    <div class="md-resource-details-cont">
+                        <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
+
+                        <img class="md-meeting-participant-avatar"
+                            [src]="resource.img"
+                            onError="this.src='./assets/images/avatars/profile.jpg';" />
+                    </div>        
+                </ng-template>
+            </div>
+
+            <div class="col-span-1 w-full">
+                <div class="flex flex-col flex-auto p-6 bg-card">
+                    <div class="flex items-start justify-between">
+                        <div class="mbsc-col-sm-3">
+                            <div class="mbsc-form-group-title mb-8">Chamados Abertos</div>
+
+                            <div *ngFor="let event of externalEvents"
+                                mbsc-draggable [dragData]="event"
+                                class="external-drop-task"
+                                [ngStyle]="{background: event.color}">
+                                <div>{{ event.title }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </mat-drawer-content>
+</mat-drawer-container>

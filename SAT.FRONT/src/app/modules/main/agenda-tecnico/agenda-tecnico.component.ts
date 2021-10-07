@@ -48,6 +48,7 @@ export class AgendaTecnicoComponent implements OnInit {
         },
         dragToMove: true,
         externalDrop: true,
+        dragToResize: false,
         onEventCreate: (args, inst) => 
         {
             if (this.hasOverlap(args, inst)) {

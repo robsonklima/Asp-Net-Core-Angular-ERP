@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { Coordenada } from 'app/core/types/agenda-tecnico.types';
+import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
@@ -112,7 +112,7 @@ export class AgendaTecnicoComponent implements OnInit {
 
     view: MbscEventcalendarView = { };
 
-    events: MbscCalendarEvent[] = [];
+    events: MbscAgendaTecnicoCalendarEvent[] = [];
     resources = [];
     externalEvents = [];
     inicioExpediente = moment().set({hour:8,minute:0,second:0,millisecond:0});
@@ -148,11 +148,10 @@ export class AgendaTecnicoComponent implements OnInit {
     private validateEvents(): void
     {
         var now = moment();
-        this.events.forEach(e =>
+        Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
         {
             var end = moment(e.end);
-            // atrasados em vermelho
-            if (end < now) e.color = '#ff4c4c';
+            if (end < now) e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
         });
     }
 
@@ -181,6 +180,8 @@ export class AgendaTecnicoComponent implements OnInit {
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
             codStatusServicos: "8",
+            // dataTransfInicio: moment().add(-1, 'days').toString(),
+            // dataTransfFim:  moment().toString(),
             sortActive: 'dataHoraTransf',
             sortDirection: 'asc'
         }).toPromise();
@@ -194,12 +195,11 @@ export class AgendaTecnicoComponent implements OnInit {
         this.events = this.events.concat(Enumerable.from(chamados).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
             var mediaTecnico = 30;
-            var ultimoEvento: MbscCalendarEvent;
-            var ultimaOS: OrdemServico;
+            var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
             return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os =>
             {
-                var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimaOS);
+                var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
                 var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
 
@@ -221,18 +221,18 @@ export class AgendaTecnicoComponent implements OnInit {
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
 
-                var evento: MbscCalendarEvent = 
+                var evento: MbscAgendaTecnicoCalendarEvent = 
                 {
                     start: start,
                     end: end,
+                    ordemServico: os,
                     title: os.codOS.toString(),
-                    color: this.getInterventionColor(os.tipoIntervencao.codTipoIntervencao),
+                    color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
                     editable: true,
                     resource: os.tecnico.codTecnico,
                 }
 
                 ultimoEvento = evento;
-                ultimaOS = os;
                 return evento;
             }))
         }).toArray());
@@ -246,7 +246,7 @@ export class AgendaTecnicoComponent implements OnInit {
         {
             var start = this.inicioIntervalo;
             var end = this.fimIntervalo;
-            var evento: MbscCalendarEvent = 
+            var evento: MbscAgendaTecnicoCalendarEvent = 
             {
                 start:start,
                 end: end,
@@ -300,12 +300,28 @@ export class AgendaTecnicoComponent implements OnInit {
                 return "#067A52"; 
             case 2: //corretiva
                 return "#3FC283"; 
-            case 4: //instalacao
-                return "#00A064";
             case 4: //preventiva
                 return "#87E9A9"; 
             default:
                 return "#D7F4D2"; 
+        }
+    }
+
+    private getStatusColor(statusOS: number): string
+    {
+        console.log(statusOS);
+        switch(statusOS) 
+        { 
+            case 1: //aberto
+                return "#ff4c4c"; 
+            case 8: //transferido
+                return "#ff4c4c"; 
+            case 2: //cancelado
+                return "#BFCAD0"; 
+            case 3: //fechado
+                return "#C5C5C5";
+            default:
+                return "#C5C5C5"; 
         }
     }
 }

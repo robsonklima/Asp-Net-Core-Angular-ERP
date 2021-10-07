@@ -111,6 +111,11 @@ namespace SAT.INFRA.Repository
                     os.DataHoraFechamento <= parameters.DataFechamentoFim);
             }
 
+            if (parameters.DataTransfInicio.HasValue && parameters.DataTransfFim.HasValue)
+            {
+                query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio && os.DataHoraTransf <= parameters.DataTransfFim);
+            }
+
             if (parameters.Filter != null)
             {
                 query = query.Where(

@@ -1,4 +1,5 @@
 import { Meta } from "@angular/platform-browser";
+import { MbscCalendarEvent } from "@mobiscroll/angular";
 import { QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
 import { Tecnico } from "./tecnico.types";
@@ -90,4 +91,9 @@ export class AgendaTecnico
     lastUpdate: string;
     inicio: string;
     fim: string;
+}
+
+export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
+{
+    ordemServico?: OrdemServico;
 }

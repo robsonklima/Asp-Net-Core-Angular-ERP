@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MbscModule } from '@mobiscroll/angular';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -22,8 +23,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         HttpClientModule,
         HttpClientJsonpModule,
         TranslocoModule,
-        MatSidenavModule
-        
+        MatSidenavModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

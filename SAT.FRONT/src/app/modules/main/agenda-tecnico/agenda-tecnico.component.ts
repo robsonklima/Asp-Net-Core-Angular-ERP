@@ -71,19 +71,37 @@ export class AgendaTecnicoComponent implements OnInit {
                 });
                 return false;
             }
+
+            if (this.isInterval(args, inst) && this.invalidInterval(args, inst)) {
+                this._notify.toast({
+                    message: 'O intervalo deve ser feito até às 14h.'
+                });
+                return false;
+            }
         }
     };
 
     hasOverlap(args, inst) 
     {
         var ev = args.event;
-        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource);
+        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
         return events.length > 0;
     }
 
     hasChangedResource(args, inst)
     {
         return args.event.resource != args.oldEvent.resource;
+    }
+
+    isInterval(args, inst)
+    {
+        return args.event.title === "INTERVALO";
+    }
+
+    invalidInterval(args, inst)
+    {
+        var newEventTime = moment(args.event.start);
+        return moment(args.event.start) > this.limiteIntervalo;
     }
 
     view: MbscEventcalendarView = {
@@ -97,6 +115,7 @@ export class AgendaTecnicoComponent implements OnInit {
     fimExpediente = moment().set({hour:18,minute:0,second:0,millisecond:0});
     inicioIntervalo = moment().set({hour:12,minute:0,second:0,millisecond:0});
     fimIntervalo = moment().set({hour:13,minute:0,second:0,millisecond:0});
+    limiteIntervalo = moment().set({hour:14,minute:0,second:0,millisecond:0});
 
     retreatData = {
         title: 'Team retreat',

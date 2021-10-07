@@ -3,10 +3,16 @@
         <div class="flex flex-col flex-auto p-6 bg-card">
             <div class="flex items-start justify-between">
                 <div class="h-full">
-                    <div class="mbsc-form-group-title mb-8">
-                        {{ t('chamados abertos') }}
+                    <div>
+                        <div class="mbsc-form-group-title mb-8">
+                            {{ t('chamados abertos') }}
+                        </div>
+    
+                        <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                            <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                        </button>
                     </div>
-
+                    
                     <div *ngFor="let event of externalEvents"
                         mbsc-draggable [dragData]="event"
                         class="external-drop-task"

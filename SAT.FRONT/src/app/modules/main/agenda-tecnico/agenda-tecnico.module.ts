@@ -9,6 +9,8 @@ import { MbscModule } from '@mobiscroll/angular';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
         HttpClientJsonpModule,
         TranslocoModule,
         MatSidenavModule,
-        MatIconModule
+        MatIconModule,
+        MatTooltipModule,
+        MatButtonModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

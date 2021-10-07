@@ -6,6 +6,8 @@
         FILIAL,
         STATUS_SERVICO,
         TIPO_INTERVENCAO,
-        DATA
+        DATA,
+        TECNICO_PERCENT_REINCIDENTES,
+        TECNICO_QNT_CHAMADOS_REINCIDENTES
     }
 }

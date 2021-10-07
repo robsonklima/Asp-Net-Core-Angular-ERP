@@ -13,16 +13,21 @@ namespace SAT.SERVICES.Services
         private List<Indicador> ObterIndicadorReincidencia(IndicadorParameters parameters)
         {
             List<Indicador> Indicadores = new List<Indicador>();
-            var chamados = ObterOrdensServico(parameters);
+            IEnumerable<OrdemServico> chamados = ObterOrdensServico(parameters);
 
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
                     Indicadores = ObterIndicadorReincidenciaCliente(chamados);
                     break;
-
                 case IndicadorAgrupadorEnum.FILIAL:
                     Indicadores = ObterIndicadorReincidenciaFilial(chamados);
+                    break;
+                case IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES:
+                    Indicadores = ObterIndicadorReincidenciaTecnicoPercent(chamados);
+                    break;
+                case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES:
+                    Indicadores = ObterIndicadorReincidenciaTecnicoQnt(chamados);
                     break;
                 default:
                     break;
@@ -113,6 +118,71 @@ namespace SAT.SERVICES.Services
             }
 
             return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorReincidenciaTecnicoPercent(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var tecnicos = chamados
+                .Where(os => os.Tecnico != null)
+                .GroupBy(os => os.Tecnico.CodTecnico)
+                .Select(os => new { CodTecnico = os.Key, Count = os.Count() });
+
+            foreach (var c in tecnicos)
+            {
+                var osEquipamento = chamados
+                    .Where(os => os.Tecnico != null && os.Tecnico.CodTecnico == c.CodTecnico)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new { equip = os.Key, Count = os.Count() });
+
+                int reinc = 0;
+                foreach (var os in osEquipamento)
+                {
+                    if (os.Count > 0)
+                    {
+                        reinc += os.Count - 1;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = c.CodTecnico.ToString(),
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorReincidenciaTecnicoQnt(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> listaIndicadores = new List<Indicador>();
+
+            var tecnicos = chamados
+                .Where(os => os.Tecnico != null)
+                .GroupBy(os => os.Tecnico.CodTecnico)
+                .Select(os => new { CodTecnico = os.Key, Count = os.Count() });
+
+            foreach (var c in tecnicos)
+            {
+                listaIndicadores.AddRange(
+                    chamados
+                    .Where(os => os.CodTecnico == c.CodTecnico)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new Indicador()
+                    { Label = c.CodTecnico.ToString(), Valor = os.Count() })
+                    .ToList());
+            }
+
+            return listaIndicadores;
         }
     }
 }

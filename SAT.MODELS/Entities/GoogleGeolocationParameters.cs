@@ -4,6 +4,6 @@ namespace SAT.MODELS.Entities
 {
     public class GoogleGeolocationParameters : QueryStringParameters
     {
-        public string EnderecoCep { get; set; }
+        public string EnderecoCEP { get; set; }
     }
 }

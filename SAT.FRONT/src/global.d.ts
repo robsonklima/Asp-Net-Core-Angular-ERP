@@ -1,8 +1,8 @@
-/**
- * Declare SCSS files as modules so we can import them into TS files and use their content
- */
-declare module '*.scss'
-{
-    const content: { [className: string]: string };
-    export = content;
+import { GroupBy } from "./app/extensions/array-extension";
+
+export { };
+declare global {
+  interface Array<T> {
+    groupBy(this: Array<T>, key: string): GroupBy[];
+  }
 }

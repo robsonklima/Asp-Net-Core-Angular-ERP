@@ -26,6 +26,7 @@ export class MapaComponent implements AfterViewInit {
 
   public markerClusterGroup: L.MarkerClusterGroup;
   public markerClusterData = [];
+  public loading: boolean = true;
 
   public options = {
     layers: [
@@ -47,7 +48,7 @@ export class MapaComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this._sharedService.clearListEvents();
-   // this.obterFiliais();
+    this.obterFiliais();
   }
 
   onMapReady(map: Map): void {
@@ -163,5 +164,6 @@ export class MapaComponent implements AfterViewInit {
         }
       });
     });
+    this.loading=false;
   }
 }

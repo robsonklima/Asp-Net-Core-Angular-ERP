@@ -100,10 +100,10 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text => { 
+      map(async text => {
         if (text.length === 9) {
           const cep = this.form.controls['cep']?.value || '';
-          
+
           this.obterLatLngPorEndereco(cep);
         }
       }),
@@ -115,7 +115,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text => { 
+      map(async text => {
         const endereco = this.form.controls['endereco']?.value || '';
         const numero = this.form.controls['numero']?.value || '';
         const codCidade = this.form.controls['codCidade'].value;
@@ -129,13 +129,13 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     if (!this.isAddMode) {
       this._tecnicoService.obterPorCodigo(this.codTecnico)
-      .pipe(first())
-      .subscribe(data => {
-        this.form.patchValue(data);
-        this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
-        this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
-        this.tecnico = data;
-      });
+        .pipe(first())
+        .subscribe(data => {
+          this.form.patchValue(data);
+          this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
+          this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
+          this.tecnico = data;
+        });
     }
   }
 
@@ -249,7 +249,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       sortDirection: 'asc',
       codPais: codPais,
       pageSize: 50
-  }
+    }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
     this.ufs = data.items;
@@ -272,17 +272,17 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterLatLngPorEndereco(end: string) {
-    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim()}).subscribe((data: GoogleGeolocation ) => {
+    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim() }).subscribe((data: GoogleGeolocation) => {
       if (data && data.results.length > 0) {
         const res = data.results.shift();
 
         this.form.controls['endereco'].setValue(res.formatted_address);
         this.form.controls['latitude'].setValue(res.geometry.location.lat);
         this.form.controls['longitude'].setValue(res.geometry.location.lng);
-        
+
         const bairros: any = res.address_components.filter(ac => ac.types.includes('sublocality'));
         this.form.controls['bairro'].setValue(bairros.shift()?.long_name);
-      }            
+      }
     });
   }
 
@@ -293,7 +293,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     data.forEach((tr, i) => {
       this.frotaFinalidadesUso.push({
-        codFrotaFinalidadeUso: i+1,
+        codFrotaFinalidadeUso: i + 1,
         nome: tr
       })
     });
@@ -306,7 +306,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     data.forEach((tr, i) => {
       this.frotaCobrancasGaragem.push({
-        codFrotaCobrancaGaragem: i+1,
+        codFrotaCobrancaGaragem: i + 1,
         nome: tr
       })
     });
@@ -343,7 +343,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
         indAtivo: +form.indAtivo
       }
     };
-    
+
     this._tecnicoService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast(`Técnico ${obj.nome} atualizado com sucesso!`, "success");
       this._location.back();

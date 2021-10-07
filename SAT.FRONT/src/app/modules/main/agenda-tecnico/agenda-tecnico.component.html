@@ -34,7 +34,11 @@
     </mat-drawer>
 
     <mat-drawer-content>
-        <button class="add-button" (click)="sidenav.toggle()">
+        <div class="loading-shade" *ngIf="loading">
+            <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
+        </div>
+
+        <button class="add-button" (click)="sidenav.toggle()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
         </button>
 

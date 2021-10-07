@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -25,7 +25,7 @@ setOptions({
     styleUrls: ['./agenda-tecnico.component.scss'],
 })
 export class AgendaTecnicoComponent implements OnInit {
-
+    loading: boolean;
     tecnicos: Tecnico[] = [];
     chamados: OrdemServico[] = [];
 
@@ -117,7 +117,8 @@ export class AgendaTecnicoComponent implements OnInit {
     }
 
     invalidMove(args, inst)
-    {   //não pode mover evento posterior a linha do tempo para antes da linha do tempo
+    {   
+        //não pode mover evento posterior a linha do tempo para antes da linha do tempo
         var now = moment();
         return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
@@ -173,6 +174,8 @@ export class AgendaTecnicoComponent implements OnInit {
     }
 
     private async obterTecnicosEChamadosTransferidos() {
+        this.loading = true;
+
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
@@ -200,6 +203,7 @@ export class AgendaTecnicoComponent implements OnInit {
 
         this.carregaSugestaoAlmoco(tecnicos.items);
         this.carregaEventos(chamados.items);
+        this.loading = false;
     }
 
     private carregaEventos(chamados: OrdemServico[])

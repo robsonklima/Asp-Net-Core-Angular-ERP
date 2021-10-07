@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { setOptions, MbscCalendarEvent, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
-import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Coordenada } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico, OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
+import { HaversineService } from 'app/core/services/haversine.service';
 
 setOptions({
     locale: localePtBR,
@@ -33,7 +33,7 @@ export class AgendaTecnicoComponent implements OnInit {
         private _notify: Notifications,
         private _tecnicoSvc: TecnicoService,
         private _osSvc: OrdemServicoService,
-        private _nominatimSvc: NominatimService
+        private _haversineSvc: HaversineService
     ) { }
 
     calendarOptions: MbscEventcalendarOptions = {
@@ -95,8 +95,8 @@ export class AgendaTecnicoComponent implements OnInit {
     externalEvents = [];
     inicioExpediente = moment().set({hour:8,minute:0,second:0,millisecond:0});
     fimExpediente = moment().set({hour:18,minute:0,second:0,millisecond:0});
-    inicioAlmoco = moment().set({hour:12,minute:0,second:0,millisecond:0});
-    fimAlmoco = moment().set({hour:13,minute:0,second:0,millisecond:0});
+    inicioIntervalo = moment().set({hour:12,minute:0,second:0,millisecond:0});
+    fimIntervalo = moment().set({hour:13,minute:0,second:0,millisecond:0});
 
     retreatData = {
         title: 'Team retreat',
@@ -151,15 +151,18 @@ export class AgendaTecnicoComponent implements OnInit {
         {
             var mediaTecnico = 30;
             var ultimoEvento: MbscCalendarEvent;
+            var ultimaOS: OrdemServico;
 
             return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os =>
             {
-                var start = ultimoEvento != null ? moment(ultimoEvento.end).add(mediaTecnico, 'minutes') : this.inicioExpediente;
+                var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimaOS);
+
+                var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
 
                 // se começa durante a sugestão de intervalo ou deopis das 18h
-                if (start.isBetween(this.inicioAlmoco, this.fimAlmoco))
+                if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
                 {
-                    start = moment(this.fimAlmoco);
+                    start = moment(this.fimIntervalo);
                 }
                 else if (start.hour() >= this.fimExpediente.hour())
                 {
@@ -168,9 +171,9 @@ export class AgendaTecnicoComponent implements OnInit {
 
                 // se termina durante a sugestao de intervalo
                 var end: Moment = moment(start).add(mediaTecnico, 'minutes');
-                if (end.isBetween(this.inicioAlmoco, this.fimAlmoco))
+                if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
                 {
-                    start = moment(this.fimAlmoco);
+                    start = moment(this.fimIntervalo);
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
 
@@ -185,6 +188,7 @@ export class AgendaTecnicoComponent implements OnInit {
                 }
 
                 ultimoEvento = evento;
+                ultimaOS = os;
                 return evento;
             }))
         }).toArray());
@@ -194,8 +198,8 @@ export class AgendaTecnicoComponent implements OnInit {
     {
         this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
         {
-            var start = this.inicioAlmoco;
-            var end = this.fimAlmoco;
+            var start = this.inicioIntervalo;
+            var end = this.fimIntervalo;
             var evento: MbscCalendarEvent = 
             {
                 start:start,
@@ -238,64 +242,20 @@ export class AgendaTecnicoComponent implements OnInit {
         this.externalEvents.splice(chamadoIndex, 1);
     }
 
-    private async addEvents(chamados: OrdemServicoData): Promise<MbscCalendarEvent[]>
-    {
-       return await Promise.all(chamados.items.map(async os => 
-       {
-            return this.calculaDeslocamento(os).then(inicio =>
-                {
-                    const fim = moment(inicio).add(60, 'minutes');
-                    return {
-                        start: inicio,
-                        end:  fim,
-                        title: os.codOS.toString(),
-                        color: '#388E3C',
-                        editable: true,
-                        resource: os.tecnico.codTecnico,
-                        } 
-                });
-        }));
-    }
-
-    private async calculaDeslocamento(os: OrdemServico)
+    private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
     {
         var origem: Coordenada = new Coordenada();
         var destino: Coordenada = new Coordenada();
-        var inicioDeslocamento: Moment = moment(os.dataHoraTransf);
 
-        // Verificar se ele já possui algum chamado agendado, pegar proximo horario disponivel
-        var ultimoEvento = this.chamados.filter(i => i.codTecnico === os.tecnico.codTecnico && i.codOS != os.codOS)[0];
-
-        if(ultimoEvento != null)
-        {
-            // E se for horário de almoço? qual a coordenada?
-            origem.cordenadas = [ultimoEvento.localAtendimento.latitude, ultimoEvento.localAtendimento.longitude];
-            inicioDeslocamento = moment(ultimoEvento.dataHoraTransf);
-        }
-        else
-        {
-            // Se o técnio não possui nada agendado
-            // 44 técnicos ativos não possuem informações de latitude e longitude
-            var tecnico = this.tecnicos.find(t => t.codTecnico == os.codTecnico);
-
-            if (tecnico == null)
-                return moment(os.dataHoraTransf);
-
-            origem.cordenadas = [tecnico.latitude, tecnico.longitude];
-        }
+        // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
+        if(osAnterior != null)
+            origem.cordenadas = [osAnterior.localAtendimento.latitude, osAnterior.localAtendimento.longitude];
+        // Se o técnico não possui nada agendado, parte do endereoç deste
+        else 
+            origem.cordenadas = [os.tecnico.latitude, os.tecnico.longitude];
 
         destino.cordenadas = [os.localAtendimento.latitude, os.localAtendimento.longitude]; 
 
-        // Se todas as coordenadas estiverem disponiveis, calcula a distância.
-        if (origem.cordenadas[0] && origem.cordenadas[1] && destino.cordenadas[0] && destino.cordenadas[1])
-        {
-            var deslocamento = await this._nominatimSvc.deslocamentoEmMinutos(origem, destino);
-            return inicioDeslocamento.add(deslocamento, 'minutes');
-        }
-        else 
-        {
-            // Se não possui todas as coordenadas, retorna a hora de transferencia + meia hora
-            return inicioDeslocamento.add(30, 'minutes');
-        }
+        return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
     }
 }

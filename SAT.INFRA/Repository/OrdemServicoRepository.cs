@@ -256,6 +256,14 @@ namespace SAT.INFRA.Repository
                                  .OrderByDescending(q => q.EquipamentoContrato.NumSerie);
                         break;
 
+                    case "nomeTecnico":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderBy(q => q.Tecnico.Nome) :
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderByDescending(q => q.Tecnico.Nome);
+                        break;
+
                     default:
                         query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
                         break;

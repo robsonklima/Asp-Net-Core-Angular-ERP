@@ -104,9 +104,8 @@ export class AgendaTecnicoComponent implements OnInit {
         return moment(args.event.start) > this.limiteIntervalo;
     }
 
-    view: MbscEventcalendarView = {
-        
-    };
+
+    view: MbscEventcalendarView = { };
 
     events: MbscCalendarEvent[] = [];
     resources = [];
@@ -134,6 +133,27 @@ export class AgendaTecnicoComponent implements OnInit {
     ngOnInit(): void {
         this.obterTecnicosEChamadosTransferidos();
         this.obterChamadosAbertos();
+
+        setInterval(function()
+        {
+             this.autoRefresh();
+        }, 1000*60*5);
+    }
+
+    private validateEvents(): void
+    {
+        var now = moment();
+        this.events.forEach(e =>
+        {
+            var end = moment(e.end);
+            // atrasados em vermelho
+            if (end < now) e.color = '#ff4c4c';
+        });
+    }
+
+    private autoRefresh(): void
+    {
+        this.validateEvents();
     }
 
     private async obterTecnicosEChamadosTransferidos() {
@@ -211,6 +231,8 @@ export class AgendaTecnicoComponent implements OnInit {
                 return evento;
             }))
         }).toArray());
+
+        this.validateEvents();
     }
 
     private carregaSugestaoAlmoco(tecnicos: Tecnico[])

@@ -28,7 +28,7 @@ export class HaversineService
       return ((this.calculateDistanceInKm(parseFloat(origem.cordenadas[0]), 
               parseFloat(origem.cordenadas[1]), 
               parseFloat(destino.cordenadas[0]), 
-              parseFloat(destino.cordenadas[1])) * velocidadeMediaEmHoras)/60.0);
+              parseFloat(destino.cordenadas[1])) / velocidadeMediaEmHoras) * 60.0);
 
       // Se não, retorna um tempo padrão de deslocamento
       return 30;

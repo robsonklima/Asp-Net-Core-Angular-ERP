@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace SAT.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
     [EnableCors("CorsApi")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AgendaTecnicoController : ControllerBase
     {
@@ -20,36 +20,28 @@ namespace SAT.API.Controllers
             _agendaServ = agendaServ;
         }
 
-
         [HttpGet]
         public List<AgendaTecnico> Get([FromQuery] AgendaTecnicoParameters parameters)
         {
-            return _agendaServ.ObterAgendaPorParametros(parameters);
+            return _agendaServ.ObterPorParametros(parameters);
         }
 
-        [HttpPut]
-        public void Put(AgendaTecnico agenda)
+        [HttpPost]
+        public void Post([FromBody] AgendaTecnico evento)
         {
-            _agendaServ.AtualizarAgenda(agenda);
+            _agendaServ.Criar(evento);
         }
 
+        [HttpPut("{codAgendaTecnico}")]
+        public void Put([FromBody] AgendaTecnico evento)
+        {
+            _agendaServ.Atualizar(evento);
+        }
 
-        //         [HttpPost("Evento")]
-        //         public AgendaTecnicoEvento CriarEvento([FromBody] AgendaTecnicoEvento evento)
-        //         {
-        //            return _agendaServ.CriarEvento(evento);
-        //         }
-        // 
-        //         [HttpPut("Evento")]
-        //         public AgendaTecnicoEvento AtualizarEvento([FromBody] AgendaTecnicoEvento evento)
-        //         {
-        //             return _agendaServ.AtualizarEvento(evento);
-        //         }
-        // 
-        //         [HttpDelete("Evento/{codAgendaTecnicoEvento}")]
-        //         public void DeletarEvento(int codAgendaTecnicoEvento)
-        //         {
-        //             _agendaServ.DeletarEvento(codAgendaTecnicoEvento);
-        //         }
+        [HttpDelete("{codAgendaTecnico}")]
+        public void Delete(int codAgendaTecnico)
+        {
+            _agendaServ.Deletar(codAgendaTecnico);
+        }
     }
 }

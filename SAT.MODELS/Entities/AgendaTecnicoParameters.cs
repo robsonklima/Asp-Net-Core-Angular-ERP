@@ -11,5 +11,6 @@ namespace SAT.MODELS.Entities
         public int? CodTecnico { get; set; }
         public DateTime? Inicio { get; set; }
         public DateTime? Fim { get; set; }
+        public DateTime? Data { get; set; }
     }
 }

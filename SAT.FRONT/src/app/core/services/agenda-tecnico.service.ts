@@ -1,51 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { appConfig as c } from 'app/core/config/app.config'
-import { AgendaTecnico, AgendaTecnicoParameters } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoData, AgendaTecnicoParameters } from 'app/core/types/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AgendaTecnicoService
 {
-    constructor(
-        private _httpClient: HttpClient
-    ) {}
+    constructor(private _httpClient: HttpClient) {}
 
-    obterAgendaTecnico(parameters: AgendaTecnicoParameters): Observable<AgendaTecnico[]> {
-        let params = new HttpParams();
-        
-        Object.keys(parameters).forEach(key => {
-          if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    obterPorParametros(parameters: AgendaTecnicoParameters): Observable<AgendaTecnicoData> 
+    {
+        let params = new HttpParams()
+    
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null)
+                params = params.append(key, String(parameters[key]));
         });
 
-        return this._httpClient.get<AgendaTecnico[]>(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((obj) => obj));
+        return this._httpClient.get(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((data: AgendaTecnicoData) => data))
     }
 
-    atualizarAgendaTecnico(agendaTecnico: AgendaTecnico): Observable<AgendaTecnico>
+    obterPorCodigo(codAgendamento: number): Observable<AgendaTecnico> 
     {
-       return null;
+        const url = `${c.api}/AgendaTecnico/${codAgendamento}`;
+        return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
     }
-    
-    criarAgendaTecnico(event): Observable<AgendaTecnico>
-    {
-        return this._httpClient.post<AgendaTecnico>(`${c.api}/AgendaTecnico`, event).pipe(
-            tap((data) => 
-            {
 
-            })
-        );
+    atualizar(agendamento: AgendaTecnico): Observable<AgendaTecnico> 
+    {
+        const url = `${c.api}/AgendaTecnico`;
+        return this._httpClient.put<AgendaTecnico>(url, agendamento).pipe(map((obj) => obj));
     }
     
-    deletarAgendaTecnico(id: string): Observable<AgendaTecnico>
+    deletar(codAgendamento: number): Observable<AgendaTecnico> 
     {
-        return this._httpClient.delete<AgendaTecnico>(`${c.api}/AgendaTecnico/Evento/${id}`).pipe(
-            tap((data) => 
-            {
-                
-            })
-        );
+        const url = `${c.api}/AgendaTecnico/${codAgendamento}`;
+        return this._httpClient.delete<AgendaTecnico>(url).pipe(map((obj) => obj));
     }
 }

@@ -22,9 +22,14 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.CLIENTE:
                     Indicadores = ObterIndicadorSPACliente(chamados);
                     break;
-
                 case IndicadorAgrupadorEnum.FILIAL:
                     Indicadores = ObterIndicadorSPAFilial(chamados);
+                    break;
+                case IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA:
+                    Indicadores = ObterIndicadorSPATecnicoPercent(chamados);
+                    break;
+                case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA:
+                    Indicadores = ObterIndicadorSPATecnicoQnt(chamados);
                     break;
                 default:
                     break;
@@ -138,6 +143,111 @@ namespace SAT.SERVICES.Services
                 {
                     Label = filial.filial.NomeFilial,
                     Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorSPATecnicoPercent(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var tecnicos = chamados
+                .Where(os => os.Tecnico != null)
+                .GroupBy(os => os.Tecnico.CodTecnico)
+                .Select(os => new { CodTecnico = os.Key, Count = os.Count() });
+
+            foreach (var tecnico in tecnicos)
+            {
+                var chamadosTecnico = chamados
+                    .Where(os => os.Tecnico != null)
+                    .Where(os => os.Tecnico.CodTecnico == tecnico.CodTecnico);
+
+                int spaForaQtd = 0;
+                foreach (var os in chamadosTecnico)
+                {
+                    if (os.RelatoriosAtendimento.Count() > 1)
+                    {
+                        spaForaQtd++;
+                    }
+
+                    var chamadosSPA = chamadosTecnico
+                        .Where(
+                            o =>
+                            o.CodEquipContrato == os.CodEquipContrato &&
+                            o.DataHoraAberturaOS >= os.DataHoraAberturaOS &&
+                            o.DataHoraAberturaOS <= os.DataHoraAberturaOS.Value.AddDays(3) &&
+                            o.CodTipoIntervencao == Constants.CORRETIVA &&
+                            o.CodOS != os.CodOS
+                        );
+
+                    if (chamadosSPA.Count() > 0)
+                    {
+                        spaForaQtd++;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = valor - decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosTecnico.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = tecnico.CodTecnico.ToString(),
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
+        }
+
+        private List<Indicador> ObterIndicadorSPATecnicoQnt(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var tecnicos = chamados
+                .Where(os => os.Tecnico != null)
+                .GroupBy(os => os.Tecnico.CodTecnico)
+                .Select(os => new { CodTecnico = os.Key, Count = os.Count() });
+
+            foreach (var tecnico in tecnicos)
+            {
+                var chamadosTecnico = chamados
+                    .Where(os => os.Tecnico != null)
+                    .Where(os => os.Tecnico.CodTecnico == tecnico.CodTecnico);
+
+                int spaForaQtd = 0;
+                foreach (var os in chamadosTecnico)
+                {
+                    if (os.RelatoriosAtendimento.Count() > 1)
+                    {
+                        spaForaQtd++;
+                    }
+
+                    var chamadosSPA = chamadosTecnico
+                        .Where(
+                            o =>
+                            o.CodEquipContrato == os.CodEquipContrato &&
+                            o.DataHoraAberturaOS >= os.DataHoraAberturaOS &&
+                            o.DataHoraAberturaOS <= os.DataHoraAberturaOS.Value.AddDays(3) &&
+                            o.CodTipoIntervencao == Constants.CORRETIVA &&
+                            o.CodOS != os.CodOS
+                        );
+
+                    if (chamadosSPA.Count() > 0)
+                    {
+                        spaForaQtd++;
+                    }
+                }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = tecnico.CodTecnico.ToString(),
+                    Valor = chamadosTecnico.Count()
                 });
             }
 

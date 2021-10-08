@@ -1,4 +1,5 @@
 ﻿using SAT.MODELS.Entities.Helpers;
+using SAT.MODELS.Enums;
 using System;
 
 namespace SAT.MODELS.Entities
@@ -23,7 +24,9 @@ namespace SAT.MODELS.Entities
         public DateTime DataAberturaFim { get; set; }
         public DateTime DataFechamentoInicio { get; set; }
         public DateTime DataFechamentoFim { get; set; }
-        public DateTime? DataTransfInicio { get; set; }
-        public DateTime? DataTransfFim { get; set; }
+        public DateTime DataTransfInicio { get; set; }
+        public DateTime DataTransfFim { get; set; }
+
+        public OrdemServicoIncludeEnum Include { get; set; }
     }
 }

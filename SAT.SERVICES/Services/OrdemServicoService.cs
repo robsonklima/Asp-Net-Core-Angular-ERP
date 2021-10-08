@@ -53,7 +53,6 @@ namespace SAT.SERVICES.Services
 
             return os;
         }
-
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);

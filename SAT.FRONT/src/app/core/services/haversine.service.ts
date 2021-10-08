@@ -7,7 +7,6 @@ import { Coordenada } from '../types/agenda-tecnico.types';
 
 export class HaversineService 
 {
-
   constructor() { }
 
   private calculateDistanceInKm(orig_lat: number, orig_long: number, dest_lat: number, dest_long: number) 

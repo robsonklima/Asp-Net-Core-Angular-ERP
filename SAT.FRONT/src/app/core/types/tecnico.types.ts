@@ -83,6 +83,8 @@ export interface TecnicoParameters extends QueryStringParameters {
     codPerfil?: number;
     codigosStatusServico?: string;
     codAutorizadas?: string;
+    periodoMediaAtendInicio?: string;
+    periodoMediaAtendFim?: string;
 };
 
 

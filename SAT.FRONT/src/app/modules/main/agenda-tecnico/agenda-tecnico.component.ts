@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscPopup } from '@mobiscroll/angular';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -15,7 +15,7 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 setOptions({
     locale: localePtBR,
-    theme: 'windows',
+    theme: 'ios',
     themeVariant: 'light',
     clickToCreate: true,
     dragToCreate: true,
@@ -116,11 +116,15 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         private _tecnicoSvc: TecnicoService,
         private _osSvc: OrdemServicoService,
         private _haversineSvc: HaversineService,
+        private _cdr: ChangeDetectorRef,
         private _agendaTecnicoSvc: AgendaTecnicoService
     ) { }
 
     ngAfterViewInit(): void {
-        interval(1 * 60 * 1000)
+        this.carregaTecnicosEChamadosTransferidos();
+        this.carregaChamadosAbertos();
+        
+        interval(10 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
@@ -149,6 +153,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
             var end = moment(e.end);
             if (end < now) e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
         });
+        this._cdr.detectChanges();
     }
 
     private async carregaTecnicosEChamadosTransferidos() {
@@ -158,6 +163,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
             indAtivo: 1,
             codFilial: 4,
             codPerfil: 35,
+            periodoMediaAtendInicio: moment().add(-21, 'days').format('yyyy-MM-DD 00:00'),
+            periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
             sortActive: 'nome',
             sortDirection: 'asc'
         }).toPromise();

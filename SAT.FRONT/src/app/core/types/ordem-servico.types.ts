@@ -169,4 +169,10 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     pa?: number;
     dataTransfInicio?: string;
     dataTransfFim?: string;
+    include?: OrdemServicoIncludeEnum;
 };
+
+export enum OrdemServicoIncludeEnum
+{
+    OS_RAT,
+}

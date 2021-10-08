@@ -56,4 +56,5 @@ export class AgendaTecnico
 export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
 {
     ordemServico?: OrdemServico;
+    agendaTecnico?: AgendaTecnico;
 }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscPopup } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -99,6 +99,10 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 });
                 return false;
             }
+        },
+        onEventDoubleClick: (args, inst) => 
+        {
+            this.showOSInfo(args);
         }
     };
 
@@ -342,5 +346,25 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         //não pode inserir evento anterior à linha do tempo
         var now = moment();
         return moment(args.event.start) < now;
+    }
+
+    private showOSInfo(args)
+    {
+        var os = args.event.ordemServico;
+
+        if (os == null) return;
+
+        var text = "";
+        if(os.localAtendimento?.nomeLocal) text += 'Local Atendimento: ' + args.event.ordemServico.localAtendimento?.nomeLocal  + '\n';
+        if(os.defeito) text += ', Defeito: ' + os.defeito + '\n';
+
+        this._notify.alert(
+            {
+                title: "OS " + args.event.ordemServico.codOS.toString(),
+                message: text,
+                display: 'center'
+            }
+        );
+
     }
 }

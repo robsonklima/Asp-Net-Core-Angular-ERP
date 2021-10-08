@@ -203,7 +203,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
             .where(os => os.tecnico != null && !chamadosJaAgendados.contains(os.codOS))
             .groupBy(os => os.codTecnico).selectMany(osPorTecnico => 
         {
-            var mediaTecnico = 30;
+            var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
             return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => {
@@ -223,7 +223,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 var end: Moment = moment(start).add(mediaTecnico, 'minutes');
                 if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
                     start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-                    end = moment(start).add(mediaTecnico, 'minutes');
+                    end = moment(start).add(mediaTecnico || 30, 'minutes');
                 }
 
                 var evento: MbscAgendaTecnicoCalendarEvent =

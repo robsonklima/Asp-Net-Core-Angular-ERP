@@ -29,6 +29,9 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES:
                     Indicadores = ObterIndicadorReincidenciaTecnicoQnt(chamados);
                     break;
+                case IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES:
+                    Indicadores = ObterIndicadorReincidenciaEquip(chamados);
+                    break;
                 default:
                     break;
             }
@@ -183,6 +186,48 @@ namespace SAT.SERVICES.Services
             }
 
             return listaIndicadores;
+        }
+
+        private List<Indicador> ObterIndicadorReincidenciaEquip(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var equips = chamados
+                .Where(os => os.EquipamentoContrato != null)
+                .GroupBy(os => os.EquipamentoContrato.CodEquipContrato)
+                .Select(os => new { CodEquipContrato = os.Key, Count = os.Count() });
+
+            foreach (var c in equips)
+            {
+                var osEquipamento = chamados
+                    .Where(os => os.EquipamentoContrato != null && os.EquipamentoContrato.CodEquipContrato == c.CodEquipContrato)
+                    .GroupBy(os => new { os.CodEquipContrato })
+                    .Select(os => new { equip = os.Key, Count = os.Count() });
+
+                int reinc = 0;
+                foreach (var os in osEquipamento)
+                {
+                    if (os.Count > 0)
+                    {
+                        reinc += os.Count - 1;
+                    }
+                }
+
+                decimal valor = 100;
+                try
+                {
+                    valor = decimal.Round((Convert.ToDecimal(reinc) / osEquipamento.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                }
+                catch (DivideByZeroException) { }
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = c.CodEquipContrato.ToString(),
+                    Valor = valor
+                });
+            }
+
+            return Indicadores;
         }
     }
 }

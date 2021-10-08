@@ -194,12 +194,11 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         this.carregaEventos(chamados.items, tecnicos.items);
         // this.loading = false;
-
-        console.log(this.events);
     }
 
     private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[]) {
         this.events = [];
+        console.log(chamados);
         this.carregaSugestaoAlmoco(tecnicos);
         this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico => {
             var mediaTecnico = 30;

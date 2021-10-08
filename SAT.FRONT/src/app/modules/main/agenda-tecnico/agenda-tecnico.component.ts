@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } fr
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
@@ -11,6 +11,7 @@ import { HaversineService } from 'app/core/services/haversine.service';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 setOptions({
     locale: localePtBR,
@@ -99,6 +100,10 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 });
                 return false;
             }
+        },
+        onEventDoubleClick: (args, inst) => 
+        {
+            this.showOSInfo(args);
         }
     };
 
@@ -111,7 +116,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         private _tecnicoSvc: TecnicoService,
         private _osSvc: OrdemServicoService,
         private _haversineSvc: HaversineService,
-        private _cdr: ChangeDetectorRef
+        private _cdr: ChangeDetectorRef,
+        private _agendaTecnicoSvc: AgendaTecnicoService
     ) { }
 
     ngAfterViewInit(): void {
@@ -180,6 +186,12 @@ export class AgendaTecnicoComponent implements AfterViewInit {
             sortDirection: 'asc'
         }).toPromise();
 
+        const agendamentos = await this._agendaTecnicoSvc.obterPorParametros({
+            codFiliais: "4",
+            inicio: moment().add(-1, 'days').toISOString(),
+            fim:  moment().add(1, 'days').toISOString()
+        }).toPromise();
+
         this.carregaEventos(chamados.items, tecnicos.items);
         this.loading = false;
     }
@@ -228,6 +240,29 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         }).toArray());
 
         this.validateEvents();
+    }
+
+    private carregaAgendamentos(agendamentos: AgendaTecnico[])
+    {
+        if (agendamentos == null) return;
+
+        // var atendimentos = Enumerable.from(agendamentos).where(a => !a.indIntervalo);
+        this.events = this.events.concat(Enumerable.from(agendamentos).where(ag => ag.ordemServico != null).select(ag => 
+        {
+            var evento: MbscAgendaTecnicoCalendarEvent =
+            {
+                start: ag.inicio,
+                end: ag.fim,
+                ordemServico: ag.ordemServico,
+                title: ag.codOS.toString(),
+                color: this.getInterventionColor(ag.ordemServico?.tipoIntervencao?.codTipoIntervencao),
+                editable: true,
+                // indIntervalo: false,
+                resource: ag.codTecnico,
+            }
+
+            return evento;
+        }).toArray());
     }
 
     private carregaSugestaoAlmoco(tecnicos: Tecnico[]) {
@@ -349,5 +384,25 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         //não pode inserir evento anterior à linha do tempo
         var now = moment();
         return moment(args.event.start) < now;
+    }
+
+    private showOSInfo(args)
+    {
+        var os = args.event.ordemServico;
+
+        if (os == null) return;
+
+        var text = "";
+        if(os.localAtendimento?.nomeLocal) text += 'Local Atendimento: ' + args.event.ordemServico.localAtendimento?.nomeLocal  + '\n';
+        if(os.defeito) text += ', Defeito: ' + os.defeito + '\n';
+
+        this._notify.alert(
+            {
+                title: "OS " + args.event.ordemServico.codOS.toString(),
+                message: text,
+                display: 'center'
+            }
+        );
+
     }
 }

@@ -14,11 +14,9 @@ namespace SAT.MODELS.Entities
         public int CodOS { get; set; }
         [ForeignKey("CodOS")]
         public OrdemServico OS { get; set; }
-        public string Title { get; set; }
-        public string Color { get; set; }
-        public byte? Visible { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fim { get; set; }
+        public byte IndIntervalo { get; set; }
         public DateTime? LastUpdate { get; set; }
     }
 }

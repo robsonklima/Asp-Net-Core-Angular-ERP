@@ -23,72 +23,28 @@ namespace SAT.SERVICES.Services
 
         public List<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters)
         {
-            var tecnicos = _tecnicoRepo.ObterPorParametros(new TecnicoParameters()
-            {
-                PA = parameters.PA,
-                CodFilial = parameters.CodFilial,
-                PageSize = int.MaxValue,
-                IndAtivo = 1,
-                SortActive = "nome",
-                SortDirection = "asc"
-            });
-
-            var i = 0;
-            foreach (Tecnico tecnico in tecnicos)
-            {
-                var parametros = new AgendaTecnicoParameters() { CodTecnico = tecnico.CodTecnico };
-                var agendaDB = _agendaRepo.ObterAgendasPorParametros(parametros);
-
-                if (agendaDB.Count == 0)
-                {
-                    var agenda = new AgendaTecnico()
-                    {
-                        CodTecnico = tecnico.CodTecnico,
-                        Color = ObterCor(),
-                        Title = tecnico.Nome,
-                        Visible = 1,
-                        LastUpdate = DateTime.Now
-                    };
-
-                    _agendaRepo.CriarAgenda(agenda);
-                }
-
-                i++;
-            }
-
-            var agendas = _agendaRepo.ObterAgendasPorParametros(parameters);
-
+            // var tecnicos = _tecnicoRepo.ObterPorParametros(new TecnicoParameters()
+            // {
+            //     PA = parameters.PA,
+            //     CodFilial = parameters.CodFilial,
+            //     PageSize = int.MaxValue,
+            //     IndAtivo = 1,
+            //     SortActive = "nome",
+            //     SortDirection = "asc"
+            // });
+            var agendas = _agendaRepo.ObterPorParametros(parameters);
             return agendas;
         }
 
         public void AtualizarAgenda(AgendaTecnico agenda)
         {
-            _agendaRepo.AtualizarAgenda(agenda);
+            _agendaRepo.Atualizar(agenda);
         }
 
         public void DeletarAgenda(int codigo)
         {
-            _agendaRepo.DeletarAgenda(codigo);
+            _agendaRepo.Deletar(codigo);
         }
-
-        //         public AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento)
-        //         {
-        //             _agendaRepo.CriarEvento(evento);
-        // 
-        //             return evento;
-        //         }
-        // 
-        //         public void DeletarEvento(int codigo)
-        //         {
-        //             _agendaRepo.DeletarEvento(codigo);
-        //         }
-        // 
-        //         public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
-        //         {
-        //             _agendaRepo.AtualizarEvento(evento);
-        // 
-        //             return evento;
-        //         }
 
         private string ObterCor()
         {

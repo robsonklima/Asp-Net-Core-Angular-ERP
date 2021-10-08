@@ -5,8 +5,9 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IAgendaTecnicoService
     {
-        List<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters);
-        void AtualizarAgenda(AgendaTecnico agenda);
-        void DeletarAgenda(int codigo);
+        List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
+        void Atualizar(AgendaTecnico agenda);
+        void Deletar(int codigo);
+        void Criar(AgendaTecnico agenda);
     }
 }

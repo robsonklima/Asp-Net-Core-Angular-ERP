@@ -188,19 +188,24 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         const agendamentos = await this._agendaTecnicoSvc.obterPorParametros({
             codFiliais: "4",
-            inicio: moment().add(-1, 'days').toISOString(),
-            fim:  moment().add(1, 'days').toISOString()
+            data: moment().toISOString()
         }).toPromise();
 
-        this.carregaEventos(chamados.items, tecnicos.items);
+        this.carregaEventos(chamados.items, agendamentos.items, tecnicos.items);
         // this.loading = false;
     }
 
-    private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[]) {
+    private carregaEventos(chamados: OrdemServico[], agendamentos: AgendaTecnico[], tecnicos: Tecnico[]) {
         this.events = [];
-        console.log(chamados);
-        this.carregaSugestaoAlmoco(tecnicos);
-        this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico => {
+        if(agendamentos == null) this.carregaSugestaoAlmoco(tecnicos);
+        this.carregaAgendamentos(agendamentos);
+
+        var chamadosJaAgendados = Enumerable.from(agendamentos).select(a => a.codOS);
+
+        this.events = this.events.concat(Enumerable.from(chamados)
+            .where(os => os.tecnico != null && !chamadosJaAgendados.contains(os.codOS))
+            .groupBy(os => os.codTecnico).selectMany(osPorTecnico => 
+        {
             var mediaTecnico = 30;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
@@ -235,6 +240,18 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                     resource: os.tecnico?.codTecnico,
                 }
 
+                var agendaTecnico: AgendaTecnico =
+                {
+                    inicio: start.toISOString(),
+                    fim: end.toISOString(),
+                    codOS: os.codOS,
+                    codTecnico: os.codTecnico,
+                    ultimaAtualizacao: moment().toISOString(),
+                    tipo: "OS"
+                }
+
+                this._agendaTecnicoSvc.criar(agendaTecnico);
+
                 ultimoEvento = evento;
                 return evento;
             }))
@@ -246,8 +263,6 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     private carregaAgendamentos(agendamentos: AgendaTecnico[])
     {
         if (agendamentos == null) return;
-
-        // var atendimentos = Enumerable.from(agendamentos).where(a => !a.indIntervalo);
         this.events = this.events.concat(Enumerable.from(agendamentos).where(ag => ag.ordemServico != null).select(ag => 
         {
             var evento: MbscAgendaTecnicoCalendarEvent =
@@ -258,7 +273,6 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 title: ag.codOS.toString(),
                 color: this.getInterventionColor(ag.ordemServico?.tipoIntervencao?.codTipoIntervencao),
                 editable: true,
-                // indIntervalo: false,
                 resource: ag.codTecnico,
             }
 
@@ -279,7 +293,19 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 editable: true,
                 resource: tecnico.codTecnico,
             }
+
+            var agendaTecnico: AgendaTecnico =
+            {
+                inicio: start.toISOString(),
+                fim: end.toISOString(),
+                codTecnico: tecnico.codTecnico,
+                ultimaAtualizacao: moment().toISOString(),
+                tipo: "OS"
+            }
+
+            this._agendaTecnicoSvc.criar(agendaTecnico);
             return evento;
+            
         }).toArray());
     }
 

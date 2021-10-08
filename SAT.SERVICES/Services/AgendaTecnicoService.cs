@@ -13,37 +13,16 @@ namespace SAT.SERVICES.Services
 
         public AgendaTecnicoService(
             IAgendaTecnicoRepository agendaRepo,
-            ITecnicoRepository tecnicoRepo
-        )
+            ITecnicoRepository tecnicoRepo)
         {
             _agendaRepo = agendaRepo;
             _tecnicoRepo = tecnicoRepo;
         }
 
 
-        public List<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters)
+        public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            // var tecnicos = _tecnicoRepo.ObterPorParametros(new TecnicoParameters()
-            // {
-            //     PA = parameters.PA,
-            //     CodFilial = parameters.CodFilial,
-            //     PageSize = int.MaxValue,
-            //     IndAtivo = 1,
-            //     SortActive = "nome",
-            //     SortDirection = "asc"
-            // });
-            var agendas = _agendaRepo.ObterPorParametros(parameters);
-            return agendas;
-        }
-
-        public void AtualizarAgenda(AgendaTecnico agenda)
-        {
-            _agendaRepo.Atualizar(agenda);
-        }
-
-        public void DeletarAgenda(int codigo)
-        {
-            _agendaRepo.Deletar(codigo);
+            return _agendaRepo.ObterPorParametros(parameters);
         }
 
         private string ObterCor()
@@ -63,6 +42,21 @@ namespace SAT.SERVICES.Services
             };
 
             return cores[new Random().Next(0, cores.Length)];
+        }
+
+        public void Atualizar(AgendaTecnico agenda)
+        {
+            _agendaRepo.Atualizar(agenda);
+        }
+
+        public void Deletar(int codigo)
+        {
+            _agendaRepo.Deletar(codigo);
+        }
+
+        public void Criar(AgendaTecnico agenda)
+        {
+            _agendaRepo.Criar(agenda);
         }
     }
 }

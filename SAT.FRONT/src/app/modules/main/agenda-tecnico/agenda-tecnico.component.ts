@@ -62,6 +62,12 @@ export class AgendaTecnicoComponent implements OnInit {
                 });
                 return false;
             }
+            else if (this.invalidInsert(args, inst)) {
+                this._notify.toast({
+                    message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
+                });
+                return false;
+            }
 
             const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
             this.externalEventsFiltered.splice(eventIndex, 1);
@@ -81,7 +87,7 @@ export class AgendaTecnicoComponent implements OnInit {
             }
             else if (this.invalidMove(args, inst)) {
                 this._notify.toast({
-                    message: 'O atendimento não pode ser movido para antes da linha do tempo.'
+                    message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
                 });
                 return false;
             }
@@ -163,13 +169,13 @@ export class AgendaTecnicoComponent implements OnInit {
             sortDirection: 'asc'
         }).toPromise();
 
-        this.carregaSugestaoAlmoco(tecnicos.items);
-        this.carregaEventos(chamados.items);
+        this.carregaEventos(chamados.items, tecnicos.items);
         this.loading = false;
     }
 
-    private carregaEventos(chamados: OrdemServico[]) {
+    private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[]) {
         this.events = [];
+        this.carregaSugestaoAlmoco(tecnicos);
         this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico => {
             var mediaTecnico = 30;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
@@ -326,5 +332,11 @@ export class AgendaTecnicoComponent implements OnInit {
         //não pode mover evento posterior a linha do tempo para antes da linha do tempo
         var now = moment();
         return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
+    }
+
+    private invalidInsert(args, inst) {
+        //não pode inserir evento anterior à linha do tempo
+        var now = moment();
+        return moment(args.event.start) < now;
     }
 }

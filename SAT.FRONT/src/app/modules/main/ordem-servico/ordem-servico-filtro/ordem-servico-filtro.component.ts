@@ -6,6 +6,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
@@ -27,6 +28,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
   clientes: Cliente[] = [];
   statusServicos: StatusServico[] =[];
   tiposIntervencao: TipoIntervencao[] = [];
+  pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
@@ -49,6 +51,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.obterStatusServicos();
     this.registrarEmitters();
     this.inicializarForm();
+
+    this.pontosEstrategicos = PontoEstrategicoEnum;  
   }
 
   private inicializarForm(): void {
@@ -65,6 +69,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
       pa: [undefined],
+      pontosEstrategicos: [undefined],
     });
 
     this.form.patchValue(this.filtro?.parametros);
@@ -149,7 +154,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       nome: 'ordem-servico',
       parametros: form
     }
-
+        
     this._userService.registrarFiltro(filtro);
     this.sidenav.close();
   }

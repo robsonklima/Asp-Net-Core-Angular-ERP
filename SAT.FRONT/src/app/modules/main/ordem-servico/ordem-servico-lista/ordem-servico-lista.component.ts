@@ -128,7 +128,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     private carregarFiltro(): void {
         this.filtro = this._userService.obterFiltro('ordem-servico');
-
         if (!this.filtro) {
             return;
         }
@@ -137,7 +136,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         if (this.userSession?.usuario?.codFilial) {
             this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
         }
-
+   
         Object.keys(this.filtro?.parametros).forEach((key) => {
             if (this.filtro.parametros[key] instanceof Array) {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()

@@ -171,7 +171,7 @@ namespace SAT.INFRA.Repository
                     os =>
                     parameters.CodFiliais.Contains(os.CodFilial.ToString())
                 );
-            }
+            }      
 
             if (parameters.CodAutorizadas != null)
             {
@@ -180,6 +180,13 @@ namespace SAT.INFRA.Repository
                     parameters.CodAutorizadas.Contains(os.CodAutorizada.ToString())
                 );
             }
+
+            if (parameters.PontosEstrategicos != null)
+            {
+                var paramsSplit = parameters.PontosEstrategicos.Split(',');
+
+                query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
+            }                
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

@@ -31,7 +31,7 @@ namespace SAT.MODELS.Helpers
             }
             catch (Exception)
             {
-                throw;
+                 throw;
             }
         }
     }

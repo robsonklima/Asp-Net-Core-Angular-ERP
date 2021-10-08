@@ -109,6 +109,25 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
                     </mat-icon>
                 </mat-form-field>
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('ponto estrategico') }}</mat-label>                   
+
+                    <mat-select formControlName="pontosEstrategicos" multiple="true">
+                        <mat-option [value]="pontosEstrategicos.NAO">
+                            {{pontosEstrategicos[0]}}
+                        </mat-option>
+
+                        <mat-option [value]="pontosEstrategicos.VIP">
+                            {{pontosEstrategicos[1]}}
+                        </mat-option>
+
+                        <mat-option [value]="pontosEstrategicos.VIT">
+                            {{pontosEstrategicos[2]}}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>         
             </div>
 
             <div class="mt-6 border-t"></div>

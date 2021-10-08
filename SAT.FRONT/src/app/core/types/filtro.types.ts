@@ -15,5 +15,6 @@ export interface Parametros {
     dataAberturaFim?: string,
     dataFechamentoInicio?: string,
     dataFechamentoFim?: string,
-    pa?: number
+    pa?: number,
+    pontosEstrategicos?: number[]
 }

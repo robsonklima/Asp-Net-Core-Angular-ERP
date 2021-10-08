@@ -24,5 +24,6 @@ namespace SAT.MODELS.Entities
         public DateTime DataAberturaFim { get; set; }
         public DateTime DataFechamentoInicio { get; set; }
         public DateTime DataFechamentoFim { get; set; }
+        public string PontosEstrategicos { get; set; }
     }
 }

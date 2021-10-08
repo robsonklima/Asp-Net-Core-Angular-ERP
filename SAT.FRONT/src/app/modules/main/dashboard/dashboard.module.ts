@@ -29,7 +29,6 @@ import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
 import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
 import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
-import { TecnicosMenosReincidentesComponent } from './tecnicos-menos-reincidentes/tecnicos-menos-reincidentes.component';
 import { PendenciaFiliaisComponent } from './pendencia-filiais/pendencia-filiais.component';
 import { TecnicosMenosPendentesComponent } from './tecnicos-menos-pendentes/tecnicos-menos-pendentes.component';
 import { TecnicosMaisPendentesComponent } from './tecnicos-mais-pendentes/tecnicos-mais-pendentes.component';
@@ -43,6 +42,7 @@ import { DensidadeComponent } from './densidade/densidade.component';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { TecnicosReincidentesComponent } from './tecnicos-reincidentes/tecnicos-reincidentes.component';
+import { TecnicosDesempenhoSpaComponent } from './tecnicos-desempenho-spa/tecnicos-desempenho-spa.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,6 @@ import { TecnicosReincidentesComponent } from './tecnicos-reincidentes/tecnicos-
     SlaClientesComponent,
     ReincidenciaFiliaisComponent,
     TecnicosReincidentesComponent,
-    TecnicosMenosReincidentesComponent,
     PendenciaFiliaisComponent,
     TecnicosMenosPendentesComponent,
     TecnicosMaisPendentesComponent,
@@ -70,7 +69,8 @@ import { TecnicosReincidentesComponent } from './tecnicos-reincidentes/tecnicos-
     CincoPecasMaisFaltantesComponent,
     PecasFaltantesMaisCriticasComponent,
     MonitoramentoSatComponent,
-    DensidadeComponent
+    DensidadeComponent,
+    TecnicosDesempenhoSpaComponent
   ],
   imports: [
     CommonModule,

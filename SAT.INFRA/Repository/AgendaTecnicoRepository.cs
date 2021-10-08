@@ -65,24 +65,6 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void DeletarEvento(int codigo)
-        {
-            AgendaTecnicoEvento e = _context.AgendaTecnicoEvento.SingleOrDefault(e => e.Id == codigo);
-
-            if (e != null)
-            {
-                try
-                {
-                    _context.AgendaTecnicoEvento.Remove(e);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-        }
-
         public AgendaTecnico ObterAgendaPorCodigo(int codigo)
         {
             var agendas = _context.AgendaTecnico
@@ -120,7 +102,8 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(
                     a =>
                     a.Id.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    a.Title.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    a.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    a.CodTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

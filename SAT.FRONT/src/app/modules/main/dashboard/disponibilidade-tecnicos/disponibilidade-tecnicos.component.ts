@@ -112,14 +112,14 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
       }
     }
 
-    this.totalTecnicosAtivos = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.qntAtivosChamados, 0);
-    this.totalTecnicosSemChamadosTransf = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.qntAtivosSemChamadosTransferidos, 0);
-    this.totalInativos = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.qntInativos, 0);
-    this.totalTecnicos = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.totalQntTecnicos, 0);
-    this.totalOsNaoTransf = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.qntOsNaoTransferidas, 0);
-    this.totalMediaAtendimento = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.mediaAtendimentoTodos, 0);
-    this.totalMediaAtendimentoCorretivo = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.mediaAtendimentoCorretivo, 0);
-    this.totalMediaAtendimentoPreventivo = this.disponibilidadeTecnicosModel.reduce((ty, u) => ty + u.mediaAtendimentoPreventivo, 0);
+    this.totalTecnicosAtivos = this.disponibilidadeTecnicosModel.sum('qntAtivosChamados');
+    this.totalTecnicosSemChamadosTransf = this.disponibilidadeTecnicosModel.sum('qntAtivosSemChamadosTransferidos');
+    this.totalInativos = this.disponibilidadeTecnicosModel.sum('qntInativos')
+    this.totalTecnicos = this.disponibilidadeTecnicosModel.sum('totalQntTecnicos')
+    this.totalOsNaoTransf = this.disponibilidadeTecnicosModel.sum('qntOsNaoTransferidas')
+    this.totalMediaAtendimento = this.disponibilidadeTecnicosModel.sum('mediaAtendimentoTodos')
+    this.totalMediaAtendimentoCorretivo = this.disponibilidadeTecnicosModel.sum('mediaAtendimentoCorretivo')
+    this.totalMediaAtendimentoPreventivo = this.disponibilidadeTecnicosModel.sum('mediaAtendimentoPreventivo')
 
     this.loading = false;
     this._cdr.detectChanges();

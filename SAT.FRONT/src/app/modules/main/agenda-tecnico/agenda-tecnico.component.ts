@@ -46,8 +46,8 @@ export class AgendaTecnicoComponent implements OnInit {
                 type: 'day',
                 allDay: false,
                 startDay: 1,
-                startTime: '08:00',
-                endTime: '19:00'
+                startTime: '07:00',
+                endTime: '24:00'
             }
         },
         dragToMove: true,
@@ -63,8 +63,8 @@ export class AgendaTecnicoComponent implements OnInit {
                 return false;
             }
 
-            const eventIndex = this.externalEvents.map(function (e) { return e.title; }).indexOf(args.event.title);
-            this.externalEvents.splice(eventIndex, 1);
+            const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
+            this.externalEventsFiltered.splice(eventIndex, 1);
         },
         onEventUpdate: (args, inst) => {
             if (this.hasOverlap(args, inst)) {
@@ -104,30 +104,6 @@ export class AgendaTecnicoComponent implements OnInit {
         private _osSvc: OrdemServicoService,
         private _haversineSvc: HaversineService
     ) { }
-
-    hasOverlap(args, inst) {
-        var ev = args.event;
-        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
-        return events.length > 0;
-    }
-
-    hasChangedResource(args, inst) {
-        return args.event.resource != args.oldEvent.resource;
-    }
-
-    isTechnicianInterval(args, inst) {
-        return args.event.title === "INTERVALO";
-    }
-
-    invalidTechnicianInterval(args, inst) {
-        return moment(args.event.start) > this.limiteIntervalo;
-    }
-
-    invalidMove(args, inst) {
-        //não pode mover evento posterior a linha do tempo para antes da linha do tempo
-        var now = moment();
-        return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
-    }
 
     ngOnInit(): void {
         interval(1 * 60 * 1000)
@@ -326,5 +302,29 @@ export class AgendaTecnicoComponent implements OnInit {
         } else {
             this.externalEventsFiltered = this.externalEvents;
         }
+    }
+
+    private hasOverlap(args, inst) {
+        var ev = args.event;
+        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
+        return events.length > 0;
+    }
+
+    private hasChangedResource(args, inst) {
+        return args.event.resource != args.oldEvent.resource;
+    }
+
+    private isTechnicianInterval(args, inst) {
+        return args.event.title === "INTERVALO";
+    }
+
+    private invalidTechnicianInterval(args, inst) {
+        return moment(args.event.start) > this.limiteIntervalo;
+    }
+
+    private invalidMove(args, inst) {
+        //não pode mover evento posterior a linha do tempo para antes da linha do tempo
+        var now = moment();
+        return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
 }

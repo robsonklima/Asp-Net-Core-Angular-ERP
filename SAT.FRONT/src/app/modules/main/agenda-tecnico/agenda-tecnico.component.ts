@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -10,6 +10,7 @@ import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { fromEvent, interval, Subject } from 'rxjs';
+import { MatSidenav } from '@angular/material/sidenav';
 
 setOptions({
     locale: localePtBR,
@@ -26,7 +27,7 @@ setOptions({
     templateUrl: './agenda-tecnico.component.html',
     styleUrls: ['./agenda-tecnico.component.scss'],
 })
-export class AgendaTecnicoComponent implements OnInit {
+export class AgendaTecnicoComponent implements AfterViewInit {
     loading: boolean;
     tecnicos: Tecnico[] = [];
     chamados: OrdemServico[] = [];
@@ -95,6 +96,7 @@ export class AgendaTecnicoComponent implements OnInit {
         }
     };
 
+    @ViewChild('sidenav') sidenav: MatSidenav;
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
@@ -105,15 +107,17 @@ export class AgendaTecnicoComponent implements OnInit {
         private _haversineSvc: HaversineService
     ) { }
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         interval(1 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
             .subscribe(() => {
-                this.carregaTecnicosEChamadosTransferidos();
-                this.carregaChamadosAbertos();
+                if (!this.sidenav.opened) {
+                    this.carregaTecnicosEChamadosTransferidos();
+                    this.carregaChamadosAbertos();
+                }
             });
 
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(

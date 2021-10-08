@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendarView } from '@mobiscroll/angular';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -8,6 +8,8 @@ import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
 
 setOptions({
     locale: localePtBR,
@@ -28,14 +30,16 @@ export class AgendaTecnicoComponent implements OnInit {
     loading: boolean;
     tecnicos: Tecnico[] = [];
     chamados: OrdemServico[] = [];
-
-    constructor(
-        private _notify: Notifications,
-        private _tecnicoSvc: TecnicoService,
-        private _osSvc: OrdemServicoService,
-        private _haversineSvc: HaversineService
-    ) { }
-
+    events: MbscAgendaTecnicoCalendarEvent[] = [];
+    resources = [];
+    externalEvents = [];
+    externalEventsFiltered = [];
+    inicioExpediente = moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+    fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+    inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+    fimIntervalo = moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
+    limiteIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
+    
     calendarOptions: MbscEventcalendarOptions = {
         view: {
             timeline: {
@@ -51,8 +55,7 @@ export class AgendaTecnicoComponent implements OnInit {
         dragToResize: false,
         dragToCreate: false,
         clickToCreate: false,
-        onEventCreate: (args, inst) => 
-        {
+        onEventCreate: (args, inst) => {
             if (this.hasOverlap(args, inst)) {
                 this._notify.toast({
                     message: 'Os atendimentos não podem se sobrepor.'
@@ -60,11 +63,10 @@ export class AgendaTecnicoComponent implements OnInit {
                 return false;
             }
 
-            const eventIndex = this.externalEvents.map(function(e) { return e.title; }).indexOf(args.event.title);
+            const eventIndex = this.externalEvents.map(function (e) { return e.title; }).indexOf(args.event.title);
             this.externalEvents.splice(eventIndex, 1);
         },
-        onEventUpdate: (args, inst) => 
-        {
+        onEventUpdate: (args, inst) => {
             if (this.hasOverlap(args, inst)) {
                 this._notify.toast({
                     message: 'Os atendimentos não podem se sobrepor.'
@@ -77,7 +79,7 @@ export class AgendaTecnicoComponent implements OnInit {
                 });
                 return false;
             }
-            else if (this.invalidMove(args, inst)){
+            else if (this.invalidMove(args, inst)) {
                 this._notify.toast({
                     message: 'O atendimento não pode ser movido para antes da linha do tempo.'
                 });
@@ -93,87 +95,71 @@ export class AgendaTecnicoComponent implements OnInit {
         }
     };
 
+    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+    protected _onDestroy = new Subject<void>();
 
-    hasOverlap(args, inst) 
-    {
+    constructor(
+        private _notify: Notifications,
+        private _tecnicoSvc: TecnicoService,
+        private _osSvc: OrdemServicoService,
+        private _haversineSvc: HaversineService
+    ) { }
+
+    hasOverlap(args, inst) {
         var ev = args.event;
         var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
         return events.length > 0;
     }
 
-    hasChangedResource(args, inst)
-    {
+    hasChangedResource(args, inst) {
         return args.event.resource != args.oldEvent.resource;
     }
 
-    isTechnicianInterval(args, inst)
-    {
+    isTechnicianInterval(args, inst) {
         return args.event.title === "INTERVALO";
     }
 
-    invalidTechnicianInterval(args, inst)
-    {
+    invalidTechnicianInterval(args, inst) {
         return moment(args.event.start) > this.limiteIntervalo;
     }
 
-    invalidMove(args, inst)
-    {   
+    invalidMove(args, inst) {
         //não pode mover evento posterior a linha do tempo para antes da linha do tempo
         var now = moment();
         return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
 
-    view: MbscEventcalendarView = { };
-
-    events: MbscAgendaTecnicoCalendarEvent[] = [];
-    resources = [];
-    externalEvents = [];
-    inicioExpediente = moment().set({hour:8,minute:0,second:0,millisecond:0});
-    fimExpediente = moment().set({hour:18,minute:0,second:0,millisecond:0});
-    inicioIntervalo = moment().set({hour:12,minute:0,second:0,millisecond:0});
-    fimIntervalo = moment().set({hour:13,minute:0,second:0,millisecond:0});
-    limiteIntervalo = moment().set({hour:14,minute:0,second:0,millisecond:0});
-
-    retreatData = {
-        title: 'Team retreat',
-        color: '#1064b0',
-        start: moment(),
-        end: moment().add(60, 'minutes')
-    };
-
-    meetingData = {
-        title: 'QA meeting',
-        color: '#cf4343',
-        start: moment(),
-        end: moment().add(60, 'minutes')
-    };
-
     ngOnInit(): void {
-        this.obterTecnicosEChamadosTransferidos();
-        this.obterChamadosAbertos();
+        interval(1 * 60 * 1000)
+            .pipe(
+                startWith(0),
+                takeUntil(this._onDestroy)
+            )
+            .subscribe(() => {
+                this.carregaTecnicosEChamadosTransferidos();
+                this.carregaChamadosAbertos();
+            });
 
-        setInterval(function()
-        {
-             this.autoRefresh();
-        }, 1000*60*5);
+        fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(700)
+            , distinctUntilChanged()
+            ).subscribe((text: string) => {
+                this.filtrarChamadosAbertos(text);
+            });
     }
 
-    private validateEvents(): void
-    {
+    private validateEvents(): void {
         var now = moment();
-        Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
-        {
+        Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e => {
             var end = moment(e.end);
             if (end < now) e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
         });
     }
 
-    private autoRefresh(): void
-    {
-        this.validateEvents();
-    }
-
-    private async obterTecnicosEChamadosTransferidos() {
+    private async carregaTecnicosEChamadosTransferidos() {
         this.loading = true;
 
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
@@ -191,7 +177,7 @@ export class AgendaTecnicoComponent implements OnInit {
                 img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
             }
         });
-        
+
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
             codStatusServicos: "8",
@@ -206,38 +192,33 @@ export class AgendaTecnicoComponent implements OnInit {
         this.loading = false;
     }
 
-    private carregaEventos(chamados: OrdemServico[])
-    {
-        this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
-        {
+    private carregaEventos(chamados: OrdemServico[]) {
+        this.events = [];
+        this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico => {
             var mediaTecnico = 30;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
-            return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os =>
-            {
+            return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => {
                 var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
                 var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
 
                 // se começa durante a sugestão de intervalo ou deopis das 18h
-                if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
-                {
+                if (start.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
                     start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
                 }
-                else if (start.hour() >= this.fimExpediente.hour())
-                {
+                else if (start.hour() >= this.fimExpediente.hour()) {
                     start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
                 }
 
                 // se termina durante a sugestao de intervalo
                 var end: Moment = moment(start).add(mediaTecnico, 'minutes');
-                if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
-                {
+                if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
                     start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
                     end = moment(start).add(mediaTecnico, 'minutes');
                 }
 
-                var evento: MbscAgendaTecnicoCalendarEvent = 
+                var evento: MbscAgendaTecnicoCalendarEvent =
                 {
                     start: start,
                     end: end,
@@ -256,15 +237,13 @@ export class AgendaTecnicoComponent implements OnInit {
         this.validateEvents();
     }
 
-    private carregaSugestaoAlmoco(tecnicos: Tecnico[])
-    {
-        this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
-        {
+    private carregaSugestaoAlmoco(tecnicos: Tecnico[]) {
+        this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico => {
             var start = this.inicioIntervalo;
             var end = this.fimIntervalo;
-            var evento: MbscAgendaTecnicoCalendarEvent = 
+            var evento: MbscAgendaTecnicoCalendarEvent =
             {
-                start:start,
+                start: start,
                 end: end,
                 title: "INTERVALO",
                 color: '#808080',
@@ -275,7 +254,7 @@ export class AgendaTecnicoComponent implements OnInit {
         }).toArray());
     }
 
-    private async obterChamadosAbertos() {
+    private async carregaChamadosAbertos() {
         const data = await this._osSvc.obterPorParametros({
             codStatusServicos: "1",
             codFiliais: "4"
@@ -288,55 +267,64 @@ export class AgendaTecnicoComponent implements OnInit {
                 start: moment(),
                 end: moment().add(60, 'minutes')
             }
-        })
-    } 
+        });
 
-    private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
-    {
+        this.externalEventsFiltered = this.externalEvents;
+    }
+
+    private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number {
         var origem: Coordenada = new Coordenada();
         var destino: Coordenada = new Coordenada();
 
         // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
-        if(osAnterior != null)
+        if (osAnterior != null)
             origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
         // Se o técnico não possui nada agendado, parte do endereoç deste
-        else 
+        else
             origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
 
-        destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude]; 
+        destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
 
         return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
     }
 
-    private getInterventionColor(tipoIntervencao: number): string
-    {
-        switch(tipoIntervencao) 
-        { 
+    private getInterventionColor(tipoIntervencao: number): string {
+        switch (tipoIntervencao) {
             case 1: //alteracao engenharia
-                return "#067A52"; 
+                return "#067A52";
             case 2: //corretiva
-                return "#3FC283"; 
+                return "#3FC283";
             case 4: //preventiva
-                return "#87E9A9"; 
+                return "#87E9A9";
             default:
-                return "#D7F4D2"; 
+                return "#D7F4D2";
         }
     }
 
-    private getStatusColor(statusOS: number): string
-    {
-        switch(statusOS) 
-        { 
+    private getStatusColor(statusOS: number): string {
+        switch (statusOS) {
             case 1: //aberto
-                return "#ff4c4c"; 
+                return "#ff4c4c";
             case 8: //transferido
-                return "#ff4c4c"; 
+                return "#ff4c4c";
             case 2: //cancelado
-                return "#BFCAD0"; 
+                return "#BFCAD0";
             case 3: //fechado
                 return "#C5C5C5";
             default:
-                return "#C5C5C5"; 
+                return "#C5C5C5";
+        }
+    }
+
+    public filtrarChamadosAbertos(query: string) {
+        if (query && query.trim() != '') {
+            this.externalEventsFiltered = this.externalEvents.filter((ev) => {
+                return (
+                    ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1 
+                );
+            })
+        } else {
+            this.externalEventsFiltered = this.externalEvents;
         }
     }
 }

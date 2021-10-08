@@ -103,7 +103,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
             pageNumber: this.paginator.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
-            pageSize: this.paginator?.pageSize,
+            pageSize: this.filtro.parametros.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
 
@@ -160,7 +160,9 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.isLoading = false;  
     }
 
-    paginar() {
+    paginar() 
+    {
+        this._userService.atualizarPropriedade("ordem-servico", "qtdPaginacaoLista", this.paginator?.pageSize);
         this.obterOrdensServico();
     }
 

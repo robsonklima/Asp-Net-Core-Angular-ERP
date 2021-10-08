@@ -72,7 +72,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
       dataAberturaFim: [undefined],
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
-      pa: [undefined],
+      pa: [undefined]
     });
 
     this.form.patchValue(this.filtro?.parametros);
@@ -166,14 +166,18 @@ export class OrdemServicoFiltroComponent implements OnInit {
   }
 
   aplicar(): void {
-    const form: any = this.form.getRawValue();
 
-    const filtro: any = {
-      nome: 'ordem-servico',
-      parametros: form
-    }
+    const newFilter: any = { nome: 'ordem-servico', parametros: this.form.getRawValue() }
+    const oldFilter = this._userService.obterFiltro('ordem-servico');
+    
+    if (oldFilter != null)
+      newFilter.parametros = 
+      {
+      ...newFilter.parametros,
+      ...oldFilter.parametros
+      };
 
-    this._userService.registrarFiltro(filtro);
+    this._userService.registrarFiltro(newFilter);
     this.sidenav.close();
   }
 

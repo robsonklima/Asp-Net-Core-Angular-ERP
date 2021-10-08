@@ -86,7 +86,7 @@ namespace SAT.SERVICES.Services
         }
 
         private AgendaTecnico ObterPrevisaoAgendamento(int codOS, int codTecnico) =>
-        _agendaTecnicoRepo.ObterAgendasPorParametros(new AgendaTecnicoParameters
+        _agendaTecnicoRepo.ObterPorParametros(new AgendaTecnicoParameters
         {
             CodTecnico = codTecnico,
             CodOS = codOS

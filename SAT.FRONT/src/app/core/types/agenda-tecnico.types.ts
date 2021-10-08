@@ -2,6 +2,7 @@ import { Meta } from "@angular/platform-browser";
 import { MbscCalendarEvent } from "@mobiscroll/angular";
 import { QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
+import { Tecnico } from "./tecnico.types";
 
 export type CalendarDrawerMode = 'over' | 'side';
 
@@ -24,7 +25,7 @@ export interface CalendarWeekday
 
 export interface AgendaTecnicoParameters extends QueryStringParameters {
     pa?: number;
-    codFilial?: number;
+    codFiliais?: string;
     codOS?: number;
     codTecnico?: number;
     inicio?: string;
@@ -44,13 +45,14 @@ export class AgendaTecnico
 {
     id: number;
     codTecnico: number;
+    tecnico: Tecnico;
     codOS: number;
+    ordemServico: OrdemServico;
     visible: boolean;
-    title: string;
-    color: string;
     lastUpdate: string;
     inicio: string;
     fim: string;
+    indIntervalo: boolean
 }
 
 export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent

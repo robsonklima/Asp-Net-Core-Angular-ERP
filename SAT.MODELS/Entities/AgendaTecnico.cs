@@ -16,6 +16,7 @@ namespace SAT.MODELS.Entities
         public OrdemServico OS { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fim { get; set; }
+        public byte IndIntervalo { get; set; }
         public DateTime? LastUpdate { get; set; }
     }
 }

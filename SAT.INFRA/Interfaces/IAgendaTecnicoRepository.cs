@@ -5,10 +5,10 @@ namespace SAT.INFRA.Interfaces
 {
     public interface IAgendaTecnicoRepository
     {
-        void CriarAgenda(AgendaTecnico agenda);
-        PagedList<AgendaTecnico> ObterAgendasPorParametros(AgendaTecnicoParameters parameters);
-        void DeletarAgenda(int codigo);
-        void AtualizarAgenda(AgendaTecnico agenda);
-        AgendaTecnico ObterAgendaPorCodigo(int codigo);
+        void Criar(AgendaTecnico agenda);
+        PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
+        void Deletar(int codigo);
+        void Atualizar(AgendaTecnico agenda);
+        AgendaTecnico ObterPorCodigo(int codigo);
     }
 }

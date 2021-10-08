@@ -32,18 +32,18 @@ namespace SAT.SERVICES.Services
             //     SortActive = "nome",
             //     SortDirection = "asc"
             // });
-            var agendas = _agendaRepo.ObterAgendasPorParametros(parameters);
+            var agendas = _agendaRepo.ObterPorParametros(parameters);
             return agendas;
         }
 
         public void AtualizarAgenda(AgendaTecnico agenda)
         {
-            _agendaRepo.AtualizarAgenda(agenda);
+            _agendaRepo.Atualizar(agenda);
         }
 
         public void DeletarAgenda(int codigo)
         {
-            _agendaRepo.DeletarAgenda(codigo);
+            _agendaRepo.Deletar(codigo);
         }
 
         private string ObterCor()

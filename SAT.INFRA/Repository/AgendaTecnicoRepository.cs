@@ -16,7 +16,7 @@ namespace SAT.INFRA.Repository
         {
             _context = context;
         }
-        public void AtualizarAgenda(AgendaTecnico agenda)
+        public void Atualizar(AgendaTecnico agenda)
         {
             AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == agenda.Id);
 
@@ -34,7 +34,7 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void CriarAgenda(AgendaTecnico agenda)
+        public void Criar(AgendaTecnico agenda)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void DeletarAgenda(int codigo)
+        public void Deletar(int codigo)
         {
             AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
 
@@ -65,7 +65,7 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public AgendaTecnico ObterAgendaPorCodigo(int codigo)
+        public AgendaTecnico ObterPorCodigo(int codigo)
         {
             var agendas = _context.AgendaTecnico
                .Include(a => a.Tecnico)
@@ -75,7 +75,7 @@ namespace SAT.INFRA.Repository
             return agendas.SingleOrDefault(a => a.Id == codigo);
         }
 
-        public PagedList<AgendaTecnico> ObterAgendasPorParametros(AgendaTecnicoParameters parameters)
+        public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico
                 .Include(a => a.Tecnico)
@@ -92,9 +92,15 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
             }
 
-            if (parameters.CodFilial != null)
+            if (string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                agendas = agendas.Where(a => a.Tecnico.CodFilial == parameters.CodFilial);
+                var filiais = parameters.CodFiliais.Split(",");
+                agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
+            }
+
+            if (parameters.Inicio.HasValue && parameters.Fim.HasValue)
+            {
+                agendas = agendas.Where(ag => ag.Inicio >= parameters.Inicio && ag.Fim <= parameters.Fim);
             }
 
             if (parameters.Filter != null)

@@ -121,9 +121,6 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     ) { }
 
     ngAfterViewInit(): void {
-        this.carregaTecnicosEChamadosTransferidos();
-        this.carregaChamadosAbertos();
-        
         interval(10 * 60 * 1000)
             .pipe(
                 startWith(0),

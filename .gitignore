@@ -11,3 +11,4 @@ SAT.FRONT/.idea/modules.xml
 SAT.FRONT/.idea/SAT.FRONT.iml
 SAT.FRONT/.idea/vcs.xml
 SAT.FRONT/.idea/inspectionProfiles/Project_Default.xml
+SAT.FRONT/src/app/core/config/app.config.ts

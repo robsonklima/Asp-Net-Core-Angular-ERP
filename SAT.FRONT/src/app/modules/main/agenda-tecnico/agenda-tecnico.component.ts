@@ -157,7 +157,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
     private async carregaTecnicosEChamadosTransferidos() {
-        this.loading = true;
+        // this.loading = true;
 
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
@@ -193,7 +193,9 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         }).toPromise();
 
         this.carregaEventos(chamados.items, tecnicos.items);
-        this.loading = false;
+        // this.loading = false;
+
+        console.log(this.events);
     }
 
     private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[]) {

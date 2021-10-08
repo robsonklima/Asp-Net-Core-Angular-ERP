@@ -55,6 +55,9 @@ namespace SAT.INFRA.Repository
             {
                 case (OrdemServicoIncludeEnum.OS_RAT):
                     query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.Tecnico)
                         .Include(os => os.RelatoriosAtendimento);
                     break;
 

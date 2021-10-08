@@ -157,13 +157,13 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
     private async carregaTecnicosEChamadosTransferidos() {
-        // this.loading = true;
+         this.loading = true;
 
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
             codPerfil: 35,
-            periodoMediaAtendInicio: moment().add(-21, 'days').format('yyyy-MM-DD 00:00'),
+            periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
             periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
             sortActive: 'nome',
             sortDirection: 'asc'

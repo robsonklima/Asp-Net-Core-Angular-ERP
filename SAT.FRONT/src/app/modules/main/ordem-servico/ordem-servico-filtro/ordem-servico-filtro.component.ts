@@ -17,7 +17,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import Enumerable from 'linq'
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -57,12 +57,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.obterStatusServicos();
     this.registrarEmitters();
     this.inicializarForm();
-<<<<<<< HEAD
-
     this.pontosEstrategicos = PontoEstrategicoEnum;  
-=======
     this.obterRegioes();
->>>>>>> 03f92999c3c5ce79a87fae18a5522a0fe82f3f1a
   }
 
   private inicializarForm(): void {

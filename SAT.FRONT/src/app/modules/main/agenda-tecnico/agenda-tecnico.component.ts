@@ -157,13 +157,13 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
     private async carregaTecnicosEChamadosTransferidos() {
-        // this.loading = true;
+         this.loading = true;
 
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
             codFilial: 4,
             codPerfil: 35,
-            periodoMediaAtendInicio: moment().add(-21, 'days').format('yyyy-MM-DD 00:00'),
+            periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
             periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
             sortActive: 'nome',
             sortDirection: 'asc'
@@ -193,12 +193,11 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         }).toPromise();
 
         this.carregaEventos(chamados.items, tecnicos.items);
-        // this.loading = false;
+        this.loading = false;
     }
 
     private carregaEventos(chamados: OrdemServico[], tecnicos: Tecnico[]) {
         this.events = [];
-        console.log(chamados);
         this.carregaSugestaoAlmoco(tecnicos);
         this.events = this.events.concat(Enumerable.from(chamados).where(os => os.tecnico != null).groupBy(os => os.codTecnico).selectMany(osPorTecnico => {
             var mediaTecnico = 30;

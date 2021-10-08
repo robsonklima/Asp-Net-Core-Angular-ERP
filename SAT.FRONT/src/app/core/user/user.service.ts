@@ -82,6 +82,19 @@ export class UserService {
     return filtros.filter(f => f.nome === nome).shift();
   }
 
+  atualizarPropriedade(filterName: string, propertyName: string, propertyValue: any)
+  {
+    let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
+    var filtro = filtros.filter(f => f.nome === filterName).shift();
+    filtro.parametros[`${propertyName}`] = propertyValue;
+    this.registrarFiltro(filtro);
+  }
+
+  atualizarFiltro(filter: any, propertyName: string, propertyValue: string)
+  {
+    filter[`${propertyName}`] = propertyValue;
+  }
+
   registrarNavegacoes(navegacoes: Navegacao[]): void {
     localStorage.setItem("navegacoes", JSON.stringify(navegacoes));
   }

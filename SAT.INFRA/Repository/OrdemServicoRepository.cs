@@ -140,6 +140,12 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodRegioes != null)
+            {
+                var regioes = parameters.CodRegioes.Split(",");
+                query = query.Where(os => regioes.Any(r => r == os.RegiaoAutorizada.CodRegiao.ToString()));
+            }
+
             if (parameters.CodTiposIntervencao != null)
             {
                 query = query.Where(
@@ -261,6 +267,14 @@ namespace SAT.INFRA.Repository
                                  .OrderBy(q => q.EquipamentoContrato.NumSerie) :
                             query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.NumSerie))
                                  .OrderByDescending(q => q.EquipamentoContrato.NumSerie);
+                        break;
+
+                    case "nomeTecnico":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderBy(q => q.Tecnico.Nome) :
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderByDescending(q => q.Tecnico.Nome);
                         break;
 
                     default:

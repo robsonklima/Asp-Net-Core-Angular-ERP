@@ -18,7 +18,7 @@ namespace SAT.INFRA.Repository
         }
         public void Atualizar(AgendaTecnico agenda)
         {
-            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == agenda.Id);
+            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
 
             if (a != null)
             {
@@ -49,7 +49,7 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
+            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
 
             if (a != null)
             {
@@ -67,20 +67,14 @@ namespace SAT.INFRA.Repository
 
         public AgendaTecnico ObterPorCodigo(int codigo)
         {
-            var agendas = _context.AgendaTecnico
-               .Include(a => a.Tecnico)
-               .Include(a => a.OS)
-               .AsQueryable();
+            var agendas = _context.AgendaTecnico.AsQueryable();
 
-            return agendas.SingleOrDefault(a => a.Id == codigo);
+            return agendas.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
         }
 
         public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _context.AgendaTecnico
-                .Include(a => a.Tecnico)
-                .Include(a => a.OS)
-                .AsQueryable();
+            var agendas = _context.AgendaTecnico.AsQueryable();
 
             if (parameters.CodOS != null)
             {
@@ -95,12 +89,17 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(",");
-                agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
+                agendas = agendas.Where(ag => filiais.Any(a => a == ag.OS.Tecnico.CodFilial.ToString()));
             }
 
             if (parameters.Inicio.HasValue && parameters.Fim.HasValue)
             {
                 agendas = agendas.Where(ag => ag.Inicio >= parameters.Inicio && ag.Fim <= parameters.Fim);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Tipo))
+            {
+                agendas = agendas.Where(ag => ag.Tipo.ToLower() == parameters.Tipo.ToLower());
             }
 
             if (parameters.Data.HasValue)
@@ -112,7 +111,7 @@ namespace SAT.INFRA.Repository
             {
                 agendas = agendas.Where(
                     a =>
-                    a.Id.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    a.CodAgendaTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     a.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     a.CodTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );

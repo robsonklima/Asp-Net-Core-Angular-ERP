@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } fr
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoData, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
@@ -32,6 +32,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     loading: boolean;
     tecnicos: Tecnico[] = [];
     chamados: OrdemServico[] = [];
+    agendamentos: AgendaTecnicoData;
     events: MbscAgendaTecnicoCalendarEvent[] = [];
     resources = [];
     externalEvents = [];
@@ -41,7 +42,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
     fimIntervalo = moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
     limiteIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
-    
+
     calendarOptions: MbscEventcalendarOptions = {
         view: {
             timeline: {
@@ -101,7 +102,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 return false;
             }
         },
-        onEventDoubleClick: (args, inst) => 
+        onEventDoubleClick: (args, inst) =>
         {
             this.showOSInfo(args);
         }
@@ -154,7 +155,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
     private async carregaTecnicosEChamadosTransferidos() {
-         this.loading = true;
+        this.loading = true;
 
         const tecnicos = await this._tecnicoSvc.obterPorParametros({
             indAtivo: 1,
@@ -176,134 +177,188 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         const chamados = await this._osSvc.obterPorParametros({
             codFiliais: "4",
-            codStatusServicos: "8",
-            //dataTransfInicio: moment().add(-1, 'days').toISOString(),
-            //dataTransfFim:  moment().add(1, 'days').toISOString(),
+            //codStatusServicos: "8",
+            dataTransfInicio: moment().add(-1, 'days').toISOString(),
+            dataTransfFim:  moment().add(1, 'days').toISOString(),
             sortActive: 'dataHoraTransf',
             sortDirection: 'asc'
         }).toPromise();
 
-        const agendamentos = await this._agendaTecnicoSvc.obterPorParametros({
-            codFiliais: "4",
-            data: moment().toISOString()
-        }).toPromise();
-
-        this.carregaEventos(chamados.items, agendamentos.items, tecnicos.items);
-        // this.loading = false;
+        this.carregaDados(chamados.items, tecnicos.items);
+        this.loading = false;
     }
 
-    private carregaEventos(chamados: OrdemServico[], agendamentos: AgendaTecnico[], tecnicos: Tecnico[]) {
+    private carregaDados(chamados: OrdemServico[],  tecnicos: Tecnico[])
+    {
         this.events = [];
-        if(agendamentos == null) this.carregaSugestaoAlmoco(tecnicos);
-        this.carregaAgendamentos(agendamentos);
+        this.carregaSugestaoAlmoco(tecnicos);
+        this.carregaEventos(chamados);
+    }
 
-        var chamadosJaAgendados = Enumerable.from(agendamentos).select(a => a.codOS);
-
+    private carregaEventos(chamados: OrdemServico[]) 
+    {
         this.events = this.events.concat(Enumerable.from(chamados)
-            .where(os => os.tecnico != null && !chamadosJaAgendados.contains(os.codOS))
-            .groupBy(os => os.codTecnico).selectMany(osPorTecnico => 
+            .where(os => os.tecnico != null)
+            .groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
         {
-            var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
+            var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin ?? 30;
+            mediaTecnico = mediaTecnico > 0 ? mediaTecnico : 30;
             var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
+            return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => 
+            {
+                 var evento: MbscAgendaTecnicoCalendarEvent;
 
-            return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => {
-                var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
-
-                var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
-
-                // se começa durante a sugestão de intervalo ou deopis das 18h
-                if (start.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
-                    start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-                }
-                else if (start.hour() >= this.fimExpediente.hour()) {
-                    start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
-                }
-
-                // se termina durante a sugestao de intervalo
-                var end: Moment = moment(start).add(mediaTecnico, 'minutes');
-                if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
-                    start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-                    end = moment(start).add(mediaTecnico || 30, 'minutes');
-                }
-
-                var evento: MbscAgendaTecnicoCalendarEvent =
+                if (os.agendaTecnico.length > 0)
                 {
-                    start: start,
-                    end: end,
-                    ordemServico: os,
-                    title: os.codOS.toString(),
-                    color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
-                    editable: true,
-                    resource: os.tecnico?.codTecnico,
+                    evento = this.exibeEventoExistente(os);
                 }
-
-                var agendaTecnico: AgendaTecnico =
+                else
                 {
-                    inicio: start.toISOString(),
-                    fim: end.toISOString(),
-                    codOS: os.codOS,
-                    codTecnico: os.codTecnico,
-                    ultimaAtualizacao: moment().toISOString(),
-                    tipo: "OS"
+                    evento = this.criaNovoEvento(os, mediaTecnico, ultimoEvento);
                 }
-
-                this._agendaTecnicoSvc.criar(agendaTecnico);
 
                 ultimoEvento = evento;
                 return evento;
             }))
+
         }).toArray());
 
         this.validateEvents();
     }
 
-    private carregaAgendamentos(agendamentos: AgendaTecnico[])
+    private exibeEventoExistente(os: OrdemServico) : MbscAgendaTecnicoCalendarEvent
     {
-        if (agendamentos == null) return;
-        this.events = this.events.concat(Enumerable.from(agendamentos).where(ag => ag.ordemServico != null).select(ag => 
+        var agendaTecnico = os.agendaTecnico[0];
+        var evento: MbscAgendaTecnicoCalendarEvent =
         {
-            var evento: MbscAgendaTecnicoCalendarEvent =
+            start: this.convertTZBR(moment(agendaTecnico.inicio)),
+            end: this.convertTZBR(moment(agendaTecnico.fim)),
+            ordemServico: os,
+            title: os.codOS.toString(),
+            color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+            editable: true,
+            resource: os.tecnico?.codTecnico,
+        }
+
+       return evento;
+    }
+
+    private criaNovoEvento(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
+    {
+        var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
+
+        var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
+
+        // se começa durante a sugestão de intervalo ou deopis das 18h
+        if (start.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
+            start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
+        }
+        else if (start.hour() >= this.fimExpediente.hour()) {
+            start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
+        }
+
+        // se termina durante a sugestao de intervalo
+        var end: Moment = moment(start).add(mediaTecnico, 'minutes');
+        if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
+            start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
+            end = moment(start).add(mediaTecnico || 30, 'minutes');
+        }
+
+        var evento: MbscAgendaTecnicoCalendarEvent =
+        {
+            start: start,
+            end: end,
+            ordemServico: os,
+            title: os.codOS.toString(),
+            color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+            editable: true,
+            resource: os.tecnico?.codTecnico,
+        }
+
+        var agendaTecnico: AgendaTecnico =
+        {
+            inicio: this.convertTZBR(start),
+            fim: this.convertTZBR(end),
+            codOS: os.codOS,
+            codTecnico: os.codTecnico,
+            ultimaAtualizacao: this.convertTZBR(moment()),
+            tipo: "OS"
+        }
+
+        this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+        {
+            evento.codAgendaTecnico = agendamento.codAgendaTecnico;
+        });
+        return evento;
+    }
+
+    private async carregaSugestaoAlmoco(tecnicos: Tecnico[])
+    {
+        var intervalos = await this._agendaTecnicoSvc.obterPorParametros({
+            tipo: "INTERVALO",
+            data: this.convertTZBR(moment()).toDateString()
+        }).toPromise();
+
+        this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
+        {
+            var intervalo = Enumerable.from(intervalos.items).firstOrDefault(i => i.codTecnico == tecnico.codTecnico);
+            if(intervalo == null)
             {
-                start: ag.inicio,
-                end: ag.fim,
-                ordemServico: ag.ordemServico,
-                title: ag.codOS.toString(),
-                color: this.getInterventionColor(ag.ordemServico?.tipoIntervencao?.codTipoIntervencao),
-                editable: true,
-                resource: ag.codTecnico,
+                return this.criaNovoIntervalo(tecnico);
+            }
+            else
+            {
+                return this.exibeIntervaloExistente(intervalo);
             }
 
-            return evento;
         }).toArray());
     }
 
-    private carregaSugestaoAlmoco(tecnicos: Tecnico[]) {
-        this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico => {
-            var start = this.inicioIntervalo;
-            var end = this.fimIntervalo;
-            var evento: MbscAgendaTecnicoCalendarEvent =
-            {
-                start: start,
-                end: end,
-                title: "INTERVALO",
-                color: '#808080',
-                editable: true,
-                resource: tecnico.codTecnico,
-            }
+    private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
+    {
+        var start = this.inicioIntervalo;
+        var end = this.fimIntervalo;
 
-            var agendaTecnico: AgendaTecnico =
-            {
-                inicio: start.toISOString(),
-                fim: end.toISOString(),
-                codTecnico: tecnico.codTecnico,
-                ultimaAtualizacao: moment().toISOString(),
-                tipo: "OS"
-            }
+        var evento: MbscAgendaTecnicoCalendarEvent =
+        {
+            start: this.convertTZBR(start),
+            end: this.convertTZBR(end),
+            title: "INTERVALO",
+            color: '#808080',
+            editable: true,
+            resource: tecnico.codTecnico,
+        }
 
-            this._agendaTecnicoSvc.criar(agendaTecnico);
-            return evento;
-            
-        }).toArray());
+        var agendaTecnico: AgendaTecnico =
+        {
+            inicio: this.convertTZBR(start),
+            fim: this.convertTZBR(end),
+            codTecnico: tecnico.codTecnico,
+            ultimaAtualizacao: this.convertTZBR(moment),
+            tipo: "INTERVALO"
+        }
+
+        this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+        {
+            evento.codAgendaTecnico = agendamento.codAgendaTecnico;
+        });
+
+        return evento;
+    }
+
+    private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent
+    {
+        var evento: MbscAgendaTecnicoCalendarEvent =
+        {
+            start: this.convertTZBR(intervalo.inicio),
+            end: this.convertTZBR(intervalo.fim),
+            title: intervalo.tipo,
+            color: '#808080',
+            editable: true,
+            resource: intervalo.codTecnico,
+        }
+
+       return evento;
     }
 
     private async carregaChamadosAbertos() {
@@ -372,7 +427,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         if (query && query.trim() != '') {
             this.externalEventsFiltered = this.externalEvents.filter((ev) => {
                 return (
-                    ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1 
+                    ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1
                 );
             })
         } else {
@@ -427,6 +482,16 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 display: 'center'
             }
         );
+    }
 
+
+    convertTZBR(date)
+    {
+        return this.convertTZ(date, "America/Sao Paulo");
+    }
+
+    convertTZ(date, tzString)
+    {
+        return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("pt-BR", {timeZone: tzString}));   
     }
 }

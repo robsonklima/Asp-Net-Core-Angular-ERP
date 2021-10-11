@@ -152,13 +152,15 @@ namespace SAT.MODELS.Entities
         public List<Alerta> Alertas { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
+
         [ForeignKey("CodOS")]
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
         [ForeignKey("CodOS")]
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
         [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
-        [NotMapped]
-        public AgendaTecnico AgendaTecnico { get; set; }
+
+        [ForeignKey("CodOS")]
+        public List<AgendaTecnico> AgendaTecnico { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace SAT.MODELS.Entities
         public string CodFiliais { get; set; }
         public int? CodOS { get; set; }
         public int? CodTecnico { get; set; }
+        public string Tipo { get; set; }
         public DateTime? Inicio { get; set; }
         public DateTime? Fim { get; set; }
         public DateTime? Data { get; set; }

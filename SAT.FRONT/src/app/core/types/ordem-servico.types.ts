@@ -146,7 +146,7 @@ export class OrdemServico {
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
-    agendaTecnico: AgendaTecnico;
+    agendaTecnico?: AgendaTecnico[];
 }
 
 export interface OrdemServicoData extends Meta {

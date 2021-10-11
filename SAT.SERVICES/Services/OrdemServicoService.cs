@@ -49,7 +49,6 @@ namespace SAT.SERVICES.Services
 
             os.Alertas = ObterAlertas(os.CodOS);
             os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
-            os.AgendaTecnico = ObterPrevisaoAgendamento(os.CodOS, os.CodTecnico.Value);
 
             return os;
         }
@@ -83,15 +82,6 @@ namespace SAT.SERVICES.Services
 
             return Alertas;
         }
-
-        private AgendaTecnico ObterPrevisaoAgendamento(int codOS, int codTecnico) =>
-        _agendaTecnicoRepo.ObterPorParametros(new AgendaTecnicoParameters
-        {
-            CodTecnico = codTecnico,
-            CodOS = codOS
-
-        }).FirstOrDefault();
-
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {
             if (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO)

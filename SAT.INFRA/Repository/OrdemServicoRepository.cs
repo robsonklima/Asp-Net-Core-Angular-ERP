@@ -58,6 +58,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.StatusServico)
                         .Include(os => os.TipoIntervencao)
                         .Include(os => os.Tecnico)
+                        .Include(os => os.AgendaTecnico)
                         .Include(os => os.RelatoriosAtendimento);
                     break;
 
@@ -77,6 +78,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.RegiaoAutorizada.Regiao)
                         .Include(os => os.Cliente)
                         .Include(os => os.Cliente.Cidade)
+                        .Include(os => os.AgendaTecnico)
                         .Include(os => os.Tecnico)
                         .Include(os => os.RelatoriosAtendimento)
                         .Include(os => os.EquipamentoContrato.Contrato)

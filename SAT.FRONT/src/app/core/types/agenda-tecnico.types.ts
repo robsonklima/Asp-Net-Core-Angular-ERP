@@ -29,6 +29,7 @@ export interface AgendaTecnicoParameters extends QueryStringParameters {
     codOS?: number;
     codTecnico?: number;
     inicio?: string;
+    tipo?: string;
     fim?: string;
     data?: string;
 }
@@ -44,19 +45,20 @@ export class Coordenada
 
 export class AgendaTecnico
 {
-    id?: number;
+    tipo: string;
+    codAgendaTecnico?: number;
     codTecnico: number;
     tecnico?: Tecnico;
     codOS?: number;
-    ordemServico?: OrdemServico;
-    ultimaAtualizacao: string;
-    inicio: string;
-    tipo: string;
-    fim: string;
+    os?: OrdemServico;
+    ultimaAtualizacao: Date;
+    inicio: Date;
+    fim: Date;
 }
 
 export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
 {
     ordemServico?: OrdemServico;
     agendaTecnico?: AgendaTecnico;
+    codAgendaTecnico?: number;
 }

@@ -84,7 +84,6 @@ export class ReincidenciaClientesComponent implements OnInit {
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;
-      console.log(valoresColuna);
       this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);
     }
 

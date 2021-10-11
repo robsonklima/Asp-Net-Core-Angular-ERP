@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -43,6 +43,9 @@ import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluste
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
 import { TecnicosReincidentesComponent } from './tecnicos-reincidentes/tecnicos-reincidentes.component';
 import { TecnicosDesempenhoSpaComponent } from './tecnicos-desempenho-spa/tecnicos-desempenho-spa.component';
+import ptBR from '@angular/common/locales/pt'
+registerLocaleData(ptBR);
+
 
 @NgModule({
   declarations: [
@@ -92,5 +95,8 @@ import { TecnicosDesempenhoSpaComponent } from './tecnicos-desempenho-spa/tecnic
     MatFormFieldModule,
     MatSelectModule,
   ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR'}
+  ]
 })
 export class DashboardModule { }

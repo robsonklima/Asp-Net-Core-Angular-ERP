@@ -33,7 +33,7 @@ namespace SAT.API.Controllers
             return evento;
         }
 
-        [HttpPut("{codAgendaTecnico}")]
+        [HttpPut]
         public void Put([FromBody] AgendaTecnico evento)
         {
             _agendaServ.Atualizar(evento);

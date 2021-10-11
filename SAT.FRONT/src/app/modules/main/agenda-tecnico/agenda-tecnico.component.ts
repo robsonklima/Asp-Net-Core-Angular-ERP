@@ -5,7 +5,8 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoData, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import moment, { Moment } from 'moment';
+import moment from 'moment-timezone';
+import { Moment } from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -31,7 +32,6 @@ setOptions({
 export class AgendaTecnicoComponent implements AfterViewInit {
     loading: boolean;
     tecnicos: Tecnico[] = [];
-    chamados: OrdemServico[] = [];
     agendamentos: AgendaTecnicoData;
     events: MbscAgendaTecnicoCalendarEvent[] = [];
     resources = [];
@@ -100,6 +100,21 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                     message: 'O intervalo deve ser feito até às 14h.'
                 });
                 return false;
+            }
+
+            if (!this.updateEvent(args))
+            {
+                this._notify.toast({
+                    message: 'Não foi possível atualizar o agendamento.'
+                });
+                return false;
+            }
+            else
+            {
+                this._notify.toast({
+                    message: 'Agendamento atualizado com sucesso.'
+                });
+                return true;
             }
         },
         onEventDoubleClick: (args, inst) =>
@@ -231,8 +246,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         var agendaTecnico = os.agendaTecnico[0];
         var evento: MbscAgendaTecnicoCalendarEvent =
         {
-            start: this.convertTZBR(moment(agendaTecnico.inicio)),
-            end: this.convertTZBR(moment(agendaTecnico.fim)),
+            start: agendaTecnico.inicio,
+            end: agendaTecnico.fim,
             ordemServico: os,
             title: os.codOS.toString(),
             color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
@@ -258,7 +273,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         }
 
         // se termina durante a sugestao de intervalo
-        var end: Moment = moment(start).add(mediaTecnico, 'minutes');
+        var end = moment(start).add(mediaTecnico, 'minutes');
         if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
             start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
             end = moment(start).add(mediaTecnico || 30, 'minutes');
@@ -277,11 +292,11 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var agendaTecnico: AgendaTecnico =
         {
-            inicio: this.convertTZBR(start),
-            fim: this.convertTZBR(end),
+            inicio: start.toDate(),
+            fim: end.toDate(),
             codOS: os.codOS,
             codTecnico: os.codTecnico,
-            ultimaAtualizacao: this.convertTZBR(moment()),
+            ultimaAtualizacao: moment().toDate(),
             tipo: "OS"
         }
 
@@ -296,7 +311,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     {
         var intervalos = await this._agendaTecnicoSvc.obterPorParametros({
             tipo: "INTERVALO",
-            data: this.convertTZBR(moment()).toDateString()
+            data: moment().toISOString()
         }).toPromise();
 
         this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
@@ -321,8 +336,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var evento: MbscAgendaTecnicoCalendarEvent =
         {
-            start: this.convertTZBR(start),
-            end: this.convertTZBR(end),
+            start: start.toDate(),
+            end: end.toDate(),
             title: "INTERVALO",
             color: '#808080',
             editable: true,
@@ -331,10 +346,10 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var agendaTecnico: AgendaTecnico =
         {
-            inicio: this.convertTZBR(start),
-            fim: this.convertTZBR(end),
+            inicio: start.toDate(),
+            fim: end.toDate(),
             codTecnico: tecnico.codTecnico,
-            ultimaAtualizacao: this.convertTZBR(moment),
+            ultimaAtualizacao: moment().toDate(),
             tipo: "INTERVALO"
         }
 
@@ -350,8 +365,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     {
         var evento: MbscAgendaTecnicoCalendarEvent =
         {
-            start: this.convertTZBR(intervalo.inicio),
-            end: this.convertTZBR(intervalo.fim),
+            start: intervalo.inicio,
+            end: intervalo.fim,
             title: intervalo.tipo,
             color: '#808080',
             editable: true,
@@ -465,6 +480,23 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         return moment(args.event.start) < now;
     }
 
+    // valida atualizaçaõ do evento no banco
+    private async updateEvent(args)
+    {
+        var result: boolean;
+        var evento = args.event.ordemServico.agendaTecnico[0];
+        evento.ultimaAtualizacao = moment().toDate();
+        await this._agendaTecnicoSvc.atualizar(evento).subscribe(t => 
+        {
+            result =  true;
+        },
+        e => {
+            result = false;
+        });   
+
+        return result;
+    }
+
     private showOSInfo(args)
     {
         var os = args.event.ordemServico;
@@ -485,9 +517,14 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
 
+    momentTimeZone(time)
+    {
+        return time.tz('America/Sao_Paulo');
+    }
+
     convertTZBR(date)
     {
-        return this.convertTZ(date, "America/Sao Paulo");
+        return this.convertTZ(date, "America/Sao_Paulo");
     }
 
     convertTZ(date, tzString)

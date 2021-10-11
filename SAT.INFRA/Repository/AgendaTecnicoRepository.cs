@@ -92,7 +92,7 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
             }
 
-            if (string.IsNullOrEmpty(parameters.CodFiliais))
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(",");
                 agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));

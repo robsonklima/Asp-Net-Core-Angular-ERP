@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
     [Authorize]
-    [EnableCors("CorsApi")]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class AgendaTecnicoController : ControllerBase
     {
@@ -21,15 +21,16 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public List<AgendaTecnico> Get([FromQuery] AgendaTecnicoParameters parameters)
+        public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterPorParametros(parameters);
         }
 
         [HttpPost]
-        public void Post([FromBody] AgendaTecnico evento)
+        public AgendaTecnico Post([FromBody] AgendaTecnico evento)
         {
             _agendaServ.Criar(evento);
+            return evento;
         }
 
         [HttpPut("{codAgendaTecnico}")]

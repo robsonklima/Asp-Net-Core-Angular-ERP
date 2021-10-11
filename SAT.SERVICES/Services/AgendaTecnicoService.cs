@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,22 @@ namespace SAT.SERVICES.Services
         }
 
 
-        public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
+        public ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            return _agendaRepo.ObterPorParametros(parameters);
+            var agendamentos = _agendaRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = agendamentos,
+                TotalCount = agendamentos.TotalCount,
+                CurrentPage = agendamentos.CurrentPage,
+                PageSize = agendamentos.PageSize,
+                TotalPages = agendamentos.TotalPages,
+                HasNext = agendamentos.HasNext,
+                HasPrevious = agendamentos.HasPrevious
+            };
+
+            return lista;
         }
 
         private string ObterCor()

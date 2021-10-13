@@ -134,10 +134,8 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodStatusServicos != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodStatusServicos.Contains(os.CodStatusServico.ToString())
-                );
+                var statusServicos = parameters.CodStatusServicos.Split(",");
+                query = query.Where(os => statusServicos.Any(r => r == os.CodStatusServico.ToString()));                
             }
 
             if (parameters.CodRegioes != null)
@@ -148,26 +146,20 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodTiposIntervencao != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodTiposIntervencao.Contains(os.CodTipoIntervencao.ToString())
-                );
+                var tiposIntervencao = parameters.CodTiposIntervencao.Split(",");
+                query = query.Where(os => tiposIntervencao.Any(r => r == os.TipoIntervencao.CodTipoIntervencao.ToString()));
             }
 
             if (parameters.CodClientes != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodClientes.Contains(os.CodCliente.ToString())
-                );
+                var clientes = parameters.CodClientes.Split(",");
+                query = query.Where(os => clientes.Any(r => r == os.CodCliente.ToString()));                  
             }
 
             if (parameters.CodEquipamentos != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodEquipamentos.Contains(os.CodEquip.ToString())
-                );
+                var equipamentos = parameters.CodEquipamentos.Split(",");
+                query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));                  
             }
 
             if (parameters.CodFiliais != null)
@@ -181,10 +173,8 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodAutorizadas != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodAutorizadas.Contains(os.CodAutorizada.ToString())
-                );
+                var autorizadas = parameters.CodAutorizadas.Split(",");
+                query = query.Where(os => autorizadas.Any(r => r == os.CodAutorizada.ToString()));                 
             }
 
             if (parameters.PontosEstrategicos != null)

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
@@ -18,6 +18,7 @@ import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Enumerable from 'linq';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -35,6 +36,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
   tiposIntervencao: TipoIntervencao[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
+  @ViewChild('selectIntervencoes') private selectIntervencoes: MatOption;
+  @ViewChild('selectStatus') private selectStatus: MatOption;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -101,13 +104,13 @@ export class OrdemServicoFiltroComponent implements OnInit {
     let params = {
       indAtivo: 1,
       sortActive: 'nomTipoIntervencao',
-      sortDirection: 'asc'
+      sortDirection: 'asc'      
     }
 
     const data = await this._tipoIntervencaoService
       .obterPorParametros(params)
       .toPromise();
-
+  
     this.tiposIntervencao = data.items;
   }
 
@@ -126,6 +129,38 @@ export class OrdemServicoFiltroComponent implements OnInit {
 
     this.clientes = data.items;
   }
+
+  selecionarTodasIntervencoes(tipo: string) {  
+    switch (tipo) {
+      case 'tiposIntervencao':
+        if (this.selectIntervencoes.selected) {
+          this.form.controls.codTiposIntervencao
+          .patchValue([...this.tiposIntervencao.map(item => item.codTipoIntervencao), 0]);
+        } else {
+          this.form.controls.codTiposIntervencao.patchValue([]);                
+                     
+        }         
+        break;         
+      default:
+        break;
+    }   
+  }
+
+  selecionarTodosStatus(tipo: string) {  
+    switch (tipo) {
+      case 'status':
+        if (this.selectStatus.selected) {
+          this.form.controls.codStatusServicos
+          .patchValue([...this.statusServicos.map(item => item.codStatusServico), 0]);
+        } else {
+          this.form.controls.codStatusServicos.patchValue([]);                
+                     
+        }         
+        break;         
+      default:
+        break;
+    }   
+  }  
 
   async obterRegioes(filter: string = '') {
     let params: RegiaoAutorizadaParameters = {
@@ -180,8 +215,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this._userService.registrarFiltro(filtro);
 
     const newFilter: any = { nome: 'ordem-servico', parametros: this.form.getRawValue() }
-    const oldFilter = this._userService.obterFiltro('ordem-servico');
-    
+    const oldFilter = this._userService.obterFiltro('ordem-servico');    
+
     if (oldFilter != null)
       newFilter.parametros = 
       {

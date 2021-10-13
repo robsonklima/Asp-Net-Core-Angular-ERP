@@ -100,20 +100,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 return false;
             }
 
-            if (!this.updateEvent(args))
-            {
-                this._notify.toast({
-                    message: 'Não foi possível atualizar o agendamento.'
-                });
-                return false;
-            }
-            else
-            {
-                this._notify.toast({
-                    message: 'Agendamento atualizado com sucesso.'
-                });
-                return true;
-            }
+            this.updateEvent(args);
+
         },
         onEventDoubleClick: (args, inst) =>
         {
@@ -480,20 +468,32 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     }
 
     // valida atualizaçaõ do evento no banco
-    private async updateEvent(args)
+    private updateEvent(args)
     {
-        var result: boolean;
-        var evento = args.event.ordemServico.agendaTecnico[0];
-        evento.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
-        await this._agendaTecnicoSvc.atualizar(evento).subscribe(t => 
+        var agenda: AgendaTecnico =
         {
-            result =  true;
-        },
-        e => {
-            result = false;
-        });   
-
-        return result;
+            codAgendaTecnico: args.event.codAgendaTecnico,
+            inicio: moment(args.event.start).format('yyyy-MM-DD HH:mm:ss'),
+            fim: moment(args.event.end).format('yyyy-MM-DD HH:mm:ss'),
+            codTecnico: args.event.resource,
+            tipo: args.event.ordemServico != null? "OS" : "INTERVALO",
+            ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+        }
+        
+        this._agendaTecnicoSvc.atualizar(agenda).subscribe(ag =>
+        {
+            console.log(ag);
+        });
+        // {
+        //     this._notify.toast({
+        //             message: 'Agendamento atualizado com sucesso.'
+        //         });
+        // },
+        // e => {
+        //     this._notify.toast({
+        //         message: 'Não foi possível atualizar o agendamento.'
+        //         });
+        // });   
     }
 
     private showOSInfo(args)

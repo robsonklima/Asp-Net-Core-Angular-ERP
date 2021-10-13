@@ -46,8 +46,8 @@ export class Coordenada
 
 export class AgendaTecnico
 {
-    tipo: string;
     codAgendaTecnico?: number;
+    tipo?: string;
     codTecnico: number;
     tecnico?: Tecnico;
     codOS?: number;

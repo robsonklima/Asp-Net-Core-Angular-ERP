@@ -3,7 +3,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -58,9 +57,11 @@ namespace SAT.SERVICES.Services
             return cores[new Random().Next(0, cores.Length)];
         }
 
-        public void Atualizar(AgendaTecnico agenda)
+        public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
             _agendaRepo.Atualizar(agenda);
+
+            return agenda;
         }
 
         public void Deletar(int codigo)

@@ -22,15 +22,8 @@ namespace SAT.INFRA.Repository
 
             if (a != null)
             {
-                try
-                {
-                    _context.Entry(a).CurrentValues.SetValues(agenda);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+                _context.Entry(a).CurrentValues.SetValues(agenda);
+                _context.SaveChanges();
             }
         }
 
@@ -91,7 +84,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(",");
-                agendas = agendas.Where(ag => filiais.Any(a => a == ag.OS.Tecnico.CodFilial.ToString()));
+                agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
             }
 
             if (parameters.Inicio.HasValue && parameters.Fim.HasValue)

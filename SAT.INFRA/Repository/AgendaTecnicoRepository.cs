@@ -74,7 +74,9 @@ namespace SAT.INFRA.Repository
 
         public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _context.AgendaTecnico.AsQueryable();
+            var agendas = _context.AgendaTecnico
+            .Include(ag => ag.Tecnico)
+            .AsQueryable();
 
             if (parameters.CodOS != null)
             {
@@ -104,7 +106,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Data.HasValue)
             {
-                agendas = agendas.Where(ag => ag.Inicio.Date == parameters.Data.Value.Date && ag.Fim == parameters.Data.Value.Date);
+                agendas = agendas.Where(ag => ag.Inicio.Date.Date == parameters.Data.Value.Date && ag.Fim.Date == parameters.Data.Value.Date);
             }
 
             if (parameters.Filter != null)

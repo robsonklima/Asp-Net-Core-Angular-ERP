@@ -9,6 +9,8 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodAgendaTecnico { get; set; }
         public int CodTecnico { get; set; }
+        [ForeignKey("CodTecnico")]
+        public Tecnico Tecnico { get; set; }
         public int CodOS { get; set; }
         public OrdemServico OS { get; set; }
         public DateTime Inicio { get; set; }

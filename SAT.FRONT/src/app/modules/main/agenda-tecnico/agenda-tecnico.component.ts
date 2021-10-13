@@ -2,11 +2,10 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } fr
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnico, AgendaTecnicoData, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import moment from 'moment-timezone';
-import { Moment } from 'moment';
+import moment from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -32,7 +31,6 @@ setOptions({
 export class AgendaTecnicoComponent implements AfterViewInit {
     loading: boolean;
     tecnicos: Tecnico[] = [];
-    agendamentos: AgendaTecnicoData;
     events: MbscAgendaTecnicoCalendarEvent[] = [];
     resources = [];
     externalEvents = [];
@@ -65,7 +63,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 });
                 return false;
             }
-            else if (this.invalidInsert(args, inst)) {
+            else if (this.invalidInsert(args)) {
                 this._notify.toast({
                     message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
                 });
@@ -82,20 +80,20 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 });
                 return false;
             }
-            else if (this.hasChangedResource(args, inst)) {
+            else if (this.hasChangedResource(args)) {
                 this._notify.toast({
                     message: 'O atendimento não pode ser transferido para outro técnico.'
                 });
                 return false;
             }
-            else if (this.invalidMove(args, inst)) {
+            else if (this.invalidMove(args)) {
                 this._notify.toast({
                     message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
                 });
                 return false;
             }
 
-            if (this.isTechnicianInterval(args, inst) && this.invalidTechnicianInterval(args, inst)) {
+            if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args)) {
                 this._notify.toast({
                     message: 'O intervalo deve ser feito até às 14h.'
                 });
@@ -292,11 +290,11 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var agendaTecnico: AgendaTecnico =
         {
-            inicio: start.toDate(),
-            fim: end.toDate(),
+            inicio: start.format('yyyy-MM-DD HH:mm:ss'),
+            fim: end.format('yyyy-MM-DD HH:mm:ss'),
             codOS: os.codOS,
             codTecnico: os.codTecnico,
-            ultimaAtualizacao: moment().toDate(),
+            ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
             tipo: "OS"
         }
 
@@ -311,6 +309,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     {
         var intervalos = await this._agendaTecnicoSvc.obterPorParametros({
             tipo: "INTERVALO",
+            codFiliais: "4",
             data: moment().toISOString()
         }).toPromise();
 
@@ -336,8 +335,8 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var evento: MbscAgendaTecnicoCalendarEvent =
         {
-            start: start.toDate(),
-            end: end.toDate(),
+            start: start,
+            end: end,
             title: "INTERVALO",
             color: '#808080',
             editable: true,
@@ -346,10 +345,10 @@ export class AgendaTecnicoComponent implements AfterViewInit {
 
         var agendaTecnico: AgendaTecnico =
         {
-            inicio: start.toDate(),
-            fim: end.toDate(),
+            inicio: start.format('yyyy-MM-DD HH:mm:ss'),
+            fim: end.format('yyyy-MM-DD HH:mm:ss'),
             codTecnico: tecnico.codTecnico,
-            ultimaAtualizacao: moment().toDate(),
+            ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
             tipo: "INTERVALO"
         }
 
@@ -456,25 +455,25 @@ export class AgendaTecnicoComponent implements AfterViewInit {
         return events.length > 0;
     }
 
-    private hasChangedResource(args, inst) {
+    private hasChangedResource(args) {
         return args.event.resource != args.oldEvent.resource;
     }
 
-    private isTechnicianInterval(args, inst) {
+    private isTechnicianInterval(args) {
         return args.event.title === "INTERVALO";
     }
 
-    private invalidTechnicianInterval(args, inst) {
+    private invalidTechnicianInterval(args) {
         return moment(args.event.start) > this.limiteIntervalo;
     }
 
-    private invalidMove(args, inst) {
+    private invalidMove(args) {
         //não pode mover evento posterior a linha do tempo para antes da linha do tempo
         var now = moment();
         return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
 
-    private invalidInsert(args, inst) {
+    private invalidInsert(args) {
         //não pode inserir evento anterior à linha do tempo
         var now = moment();
         return moment(args.event.start) < now;
@@ -485,7 +484,7 @@ export class AgendaTecnicoComponent implements AfterViewInit {
     {
         var result: boolean;
         var evento = args.event.ordemServico.agendaTecnico[0];
-        evento.ultimaAtualizacao = moment().toDate();
+        evento.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
         await this._agendaTecnicoSvc.atualizar(evento).subscribe(t => 
         {
             result =  true;
@@ -514,21 +513,5 @@ export class AgendaTecnicoComponent implements AfterViewInit {
                 display: 'center'
             }
         );
-    }
-
-
-    momentTimeZone(time)
-    {
-        return time.tz('America/Sao_Paulo');
-    }
-
-    convertTZBR(date)
-    {
-        return this.convertTZ(date, "America/Sao_Paulo");
-    }
-
-    convertTZ(date, tzString)
-    {
-        return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("pt-BR", {timeZone: tzString}));   
     }
 }

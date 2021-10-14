@@ -40,7 +40,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
   fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
   inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
   fimIntervalo = moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
-  limiteIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
+  limiteSuperiorIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
+  limiteInferiorIntervalo = moment().set({ hour: 11, minute: 0, second: 0, millisecond: 0 });
 
   calendarOptions: MbscEventcalendarOptions = {
     view: {
@@ -104,7 +105,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
       if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args))
       {
         this._notify.toast({
-          message: 'O intervalo deve ser feito até às 14h.'
+          message: 'O intervalo deve ser feito entre 11h e 14h.'
         });
         return false;
       }
@@ -470,7 +471,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   private invalidTechnicianInterval(args)
   {
-    return moment(args.event.start) > this.limiteIntervalo;
+    return moment(args.event.start) > this.limiteSuperiorIntervalo || moment(args.event.start) < this.limiteInferiorIntervalo;
   }
 
   private invalidMove(args)
@@ -511,7 +512,21 @@ export class AgendaTecnicoComponent implements AfterViewInit
       {
         this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
         return false;
-      });
+      }).add(this.updateEventColor(args));
+  }
+
+  updateEventColor(args)
+  {
+    if (args.event.ordemServico?.codOS > 0)
+    {
+      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
+      event.color =
+        moment(args.event.end) > moment() ?
+          this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+          : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+
+      this._cdr.detectChanges();
+    }
   }
 
   private showOSInfo(args)

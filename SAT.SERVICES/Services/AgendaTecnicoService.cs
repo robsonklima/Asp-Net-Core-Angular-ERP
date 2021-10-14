@@ -60,7 +60,6 @@ namespace SAT.SERVICES.Services
         public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
             _agendaRepo.Atualizar(agenda);
-
             return agenda;
         }
 

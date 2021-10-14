@@ -428,9 +428,9 @@ export class AgendaTecnicoComponent implements AfterViewInit
       case 8: //transferido
         return "#ff4c4c";
       case 2: //cancelado
-        return "#BFCAD0";
+        return "#974cff";
       case 3: //fechado
-        return "#C5C5C5";
+        return "#7f7fff";
       default:
         return "#C5C5C5";
     }

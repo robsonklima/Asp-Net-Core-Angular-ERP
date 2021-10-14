@@ -166,8 +166,11 @@ export class AgendaTecnicoComponent implements AfterViewInit
     Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
     {
       var end = moment(e.end);
-      if (e.ordemServico.statusServico.codStatusServico == 3 && end < now) { e.editable = false; }
-      if (end < now) e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
+      if (end < now) 
+      {
+        e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
+        if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
+      }
     });
     this._cdr.detectChanges();
   }

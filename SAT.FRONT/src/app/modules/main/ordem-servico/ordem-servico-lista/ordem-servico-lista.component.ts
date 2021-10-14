@@ -1,5 +1,6 @@
 import { FileService } from './../../../../core/services/file.service';
-import {
+import
+{
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,7 +38,8 @@ import { FileMime } from 'app/core/types/file.types';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class OrdemServicoListaComponent implements AfterViewInit {
+export class OrdemServicoListaComponent implements AfterViewInit
+{
     @ViewChild('sidenav') sidenav: MatSidenav;
     userSession: UserSession;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,16 +51,18 @@ export class OrdemServicoListaComponent implements AfterViewInit {
     @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
-    constructor(
+    constructor (
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
         private _userService: UserService,
         private _fileService: FileService
-    ) {
+    )
+    {
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    ngAfterViewInit(): void {
+    ngAfterViewInit(): void
+    {
         this.carregarFiltro();
 
         interval(5 * 60 * 1000)
@@ -66,28 +70,33 @@ export class OrdemServicoListaComponent implements AfterViewInit {
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
-            .subscribe(() => {
+            .subscribe(() =>
+            {
                 this.obterOrdensServico();
             });
 
         this.registrarEmitters();
 
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-                map((event: any) => {
-                    return event.target.value;
-                })
-                , debounceTime(1000)
-                , distinctUntilChanged()
-            ).subscribe((text: string) => {
-                this.paginator.pageIndex = 0;
-                this.obterOrdensServico(text);
-            });           
+            map((event: any) =>
+            {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+        ).subscribe((text: string) =>
+        {
+            this.paginator.pageIndex = 0;
+            this.obterOrdensServico(text);
+        });
 
-        if (this.sort && this.paginator) {
+        if (this.sort && this.paginator)
+        {
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
-            this.sort.sortChange.subscribe(() => {
+            this.sort.sortChange.subscribe(() =>
+            {
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });
@@ -96,14 +105,15 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    async obterOrdensServico(filter: string='') {
+    async obterOrdensServico(filter: string = '')
+    {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
             pageNumber: this.paginator.pageIndex + 1,
             sortActive: this.sort.active || 'codOS',
             sortDirection: this.sort.direction || 'desc',
-            pageSize: this.filtro.parametros.qtdPaginacaoLista ?? this.paginator?.pageSize,
+            pageSize: this.filtro?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
 
@@ -118,27 +128,34 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.isLoading = false;
     }
 
-    private registrarEmitters(): void {
-        this.sidenav.closedStart.subscribe(() => {
+    private registrarEmitters(): void
+    {
+        this.sidenav.closedStart.subscribe(() =>
+        {
             this.paginator.pageIndex = 0;
             this.carregarFiltro();
             this.obterOrdensServico();
         })
     }
 
-    private carregarFiltro(): void {
+    private carregarFiltro(): void
+    {
         this.filtro = this._userService.obterFiltro('ordem-servico');
-        if (!this.filtro) {
+        if (!this.filtro)
+        {
             return;
         }
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial) {
+        if (this.userSession?.usuario?.codFilial)
+        {
             this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
         }
-   
-        Object.keys(this.filtro?.parametros).forEach((key) => {
-            if (this.filtro.parametros[key] instanceof Array) {
+
+        Object.keys(this.filtro?.parametros).forEach((key) =>
+        {
+            if (this.filtro?.parametros[key] instanceof Array)
+            {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()
             };
         });
@@ -153,10 +170,10 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
-                ...this.filtro?.parametros,
-                ...params
-        })); 
-        this.isLoading = false;  
+            ...this.filtro?.parametros,
+            ...params
+        }));
+        this.isLoading = false;
     }
 
     paginar() 
@@ -165,7 +182,8 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.obterOrdensServico();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy()
+    {
         this._onDestroy.next();
         this._onDestroy.complete();
     }

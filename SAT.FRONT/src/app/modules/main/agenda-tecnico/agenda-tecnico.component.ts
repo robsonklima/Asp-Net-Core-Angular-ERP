@@ -109,8 +109,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
         return false;
       }
 
-      this.updateEvent(args);
-
+      return this.updateEvent(args);
     },
     onEventDoubleClick: (args, inst) =>
     {
@@ -216,23 +215,24 @@ export class AgendaTecnicoComponent implements AfterViewInit
   {
     this.events = [];
     await this.carregaIntervalos(tecnicos, intervalos);
-    await this.carregaEventos(chamados);
+    await this.carregaOSs(chamados);
   }
 
-  private carregaEventos(chamados: OrdemServico[]) 
+  private carregaOSs(chamados: OrdemServico[]) 
   {
     this.events = this.events.concat(Enumerable.from(chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
       {
-        var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin ?? 30;
-        mediaTecnico = mediaTecnico > 0 ? mediaTecnico : 30;
+        var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
+        mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
         var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
         return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => 
         {
           var evento = os.agendaTecnico.length > 0 ?
-            this.exibeEventoExistente(os) : this.criaNovoEvento(os, mediaTecnico, ultimoEvento);
+            this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
+
           ultimoEvento = evento;
           return evento;
         }))
@@ -242,11 +242,12 @@ export class AgendaTecnicoComponent implements AfterViewInit
     this.validateEvents();
   }
 
-  private exibeEventoExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
+  private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
   {
     var agendaTecnico = os.agendaTecnico[0];
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
+      codAgendaTecnico: agendaTecnico.codAgendaTecnico,
       start: agendaTecnico.inicio,
       end: agendaTecnico.fim,
       ordemServico: os,
@@ -259,7 +260,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
     return evento;
   }
 
-  private criaNovoEvento(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
+  private criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
   {
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
@@ -267,13 +268,9 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
     if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
-    {
       start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-    }
     else if (start.hour() >= this.fimExpediente.hour())
-    {
       start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
-    }
 
     // se termina durante a sugestao de intervalo
     var end = moment(start).add(mediaTecnico, 'minutes');
@@ -357,6 +354,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
   {
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
+      codAgendaTecnico: intervalo.codAgendaTecnico,
       start: intervalo.inicio,
       end: intervalo.fim,
       title: intervalo.tipo,
@@ -498,24 +496,22 @@ export class AgendaTecnicoComponent implements AfterViewInit
       inicio: moment(args.event.start).format('yyyy-MM-DD HH:mm:ss'),
       fim: moment(args.event.end).format('yyyy-MM-DD HH:mm:ss'),
       codTecnico: args.event.resource,
+      codOS: args.event.ordemServico?.codOS ?? 0,
       tipo: args.event.ordemServico != null ? "OS" : "INTERVALO",
       ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
     }
 
-    this._agendaTecnicoSvc.atualizar(agenda).subscribe(ag =>
-    {
-      console.log(ag);
-    });
-    // {
-    //     this._notify.toast({
-    //             message: 'Agendamento atualizado com sucesso.'
-    //         });
-    // },
-    // e => {
-    //     this._notify.toast({
-    //         message: 'Não foi possível atualizar o agendamento.'
-    //         });
-    // });   
+    this._agendaTecnicoSvc.atualizar(agenda).subscribe(
+      result => 
+      {
+        this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
+        return true;
+      },
+      error =>
+      {
+        this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
+        return false;
+      });
   }
 
   private showOSInfo(args)

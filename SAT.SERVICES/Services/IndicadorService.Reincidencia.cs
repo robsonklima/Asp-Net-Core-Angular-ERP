@@ -207,6 +207,7 @@ namespace SAT.SERVICES.Services
                 }
             
                 var equip = equipChamados.FirstOrDefault( e => e.CodEquipContrato == item.CodEquipContrato);
+                
                 var calc = decimal.Round((Convert.ToDecimal(reinc) / equip.Count ) * 100, 2, MidpointRounding.AwayFromZero);
             
 

@@ -41,7 +41,7 @@ namespace SAT.INFRA.Repository
         {
             var contratos = _context.Contrato
                 .Include(c => c.Cliente)            
-                .Include(c => c.TipoContrato)            
+                .Include(c => c.TipoContrato)
                 .AsQueryable();
 
             if (parameters.Filter != null)

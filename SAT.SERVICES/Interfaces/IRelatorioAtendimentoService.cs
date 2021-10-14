@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(RelatorioAtendimentoParameters parameters);
         RelatorioAtendimento Criar(RelatorioAtendimento relatorioAtendimento);
         void Deletar(int codigo);
-        void Atualizar(RelatorioAtendimento relatorioAtendimento);
+        RelatorioAtendimento Atualizar(RelatorioAtendimento relatorioAtendimento);
         RelatorioAtendimento ObterPorCodigo(int codigo);
     }
 }

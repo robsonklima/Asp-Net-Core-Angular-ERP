@@ -41,6 +41,9 @@
                             <div [mat-sort-header]="'nome'">
                                 {{ t('nome') }}
                             </div>
+                            <div [mat-sort-header]="'status'">
+                                {{ t('status') }}
+                            </div>
                         </div>
                         <ng-container>
                             <ng-container *ngFor="let peca of dataSourceData?.items">
@@ -53,11 +56,15 @@
                                     <div class="truncate">
                                         {{ peca.nomePeca || t('nao informado') }}
                                     </div>
+                                     <div class="font-semibold" [class.text-red-500]="peca.codPecaStatus != 1"
+                                        [class.text-green-500]="peca.codPecaStatus == 1">
+                                        {{ pecaStatus[peca.codPecaStatus - 1] }}
+                                    </div>
                                 </div>
                             </ng-container>
                         </ng-container>
                     </div>
-                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"    
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"

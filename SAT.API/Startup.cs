@@ -126,6 +126,7 @@ namespace SAT.API
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrdemServicoService, OrdemServicoService>();
             services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
+            services.AddTransient<IAgendamentoService, AgendamentoService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
@@ -197,7 +198,7 @@ namespace SAT.API
             {
                 endpoints.MapControllers();
             });
-            
+
         }
     }
 }

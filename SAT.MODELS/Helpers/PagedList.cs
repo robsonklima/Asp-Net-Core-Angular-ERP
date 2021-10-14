@@ -29,9 +29,9 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

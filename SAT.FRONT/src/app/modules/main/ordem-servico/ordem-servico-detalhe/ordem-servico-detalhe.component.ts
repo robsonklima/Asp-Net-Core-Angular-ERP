@@ -14,6 +14,7 @@ import moment from 'moment';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -26,10 +27,14 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   codOS: number;
   os: OrdemServico;
   statusServico: StatusServico;
+  perfis: any;
   userSession: UsuarioSessao;
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
+  public get perfilEnum(): typeof PerfilEnum {
+    return PerfilEnum;
+  }
   
   constructor(
     private _route: ActivatedRoute,
@@ -47,7 +52,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
-
+  
+    this.perfis = PerfilEnum;
+    
     this.sidenav.closedStart.subscribe(() => {
       this.obterDadosOrdemServico();
     })
@@ -93,7 +100,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     }
   }
 
-  agendar() {
+  async agendar() {
     const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
       data: {
         codOS: this.os.codOS
@@ -107,6 +114,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           this.obterDadosOrdemServico();
         }, e => {
           this._snack.exibirToast(e?.error, 'success');
+          this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+          this._ordemServicoService.atualizar(this.os);
         });
       }
     });
@@ -122,7 +131,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           cancel: 'Não'
         }
       }
-    });
+    });  
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao) {
@@ -137,13 +146,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     
         Object.keys(obj).forEach((key) => {
           typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });
-    
-        this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
-          this.obterDadosOrdemServico();
-    
-            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");      
-        });
+        });       
+
+        if(this.os.relatoriosAtendimento.length === 0) {
+          this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
+            this.obterDadosOrdemServico();
+
+            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");  
+          });   
+        } else{
+          this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error"); 
+        }
+
       }
     });
   }

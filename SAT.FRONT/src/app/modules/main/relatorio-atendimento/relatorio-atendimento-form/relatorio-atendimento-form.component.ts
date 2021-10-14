@@ -25,6 +25,11 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
+import { Agendamento } from 'app/core/types/agendamento.types';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
+import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
+import { TipoCausaService } from 'app/core/services/tipo-causa.service';
+import { reject } from 'lodash';
 
 
 @Component({
@@ -40,6 +45,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   ordemServico: OrdemServico;
   codRAT: number;
   relatorioAtendimento: RelatorioAtendimento;
+  agendamentos: Agendamento;
   form: FormGroup;
   isAddMode: boolean;
   tecnicosFiltro: FormControl = new FormControl();
@@ -59,6 +65,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
+    private _agendamentoService: AgendamentoService,
+    private _tipoCausaService: TipoCausaService,
     private _snack: CustomSnackbarService,
     private _router: Router,
     private _dialog: MatDialog
@@ -71,7 +79,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
     this.inicializarForm();
-    
+
     this.ordemServico = await this._ordemServicoService
       .obterPorCodigo(this.codOS)
       .toPromise();
@@ -83,22 +91,26 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));      
+      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
       this.form.patchValue(this.relatorioAtendimento);
     } else {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
     }
 
-    this.form.controls['horaInicio'].valueChanges.subscribe(() => {      
-      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
+    this.form.controls['data'].valueChanges.subscribe((data) => {
+      this.validaDataHoraRAT();
     })
 
-    this.form.controls['horaFim'].valueChanges.subscribe(() => {      
-      this.validaTempoAtendimento(this.form.controls['horaInicio'].value,this.form.controls['horaFim'].value);
+    this.form.controls['horaInicio'].valueChanges.subscribe((horaInicio) => {
+      this.validaDataHoraRAT();
     })
 
-    this.form.controls['codStatusServico'].valueChanges.subscribe(() => {      
-      this.validaBloqueioReincidencia();
+    this.form.controls['horaFim'].valueChanges.subscribe((horaFim) => {
+      this.validaDataHoraRAT();
+    })
+
+    this.form.controls['codStatusServico'].valueChanges.subscribe(() => {
+      this.validaBloqueioStatus();
     })
 
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
@@ -246,7 +258,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
           disabled: true,
         }, [Validators.required]
       ],
-      numRAT: [undefined, [Validators.required]],
+      numRAT: [undefined],
       codTecnico: [undefined, [Validators.required]],
       codStatusServico: [undefined, [Validators.required]],
       nomeAcompanhante: [undefined],
@@ -262,36 +274,76 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private validaTempoAtendimento(horainicial: string , horafinal: string): void {
-    let inicio = moment(horainicial, 'h:mm A');
-    let fim = moment(horafinal, 'h:mm A');
+  private validaDataHoraRAT(): void {
+    let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
+    let horaFim = moment(this.form.controls['horaFim'].value, 'h:mm A');
 
-    const duracao = moment.duration(fim.diff(inicio)).asMinutes();
- 
-    if ( duracao < 20 )
-    {
+    const duracaoEmMinutos = moment.duration(horaFim.diff(horaInicio)).asMinutes();
+
+    this.form.controls['horaFim'].setErrors(null)
+
+    if (duracaoEmMinutos < 20) {
+      this.form.controls['horaInicio'].setErrors({
+        'periodoInvalido': true
+      });
+    } else {
+      this.form.controls['horaInicio'].setErrors(null)
+    }
+
+
+    if (duracaoEmMinutos < 20) {
       this.form.controls['horaFim'].setErrors({
-        'periodoInvalido': true        
-      })      
-    } else{
+        'periodoInvalido': true
+      });
+    } else {
       this.form.controls['horaFim'].setErrors(null)
     }
 
+    let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
+    let dataHoraOS = moment(this.ordemServico.dataHoraAberturaOS);
+    let dataHoraAgendamento = moment(this.ordemServico.dataHoraAberturaOS);
+
+    if (dataHoraRAT < dataHoraOS) {
+      this.form.controls['data'].setErrors({
+        'dataRATInvalida': true
+      })
+    } else {
+      this.form.controls['data'].setErrors(null)
+    }
+
+    if (dataHoraRAT < dataHoraAgendamento) {
+      this.form.controls['data'].setErrors({
+        'dataRATInvalida': true
+      })
+    } else {
+      this.form.controls['data'].setErrors(null)
+    }
   }
 
-  private validaBloqueioReincidencia(): void {
-    let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;    
+  private validaBloqueioStatus(): void {
+    let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
 
-    if ( bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== 8)
-    {
+    if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO) {
       this.form.controls['codStatusServico'].setErrors({
-        'bloqueioReincidencia': true          
-      })      
-    } else{
+        'bloqueioReincidencia': true
+      })
+    } else {
       this.form.controls['codStatusServico'].setErrors(null)
     }
 
-  }  
+    if (
+      (
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORCAMENTO ||
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE ||
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+      )
+      && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
+    ) {
+      this.form.controls['codStatusServico'].setErrors({
+        'bloqueioOrcamento': true
+      })
+    }
+  }
 
   async salvar() {
     this.isAddMode ? this.criar() : this.atualizar();
@@ -337,13 +389,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Formata Relato Solução
+    ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);    
+    await this._raService.atualizar(ra).toPromise();
+
     // Atualizar OS
     const os: OrdemServico = {
       ...this.ordemServico,
       ...{
         codStatusServico: form.codStatusServico,
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.sessionData.usuario.codUsuario,
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.sessionData.usuario.codUsuario,
       }
     };
     await this._ordemServicoService.atualizar(os).toPromise();
@@ -369,6 +425,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
+    ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
     await this._raService.atualizar(ra).toPromise();
 
     for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
@@ -420,6 +477,18 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
     this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
+  }
+
+  private formatarRelatoSolucao(relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[]) {
+    let retorno = "";
+
+    for (let detalhe of relatorioAtendimentoDetalhes) {
+        const maquina = detalhe.tipoServico?.codETipoServico.substring(0, 1);
+
+        retorno += ` ITEM: CAUSA ${ maquina == "1" ? "Máquina" :  "Extra-Máquina" }, ${detalhe.acao?.nomeAcao?.replace("'", "")} do(a) ${detalhe.causa?.nomeCausa?.replace("'", "")} `;
+      }
+    
+    return retorno;
   }
 
   ngOnDestroy() {

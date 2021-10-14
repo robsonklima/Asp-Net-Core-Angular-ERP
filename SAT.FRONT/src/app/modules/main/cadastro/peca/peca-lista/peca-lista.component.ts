@@ -4,10 +4,9 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PecaService } from 'app/core/services/peca.service';
-import { PecaData, PecaParameters } from 'app/core/types/peca.types';
+import { PecaData, PecaParameters, PecaStatus } from 'app/core/types/peca.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-peca-lista',
@@ -16,18 +15,18 @@ import { MatDialog } from '@angular/material/dialog';
     /* language=SCSS */
     `
       .list-grid-ge {
-          grid-template-columns: 15% auto;
+          grid-template-columns: 15% auto 15%;
           
           @screen sm {
-              grid-template-columns: 15% auto;
+              grid-template-columns: 15% auto 15%;
           }
       
           @screen md {
-              grid-template-columns: 15% auto;
+              grid-template-columns: 15% auto 15%;
           }
       
           @screen lg {
-              grid-template-columns: 15% auto;
+              grid-template-columns: 15% auto 15%;
           }
       }
     `
@@ -41,6 +40,7 @@ export class PecaListaComponent implements OnInit
   dataSourceData: PecaData;
   byteArray;
   isLoading: boolean = false;
+  pecaStatus: string[] = [];
   
   constructor(
     private _cdr: ChangeDetectorRef, 
@@ -48,18 +48,18 @@ export class PecaListaComponent implements OnInit
     private _fileService: FileService
     ) { }
 
-  ngOnInit(): void {
-    
-   }
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void 
   {
     this.obterDados();
+    this.obterStatus();
 
-    if (this.sort && this.paginator) {
+    if (this.sort && this.paginator) 
+    {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
         map((event: any) => {
-          return event.target.value;
+          return event.target.value;  
         })
         , debounceTime(700)
         , distinctUntilChanged()
@@ -99,21 +99,27 @@ export class PecaListaComponent implements OnInit
     this._cdr.detectChanges();
   }
 
-  public async exportar()
-   {      
+  private async obterStatus(): Promise<void>
+  {
+    Object.keys(PecaStatus)
+    .filter((e) => isNaN(Number(e)))
+    .forEach((tr) => 
+      this.pecaStatus.push(tr));
+  }
 
-   this.isLoading = true;
-   
+  public async exportar()
+  {      
+    this.isLoading = true;
+    
     const params: PecaParameters = 
     {
-      pageNumber: 50,
       sortDirection: 'desc',
-      pageSize: 1000,
+      pageSize: 1000
     }
 
     window.open(await this._fileService.downloadLink("Peca", FileMime.Excel,params)); 
     this.isLoading = false;
   }
 
-  public paginar() { this.obterDados(); }
+  public paginar() { this.obterDados();  }
 }

@@ -6,18 +6,18 @@ namespace SAT.MODELS.Entities
     public class StatusServico
     {
         [Key]
-        public int? CodStatusServico { get; set; }
+        public int CodStatusServico { get; set; }
         public string NomeStatusServico { get; set; }
-        public int? IndPendente { get; set; }
-        public int? IndEncerrado { get; set; }
+        public byte? IndPendente { get; set; }
+        public byte? IndEncerrado { get; set; }
         public string CorFundo { get; set; }
         public string CorFonte { get; set; }
-        public int? TamFonte { get; set; }
-        public int? IndNegrito { get; set; }
+        public byte? TamFonte { get; set; }
+        public byte? IndNegrito { get; set; }
         public string Abrev { get; set; }
-        public int? IndServico { get; set; }
-        public int? IndAtivo { get; set; }
+        public byte? IndServico { get; set; }
+        public byte IndAtivo { get; set; }
         [Column("IndLiberadoOSBloqueado")]
-        public int? IndLiberadoOsbloqueado { get; set; }
+        public byte? IndLiberadoOsbloqueado { get; set; }
     }
 }

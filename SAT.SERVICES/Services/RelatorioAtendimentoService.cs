@@ -1,4 +1,5 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System.Collections.Generic;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
@@ -54,9 +55,16 @@ namespace SAT.SERVICES.Services
             _relatorioAtendimentoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(RelatorioAtendimento relatorioAtendimento)
+        public RelatorioAtendimento Atualizar(RelatorioAtendimento relatorioAtendimento)
         {
+
+            if (relatorioAtendimento.NumRAT == null) {
+                relatorioAtendimento.NumRAT = relatorioAtendimento.CodRAT.ToString() + "-E";
+            }
+
             _relatorioAtendimentoRepo.Atualizar(relatorioAtendimento);
+
+            return relatorioAtendimento;
         }
 
         public RelatorioAtendimento ObterPorCodigo(int codigo)

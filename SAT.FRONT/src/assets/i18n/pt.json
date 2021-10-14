@@ -287,5 +287,8 @@
     "inicio vigencia": "Início da Vigência",
     "termino vigencia": "Término da Vigência",
     "inicio periodo reajuste": "Início do período de reajuste",
-    "termino periodo reajuste": "Término do período de reajuste"
+    "termino periodo reajuste": "Término do período de reajuste",
+    "data RAT Invalida": "Data da RAT deve ser maior que a data de Abertura/Agendamento",
+    "periodo de atendimento": "Período de atendimento",
+    "bloqueio orcamento": "Você não tem permissão para fechar este chamado devido estar em processo de orçamento, favor contatar a área de Orçamentos da PERTO"
 }

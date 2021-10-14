@@ -166,7 +166,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
     Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
     {
       var end = moment(e.end);
-      if (e.ordemServico.statusServico.codStatusServico == 3) { e.editable = false; }
+      if (e.ordemServico.statusServico.codStatusServico == 3 && end < now) { e.editable = false; }
       if (end < now) e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
     });
     this._cdr.detectChanges();
@@ -224,20 +224,26 @@ export class AgendaTecnicoComponent implements AfterViewInit
   {
     this.events = this.events.concat(Enumerable.from(chamados)
       .where(os => os.tecnico != null)
-      .groupBy(os => os.codTecnico).selectMany(osPorTecnico =>
+      .groupBy(os => os.codTecnico)
+      .selectMany(osPorTecnico =>
       {
         var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
         mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
         var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
-        return (Enumerable.from(osPorTecnico).orderBy(os => os.dataHoraTransf).toArray().map(os => 
-        {
-          var evento = os.agendaTecnico.length > 0 ?
-            this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
+        return (Enumerable.from(osPorTecnico)
+          // ignora os cancelados
+          .where(os => os.statusServico.codStatusServico != 2).
+          orderBy(os => os.dataHoraTransf)
+          .toArray()
+          .map(os => 
+          {
+            var evento = os.agendaTecnico.length > 0 ?
+              this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
 
-          ultimoEvento = evento;
-          return evento;
-        }))
+            ultimoEvento = evento;
+            return evento;
+          }))
 
       }).toArray());
 
@@ -428,12 +434,10 @@ export class AgendaTecnicoComponent implements AfterViewInit
         return "#ff4c4c";
       case 8: //transferido
         return "#ff4c4c";
-      case 2: //cancelado
-        return "#974cff";
       case 3: //fechado
         return "#7f7fff";
       default:
-        return "#C5C5C5";
+        return "#7f7fff";
     }
   }
 

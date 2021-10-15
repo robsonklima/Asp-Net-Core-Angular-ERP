@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
@@ -9,6 +10,7 @@ namespace SAT.SERVICES.Interfaces
         Contrato Criar(Contrato contrato);
         void Deletar(int codigo);
         void Atualizar(Contrato contrato);
+        IActionResult ExportToExcel(ContratoParameters parameters);
         Contrato ObterPorCodigo(int codigo);
     }
 }

@@ -1,0 +1,212 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 md:min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/contrato">
+                        {{ t('contratos') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codContrato">
+                        {{ codContrato }}
+                    </a>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('contrato') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-5xl">
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes') }}</p>
+                </div>
+                <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <mat-select formControlName="codCliente" [disabled]="!clientes?.length">
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                                {{cliente.nomeFantasia}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('nome-contrato') }}</mat-label>
+                        <input matInput formControlName="nomeContrato" maxlength="50">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('numero-contrato') }}</mat-label>
+                        <input matInput formControlName="nroContrato">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+
+                    </mat-form-field>
+
+                    <!-- Se for usar o Contrato Pai mudar o col-span para 3 -->
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('tipo-contrato') }}</mat-label>
+                        <mat-select formControlName="codTipoContrato">
+                            <mat-option *ngFor="let tipo of tipoContrato" [value]="tipo.codTipoContrato" >
+                                {{tipo.nomeTipoContrato}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('valor contrato') }}</mat-label>
+                        <input matInput formControlName="valTotalContrato" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$" maxlength="25">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('responsavel cliente') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-group'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="nomeResponsavelCliente" maxlength="25">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('responsavel perto') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
+                        </mat-icon>                       
+                        <input matInput formControlName="nomeResponsavelPerto" maxlength="25">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('data contrato') }}</mat-label>
+                        <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataContrato">
+                        <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
+                        <mat-datepicker #contratoData ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('data assinatura') }}</mat-label>
+                        <input matInput (click)="assinaturaData.open()" (keydown)="false" [matDatepicker]="assinaturaData" formControlName="dataAssinatura">
+                        <mat-datepicker-toggle matSuffix [for]="assinaturaData"></mat-datepicker-toggle>
+                        <mat-datepicker #assinaturaData ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('tipo-reajuste') }}</mat-label>
+                        <mat-select formControlName="codTipoReajuste">
+                            <mat-option *ngFor="let tipo of tipoReajuste" [value]="tipo.codTipoReajuste" >
+                                {{tipo.nomeTipoReajuste}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('indice reajuste') }}</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
+                        <input matInput formControlName="percReajuste" mask="percent" suffix="%" placeholder="%" [showTemplate]="true">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label >{{ t('dias para substituicao') }}</mat-label>
+                        <input matInput formControlName="numDiasSubstEquip">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('inicio vigencia') }}</mat-label>
+                        <input matInput (click)="inicioVigencia.open()" (keydown)="false" [matDatepicker]="inicioVigencia" formControlName="dataInicioVigencia">
+                        <mat-datepicker-toggle matSuffix [for]="inicioVigencia"></mat-datepicker-toggle>
+                        <mat-datepicker #inicioVigencia ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('termino vigencia') }}</mat-label>
+                        <input matInput (click)="terminoVigencia.open()" (keydown)="false" [matDatepicker]="terminoVigencia" formControlName="dataFimVigencia">
+                        <mat-datepicker-toggle matSuffix [for]="terminoVigencia"></mat-datepicker-toggle>
+                        <mat-datepicker #terminoVigencia ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('inicio periodo reajuste') }}</mat-label>
+                        <input matInput (click)="inicioReajuste.open()" (keydown)="false" [matDatepicker]="inicioReajuste" formControlName="dataInicioPeriodoReajuste">
+                        <mat-datepicker-toggle matSuffix [for]="inicioReajuste"></mat-datepicker-toggle>
+                        <mat-datepicker #inicioReajuste ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('termino periodo reajuste') }}</mat-label>
+                        <input matInput (click)="terminoReajuste.open()" (keydown)="false" [matDatepicker]="terminoReajuste" formControlName="dataFimPeriodoReajuste">
+                        <mat-datepicker-toggle matSuffix [for]="terminoReajuste"></mat-datepicker-toggle>
+                        <mat-datepicker #terminoReajuste ></mat-datepicker>
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('objeto contrato') }}</mat-label>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <textarea matInput formControlName="objetoContrato" [rows]="6"
+                            maxlength="2000"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-6 ">
+                        <mat-label>{{ t('gerar orcamento para') }}</mat-label>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <textarea matInput formControlName="semCobertura" [rows]="6"
+                            maxlength="1000"></textarea>                        
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+                    <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                    <p class="text-secondary">{{ t('selecione as opcoes') }}</p>
+                </div>
+                <div class="p-8">
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <div class="flex flex-col">
+                            <mat-checkbox class="mb-1" [color]="'primary'"
+                                [formControlName]="'indPermitePecaEspecifica'">
+                                {{ t('permite peca especifica') }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button class  ="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

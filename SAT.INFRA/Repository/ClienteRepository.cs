@@ -20,7 +20,7 @@ namespace SAT.INFRA.Repository
         public Cliente ObterPorCodigo(int codigo)
         {
             return _context.Cliente
-                .FirstOrDefault(c => c.CodCidade == codigo);
+                .FirstOrDefault(c => c.CodCliente == codigo);
         }
 
         public PagedList<Cliente> ObterPorParametros(ClienteParameters parameters)

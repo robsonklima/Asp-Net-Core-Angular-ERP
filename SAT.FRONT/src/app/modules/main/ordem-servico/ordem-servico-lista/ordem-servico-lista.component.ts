@@ -66,7 +66,6 @@ export class OrdemServicoListaComponent implements AfterViewInit
     ngAfterViewInit(): void
     {
         this.carregarFiltro();
-
         interval(5 * 60 * 1000)
             .pipe(
                 startWith(0),
@@ -99,6 +98,8 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
             this.sort.sortChange.subscribe(() =>
             {
+                this._userService.atualizarPropriedade(this.filtro?.nome, "sortActive", this.sort.active);
+                this._userService.atualizarPropriedade(this.filtro?.nome, "sortDirection", this.sort.direction);
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });
@@ -113,8 +114,8 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
         const params: OrdemServicoParameters = {
             pageNumber: this.paginator.pageIndex + 1,
-            sortActive: this.sort.active || 'codOS',
-            sortDirection: this.sort.direction || 'desc',
+            sortActive: this.filtro?.parametros?.sortActive || this.sort.active || 'codOS',
+            sortDirection: this.filtro?.parametros?.direction || this.sort.direction || 'desc',
             pageSize: this.filtro?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
@@ -180,7 +181,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     paginar() 
     {
-        this._userService.atualizarPropriedade(this.filtro, "qtdPaginacaoLista", this.paginator?.pageSize);
+        this._userService.atualizarPropriedade(this.filtro?.nome, "qtdPaginacaoLista", this.paginator?.pageSize);
         this.obterOrdensServico();
     }
 

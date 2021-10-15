@@ -66,9 +66,11 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.Cliente.Cidade)
                 .Include(os => os.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)
+                    .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                        .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
+                            .ThenInclude(ratdp => ratdp.Peca)
                 .Include(os => os.EquipamentoContrato.Contrato)
                 .Include(os => os.PrazosAtendimento)
-                .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.RelatoriosAtendimento)
                 .AsQueryable();
 
@@ -135,7 +137,7 @@ namespace SAT.INFRA.Repository
             if (parameters.CodStatusServicos != null)
             {
                 var statusServicos = parameters.CodStatusServicos.Split(",");
-                query = query.Where(os => statusServicos.Any(r => r == os.CodStatusServico.ToString()));                
+                query = query.Where(os => statusServicos.Any(r => r == os.CodStatusServico.ToString()));
             }
 
             if (parameters.CodRegioes != null)
@@ -153,13 +155,13 @@ namespace SAT.INFRA.Repository
             if (parameters.CodClientes != null)
             {
                 var clientes = parameters.CodClientes.Split(",");
-                query = query.Where(os => clientes.Any(r => r == os.CodCliente.ToString()));                  
+                query = query.Where(os => clientes.Any(r => r == os.CodCliente.ToString()));
             }
 
             if (parameters.CodEquipamentos != null)
             {
                 var equipamentos = parameters.CodEquipamentos.Split(",");
-                query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));                  
+                query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));
             }
 
             if (parameters.CodFiliais != null)
@@ -169,12 +171,12 @@ namespace SAT.INFRA.Repository
                     os =>
                     parameters.CodFiliais.Contains(os.CodFilial.ToString())
                 );
-            }      
+            }
 
             if (parameters.CodAutorizadas != null)
             {
                 var autorizadas = parameters.CodAutorizadas.Split(",");
-                query = query.Where(os => autorizadas.Any(r => r == os.CodAutorizada.ToString()));                 
+                query = query.Where(os => autorizadas.Any(r => r == os.CodAutorizada.ToString()));
             }
 
             if (parameters.PontosEstrategicos != null)
@@ -182,7 +184,7 @@ namespace SAT.INFRA.Repository
                 var paramsSplit = parameters.PontosEstrategicos.Split(',');
 
                 query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
-            }                
+            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

@@ -114,8 +114,9 @@
                                                 {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
                                             <div>
-                                                <span [matTooltip]="os.statusServico?.nomeStatusServico"
-                                                    matTooltipPosition="above">
+                                                <span [matTooltip]="statusServicoDescricao(os)"
+                                                      [matTooltipClass]="'os_lista_tooltip'"
+                                                       matTooltipPosition="above">
                                                     <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.statusServico?.corFundo, 
                                                             'color': os.statusServico?.corFonte

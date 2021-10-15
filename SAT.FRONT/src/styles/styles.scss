@@ -22,12 +22,8 @@
     color: white !important;
 }
 
-.remove-arrows {
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-    }
+.os_lista_tooltip {
+    white-space: pre-line !important;
 }
 
 .map {
@@ -35,4 +31,3 @@
     height: 540px !important;
     padding: 0;
 }
-  

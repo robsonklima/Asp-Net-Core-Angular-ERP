@@ -14,6 +14,7 @@ import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
+import Enumerable from 'linq';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -192,5 +193,22 @@ export class OrdemServicoListaComponent implements AfterViewInit
     {
         return os.statusServico?.codStatusServico == 3 &&
             os.prazosAtendimento?.length > 0 ? os.dataHoraFechamento < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento ? "DENTRO" : "FORA" : '-';
+    }
+
+    statusServicoDescricao(os: OrdemServico)
+    {
+        var description = os.statusServico?.nomeStatusServico;
+
+        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10)
+        {
+            var pecas = Enumerable.from(os.relatoriosAtendimento)
+                .selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
+                    .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
+                        .select(dp => dp.peca?.codMagnus))).toArray();
+
+            description = description + "\nPEÇAS: " + pecas.join(", ");
+        }
+
+        return description;
     }
 }

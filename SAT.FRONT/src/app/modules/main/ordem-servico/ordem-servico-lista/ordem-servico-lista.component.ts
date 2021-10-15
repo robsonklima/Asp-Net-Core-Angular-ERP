@@ -230,4 +230,14 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
         return description;
     }
+
+    tecnicoDescricao(os: OrdemServico)
+    {
+        var description = os.tecnico?.nome;
+        description += '\n' + 'TRANSFERIDO EM: ';
+        description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
+        description += 'VISUALIZADO EM: ';
+        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO LIDA';
+        return description;
+    }
 }

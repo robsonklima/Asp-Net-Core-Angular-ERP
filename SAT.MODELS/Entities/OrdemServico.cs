@@ -111,7 +111,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraIntegracaoRevisaoAgendamento { get; set; }
         public byte? IndAgendamentoReenviado { get; set; }
         public DateTime? DataHoraOsmobileRecebida { get; set; }
-        public DateTime? DataHoraOsmobileLida { get; set; }
+        public DateTime? DataHoraOSMobileLida { get; set; }
         public string NumAgenciaBanco { get; set; }
         public string NumContaEstabelecimentoCliente { get; set; }
         public string CnpjestabelecimentoCliente { get; set; }

@@ -134,7 +134,8 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                            <span [matTooltip]="os.statusServico?.codStatusServico == 8 ? os.tecnico?.nome : ''"
+                                            <span [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
+                                                [matTooltipClass]="'os_lista_tooltip'"
                                                 matTooltipPosition="above">
                                                     {{ os.statusServico?.codStatusServico == 8 ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
                                                 </span>

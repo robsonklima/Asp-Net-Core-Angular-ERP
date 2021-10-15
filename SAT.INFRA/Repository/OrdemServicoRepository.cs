@@ -284,9 +284,9 @@ namespace SAT.INFRA.Repository
 
                     case "nomeTecnico":
                         query = parameters.SortDirection == "asc" ?
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
                                  .OrderBy(q => q.Tecnico.Nome) :
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
                                  .OrderByDescending(q => q.Tecnico.Nome);
                         break;
 

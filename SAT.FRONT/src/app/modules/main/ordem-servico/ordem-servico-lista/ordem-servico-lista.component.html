@@ -83,6 +83,9 @@
                                     <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
+                                     <div class="hidden md:block truncate" [mat-sort-header]="'statusSLA'">
+                                        {{ 'S SLA' }}
+                                    </div>
                                     <div class="hidden md:block" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
@@ -110,7 +113,6 @@
                                             <div>
                                                 {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
-
                                             <div>
                                                 <span [matTooltip]="os.statusServico?.nomeStatusServico"
                                                     matTooltipPosition="above">
@@ -171,6 +173,18 @@
                                                     {{
                                                         os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
                                                     }}
+                                                </span>
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
+                                            <span [matTooltip]="statusSLADescricao(os)"
+                                                    matTooltipPosition="above">
+                                                    <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                                            'background-color': statusSLADescricao(os) == 'DENTRO' ? '#70FF70' : statusSLADescricao(os) == 'FORA' ? '#FF0000' : '#ffffff00', 
+                                                            'color': os.statusServico?.corFonte
+                                                        }">
+                                                        {{ statusSLADescricao(os).substr(0, 1) }}
+                                                    </span>
                                                 </span>
                                             </div>
 

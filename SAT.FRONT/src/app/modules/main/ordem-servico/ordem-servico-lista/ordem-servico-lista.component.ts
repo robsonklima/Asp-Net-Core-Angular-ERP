@@ -20,7 +20,7 @@ import { FileMime } from 'app/core/types/file.types';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 56px 150px 24px;
+            grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
             
             @screen sm {
                 grid-template-columns:  48px 72px 92px 92px 36px 36px auto 56px;
@@ -31,7 +31,7 @@ import { FileMime } from 'app/core/types/file.types';
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 56px 150px 24px;
+                grid-template-columns: 48px 72px 72px 72px  20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
             }
         }
     `],
@@ -186,5 +186,11 @@ export class OrdemServicoListaComponent implements AfterViewInit
     {
         this._onDestroy.next();
         this._onDestroy.complete();
+    }
+
+    statusSLADescricao(os: OrdemServico)
+    {
+        return os.statusServico?.codStatusServico == 3 &&
+            os.prazosAtendimento?.length > 0 ? os.dataHoraFechamento < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento ? "DENTRO" : "FORA" : '-';
     }
 }

@@ -108,11 +108,6 @@ export class UserService
     }
   }
 
-  atualizarFiltro(filter: any, propertyName: string, propertyValue: string)
-  {
-    filter[`${propertyName}`] = propertyValue;
-  }
-
   registrarNavegacoes(navegacoes: Navegacao[]): void
   {
     localStorage.setItem("navegacoes", JSON.stringify(navegacoes));

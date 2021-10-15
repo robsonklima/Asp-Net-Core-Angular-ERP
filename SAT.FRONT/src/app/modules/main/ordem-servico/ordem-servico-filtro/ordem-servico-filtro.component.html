@@ -14,7 +14,7 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="!sessionData?.usuario?.filial?.codFilial">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">
@@ -24,7 +24,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="form.controls['codFiliais'].value != ''">
                     <mat-label>{{ t('regiao') }}</mat-label>
 
                     <mat-select formControlName="codRegioes" multiple="true">

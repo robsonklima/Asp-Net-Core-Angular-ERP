@@ -4,7 +4,8 @@ import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Regiao } from "./regiao.types";
 
-export class RegiaoAutorizada {
+export class RegiaoAutorizada
+{
     codRegiao: number;
     regiao: Regiao;
     codAutorizada: number;
@@ -17,13 +18,15 @@ export class RegiaoAutorizada {
     indAtivo: number;
 }
 
-export interface RegiaoAutorizadaData extends Meta {
+export interface RegiaoAutorizadaData extends Meta
+{
     items: RegiaoAutorizada[];
 };
 
-export interface RegiaoAutorizadaParameters extends QueryStringParameters {
-    codRegiao?: number
-    codAutorizada?: number
-    codFilial?: number
-    indAtivo?: number
+export interface RegiaoAutorizadaParameters extends QueryStringParameters
+{
+    codRegiao?: number;
+    codAutorizada?: number;
+    codFiliais?: number[];
+    indAtivo?: number;
 };

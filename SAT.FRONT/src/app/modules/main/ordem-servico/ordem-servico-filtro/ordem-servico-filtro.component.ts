@@ -73,9 +73,11 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.registrarEmitters();
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
-    this.obterRegioes();
     this.obterAutorizadas();
     this.obterEquipamentos();
+
+    this.configurarRegioesAutorizadas();
+    this.configurarFiliais()
   }
 
   private inicializarForm(): void
@@ -170,6 +172,25 @@ export class OrdemServicoFiltroComponent implements OnInit
     }
   }
 
+  configurarRegioesAutorizadas()
+  {
+    if (!this.sessionData.usuario.codFilial)
+      this.form.controls['codFiliais']
+        .valueChanges
+        .subscribe(() => this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value));
+    else
+      this.obterRegioesAutorizadas(this.sessionData.usuario.codFilial);
+  }
+
+  configurarFiliais()
+  {
+    if (this.sessionData.usuario.codFilial)
+    {
+      this.form.controls['codFiliais'].setValue([this.sessionData.usuario.codFilial]);
+      this.form.controls['codFiliais'].disable();
+    }
+  }
+
   selecionarTodosStatus(tipo: string)
   {
     switch (tipo)
@@ -190,28 +211,31 @@ export class OrdemServicoFiltroComponent implements OnInit
     }
   }
 
-  selecionarTodosEquipamentos(tipo: string) {  
-    switch (tipo) {
+  selecionarTodosEquipamentos(tipo: string)
+  {
+    switch (tipo)
+    {
       case 'equipamentos':
-        if (this.selectStatus.selected) {
+        if (this.selectStatus.selected)
+        {
           this.form.controls.codEquipamentos
-          .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
-        } else {
-          this.form.controls.codEquipamentos.patchValue([]);                
-                     
-        }         
-        break;         
+            .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
+        } else
+        {
+          this.form.controls.codEquipamentos.patchValue([]);
+
+        }
+        break;
       default:
         break;
-    }   
-  }    
+    }
+  }
 
-  async obterRegioes(filter: string = '')
+  async obterRegioesAutorizadas(filialFilter: any)
   {
     let params: RegiaoAutorizadaParameters = {
-      filter: filter,
       indAtivo: 1,
-      codAutorizada: this.sessionData.usuario.codAutorizada,
+      codFiliais: filialFilter,
       pageSize: 1000
     };
 
@@ -223,11 +247,11 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.pas = new Set(data.items.map(ra => ra.pa));
   }
 
-  async obterAutorizadas(filter: string = '') {
+  async obterAutorizadas(filter: string = '')
+  {
     let params: AutorizadaParameters = {
       filter: filter,
       indAtivo: 1,
-      codAutorizada: this.sessionData.usuario.codAutorizada,
       codFilial: this.sessionData.usuario.codFilial,
       pageSize: 1000
     };
@@ -255,7 +279,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.statusServicos = data.items;
   }
 
-  async obterEquipamentos() {
+  async obterEquipamentos()
+  {
     let params: EquipamentoParameters = {
       sortActive: 'nomeEquip',
       sortDirection: 'asc',

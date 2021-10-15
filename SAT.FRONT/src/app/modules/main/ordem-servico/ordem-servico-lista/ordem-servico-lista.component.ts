@@ -237,7 +237,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
         description += '\n' + 'TRANSFERIDO EM: ';
         description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
         description += 'VISUALIZADO EM: ';
-        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO LIDA';
+        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO VISUALIZADO';
         return description;
     }
 }

@@ -1,732 +1,558 @@
-import { 
-    AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy,
-    OnInit, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation
-} from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { MatDrawer } from '@angular/material/sidenav';
-import { FullCalendarComponent } from '@fullcalendar/angular';
-import { Calendar as FullCalendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction';
-import momentPlugin from '@fullcalendar/moment';
-import rrulePlugin from '@fullcalendar/rrule';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import { clone, cloneDeep, omit } from 'lodash-es';
-import * as moment from 'moment';
-import { RRule } from 'rrule';
-import { interval, Subject } from 'rxjs';
-import { debounceTime, delay, filter, map, startWith, takeUntil } from 'rxjs/operators';
-import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
-import {
-    AgendaTecnicoParameters,
-    Calendar, CalendarDrawerMode, CalendarEvent, CalendarEventEditMode, CalendarEventPanelMode, CalendarSettings
-} from 'app/core/types/agenda-tecnico.types';
-import ptLocale from '@fullcalendar/core/locales/pt';
-import { UserService } from 'app/core/user/user.service';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { OrdemServico, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
-import { OSPrazoAtendimento } from 'app/core/types/os-prazo-atendimento.types';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import moment from 'moment';
+import Enumerable from 'linq';
+import { HaversineService } from 'app/core/services/haversine.service';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { MatSidenav } from '@angular/material/sidenav';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+
+setOptions({
+  locale: localePtBR,
+  theme: 'ios',
+  themeVariant: 'light',
+  clickToCreate: true,
+  dragToCreate: true,
+  dragToMove: true,
+  dragToResize: true
+});
 
 @Component({
-    selector       : 'app-agenda-tecnico',
-    templateUrl    : './agenda-tecnico.component.html',
-    styleUrls      : ['./agenda-tecnico.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation  : ViewEncapsulation.None
+  selector: 'app-agenda-tecnico',
+  templateUrl: './agenda-tecnico.component.html',
+  styleUrls: ['./agenda-tecnico.component.scss'],
 })
-export class AgendaTecnicoComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild('eventPanel') private _eventPanel: TemplateRef<any>;
-    @ViewChild('fullCalendar') private _fullCalendar: FullCalendarComponent;
-    @ViewChild('drawer') private _drawer: MatDrawer;
-    locales = [ptLocale];
-    calendars: Calendar[];
-    userSession: UsuarioSessao;
-    ordensServico: OrdemServico[] = [];
-    drawerMode: CalendarDrawerMode = 'side';
-    drawerOpened: boolean = true;
-    event: CalendarEvent;
-    eventEditMode: CalendarEventEditMode = 'single';
-    eventForm: FormGroup;
-    ordemServicoFiltro: FormControl = new FormControl();
-    eventTimeFormat: any;
-    events: CalendarEvent[] = [];
-    panelMode: CalendarEventPanelMode = 'view';
-    views: any;
-    viewTitle: string;
-    settings: CalendarSettings = {
-        dateFormat : 'DD/MM/YYYY',
-        timeFormat : '24',
-        startWeekOn: 1,
-    };
-    view: 'timeGridWeek' | 'timeGridDay' | 'listYear' = 'timeGridDay';
-    calendarPlugins: any[] = [ dayGridPlugin, interactionPlugin, listPlugin, momentPlugin, rrulePlugin, timeGridPlugin ];
-    private _eventPanelOverlayRef: OverlayRef;
-    private _fullCalendarApi: FullCalendar;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+export class AgendaTecnicoComponent implements AfterViewInit
+{
+  loading: boolean;
+  tecnicos: Tecnico[] = [];
+  events: MbscAgendaTecnicoCalendarEvent[] = [];
+  resources = [];
+  externalEvents = [];
+  externalEventsFiltered = [];
+  inicioExpediente = moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+  fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+  inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+  fimIntervalo = moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
+  limiteSuperiorIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
+  limiteInferiorIntervalo = moment().set({ hour: 11, minute: 0, second: 0, millisecond: 0 });
 
-    constructor(
-        private _agendaTecnicoService: AgendaTecnicoService,
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Inject(DOCUMENT) private _document: Document,
-        private _formBuilder: FormBuilder,
-        private _overlay: Overlay,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _viewContainerRef: ViewContainerRef,
-        private _userService: UserService,
-        private _ordemServicoService: OrdemServicoService
-    ) {
-        this.userSession = JSON.parse(this._userService.userSession);
-    }
-    
-    ngOnInit(): void
+  calendarOptions: MbscEventcalendarOptions = {
+    view: {
+      timeline: {
+        type: 'day',
+        allDay: false,
+        startDay: 1,
+        startTime: '07:00',
+        endTime: '24:00'
+      }
+    },
+    dragToMove: true,
+    externalDrop: true,
+    dragToResize: false,
+    dragToCreate: false,
+    clickToCreate: false,
+    onEventCreate: (args, inst) =>
     {
-        interval(1 * 60 * 1000)
-            .pipe(
-                startWith(0),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe(() => {
-                this.obterAgendas();
-            });
-
-        this.obterOrdensServico();
-
-        this.eventForm = this._formBuilder.group({
-            id              : [''],
-            calendarId      : ['', [Validators.required]],
-            recurringEventId: [null],
-            codUsuarioCad   : [null],
-            codUsuarioManu  : [null],
-            dataHoraCad     : [null],
-            datahoraManut   : [null],
-            title           : [''],
-            description     : [''],
-            start           : [null],
-            end             : [null],
-            duration        : [null],
-            allDay          : [null],
-            recurrence      : [null],
-            codOS           : [null, [Validators.required]],
-            range           : [{}]
+      if (this.hasOverlap(args, inst))
+      {
+        this._notify.toast({
+          message: 'Os atendimentos não podem se sobrepor.'
         });
-
-        this.ordemServicoFiltro.valueChanges.pipe(
-            filter(query => !!query),
-            debounceTime(700),
-            delay(500),
-            takeUntil(this._unsubscribeAll),
-            map(async query => { this.obterOrdensServico(query) })
-          ).subscribe(() => {});
-
-        // Subscribe to 'range' field value changes
-        this.eventForm.get('range').valueChanges.subscribe((value) => {
-
-            if ( !value )
-            {
-                return;
-            }
-
-            // Set the 'start' field value from the range
-            this.eventForm.get('start').setValue(value.start, {emitEvent: false});
-
-            // If this is a recurring event...
-            if ( this.eventForm.get('recurrence').value )
-            {
-                // Update the recurrence rules if needed
-                this._updateRecurrenceRule();
-
-                // Set the duration field
-                const duration = moment(value.end).diff(moment(value.start), 'minutes');
-                this.eventForm.get('duration').setValue(duration, {emitEvent: false});
-
-                // Update the end value
-                this._updateEndValue();
-            }
-            // Otherwise...
-            else
-            {
-                // Set the end field
-                this.eventForm.get('end').setValue(value.end, {emitEvent: false});
-            }
+        return false;
+      }
+      else if (this.invalidInsert(args))
+      {
+        this._notify.toast({
+          message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
         });
+        return false;
+      }
 
-        // Get calendars
-        this._agendaTecnicoService.calendars$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((calendars) => {
-
-                // Store the calendars and events
-                this.calendars = calendars;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get events
-        this._agendaTecnicoService.events$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((events) => {
-
-                // Clone the events to change the object reference so
-                // that the FullCalendar can trigger a re-render.
-                this.events = cloneDeep(events);
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        this.eventTimeFormat = {
-            hour    : this.settings.timeFormat === '12' ? 'numeric' : '2-digit',
-            hour12  : this.settings.timeFormat === '12',
-            minute  : '2-digit',
-            meridiem: this.settings.timeFormat === '12' ? 'short' : false,
-        };
-
-        // Subscribe to media changes
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
-                // Set the drawerMode and drawerOpened if the given breakpoint is active
-                if ( matchingAliases.includes('md') )
-                {
-                    this.drawerMode = 'side';
-                    this.drawerOpened = true;
-                }
-                else
-                {
-                    this.drawerMode = 'over';
-                    this.drawerOpened = false;
-                }
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        
-        // Build the view specific FullCalendar options
-        this.views = {
-            timeGrid    : {
-                allDayText        : '',
-                columnHeaderFormat: {
-                    weekday   : 'short',
-                    day       : 'numeric',
-                    omitCommas: true
-                },
-                columnHeaderHtml  : (date): string => `<span class="fc-weekday">${moment(date).format('ddd')}</span>
-                                                       <span class="fc-date">${moment(date).format('D')}</span>`,
-                slotDuration      : '01:00:00',
-                slotLabelFormat   : this.eventTimeFormat,
-            },
-            timeGridWeek: {
-                slotDuration: '01:00:00',
-                minTime: '08:00:00',
-                maxTime: '19:00:00',
-            },
-            timeGridDay : {
-                slotDuration: '01:00:00',
-                minTime: '08:00:00',
-                maxTime: '19:00:00',
-                nowIndicator: true
-            }
-        };
-    }
-
-    ngAfterViewInit(): void
+      const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
+      this.externalEventsFiltered.splice(eventIndex, 1);
+    },
+    onEventUpdate: (args, inst) =>
     {
-        // Get the full calendar API
-        this._fullCalendarApi = this._fullCalendar.getApi();
-
-        // Get the current view's title
-        this.viewTitle = this._fullCalendarApi.view.title;
-    }
-
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-
-        // Dispose the overlay
-        if ( this._eventPanelOverlayRef )
-        {
-            this._eventPanelOverlayRef.dispose();
-        }
-    }
-
-    private obterAgendas() {
-        var params: AgendaTecnicoParameters = { 
-            codFilial: this.userSession.usuario?.codFilial,
-            pageSize: 5000,
-            inicio: moment().subtract(7, "days").toISOString(),
-            fim: moment().add(7, "days").toISOString()
-        };
-
-        this._agendaTecnicoService.obterCalendariosEEventos(params).subscribe();
-    }
-
-    private async obterOrdensServico(filtro: string = '') {
-        const params: OrdemServicoParameters = {
-            codFiliais: this.userSession.usuario?.codFilial,
-            codStatusServicos: "1",
-            filter: filtro,
-            pageSize: 100,
-            sortActive: 'codOS',
-            sortDirection: 'desc'
-        }
-
-        const data = await this._ordemServicoService.obterPorParametros(params).toPromise();
-        this.ordensServico = data.items;
-    }
-
-    toggleDrawer(): void
-    {
-        this._drawer.toggle();
-    }
-    
-    changeEventPanelMode(panelMode: CalendarEventPanelMode, eventEditMode: CalendarEventEditMode = 'single'): void
-    {
-        // Set the panel mode
-        this.panelMode = panelMode;
-
-        // Set the event edit mode
-        this.eventEditMode = eventEditMode;
-
-        // Update the panel position
-        setTimeout(() => {
-            this._eventPanelOverlayRef.updatePosition();
+      if (this.hasOverlap(args, inst))
+      {
+        this._notify.toast({
+          message: 'Os atendimentos não podem se sobrepor.'
         });
-    }
-    
-    getCalendar(id): Calendar
-    {
-        if (!id)
-        {
-            return;
-        }
-
-        return this.calendars.find(calendar => calendar.id === id);
-    }
-    
-    changeView(view: 'timeGridWeek' | 'timeGridDay' | 'listYear'): void
-    {
-        // Store the view
-        this.view = view;
-
-        // If the FullCalendar API is available...
-        if ( this._fullCalendarApi )
-        {
-            // Set the view
-            this._fullCalendarApi.changeView(view);
-
-            // Update the view title
-            this.viewTitle = this._fullCalendarApi.view.title;
-        }
-    }
-    
-    previous(): void
-    {
-        // Go to previous stop
-        this._fullCalendarApi.prev();
-
-        // Update the view title
-        this.viewTitle = this._fullCalendarApi.view.title;
-
-        // Get the view's current start date
-        const start = moment(this._fullCalendarApi.view.currentStart);
-    }
-    
-    today(): void
-    {
-        this._fullCalendarApi.today();
-        this.viewTitle = this._fullCalendarApi.view.title;
-    }
-    
-    next(): void
-    {
-        // Go to next stop
-        this._fullCalendarApi.next();
-
-        // Update the view title
-        this.viewTitle = this._fullCalendarApi.view.title;
-
-        // Get the view's current end date
-        const end = moment(this._fullCalendarApi.view.currentEnd);
-
-        // Prefetch future events
-        //this._agendaTecnicoService.prefetchFutureEvents(end).subscribe();
-    }
-    
-    onDateClick(calendarEvent): void
-    {
-        // Prepare the event
-        const event = {
-            id              : null,
-            calendarId      : this.calendars[0].id,
-            recurringEventId: null,
-            isFirstInstance : false,
-            title           : '',
-            description     : '',
-            color           : calendarEvent.color,
-            start           : moment(calendarEvent.date).startOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
-            end             : moment(calendarEvent.date).endOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
-            duration        : null,
-            allDay          : false,
-            recurrence      : null,
-            range           : {
-                start: moment(calendarEvent.date).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
-                end  : moment(calendarEvent.date).add(1, 'hours').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ')
-            }
-        };
-
-        // Set the event
-        this.event = event;
-
-        // Set the el on calendarEvent for consistency
-        calendarEvent.el = calendarEvent.dayEl;
-
-        // Reset the form and fill the event
-        this.eventForm.reset();
-        this.eventForm.patchValue(event);
-
-        // Open the event panel
-        this._openEventPanel(calendarEvent);
-
-        // Change the event panel mode
-        this.changeEventPanelMode('add');
-    }
-    
-    onEventClick(calendarEvent): void
-    {
-        // Find the event with the clicked event's id
-        const event: any = cloneDeep(this.events.find(item => item.id.toString() === calendarEvent.event.id));
-
-        // Set the event
-        this.event = event;
-
-        event.range = {
-            start: event?.start,
-            end: event?.end
-        };
-
-        // Reset the form and fill the event
-        this.eventForm.reset();
-        this.eventForm.patchValue(event);
-
-        // Open the event panel
-        this._openEventPanel(calendarEvent);
-    }
-    
-    onEventRender(calendarEvent): void
-    {
-        // Get event's calendar
-        const calendar = this.calendars.find(item => item.id === calendarEvent.event.extendedProps.calendarId);
-
-        // Return if the calendar doesn't exist...
-        if ( !calendar )
-        {
-            return;
-        }
-
-        // Set the color class of the event
-        calendarEvent.el.classList.add(calendar.color);
-
-        // Set the event's title to '(No title)' if event title is not available
-        if ( !calendarEvent.event.title )
-        {
-            //calendarEvent.el.querySelector('.fc-title').innerText = '(No title)';
-        }
-
-        // Set the event's visibility
-        calendarEvent.el.style.display = calendar.visible ? 'flex' : 'none';
-    }
-
-    onEventDrop(calendarEvent): void {
-        const event = this.events.find(item => item.id.toString() === calendarEvent.event.id);
-
-        event.start = moment(calendarEvent.event.start).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
-        event.end = moment(calendarEvent.event.end).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
-        
-        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe();
-    }
-
-    onEventResize(calendarEvent): void {
-        const event = this.events.find(item => item.id.toString() === calendarEvent.event.id);
-
-        event.start = moment(calendarEvent.event.start).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
-        event.end = moment(calendarEvent.event.end).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ');
-        
-        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe();
-    }
-    
-    onCalendarUpdated(calendar): void
-    {
-        this._fullCalendarApi.rerenderEvents();
-    }
-    
-    addEvent(): void
-    {
-        // Get the clone of the event form value
-        let newEvent = clone(this.eventForm.value);
-        newEvent.dataHoraCad = moment().format('YYYY-MM-DD HH:mm:ss');
-        newEvent.codUsuarioCad = this.userSession.usuario.codUsuario;
-        newEvent.duration = newEvent.duration || 60;
-
-        const os = this.ordensServico.find(os => os.codOS === newEvent.codOS);
-        newEvent.title = `${newEvent.codOS} - ${os.localAtendimento.nomeLocal}`;
-
-        const prazo: OSPrazoAtendimento = os.prazosAtendimento
-            .sort((a, b) => (a.codOSPrazoAtendimento > b.codOSPrazoAtendimento) ? 1 : ((b.codOSPrazoAtendimento > a.codOSPrazoAtendimento) ? -1 : 0)).shift();
-        newEvent.description = `SLA: ${ moment(prazo?.dataHoraLimiteAtendimento).format('DD/MM/YY HH:mm') }`;
-
-        // Modify the event before sending it to the server
-        newEvent = omit(newEvent, ['range', 'recurringEventId']);
-
-        // Add the event
-        this._agendaTecnicoService.addEvent(newEvent).subscribe(() => {
-            this.obterOrdensServico();
-
-            // Close the event panel
-            this._closeEventPanel();
+        return false;
+      }
+      else if (this.hasChangedResource(args))
+      {
+        this._notify.toast({
+          message: 'O atendimento não pode ser transferido para outro técnico.'
         });
-    }
-
-    updateEvent(): void
-    {
-        // Get the clone of the event form value
-        let event = clone(this.eventForm.value);
-        event.title = event.codOS;        
-  
-        // Update the event on the server
-        this._agendaTecnicoService.updateEvent(event.id.toString(), event).subscribe(() => {
-            this.obterOrdensServico();
-
-            // Close the event panel
-            this._closeEventPanel();
+        return false;
+      }
+      else if (this.invalidMove(args))
+      {
+        this._notify.toast({
+          message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
         });
-    }
-    
-    deleteEvent(event, mode: CalendarEventEditMode = 'single'): void
-    {
-        // If the event is a recurring event...
-        this._agendaTecnicoService.deleteEvent(event.id).subscribe(() => {
-            this.obterOrdensServico();
+        return false;
+      }
 
-            // Close the event panel
-            this._closeEventPanel();
+      if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args))
+      {
+        this._notify.toast({
+          message: 'O intervalo deve ser feito entre 11h e 14h.'
         });
-    }
-    
-    private _createEventPanelOverlay(positionStrategy): void
+        return false;
+      }
+
+      return this.updateEvent(args);
+    },
+    onEventDoubleClick: (args, inst) =>
     {
-        // Create the overlay
-        this._eventPanelOverlayRef = this._overlay.create({
-            panelClass    : ['calendar-event-panel'],
-            backdropClass : '',
-            hasBackdrop   : true,
-            scrollStrategy: this._overlay.scrollStrategies.reposition(),
-            positionStrategy
-        });
-
-        // Detach the overlay from the portal on backdrop click
-        this._eventPanelOverlayRef.backdropClick().subscribe(() => {
-            this._closeEventPanel();
-        });
+      this.showOSInfo(args);
     }
-    
-    private _openEventPanel(calendarEvent): void
+  };
+
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  protected _onDestroy = new Subject<void>();
+
+  constructor (
+    private _notify: Notifications,
+    private _tecnicoSvc: TecnicoService,
+    private _osSvc: OrdemServicoService,
+    private _haversineSvc: HaversineService,
+    private _cdr: ChangeDetectorRef,
+    private _agendaTecnicoSvc: AgendaTecnicoService
+  ) { }
+
+  ngAfterViewInit(): void
+  {
+    interval(10 * 60 * 1000)
+      .pipe(
+        startWith(0),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(() =>
+      {
+        if (!this.sidenav.opened)
+        {
+          this.carregaTecnicosEChamadosTransferidos();
+          this.carregaChamadosAbertos();
+        }
+      });
+
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(700)
+      , distinctUntilChanged()
+    ).subscribe((text: string) =>
     {
-        const positionStrategy = this._overlay.position().flexibleConnectedTo(calendarEvent.el).withFlexibleDimensions(false).withPositions([
-            {
-                originX : 'end',
-                originY : 'top',
-                overlayX: 'start',
-                overlayY: 'top',
-                offsetX : 8
-            },
-            {
-                originX : 'start',
-                originY : 'top',
-                overlayX: 'end',
-                overlayY: 'top',
-                offsetX : -8
-            },
-            {
-                originX : 'start',
-                originY : 'bottom',
-                overlayX: 'end',
-                overlayY: 'bottom',
-                offsetX : -8
-            },
-            {
-                originX : 'end',
-                originY : 'bottom',
-                overlayX: 'start',
-                overlayY: 'bottom',
-                offsetX : 8
-            }
-        ]);
+      this.filtrarChamadosAbertos(text);
+    });
+  }
 
-        // Create the overlay if it doesn't exist
-        if ( !this._eventPanelOverlayRef )
-        {
-            this._createEventPanelOverlay(positionStrategy);
-        }
-        // Otherwise, just update the position
-        else
-        {
-            this._eventPanelOverlayRef.updatePositionStrategy(positionStrategy);
-        }
-
-        // Attach the portal to the overlay
-        this._eventPanelOverlayRef.attach(new TemplatePortal(this._eventPanel, this._viewContainerRef));
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
-    
-    private _closeEventPanel(): void
+  private validateEvents(): void
+  {
+    var now = moment();
+    Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
     {
-        // Detach the overlay from the portal
-        this._eventPanelOverlayRef.detach();
+      var end = moment(e.end);
+      if (end < now) 
+      {
+        e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
+        if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
+      }
+    });
+    this._cdr.detectChanges();
+  }
 
-        // Reset the panel and event edit modes
-        this.panelMode = 'view';
-        this.eventEditMode = 'single';
+  private async carregaTecnicosEChamadosTransferidos()
+  {
+    this.loading = true;
 
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
-    
-    private _updateRecurrenceRule(): void
+    const tecnicos = await this._tecnicoSvc.obterPorParametros({
+      indAtivo: 1,
+      codFilial: 4,
+      codPerfil: 35,
+      periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
+      periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
+      sortActive: 'nome',
+      sortDirection: 'asc'
+    }).toPromise();
+
+    this.resources = tecnicos.items.map(tecnico =>
     {
-        // Get the event
-        const event = this.eventForm.value;
+      return {
+        id: tecnico.codTecnico,
+        name: tecnico.nome,
+        img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
+      }
+    });
 
-        // Return if this is a non-recurring event
-        if ( !event.recurrence )
-        {
-            return;
-        }
+    const chamados = await this._osSvc.obterPorParametros({
+      codFiliais: "4",
+      //codStatusServicos: "8",
+      dataTransfInicio: moment().add(-1, 'days').toISOString(),
+      dataTransfFim: moment().add(1, 'days').toISOString(),
+      sortActive: 'dataHoraTransf',
+      sortDirection: 'asc'
+    }).toPromise();
 
-        // Parse the recurrence rule
-        const parsedRules = {};
-        event.recurrence.split(';').forEach((rule) => {
+    const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
+      tipo: "INTERVALO",
+      codFiliais: "4",
+      data: moment().toISOString()
+    }).toPromise();
 
-            // Split the rule
-            const parsedRule = rule.split('=');
+    this.carregaDados(chamados.items, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+  }
 
-            // Add the rule to the parsed rules
-            parsedRules[parsedRule[0]] = parsedRule[1];
-        });
+  private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  {
+    this.events = [];
+    await this.carregaIntervalos(tecnicos, intervalos);
+    await this.carregaOSs(chamados);
+  }
 
-        // If there is a BYDAY rule, split that as well
-        if ( parsedRules['BYDAY'] )
-        {
-            parsedRules['BYDAY'] = parsedRules['BYDAY'].split(',');
-        }
+  private carregaOSs(chamados: OrdemServico[]) 
+  {
+    this.events = this.events.concat(Enumerable.from(chamados)
+      .where(os => os.tecnico != null)
+      .groupBy(os => os.codTecnico)
+      .selectMany(osPorTecnico =>
+      {
+        var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
+        mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
+        var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
-        // Do not update the recurrence rule if ...
-        // ... the frequency is DAILY,
-        // ... the frequency is WEEKLY and BYDAY has multiple values,
-        // ... the frequency is MONTHLY and there isn't a BYDAY rule,
-        // ... the frequency is YEARLY,
-        if ( parsedRules['FREQ'] === 'DAILY' ||
-            (parsedRules['FREQ'] === 'WEEKLY' && parsedRules['BYDAY'].length > 1) ||
-            (parsedRules['FREQ'] === 'MONTHLY' && !parsedRules['BYDAY']) ||
-            parsedRules['FREQ'] === 'YEARLY' )
-        {
-            return;
-        }
+        return (Enumerable.from(osPorTecnico)
+          // ignora os cancelados
+          .where(os => os.statusServico.codStatusServico != 2).
+          orderBy(os => os.dataHoraTransf)
+          .toArray()
+          .map(os => 
+          {
+            var evento = os.agendaTecnico.length > 0 ?
+              this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
 
-        // If the frequency is WEEKLY, update the BYDAY value with the new one
-        if ( parsedRules['FREQ'] === 'WEEKLY' )
-        {
-            parsedRules['BYDAY'] = [moment(event.start).format('dd').toUpperCase()];
-        }
+            ultimoEvento = evento;
+            return evento;
+          }))
 
-        // If the frequency is MONTHLY, update the BYDAY value with the new one
-        if ( parsedRules['FREQ'] === 'MONTHLY' )
-        {
-            // Calculate the weekday
-            const weekday = moment(event.start).format('dd').toUpperCase();
+      }).toArray());
 
-            // Calculate the nthWeekday
-            let nthWeekdayNo = 1;
-            while ( moment(event.start).isSame(moment(event.start).subtract(nthWeekdayNo, 'week'), 'month') )
-            {
-                nthWeekdayNo++;
-            }
+    this.validateEvents();
+  }
 
-            // Set the BYDAY
-            parsedRules['BYDAY'] = [nthWeekdayNo + weekday];
-        }
-
-        // Generate the rule string from the parsed rules
-        const rules = [];
-        Object.keys(parsedRules).forEach((key) => {
-            rules.push(key + '=' + (Array.isArray(parsedRules[key]) ? parsedRules[key].join(',') : parsedRules[key]));
-        });
-        const rrule = rules.join(';');
-
-        // Update the recurrence rule
-        this.eventForm.get('recurrence').setValue(rrule);
-    }
-    
-    private _updateEndValue(): void
+  private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
+  {
+    var agendaTecnico = os.agendaTecnico[0];
+    var evento: MbscAgendaTecnicoCalendarEvent =
     {
-        // Get the event recurrence
-        const recurrence = this.eventForm.get('recurrence').value;
-
-        // Return if this is a non-recurring event
-        if ( !recurrence )
-        {
-            return;
-        }
-
-        // Parse the recurrence rule
-        const parsedRules = {};
-        recurrence.split(';').forEach((rule) => {
-
-            // Split the rule
-            const parsedRule = rule.split('=');
-
-            // Add the rule to the parsed rules
-            parsedRules[parsedRule[0]] = parsedRule[1];
-        });
-
-        // If there is an UNTIL rule...
-        if ( parsedRules['UNTIL'] )
-        {
-            // Use that to set the end date
-            this.eventForm.get('end').setValue(parsedRules['UNTIL']);
-
-            // Return
-            return;
-        }
-
-        // If there is a COUNT rule...
-        if ( parsedRules['COUNT'] )
-        {
-            // Generate the RRule string
-            const rrule = 'DTSTART=' + moment(this.eventForm.get('start').value).utc().format('YYYYMMDD[T]HHmmss[Z]') + '\nRRULE:' + recurrence;
-
-            // Use RRule string to generate dates
-            const dates = RRule.fromString(rrule).all();
-
-            // Get the last date from dates array and set that as the end date
-            this.eventForm.get('end').setValue(moment(dates[dates.length - 1]).toISOString());
-
-            // Return
-            return;
-        }
-
-        // If there are no UNTIL or COUNT, set the end date to a fixed value
-        this.eventForm.get('end').setValue(moment().year(9999).endOf('year').toISOString());
+      codAgendaTecnico: agendaTecnico.codAgendaTecnico,
+      start: agendaTecnico.inicio,
+      end: agendaTecnico.fim,
+      ordemServico: os,
+      title: os.codOS.toString(),
+      color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+      editable: true,
+      resource: os.tecnico?.codTecnico,
     }
+
+    return evento;
+  }
+
+  private criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
+  {
+    var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
+
+    var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
+
+    // se começa durante a sugestão de intervalo ou deopis das 18h
+    if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
+      start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
+    else if (start.hour() >= this.fimExpediente.hour())
+      start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
+
+    // se termina durante a sugestao de intervalo
+    var end = moment(start).add(mediaTecnico, 'minutes');
+    if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
+    {
+      start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
+      end = moment(start).add(mediaTecnico || 30, 'minutes');
+    }
+
+    var evento: MbscAgendaTecnicoCalendarEvent =
+    {
+      start: start,
+      end: end,
+      ordemServico: os,
+      title: os.codOS.toString(),
+      color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+      editable: true,
+      resource: os.tecnico?.codTecnico,
+    }
+
+    var agendaTecnico: AgendaTecnico =
+    {
+      inicio: start.format('yyyy-MM-DD HH:mm:ss'),
+      fim: end.format('yyyy-MM-DD HH:mm:ss'),
+      codOS: os.codOS,
+      codTecnico: os.codTecnico,
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+      tipo: "OS"
+    }
+
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+    {
+      evento.codAgendaTecnico = agendamento.codAgendaTecnico;
+    });
+
+    return evento;
+  }
+
+  private async carregaIntervalos(tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  {
+    this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
+    {
+      var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == tecnico.codTecnico);
+      return intervalo == null ? this.criaNovoIntervalo(tecnico) : this.exibeIntervaloExistente(intervalo);
+    }).toArray());
+  }
+
+  private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
+  {
+    var start = this.inicioIntervalo;
+    var end = this.fimIntervalo;
+
+    var evento: MbscAgendaTecnicoCalendarEvent =
+    {
+      start: start,
+      end: end,
+      title: "INTERVALO",
+      color: '#808080',
+      editable: true,
+      resource: tecnico.codTecnico,
+    }
+
+    var agendaTecnico: AgendaTecnico =
+    {
+      inicio: start.format('yyyy-MM-DD HH:mm:ss'),
+      fim: end.format('yyyy-MM-DD HH:mm:ss'),
+      codTecnico: tecnico.codTecnico,
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+      tipo: "INTERVALO"
+    }
+
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+    {
+      evento.codAgendaTecnico = agendamento.codAgendaTecnico;
+    });
+
+    return evento;
+  }
+
+  private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent
+  {
+    var evento: MbscAgendaTecnicoCalendarEvent =
+    {
+      codAgendaTecnico: intervalo.codAgendaTecnico,
+      start: intervalo.inicio,
+      end: intervalo.fim,
+      title: intervalo.tipo,
+      color: '#808080',
+      editable: true,
+      resource: intervalo.codTecnico,
+    }
+
+    return evento;
+  }
+
+  private async carregaChamadosAbertos()
+  {
+    const data = await this._osSvc.obterPorParametros({
+      codStatusServicos: "1",
+      codFiliais: "4"
+    }).toPromise();
+
+    this.externalEvents = data.items.map(os =>
+    {
+      return {
+        title: os.codOS.toString(),
+        color: '#1064b0',
+        start: moment(),
+        end: moment().add(60, 'minutes')
+      }
+    });
+
+    this.externalEventsFiltered = this.externalEvents;
+  }
+
+  private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
+  {
+    var origem: Coordenada = new Coordenada();
+    var destino: Coordenada = new Coordenada();
+
+    // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
+    if (osAnterior != null)
+      origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
+    // Se o técnico não possui nada agendado, parte do endereoç deste
+    else
+      origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
+
+    destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
+
+    return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
+  }
+
+  private getInterventionColor(tipoIntervencao: number): string
+  {
+    switch (tipoIntervencao)
+    {
+      case 1: //alteracao engenharia
+        return "#067A52";
+      case 2: //corretiva
+        return "#3FC283";
+      case 4: //preventiva
+        return "#87E9A9";
+      default:
+        return "#D7F4D2";
+    }
+  }
+
+  private getStatusColor(statusOS: number): string
+  {
+    switch (statusOS)
+    {
+      case 1: //aberto
+        return "#ff4c4c";
+      case 8: //transferido
+        return "#ff4c4c";
+      case 3: //fechado
+        return "#7f7fff";
+      default:
+        return "#7f7fff";
+    }
+  }
+
+  public filtrarChamadosAbertos(query: string)
+  {
+    if (query && query.trim() != '')
+    {
+      this.externalEventsFiltered = this.externalEvents.filter((ev) =>
+      {
+        return (
+          ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1
+        );
+      })
+    } else
+    {
+      this.externalEventsFiltered = this.externalEvents;
+    }
+  }
+
+  private hasOverlap(args, inst)
+  {
+    var ev = args.event;
+    var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
+    return events.length > 0;
+  }
+
+  private hasChangedResource(args)
+  {
+    return args.event.resource != args.oldEvent.resource;
+  }
+
+  private isTechnicianInterval(args)
+  {
+    return args.event.title === "INTERVALO";
+  }
+
+  private invalidTechnicianInterval(args)
+  {
+    return moment(args.event.start) > this.limiteSuperiorIntervalo || moment(args.event.start) < this.limiteInferiorIntervalo;
+  }
+
+  private invalidMove(args)
+  {
+    //não pode mover evento posterior a linha do tempo para antes da linha do tempo
+    var now = moment();
+    return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
+  }
+
+  private invalidInsert(args)
+  {
+    //não pode inserir evento anterior à linha do tempo
+    var now = moment();
+    return moment(args.event.start) < now;
+  }
+
+  // valida atualizaçaõ do evento no banco
+  private updateEvent(args)
+  {
+    var agenda: AgendaTecnico =
+    {
+      codAgendaTecnico: args.event.codAgendaTecnico,
+      inicio: moment(args.event.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(args.event.end).format('yyyy-MM-DD HH:mm:ss'),
+      codTecnico: args.event.resource,
+      codOS: args.event.ordemServico?.codOS ?? 0,
+      tipo: args.event.ordemServico != null ? "OS" : "INTERVALO",
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+    }
+
+    this._agendaTecnicoSvc.atualizar(agenda).subscribe(
+      result => 
+      {
+        this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
+        return true;
+      },
+      error =>
+      {
+        this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
+        return false;
+      }).add(this.updateEventColor(args));
+  }
+
+  updateEventColor(args)
+  {
+    if (args.event.ordemServico?.codOS > 0)
+    {
+      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
+      event.color =
+        moment(args.event.end) > moment() ?
+          this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+          : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+
+      this._cdr.detectChanges();
+    }
+  }
+
+  private showOSInfo(args)
+  {
+    var os = args.event.ordemServico;
+
+    if (os == null) return;
+
+    var text = "";
+    if (os.localAtendimento?.nomeLocal) text += 'Local Atendimento: ' + args.event.ordemServico.localAtendimento?.nomeLocal + '\n';
+    if (os.defeito) text += ', Defeito: ' + os.defeito + '\n';
+
+    this._notify.alert(
+      {
+        title: "OS " + args.event.ordemServico.codOS.toString(),
+        message: text,
+        display: 'center'
+      }
+    );
+  }
 }

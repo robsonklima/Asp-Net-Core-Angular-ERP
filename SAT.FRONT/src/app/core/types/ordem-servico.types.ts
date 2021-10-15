@@ -1,3 +1,4 @@
+import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
@@ -14,7 +15,7 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export interface OrdemServico {
+export class OrdemServico {
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
@@ -145,6 +146,7 @@ export interface OrdemServico {
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
+    agendaTecnico?: AgendaTecnico[];
 }
 
 export interface OrdemServicoData extends Meta {
@@ -166,4 +168,12 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     codClientes?: string;
     codFiliais?: string;
     pa?: number;
+    dataTransfInicio?: string;
+    dataTransfFim?: string;
+    include?: OrdemServicoIncludeEnum;
 };
+
+export enum OrdemServicoIncludeEnum
+{
+    OS_RAT,
+}

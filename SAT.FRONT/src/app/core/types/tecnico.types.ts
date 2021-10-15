@@ -6,7 +6,8 @@ import { OrdemServico } from "./ordem-servico.types";
 import { TipoRota } from "./tipo-rota.types";
 import { Usuario } from "./usuario.types";
 
-export class Tecnico {
+export class Tecnico
+{
     codTecnico: number;
     codAutorizada: number;
     codFilial: number;
@@ -68,13 +69,16 @@ export class Tecnico {
     distanciaResidenciaLocalAtendimento: number;
     tempoResidenciaLocalAtendimento: string;
     usuario: Usuario;
+    mediaTempoAtendMin: number;
 }
 
-export interface TecnicoData extends Meta {
+export interface TecnicoData extends Meta
+{
     items: Tecnico[];
 };
 
-export interface TecnicoParameters extends QueryStringParameters {
+export interface TecnicoParameters extends QueryStringParameters
+{
     codTecnico?: number;
     indAtivo?: number;
     codFilial?: number;
@@ -83,15 +87,19 @@ export interface TecnicoParameters extends QueryStringParameters {
     codPerfil?: number;
     codigosStatusServico?: string;
     codAutorizadas?: string;
+    periodoMediaAtendInicio?: string;
+    periodoMediaAtendFim?: string;
 };
 
 
-export enum FrotaFinalidadeUsoEnum {
+export enum FrotaFinalidadeUsoEnum
+{
     "Apenas Trabalho" = 1,
     "Apenas Trabalho/Particular" = 2
 }
 
-export enum FrotaCobrancaGaragemEnum {
+export enum FrotaCobrancaGaragemEnum
+{
     "Pela Empresa" = 1,
     "Pelo Técnico" = 2,
     "Pelo Técnico Sem Cobrança" = 3

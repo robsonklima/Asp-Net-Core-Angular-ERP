@@ -225,7 +225,6 @@ export class OrdemServicoFiltroComponent implements OnInit
 
   aplicar(): void
   {
-    debugger;
     const form: any = this.form.getRawValue();
 
     const filtro: any = {

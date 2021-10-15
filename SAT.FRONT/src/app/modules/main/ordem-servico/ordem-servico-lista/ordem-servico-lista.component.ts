@@ -140,7 +140,6 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     private carregarFiltro(): void
     {
-        debugger;
         this.filtro = this._userService.obterFiltro('ordem-servico');
         if (!this.filtro)
         {

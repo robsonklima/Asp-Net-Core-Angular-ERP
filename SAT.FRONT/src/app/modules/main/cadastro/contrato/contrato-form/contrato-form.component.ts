@@ -33,7 +33,6 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-contrato-form',
   templateUrl: './contrato-form.component.html',
-  styleUrls: ['./contrato-form.component.scss']
 })
 export class ContratoFormComponent implements OnInit {codContrato: number;
   contrato: Contrato;

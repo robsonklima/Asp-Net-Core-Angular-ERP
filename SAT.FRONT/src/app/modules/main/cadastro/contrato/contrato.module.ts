@@ -37,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
+import { ContratoFormLayoutComponent } from './contrato-form-layout/contrato-form-layout.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -47,7 +48,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     ContratoListaComponent,
-    ContratoFormComponent
+    ContratoFormComponent,
+    ContratoFormLayoutComponent
   ],
   imports: [
     CommonModule,

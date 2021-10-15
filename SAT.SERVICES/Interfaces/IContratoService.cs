@@ -11,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(Contrato contrato);
         IActionResult ExportToExcel(ContratoParameters parameters);
+        Contrato ObterPorCodigo(int codigo);
     }
 }

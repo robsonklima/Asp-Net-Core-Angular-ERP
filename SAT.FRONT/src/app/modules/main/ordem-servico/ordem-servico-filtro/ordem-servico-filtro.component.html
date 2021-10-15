@@ -33,6 +33,27 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('autorizada') }}</mat-label>
+
+                    <mat-select formControlName="codAutorizadas" multiple="true">
+                        <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
+                            {{ autorizada.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>      
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('equipamento') }}</mat-label>
+                    <mat-select formControlName="codEquipamentos" multiple="true">
+                        <mat-option #selectStatus (click)="selecionarTodosEquipamentos('equipamentos')" [value]="0">Todos</mat-option>   
+                        <mat-option *ngFor="let equipamento of equipamentos"
+                            [value]="equipamento.codEquip">
+                            {{ equipamento.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>                
             
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('data de abertura') }}</mat-label>

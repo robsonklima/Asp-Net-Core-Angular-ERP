@@ -11,6 +11,7 @@ import { PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types'
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/Autorizada.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -19,6 +20,9 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Enumerable from 'linq';
 import { MatOption } from '@angular/material/core';
+import { AutorizadaService } from 'app/core/services/autorizada.service';
+import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -33,8 +37,11 @@ export class OrdemServicoFiltroComponent implements OnInit
   filiais: Filial[] = [];
   clientes: Cliente[] = [];
   regioes: Regiao[] = [];
+  autorizadas: Autorizada[] = [];
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
+  pas: any;
+  equipamentos: Equipamento[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
   @ViewChild('selectIntervencoes') private selectIntervencoes: MatOption;
@@ -48,6 +55,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     private _clienteService: ClienteService,
     private _userService: UserService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
+    private _autorizadaService: AutorizadaService,
+    private _equipamentosService: EquipamentoService,
     private _formBuilder: FormBuilder
   )
   {
@@ -65,6 +74,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterRegioes();
+    this.obterAutorizadas();
+    this.obterEquipamentos();
   }
 
   private inicializarForm(): void
@@ -72,9 +83,11 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
+      codAutorizadas: [undefined],
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
+      codEquipamentos: [undefined],
       codOS: [undefined],
       numOSCliente: [undefined],
       numOSQuarteirizada: [undefined],
@@ -177,6 +190,22 @@ export class OrdemServicoFiltroComponent implements OnInit
     }
   }
 
+  selecionarTodosEquipamentos(tipo: string) {  
+    switch (tipo) {
+      case 'equipamentos':
+        if (this.selectStatus.selected) {
+          this.form.controls.codEquipamentos
+          .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
+        } else {
+          this.form.controls.codEquipamentos.patchValue([]);                
+                     
+        }         
+        break;         
+      default:
+        break;
+    }   
+  }    
+
   async obterRegioes(filter: string = '')
   {
     let params: RegiaoAutorizadaParameters = {
@@ -191,6 +220,23 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
+    this.pas = new Set(data.items.map(ra => ra.pa));
+  }
+
+  async obterAutorizadas(filter: string = '') {
+    let params: AutorizadaParameters = {
+      filter: filter,
+      indAtivo: 1,
+      codAutorizada: this.sessionData.usuario.codAutorizada,
+      codFilial: this.sessionData.usuario.codFilial,
+      pageSize: 1000
+    };
+
+    const data = await this._autorizadaService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.autorizadas = Enumerable.from(data.items).toArray();
   }
 
   async obterStatusServicos()
@@ -207,6 +253,20 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.statusServicos = data.items;
+  }
+
+  async obterEquipamentos() {
+    let params: EquipamentoParameters = {
+      sortActive: 'nomeEquip',
+      sortDirection: 'asc',
+      pageSize: 50
+    }
+
+    const data = await this._equipamentosService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.equipamentos = data.items;
   }
 
   private registrarEmitters(): void

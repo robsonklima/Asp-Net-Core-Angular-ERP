@@ -1,4 +1,5 @@
-export interface Filtro {
+export interface Filtro
+{
     parametros: Parametros;
     nome: string
 }
@@ -6,6 +7,7 @@ export interface Filtro {
 export interface Parametros 
 {
     codFiliais?: number[],
+    codAutorizadas?: string,
     codTiposIntervencao?: number[],
     codClientes?: number[],
     codStatusServicos?: number[],
@@ -18,5 +20,7 @@ export interface Parametros
     dataFechamentoFim?: string,
     pa?: number,
     pontosEstrategicos?: number[],
-    qtdPaginacaoLista?: number
+    qtdPaginacaoLista?: number,
+    sortActive?: string,
+    sortDirection?: string
 }

@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
+import { Filtro } from '../types/filtro.types';
 
 @Injectable({
   providedIn: 'root'
@@ -97,13 +98,13 @@ export class UserService
     return filtros.filter(f => f.nome === nome).shift();
   }
 
-  atualizarPropriedade(filter: any, propertyName: string, propertyValue: any)
+  atualizarPropriedade(filterName: string, propertyName: string, propertyValue: any)
   {
     let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
-    var filtro = filtros.filter(f => f.nome === filter.nome).shift();
+    var filtro = filtros.filter(f => f.nome === filterName).shift();
     if (filtro)
     {
-      filter.parametros[`${propertyName}`] = propertyValue;
+      filtro.parametros[`${propertyName}`] = propertyValue;
       this.registrarFiltro(filtro);
     }
   }

@@ -15,6 +15,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -191,8 +192,25 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     statusSLADescricao(os: OrdemServico)
     {
-        return os.statusServico?.codStatusServico == 3 &&
-            os.prazosAtendimento?.length > 0 ? os.dataHoraFechamento < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento ? "DENTRO" : "FORA" : '-';
+        if (os.prazosAtendimento == null)
+        {
+            return "-";
+        }
+        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
+        {
+            if (os.dataHoraFechamento < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
+                return "DENTRO";
+            return "FORA";
+        }
+        else if (os.prazosAtendimento?.length > 0)
+        {
+            var now = moment();
+            var limit = moment(os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento);
+            if (now < limit)
+                return "DENTRO";
+            return "FORA";
+        }
+        return "-";
     }
 
     statusServicoDescricao(os: OrdemServico)

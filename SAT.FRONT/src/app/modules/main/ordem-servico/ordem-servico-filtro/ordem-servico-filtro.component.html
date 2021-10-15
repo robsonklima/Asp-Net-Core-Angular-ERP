@@ -14,12 +14,22 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="!sessioData?.usuario?.filial?.codFilial">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="!sessionData?.usuario?.filial?.codFilial">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                             {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('regiao') }}</mat-label>
+
+                    <mat-select formControlName="codRegioes" multiple="true">
+                        <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
+                            {{ regiao.nomeRegiao }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -46,8 +56,8 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('status de servico') }}</mat-label>
-
                     <mat-select formControlName="codStatusServicos" multiple="true">
+                        <mat-option #selectStatus (click)="selecionarTodosStatus('status')" [value]="0">Todos</mat-option>   
                         <mat-option *ngFor="let statusServico of statusServicos"
                             [value]="statusServico.codStatusServico">
                             {{ statusServico.nomeStatusServico }}
@@ -57,8 +67,8 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('tipo de intervencao') }}</mat-label>
-
                     <mat-select formControlName="codTiposIntervencao" multiple="true">
+                        <mat-option #selectIntervencoes (click)="selecionarTodasIntervencoes('tiposIntervencao')" [value]="0">Todos</mat-option>   
                         <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
                             [value]="tipoIntervencao.codTipoIntervencao">
                             {{ tipoIntervencao.nomTipoIntervencao }}
@@ -89,7 +99,6 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('cliente') }}</mat-label>
-
                     <mat-select formControlName="codClientes" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -109,6 +118,25 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
                     </mat-icon>
                 </mat-form-field>
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('ponto estrategico') }}</mat-label>                   
+
+                    <mat-select formControlName="pontosEstrategicos" multiple="true">
+                        <mat-option [value]="pontosEstrategicos.NAO">
+                            {{pontosEstrategicos[0]}}
+                        </mat-option>
+
+                        <mat-option [value]="pontosEstrategicos.VIP">
+                            {{pontosEstrategicos[1]}}
+                        </mat-option>
+
+                        <mat-option [value]="pontosEstrategicos.VIT">
+                            {{pontosEstrategicos[2]}}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>         
             </div>
 
             <div class="mt-6 border-t"></div>

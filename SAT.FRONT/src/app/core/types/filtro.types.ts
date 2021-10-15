@@ -3,7 +3,8 @@ export interface Filtro {
     nome: string
 }
 
-export interface Parametros {
+export interface Parametros 
+{
     codFiliais?: number[],
     codTiposIntervencao?: number[],
     codClientes?: number[],
@@ -15,5 +16,7 @@ export interface Parametros {
     dataAberturaFim?: string,
     dataFechamentoInicio?: string,
     dataFechamentoFim?: string,
-    pa?: number
+    pa?: number,
+    pontosEstrategicos?: number[],
+    qtdPaginacaoLista?: number
 }

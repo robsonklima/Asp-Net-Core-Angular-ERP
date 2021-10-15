@@ -81,6 +81,9 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.AgendaTecnico)
                         .Include(os => os.Tecnico)
                         .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                                .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
+                                    .ThenInclude(ratdp => ratdp.Peca)
                         .Include(os => os.EquipamentoContrato.Contrato)
                         .Include(os => os.PrazosAtendimento);
                     break;
@@ -153,34 +156,32 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodStatusServicos != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodStatusServicos.Contains(os.CodStatusServico.ToString())
-                );
+                var statusServicos = parameters.CodStatusServicos.Split(",");
+                query = query.Where(os => statusServicos.Any(r => r == os.CodStatusServico.ToString()));
+            }
+
+            if (parameters.CodRegioes != null)
+            {
+                var regioes = parameters.CodRegioes.Split(",");
+                query = query.Where(os => regioes.Any(r => r == os.RegiaoAutorizada.CodRegiao.ToString()));
             }
 
             if (parameters.CodTiposIntervencao != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodTiposIntervencao.Contains(os.CodTipoIntervencao.ToString())
-                );
+                var tiposIntervencao = parameters.CodTiposIntervencao.Split(",");
+                query = query.Where(os => tiposIntervencao.Any(r => r == os.TipoIntervencao.CodTipoIntervencao.ToString()));
             }
 
             if (parameters.CodClientes != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodClientes.Contains(os.CodCliente.ToString())
-                );
+                var clientes = parameters.CodClientes.Split(",");
+                query = query.Where(os => clientes.Any(r => r == os.CodCliente.ToString()));
             }
 
             if (parameters.CodEquipamentos != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodEquipamentos.Contains(os.CodEquip.ToString())
-                );
+                var equipamentos = parameters.CodEquipamentos.Split(",");
+                query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));
             }
 
             if (parameters.CodFiliais != null)
@@ -194,10 +195,15 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodAutorizadas != null)
             {
-                query = query.Where(
-                    os =>
-                    parameters.CodAutorizadas.Contains(os.CodAutorizada.ToString())
-                );
+                var autorizadas = parameters.CodAutorizadas.Split(",");
+                query = query.Where(os => autorizadas.Any(r => r == os.CodAutorizada.ToString()));
+            }
+
+            if (parameters.PontosEstrategicos != null)
+            {
+                var paramsSplit = parameters.PontosEstrategicos.Split(',');
+
+                query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
@@ -273,6 +279,14 @@ namespace SAT.INFRA.Repository
                                  .OrderBy(q => q.EquipamentoContrato.NumSerie) :
                             query.Where(q => !string.IsNullOrEmpty(q.EquipamentoContrato.NumSerie))
                                  .OrderByDescending(q => q.EquipamentoContrato.NumSerie);
+                        break;
+
+                    case "nomeTecnico":
+                        query = parameters.SortDirection == "asc" ?
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderBy(q => q.Tecnico.Nome) :
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                                 .OrderByDescending(q => q.Tecnico.Nome);
                         break;
 
                     default:

@@ -83,6 +83,9 @@
                                     <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
+                                     <div class="hidden md:block truncate" [mat-sort-header]="'statusSLA'">
+                                        {{ 'S SLA' }}
+                                    </div>
                                     <div class="hidden md:block" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
@@ -110,7 +113,6 @@
                                             <div>
                                                 {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
                                             </div>
-
                                             <div>
                                                 <span [matTooltip]="os.statusServico?.nomeStatusServico"
                                                     matTooltipPosition="above">
@@ -131,9 +133,9 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                            <span [matTooltip]="os.tecnico?.nome"
+                                            <span [matTooltip]="os.statusServico?.codStatusServico == 8 ? os.tecnico?.nome : ''"
                                                 matTooltipPosition="above">
-                                                    {{ os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' }}
+                                                    {{ os.statusServico?.codStatusServico == 8 ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
                                                 </span>
                                             </div>
                                             
@@ -175,6 +177,18 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
+                                            <span [matTooltip]="statusSLADescricao(os)"
+                                                    matTooltipPosition="above">
+                                                    <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                                            'background-color': statusSLADescricao(os) == 'DENTRO' ? '#70FF70' : statusSLADescricao(os) == 'FORA' ? '#FF0000' : '#ffffff00', 
+                                                            'color': os.statusServico?.corFonte
+                                                        }">
+                                                        {{ statusSLADescricao(os).substr(0, 1) }}
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <div class="hidden md:block truncate">
                                                 <span
                                                     [matTooltip]="os.equipamentoContrato?.numSerie || t('nao informado')"
                                                     matTooltipPosition="above">
@@ -194,7 +208,7 @@
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                                [pageSize]="filtro?.parametros.qtdPaginacaoLista ?? 50" [pageSizeOptions]="[5, 10, 25, 50, 100]" [showFirstLastButtons]="true"
+                                [pageSize]="filtro?.parametros.qtdPaginacaoLista ?? 50" [pageSizeOptions]="[5, 10, 25, 50, 100, 250]" [showFirstLastButtons]="true"
                                 (page)="paginar()">
                             </mat-paginator>
                         </ng-container>

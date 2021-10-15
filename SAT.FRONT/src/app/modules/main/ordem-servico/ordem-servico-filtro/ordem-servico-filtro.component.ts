@@ -28,7 +28,8 @@ import { EquipamentoService } from 'app/core/services/equipamento.service';
   selector: 'app-ordem-servico-filtro',
   templateUrl: './ordem-servico-filtro.component.html'
 })
-export class OrdemServicoFiltroComponent implements OnInit {
+export class OrdemServicoFiltroComponent implements OnInit
+{
   filtro: any;
   sessionData: UsuarioSessao;
   @Input() sidenav: MatSidenav;
@@ -37,7 +38,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
   clientes: Cliente[] = [];
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
-  statusServicos: StatusServico[] =[];
+  statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
   pas: any;
   equipamentos: Equipamento[] = [];
@@ -47,7 +48,7 @@ export class OrdemServicoFiltroComponent implements OnInit {
   @ViewChild('selectStatus') private selectStatus: MatOption;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _filialService: FilialService,
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _statusServicoService: StatusServicoService,
@@ -57,25 +58,28 @@ export class OrdemServicoFiltroComponent implements OnInit {
     private _autorizadaService: AutorizadaService,
     private _equipamentosService: EquipamentoService,
     private _formBuilder: FormBuilder
-  ) {
+  )
+  {
     this.filtro = this._userService.obterFiltro('ordem-servico');
     this.sessionData = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.obterFiliais();
     this.obterClientes();
     this.obterTiposIntervencao();
     this.obterStatusServicos();
     this.registrarEmitters();
     this.inicializarForm();
-    this.pontosEstrategicos = PontoEstrategicoEnum;  
+    this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterRegioes();
     this.obterAutorizadas();
     this.obterEquipamentos();
   }
 
-  private inicializarForm(): void {
+  private inicializarForm(): void
+  {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
@@ -98,7 +102,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.form.patchValue(this.filtro?.parametros);
   }
 
-  async obterFiliais() {
+  async obterFiliais()
+  {
     let params: FilialParameters = {
       indAtivo: 1,
       sortActive: 'nomeFilial',
@@ -113,21 +118,23 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.filiais = data.items;
   }
 
-  async obterTiposIntervencao() {
+  async obterTiposIntervencao()
+  {
     let params = {
       indAtivo: 1,
       sortActive: 'nomTipoIntervencao',
-      sortDirection: 'asc'      
+      sortDirection: 'asc'
     }
 
     const data = await this._tipoIntervencaoService
       .obterPorParametros(params)
       .toPromise();
-  
+
     this.tiposIntervencao = data.items;
   }
 
-  async obterClientes(filter: string = '') {
+  async obterClientes(filter: string = '')
+  {
     let params: ClienteParameters = {
       filter: filter,
       indAtivo: 1,
@@ -143,37 +150,45 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.clientes = data.items;
   }
 
-  selecionarTodasIntervencoes(tipo: string) {  
-    switch (tipo) {
+  selecionarTodasIntervencoes(tipo: string)
+  {
+    switch (tipo)
+    {
       case 'tiposIntervencao':
-        if (this.selectIntervencoes.selected) {
+        if (this.selectIntervencoes.selected)
+        {
           this.form.controls.codTiposIntervencao
-          .patchValue([...this.tiposIntervencao.map(item => item.codTipoIntervencao), 0]);
-        } else {
-          this.form.controls.codTiposIntervencao.patchValue([]);                
-                     
-        }         
-        break;         
+            .patchValue([...this.tiposIntervencao.map(item => item.codTipoIntervencao), 0]);
+        } else
+        {
+          this.form.controls.codTiposIntervencao.patchValue([]);
+
+        }
+        break;
       default:
         break;
-    }   
+    }
   }
 
-  selecionarTodosStatus(tipo: string) {  
-    switch (tipo) {
+  selecionarTodosStatus(tipo: string)
+  {
+    switch (tipo)
+    {
       case 'status':
-        if (this.selectStatus.selected) {
+        if (this.selectStatus.selected)
+        {
           this.form.controls.codStatusServicos
-          .patchValue([...this.statusServicos.map(item => item.codStatusServico), 0]);
-        } else {
-          this.form.controls.codStatusServicos.patchValue([]);                
-                     
-        }         
-        break;         
+            .patchValue([...this.statusServicos.map(item => item.codStatusServico), 0]);
+        } else
+        {
+          this.form.controls.codStatusServicos.patchValue([]);
+
+        }
+        break;
       default:
         break;
-    }   
-  }  
+    }
+  }
 
   selecionarTodosEquipamentos(tipo: string) {  
     switch (tipo) {
@@ -191,7 +206,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     }   
   }    
 
-  async obterRegioes(filter: string = '') {
+  async obterRegioes(filter: string = '')
+  {
     let params: RegiaoAutorizadaParameters = {
       filter: filter,
       indAtivo: 1,
@@ -223,7 +239,8 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.autorizadas = Enumerable.from(data.items).toArray();
   }
 
-  async obterStatusServicos() {
+  async obterStatusServicos()
+  {
     let params: StatusServicoParameters = {
       indAtivo: 1,
       sortActive: 'nomeStatusServico',
@@ -252,49 +269,54 @@ export class OrdemServicoFiltroComponent implements OnInit {
     this.equipamentos = data.items;
   }
 
-  private registrarEmitters(): void {
+  private registrarEmitters(): void
+  {
     this.clienteFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
         debounceTime(700),
         distinctUntilChanged()
       )
-      .subscribe(() => {
+      .subscribe(() =>
+      {
         this.obterClientes(this.clienteFilterCtrl.value);
       });
   }
 
-  aplicar(): void {
+  aplicar(): void
+  {
     const form: any = this.form.getRawValue();
 
     const filtro: any = {
       nome: 'ordem-servico',
       parametros: form
     }
-        
+
     this._userService.registrarFiltro(filtro);
 
     const newFilter: any = { nome: 'ordem-servico', parametros: this.form.getRawValue() }
-    const oldFilter = this._userService.obterFiltro('ordem-servico');    
+    const oldFilter = this._userService.obterFiltro('ordem-servico');
 
     if (oldFilter != null)
-      newFilter.parametros = 
+      newFilter.parametros =
       {
-      ...newFilter.parametros,
-      ...oldFilter.parametros
+        ...newFilter.parametros,
+        ...oldFilter.parametros
       };
 
     this._userService.registrarFiltro(newFilter);
     this.sidenav.close();
   }
 
-  limpar(): void {
+  limpar(): void
+  {
     this.form.reset();
     this.aplicar();
     this.sidenav.close();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

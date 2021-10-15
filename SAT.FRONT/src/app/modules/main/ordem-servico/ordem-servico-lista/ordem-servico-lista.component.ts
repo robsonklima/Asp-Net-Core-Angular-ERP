@@ -150,7 +150,7 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.isLoading = true;
         const params: OrdemServicoParameters = {
             sortDirection: 'desc',
-            pageSize: 6000,
+            pageSize: 100000,
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {

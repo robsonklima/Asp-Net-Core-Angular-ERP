@@ -140,6 +140,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     private carregarFiltro(): void
     {
+        debugger;
         this.filtro = this._userService.obterFiltro('ordem-servico');
         if (!this.filtro)
         {
@@ -178,7 +179,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     paginar() 
     {
-        this.filtro = this._userService.atualizarPropriedade("ordem-servico", "qtdPaginacaoLista", this.paginator?.pageSize);
+        this._userService.atualizarPropriedade(this.filtro, "qtdPaginacaoLista", this.paginator?.pageSize);
         this.obterOrdensServico();
     }
 

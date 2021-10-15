@@ -97,16 +97,15 @@ export class UserService
     return filtros.filter(f => f.nome === nome).shift();
   }
 
-  atualizarPropriedade(filterName: string, propertyName: string, propertyValue: any)
+  atualizarPropriedade(filter: any, propertyName: string, propertyValue: any)
   {
     let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
-    var filtro = filtros.filter(f => f.nome === filterName).shift();
+    var filtro = filtros.filter(f => f.nome === filter.nome).shift();
     if (filtro)
     {
-      filtro.parametros[`${propertyName}`] = propertyValue;
+      filter.parametros[`${propertyName}`] = propertyValue;
       this.registrarFiltro(filtro);
     }
-    return filtro;
   }
 
   registrarNavegacoes(navegacoes: Navegacao[]): void

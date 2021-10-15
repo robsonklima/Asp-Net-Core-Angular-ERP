@@ -206,7 +206,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
                     .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
                         .select(dp => dp.peca?.codMagnus))).toArray();
 
-            description = description + "\nPEÇAS: " + pecas.join(", ");
+            if (pecas.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
         }
 
         return description;

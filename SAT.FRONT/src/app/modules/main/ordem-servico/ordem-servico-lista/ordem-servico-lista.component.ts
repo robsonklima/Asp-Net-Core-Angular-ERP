@@ -178,7 +178,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     paginar() 
     {
-        this._userService.atualizarPropriedade("ordem-servico", "qtdPaginacaoLista", this.paginator?.pageSize);
+        this.filtro = this._userService.atualizarPropriedade("ordem-servico", "qtdPaginacaoLista", this.paginator?.pageSize);
         this.obterOrdensServico();
     }
 

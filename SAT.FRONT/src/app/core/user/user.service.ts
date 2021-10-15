@@ -106,6 +106,7 @@ export class UserService
       filtro.parametros[`${propertyName}`] = propertyValue;
       this.registrarFiltro(filtro);
     }
+    return filtro;
   }
 
   registrarNavegacoes(navegacoes: Navegacao[]): void

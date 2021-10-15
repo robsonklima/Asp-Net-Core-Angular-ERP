@@ -79,6 +79,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.Cliente)
                         .Include(os => os.Cliente.Cidade)
                         .Include(os => os.AgendaTecnico)
+                        .Include(os => os.Agendamentos)
                         .Include(os => os.Tecnico)
                         .Include(os => os.RelatoriosAtendimento)
                             .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)

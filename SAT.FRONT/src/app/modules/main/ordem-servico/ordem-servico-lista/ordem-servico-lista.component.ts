@@ -22,7 +22,7 @@ import moment from 'moment';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
+            grid-template-columns: 30px 60px 72px 60px 20px 48px 50px 30px 120px auto 40px 100px 50px 36px 140px 29px;
             
             @screen sm {
                 grid-template-columns:  48px 72px 92px 92px 36px 36px auto 56px;
@@ -33,7 +33,7 @@ import moment from 'moment';
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 72px  20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
+                grid-template-columns: 30px 60px 72px 60px  20px 48px 50px 30px 120px auto 40px 100px 50px 36px 140px 29px;
             }
         }
     `],
@@ -195,7 +195,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
     {
         if (os.prazosAtendimento == null)
         {
-            return "-";
+            return "---";
         }
         else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
         {
@@ -211,7 +211,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
                 return "DENTRO";
             return "FORA";
         }
-        return "-";
+        return "---";
     }
 
     statusServicoDescricao(os: OrdemServico)

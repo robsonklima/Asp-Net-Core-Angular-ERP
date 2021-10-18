@@ -1,10 +1,10 @@
 <table class="w-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
-    <thead class="text-center">
+    <thead class="text-center" *transloco="let t">
         <tr>
-            <th>Técnico</th>
-            <th>Filial</th>
-            <th>Pendência (%)</th>
-            <th>Quantidade de atendimentos</th>
+            <th>{{t('tecnico')}}</th>
+            <th>{{t('filial')}}</th>
+            <th>{{t('pendencia')}}</th>
+            <th>{{t('quantidade')}}</th>
         </tr>
     </thead>
     <tbody>

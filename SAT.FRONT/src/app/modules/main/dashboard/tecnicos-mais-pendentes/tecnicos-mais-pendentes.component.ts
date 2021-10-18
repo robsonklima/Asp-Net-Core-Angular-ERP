@@ -7,7 +7,8 @@ import moment from 'moment';
 
 @Component({
   selector: 'app-tecnicos-mais-pendentes',
-  templateUrl: './tecnicos-mais-pendentes.component.html'
+  templateUrl: './tecnicos-mais-pendentes.component.html',
+  styleUrls: ['./tecnicos-mais-pendentes.component.css']
 })
 export class TecnicosMaisPendentesComponent implements OnInit {
   @Input() ordem: string;
@@ -28,24 +29,25 @@ export class TecnicosMaisPendentesComponent implements OnInit {
 
     let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES);
     let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES);
-    let listaTecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
+    let listaTecnicos = (await this._tecnicoService.obterPorParametros({ }).toPromise()).items;
     
-    console.log(listaTecnicos);
-
-    for (let indicador of dadosIndicadoresPercent) {
+    for (let indicador of dadosIndicadoresPercent) 
+    {
       let tecnico = listaTecnicos.find(t => t.codTecnico == +indicador.label);
       let model: PendenciaTecnicosModel = new PendenciaTecnicosModel();
       model.filial = tecnico?.filial?.nomeFilial;
       model.nomeTecnico = tecnico?.nome;
       model.pendencia = indicador.valor;
-      model.qntAtendimentos = 0//dadosIndicadoresQnt?.find(f => f.label == indicador.label).valor?? 0;
-      
+      model.qntAtendimentos = dadosIndicadoresQnt.find(qtd => qtd.label == indicador.label)?.valor?? 0;
+  
       this.pendenciaTecnicosModel.push(model);
     }
-    this.pendenciaTecnicosModel =
-        this.pendenciaTecnicosModel.orderBy('pendencia').take(5);
 
-    this.loading = false;
+    this.pendenciaTecnicosModel =
+        this.ordem == 'asc' ? this.pendenciaTecnicosModel.orderByDesc('pendencia').take(5) :
+          this.pendenciaTecnicosModel.orderBy('pendencia').take(5);
+    console.log (this.pendenciaTecnicosModel);
+        this.loading = false;
   }
   private async buscaIndicadores(indicadorAgrupadorEnum: IndicadorAgrupadorEnum): Promise<Indicador[]> {
     let indicadorParams = {

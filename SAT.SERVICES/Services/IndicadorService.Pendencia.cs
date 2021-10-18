@@ -120,7 +120,7 @@ namespace SAT.SERVICES.Services
 
             var ratsTecnicos = chamados.Where(ch => ch.RelatoriosAtendimento != null)
                                     .SelectMany(ch => ch.RelatoriosAtendimento)
-                                    .Where(ch => ch.Tecnico != null)
+                                    .Where(ch => ch.Tecnico != null && Convert.ToBoolean(ch.Tecnico.IndAtivo))
                                     .GroupBy(ch => ch.CodTecnico);
            
             ratsTecnicos.ToList().ForEach(r => 
@@ -147,29 +147,18 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorPendenciaTecnicoQnt(IEnumerable<OrdemServico> chamados)
         {
-            var listaIndicadores = new List<Indicador>();
+            List<Indicador> batata =  chamados.Where(ch => ch.RelatoriosAtendimento != null)
+                            .SelectMany(ch => ch.RelatoriosAtendimento)
+                            //.Where(rat => rat.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES)
+                            .Where(rat => rat.Tecnico != null && Convert.ToBoolean(rat.Tecnico.IndAtivo))
+                            .GroupBy(rat => rat.CodTecnico)
+                            .Select(ratsPorTecnico => new Indicador 
+                            {
+                                Label = ratsPorTecnico.Key.ToString(),
+                                Valor = ratsPorTecnico.Count() 
+                            }).ToList(); 
 
-            var tecnicos = chamados
-                .Where(os => os.Tecnico != null)
-                .GroupBy(os => os.Tecnico.CodTecnico)
-                .Select(os => new { CodTecnico = os.Key, Count = os.Count() });
-
-            foreach (var c in tecnicos)
-            {
-                listaIndicadores.AddRange(
-                    chamados
-                    .Where(os => os.CodTecnico == c.CodTecnico)
-                    .GroupBy(os => new { os.RelatoriosAtendimento})
-                    .Select(os => new Indicador()
-                        { 
-                            Label = c.CodTecnico.ToString(), 
-                            Valor = os
-                                    .Count() 
-                        })
-                    .ToList());
-            }
-
-            return listaIndicadores;
+                            return batata;
         }
     }
 }

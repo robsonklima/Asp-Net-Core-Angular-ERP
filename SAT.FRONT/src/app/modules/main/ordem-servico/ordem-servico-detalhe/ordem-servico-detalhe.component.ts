@@ -121,16 +121,25 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
     {
       if (data)
       {
-        this._agendamentoService.criar(data.agendamento).subscribe(() =>
-        {
-          this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-          this.obterDadosOrdemServico();
-        }, e =>
-        {
-          this._snack.exibirToast(e?.error, 'success');
-          this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
-          this._ordemServicoService.atualizar(this.os);
-        });
+        this._agendamentoService.criar(data.agendamento).subscribe(
+          result =>
+          {
+            this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+            this._ordemServicoService.atualizar(this.os).subscribe(
+              result =>
+              {
+                this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+                this.obterDadosOrdemServico();
+              },
+              error =>
+              {
+                this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+              });
+          },
+          error =>
+          {
+            this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+          });
       }
     });
   }

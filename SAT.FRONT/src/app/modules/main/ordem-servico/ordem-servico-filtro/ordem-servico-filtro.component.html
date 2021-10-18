@@ -165,9 +165,15 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('pa') }}</mat-label>
-                    <input matInput formControlName="pa" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
-                    </mat-icon>
+                    <mat-select formControlName="pas" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
+                            '')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let pa of pas" [value]="pa">
+                            {{ pa }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">

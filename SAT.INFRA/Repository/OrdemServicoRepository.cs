@@ -100,9 +100,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
             }
 
-            if (parameters.PA != null)
+            if (!string.IsNullOrEmpty(parameters.PAS))
             {
-                query = query.Where(os => os.RegiaoAutorizada.PA == parameters.PA);
+                var pas = parameters.PAS.Split(",");
+                query = query.Where(os => pas.Any(p => p == os.RegiaoAutorizada.PA.ToString()));
             }
 
             if (parameters.NumOSQuarteirizada != null)
@@ -247,8 +248,10 @@ namespace SAT.INFRA.Repository
 
                     case "pa":
                         query = parameters.SortDirection == "asc" ?
-                            query.OrderBy(q => q.RegiaoAutorizada.PA) :
-                            query.OrderByDescending(q => q.RegiaoAutorizada.PA);
+                            query.Where(q => q.RegiaoAutorizada.PA.HasValue)
+                                .OrderBy(q => q.RegiaoAutorizada.PA) :
+                            query.Where(q => q.RegiaoAutorizada.PA.HasValue)
+                                .OrderByDescending(q => q.RegiaoAutorizada.PA);
                         break;
                     case "nomeLocal":
                         query = parameters.SortDirection == "asc" ?

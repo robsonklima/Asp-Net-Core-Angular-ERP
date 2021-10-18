@@ -11,7 +11,7 @@ namespace SAT.MODELS.Entities
         public string CodTecnicos { get; set; }
         public string NumOSCliente { get; set; }
         public string NumOSQuarteirizada { get; set; }
-        public int? PA { get; set; }
+        public string PAS { get; set; }
         public string CodStatusServicos { get; set; }
         public string CodTiposIntervencao { get; set; }
         public string CodClientes { get; set; }

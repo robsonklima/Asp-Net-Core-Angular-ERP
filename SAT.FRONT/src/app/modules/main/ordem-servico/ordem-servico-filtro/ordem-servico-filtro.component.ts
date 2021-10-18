@@ -42,7 +42,7 @@ export class OrdemServicoFiltroComponent implements OnInit
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
   tecnicos: Tecnico[] = [];
-  pas: any;
+  pas: number[] = [];
   equipamentos: Equipamento[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
@@ -98,7 +98,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       dataAberturaFim: [undefined],
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
-      pa: [undefined],
+      pas: [undefined],
       pontosEstrategicos: [undefined]
     });
 
@@ -205,7 +205,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
-    this.pas = new Set(data.items.map(ra => ra.pa));
+    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
   }
 
   async obterAutorizadas(filter: string = '')
@@ -309,8 +309,10 @@ export class OrdemServicoFiltroComponent implements OnInit
 
   selectAll(select: AbstractControl, values, propertyName)
   {
-    if (select.value[0] == 0)
+    if (select.value[0] == 0 && propertyName != '')
       select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
+    else if (select.value[0] == 0 && propertyName == '')
+      select.patchValue([...values.map(item => item), 0]);
     else
       select.patchValue([]);
   }

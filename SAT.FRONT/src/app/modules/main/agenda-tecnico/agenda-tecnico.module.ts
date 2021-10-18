@@ -14,10 +14,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
 
 @NgModule({
     declarations: [
         AgendaTecnicoComponent,
+        RoteiroMapaComponent,
     ],
     imports: [
         RouterModule.forChild(agendaTecnicoRoutes),

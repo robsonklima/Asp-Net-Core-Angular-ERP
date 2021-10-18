@@ -109,6 +109,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
             }
 
+            if (parameters.CodTecnico != null)
+            {
+                query = query.Where(os => os.CodTecnico == parameters.CodTecnico);
+            }
+
             if (parameters.CodEquipContrato != null)
             {
                 query = query.Where(os => os.CodEquipContrato == parameters.CodEquipContrato);

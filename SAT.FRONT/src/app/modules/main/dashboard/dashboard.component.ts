@@ -19,7 +19,7 @@ export class DashboardComponent implements AfterViewInit {
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.PENDENCIA_FILIAIS; //PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.MONITORAMENTO_SAT; //PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;

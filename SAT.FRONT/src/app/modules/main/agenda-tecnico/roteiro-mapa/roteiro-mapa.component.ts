@@ -1,4 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
@@ -9,49 +10,44 @@ import moment from 'moment';
   templateUrl: './roteiro-mapa.component.html',
   styles: ['div{ height: 100%; width: 100%; z-index: 1 }']
 })
-export class RoteiroMapaComponent implements AfterViewInit {
-  
-  constructor(
-    private _osSvc: OrdemServicoService
-  ) {}
+export class RoteiroMapaComponent implements OnInit {
+  codTecnico: number;
 
-  async ngAfterViewInit() {
+  constructor(
+    private _route: ActivatedRoute,
+    private _osSvc: OrdemServicoService
+  ) { }
+
+  async ngOnInit() {
+    this.codTecnico = +this._route.snapshot.paramMap.get('codTecnico');
+
     const chamados = await this._osSvc.obterPorParametros({
-      codTecnico: 1548,
+      codTecnico: this.codTecnico,
       dataTransfInicio: moment().add(-1, 'days').toISOString(),
       dataTransfFim: moment().add(1, 'days').toISOString(),
       sortActive: 'dataHoraTransf',
-      sortDirection: 'asc'
+      sortDirection: 'asc',
     }).toPromise();
 
-    console.log(chamados);
-    
+    const waypoints = chamados.items
+      .filter(os => os.localAtendimento !== null)
+      .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
+      .map(os => {
+        return L.latLng(+os.localAtendimento.latitude, +os.localAtendimento.longitude
+      )});
 
-    let map = L.map('map').setView([-29.95046971811084, -51.09702372913963], 13);
+    setTimeout(() => {
+      let map = L.map('map').setView([+waypoints[0].lat, +waypoints[0].lng], 9);
 
-    const waypoints: L.LatLng[] = [
-      L.latLng(-29.95046971811084, -51.09702372913963),
-      L.latLng(-29.87175859921068, -50.978990839760506),
-      L.latLng(-29.380996881372884, -50.87513156107664),
-      L.latLng(-29.154686525737386, -51.18852220057508),
-      L.latLng(-30.013567377672995, -50.14855772662447)
-    ];
+      L.Routing.control({ 
+        waypoints: waypoints,
+      }).addTo(map);
 
-    const icon = new L.Icon({
-      iconUrl: 'assets/icons/destination-32.png',
-      iconSize: [32, 32],
-      iconAnchor: [15, 32],
-      popupAnchor: [1, -32]
-    });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
 
-    L.Routing.control({
-			waypoints: waypoints
-		}).addTo(map);
-
-    //map.fitBounds([]);
-
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
+      map.invalidateSize();
+    }, 0);
   }
 }

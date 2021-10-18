@@ -8,7 +8,7 @@ export const agendaTecnicoRoutes: Route[] = [
         component: AgendaTecnicoComponent,
     },
     {
-        path     : 'roteiro',
-        component: RoteiroMapaComponent,
+        path     : 'roteiro-mapa/:codTecnico',
+        component: RoteiroMapaComponent
     }
 ];

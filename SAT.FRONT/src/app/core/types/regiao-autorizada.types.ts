@@ -27,6 +27,6 @@ export interface RegiaoAutorizadaParameters extends QueryStringParameters
 {
     codRegiao?: number;
     codAutorizada?: number;
-    codFiliais?: number[];
+    codFiliais?: string;
     indAtivo?: number;
 };

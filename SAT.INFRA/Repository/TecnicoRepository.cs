@@ -91,11 +91,6 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.Where(t => t.IndFerias == parameters.IndFerias);
             }
 
-            if (parameters.CodFilial != null)
-            {
-                tecnicos = tecnicos.Where(t => t.CodFilial == parameters.CodFilial);
-            }
-
             if (parameters.CodTecnico != null)
             {
                 tecnicos = tecnicos.Where(t => t.CodTecnico == parameters.CodTecnico);
@@ -121,19 +116,10 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            if (parameters.CodFiliais != null)
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var paramsSplit = parameters.CodFiliais.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
-                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
-                }
-
-                tecnicos = tecnicos.Where(condicoes);
+                var filiais = parameters.CodFiliais.Split(",");
+                tecnicos = tecnicos.Where(t => filiais.Any(a => a == t.CodFilial.ToString()));
             }
 
             if (parameters.CodStatusServicos != null)

@@ -81,7 +81,7 @@ export interface TecnicoParameters extends QueryStringParameters
 {
     codTecnico?: number;
     indAtivo?: number;
-    codFilial?: number;
+    codFiliais?: string;
     indFerias?: number;
     codAutorizada?: number;
     codPerfil?: number;

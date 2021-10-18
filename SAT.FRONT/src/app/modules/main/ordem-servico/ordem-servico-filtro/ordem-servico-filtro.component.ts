@@ -23,6 +23,8 @@ import { MatOption } from '@angular/material/core';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
+import { TecnicoService } from 'app/core/services/tecnico.service';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -40,6 +42,7 @@ export class OrdemServicoFiltroComponent implements OnInit
   autorizadas: Autorizada[] = [];
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
+  tecnicos: Tecnico[] = [];
   pas: any;
   equipamentos: Equipamento[] = [];
   pontosEstrategicos: any;
@@ -57,7 +60,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _autorizadaService: AutorizadaService,
     private _equipamentosService: EquipamentoService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _tecnicoService: TecnicoService
   )
   {
     this.filtro = this._userService.obterFiltro('ordem-servico');
@@ -76,8 +80,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.obterAutorizadas();
     this.obterEquipamentos();
 
-    this.configurarRegioesAutorizadas();
-    this.configurarFiliais()
+    this.configurarFiliais();
   }
 
   private inicializarForm(): void
@@ -85,6 +88,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
+      codTecnicos: [undefined],
       codAutorizadas: [undefined],
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
@@ -152,6 +156,24 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.clientes = data.items;
   }
 
+  async obterTecnicos(filialFilter: string)
+  {
+    let params: TecnicoParameters = {
+      indAtivo: 1,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codPerfil: 35,
+      codFiliais: filialFilter,
+      pageSize: 1000
+    };
+
+    const data = await this._tecnicoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.tecnicos = data.items;
+  }
+
   selecionarTodasIntervencoes(tipo: string)
   {
     switch (tipo)
@@ -172,23 +194,25 @@ export class OrdemServicoFiltroComponent implements OnInit
     }
   }
 
-  configurarRegioesAutorizadas()
+  configurarFiliais()
   {
     if (!this.sessionData.usuario.codFilial)
       this.form.controls['codFiliais']
         .valueChanges
-        .subscribe(() => this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value));
-    else
-      this.obterRegioesAutorizadas(this.sessionData.usuario.codFilial);
-  }
+        .subscribe(() => 
+        {
+          this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+          this.obterTecnicos(this.form.controls['codFiliais'].value);
+        });
 
-  configurarFiliais()
-  {
     if (this.sessionData.usuario.codFilial)
     {
       this.form.controls['codFiliais'].setValue([this.sessionData.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
+
+    this.obterTecnicos(this.form.controls['codFiliais'].value);
+    this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
   }
 
   selecionarTodosStatus(tipo: string)

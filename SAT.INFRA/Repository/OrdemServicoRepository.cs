@@ -167,6 +167,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => regioes.Any(r => r == os.RegiaoAutorizada.CodRegiao.ToString()));
             }
 
+            if (parameters.CodTecnicos != null)
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",");
+                query = query.Where(os => tecnicos.Any(r => r == os.CodTecnico.ToString()));
+            }
+
             if (parameters.CodTiposIntervencao != null)
             {
                 var tiposIntervencao = parameters.CodTiposIntervencao.Split(",");

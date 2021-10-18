@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
     {
         public int? CodOS { get; set; }
         public int? CodEquipContrato { get; set; }
-        public int? CodTecnico { get; set; }
+        public string CodTecnicos { get; set; }
         public string NumOSCliente { get; set; }
         public string NumOSQuarteirizada { get; set; }
         public int? PA { get; set; }

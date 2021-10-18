@@ -15,6 +15,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-ordem-servico-detalhe',
@@ -22,7 +23,8 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
   styleUrls: ['./ordem-servico-detalhe.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements AfterViewInit {
+export class OrdemServicoDetalheComponent implements AfterViewInit
+{
   @ViewChild('sidenav') sidenav: MatSidenav;
   codOS: number;
   os: OrdemServico;
@@ -32,45 +34,50 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
   fotos: Foto[] = [];
   map: L.Map;
   ultimoAgendamento: string;
-  public get perfilEnum(): typeof PerfilEnum {
+  public get perfilEnum(): typeof PerfilEnum
+  {
     return PerfilEnum;
   }
-  
-  constructor(
+
+  constructor (
     private _route: ActivatedRoute,
     private _ordemServicoService: OrdemServicoService,
     private _agendamentoService: AgendamentoService,
-    private _userService: UserService,    
+    private _userService: UserService,
     private _snack: CustomSnackbarService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
   )
   {
-      this.userSession = JSON.parse(this._userService.userSession);
+    this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
-  
+
     this.perfis = PerfilEnum;
-    
-    this.sidenav.closedStart.subscribe(() => {
+
+    this.sidenav.closedStart.subscribe(() =>
+    {
       this.obterDadosOrdemServico();
     })
 
     this._cdr.detectChanges();
   }
 
-  trocarTab(tab: any) {
-    if (tab.index !== 4 || !this.os) {
+  trocarTab(tab: any)
+  {
+    if (tab.index !== 4 || !this.os)
+    {
       return;
     }
 
     this.map = L.map('map', {
       scrollWheelZoom: false,
     }).setView([
-      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.latitude,
       +this.os.localAtendimento.longitude
     ], 14);
 
@@ -79,10 +86,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     }).addTo(this.map);
 
     var icon = new L.Icon.Default();
-    icon.options.shadowSize = [0,0];
+    icon.options.shadowSize = [0, 0];
 
     L.marker([
-      +this.os.localAtendimento.latitude, 
+      +this.os.localAtendimento.latitude,
       +this.os.localAtendimento.longitude
     ])
       .addTo(this.map)
@@ -92,27 +99,34 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     this.map.invalidateSize();
   }
 
-  private async obterDadosOrdemServico() {
+  private async obterDadosOrdemServico()
+  {
     this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-    if (this.os.agendamentos.length) {
+    if (this.os.agendamentos.length)
+    {
       this.ultimoAgendamento = this.os.agendamentos
         .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
     }
   }
 
-  async agendar() {
+  async agendar()
+  {
     const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
       data: {
         codOS: this.os.codOS
       }
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
-      if (data) {
-        this._agendamentoService.criar(data.agendamento).subscribe(() => {
+    dialogRef.afterClosed().subscribe((data: any) =>
+    {
+      if (data)
+      {
+        this._agendamentoService.criar(data.agendamento).subscribe(() =>
+        {
           this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
           this.obterDadosOrdemServico();
-        }, e => {
+        }, e =>
+        {
           this._snack.exibirToast(e?.error, 'success');
           this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
           this._ordemServicoService.atualizar(this.os);
@@ -121,7 +135,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
     });
   }
 
-  cancelar(){
+  cancelar()
+  {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -131,33 +146,91 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
           cancel: 'Não'
         }
       }
-    });  
+    });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
         let obj = {
-          ...this.os,   
+          ...this.os,
           ...{
             dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
             codUsuarioManut: this.userSession.usuario.codUsuario,
             codStatusServico: statusServicoConst.CANCELADO
           }
         };
-    
-        Object.keys(obj).forEach((key) => {
-          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });       
 
-        if(this.os.relatoriosAtendimento.length === 0) {
-          this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
+        Object.keys(obj).forEach((key) =>
+        {
+          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        });
+
+        if (this.os.relatoriosAtendimento.length === 0)
+        {
+          this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) =>
+          {
             this.obterDadosOrdemServico();
 
-            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");  
-          });   
-        } else{
-          this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error"); 
+            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");
+          });
+        } else
+        {
+          this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error");
         }
 
+      }
+    });
+  }
+
+  cancelarTransferencia()
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja cancelar a transferência deste chamado?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        var ultimoStatus = statusServicoConst.ABERTO;
+
+        if (this.os.relatoriosAtendimento.length != 0)
+          ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
+            .orderByDescending(i => i.codRAT)
+            .firstOrDefault()
+            .statusServico
+            .codStatusServico;
+
+        let obj = {
+          ...this.os,
+          ...{
+            dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+            codUsuarioManut: this.userSession.usuario.codUsuario,
+            codStatusServico: ultimoStatus,
+            codTecnico: null
+          }
+        };
+
+        Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+
+        this._ordemServicoService.atualizar(obj).subscribe(
+          result =>
+          {
+            this.obterDadosOrdemServico();
+            this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+          },
+          error => 
+          {
+            this._snack.exibirToast("Erro ao cancelar transferência!", "error");
+          });
       }
     });
   }

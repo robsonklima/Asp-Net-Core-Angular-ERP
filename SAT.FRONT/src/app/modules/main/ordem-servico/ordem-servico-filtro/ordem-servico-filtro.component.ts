@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, NgModel } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
@@ -19,7 +19,6 @@ import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Enumerable from 'linq';
-import { MatOption } from '@angular/material/core';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
@@ -47,8 +46,6 @@ export class OrdemServicoFiltroComponent implements OnInit
   equipamentos: Equipamento[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
-  @ViewChild('selectIntervencoes') private selectIntervencoes: MatOption;
-  @ViewChild('selectStatus') private selectStatus: MatOption;
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -174,26 +171,6 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.tecnicos = data.items;
   }
 
-  selecionarTodasIntervencoes(tipo: string)
-  {
-    switch (tipo)
-    {
-      case 'tiposIntervencao':
-        if (this.selectIntervencoes.selected)
-        {
-          this.form.controls.codTiposIntervencao
-            .patchValue([...this.tiposIntervencao.map(item => item.codTipoIntervencao), 0]);
-        } else
-        {
-          this.form.controls.codTiposIntervencao.patchValue([]);
-
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
   configurarFiliais()
   {
     if (!this.sessionData.usuario.codFilial)
@@ -213,46 +190,6 @@ export class OrdemServicoFiltroComponent implements OnInit
 
     this.obterTecnicos(this.form.controls['codFiliais'].value);
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
-  }
-
-  selecionarTodosStatus(tipo: string)
-  {
-    switch (tipo)
-    {
-      case 'status':
-        if (this.selectStatus.selected)
-        {
-          this.form.controls.codStatusServicos
-            .patchValue([...this.statusServicos.map(item => item.codStatusServico), 0]);
-        } else
-        {
-          this.form.controls.codStatusServicos.patchValue([]);
-
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  selecionarTodosEquipamentos(tipo: string)
-  {
-    switch (tipo)
-    {
-      case 'equipamentos':
-        if (this.selectStatus.selected)
-        {
-          this.form.controls.codEquipamentos
-            .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
-        } else
-        {
-          this.form.controls.codEquipamentos.patchValue([]);
-
-        }
-        break;
-      default:
-        break;
-    }
   }
 
   async obterRegioesAutorizadas(filialFilter: any)
@@ -368,5 +305,13 @@ export class OrdemServicoFiltroComponent implements OnInit
   {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  selectAll(select: AbstractControl, values, propertyName)
+  {
+    if (select.value[0] == 0)
+      select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
+    else
+      select.patchValue([]);
   }
 }

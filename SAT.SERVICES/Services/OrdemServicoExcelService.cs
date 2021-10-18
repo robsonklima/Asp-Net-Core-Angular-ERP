@@ -86,6 +86,9 @@ namespace SAT.SERVICES.Services
                 { "IndEndossado" },
                 { "IndAtrasoSLA" },
                 { "CodUsuarioManutencao" },
+                { "CodStatusServico" },
+                { "CodTipoIntervencao" },
+                { "CodTecnico" },
                 { "AgendaTecnico" }
             };
 

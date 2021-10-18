@@ -241,7 +241,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
           .toArray()
           .map(os => 
           {
-            var evento = os.agendaTecnico.length > 0 ?
+            var evento = os.agendaTecnico ?
               this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
 
             ultimoEvento = evento;
@@ -255,7 +255,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
   {
-    var agendaTecnico = os.agendaTecnico[0];
+    var agendaTecnico = os.agendaTecnico;
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
       codAgendaTecnico: agendaTecnico.codAgendaTecnico,

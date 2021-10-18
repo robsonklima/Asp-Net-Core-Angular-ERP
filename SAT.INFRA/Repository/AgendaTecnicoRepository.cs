@@ -69,6 +69,7 @@ namespace SAT.INFRA.Repository
         {
             var agendas = _context.AgendaTecnico
             .Include(ag => ag.Tecnico)
+            .Include(ag => ag.OrdemServico)
             .AsQueryable();
 
             if (parameters.CodOS != null)

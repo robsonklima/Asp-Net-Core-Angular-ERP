@@ -24,7 +24,8 @@ export interface CalendarWeekday
     value: string;
 }
 
-export interface AgendaTecnicoParameters extends QueryStringParameters {
+export interface AgendaTecnicoParameters extends QueryStringParameters
+{
     pa?: number;
     codFiliais?: string;
     codOS?: number;
@@ -35,7 +36,8 @@ export interface AgendaTecnicoParameters extends QueryStringParameters {
     data?: string;
 }
 
-export interface AgendaTecnicoData extends Meta {
+export interface AgendaTecnicoData extends Meta
+{
     items: AgendaTecnico[]
 };
 
@@ -51,7 +53,7 @@ export class AgendaTecnico
     codTecnico: number;
     tecnico?: Tecnico;
     codOS?: number;
-    os?: OrdemServico;
+    ordemServico?: OrdemServico;
     ultimaAtualizacao: string;
     inicio: string;
     fim: string;

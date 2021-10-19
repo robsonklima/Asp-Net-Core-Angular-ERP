@@ -55,14 +55,14 @@ export class RoteiroMapaComponent implements OnInit {
     L.Routing.control({
       waypoints: paradas,
       createMarker: (i: number, waypoint: any, n: number) => {
-        const marker = L.marker(waypoint.latLng, {
+        return L.marker(waypoint.latLng, {
           draggable: false,
           bounceOnAdd: false,
           bounceOnAddOptions: {
             duration: 1000,
             height: 800
           },
-          icon: (i == 0) ? L.icon({
+          icon: (usuarios.items[0].localizacoes.length > 0 && i == 0) ? L.icon({
             iconUrl: './assets/icons/sport-car-64.png',
             iconSize: [32, 32],
             iconAnchor: [15, 32],
@@ -75,12 +75,12 @@ export class RoteiroMapaComponent implements OnInit {
             popupAnchor: [0, -32],
             shadowUrl: null,
           })
-        }).bindPopup((usuarios.items[0].localizacoes.length > 0 && i == 0) ? 'Localização do Técnico' : `${i+1}° Atendimento`);
-
-        return marker;
+        })
+        .bindPopup((usuarios.items[0].localizacoes.length > 0 && i == 0) ? 'Localização do Técnico' : `${i+1}° Atendimento`);
       },
       lineOptions : {
-        addWaypoints: false
+        addWaypoints: false,
+        styles:[{color: 'green', opacity: 1, weight: 3}]
       }
     }).addTo(map);
 

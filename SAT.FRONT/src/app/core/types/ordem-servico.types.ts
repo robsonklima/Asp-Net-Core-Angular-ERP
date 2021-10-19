@@ -15,7 +15,8 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export class OrdemServico {
+export class OrdemServico
+{
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
@@ -147,14 +148,16 @@ export class OrdemServico {
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
-    agendaTecnico?: AgendaTecnico[];
+    agendaTecnico?: AgendaTecnico;
 }
 
-export interface OrdemServicoData extends Meta {
+export interface OrdemServicoData extends Meta
+{
     items: OrdemServico[];
 };
 
-export interface OrdemServicoParameters extends QueryStringParameters {
+export interface OrdemServicoParameters extends QueryStringParameters
+{
     codOS?: number;
     codEquipContrato?: number;
     codTecnico?: number;

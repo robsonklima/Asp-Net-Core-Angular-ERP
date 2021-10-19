@@ -159,8 +159,6 @@ namespace SAT.MODELS.Entities
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
         [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
-
-        [ForeignKey("CodOS")]
-        public List<AgendaTecnico> AgendaTecnico { get; set; }
+        public virtual AgendaTecnico AgendaTecnico { get; set; }
     }
 }

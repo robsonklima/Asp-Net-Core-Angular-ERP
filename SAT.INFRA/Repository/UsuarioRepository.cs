@@ -57,6 +57,7 @@ namespace SAT.INFRA.Repository
             var usuarios = _context.Usuario
                 .Include(u => u.Perfil)
                 .Include(u => u.Tecnico)
+                .Include(u => u.Localizacoes.OrderByDescending(loc => loc.CodLocalizacao).Take(1))
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -83,6 +84,11 @@ namespace SAT.INFRA.Repository
                 usuarios = usuarios.Where(u => u.CodFilial == parameters.CodFilial);
             }
 
+            if (parameters.CodTecnico != null)
+            {
+                usuarios = usuarios.Where(u => u.CodTecnico == parameters.CodTecnico);
+            }
+
             if (parameters.IndAtivo != null)
             {
                 usuarios = usuarios.Where(u => u.IndAtivo == parameters.IndAtivo);
@@ -93,14 +99,15 @@ namespace SAT.INFRA.Repository
                 usuarios = usuarios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            usuarios = usuarios.Include(u => u.Localizacoes.ToList().OrderByDescending(o => o.CodLocalizacao).Take(1));
-            
             return PagedList<Usuario>.ToPagedList(usuarios, parameters.PageNumber, parameters.PageSize);
         }
 
         public Usuario ObterPorCodigo(string codigo)
         {
-            return _context.Usuario.FirstOrDefault(us => us.CodUsuario == codigo);
+            return _context.Usuario
+                .Include(u => u.Perfil)
+                .Include(u => u.Tecnico)
+                .FirstOrDefault(us => us.CodUsuario == codigo);
         }
     }
 }

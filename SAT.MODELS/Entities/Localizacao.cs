@@ -6,7 +6,7 @@ namespace SAT.MODELS.Entities
     public class Localizacao
     {
         [Key]
-        public int? CodLocalizacao { get; set; }
+        public int CodLocalizacao { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string CodUsuario { get; set; }

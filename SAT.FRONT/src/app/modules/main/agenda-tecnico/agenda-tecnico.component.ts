@@ -247,7 +247,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
             return evento;
           }))
 
-      }).where(i => i != null).toArray());
+      }).toArray());
 
     this.validateEvents();
   }
@@ -273,27 +273,21 @@ export class AgendaTecnicoComponent implements AfterViewInit
   private criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
   {
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
-      var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
 
-    var extra = start.format('YYYY-MM-DD') + ' ';
-    var inicioIntervalo = moment(extra + this.inicioIntervalo.format('HH:mm:ss'));
-    var fimIntervalo = moment(extra + this.fimIntervalo.format('HH:mm:ss'));
-    var inicioExpediente = moment(extra + this.inicioExpediente.format('HH:mm:ss'));
+    var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
-    if (start.isBetween(inicioIntervalo, fimIntervalo))
-    {
+    if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
       start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-    }
     else if (start.hour() >= this.fimExpediente.hour())
-      start = moment(inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
+      start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
 
     // se termina durante a sugestao de intervalo
     var end = moment(start).add(mediaTecnico, 'minutes');
-    if (end.isBetween(inicioIntervalo, fimIntervalo))
+    if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
     {
-      start = moment(fimIntervalo).add(deslocamento, 'minutes');
-      end = moment(start).add(mediaTecnico, 'minutes');
+      start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
+      end = moment(start).add(mediaTecnico || 30, 'minutes');
     }
 
     var evento: MbscAgendaTecnicoCalendarEvent =
@@ -336,8 +330,9 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
   {
-    var start = moment(this.inicioIntervalo);
-    var end = moment(this.fimIntervalo);
+    var start = this.inicioIntervalo;
+    var end = this.fimIntervalo;
+
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
       start: start,

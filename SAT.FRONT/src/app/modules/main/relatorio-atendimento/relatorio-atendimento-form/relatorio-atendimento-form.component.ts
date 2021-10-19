@@ -336,9 +336,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
     let dataHoraOS = moment(this.ordemServico.dataHoraAberturaOS);
     let dataHoraAgendamento = moment(this.ordemServico.dataHoraAberturaOS);
-
-    if (dataHoraRAT < dataHoraOS)
-    {
+  
+    if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value)) 
+    {           
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })
@@ -347,8 +347,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['data'].setErrors(null)
     }
 
-    if (dataHoraRAT < dataHoraAgendamento)
-    {
+    if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
+    {     
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })

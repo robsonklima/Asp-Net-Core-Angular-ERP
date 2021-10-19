@@ -8,5 +8,6 @@ namespace SAT.MODELS.Entities
         public int? CodFilial { get; set; }
         public int? CodPerfil { get; set; }
         public int? IndAtivo { get; set; }
+        public int? CodTecnico { get; set; }
     }
 }

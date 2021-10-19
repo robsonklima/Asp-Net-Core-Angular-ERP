@@ -29,7 +29,6 @@ import { Agendamento } from 'app/core/types/agendamento.types';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
 import { TipoCausaService } from 'app/core/services/tipo-causa.service';
-import { reject } from 'lodash';
 
 
 @Component({
@@ -65,8 +64,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
-    private _agendamentoService: AgendamentoService,
-    private _tipoCausaService: TipoCausaService,
     private _snack: CustomSnackbarService,
     private _router: Router,
     private _dialog: MatDialog

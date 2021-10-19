@@ -43,7 +43,6 @@ export class OrdemServicoFiltroComponent implements OnInit
   tiposIntervencao: TipoIntervencao[] = [];
   tecnicos: Tecnico[] = [];
   pas: number[] = [];
-  equipamentos: Equipamento[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
@@ -56,7 +55,6 @@ export class OrdemServicoFiltroComponent implements OnInit
     private _userService: UserService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _autorizadaService: AutorizadaService,
-    private _equipamentosService: EquipamentoService,
     private _formBuilder: FormBuilder,
     private _tecnicoService: TecnicoService
   )
@@ -75,7 +73,6 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterAutorizadas();
-    this.obterEquipamentos();
 
     this.configurarFiliais();
   }
@@ -90,7 +87,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
-      codEquipamentos: [undefined],
+      equipamento: [undefined],
       codOS: [undefined],
       numOSCliente: [undefined],
       numOSQuarteirizada: [undefined],
@@ -238,21 +235,6 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.statusServicos = data.items;
-  }
-
-  async obterEquipamentos()
-  {
-    let params: EquipamentoParameters = {
-      sortActive: 'nomeEquip',
-      sortDirection: 'asc',
-      pageSize: 50
-    }
-
-    const data = await this._equipamentosService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.equipamentos = data.items;
   }
 
   private registrarEmitters(): void

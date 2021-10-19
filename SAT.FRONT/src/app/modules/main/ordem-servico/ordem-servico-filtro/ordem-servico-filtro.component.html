@@ -69,15 +69,9 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('equipamento') }}</mat-label>
-                    <mat-select formControlName="codEquipamentos" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquipamentos, equipamentos,
-                            'codEquip')" [value]="0">
-                            TODOS
-                        </mat-option>
-                        <mat-option *ngFor="let equipamento of equipamentos" [value]="equipamento.codEquip">
-                            {{ equipamento.nomeEquip }}
-                        </mat-option>
-                    </mat-select>
+                    <input matInput formControlName="equipamento" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">

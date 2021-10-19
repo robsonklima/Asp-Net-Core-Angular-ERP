@@ -73,4 +73,5 @@ export interface UsuarioParameters extends QueryStringParameters {
     codPerfil?: number;
     codFilial?: number;
     indAtivo?: number;
+    codTecnico?: number;
 };

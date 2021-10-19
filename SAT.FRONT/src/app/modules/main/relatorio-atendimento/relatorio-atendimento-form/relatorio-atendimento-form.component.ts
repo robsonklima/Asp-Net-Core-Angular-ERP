@@ -29,7 +29,6 @@ import { Agendamento } from 'app/core/types/agendamento.types';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
 import { TipoCausaService } from 'app/core/services/tipo-causa.service';
-import { reject } from 'lodash';
 
 
 @Component({

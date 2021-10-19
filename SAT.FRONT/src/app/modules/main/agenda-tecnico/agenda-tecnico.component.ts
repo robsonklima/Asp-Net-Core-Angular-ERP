@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fromEvent, interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+import { Router } from '@angular/router';
 
 setOptions({
   locale: localePtBR,
@@ -124,6 +125,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   constructor (
     private _notify: Notifications,
+    private _router: Router,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
     private _haversineSvc: HaversineService,
@@ -241,7 +243,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
           .toArray()
           .map(os => 
           {
-            var evento = os.agendaTecnico.length > 0 ?
+            var evento = os.agendaTecnico ?
               this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
 
             ultimoEvento = evento;
@@ -255,7 +257,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
   {
-    var agendaTecnico = os.agendaTecnico[0];
+    var agendaTecnico = os.agendaTecnico;
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
       codAgendaTecnico: agendaTecnico.codAgendaTecnico,

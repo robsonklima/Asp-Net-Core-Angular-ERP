@@ -295,5 +295,6 @@
     "periodo de atendimento": "Período de atendimento",
     "bloqueio orcamento": "Você não tem permissão para fechar este chamado devido estar em processo de orçamento, favor contatar a área de Orçamentos da PERTO",
     "alteracao corretiva invalida": "Sem permissão para alterar a intervenção, contatar a área RPV",
-    "chamados abertos": "Chamados Abertos"
+    "chamados abertos": "Chamados Abertos",
+    "pendencia": "Pendência"
 }

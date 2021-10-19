@@ -1,17 +1,17 @@
 <table class="w-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
-    <thead class="text-center" *transloco="let t">
+    <thead class="text-center">
         <tr>
-            <th>{{t('tecnico')}}</th>
-            <th>{{t('filial')}}</th>
-            <th>{{t('pendencia')}}</th>
-            <th>{{t('quantidade')}}</th>
+            <th>Técnico</th>
+            <th>Filial</th>
+            <th>SPA (%)</th>
+            <th>Quantidade de atendimentos</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of pendenciaTecnicosModel" class="text-center">
+        <tr *ngFor="let data of desempenhoTecnicosModel" class="text-center">
             <td>{{data.nomeTecnico}}</td>
             <td>{{data.filial}}</td>
-            <td>{{data.pendencia| number:'1.1-1'}}%</td>
+            <td>{{data.spa| number:'1.1-1'}}%</td>
             <td>{{data.qntAtendimentos}}</td>
         </tr>
     </tbody>

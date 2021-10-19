@@ -5,13 +5,13 @@ import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/t
 import moment from 'moment';
 
 @Component({
-  selector: 'app-tecnicos-reincidentes',
-  templateUrl: './tecnicos-reincidentes.component.html',
-  styleUrls: ['./tecnicos-reincidentes.component.css']
+  selector: 'app-tecnicos-desempenho-spa',
+  templateUrl: './tecnicos-desempenho-spa.component.html',
+  styleUrls: ['./tecnicos-desempenho-spa.component.css']
 })
-export class TecnicosReincidentesComponent implements OnInit {
+export class TecnicosDesempenhoSpaComponent implements OnInit {
   @Input() ordem: string;
-  public reincidenciaTecnicosModel: ReincidenciaTecnicosModel[] = [];
+  public desempenhoTecnicosModel: DesempenhoTecnicosModel[] = [];
   public loading: boolean = true;
 
   constructor(private _tecnicoService: TecnicoService,
@@ -24,31 +24,31 @@ export class TecnicosReincidentesComponent implements OnInit {
   private async obterDados() {
     this.loading = true;
 
-    let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES);
-    let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES);
+    let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA);
+    let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA);
     let listaTecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
 
     for (let indicador of dadosIndicadoresPercent) {
       let tecnico = listaTecnicos.find(t => t.codTecnico == +indicador.label);
-      let model: ReincidenciaTecnicosModel = new ReincidenciaTecnicosModel();
+      let model: DesempenhoTecnicosModel = new DesempenhoTecnicosModel();
       model.filial = tecnico.filial.nomeFilial;
       model.nomeTecnico = tecnico.nome;
-      model.reincidencia = indicador.valor;
+      model.spa = indicador.valor;
       model.qntAtendimentos = dadosIndicadoresQnt.find(f => f.label == indicador.label).valor;
 
-      this.reincidenciaTecnicosModel.push(model);
+      this.desempenhoTecnicosModel.push(model);
     }
 
-    this.reincidenciaTecnicosModel =
-      this.ordem == 'asc' ? this.reincidenciaTecnicosModel.orderBy('reincidencia').thenBy('qntAtendimentos').take(5) :
-        this.reincidenciaTecnicosModel.orderByDesc('reincidencia').thenByDesc('qntAtendimentos').take(5);
+    this.desempenhoTecnicosModel =
+      this.ordem == 'asc' ? this.desempenhoTecnicosModel.orderBy('spa').thenBy('qntAtendimentos').take(5) :
+        this.desempenhoTecnicosModel.orderByDesc('spa').thenByDesc('qntAtendimentos').take(5);
 
     this.loading = false;
   }
 
   private async buscaIndicadores(indicadorAgrupadorEnum: IndicadorAgrupadorEnum): Promise<Indicador[]> {
     let indicadorParams = {
-      tipo: IndicadorTipoEnum.REINCIDENCIA,
+      tipo: IndicadorTipoEnum.SPA,
       agrupador: indicadorAgrupadorEnum,
       codAutorizadas: "",
       codTiposGrupo: "",
@@ -58,11 +58,12 @@ export class TecnicosReincidentesComponent implements OnInit {
     }
     return await this._indicadorService.obterPorParametros(indicadorParams).toPromise();
   }
+
 }
 
-export class ReincidenciaTecnicosModel {
+export class DesempenhoTecnicosModel {
   nomeTecnico: string;
   filial: string;
-  reincidencia: number = 0;
+  spa: number = 0;
   qntAtendimentos: number = 0;
 }

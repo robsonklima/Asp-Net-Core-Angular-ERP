@@ -29,6 +29,9 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES:
                     Indicadores = ObterIndicadorReincidenciaTecnicoQnt(chamados);
                     break;
+                case IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES:
+                    Indicadores = ObterIndicadorEquipReincidentes(chamados);
+                    break;
                 default:
                     break;
             }
@@ -183,6 +186,39 @@ namespace SAT.SERVICES.Services
             }
 
             return listaIndicadores;
+        }
+
+        private List<Indicador> ObterIndicadorEquipReincidentes(IEnumerable<OrdemServico> chamados)
+        {
+            List<Indicador> Indicadores = new List<Indicador>();
+
+            var equipChamados = chamados
+                                    .Where(os =>(os.EquipamentoContrato != null))
+                                    .GroupBy(os => os.EquipamentoContrato.CodEquipContrato)
+                                    .Select(os => new { CodEquipContrato = os.Key, Count = os.Count(), Inicios = os.ToList().Select(c => c.DataHoraSolicitacao) });
+
+            foreach (var item in equipChamados)
+            {
+                int reinc = 0;
+
+                if (item.Count > 0)
+                {
+                    reinc += item.Count - 1;
+                }
+            
+                var equip = equipChamados.FirstOrDefault( e => e.CodEquipContrato == item.CodEquipContrato);
+                
+                var calc = decimal.Round((Convert.ToDecimal(reinc) / equip.Count ) * 100, 2, MidpointRounding.AwayFromZero);
+            
+
+                Indicadores.Add(new Indicador()
+                {
+                    Label = item.CodEquipContrato.ToString(),
+                    Valor = calc
+                });
+            }
+
+            return Indicadores;
         }
     }
 }

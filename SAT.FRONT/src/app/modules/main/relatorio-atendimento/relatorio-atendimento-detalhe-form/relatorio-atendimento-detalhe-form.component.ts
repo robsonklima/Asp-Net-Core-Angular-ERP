@@ -2,15 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaService } from 'app/core/services/causa.service';
-import { TipoServico, TipoServicoData } from 'app/core/types/tipo-servico.types';
+import { TipoServico } from 'app/core/types/tipo-servico.types';
 import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
-import { Causa, CausaData } from 'app/core/types/causa.types';
+import { Causa } from 'app/core/types/causa.types';
 import { DefeitoService } from 'app/core/services/defeito.service';
 import { AcaoService } from 'app/core/services/acao.service';
-import { Defeito, DefeitoData } from 'app/core/types/defeito.types';
-import { Acao, AcaoData } from 'app/core/types/acao.types';
-import { TipoCausa } from 'app/core/types/tipo-causa.types';
-import { GrupoCausa } from 'app/core/types/grupo-causa.types';
+import { Defeito } from 'app/core/types/defeito.types';
+import { Acao } from 'app/core/types/acao.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { debounceTime, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -22,7 +20,8 @@ import moment from 'moment';
   selector: 'app-relatorio-atendimento-detalhe-form',
   templateUrl: './relatorio-atendimento-detalhe-form.component.html'
 })
-export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy {
+export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy
+{
   form: FormGroup;
   modulos: Causa[] = [];
   causas: Causa[] = [];
@@ -35,7 +34,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
   defeitosFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _tipoServicoService: TipoServicoService,
     private _causaService: CausaService,
@@ -43,14 +42,17 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     private _acaoService: AcaoService,
     private _userService: UserService,
     public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>
-  ) {
+  )
+  {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.inicializarForm();
 
-    this.form.controls['maquina'].valueChanges.subscribe(async maquina => {
+    this.form.controls['maquina'].valueChanges.subscribe(async maquina =>
+    {
       const data = await this._tipoServicoService.obterPorParametros({
         sortActive: 'nomeServico',
         sortDirection: 'asc',
@@ -62,7 +64,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
       );
     });
 
-    this.form.controls['codServico'].valueChanges.subscribe(async codServico => {
+    this.form.controls['codServico'].valueChanges.subscribe(async codServico =>
+    {
       const data = await this._causaService.obterPorParametros({
         sortActive: 'codECausa',
         sortDirection: 'asc',
@@ -73,7 +76,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
       this.causas = data.items;
     });
 
-    this.form.controls['codCausa'].valueChanges.subscribe(async codCausa => {
+    this.form.controls['codCausa'].valueChanges.subscribe(async codCausa =>
+    {
       const data = await this._defeitoService.obterPorParametros({
         sortActive: 'codEDefeito',
         sortDirection: 'asc',
@@ -89,7 +93,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         filter(query => !!query),
         takeUntil(this._onDestroy),
         debounceTime(700),
-        map(async query => {
+        map(async query =>
+        {
           const data = await this._causaService.obterPorParametros({
             sortActive: 'codECausa',
             sortDirection: 'asc',
@@ -102,11 +107,13 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         }),
         takeUntil(this._onDestroy)
       )
-      .subscribe(async data => {
+      .subscribe(async data =>
+      {
         this.causas = await data;
       });
 
-    this.form.controls['codDefeito'].valueChanges.subscribe(async maquina => {
+    this.form.controls['codDefeito'].valueChanges.subscribe(async maquina =>
+    {
       const data = await this._acaoService.obterPorParametros({
         sortActive: 'codEAcao',
         sortDirection: 'asc',
@@ -122,7 +129,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         filter(query => !!query),
         takeUntil(this._onDestroy),
         debounceTime(700),
-        map(async query => {
+        map(async query =>
+        {
           const data = await this._defeitoService.obterPorParametros({
             sortActive: 'codEDefeito',
             sortDirection: 'asc',
@@ -135,7 +143,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         }),
         takeUntil(this._onDestroy)
       )
-      .subscribe(async data => {
+      .subscribe(async data =>
+      {
         this.defeitos = await data;
       });
 
@@ -144,7 +153,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         filter(query => !!query),
         takeUntil(this._onDestroy),
         debounceTime(700),
-        map(async query => {
+        map(async query =>
+        {
           const data = await this._acaoService.obterPorParametros({
             sortActive: 'codEAcao',
             sortDirection: 'asc',
@@ -157,12 +167,14 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         }),
         takeUntil(this._onDestroy)
       )
-      .subscribe(async data => {
+      .subscribe(async data =>
+      {
         this.acoes = await data;
       });
   }
 
-  inserir(): void {
+  inserir(): void
+  {
     let form = this.form.getRawValue();
     form.tipoServico = this.tiposServico.filter(ts => ts.codServico === form.codServico).shift();
     form.defeito = this.defeitos.filter(ts => ts.codDefeito === form.codDefeito).shift();
@@ -180,7 +192,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     this.dialogRef.close(form);
   }
 
-  private inicializarForm(): void {
+  private inicializarForm(): void
+  {
     this.form = this._formBuilder.group({
       maquina: [undefined, [Validators.required]],
       codServico: [undefined, [Validators.required]],
@@ -192,7 +205,8 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

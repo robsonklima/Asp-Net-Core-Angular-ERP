@@ -98,8 +98,9 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
             this.sort.sortChange.subscribe(() =>
             {
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortActive", this.sort.active);
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortDirection", this.sort.direction);
+                this._userService.atualizarPropriedade("ordem-servico", "sortActive", this.sort.active);
+                this._userService.atualizarPropriedade("ordem-servico", "sortDirection", this.sort.direction);
+                this.carregarFiltro();
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });

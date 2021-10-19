@@ -195,9 +195,7 @@ namespace SAT.INFRA.Repository
             if (parameters.CodFiliais != null)
             {
                 int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f)).ToArray();
-                query = query.Where(
-                    os =>
-                    parameters.CodFiliais.Contains(os.CodFilial.ToString())
+                query = query.Where(os => parameters.CodFiliais.Contains(os.CodFilial.ToString())
                 );
             }
 
@@ -210,7 +208,6 @@ namespace SAT.INFRA.Repository
             if (parameters.PontosEstrategicos != null)
             {
                 var paramsSplit = parameters.PontosEstrategicos.Split(',');
-
                 query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
             }
 
@@ -248,10 +245,8 @@ namespace SAT.INFRA.Repository
 
                     case "pa":
                         query = parameters.SortDirection == "asc" ?
-                            query.Where(q => q.RegiaoAutorizada.PA.HasValue)
-                                .OrderBy(q => q.RegiaoAutorizada.PA) :
-                            query.Where(q => q.RegiaoAutorizada.PA.HasValue)
-                                .OrderByDescending(q => q.RegiaoAutorizada.PA);
+                            query.OrderBy(q => q.RegiaoAutorizada.PA.ToString()) :
+                            query.OrderByDescending(q => q.RegiaoAutorizada.PA.ToString());
                         break;
                     case "nomeLocal":
                         query = parameters.SortDirection == "asc" ?

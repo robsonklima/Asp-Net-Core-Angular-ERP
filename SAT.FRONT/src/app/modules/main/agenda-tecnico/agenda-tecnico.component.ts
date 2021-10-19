@@ -181,7 +181,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     const tecnicos = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
-      codFilial: 4,
+      codFiliais: "4",
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),

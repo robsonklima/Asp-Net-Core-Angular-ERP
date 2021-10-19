@@ -6,7 +6,7 @@ export interface Filtro
 
 export interface Parametros 
 {
-    codFiliais?: number[],
+    codFiliais?: string,
     codAutorizadas?: string,
     codTiposIntervencao?: number[],
     codClientes?: number[],

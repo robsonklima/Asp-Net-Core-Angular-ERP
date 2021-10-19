@@ -37,6 +37,25 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.2',
+            releaseDate: '19 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Técnico padrão na RAT quando o chamado estiver no status transferido'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Filtro de equipamento por texto'
+                    ],
+                }
+            ]
         }
     ];
 

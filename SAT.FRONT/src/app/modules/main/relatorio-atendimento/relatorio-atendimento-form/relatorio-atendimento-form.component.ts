@@ -97,6 +97,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     } else
     {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
+      this.configuraForm(this.ordemServico);
     }
 
     this.form.controls['data'].valueChanges.subscribe((data) =>
@@ -165,6 +166,16 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
           this.searching = false;
         }
       );
+  }
+
+  private configuraForm(ordemServico: OrdemServico)
+  {
+    // Se o status for transferido, carrega o técnico
+    if (this.bloqueiaFormTecnico(ordemServico))
+    {
+      this.form.controls['codTecnico'].setValue(ordemServico.codTecnico);
+      this.form.controls['codTecnico'].disable();
+    }
   }
 
   inserirDetalhe()
@@ -333,9 +344,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
     let dataHoraOS = moment(this.ordemServico.dataHoraAberturaOS);
     let dataHoraAgendamento = moment(this.ordemServico.dataHoraAberturaOS);
-  
+
     if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value)) 
-    {           
+    {
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })
@@ -345,7 +356,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     }
 
     if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
-    {     
+    {
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })
@@ -546,6 +557,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     }
 
     return retorno;
+  }
+
+  public bloqueiaFormTecnico(ordemServico: OrdemServico)
+  {
+    return (ordemServico?.codStatusServico == 8 && ordemServico?.codTecnico != null);
   }
 
   ngOnDestroy()

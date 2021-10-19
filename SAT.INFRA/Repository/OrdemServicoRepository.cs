@@ -197,6 +197,14 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));
             }
 
+            if (parameters.Equipamento != null)
+            {
+                query = query.Where(
+                    os => !string.IsNullOrEmpty(os.Equipamento.NomeEquip) &&
+                    (os.Equipamento.CodEquip.ToString().Contains(parameters.Equipamento) ||
+                    os.Equipamento.NomeEquip.Contains(parameters.Equipamento)));
+            }
+
             if (parameters.CodFiliais != null)
             {
                 int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f)).ToArray();

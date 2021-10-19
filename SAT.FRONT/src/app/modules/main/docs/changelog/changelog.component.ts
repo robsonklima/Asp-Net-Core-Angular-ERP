@@ -33,6 +33,7 @@ export class ChangelogComponent
                     list: [
                         'Mantém filtro na tela de chamados',
                         'Nome do técnico apenas para chamados transferidos',
+                        'Validação da RAT'
                     ],
                 }
             ]

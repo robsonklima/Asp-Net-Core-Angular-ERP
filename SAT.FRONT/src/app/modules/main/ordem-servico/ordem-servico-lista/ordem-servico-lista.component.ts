@@ -98,8 +98,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
             this.sort.sortChange.subscribe(() =>
             {
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortActive", this.sort.active);
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortDirection", this.sort.direction);
+                this.carregarFiltro();
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });
@@ -143,6 +142,10 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
     private carregarFiltro(): void
     {
+        // Atualiza props
+        this._userService.atualizarPropriedade("ordem-servico", "sortActive", this.sort.active);
+        this._userService.atualizarPropriedade("ordem-servico", "sortDirection", this.sort.direction);
+
         this.filtro = this._userService.obterFiltro('ordem-servico');
         if (!this.filtro)
         {

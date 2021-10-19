@@ -11,15 +11,7 @@ export class ChangelogComponent
     changelog: any[] = [
         {
             version: 'v1.0.0',
-            releaseDate: '01 de Março de 2021',
-            changes: [
-                {
-                    type: 'Adições',
-                    list: [
-                        'Exemplo de texto que descreve a funcionalidade citada'
-                    ]
-                }
-            ]
+            releaseDate: '01 de Março de 2021'
         },
         {
             version: 'v1.0.1',

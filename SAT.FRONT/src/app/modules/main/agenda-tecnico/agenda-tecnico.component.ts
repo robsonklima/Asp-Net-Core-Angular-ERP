@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fromEvent, interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+import { Router } from '@angular/router';
 
 setOptions({
   locale: localePtBR,
@@ -124,6 +125,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   constructor (
     private _notify: Notifications,
+    private _router: Router,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
     private _haversineSvc: HaversineService,
@@ -200,6 +202,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     const chamados = await this._osSvc.obterPorParametros({
       codFiliais: "4",
+      //codStatusServicos: "8",
       dataTransfInicio: moment().add(-1, 'days').toISOString(),
       dataTransfFim: moment().add(1, 'days').toISOString(),
       sortActive: 'dataHoraTransf',

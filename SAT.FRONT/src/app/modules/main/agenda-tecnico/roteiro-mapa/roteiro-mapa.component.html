@@ -1,5 +1,12 @@
-<div id="map"></div>
+<h1 mat-dialog-title>Roteiro</h1>
+<div mat-dialog-content>
+    <div id="map"></div>
 
-<div class="loading-shade" *ngIf="loading">
-    <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
+    <div class="loading-shade" *ngIf="loading">
+        <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
+    </div>
 </div>
+<div mat-dialog-actions>
+  <button mat-button (click)="fecharModal()">Fechar</button>
+</div>
+

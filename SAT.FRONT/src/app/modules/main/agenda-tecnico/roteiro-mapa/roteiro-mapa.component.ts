@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { UserService } from 'app/core/user/user.service';
 declare var L:any;
 import 'leaflet';
 import 'leaflet-routing-machine';
 import moment from 'moment';
+
+export interface DialogData {
+  codTecnico: number;
+}
 
 @Component({
   selector: 'app-roteiro-mapa',
@@ -17,15 +21,16 @@ export class RoteiroMapaComponent implements OnInit {
   loading: boolean;
 
   constructor(
-    private _route: ActivatedRoute,
     private _osSvc: OrdemServicoService,
-    private _usuarioSvc: UserService
-  ) { }
+    private _usuarioSvc: UserService,
+    public dialogRef: MatDialogRef<RoteiroMapaComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {
+    this.codTecnico = data.codTecnico;
+  }
 
   async ngOnInit() {
     this.loading = true;
-    this.codTecnico = +this._route.snapshot.paramMap.get('codTecnico');
-
     const chamados = await this._osSvc.obterPorParametros({
       codTecnico: this.codTecnico,
       dataTransfInicio: moment().add(-1, 'days').toISOString(),
@@ -90,5 +95,9 @@ export class RoteiroMapaComponent implements OnInit {
 
     map.invalidateSize();
     this.loading = false;
+  }
+
+  fecharModal(): void {
+    this.dialogRef.close();
   }
 }

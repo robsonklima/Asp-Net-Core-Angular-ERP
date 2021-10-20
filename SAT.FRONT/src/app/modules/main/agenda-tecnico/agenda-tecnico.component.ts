@@ -12,6 +12,8 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fromEvent, interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
 
 setOptions({
   locale: localePtBR,
@@ -128,7 +130,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
     private _osSvc: OrdemServicoService,
     private _haversineSvc: HaversineService,
     private _cdr: ChangeDetectorRef,
-    private _agendaTecnicoSvc: AgendaTecnicoService
+    private _agendaTecnicoSvc: AgendaTecnicoService,
+    public _dialog: MatDialog
   ) { }
 
   ngAfterViewInit(): void
@@ -553,5 +556,19 @@ export class AgendaTecnicoComponent implements AfterViewInit
         display: 'center'
       }
     );
+  }
+
+  public abrirMapa(codTecnico: number): void {
+    console.log(codTecnico);
+    
+
+    const dialogRef = this._dialog.open(RoteiroMapaComponent, {
+      width: '400px',
+      data: { codTecnico: codTecnico }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      
+    });
   }
 }

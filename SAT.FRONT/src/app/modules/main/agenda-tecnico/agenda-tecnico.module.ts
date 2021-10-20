@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
         MatButtonModule,
         MatProgressSpinnerModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatDialogModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

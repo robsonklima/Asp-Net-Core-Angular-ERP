@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
 
-                                <ng-container>
+                                <ng-container *ngIf="dataSourceData?.items.length && !isLoading">
                                     <ng-container *ngFor="let os of dataSourceData?.items">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
                                             <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-xs md:px-8 border-b hover:bg-gray-100"
@@ -210,6 +210,8 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
+
+                            <div *ngIf="!dataSourceData?.items.length && !isLoading" class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum chamado encontrado!</div>
 
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"

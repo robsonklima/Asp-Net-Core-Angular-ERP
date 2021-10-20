@@ -36,6 +36,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
   loading: boolean;
   tecnicos: Tecnico[] = [];
   events: MbscAgendaTecnicoCalendarEvent[] = [];
+  chamados: OrdemServico[] = [];
   resources = [];
   externalEvents = [];
   externalEventsFiltered = [];
@@ -203,7 +204,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
       }
     });
 
-    const chamados = await this._osSvc.obterPorParametros({
+    this.chamados = (await this._osSvc.obterPorParametros({
       codFiliais: "4",
       codStatusServicos: "1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16",
       include: OrdemServicoIncludeEnum.OS_AGENDA,
@@ -211,7 +212,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
       dataTransfFim: moment().add(1, 'days').toISOString(),
       sortActive: 'dataHoraTransf',
       sortDirection: 'asc'
-    }).toPromise();
+    }).toPromise()).items;
 
     const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
       tipo: "INTERVALO",
@@ -219,7 +220,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
       data: moment().toISOString()
     }).toPromise();
 
-    this.carregaDados(chamados.items, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+    this.carregaDados(this.chamados, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
   }
 
   private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])
@@ -562,12 +563,16 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   public abrirMapa(codTecnico: number): void
   {
-    console.log(codTecnico);
-
+    const resource = this.resources.filter(r => r.id === codTecnico).shift();
+    const chamados = this.chamados.filter(os => os.codTecnico === codTecnico);
 
     const dialogRef = this._dialog.open(RoteiroMapaComponent, {
-      width: '400px',
-      data: { codTecnico: codTecnico }
+      width: '80%',
+      height: '80%',
+      data: { 
+        resource: resource,
+        chamados: chamados
+      }
     });
 
     dialogRef.afterClosed().subscribe(() =>

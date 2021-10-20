@@ -1,51 +1,47 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 declare var L:any;
 import 'leaflet';
 import 'leaflet-routing-machine';
-import moment from 'moment';
 
 export interface DialogData {
-  codTecnico: number;
+  resource: any[];
+  chamados: OrdemServico[]
 }
 
 @Component({
   selector: 'app-roteiro-mapa',
   templateUrl: './roteiro-mapa.component.html',
-  styles: ['div{ height: 100%; width: 100%; z-index: 1 }']
+  styles: [`
+    div { height: 100%; width: 100%; z-index: 1; margin-left: 0px  }
+  `]
 })
 export class RoteiroMapaComponent implements OnInit {
-  codTecnico: number;
   loading: boolean;
+  chamados: OrdemServico[] = [];
+  resource: any;
 
   constructor(
-    private _osSvc: OrdemServicoService,
     private _usuarioSvc: UserService,
     public dialogRef: MatDialogRef<RoteiroMapaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    this.codTecnico = data.codTecnico;
+    this.chamados = data.chamados;
+    this.resource = data.resource;
   }
 
   async ngOnInit() {
     this.loading = true;
-    const chamados = await this._osSvc.obterPorParametros({
-      codTecnico: this.codTecnico,
-      dataTransfInicio: moment().add(-1, 'days').toISOString(),
-      dataTransfFim: moment().add(1, 'days').toISOString(),
-      sortActive: 'dataHoraTransf',
-      sortDirection: 'asc',
-    }).toPromise();
 
-    const paradas = chamados.items
+    const paradas = this.chamados
       .filter(os => os.localAtendimento !== null)
       .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
       .map(os => { return L.latLng(+os.localAtendimento.latitude, +os.localAtendimento.longitude) });
 
     const usuarios = await this._usuarioSvc.obterPorParametros({
-      codTecnico: this.codTecnico,
+      nomeUsuario: this.resource.name,
       indAtivo: 1
     }).toPromise();
 

@@ -74,6 +74,11 @@ namespace SAT.INFRA.Repository
                 usuarios = usuarios.Where(u => u.CodUsuario == parameters.CodUsuario);
             }
 
+            if (parameters.NomeUsuario != null)
+            {
+                usuarios = usuarios.Where(u => u.NomeUsuario == parameters.NomeUsuario);
+            }
+
             if (parameters.CodPerfil != null)
             {
                 usuarios = usuarios.Where(u => u.CodPerfil == parameters.CodPerfil);

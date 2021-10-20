@@ -89,7 +89,7 @@ namespace SAT.API
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
-
+            
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
             services.AddTransient<IAcordoNivelServicoService, AcordoNivelServicoService>();

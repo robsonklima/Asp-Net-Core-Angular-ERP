@@ -13,7 +13,8 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _osRepository;
 
-        public IndicadorService(IOrdemServicoRepository osRepository)
+        public IndicadorService(IOrdemServicoRepository osRepository
+                                )
         {
             _osRepository = osRepository;
         }
@@ -30,10 +31,10 @@ namespace SAT.SERVICES.Services
                 CodTiposIntervencao = parameters.CodTiposIntervencao,
                 CodAutorizadas = parameters.CodAutorizadas,
                 CodTiposGrupo = parameters.CodTiposGrupo,
+                Include = parameters.Include,
                 PageSize = Int32.MaxValue
             }).Where(w => w.PrazosAtendimento.Count > 0);
         }
-
 
         public List<Indicador> ObterIndicadores(IndicadorParameters parameters)
         {
@@ -49,6 +50,8 @@ namespace SAT.SERVICES.Services
                     return ObterIndicadorReincidencia(parameters);
                 case IndicadorTipoEnum.SPA:
                     return ObterIndicadorSPA(parameters);
+                case IndicadorTipoEnum.PECA_FALTANTE:
+                    return ObterIndicadorPecaFaltante(parameters);
                 default:
                     throw new NotImplementedException("Não Implementado");
             }

@@ -6,6 +6,7 @@
         SLA,
         SPA,
         PENDENCIA,
-        REINCIDENCIA
+        REINCIDENCIA,
+        PECA_FALTANTE
     }
 }

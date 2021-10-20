@@ -33,6 +33,7 @@
         "@fullcalendar/moment": "4.4.2",
         "@fullcalendar/rrule": "4.4.2",
         "@fullcalendar/timegrid": "4.4.2",
+        "@mobiscroll/angular": "file:./src/lib/mobiscroll-package/mobiscroll-angular-5.10.1.tgz",
         "@ngneat/transloco": "2.21.0",
         "@types/leaflet.markercluster": "^1.4.5",
         "apexcharts": "3.27.1",
@@ -41,6 +42,8 @@
         "leaflet": "^1.7.1",
         "leaflet.heat": "^0.2.0",
         "leaflet.markercluster": "^1.5.1",
+        "linq": "^4.0.0",
+        "linqjs": "^1.0.2",
         "lodash-es": "4.17.21",
         "moment": "2.29.1",
         "ng-apexcharts": "1.5.12",
@@ -55,8 +58,7 @@
         "rxjs": "6.6.7",
         "tslib": "2.3.0",
         "web-animations-js": "2.3.2",
-        "zone.js": "0.11.4",
-        "@mobiscroll/angular": "file:./src/lib/mobiscroll-package/mobiscroll-angular-5.10.1.tgz"
+        "zone.js": "0.11.4"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "12.2.5",

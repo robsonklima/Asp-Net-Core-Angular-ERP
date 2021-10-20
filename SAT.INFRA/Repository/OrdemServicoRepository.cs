@@ -6,6 +6,7 @@ using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using System;
+using SAT.MODELS.Enums;
 
 namespace SAT.INFRA.Repository
 {
@@ -48,28 +49,63 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
         {
-            var query = _context.OrdemServico
-                .Include(os => os.StatusServico)
-                .Include(os => os.TipoIntervencao)
-                .Include(os => os.LocalAtendimento)
-                .Include(os => os.LocalAtendimento.Cidade)
-                .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
-                .Include(os => os.Equipamento)
-                .Include(os => os.EquipamentoContrato)
-                .Include(os => os.EquipamentoContrato.AcordoNivelServico)
-                .Include(os => os.RegiaoAutorizada)
-                .Include(os => os.RegiaoAutorizada.Filial)
-                .Include(os => os.RegiaoAutorizada.Autorizada)
-                .Include(os => os.RegiaoAutorizada.Regiao)
-                .Include(os => os.Cliente)
-                .Include(os => os.Cliente.Cidade)
-                .Include(os => os.Tecnico)
-                .Include(os => os.RelatoriosAtendimento)
-                .Include(os => os.EquipamentoContrato.Contrato)
-                .Include(os => os.PrazosAtendimento)
-                .Include(os => os.RelatoriosAtendimento)
-                .Include(os => os.RelatoriosAtendimento)
-                .AsQueryable();
+            var query = _context.OrdemServico.AsQueryable();
+
+            switch (parameters.Include)
+            {
+                case (OrdemServicoIncludeEnum.OS_RAT):
+                    query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.Tecnico)
+                        //.Include(os => os.AgendaTecnico)
+                        .Include(os => os.RelatoriosAtendimento);
+                    break;
+
+                case (OrdemServicoIncludeEnum.OS_AGENDA):
+                    query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.Tecnico)
+                        .Include(os => os.LocalAtendimento);
+                        //.Include(os => os.AgendaTecnico);
+                    break;
+
+                case (OrdemServicoIncludeEnum.OS_PECAS):
+                     query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.RelatoriosAtendimento)
+                                .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                                    .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
+                                        .ThenInclude(ratdp => ratdp.Peca);
+                    break;
+                default:
+                    query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.LocalAtendimento)
+                        .Include(os => os.LocalAtendimento.Cidade)
+                        .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
+                        .Include(os => os.Equipamento)
+                        .Include(os => os.EquipamentoContrato)
+                        .Include(os => os.EquipamentoContrato.AcordoNivelServico)
+                        .Include(os => os.RegiaoAutorizada)
+                        .Include(os => os.RegiaoAutorizada.Filial)
+                        .Include(os => os.RegiaoAutorizada.Autorizada)
+                        .Include(os => os.RegiaoAutorizada.Regiao)
+                        .Include(os => os.Cliente)
+                        .Include(os => os.Cliente.Cidade)
+                        //.Include(os => os.AgendaTecnico)
+                        .Include(os => os.Agendamentos)
+                        .Include(os => os.Tecnico)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                                .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
+                                    .ThenInclude(ratdp => ratdp.Peca)
+                        .Include(os => os.EquipamentoContrato.Contrato)
+                        .Include(os => os.PrazosAtendimento);
+                    break;
+            }
 
             if (parameters.CodOS != null)
             {

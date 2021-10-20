@@ -166,4 +166,5 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     codClientes?: string;
     codFiliais?: string;
     pa?: number;
+    include?;
 };

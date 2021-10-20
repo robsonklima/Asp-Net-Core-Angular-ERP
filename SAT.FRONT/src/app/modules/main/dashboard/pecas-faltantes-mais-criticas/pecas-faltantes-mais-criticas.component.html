@@ -1,1 +1,24 @@
-<p>pecas-faltantes-mais-criticas works!</p>
+<div class="grid grid-cols-2 gap48 justify-items-center" *ngIf="!loading">
+    <div >
+        <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2">DADOS DA PEÇA - {{index + 1}}ª MAIS FALTANTE</div>
+        <div class="grid gap-y-6 bg-gray-200 bg-opacity-50 p-6 rounded-b-lg">
+            <div><label class="font-bold">Cód. Magnus: </label>  {{dadosPeca.codMagnus}}</div>
+            <div><label class="font-bold">Descrição: </label> {{dadosPeca.descricao}}</div>
+            <div><label class="font-bold">Quantidade: </label> {{dadosPeca.quantidade}}</div>
+        </div>
+    </div>
+    
+    <div >
+        <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2">
+            NOVAS PEÇAS CADASTRADAS
+        </div>
+        <div class="grid gap-y-6 bg-gray-200 bg-opacity-50 p-6 rounded-b-lg">
+            
+        </div>
+    </div>
+</div>
+<div class="flex justify-center items-center" *ngIf="loading">
+    <div class="">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

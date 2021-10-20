@@ -11,7 +11,16 @@ export class ChangelogComponent
     changelog: any[] = [
         {
             version: 'v1.0.0',
-            releaseDate: '01 de Março de 2021'
+            releaseDate: '01 de Março de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Criação do sistema',
+                    ],
+
+                },
+            ]
         },
         {
             version: 'v1.0.1',
@@ -53,6 +62,25 @@ export class ChangelogComponent
                     type: 'Correções',
                     list: [
                         'Filtro de equipamento por texto'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.3',
+            releaseDate: '20 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Mapa de roteirização'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Melhoria performance Agenda Técnicos'
                     ],
                 }
             ]

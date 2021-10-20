@@ -62,6 +62,15 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.RelatoriosAtendimento);
                     break;
 
+                case (OrdemServicoIncludeEnum.OS_AGENDA):
+                    query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.Tecnico)
+                        .Include(os => os.LocalAtendimento)
+                        .Include(os => os.AgendaTecnico);
+                    break;
+
                 default:
                     query = query
                         .Include(os => os.StatusServico)
@@ -163,7 +172,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodStatusServicos != null)
             {
-                var statusServicos = parameters.CodStatusServicos.Split(",");
+                var statusServicos = parameters.CodStatusServicos.Split(",").Select(p => p.Trim());
                 query = query.Where(os => statusServicos.Any(r => r == os.CodStatusServico.ToString()));
             }
 

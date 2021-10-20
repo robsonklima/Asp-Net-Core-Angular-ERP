@@ -3,7 +3,7 @@ import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from 
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 import Enumerable from 'linq';
@@ -205,7 +205,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     const chamados = await this._osSvc.obterPorParametros({
       codFiliais: "4",
-      //codStatusServicos: "8",
+      codStatusServicos: "1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16",
+      include: OrdemServicoIncludeEnum.OS_AGENDA,
       dataTransfInicio: moment().add(-1, 'days').toISOString(),
       dataTransfFim: moment().add(1, 'days').toISOString(),
       sortActive: 'dataHoraTransf',
@@ -240,9 +241,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
         var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
         return (Enumerable.from(osPorTecnico)
-          // ignora os cancelados
-          .where(os => os.statusServico.codStatusServico != 2).
-          orderBy(os => os.dataHoraTransf)
+          .orderBy(os => os.dataHoraTransf)
           .toArray()
           .map(os => 
           {
@@ -561,17 +560,19 @@ export class AgendaTecnicoComponent implements AfterViewInit
     );
   }
 
-  public abrirMapa(codTecnico: number): void {
+  public abrirMapa(codTecnico: number): void
+  {
     console.log(codTecnico);
-    
+
 
     const dialogRef = this._dialog.open(RoteiroMapaComponent, {
       width: '400px',
       data: { codTecnico: codTecnico }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      
+    dialogRef.afterClosed().subscribe(() =>
+    {
+
     });
   }
 }

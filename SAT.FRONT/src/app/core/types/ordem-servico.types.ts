@@ -179,5 +179,6 @@ export interface OrdemServicoParameters extends QueryStringParameters
 
 export enum OrdemServicoIncludeEnum
 {
-    OS_RAT,
+    OS_RAT = 1,
+    OS_AGENDA = 2
 }

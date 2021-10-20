@@ -50,12 +50,52 @@ namespace SAT.SERVICES.Services
                 { "DataHoraIntegracaoRevisaoV2" },
                 { "DataHoraIntegracaoRevisaoAgendamentoV2" },
                 { "CodUsuarioMarcaEspecial" },
-                { "CodUsuarioFechamento" }
+                { "CodUsuarioFechamento" },
+                { "IndNumRATObrigatorio" },
+                { "OrdensServicoRelatorioInstalacao" },
+                { "CodDefeitoPOS" },
+                { "CodOperadoraTelefonia" },
+                { "CodMotivoCancelamento" },
+                { "SugestaoOS" },
+                { "CodContrato" },
+                { "CodSeveridade" },
+                { "NumEstabelecimentoCliente" },
+                { "ObsFechamentoBanrisul" },
+                { "DataFechamentoBanrisul" },
+                { "IndFechamentoBanrisul" },
+                { "IndStatusEnvioReincidencia" },
+                { "CodDefeitoPOS" },
+                { "IndVandalismo" },
+                { "IndBloqueioReincidencia" },
+                { "IndExclusaoBanrisul" },
+                { "IndLiberacaoFechaduraCofre" },
+                { "NomeArquivoIntegracaoBanrisul" },
+                { "IndReaberturaIntegracaoBanrisul" },
+                { "CodMotivoCancelamentoBanrisul" },
+                { "IndNotificacaoOrcamentoEnviado" },
+                { "IndAgendamentoUnico" },
+                { "DataHoraEnvioAgendamentoSemat" },
+                { "IndIntegracao" },
+                { "IndServicoVerificado" },
+                { "DataHoraOsmobileLida" },
+                { "DataHoraOsmobileRecebida" },
+                { "IndAgendamentoReenviado" },
+                { "IndEnderecoRevisado" },
+                { "IndOrcamentoEnd" },
+                { "IndRevOk" },
+                { "IndEndossado" },
+                { "IndAtrasoSLA" },
+                { "CodUsuarioManutencao" },
+                { "CodStatusServico" },
+                { "CodTipoIntervencao" },
+                { "CodTecnico" },
+                { "AgendaTecnico" }
             };
 
             ComplexProperties = new List<string>
             {
                 { "RelatoriosAtendimento" },
+                { "Agendamentos" },
                 { "PrazosAtendimento" }
             };
 
@@ -64,7 +104,7 @@ namespace SAT.SERVICES.Services
                 { "StatusServico", "NomeStatusServico" },
                 { "TipoIntervencao", "NomTipoIntervencao" },
                 { "LocalAtendimento", "NomeLocal" },
-                { "EquipamentoContrato", "CodEquipContrato" },
+                { "EquipamentoContrato", "NumSerie" },
                 { "Filial", "NomeFilial" },
                 { "RegiaoAutorizada", "CodRegiao" },
                 { "Equipamento", "NomeEquip" },
@@ -72,6 +112,5 @@ namespace SAT.SERVICES.Services
                 { "Tecnico", "Nome" }
             };
         }
-
     }
 }

@@ -20,7 +20,10 @@ export interface TipoIntervencaoParameters extends QueryStringParameters {
 };
 
 export const tipoIntervencaoConst = {
+    ORCAMENTO: 5,
     ORC_APROVADO: 17,
     ORC_REPROVADO: 18,
-    ORC_PEND_APROVACAO_CLIENTE: 19
+    ORC_PEND_APROVACAO_CLIENTE: 19,
+    ORC_PEND_FILIAL_DETALHAR_MOTIVO: 20,
+    CORRETIVA: 2
 };

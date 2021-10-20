@@ -6,40 +6,50 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
+import { Filtro } from '../types/filtro.types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService
+{
   private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
 
-  constructor(private http: HttpClient) { }
+  constructor (private http: HttpClient) { }
 
-  set user(value: User) {
+  set user(value: User)
+  {
     this._user.next(value);
   }
 
-  set userSession(session: string) {
+  set userSession(session: string)
+  {
     localStorage.setItem('userSession', JSON.stringify(session));
   }
 
-  get userSession(): string {
+  get userSession(): string
+  {
     return localStorage.getItem('userSession') ?? '';
   }
 
-  get user$(): Observable<User> {
+  get user$(): Observable<User>
+  {
     return this._user.asObservable();
   }
 
-  get(): Observable<User> {
+  get(): Observable<User>
+  {
     return JSON.parse(this.userSession).usuario;
   }
 
-  obterPorParametros(parameters: UsuarioParameters): Observable<UsuarioData> {
+  obterPorParametros(parameters: UsuarioParameters): Observable<UsuarioData>
+  {
     let params = new HttpParams();
 
-    Object.keys(parameters).forEach(key => {
-      if (parameters[key] !== undefined && parameters[key] !== null) {
+    Object.keys(parameters).forEach(key =>
+    {
+      if (parameters[key] !== undefined && parameters[key] !== null)
+      {
         params = params.append(key, String(parameters[key]));
       }
     });
@@ -49,52 +59,73 @@ export class UserService {
     )
   }
 
-  obterPorCodigo(codUsuario: string): Observable<Usuario> {
+  obterPorCodigo(codUsuario: string): Observable<Usuario>
+  {
     const url = `${c.api}/Usuario/${codUsuario}`;
     return this.http.get<Usuario>(url).pipe(
       map((obj) => obj)
     );
   }
 
-  registrarUsuario(usuario: Usuario): void {
+  registrarUsuario(usuario: Usuario): void
+  {
     localStorage.setItem("usuario", JSON.stringify(usuario));
   }
 
-  registrarToken(token: string): void {
+  registrarToken(token: string): void
+  {
     localStorage.setItem("token", JSON.stringify(token));
   }
 
-  registrarFiltro(filtro: any): void {
+  registrarFiltro(filtro: any): void
+  {
     let filtros = JSON.parse(localStorage.getItem('filtros')) || [];
     filtros = filtros.filter(f => f.nome !== filtro.nome);
     filtros.push(filtro);
     localStorage.setItem("filtros", JSON.stringify(filtros));
   }
 
-  removerFiltro(nome: any): void {
+  removerFiltro(nome: any): void
+  {
     let filtros = JSON.parse(localStorage.getItem('filtros')) || [];
     filtros = filtros.filter(f => f.nome !== nome);
     localStorage.setItem("filtros", JSON.stringify(filtros));
   }
 
-  obterFiltro(nome: string): any {
+  obterFiltro(nome: string): any
+  {
     let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
     return filtros.filter(f => f.nome === nome).shift();
   }
 
-  registrarNavegacoes(navegacoes: Navegacao[]): void {
+  atualizarPropriedade(filterName: string, propertyName: string, propertyValue: any)
+  {
+    let filtros: any[] = JSON.parse(localStorage.getItem("filtros")) || [];
+    var filtro = filtros.filter(f => f.nome === filterName).shift();
+    if (filtro)
+    {
+      filtro.parametros[`${propertyName}`] = propertyValue;
+      this.registrarFiltro(filtro);
+    }
+  }
+
+  registrarNavegacoes(navegacoes: Navegacao[]): void
+  {
     localStorage.setItem("navegacoes", JSON.stringify(navegacoes));
   }
 
-  registrarConfiguracoes(config: AppConfig): void {
+  registrarConfiguracoes(config: AppConfig): void
+  {
     localStorage.setItem("config", JSON.stringify(config));
   }
 
-  obterConfiguracoes(): AppConfig {
+  obterConfiguracoes(): AppConfig
+  {
     return JSON.parse(localStorage.getItem("config"));
   }
 
-  logout() {
+  logout()
+  {
     localStorage.removeItem("usuario");
     localStorage.removeItem("token");
   }

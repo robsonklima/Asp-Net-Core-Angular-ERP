@@ -1,8 +1,8 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -13,87 +13,35 @@ namespace SAT.SERVICES.Services
 
         public AgendaTecnicoService(
             IAgendaTecnicoRepository agendaRepo,
-            ITecnicoRepository tecnicoRepo
-        )
+            ITecnicoRepository tecnicoRepo)
         {
             _agendaRepo = agendaRepo;
             _tecnicoRepo = tecnicoRepo;
         }
 
 
-        public List<AgendaTecnico> ObterAgendaPorParametros(AgendaTecnicoParameters parameters)
+        public ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var tecnicos = _tecnicoRepo.ObterPorParametros(new TecnicoParameters()
+            var agendamentos = _agendaRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
             {
-                PA = parameters.PA,
-                CodFilial = parameters.CodFilial,
-                PageSize = int.MaxValue,
-                IndAtivo = 1,
-                SortActive= "nome",
-                SortDirection = "asc"
-            });
+                Items = agendamentos,
+                TotalCount = agendamentos.TotalCount,
+                CurrentPage = agendamentos.CurrentPage,
+                PageSize = agendamentos.PageSize,
+                TotalPages = agendamentos.TotalPages,
+                HasNext = agendamentos.HasNext,
+                HasPrevious = agendamentos.HasPrevious
+            };
 
-            var i = 0;
-            foreach (Tecnico tecnico in tecnicos)
-            {
-                var parametros = new AgendaTecnicoParameters() { CodTecnico = tecnico.CodTecnico};
-                var agendaDB = _agendaRepo.ObterAgendasPorParametros(parametros);
-
-                if (agendaDB.Count == 0)
-                {
-                    var agenda = new AgendaTecnico()
-                    {
-                        CodTecnico = tecnico.CodTecnico,
-                        Color = ObterCor(),
-                        Title = tecnico.Nome,
-                        Visible = 1,
-                        DataHoraCad = DateTime.Now
-                    };
-                    
-                    _agendaRepo.CriarAgenda(agenda);
-                }
-
-                i++;
-            }
-
-            var agendas = _agendaRepo.ObterAgendasPorParametros(parameters);
-
-            return agendas;
-        }
-
-        public void AtualizarAgenda(AgendaTecnico agenda)
-        {
-            _agendaRepo.AtualizarAgenda(agenda);
-        }
-
-        public void DeletarAgenda(int codigo)
-        {
-            _agendaRepo.DeletarAgenda(codigo);
-        }
-
-        public AgendaTecnicoEvento CriarEvento(AgendaTecnicoEvento evento)
-        {
-            _agendaRepo.CriarEvento(evento);
-
-            return evento;
-        }
-
-        public void DeletarEvento(int codigo)
-        {
-            _agendaRepo.DeletarEvento(codigo);
-        }
-
-        public AgendaTecnicoEvento AtualizarEvento(AgendaTecnicoEvento evento)
-        {
-            _agendaRepo.AtualizarEvento(evento);
-
-            return evento;
+            return lista;
         }
 
         private string ObterCor()
         {
             string[] cores = {
-                "bg-black", "bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700", 
+                "bg-black", "bg-gray-300", "bg-gray-400", "bg-gray-500", "bg-gray-600", "bg-gray-700",
                 "bg-gray-800", "bg-gray-900", "bg-red-300", "bg-red-400", "bg-red-500", "bg-red-600",
                 "bg-red-700", "bg-red-800", "bg-red-900", "bg-yellow-300", "bg-yellow-400",
                 "bg-yellow-500", "bg-yellow-600", "bg-yellow-700", "bg-yellow-800", "bg-yellow-900",
@@ -107,6 +55,22 @@ namespace SAT.SERVICES.Services
             };
 
             return cores[new Random().Next(0, cores.Length)];
+        }
+
+        public AgendaTecnico Atualizar(AgendaTecnico agenda)
+        {
+            _agendaRepo.Atualizar(agenda);
+            return agenda;
+        }
+
+        public void Deletar(int codigo)
+        {
+            _agendaRepo.Deletar(codigo);
+        }
+
+        public void Criar(AgendaTecnico agenda)
+        {
+            _agendaRepo.Criar(agenda);
         }
     }
 }

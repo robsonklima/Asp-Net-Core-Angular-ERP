@@ -144,15 +144,49 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/19/2020 18:49:30</publishTime>
     </File>
     <File Include="SAT.API.deps.json">
+<<<<<<< HEAD
+      <publishTime>09/17/2021 17:28:55</publishTime>
+    </File>
+    <File Include="SAT.API.dll">
+      <publishTime>09/17/2021 17:28:49</publishTime>
+=======
       <publishTime>09/24/2021 17:47:03</publishTime>
     </File>
     <File Include="SAT.API.dll">
       <publishTime>10/09/2021 15:01:54</publishTime>
+>>>>>>> dashboard
     </File>
     <File Include="SAT.API.dll.config">
       <publishTime>09/03/2021 14:13:37</publishTime>
     </File>
     <File Include="SAT.API.exe">
+<<<<<<< HEAD
+      <publishTime>09/17/2021 17:28:49</publishTime>
+    </File>
+    <File Include="SAT.API.pdb">
+      <publishTime>09/17/2021 17:28:49</publishTime>
+    </File>
+    <File Include="SAT.API.runtimeconfig.json">
+      <publishTime>09/17/2021 17:17:10</publishTime>
+    </File>
+    <File Include="SAT.INFRA.dll">
+      <publishTime>09/17/2021 17:17:06</publishTime>
+    </File>
+    <File Include="SAT.INFRA.pdb">
+      <publishTime>09/17/2021 17:17:06</publishTime>
+    </File>
+    <File Include="SAT.MODELS.dll">
+      <publishTime>09/17/2021 17:17:05</publishTime>
+    </File>
+    <File Include="SAT.MODELS.pdb">
+      <publishTime>09/17/2021 17:17:05</publishTime>
+    </File>
+    <File Include="SAT.SERVICES.dll">
+      <publishTime>09/17/2021 17:17:07</publishTime>
+    </File>
+    <File Include="SAT.SERVICES.pdb">
+      <publishTime>09/17/2021 17:17:07</publishTime>
+=======
       <publishTime>09/24/2021 17:47:00</publishTime>
     </File>
     <File Include="SAT.API.pdb">
@@ -178,6 +212,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="SAT.SERVICES.pdb">
       <publishTime>09/24/2021 17:46:13</publishTime>
+>>>>>>> dashboard
     </File>
     <File Include="Swashbuckle.AspNetCore.Swagger.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -203,6 +238,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="System.IO.Packaging.dll">
       <publishTime>06/11/2016 20:13:48</publishTime>
     </File>
+    <File Include="System.IO.Packaging.dll">
+      <publishTime>06/11/2016 20:13:48</publishTime>
+    </File>
     <File Include="System.Linq.Dynamic.Core.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
@@ -213,7 +251,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/19/2020 18:52:26</publishTime>
     </File>
     <File Include="web.config">
+<<<<<<< HEAD
+      <publishTime>09/17/2021 17:28:55</publishTime>
+=======
       <publishTime>09/24/2021 17:47:03</publishTime>
+>>>>>>> dashboard
     </File>
   </ItemGroup>
 </Project>

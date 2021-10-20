@@ -1,17 +1,24 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Linq;
 
 namespace SAT.SERVICES.Services
 {
     public class ContratoService : IContratoService
     {
         private readonly IContratoRepository _contratoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public ContratoService(IContratoRepository contratoRepo)
+        public ContratoService(
+            IContratoRepository contratoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _contratoRepo = contratoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(ContratoParameters parameters)
@@ -34,7 +41,10 @@ namespace SAT.SERVICES.Services
 
         public Contrato Criar(Contrato contrato)
         {
+            contrato.CodContrato = _sequenciaRepo.ObterContador("Contrato");
+            
             _contratoRepo.Criar(contrato);
+            
             return contrato;
         }
 
@@ -51,6 +61,12 @@ namespace SAT.SERVICES.Services
         public Contrato ObterPorCodigo(int codigo)
         {
             return _contratoRepo.ObterPorCodigo(codigo);
+        }
+
+        public IActionResult ExportToExcel(ContratoParameters parameters)
+        {
+            var os = _contratoRepo.ObterPorParametros(parameters);
+            return new BaseExcelService<Contrato>().CreateWorkbook(os.Cast<Contrato>().ToList());
         }
     }
 }

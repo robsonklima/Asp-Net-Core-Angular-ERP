@@ -111,7 +111,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraIntegracaoRevisaoAgendamento { get; set; }
         public byte? IndAgendamentoReenviado { get; set; }
         public DateTime? DataHoraOsmobileRecebida { get; set; }
-        public DateTime? DataHoraOsmobileLida { get; set; }
+        public DateTime? DataHoraOSMobileLida { get; set; }
         public string NumAgenciaBanco { get; set; }
         public string NumContaEstabelecimentoCliente { get; set; }
         public string CnpjestabelecimentoCliente { get; set; }
@@ -152,11 +152,13 @@ namespace SAT.MODELS.Entities
         public List<Alerta> Alertas { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
+
         [ForeignKey("CodOS")]
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
         [ForeignKey("CodOS")]
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
         [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
+        public virtual AgendaTecnico AgendaTecnico { get; set; }
     }
 }

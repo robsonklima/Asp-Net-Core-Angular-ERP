@@ -44,7 +44,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cod magnus') }}</mat-label>
-                        <input matInput formControlName="codMagnus">
+                        <input matInput formControlName="codMagnus" mask="000.000.000" [showMaskTyped]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -113,7 +113,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valIpiassistencia" mask="separator.2" thousandSeparator="." suffix="%"[showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <input matInput formControlName="valIpiassistencia" mask="percent" suffix="%" >
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -121,8 +121,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi') }}</mat-label>
-                        <input matInput formControlName="valIPI" mask="separator.2" 
-                        thousandSeparator="." suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <input matInput formControlName="valIPI" mask="percentage" 
+                        suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>

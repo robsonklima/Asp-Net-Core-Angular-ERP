@@ -38,8 +38,8 @@ namespace SAT.API
                 builder =>
                     {
                         builder.WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
-                               .AllowAnyHeader()
-                               .AllowAnyMethod();
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     }
                 );
            });
@@ -131,6 +131,7 @@ namespace SAT.API
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrdemServicoService, OrdemServicoService>();
             services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
+            services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();

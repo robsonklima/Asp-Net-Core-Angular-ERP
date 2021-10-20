@@ -13,7 +13,7 @@ export class RelatorioAtendimentoDetalhe {
     grupoCausa?: GrupoCausa;
     defeito?: Defeito;
     causa?: Causa;
-    acao?: Acao;
+    acao?: Acao;    
     tipoServico?: TipoServico;
     codTipoCausa: number;
     codGrupoCausa: number;

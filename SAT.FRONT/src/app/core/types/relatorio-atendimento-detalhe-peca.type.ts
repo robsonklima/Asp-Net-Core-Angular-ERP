@@ -1,7 +1,11 @@
-export class RelatorioAtendimentoDetalhePeca {
+import { Peca } from "./peca.types";
+
+export class RelatorioAtendimentoDetalhePeca
+{
     codRATDetalhePeca?: number;
     codRATDetalhe?: number;
     codPeca: number;
+    peca?: Peca;
     qtdePecas: number;
     valPecas?: any;
     ap?: number;

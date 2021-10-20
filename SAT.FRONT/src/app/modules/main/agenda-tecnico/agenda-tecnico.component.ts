@@ -567,8 +567,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
     const chamados = this.chamados.filter(os => os.codTecnico === codTecnico);
 
     const dialogRef = this._dialog.open(RoteiroMapaComponent, {
-      width: '80%',
-      height: '80%',
+      width: '960px',
+      height: '640px',
       data: { 
         resource: resource,
         chamados: chamados

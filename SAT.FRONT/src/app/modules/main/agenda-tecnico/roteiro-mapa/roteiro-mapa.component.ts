@@ -15,11 +15,10 @@ export interface DialogData {
   selector: 'app-roteiro-mapa',
   templateUrl: './roteiro-mapa.component.html',
   styles: [`
-    div { height: 100%; width: 100%; z-index: 1; margin-left: 0px  }
+    div { height: 100%; width: 100%; margin-left: 0px; position: relative; }
   `]
 })
 export class RoteiroMapaComponent implements OnInit {
-  loading: boolean;
   chamados: OrdemServico[] = [];
   resource: any;
 
@@ -33,8 +32,6 @@ export class RoteiroMapaComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.loading = true;
-
     const paradas = this.chamados
       .filter(os => os.localAtendimento !== null)
       .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
@@ -90,7 +87,6 @@ export class RoteiroMapaComponent implements OnInit {
     }).addTo(map);
 
     map.invalidateSize();
-    this.loading = false;
   }
 
   fecharModal(): void {

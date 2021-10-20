@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, NgModel } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
@@ -19,10 +19,11 @@ import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Enumerable from 'linq';
-import { MatOption } from '@angular/material/core';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
+import { TecnicoService } from 'app/core/services/tecnico.service';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -40,12 +41,10 @@ export class OrdemServicoFiltroComponent implements OnInit
   autorizadas: Autorizada[] = [];
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
-  pas: any;
-  equipamentos: Equipamento[] = [];
+  tecnicos: Tecnico[] = [];
+  pas: number[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
-  @ViewChild('selectIntervencoes') private selectIntervencoes: MatOption;
-  @ViewChild('selectStatus') private selectStatus: MatOption;
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -56,8 +55,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     private _userService: UserService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _autorizadaService: AutorizadaService,
-    private _equipamentosService: EquipamentoService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _tecnicoService: TecnicoService
   )
   {
     this.filtro = this._userService.obterFiltro('ordem-servico');
@@ -74,10 +73,8 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterAutorizadas();
-    this.obterEquipamentos();
 
-    this.configurarRegioesAutorizadas();
-    this.configurarFiliais()
+    this.configurarFiliais();
   }
 
   private inicializarForm(): void
@@ -85,11 +82,12 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
+      codTecnicos: [undefined],
       codAutorizadas: [undefined],
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
-      codEquipamentos: [undefined],
+      equipamento: [undefined],
       codOS: [undefined],
       numOSCliente: [undefined],
       numOSQuarteirizada: [undefined],
@@ -97,7 +95,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       dataAberturaFim: [undefined],
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
-      pa: [undefined],
+      pas: [undefined],
       pontosEstrategicos: [undefined]
     });
 
@@ -152,83 +150,43 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.clientes = data.items;
   }
 
-  selecionarTodasIntervencoes(tipo: string)
+  async obterTecnicos(filialFilter: string)
   {
-    switch (tipo)
-    {
-      case 'tiposIntervencao':
-        if (this.selectIntervencoes.selected)
-        {
-          this.form.controls.codTiposIntervencao
-            .patchValue([...this.tiposIntervencao.map(item => item.codTipoIntervencao), 0]);
-        } else
-        {
-          this.form.controls.codTiposIntervencao.patchValue([]);
+    let params: TecnicoParameters = {
+      indAtivo: 1,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codPerfil: 35,
+      codFiliais: filialFilter,
+      pageSize: 1000
+    };
 
-        }
-        break;
-      default:
-        break;
-    }
-  }
+    const data = await this._tecnicoService
+      .obterPorParametros(params)
+      .toPromise();
 
-  configurarRegioesAutorizadas()
-  {
-    if (!this.sessionData.usuario.codFilial)
-      this.form.controls['codFiliais']
-        .valueChanges
-        .subscribe(() => this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value));
-    else
-      this.obterRegioesAutorizadas(this.sessionData.usuario.codFilial);
+    this.tecnicos = data.items;
   }
 
   configurarFiliais()
   {
+    if (!this.sessionData.usuario.codFilial)
+      this.form.controls['codFiliais']
+        .valueChanges
+        .subscribe(() => 
+        {
+          this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+          this.obterTecnicos(this.form.controls['codFiliais'].value);
+        });
+
     if (this.sessionData.usuario.codFilial)
     {
       this.form.controls['codFiliais'].setValue([this.sessionData.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
-  }
 
-  selecionarTodosStatus(tipo: string)
-  {
-    switch (tipo)
-    {
-      case 'status':
-        if (this.selectStatus.selected)
-        {
-          this.form.controls.codStatusServicos
-            .patchValue([...this.statusServicos.map(item => item.codStatusServico), 0]);
-        } else
-        {
-          this.form.controls.codStatusServicos.patchValue([]);
-
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  selecionarTodosEquipamentos(tipo: string)
-  {
-    switch (tipo)
-    {
-      case 'equipamentos':
-        if (this.selectStatus.selected)
-        {
-          this.form.controls.codEquipamentos
-            .patchValue([...this.equipamentos.map(item => item.codEquip), 0]);
-        } else
-        {
-          this.form.controls.codEquipamentos.patchValue([]);
-
-        }
-        break;
-      default:
-        break;
-    }
+    this.obterTecnicos(this.form.controls['codFiliais'].value);
+    this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
   }
 
   async obterRegioesAutorizadas(filialFilter: any)
@@ -244,7 +202,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
-    this.pas = new Set(data.items.map(ra => ra.pa));
+    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
   }
 
   async obterAutorizadas(filter: string = '')
@@ -277,21 +235,6 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.statusServicos = data.items;
-  }
-
-  async obterEquipamentos()
-  {
-    let params: EquipamentoParameters = {
-      sortActive: 'nomeEquip',
-      sortDirection: 'asc',
-      pageSize: 50
-    }
-
-    const data = await this._equipamentosService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.equipamentos = data.items;
   }
 
   private registrarEmitters(): void
@@ -344,5 +287,15 @@ export class OrdemServicoFiltroComponent implements OnInit
   {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  selectAll(select: AbstractControl, values, propertyName)
+  {
+    if (select.value[0] == 0 && propertyName != '')
+      select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
+    else if (select.value[0] == 0 && propertyName == '')
+      select.patchValue([...values.map(item => item), 0]);
+    else
+      select.patchValue([]);
   }
 }

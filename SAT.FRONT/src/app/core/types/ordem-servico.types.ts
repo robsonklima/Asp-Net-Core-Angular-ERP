@@ -35,6 +35,7 @@ export class OrdemServico
     observacaoCliente?: string;
     dataHoraCad: string;
     dataHoraTransf: string;
+    dataHoraOSMobileLida: string;
     dataHoraFechamento: string;
     codUsuarioCad?: any;
     nomeSolicitante?: any;

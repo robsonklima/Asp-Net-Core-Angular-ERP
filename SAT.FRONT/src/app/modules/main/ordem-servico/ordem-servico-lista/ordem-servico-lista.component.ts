@@ -22,7 +22,7 @@ import moment from 'moment';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
+            grid-template-columns: 30px 60px 72px 60px 20px 48px 50px 30px auto 140px 40px 100px 50px 36px 140px 29px;
             
             @screen sm {
                 grid-template-columns:  48px 72px 92px 92px 36px 36px auto 56px;
@@ -33,7 +33,7 @@ import moment from 'moment';
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 72px  20px 48px 72px 36px auto 56px 56px 100px 50px 36px 145px 24px;
+                grid-template-columns: 30px 60px 72px 60px  20px 48px 50px 30px auto 140px 40px 100px 50px 36px 140px 29px;
             }
         }
     `],
@@ -98,8 +98,9 @@ export class OrdemServicoListaComponent implements AfterViewInit
 
             this.sort.sortChange.subscribe(() =>
             {
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortActive", this.sort.active);
-                this._userService.atualizarPropriedade(this.filtro?.nome, "sortDirection", this.sort.direction);
+                this._userService.atualizarPropriedade("ordem-servico", "sortActive", this.sort.active);
+                this._userService.atualizarPropriedade("ordem-servico", "sortDirection", this.sort.direction);
+                this.carregarFiltro();
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });
@@ -169,7 +170,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
         this.isLoading = true;
         const params: OrdemServicoParameters = {
             sortDirection: 'desc',
-            pageSize: 6000,
+            pageSize: 100000,
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
@@ -195,7 +196,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
     {
         if (os.prazosAtendimento == null)
         {
-            return "-";
+            return "---";
         }
         else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
         {
@@ -211,7 +212,7 @@ export class OrdemServicoListaComponent implements AfterViewInit
                 return "DENTRO";
             return "FORA";
         }
-        return "-";
+        return "---";
     }
 
     statusServicoDescricao(os: OrdemServico)
@@ -228,6 +229,16 @@ export class OrdemServicoListaComponent implements AfterViewInit
             if (pecas.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
         }
 
+        return description;
+    }
+
+    tecnicoDescricao(os: OrdemServico)
+    {
+        var description = os.tecnico?.nome;
+        description += '\n' + 'TRANSFERIDO EM: ';
+        description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
+        description += 'VISUALIZADO EM: ';
+        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO VISUALIZADO';
         return description;
     }
 }

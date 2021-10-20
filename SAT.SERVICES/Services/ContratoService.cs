@@ -1,7 +1,9 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Linq;
 
 namespace SAT.SERVICES.Services
 {
@@ -59,6 +61,12 @@ namespace SAT.SERVICES.Services
         public Contrato ObterPorCodigo(int codigo)
         {
             return _contratoRepo.ObterPorCodigo(codigo);
+        }
+
+        public IActionResult ExportToExcel(ContratoParameters parameters)
+        {
+            var os = _contratoRepo.ObterPorParametros(parameters);
+            return new BaseExcelService<Contrato>().CreateWorkbook(os.Cast<Contrato>().ToList());
         }
     }
 }

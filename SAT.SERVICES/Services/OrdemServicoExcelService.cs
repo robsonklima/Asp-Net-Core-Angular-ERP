@@ -85,12 +85,17 @@ namespace SAT.SERVICES.Services
                 { "IndRevOk" },
                 { "IndEndossado" },
                 { "IndAtrasoSLA" },
-                { "CodUsuarioManutencao" }
+                { "CodUsuarioManutencao" },
+                { "CodStatusServico" },
+                { "CodTipoIntervencao" },
+                { "CodTecnico" },
+                { "AgendaTecnico" }
             };
 
             ComplexProperties = new List<string>
             {
                 { "RelatoriosAtendimento" },
+                { "Agendamentos" },
                 { "PrazosAtendimento" }
             };
 

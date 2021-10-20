@@ -79,6 +79,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.Cliente)
                         .Include(os => os.Cliente.Cidade)
                         .Include(os => os.AgendaTecnico)
+                        .Include(os => os.Agendamentos)
                         .Include(os => os.Tecnico)
                         .Include(os => os.RelatoriosAtendimento)
                             .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
@@ -99,9 +100,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
             }
 
-            if (parameters.PA != null)
+            if (!string.IsNullOrEmpty(parameters.PAS))
             {
-                query = query.Where(os => os.RegiaoAutorizada.PA == parameters.PA);
+                var pas = parameters.PAS.Split(",");
+                query = query.Where(os => pas.Any(p => p == os.RegiaoAutorizada.PA.ToString()));
             }
 
             if (parameters.NumOSQuarteirizada != null)
@@ -171,6 +173,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => regioes.Any(r => r == os.RegiaoAutorizada.CodRegiao.ToString()));
             }
 
+            if (parameters.CodTecnicos != null)
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",");
+                query = query.Where(os => tecnicos.Any(r => r == os.CodTecnico.ToString()));
+            }
+
             if (parameters.CodTiposIntervencao != null)
             {
                 var tiposIntervencao = parameters.CodTiposIntervencao.Split(",");
@@ -189,12 +197,18 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));
             }
 
+            if (parameters.Equipamento != null)
+            {
+                query = query.Where(
+                    os => !string.IsNullOrEmpty(os.Equipamento.NomeEquip) &&
+                    (os.Equipamento.CodEquip.ToString().Contains(parameters.Equipamento) ||
+                    os.Equipamento.NomeEquip.Contains(parameters.Equipamento)));
+            }
+
             if (parameters.CodFiliais != null)
             {
                 int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f)).ToArray();
-                query = query.Where(
-                    os =>
-                    parameters.CodFiliais.Contains(os.CodFilial.ToString())
+                query = query.Where(os => parameters.CodFiliais.Contains(os.CodFilial.ToString())
                 );
             }
 
@@ -207,7 +221,6 @@ namespace SAT.INFRA.Repository
             if (parameters.PontosEstrategicos != null)
             {
                 var paramsSplit = parameters.PontosEstrategicos.Split(',');
-
                 query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
             }
 
@@ -245,8 +258,8 @@ namespace SAT.INFRA.Repository
 
                     case "pa":
                         query = parameters.SortDirection == "asc" ?
-                            query.OrderBy(q => q.RegiaoAutorizada.PA) :
-                            query.OrderByDescending(q => q.RegiaoAutorizada.PA);
+                            query.OrderBy(q => q.RegiaoAutorizada.PA.ToString()) :
+                            query.OrderByDescending(q => q.RegiaoAutorizada.PA.ToString());
                         break;
                     case "nomeLocal":
                         query = parameters.SortDirection == "asc" ?
@@ -288,9 +301,9 @@ namespace SAT.INFRA.Repository
 
                     case "nomeTecnico":
                         query = parameters.SortDirection == "asc" ?
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
                                  .OrderBy(q => q.Tecnico.Nome) :
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome))
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
                                  .OrderByDescending(q => q.Tecnico.Nome);
                         break;
 

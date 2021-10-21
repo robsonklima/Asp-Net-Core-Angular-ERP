@@ -256,6 +256,7 @@
                                 {{ rat.obsRAT }}</div>
                         </div>
                         <div class="h-4 col-span-12 border-b" *ngIf="rat.obsRAT"></div>
+
                         <div class="h-4 col-span-12">
                             <div *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
                                 <div class="text-lg mt-5 ml-5 tracking-tight text-secondary">
@@ -296,24 +297,56 @@
                                     </div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
                                 </div>
+
+                                <div *ngIf="detalhe.relatorioAtendimentoDetalhePecas.length > 0">
+                                    <div class="text-lg mt-5 ml-10 tracking-tight text-secondary">
+                                        {{ t('pecas') }}
+                                    </div>
+                                    <div class="h-0 col-span-12 my-2"
+                                        *ngIf="detalhe.relatorioAtendimentoDetalhePecas.length > 0">
+                                    </div>
+                                    <div *ngFor="let detalhesPeca of detalhe.relatorioAtendimentoDetalhePecas">
+
+                                        <div class="grid grid-cols-10 mt-5 ml-10">
+
+                                            <div class="h-0 col-span-4 text-lg font-medium">{{ t('codigo') }}</div>
+                                            <div class="h-0 self-center text-right"></div>
+                                            <div class="h-0 self-center text-right"></div>
+                                            <div class="h-0 col-span-6 self-center text-right">
+                                                {{ detalhesPeca.peca.codMagnus  }}
+                                            </div>
+                                            <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                            <div class="h-0 col-span-4 text-lg font-medium">{{ t('quantidade') }}</div>
+                                            <div class="h-0 self-center text-right"></div>
+                                            <div class="h-0 self-center text-right"></div>
+                                            <div class="h-0 col-span-6 self-center text-right">
+                                                {{ detalhesPeca.qtdePecas }}
+                                            </div>
+                                            <div class="h-4 col-span-12 my-2 border-b"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos> -->
-
-            <!-- <div class="mt-16">
-                <div class="flex items-start mt-4">
-                    <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
-                    <div class="ml-6 text-sm text-secondary">
-                        In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque
-                        scelerisque lacus sed feugiat fermentum.
-                        Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
-                        dapibus. Etiam at felis volutpat est mollis lacinia.
-                        Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
-                        tincidunt lacinia et eget.
+            <!-- <div>
+                <div class="mt-16">
+                    <div class="flex items-start mt-4">
+                        <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
+                        <div class="ml-6 text-sm text-secondary">
+                            In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor.
+                            Quisque
+                            scelerisque lacus sed feugiat fermentum.
+                            Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
+                            dapibus. Etiam at felis volutpat est mollis lacinia.
+                            Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
+                            tincidunt lacinia et eget.
+                        </div>
                     </div>
                 </div>
             </div> -->

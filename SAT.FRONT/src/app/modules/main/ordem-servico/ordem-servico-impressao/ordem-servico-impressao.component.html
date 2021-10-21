@@ -1,7 +1,7 @@
 <div class="text-center min-h-full" *transloco="let t">
     <div class="inline-block p-6 sm:p-10 text-left print:p-0">
-        <div
-            class="w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
+        <div class="w-240 overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none
+            print:bg-transparent">
 
             <div class="flex items-start justify-between">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1">
@@ -31,102 +31,280 @@
 
             <div class="text-md">
                 <div class="text-xl font-medium">{{ os.cliente.nomeFantasia }}</div>
-                <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }} {{os.localAtendimento.nomeLocal }}</div>
+                <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }}
+                    {{os.localAtendimento.nomeLocal }}</div>
                 <div>
-                    {{ os?.localAtendimento?.endereco | titlecase }}
-                    {{ os?.localAtendimento?.bairro | titlecase }}
+                    {{ os?.localAtendimento?.endereco.trim() + " - " | titlecase }}
+                    {{ os?.localAtendimento?.bairro.trim() + "," | titlecase }}
                     {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
                 </div>
             </div>
 
+
+            <!-- dados abertura -->
             <div class="grid grid-cols-12 gap-x-1 mt-12">
                 <div class="h-0	col-span-4 text-lg font-medium">{{ t('solicitacao') }}</div>
                 <div class="h-0	self-center text-right"></div>
                 <div class="h-0	self-center text-right"></div>
-                <div class="h-0	col-span-6 self-center text-right">{{ os?.dataHoraSolicitacao | date:'dd/MM HH:mm' }}</div>
+                <div class="h-0	col-span-6 self-center text-right">{{ os?.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                </div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
 
                 <div class="h-0	col-span-8 text-lg font-medium">{{ t('os cliente') }}</div>
                 <div class="h-0	self-center text-right"></div>
                 <div class="h-0	self-center text-right"></div>
-                <div class="h-0	col-span-2 self-center text-right">{{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
+                <div class="h-0	col-span-2 self-center text-right">
+                    {{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
 
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('os quarteirizada') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado' }}</div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ (os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado') | uppercase}}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('status servico') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 col-span-6 self-center text-right">{{ os?.statusServico?.nomeStatusServico }}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
+                <div class="h-0 col-span-4 text-lg font-medium"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right"></div>
+                <div class="h-4 col-span-12 my-2"></div>
+
+                <!-- dados cliente -->
                 <div class="h-0 col-span-8 text-lg font-medium">{{ t('cliente') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-2 self-center text-right">{{ os?.cliente?.numBanco }} - {{ os?.cliente?.nomeFantasia }}</div>
+                <div class="h-0 col-span-2 self-center text-right">{{ os?.cliente?.numBanco }} -
+                    {{ os?.cliente?.nomeFantasia }}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('cidade') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os?.localAtendimento?.cidade?.nomeCidade | uppercase }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('bairro') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.bairro }}</div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.bairro | uppercase}}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('cliente') }}</div>
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('endereco') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.cidade?.nomeCidade }}</div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.endereco | uppercase }}
+                </div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('solicitante') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeSolicitante || 'Não Informado' }}</div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ (os?.nomeSolicitante || 'Não Informado')| uppercase }}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('telefone solicitante') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' | uppercase }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('contato') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeContato || 'Não Informado' }}</div>
+                <div class="h-0 col-span-6 self-center text-right">{{ (os?.nomeContato || 'Não Informado')| uppercase }}
+                </div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('telefone') }}</div>
+
+                <div class="h-0 col-span-4 text-lg font-medium"></div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+                <div class="h-0 col-span-6 self-center text-right"></div>
+                <div class="h-4 col-span-12 my-2"></div>
+
+                <!-- dados equipamento -->
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('equipamento') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip }}</div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip | uppercase}}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
+                <div class="col-span-12 text-lg font-medium" *ngIf="os?.defeitoRelatado">
+                    {{ t('defeito') }}
+                    <div class="col-span-12 self-center font-light text-base text-justify">
+                        {{ os?.defeitoRelatado }}</div>
+                </div>
+                <div class="h-4 col-span-12 border-b" *ngIf="os?.defeitoRelatado"></div>
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.numSerie }}</div>
+                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.numSerie | uppercase}}
+                </div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('sla') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
                 <div class="h-4 col-span-12 my-2 border-b"></div>
-							
+
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('filial') }}</div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 self-center text-right"></div>
                 <div class="h-0 col-span-6 self-center text-right">{{ os?.filial?.nomeFilial }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                <div class="h-0 col-span-4 text-lg font-medium">PAT</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                    {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('regiao') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                    {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                <div class="h-0 col-span-4 text-lg font-medium">{{ t('fim sla') }}</div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 self-center text-right"></div>
+                <div class="h-0 col-span-6 self-center text-right">
+                    {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
+                </div>
+                <div class="h-4 col-span-12 my-2 border-b"></div>
+            </div>
+
+            <div *ngIf="os.relatoriosAtendimento.length > 0">
+                <div class="h-4 my-2 mt-5"></div>
+                <div class="text-xl tracking-tight text-secondary">ATENDIMENTOS</div>
+
+                <div *ngFor="let rat of os.relatoriosAtendimento">
+                    <div class="grid mt-5">
+
+                        <div class="text-lg tracking-tight text-secondary">{{ "No. " + rat.numRAT }}</div>
+                        <div class="h-0 col-span-12 my-2"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('tecnico') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ rat.tecnico.nome | uppercase }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('acompanhante') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (rat.nomeAcompanhante | uppercase) || '---' }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('status') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ rat.statusServico.nomeStatusServico | uppercase }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('inicio') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (rat.dataHoraInicio | date:'dd/MM HH:mm') || "---" }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (rat.dataHoraFim | date:'dd/MM HH:mm') || "---" }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('horas gastas') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (rat.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="col-span-4 text-lg font-medium" *ngIf="rat.relatoSolucao">
+                            {{ t('descricao da solucao') }}
+                            <div class="col-span-6 self-center font-light text-base text-justify">
+                                {{ rat.relatoSolucao }}</div>
+                        </div>
+                        <div class="h-4 col-span-12 border-b" *ngIf="rat.relatoSolucao"></div>
+
+                        <div class="col-span-4 text-lg font-medium" *ngIf="rat.obsRAT">
+                            {{ t('observacao') }}
+                            <div class="col-span-6 self-center font-light text-base text-justify">
+                                {{ rat.obsRAT }}</div>
+                        </div>
+                        <div class="h-4 col-span-12 border-b" *ngIf="rat.obsRAT"></div>
+                        <div class="h-4 col-span-12">
+                            <div *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
+                                <div class="text-lg mt-5 ml-5 tracking-tight text-secondary">
+                                    {{ "Detalhe " + detalhe.codRATDetalhe }}
+                                </div>
+                                <div class="h-0 col-span-12 my-2"></div>
+
+                                <div class="grid grid-cols-10 mt-5 ml-5">
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('tipo de servico') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ (detalhe.tipoServico?.nomeServico | uppercase) || "---" }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('causa') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ detalhe.causa.codCausa + ' - ' + detalhe.causa.nomeCausa | uppercase }}
+                                    </div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('defeito') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ detalhe.defeito.codDefeito + ' - ' + detalhe.defeito.nomeDefeito | uppercase }}
+                                    </div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('acao') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ detalhe.acao.codAcao + ' - ' + detalhe.acao.nomeAcao | uppercase }}
+                                    </div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos> -->
 
-            <div class="mt-16">
+            <!-- <div class="mt-16">
                 <div class="flex items-start mt-4">
                     <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
                     <div class="ml-6 text-sm text-secondary">
@@ -138,7 +316,7 @@
                         tincidunt lacinia et eget.
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

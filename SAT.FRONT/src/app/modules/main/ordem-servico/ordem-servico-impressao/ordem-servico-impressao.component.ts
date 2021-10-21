@@ -7,16 +7,18 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
   selector: 'app-ordem-servico-impressao',
   templateUrl: './ordem-servico-impressao.component.html',
 })
-export class OrdemServicoImpressaoComponent implements OnInit {
+export class OrdemServicoImpressaoComponent implements OnInit
+{
   codOS: number;
   os: OrdemServico;
 
-  constructor(
+  constructor (
     private _ordemServicoService: OrdemServicoService,
     private _route: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
   }

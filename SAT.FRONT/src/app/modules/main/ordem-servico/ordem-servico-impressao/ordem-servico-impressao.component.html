@@ -142,8 +142,8 @@
                     {{ t('defeito') }}
                     <div class="col-span-12 self-center font-light text-base text-justify">
                         {{ os?.defeitoRelatado }}</div>
+                    <div class="col-span-12 my-2 border-b"></div>
                 </div>
-                <div class="h-4 col-span-12 border-b" *ngIf="os?.defeitoRelatado"></div>
 
                 <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
                 <div class="h-0 self-center text-right"></div>
@@ -191,7 +191,7 @@
             </div>
 
             <div *ngIf="os.relatoriosAtendimento.length > 0">
-                <div class="h-4 my-2 mt-5"></div>
+                <div class="h-4 mt-2"></div>
                 <div class="text-xl tracking-tight text-secondary">ATENDIMENTOS</div>
 
                 <div *ngFor="let rat of os.relatoriosAtendimento">
@@ -243,26 +243,29 @@
                             {{ (rat.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                        <div class="col-span-4 text-lg font-medium" *ngIf="rat.relatoSolucao">
+                        <div class="col-span-12 text-lg font-medium" *ngIf="rat.relatoSolucao">
                             {{ t('descricao da solucao') }}
-                            <div class="col-span-6 self-center font-light text-base text-justify">
+                            <div class="font-light text-base text-justify">
                                 {{ rat.relatoSolucao }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
                         </div>
-                        <div class="h-4 col-span-12 border-b" *ngIf="rat.relatoSolucao"></div>
 
-                        <div class="col-span-4 text-lg font-medium" *ngIf="rat.obsRAT">
+                        <div class="col-span-12 text-lg font-medium" *ngIf="rat.obsRAT">
                             {{ t('observacao') }}
-                            <div class="col-span-6 self-center font-light text-base text-justify">
+                            <div class="font-light text-base text-justify">
                                 {{ rat.obsRAT }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
                         </div>
-                        <div class="h-4 col-span-12 border-b" *ngIf="rat.obsRAT"></div>
 
                         <div class="h-4 col-span-12">
+                            <div class="h-4 mt-2"></div>
+                            <div class="ml-5 text-xl tracking-tight text-secondary">DETALHES</div>
+
                             <div *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
                                 <div class="text-lg mt-5 ml-5 tracking-tight text-secondary">
-                                    {{ "Detalhe " + detalhe.codRATDetalhe }}
+                                    {{ "No. " + detalhe.codRATDetalhe }}
                                 </div>
-                                <div class="h-0 col-span-12 my-2"></div>
+                                <div class="col-span-12 my-1"></div>
 
                                 <div class="grid grid-cols-10 mt-5 ml-5">
 
@@ -302,7 +305,7 @@
                                     <div class="text-lg mt-5 ml-10 tracking-tight text-secondary">
                                         {{ t('pecas') }}
                                     </div>
-                                    <div class="h-0 col-span-12 my-2"
+                                    <div class="col-span-12 my-1"
                                         *ngIf="detalhe.relatorioAtendimentoDetalhePecas.length > 0">
                                     </div>
                                     <div *ngFor="let detalhesPeca of detalhe.relatorioAtendimentoDetalhePecas">
@@ -328,28 +331,25 @@
 
                                     </div>
                                 </div>
-
+                                <div class="h-4 col-span-12 my-2 border-b"></div>
+                            </div>
+                            <div class="mt-16 content-end">
+                                <div class="flex items-start mt-4">
+                                    <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
+                                    <div class="ml-6 text-sm text-secondary mb-16">
+                                        <div class="pl-10 border-l text-md">
+                                            <div class="font-medium">Perto S.A.</div>
+                                            <div>Tecnologia para Bancos e Varejo</div>
+                                            <div>SAT - Sistema de Assistência Técnica</div>
+                                            <div>www.perto.com.br</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div>
-                <div class="mt-16">
-                    <div class="flex items-start mt-4">
-                        <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
-                        <div class="ml-6 text-sm text-secondary">
-                            In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor.
-                            Quisque
-                            scelerisque lacus sed feugiat fermentum.
-                            Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
-                            dapibus. Etiam at felis volutpat est mollis lacinia.
-                            Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
-                            tincidunt lacinia et eget.
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>

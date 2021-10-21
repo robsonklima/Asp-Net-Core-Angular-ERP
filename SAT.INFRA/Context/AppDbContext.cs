@@ -54,6 +54,7 @@ namespace SAT.INFRA.Context
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<AgendaTecnicoEvento> AgendaTecnicoEvento { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
+        public DbSet<Monitoramento> Monitoramento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

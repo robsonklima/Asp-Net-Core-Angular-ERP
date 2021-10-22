@@ -1,5 +1,22 @@
 import { QueryStringParameters } from "./generic.types";
 
+
+export class DadosPeca {
+    codMagnus: string;
+    descricao: string;
+    index: number;
+    quantidade: number;
+    chamadosPeca: ChamadosPeca[];
+  }
+  
+  export class ChamadosPeca {
+    filial: string;
+    ordemServico: string;
+    dataSolucao: string;
+    cliente: string;
+    equipamento: string;
+  }
+
 export interface Indicador {
     label: string;
     valor: number;
@@ -32,7 +49,7 @@ export enum IndicadorAgrupadorEnum {
     TECNICO_PERCENT_PENDENTES,
     TECNICO_QNT_CHAMADOS_PENDENTES,
     TOP_PECAS_FALTANTES,
-    ESTOQUE_PECA_FILIAIS
+    NOVAS_CADASTRADAS
 }
 export enum IndicadorTipoEnum {
     ORDEM_SERVICO,

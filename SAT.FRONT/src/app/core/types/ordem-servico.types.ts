@@ -158,7 +158,7 @@ export interface OrdemServicoData extends Meta
 
 export interface OrdemServicoParameters extends QueryStringParameters
 {
-    codOS?: number;
+    codOS?: string[];
     codEquipContrato?: number;
     codTecnico?: number;
     numOSCliente?: string;
@@ -180,5 +180,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
 export enum OrdemServicoIncludeEnum
 {
     OS_RAT = 1,
-    OS_AGENDA = 2
+    OS_AGENDA = 2,
+    OS_PECAS = 3,
+    OS_CHAMADO_PECA = 4
 }

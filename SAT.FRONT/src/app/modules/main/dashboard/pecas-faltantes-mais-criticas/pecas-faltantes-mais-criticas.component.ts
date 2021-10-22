@@ -1,93 +1,99 @@
 import { Component, OnInit } from '@angular/core';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { PecaService } from 'app/core/services/peca.service';
-import { IndicadorAgrupadorEnum, Indicador, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { IndicadorAgrupadorEnum, Indicador, IndicadorTipoEnum, ChamadosPeca, DadosPeca } from 'app/core/types/indicador.types';
 import { interval, Subject } from 'rxjs';
 import moment from 'moment';
-import Enumerable from 'linq';
-import { FilialService } from 'app/core/services/filial.service';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { Peca } from 'app/core/types/peca.types';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 
 @Component({
   selector: 'app-pecas-faltantes-mais-criticas',
   templateUrl: './pecas-faltantes-mais-criticas.component.html',
   styleUrls: ['./pecas-faltantes-mais-criticas.component.css']
 })
-export class PecasFaltantesMaisCriticasComponent implements OnInit 
-{
+export class PecasFaltantesMaisCriticasComponent implements OnInit {
   public dadosPeca: DadosPeca;
-  public dadosEstoque: DadosEstoque[] = [];
+  public chamadosPeca: ChamadosPeca;
+  public osTopPecas: OrdemServico[] = [];
   public loading: boolean = true;
+  public novasCad: boolean = false;
+  public novasLib: boolean = false;
   public index: number = 0;
-  public topCodMagnus: string[] = [];
-  public topEstoque = [];
+  public topPecasFaltantes: Indicador[] = [];
+  public tabelaChamados = ['filial', 'ordemServico', 'dataSolucao', 'cliente', 'equipamento']
   protected _onDestroy = new Subject<void>();
+  private _indicadorParams = {
+    agrupador:IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
+    tipo: IndicadorTipoEnum.PECA_FALTANTE,
+    dataInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+    dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
+  }
 
   constructor(
     private _indicadorService: IndicadorService,
     private _pecaService: PecaService,
-    private _filialService: FilialService
+	private _osService: OrdemServicoService
   ) { }
 
-   ngOnInit(): void {
-    
+  ngOnInit(): void {
     this.obterDados();
-
   }
 
-  private async obterDados()
-  {
+  private async obterDados() {
     this.loading = true;
-
-    const dadosPecasFaltantes = await this.buscaIndicadores(IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES);
-
-    const topPecas = dadosPecasFaltantes.orderBy('valor').take(10);
     
-    for (let p of topPecas) 
-    {             
-      this.topCodMagnus.push((await this._pecaService.obterPorCodigo(+p.label).toPromise()).codMagnus);
-    }   
+    const topPecas = await this._indicadorService
+								.obterPorParametros({...this._indicadorParams,
+													...{include: OrdemServicoIncludeEnum.OS_PECAS}
+												}).toPromise();										
 
-    interval(10000)
-    .pipe(
+    let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(','));
+	this.osTopPecas = (await this._osService.obterPorParametros({codOS:codOsPecas }).toPromise()).items;
+
+	let codPecas = topPecas.map(item => item.label).join(',');
+    const pecasInfo = (await this._pecaService.obterPorParametros({ codPeca: codPecas }).toPromise()).items;
+
+    interval(30000)
+      .pipe(
         startWith(0),
         takeUntil(this._onDestroy)
-    )
-    .subscribe(() => {
-      this.index == 9 ? 0 : this.index++;
-
-      this.showPeca(topPecas[this.index]);
-      this.loading = false;
-      
-    });
-  }
-
-  private showPeca(topPecas): Promise<DadosPeca> {
-    return new Promise((resolve, reject) => {
-      this._pecaService.obterPorCodigo(+topPecas.label).subscribe(p => {
-        let dados = new DadosPeca();
-        dados.codMagnus= p.codMagnus;
-        dados.descricao= p.nomePeca;
-        dados.quantidade= topPecas.valor;
-        this.dadosPeca = dados;
-        resolve(this.dadosPeca)
-      }, err => {
-        reject(err);
+      )
+      .subscribe(async () => {
+        this.showPeca(pecasInfo[this.index], topPecas);
+        this.loading = false;
+        if (this.index > 8)
+            this.index = 0;
+          else this.index++;
       });
-    });
   }
-  
 
-  private async buscaIndicadores(indicadorAgrupadorEnum: IndicadorAgrupadorEnum): Promise<Indicador[]> {
-    let indicadorParams = {
-      tipo: IndicadorTipoEnum.PECA_FALTANTE,
-      agrupador: indicadorAgrupadorEnum,
-      include: 3,
-      dataInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
+  private showPeca(peca: Peca, topPecas: Indicador[]) {
+
+    let topPecaAtual = topPecas.find(f => +f.label == peca.codPeca);
+        
+    let osPecas: ChamadosPeca[] = [];
+
+    for (let c of topPecaAtual.filho) {
+      let obj: ChamadosPeca = {
+        filial: this.osTopPecas.find(f => f.codOS == c.valor).filial?.nomeFilial,
+        ordemServico: c.valor.toString(),
+        dataSolucao: c.label,
+        cliente: this.osTopPecas.find(f => f.codOS == c.valor).cliente?.nomeFantasia,
+        equipamento: this.osTopPecas.find(f => f.codOS == c.valor).equipamento?.nomeEquip
+      }
+      osPecas.push(obj);
     }
 
-    return await this._indicadorService.obterPorParametros(indicadorParams).toPromise();
+    this.dadosPeca = {
+      codMagnus: peca.codMagnus,
+      descricao: peca.nomePeca,
+      quantidade: topPecaAtual.valor,
+      index: this.index + 1,
+      chamadosPeca: osPecas.orderByDesc('dataSolucao')
+    }
   }
 
   ngOnDestroy() {
@@ -95,17 +101,3 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit
     this._onDestroy.complete();
   }
 }
-
-export class DadosPeca
-{
-  codMagnus: string;
-  descricao: string;
-  quantidade: number;
-}
-
-export class DadosEstoque
-{
-  filial: string;
-  quantidade: number;
-}
-

@@ -71,6 +71,24 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.AgendaTecnico);
                     break;
 
+                case (OrdemServicoIncludeEnum.OS_PECAS):
+                    query = query
+                        .Include(os => os.StatusServico)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                                .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
+                                    .ThenInclude(ratdp => ratdp.Peca)
+                        .Include(os => os.PrazosAtendimento);
+                    break;
+
+                case (OrdemServicoIncludeEnum.OS_CHAMADO_PECA):
+                    query = query
+                        .Include(os => os.Equipamento)
+                        .Include(os => os.Cliente)
+                        .Include(os => os.Filial)
+                        .Include(os => os.PrazosAtendimento);
+                    break;
+
                 default:
                     query = query
                         .Include(os => os.StatusServico)
@@ -101,7 +119,8 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodOS != null)
             {
-                query = query.Where(os => os.CodOS == parameters.CodOS);
+                var split = parameters.CodOS.Split(",").Select(int.Parse).ToArray();
+                query = query.Where(p => split.Any(s => s.Equals(p.CodOS)));
             }
 
             if (parameters.NumOSCliente != null)

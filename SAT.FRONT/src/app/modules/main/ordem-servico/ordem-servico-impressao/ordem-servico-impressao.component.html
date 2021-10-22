@@ -1,6 +1,9 @@
 <div class="text-center min-h-full" *transloco="let t">
     <div class="inline-block p-6 sm:p-10 text-left print:p-0">
-        <div class="w-240 overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none
+        <button mat-icon-button style="margin-left: 50%;" color="primary" (click)="print()">
+            <mat-icon class="text-white" [svgIcon]="'heroicons_outline:printer'"></mat-icon>
+        </button>
+        <div id="print-area" class="w-240 overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none
             print:bg-transparent">
 
             <div class="flex items-start justify-between">

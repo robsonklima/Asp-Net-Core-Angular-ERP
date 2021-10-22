@@ -161,6 +161,16 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodTipoEquip))
+            {
+                query = query.Where(os => os.Equipamento.CodTipoEquip.ToString().Trim() == parameters.CodTipoEquip.ToString().Trim());
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodGrupoEquip))
+            {
+                query = query.Where(os => os.Equipamento.CodGrupoEquip.ToString().Trim() == parameters.CodGrupoEquip.ToString().Trim());
+            }
+
             if (parameters.CodStatusServicos != null)
             {
                 var statusServicos = parameters.CodStatusServicos.Split(",");
@@ -191,18 +201,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => clientes.Any(r => r == os.CodCliente.ToString()));
             }
 
-            if (parameters.CodEquipamentos != null)
+            if (!string.IsNullOrEmpty(parameters.CodEquipamentos))
             {
                 var equipamentos = parameters.CodEquipamentos.Split(",");
                 query = query.Where(os => equipamentos.Any(r => r == os.CodEquip.ToString()));
-            }
-
-            if (parameters.Equipamento != null)
-            {
-                query = query.Where(
-                    os => !string.IsNullOrEmpty(os.Equipamento.NomeEquip) &&
-                    (os.Equipamento.CodEquip.ToString().Contains(parameters.Equipamento) ||
-                    os.Equipamento.NomeEquip.Contains(parameters.Equipamento)));
             }
 
             if (parameters.CodFiliais != null)

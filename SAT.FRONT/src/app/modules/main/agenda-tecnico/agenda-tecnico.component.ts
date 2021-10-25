@@ -138,9 +138,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.sidenavFiltro.closedStart.subscribe(() => {
       this.carregarFiltro();
       this.carregaTecnicosEChamadosTransferidos();
-
-      console.log('VALEU');
-      
     });
 
     interval(10 * 60 * 1000)

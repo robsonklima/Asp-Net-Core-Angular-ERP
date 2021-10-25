@@ -97,6 +97,11 @@ namespace SAT.INFRA.Repository
                 grupos = grupos.Where(g => g.CodGrupoEquip == parameters.CodGrupoEquip);
             }
 
+            if (parameters.CodTipoEquip != null)
+            {
+                grupos = grupos.Where(g => g.CodTipoEquip.ToString() == parameters.CodTipoEquip);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 grupos = grupos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

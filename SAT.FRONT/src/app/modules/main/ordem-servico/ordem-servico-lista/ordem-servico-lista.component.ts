@@ -176,8 +176,10 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         if (os.prazosAtendimento == null) {
             return "---";
         }
-        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0) {
-            if (os.dataHoraFechamento < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
+        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
+        {
+            var solucao = os.relatoriosAtendimento?.orderByDesc('codRAT')[0]?.dataHoraSolucao || os.dataHoraFechamento;
+            if (solucao < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
                 return "DENTRO";
             return "FORA";
         }

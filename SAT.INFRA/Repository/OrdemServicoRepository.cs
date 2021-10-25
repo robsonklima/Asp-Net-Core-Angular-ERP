@@ -68,7 +68,9 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.TipoIntervencao)
                         .Include(os => os.Tecnico)
                         .Include(os => os.LocalAtendimento)
-                        .Include(os => os.AgendaTecnico);
+                        .Include(os => os.AgendaTecnico)
+                        .Include(os => os.RegiaoAutorizada.Autorizada)
+                        .Include(os => os.RegiaoAutorizada.Regiao);
                     break;
 
                 default:

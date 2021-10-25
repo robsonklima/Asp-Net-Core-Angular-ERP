@@ -380,6 +380,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         title: os.codOS.toString(),
         nomeLocal: os.localAtendimento?.nomeLocal,
         cliente: os.cliente?.razaoSocial,
+        regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
+        autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
         color: '#1064b0',
         start: moment(),
         end: moment().add(60, 'minutes'),
@@ -436,9 +438,11 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     if (query && query.trim() != '') {
       this.externalEventsFiltered = this.externalEvents.filter((ev) => {
         return (
-          ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.nomeLocal.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.cliente.toLowerCase().indexOf(query.toLowerCase()) > -1
+          ev.title?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.nomeLocal?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.cliente?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.regiao?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.autorizada?.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
       })
     } else {

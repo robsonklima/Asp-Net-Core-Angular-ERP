@@ -9,6 +9,7 @@ import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
 import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
+import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { StatusServico } from "./status-servico.types";
@@ -26,6 +27,7 @@ export class OrdemServico
     filial?: Filial;
     regiao?: Regiao;
     autorizada?: Autorizada;
+    regiaoAutorizada?: RegiaoAutorizada;
     relatoriosAtendimento: RelatorioAtendimento[];
     fotos: Foto[];
     cliente: Cliente;

@@ -42,8 +42,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
   chamados: OrdemServico[] = [];
   form: FormGroup;
   resources = [];
-  externalEvents = [];
-  externalEventsFiltered = [];
+  externalEvents: MbscAgendaTecnicoCalendarEvent = [];
+  externalEventsFiltered: MbscAgendaTecnicoCalendarEvent = [];
   inicioExpediente = moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
   fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
   inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
@@ -80,8 +80,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         return false;
       }
 
-      const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
-      this.externalEventsFiltered.splice(eventIndex, 1);
+      this.createNewEvent(args);
     },
     onEventUpdate: (args, inst) => {
       if (this.hasOverlap(args, inst)) {
@@ -90,11 +89,9 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         });
         return false;
       }
-      else if (this.hasChangedResource(args)) {
-        this._notify.toast({
-          message: 'O atendimento não pode ser transferido para outro técnico.'
-        });
-        return false;
+      else if (this.hasChangedResource(args))
+      {
+        return this.updateResourceChange(args);
       }
       else if (this.invalidMove(args)) {
         this._notify.toast({
@@ -386,7 +383,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         title: os.codOS.toString(),
         color: '#1064b0',
         start: moment(),
-        end: moment().add(60, 'minutes')
+        end: moment().add(60, 'minutes'),
+        ordemServico: os
       }
     });
 
@@ -457,7 +455,32 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     return args.event.resource != args.oldEvent.resource;
   }
 
-  private isTechnicianInterval(args) {
+  private updateResourceChange(args): boolean
+  {
+    var ev = args.event;
+
+    if (this.isTechnicianInterval(args))
+    {
+      this._notify.toast({ message: 'Não é possível transferir um intervalo.' });
+      return false;
+    }
+    else
+    {
+      ev.ordemServico.codTecnico = ev.resource;
+      this._osSvc.atualizar(ev.ordemServico).subscribe(
+        r =>
+        {
+          return this.updateEvent(args);
+        },
+        e => 
+        {
+          return false;
+        });
+    }
+  }
+
+  private isTechnicianInterval(args)
+  {
     return args.event.title === "INTERVALO";
   }
 
@@ -490,29 +513,82 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     }
 
     this._agendaTecnicoSvc.atualizar(agenda).subscribe(
-      result => {
+      r => 
+      {
         this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
         return true;
       },
-      error => {
+      e =>
+      {
         this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
         return false;
       }).add(this.updateEventColor(args));
   }
 
-  updateEventColor(args) {
-    if (args.event.ordemServico?.codOS > 0) {
+  private updateEventColor(args)
+  {
+    if (args.event.ordemServico?.codOS > 0)
+    {
       var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
-      event.color =
-        moment(args.event.end) > moment() ?
-          this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
-          : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
-
+      event.color = this.getEventColor(args);
       this._cdr.detectChanges();
     }
   }
 
-  private showOSInfo(args) {
+  private getEventColor(args)
+  {
+    return moment(args.event.end) > moment() ?
+      this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+      : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+  }
+
+  private createNewEvent(args)
+  {
+    var ev = args.event;
+    const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
+    this.externalEventsFiltered.splice(eventIndex, 1);
+    ev.color = this.getEventColor(args);
+
+    var agendaTecnico: AgendaTecnico =
+    {
+      inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
+      codOS: ev.title,
+      codTecnico: ev.resource,
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+      tipo: "OS"
+    }
+
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(
+      agendamento =>
+      {
+        ev.ordemServico.codTecnico = agendamento.codTecnico;
+        ev.ordemServico.dataHoraTransf = agendamento.ultimaAtualizacao;
+        ev.ordemServico.codAgendaTecnico = agendamento.codAgendaTecnico;
+        ev.ordemServico.codStatusServico = 8;
+        ev.ordemServico.statusServico.codStatusServico = 8;
+
+        this._osSvc.atualizar(ev.ordemServico).subscribe(
+          r =>
+          {
+            this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
+            return true;
+          },
+          e => 
+          {
+            this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+            return false;
+          });
+      },
+      e =>
+      {
+        this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+        return false;
+      });
+  }
+
+  private showOSInfo(args)
+  {
     var os = args.event.ordemServico;
 
     if (os == null) return;

@@ -1,5 +1,5 @@
 <mat-drawer-container class="flex-auto h-full" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
+    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'start'" #sidenavChamados>
         <div class="flex flex-col flex-auto p-6 bg-card">
             <div class="flex items-start justify-between">
                 <div class="flex-auto">
@@ -7,7 +7,7 @@
                         <div class="flex justify-between">
                             <div class="text-4xl font-extrabold tracking-tight leading-none">Agendar</div>
                 
-                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'" (click)="sidenav.toggle()" class="-mt-1">
+                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'" (click)="sidenavChamados.toggle()" class="-mt-1">
                                 <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
                             </button>
                         </div>
@@ -36,13 +36,21 @@
         </div>
     </mat-drawer>
 
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavFiltro>
+        <app-agenda-tecnico-filtro [sidenavFiltro]="sidenavFiltro"></app-agenda-tecnico-filtro>
+    </mat-drawer>
+
     <mat-drawer-content>
         <div class="loading-shade" *ngIf="loading">
             <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
         </div>
 
-        <button class="add-button" (click)="sidenav.toggle()" [disabled]="loading">
+        <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
+        </button>
+
+        <button class="filter-button bg-gray-800" (click)="sidenavFiltro.toggle()" [disabled]="loading">
+            <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
         <div class="lg:max-h-200 md:max-h-200" *ngIf="!loading">

@@ -3,15 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ordem-servico-impressao',
   templateUrl: './ordem-servico-impressao.component.html',
+  styleUrls: ['./ordem-servico-impressao.component.scss'],
 })
 export class OrdemServicoImpressaoComponent implements OnInit
 {
   codOS: number;
   os: OrdemServico;
+  loading: boolean;
 
   constructor (
     private _ordemServicoService: OrdemServicoService,
@@ -20,8 +23,17 @@ export class OrdemServicoImpressaoComponent implements OnInit
 
   async ngOnInit()
   {
+    this.loading = true;
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
-    this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+    await this._ordemServicoService.obterPorCodigo(this.codOS).pipe(
+      finalize(() =>
+      {
+        this.loading = false;
+      }))
+      .subscribe(
+        (successData) => { this.os = successData; },
+        (err) => { }
+      );
   }
 
   print()
@@ -30,6 +42,13 @@ export class OrdemServicoImpressaoComponent implements OnInit
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
     windowPopup.document.write(`<html><head><link rel="stylesheet" type="text/css" href="${appConfig.tailwind_css}"/></head><body onload = "window.print()"> ${contentToPrint} </body></html>`);
+    windowPopup.document.title = `OS_${this.codOS}.pdf`;
+    windowPopup.onafterprint = window.close;
     windowPopup.document.close();
+  }
+
+  window_print()
+  {
+
   }
 }

@@ -402,6 +402,12 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div *ngFor="let detalhe of r.relatorioAtendimentoDetalhes">
+                                            <div class="text-lg tracking-tight text-secondary">
+                                                {{ "No. " + detalhe.codRATDetalhe }}
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="prose prose-sm max-w-3xl ml-5 mt-2"
@@ -411,6 +417,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                             </ng-template>
                         </mat-tab>
 

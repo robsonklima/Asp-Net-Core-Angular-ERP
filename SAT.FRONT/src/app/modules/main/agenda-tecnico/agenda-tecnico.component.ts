@@ -38,8 +38,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   chamados: OrdemServico[] = [];
   resources = [];
-  externalEvents = [];
-  externalEventsFiltered = [];
+  externalEvents: MbscAgendaTecnicoCalendarEvent = [];
+  externalEventsFiltered: MbscAgendaTecnicoCalendarEvent = [];
   inicioExpediente = moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
   fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
   inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
@@ -79,8 +79,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
         return false;
       }
 
-      const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
-      this.externalEventsFiltered.splice(eventIndex, 1);
+      this.createNewEvent(args);
     },
     onEventUpdate: (args, inst) =>
     {
@@ -395,7 +394,8 @@ export class AgendaTecnicoComponent implements AfterViewInit
         title: os.codOS.toString(),
         color: '#1064b0',
         start: moment(),
-        end: moment().add(60, 'minutes')
+        end: moment().add(60, 'minutes'),
+        ordemServico: os
       }
     });
 
@@ -516,30 +516,81 @@ export class AgendaTecnicoComponent implements AfterViewInit
     }
 
     this._agendaTecnicoSvc.atualizar(agenda).subscribe(
-      result => 
+      r => 
       {
         this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
         return true;
       },
-      error =>
+      e =>
       {
         this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
         return false;
       }).add(this.updateEventColor(args));
   }
 
-  updateEventColor(args)
+  private updateEventColor(args)
   {
+    debugger;
     if (args.event.ordemServico?.codOS > 0)
     {
+      debugger;
       var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
-      event.color =
-        moment(args.event.end) > moment() ?
-          this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
-          : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+      event.color = this.getEventColor(args);
 
       this._cdr.detectChanges();
     }
+  }
+
+  private getEventColor(args)
+  {
+    return moment(args.event.end) > moment() ?
+      this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+      : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+  }
+
+  private createNewEvent(args)
+  {
+    var ev = args.event;
+    const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
+    this.externalEventsFiltered.splice(eventIndex, 1);
+    ev.color = this.getEventColor(args);
+
+    var agendaTecnico: AgendaTecnico =
+    {
+      inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
+      codOS: ev.title,
+      codTecnico: ev.resource,
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+      tipo: "OS"
+    }
+
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(
+      agendamento =>
+      {
+        ev.ordemServico.codTecnico = agendamento.codTecnico;
+        ev.ordemServico.dataHoraTransf = agendamento.ultimaAtualizacao;
+        ev.ordemServico.codAgendaTecnico = agendamento.codAgendaTecnico;
+        ev.ordemServico.codStatusServico = 8;
+        ev.ordemServico.statusServico.codStatusServico = 8;
+
+        this._osSvc.atualizar(ev.ordemServico).subscribe(
+          r =>
+          {
+            this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
+            return true;
+          },
+          e => 
+          {
+            this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+            return false;
+          });
+      },
+      e =>
+      {
+        this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+        return false;
+      });
   }
 
   private showOSInfo(args)
@@ -569,7 +620,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
     const dialogRef = this._dialog.open(RoteiroMapaComponent, {
       width: '960px',
       height: '640px',
-      data: { 
+      data: {
         resource: resource,
         chamados: chamados
       }

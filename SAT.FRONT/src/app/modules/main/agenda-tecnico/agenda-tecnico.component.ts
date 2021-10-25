@@ -229,7 +229,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     await this.carregaOSs(chamados);
   }
 
-  private carregaOSs(chamados: OrdemServico[]) {
+  private carregaOSs(chamados: OrdemServico[]) {  
     this.events = this.events.concat(Enumerable.from(chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico)
@@ -378,6 +378,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.externalEvents = data.items.map(os => {
       return {
         title: os.codOS.toString(),
+        nomeLocal: os.localAtendimento?.nomeLocal,
+        cliente: os.cliente?.razaoSocial,
         color: '#1064b0',
         start: moment(),
         end: moment().add(60, 'minutes'),
@@ -434,7 +436,9 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     if (query && query.trim() != '') {
       this.externalEventsFiltered = this.externalEvents.filter((ev) => {
         return (
-          ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1
+          ev.title.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.nomeLocal.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          ev.cliente.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
       })
     } else {

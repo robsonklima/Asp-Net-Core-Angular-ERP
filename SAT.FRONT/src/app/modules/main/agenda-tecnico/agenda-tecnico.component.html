@@ -25,7 +25,8 @@
                         class="external-drop-task"
                         [ngStyle]="{background: event.color}">
                         <div>{{ event.title }}</div>
-                        <div>Mais Detalhes</div>
+                        <div>{{ event.nomeLocal }}</div>
+                        <div>{{ event.cliente }}</div>
                     </div>
 
                     <div *ngIf="!externalEventsFiltered.length" class="flex w-full pt-6">

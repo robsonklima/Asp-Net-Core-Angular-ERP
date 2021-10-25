@@ -135,7 +135,6 @@ namespace SAT.API
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
-
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 

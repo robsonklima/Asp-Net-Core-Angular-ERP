@@ -19,7 +19,7 @@ export class DashboardComponent implements AfterViewInit {
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.TOP_PECAS_FALTANTES; //PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
@@ -37,7 +37,7 @@ export class DashboardComponent implements AfterViewInit {
         takeUntil(this._onDestroy)
       )
       .subscribe(() => {
-        //this.trocarDashboardOuSlide();
+        this.trocarDashboardOuSlide();
       });
 
     this.configurarFiltro();

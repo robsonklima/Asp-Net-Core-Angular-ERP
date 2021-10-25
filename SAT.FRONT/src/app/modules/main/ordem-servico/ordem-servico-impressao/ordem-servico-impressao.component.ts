@@ -28,7 +28,7 @@ export class OrdemServicoImpressaoComponent implements OnInit
     var contentToPrint = document.getElementById("print-area").innerHTML;
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
-    windowPopup.document.write('<html><head><link rel="stylesheet" type="text/css" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" /></head><body onload = "window.print()" > ' + contentToPrint + ' </body></html > ');
+    windowPopup.document.write('<html><head><link rel="stylesheet" type="text/css" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"/></head><body onload = "window.print()"> ' + contentToPrint + ' </body></html>');
     windowPopup.document.close();
   }
 }

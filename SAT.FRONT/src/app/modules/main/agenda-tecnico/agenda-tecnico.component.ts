@@ -92,10 +92,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
       }
       else if (this.hasChangedResource(args))
       {
-        this._notify.toast({
-          message: 'O atendimento não pode ser transferido para outro técnico.'
-        });
-        return false;
+        return this.updateResourceChange(args);
       }
       else if (this.invalidMove(args))
       {
@@ -477,6 +474,30 @@ export class AgendaTecnicoComponent implements AfterViewInit
     return args.event.resource != args.oldEvent.resource;
   }
 
+  private updateResourceChange(args): boolean
+  {
+    var ev = args.event;
+
+    if (this.isTechnicianInterval(args))
+    {
+      this._notify.toast({ message: 'Não é possível transferir um intervalo.' });
+      return false;
+    }
+    else
+    {
+      ev.ordemServico.codTecnico = ev.resource;
+      this._osSvc.atualizar(ev.ordemServico).subscribe(
+        r =>
+        {
+          return this.updateEvent(args);
+        },
+        e => 
+        {
+          return false;
+        });
+    }
+  }
+
   private isTechnicianInterval(args)
   {
     return args.event.title === "INTERVALO";
@@ -530,13 +551,10 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
   private updateEventColor(args)
   {
-    debugger;
     if (args.event.ordemServico?.codOS > 0)
     {
-      debugger;
       var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
       event.color = this.getEventColor(args);
-
       this._cdr.detectChanges();
     }
   }

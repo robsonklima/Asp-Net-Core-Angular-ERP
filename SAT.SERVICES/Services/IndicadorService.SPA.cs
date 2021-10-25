@@ -223,7 +223,7 @@ namespace SAT.SERVICES.Services
                 int spaForaQtd = 0;
                 foreach (var os in chamadosTecnico)
                 {
-                    if (os.RelatoriosAtendimento.Count() > 1)
+                    if (os.RelatoriosAtendimento.Count > 1)
                     {
                         spaForaQtd++;
                     }

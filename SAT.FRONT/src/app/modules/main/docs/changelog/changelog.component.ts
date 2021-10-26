@@ -84,6 +84,27 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.4',
+            releaseDate: '26 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Impressão da OS',
+                        'Filtro na agenda técnicos',
+                        'Arrastar para transferir na agenda técnicos'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Melhorias no filtro por equipamento na listagem de OS'
+                    ],
+                }
+            ]
         }
     ];
 

@@ -90,136 +90,170 @@
                                         {{ t('serie') }}
                                     </div>
                                     <div class="hidden lg:block" [mat-sort-header]="'numReincidencia'">
-                                        Rei.
+                                        Rnc.
+                                    </div>
+                                    <div class="md:block">
+                                        {{ t('acoes') }}
                                     </div>
                                 </div>
 
-                                <ng-container>
+                                <ng-container *ngIf="dataSourceData?.items.length">
                                     <ng-container *ngFor="let os of dataSourceData?.items">
-                                        <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
-                                            <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-xs md:px-8 border-b hover:bg-gray-100"
-                                                *transloco="let t">
-                                                <div class="flex items-center">
+                                        <div class="list-grid-ordem-servico grid items-center h-11 pt-2 gap-4 py-3 px-6 text-xs md:px-8 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div class="flex items-center">
+                                                <a class="text-blue-700 font-semibold" [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
                                                     {{ os.codOS }}
-                                                </div>
+                                                </a>
+                                            </div>
 
-                                                <div class="hidden sm:block">
-                                                    {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
-                                                </div>
+                                            <div class="hidden sm:block">
+                                                {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
+                                            </div>
 
-                                                <div class="hidden sm:block"
-                                                    [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
-                                                    {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
-                                                </div>
+                                            <div class="hidden sm:block"
+                                                [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
+                                                {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                            </div>
 
-                                                <div>
-                                                    {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
-                                                </div>
-                                                <div>
-                                                    <span [matTooltip]="statusServicoDescricao(os)"
-                                                        [matTooltipClass]="'os_lista_tooltip'"
-                                                        matTooltipPosition="above">
-                                                        <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                            <div>
+                                                {{ os.prazosAtendimento?.length > 0 ?
+                                                (os.prazosAtendimento[os.prazosAtendimento.length -
+                                                1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
+                                            </div>
+                                            
+                                            <div>
+                                                <span [matTooltip]="statusServicoDescricao(os)"
+                                                    [matTooltipClass]="'os_lista_tooltip'" matTooltipPosition="above">
+                                                    <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.statusServico?.corFundo, 
                                                             'color': os.statusServico?.corFonte
                                                         }">
-                                                            {{ os.statusServico?.abrev }}
-                                                        </span>
+                                                        {{ os.statusServico?.abrev }}
                                                     </span>
-                                                </div>
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden sm:block">
-                                                    <span
-                                                        [matTooltip]="os.defeitoRelatado || os.tipoIntervencao?.nomTipoIntervencao"
-                                                        matTooltipPosition="above">
-                                                        {{ os.tipoIntervencao?.codETipoIntervencao }}
-                                                    </span>
-                                                </div>
+                                            <div class="hidden sm:block">
+                                                <span
+                                                    [matTooltip]="os.defeitoRelatado || os.tipoIntervencao?.nomTipoIntervencao"
+                                                    matTooltipPosition="above">
+                                                    {{ os.tipoIntervencao?.codETipoIntervencao }}
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
-                                                        [matTooltipClass]="'os_lista_tooltip'"
-                                                        matTooltipPosition="above">
-                                                        {{ os.statusServico?.codStatusServico == 8 || filtro?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
-                                                    </span>
-                                                </div>
+                                            <div class="hidden md:block truncate">
+                                                <span
+                                                    [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
+                                                    [matTooltipClass]="'os_lista_tooltip'" matTooltipPosition="above">
+                                                    {{ os.statusServico?.codStatusServico == 8 ||
+                                                    filtro?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0,
+                                                    os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    {{ os.regiaoAutorizada?.pa || '--' }}
-                                                </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ os.regiaoAutorizada?.pa || '--' }}
+                                            </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
-                                                </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
+                                            </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
-                                                    {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}
-                                                </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                                                {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}
+                                            </div>
 
-                                                <div class="lg:block truncate">
-                                                    <span [matTooltip]="os.cliente?.nomeFantasia"
-                                                        matTooltipPosition="above">
-                                                        {{ os.cliente?.numBanco || t('nao informado') }}
-                                                    </span>
-                                                </div>
+                                            <div class="lg:block truncate">
+                                                <span [matTooltip]="os.cliente?.nomeFantasia"
+                                                    matTooltipPosition="above">
+                                                    {{ os.cliente?.numBanco || t('nao informado') }}
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden lg:block truncate">
-                                                    <span [matTooltip]="os.equipamento?.nomeEquip || t('nao informado')"
-                                                        matTooltipPosition="above">
-                                                        {{ os.equipamento?.nomeEquip || t('nao informado') }}
-                                                    </span>
-                                                </div>
+                                            <div class="hidden lg:block truncate">
+                                                <span [matTooltip]="os.equipamento?.nomeEquip || t('nao informado')"
+                                                    matTooltipPosition="above">
+                                                    {{ os.equipamento?.nomeEquip || t('nao informado') }}
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden lg:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.equipamentoContrato?.acordoNivelServico?.nomeSLA || t('nao informado')"
-                                                        matTooltipPosition="above">
-                                                        {{
-                                                        os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
+                                            <div class="hidden lg:block truncate">
+                                                <span
+                                                    [matTooltip]="os.equipamentoContrato?.acordoNivelServico?.nomeSLA || t('nao informado')"
+                                                    matTooltipPosition="above">
+                                                    {{
+                                                    os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
                                                     }}
-                                                    </span>
-                                                </div>
+                                                </span>
+                                            </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    <span [matTooltip]="statusSLADescricao(os)"
-                                                        matTooltipPosition="above">
-                                                        <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                            <div class="hidden md:block truncate">
+                                                <span [matTooltip]="statusSLADescricao(os)" matTooltipPosition="above">
+                                                    <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': statusSLADescricao(os) == 'DENTRO' ? '#70FF70' : statusSLADescricao(os) == 'FORA' ? '#FF0000' : '#ffffff00', 
                                                             'color': os.statusServico?.corFonte
                                                         }">
-                                                            {{ statusSLADescricao(os).substr(0, 1) }}
-                                                        </span>
+                                                        {{ statusSLADescricao(os).substr(0, 1) }}
                                                     </span>
-                                                </div>
-
-                                                <div class="hidden md:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.equipamentoContrato?.numSerie || t('nao informado')"
-                                                        matTooltipPosition="above">
-                                                        {{ os.equipamentoContrato?.numSerie || t('nao informado') }}
-                                                    </span>
-                                                </div>
-
-                                                <div class="hidden lg:block">
-                                                    {{ os.numReincidencia ? os.numReincidencia : '--' }}
-                                                </div>
+                                                </span>
                                             </div>
-                                        </a>
+
+                                            <div class="hidden md:block truncate">
+                                                <span
+                                                    [matTooltip]="os.equipamentoContrato?.numSerie || t('nao informado')"
+                                                    matTooltipPosition="above">
+                                                    {{ os.equipamentoContrato?.numSerie || t('nao informado') }}
+                                                </span>
+                                            </div>
+
+                                            <div class="hidden lg:block">
+                                                {{ os.numReincidencia ? os.numReincidencia : '--' }}
+                                            </div>
+
+                                            <div>
+                                                <button class="min-w-10 min-h-6 h-6 pt-1 px-2 leading-6"
+                                                    (click)="alternarDetalhes(os.codOS)">
+                                                    <mat-icon class="icon-size-5"
+                                                        [svgIcon]="selectedItem?.codOS === os.codOS ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <ng-container *ngIf="selectedItem?.codOS === os.codOS">
+                                                <ng-container
+                                                    *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: os}">
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
                                     </ng-container>
                                 </ng-container>
                             </div>
 
+                            <div *ngIf="!dataSourceData?.items.length && !isLoading"
+                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum
+                                chamado encontrado!</div>
+
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                                [pageSize]="filtro?.parametros.qtdPaginacaoLista ?? 50"
+                                [pageSize]="filtro?.parametros.qtdPaginacaoLista ?? 10"
                                 [pageSizeOptions]="[5, 10, 25, 50, 100, 250]" [showFirstLastButtons]="true"
                                 (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>
+
+                    <ng-template #rowDetailsTemplate let-os>
+                        <div class="shadow-lg overflow-hidden">
+                            <div class="flex border-b p-16">
+                                <p>{{ os.codOS }}</p>
+                            </div>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>

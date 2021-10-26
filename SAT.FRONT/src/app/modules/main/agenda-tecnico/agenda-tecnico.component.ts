@@ -33,7 +33,9 @@ setOptions({
   templateUrl: './agenda-tecnico.component.html',
   styleUrls: ['./agenda-tecnico.component.scss'],
 })
-export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
+
+export class AgendaTecnicoComponent implements AfterViewInit, OnInit
+{
   loading: boolean;
   filtro: any;
   userSession: UserSession;
@@ -66,14 +68,17 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     dragToResize: false,
     dragToCreate: false,
     clickToCreate: false,
-    onEventCreate: (args, inst) => {
-      if (this.hasOverlap(args, inst)) {
+    onEventCreate: (args, inst) =>
+    {
+      if (this.hasOverlap(args, inst))
+      {
         this._notify.toast({
           message: 'Os atendimentos não podem se sobrepor.'
         });
         return false;
       }
-      else if (this.invalidInsert(args)) {
+      else if (this.invalidInsert(args))
+      {
         this._notify.toast({
           message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
         });
@@ -82,8 +87,10 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
 
       this.createNewEvent(args);
     },
-    onEventUpdate: (args, inst) => {
-      if (this.hasOverlap(args, inst)) {
+    onEventUpdate: (args, inst) =>
+    {
+      if (this.hasOverlap(args, inst))
+      {
         this._notify.toast({
           message: 'Os atendimentos não podem se sobrepor.'
         });
@@ -93,14 +100,16 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       {
         return this.updateResourceChange(args);
       }
-      else if (this.invalidMove(args)) {
+      else if (this.invalidMove(args))
+      {
         this._notify.toast({
           message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
         });
         return false;
       }
 
-      if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args)) {
+      if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args))
+      {
         this._notify.toast({
           message: 'O intervalo deve ser feito entre 11h e 14h.'
         });
@@ -109,7 +118,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
 
       return this.updateEvent(args);
     },
-    onEventDoubleClick: (args, inst) => {
+    onEventDoubleClick: (args, inst) =>
+    {
       this.showOSInfo(args);
     }
   };
@@ -119,7 +129,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _notify: Notifications,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
@@ -128,14 +138,17 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     private _agendaTecnicoSvc: AgendaTecnicoService,
     private _userSvc: UserService,
     public _dialog: MatDialog
-  ) {
+  )
+  {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this.carregarFiltro();
 
-    this.sidenavFiltro.closedStart.subscribe(() => {
+    this.sidenavFiltro.closedStart.subscribe(() =>
+    {
       this.carregarFiltro();
       this.carregaTecnicosEChamadosTransferidos();
     });
@@ -145,33 +158,38 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         startWith(0),
         takeUntil(this._onDestroy)
       )
-      .subscribe(() => {
-        if (!this.sidenavChamados.opened) {
+      .subscribe(() =>
+      {
+        if (!this.sidenavChamados.opened)
+        {
           this.carregaTecnicosEChamadosTransferidos();
           this.carregaChamadosAbertos();
         }
       });
 
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
+      map((event: any) =>
+      {
         return event.target.value;
       })
       , debounceTime(700)
       , distinctUntilChanged()
-    ).subscribe((text: string) => {
+    ).subscribe((text: string) =>
+    {
       this.filtrarChamadosAbertos(text);
     });
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void { }
 
-  private validateEvents(): void {
+  private validateEvents(): void
+  {
     var now = moment();
-    Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e => {
+    Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
+    {
       var end = moment(e.end);
-      if (end < now) {
+      if (end < now)
+      {
         e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
         if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
       }
@@ -179,7 +197,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this._cdr.detectChanges();
   }
 
-  private async carregaTecnicosEChamadosTransferidos() {
+  private async carregaTecnicosEChamadosTransferidos()
+  {
     this.loading = true;
 
     const params = {
@@ -196,7 +215,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       ...params, ...this.filtro?.parametros
     }).toPromise();
 
-    this.resources = tecnicos.items.map(tecnico => {
+    this.resources = tecnicos.items.map(tecnico =>
+    {
       return {
         id: tecnico.codTecnico,
         name: tecnico.nome,
@@ -223,17 +243,20 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.carregaDados(this.chamados, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
   }
 
-  private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[]) {
+  private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  {
     this.events = [];
     await this.carregaIntervalos(tecnicos, intervalos);
     await this.carregaOSs(chamados);
   }
 
-  private carregaOSs(chamados: OrdemServico[]) {  
+  private carregaOSs(chamados: OrdemServico[])
+  {
     this.events = this.events.concat(Enumerable.from(chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico)
-      .selectMany(osPorTecnico => {
+      .selectMany(osPorTecnico =>
+      {
         var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
         mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
         var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
@@ -241,7 +264,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
         return (Enumerable.from(osPorTecnico)
           .orderBy(os => os.dataHoraTransf)
           .toArray()
-          .map(os => {
+          .map(os =>
+          {
             var evento = os.agendaTecnico ?
               this.exibeEventoOSExistente(os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
 
@@ -254,7 +278,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.validateEvents();
   }
 
-  private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent {
+  private exibeEventoOSExistente(os: OrdemServico): MbscAgendaTecnicoCalendarEvent
+  {
     var agendaTecnico = os.agendaTecnico;
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
@@ -271,7 +296,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     return evento;
   }
 
-  private criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent {
+  private criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): MbscAgendaTecnicoCalendarEvent
+  {
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
     var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
@@ -284,7 +310,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
 
     // se termina durante a sugestao de intervalo
     var end = moment(start).add(mediaTecnico, 'minutes');
-    if (end.isBetween(this.inicioIntervalo, this.fimIntervalo)) {
+    if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
+    {
       start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
       end = moment(start).add(mediaTecnico || 30, 'minutes');
     }
@@ -310,21 +337,25 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       tipo: "OS"
     }
 
-    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento => {
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+    {
       evento.codAgendaTecnico = agendamento.codAgendaTecnico;
     });
 
     return evento;
   }
 
-  private async carregaIntervalos(tecnicos: Tecnico[], intervalos: AgendaTecnico[]) {
-    this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico => {
+  private async carregaIntervalos(tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  {
+    this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
+    {
       var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == tecnico.codTecnico);
       return intervalo == null ? this.criaNovoIntervalo(tecnico) : this.exibeIntervaloExistente(intervalo);
     }).toArray());
   }
 
-  private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent {
+  private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
+  {
     var start = this.inicioIntervalo;
     var end = this.fimIntervalo;
 
@@ -347,14 +378,16 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       tipo: "INTERVALO"
     }
 
-    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento => {
+    this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(agendamento =>
+    {
       evento.codAgendaTecnico = agendamento.codAgendaTecnico;
     });
 
     return evento;
   }
 
-  private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent {
+  private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent
+  {
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
       codAgendaTecnico: intervalo.codAgendaTecnico,
@@ -369,13 +402,15 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     return evento;
   }
 
-  private async carregaChamadosAbertos() {
+  private async carregaChamadosAbertos()
+  {
     const data = await this._osSvc.obterPorParametros({
       codStatusServicos: "1",
       codFiliais: "4"
     }).toPromise();
 
-    this.externalEvents = data.items.map(os => {
+    this.externalEvents = data.items.map(os =>
+    {
       return {
         title: os.codOS.toString(),
         nomeLocal: os.localAtendimento?.nomeLocal,
@@ -392,7 +427,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.externalEventsFiltered = this.externalEvents;
   }
 
-  private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number {
+  private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
+  {
     var origem: Coordenada = new Coordenada();
     var destino: Coordenada = new Coordenada();
 
@@ -408,8 +444,10 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
   }
 
-  private getInterventionColor(tipoIntervencao: number): string {
-    switch (tipoIntervencao) {
+  private getInterventionColor(tipoIntervencao: number): string
+  {
+    switch (tipoIntervencao)
+    {
       case 1: //alteracao engenharia
         return "#067A52";
       case 2: //corretiva
@@ -421,8 +459,10 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     }
   }
 
-  private getStatusColor(statusOS: number): string {
-    switch (statusOS) {
+  private getStatusColor(statusOS: number): string
+  {
+    switch (statusOS)
+    {
       case 1: //aberto
         return "#ff4c4c";
       case 8: //transferido
@@ -434,9 +474,12 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     }
   }
 
-  public filtrarChamadosAbertos(query: string) {
-    if (query && query.trim() != '') {
-      this.externalEventsFiltered = this.externalEvents.filter((ev) => {
+  public filtrarChamadosAbertos(query: string)
+  {
+    if (query && query.trim() != '')
+    {
+      this.externalEventsFiltered = this.externalEvents.filter((ev) =>
+      {
         return (
           ev.title?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
           ev.nomeLocal?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
@@ -445,18 +488,21 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
           ev.autorizada?.toLowerCase().indexOf(query.toLowerCase()) > -1
         );
       })
-    } else {
+    } else
+    {
       this.externalEventsFiltered = this.externalEvents;
     }
   }
 
-  private hasOverlap(args, inst) {
+  private hasOverlap(args, inst)
+  {
     var ev = args.event;
     var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
     return events.length > 0;
   }
 
-  private hasChangedResource(args) {
+  private hasChangedResource(args)
+  {
     return args.event.resource != args.oldEvent.resource;
   }
 
@@ -489,23 +535,27 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     return args.event.title === "INTERVALO";
   }
 
-  private invalidTechnicianInterval(args) {
+  private invalidTechnicianInterval(args)
+  {
     return moment(args.event.start) > this.limiteSuperiorIntervalo || moment(args.event.start) < this.limiteInferiorIntervalo;
   }
 
-  private invalidMove(args) {
+  private invalidMove(args)
+  {
     //não pode mover evento posterior a linha do tempo para antes da linha do tempo
     var now = moment();
     return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
   }
 
-  private invalidInsert(args) {
+  private invalidInsert(args)
+  {
     //não pode inserir evento anterior à linha do tempo
     var now = moment();
     return moment(args.event.start) < now;
   }
 
-  private updateEvent(args) {
+  private updateEvent(args)
+  {
     var agenda: AgendaTecnico =
     {
       codAgendaTecnico: args.event.codAgendaTecnico,
@@ -611,7 +661,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     );
   }
 
-  public abrirMapa(codTecnico: number): void {
+  public abrirMapa(codTecnico: number): void
+  {
     const resource = this.resources.filter(r => r.id === codTecnico).shift();
     const chamados = this.chamados.filter(os => os.codTecnico === codTecnico);
 
@@ -624,12 +675,11 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-
-    });
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
-  aplicar(): void {
+  aplicar(): void
+  {
     const form: any = this.form.getRawValue();
 
     const filtro: any = {
@@ -653,13 +703,15 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
     this.sidenavFiltro.close();
   }
 
-  limpar(): void {
+  limpar(): void
+  {
     this.form.reset();
     this.aplicar();
     this.sidenavFiltro.close();
   }
 
-  selectAll(select: AbstractControl, values, propertyName) {
+  selectAll(select: AbstractControl, values, propertyName)
+  {
     if (select.value[0] == 0 && propertyName != '')
       select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
     else if (select.value[0] == 0 && propertyName == '')
@@ -668,14 +720,18 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit {
       select.patchValue([]);
   }
 
-  private carregarFiltro(): void {
+  private carregarFiltro(): void
+  {
     this.filtro = this._userSvc.obterFiltro('agenda-tecnico');
-    if (!this.filtro) {
+    if (!this.filtro)
+    {
       return;
     }
 
-    Object.keys(this.filtro?.parametros).forEach((key) => {
-      if (this.filtro?.parametros[key] instanceof Array) {
+    Object.keys(this.filtro?.parametros).forEach((key) =>
+    {
+      if (this.filtro?.parametros[key] instanceof Array)
+      {
         this.filtro.parametros[key] = this.filtro.parametros[key].join()
       };
     });

@@ -28,6 +28,7 @@ namespace SAT.INFRA.Context
         public DbSet<EquipamentoContrato> EquipamentoContrato { get; set; }
         public DbSet<DespesaPeriodo> DespesaPeriodo { get; set; }
         public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
+        public DbSet<Despesa> Despesas { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<Filial> Filial { get; set; }
         public DbSet<Defeito> Defeito { get; set; }

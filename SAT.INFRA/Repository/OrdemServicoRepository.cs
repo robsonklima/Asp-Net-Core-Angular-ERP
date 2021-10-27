@@ -237,7 +237,7 @@ namespace SAT.INFRA.Repository
             if (parameters.IsAgendaTecnico)
             {
                 query = query.Where(os => os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
-                (os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO && os.DataHoraTransf.Value.Date == DateTime.Now.Date));
+                (os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO && (os.DataHoraTransf.Value.Date == DateTime.Now.Date || os.DataHoraFechamento.Value.Date == DateTime.Now.Date)));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

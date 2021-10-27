@@ -90,6 +90,7 @@ namespace SAT.API
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
             services.AddTransient<IDespesaPeriodoRepository, DespesaPeriodoRepository>();
+            services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -135,6 +136,7 @@ namespace SAT.API
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
             services.AddTransient<IDespesaPeriodoService, DespesaPeriodoService>();
+            services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

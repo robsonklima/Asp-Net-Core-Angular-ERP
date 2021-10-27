@@ -38,17 +38,17 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(DespesaPeriodoParameters parameters)
         {
-            var acoes = _despesaPeriodoRepo.ObterPorParametros(parameters);
+            var despesasPeriodo = _despesaPeriodoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
-                Items = acoes,
-                TotalCount = acoes.TotalCount,
-                CurrentPage = acoes.CurrentPage,
-                PageSize = acoes.PageSize,
-                TotalPages = acoes.TotalPages,
-                HasNext = acoes.HasNext,
-                HasPrevious = acoes.HasPrevious
+                Items = despesasPeriodo,
+                TotalCount = despesasPeriodo.TotalCount,
+                CurrentPage = despesasPeriodo.CurrentPage,
+                PageSize = despesasPeriodo.PageSize,
+                TotalPages = despesasPeriodo.TotalPages,
+                HasNext = despesasPeriodo.HasNext,
+                HasPrevious = despesasPeriodo.HasPrevious
             };
 
             return lista;

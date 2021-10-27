@@ -6,9 +6,9 @@ namespace SAT.SERVICES.Interfaces
     public interface IDespesaPeriodoService
     {
         ListViewModel ObterPorParametros(DespesaPeriodoParameters parameters);
-        DespesaPeriodo Criar(DespesaPeriodo acao);
+        DespesaPeriodo Criar(DespesaPeriodo despesa);
         void Deletar(int codigo);
-        void Atualizar(DespesaPeriodo acao);
+        void Atualizar(DespesaPeriodo despesa);
         DespesaPeriodo ObterPorCodigo(int codigo);
     }
 }

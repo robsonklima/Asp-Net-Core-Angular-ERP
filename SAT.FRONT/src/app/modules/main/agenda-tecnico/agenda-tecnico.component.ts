@@ -176,7 +176,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       if (end < now)
       {
         e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
-        if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
+        // if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
       }
     });
     this._cdr.detectChanges();
@@ -211,10 +211,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
     this.chamados = (await this._osSvc.obterPorParametros({
       codFiliais: "4",
-      codStatusServicos: "1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16",
       include: OrdemServicoIncludeEnum.OS_AGENDA,
-      dataTransfInicio: moment().add(-1, 'days').format('yyyy-MM-DD HH:mm:ss'),
-      dataTransfFim: moment().add(1, 'days').format('yyyy-MM-DD HH:mm:ss'),
+      isAgendaTecnico: true,
       sortActive: 'dataHoraTransf',
       sortDirection: 'asc'
     }).toPromise()).items;
@@ -457,8 +455,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       case 8: //transferido
         return "#ff4c4c";
       case 3: //fechado
-        return "#7f7fff";
-      default:
         return "#7f7fff";
     }
   }

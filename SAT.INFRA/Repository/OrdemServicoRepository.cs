@@ -234,6 +234,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => paramsSplit.Any(p => p == os.EquipamentoContrato.PontoEstrategico));
             }
 
+            if (parameters.IsAgendaTecnico)
+            {
+                query = query.Where(os => os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
+                (os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO && os.DataHoraTransf.Value.Date == DateTime.Now.Date));
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 var property = parameters.SortActive;

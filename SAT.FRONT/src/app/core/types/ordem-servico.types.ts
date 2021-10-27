@@ -178,6 +178,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
     dataTransfFim?: string;
     dataTransf?: string;
     include?: OrdemServicoIncludeEnum;
+    isAgendaTecnico?: boolean;
 };
 
 export enum OrdemServicoIncludeEnum

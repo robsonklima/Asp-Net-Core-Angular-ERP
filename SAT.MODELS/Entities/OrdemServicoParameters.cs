@@ -30,5 +30,6 @@ namespace SAT.MODELS.Entities
         public OrdemServicoIncludeEnum Include { get; set; }
         public string PontosEstrategicos { get; set; }
         public int? CodTecnico { get; set; }
+        public bool IsAgendaTecnico { get; set; }
     }
 }

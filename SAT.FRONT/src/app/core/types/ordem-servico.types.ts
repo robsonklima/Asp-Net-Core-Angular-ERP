@@ -176,6 +176,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
     pa?: number;
     dataTransfInicio?: string;
     dataTransfFim?: string;
+    dataTransf?: string;
     include?: OrdemServicoIncludeEnum;
 };
 

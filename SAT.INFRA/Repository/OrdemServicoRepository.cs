@@ -216,11 +216,10 @@ namespace SAT.INFRA.Repository
                     os.Equipamento.NomeEquip.Contains(parameters.Equipamento)));
             }
 
-            if (parameters.CodFiliais != null)
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f)).ToArray();
-                query = query.Where(os => parameters.CodFiliais.Contains(os.CodFilial.ToString())
-                );
+                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
+                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
             }
 
             if (parameters.CodAutorizadas != null)

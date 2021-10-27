@@ -5,7 +5,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -46,12 +46,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   resources = [];
   externalEvents: MbscAgendaTecnicoCalendarEvent = [];
   externalEventsFiltered: MbscAgendaTecnicoCalendarEvent = [];
-  inicioExpediente = moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
-  fimExpediente = moment().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
-  inicioIntervalo = moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-  fimIntervalo = moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
-  limiteSuperiorIntervalo = moment().set({ hour: 14, minute: 0, second: 0, millisecond: 0 });
-  limiteInferiorIntervalo = moment().set({ hour: 11, minute: 0, second: 0, millisecond: 0 });
 
   calendarOptions: MbscEventcalendarOptions = {
     view: {
@@ -85,7 +79,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
         return false;
       }
 
-      this.createNewEvent(args);
+      this.createNewEvent(args, inst);
     },
     onEventUpdate: (args, inst) =>
     {
@@ -107,15 +101,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
         });
         return false;
       }
-
-      if (this.isTechnicianInterval(args) && this.invalidTechnicianInterval(args))
-      {
-        this._notify.toast({
-          message: 'O intervalo deve ser feito entre 11h e 14h.'
-        });
-        return false;
-      }
-
       return this.updateEvent(args);
     },
     onEventDoubleClick: (args, inst) =>
@@ -228,8 +213,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       codFiliais: "4",
       codStatusServicos: "1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16",
       include: OrdemServicoIncludeEnum.OS_AGENDA,
-      dataTransfInicio: moment().add(-1, 'days').toISOString(),
-      dataTransfFim: moment().add(1, 'days').toISOString(),
+      dataTransfInicio: moment().add(-1, 'days').format('yyyy-MM-DD HH:mm:ss'),
+      dataTransfFim: moment().add(1, 'days').format('yyyy-MM-DD HH:mm:ss'),
       sortActive: 'dataHoraTransf',
       sortDirection: 'asc'
     }).toPromise()).items;
@@ -300,20 +285,24 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   {
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
-    var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente).add(deslocamento, 'minutes');
+    var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente()).add(deslocamento, 'minutes');
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
-    if (start.isBetween(this.inicioIntervalo, this.fimIntervalo))
-      start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-    else if (start.hour() >= this.fimExpediente.hour())
-      start = moment(this.inicioExpediente).add(1, 'day').add(deslocamento, 'minutes');
+    if (start.isBetween(this.inicioIntervalo(start), this.fimIntervalo(start)))
+      start = moment(this.fimIntervalo(start)).add(deslocamento, 'minutes');
+    else if (start.hour() >= this.fimExpediente().hour())
+    {
+      start = moment(this.inicioExpediente(start)).add(1, 'day').add(deslocamento, 'minutes');
+      if (start.isBetween(this.inicioIntervalo(start), this.fimIntervalo(start)))
+        start = moment(this.fimIntervalo(start)).add(deslocamento, 'minutes');
+    }
 
     // se termina durante a sugestao de intervalo
     var end = moment(start).add(mediaTecnico, 'minutes');
-    if (end.isBetween(this.inicioIntervalo, this.fimIntervalo))
+    if (end.isBetween(this.inicioIntervalo(end), this.fimIntervalo(end)))
     {
-      start = moment(this.fimIntervalo).add(deslocamento, 'minutes');
-      end = moment(start).add(mediaTecnico || 30, 'minutes');
+      start = moment(this.fimIntervalo(end)).add(deslocamento, 'minutes');
+      end = moment(start).add(mediaTecnico, 'minutes');
     }
 
     var evento: MbscAgendaTecnicoCalendarEvent =
@@ -356,8 +345,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
   private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
   {
-    var start = this.inicioIntervalo;
-    var end = this.fimIntervalo;
+    var start = this.inicioIntervalo();
+    var end = this.fimIntervalo();
 
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
@@ -535,11 +524,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     return args.event.title === "INTERVALO";
   }
 
-  private invalidTechnicianInterval(args)
-  {
-    return moment(args.event.start) > this.limiteSuperiorIntervalo || moment(args.event.start) < this.limiteInferiorIntervalo;
-  }
-
   private invalidMove(args)
   {
     //não pode mover evento posterior a linha do tempo para antes da linha do tempo
@@ -597,7 +581,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
   }
 
-  private createNewEvent(args)
+  private createNewEvent(args, inst)
   {
     var ev = args.event;
     const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
@@ -632,12 +616,14 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
           e => 
           {
             this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+            this.deleteEvent(args, inst);
             return false;
           });
       },
       e =>
       {
         this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+        this.deleteEvent(args, inst);
         return false;
       });
   }
@@ -659,6 +645,16 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
         display: 'center'
       }
     );
+  }
+
+  public deleteEvent(args, inst)
+  {
+    if (args.event.ordemServico?.codAgendaTecnico)
+      this._agendaTecnicoSvc.deletar(args.event.ordemServico?.codAgendaTecnico).subscribe(() =>
+      {
+        inst.removeEvent(args.event);
+      })
+    else inst.removeEvent(args.event);
   }
 
   public abrirMapa(codTecnico: number): void
@@ -736,4 +732,25 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       };
     });
   }
+
+  private inicioIntervalo(reference: Moment = moment())
+  {
+    return moment(reference).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+  }
+
+  private fimIntervalo(reference: Moment = moment())
+  {
+    return moment(reference).set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
+  }
+
+  private inicioExpediente(reference: Moment = moment())
+  {
+    return moment(reference).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+  }
+
+  private fimExpediente(reference: Moment = moment())
+  {
+    return moment(reference).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+  }
+
 }

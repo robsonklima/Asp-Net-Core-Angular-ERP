@@ -301,5 +301,7 @@
     "alteracao corretiva invalida": "Without permission to change the intervention, contact the RPV area",
     "chamados abertos": "Openned Service Orders",
     "pendencia": "Pendency",
-    "despesas": "Expenditure"
+    "consulta de periodo": "Period Query",
+    "despesas": "Expenditure",
+    "atendimentos": "Services"
 }

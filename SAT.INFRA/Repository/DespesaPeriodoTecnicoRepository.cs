@@ -41,6 +41,7 @@ namespace SAT.INFRA.Repository
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
             var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
+                .Include(dpt => dpt.DespesaPeriodo)
                 .Include(dpt => dpt.Despesas)
                     .ThenInclude(dp => dp.DespesaItems)
                 .AsQueryable();
@@ -50,6 +51,9 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodDespesaPeriodo.HasValue)
                 despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
+
+            if (parameters.IndAtivoPeriodo.HasValue)
+                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesasPeriodoTecnico = despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

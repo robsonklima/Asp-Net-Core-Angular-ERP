@@ -47,6 +47,7 @@ export class DespesaAtendimentoListaComponent implements OnInit
 
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
       codTecnico: this.userSession.usuario.codTecnico,
+      indAtivoPeriodo: 1,
       pageSize: 500,
     }).toPromise()).items;
   }

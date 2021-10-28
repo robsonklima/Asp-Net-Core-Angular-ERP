@@ -10,6 +10,12 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<OrdemServico> AplicarFiltroAgendaTecnico(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
         {
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
+                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
+            }
+
             query = query.Where(os => os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
                 ((os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO) && os.DataHoraTransf.Value.Date == DateTime.Now.Date));
 

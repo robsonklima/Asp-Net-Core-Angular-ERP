@@ -84,54 +84,32 @@ namespace SAT.SERVICES.Services
             return Indicadores;
         }
 
-        private List<Indicador> ObterIndicadorSLAFilial(IEnumerable<OrdemServico> chamados)
+        private static List<Indicador> ObterIndicadorSLAFilial(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
-            var filiais = chamados
-                .Where(os => os.Filial != null)
-                .GroupBy(os => new { os.Filial.CodFilial, os.Filial.NomeFilial })
-                .Select(os => new { filial = os.Key, Count = os.Count() });
-
-            foreach (var filial in filiais)
+            foreach (var filial in chamados.Select(s => new { s.Filial.CodFilial, s.Filial.NomeFilial }))
             {
-                var dentro = chamados
-                    .Where(
-                        os => os.PrazosAtendimento
-                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                            .FirstOrDefault().DataHoraLimiteAtendimento >= os.DataHoraFechamento
-                        && os.CodFilial == filial.filial.CodFilial
-                    )
-                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                    .Select(os => new { d = os.Key, Count = os.Count() });
+                var dados = (from ch in chamados.Where(r => r.CodFilial == filial.CodFilial && r.CodStatusServico != 2/*cancelado*/)
+                             .GroupBy(g => g.CodCliente).FirstOrDefault()
+                             let chamadoNaoFechado = ch.RelatoriosAtendimento != null && ch.RelatoriosAtendimento.Count <= 0
+                             let dataLimite = !chamadoNaoFechado ?
+                                              ch.RelatoriosAtendimento.OrderByDescending(m => m.DataHoraSolucao).FirstOrDefault().DataHoraSolucao
+                                              : ch.DataHoraFechamento
+                             select new
+                             {
+                                 dentro =
+                                   chamadoNaoFechado || (
+                                 ch.PrazosAtendimento.OrderByDescending(m => m.DataHoraLimiteAtendimento).FirstOrDefault().DataHoraLimiteAtendimento
+                                 >= dataLimite)
+                             }).ToList();
 
-                var fora = chamados
-                    .Where(
-                        os => os.PrazosAtendimento
-                            .OrderByDescending(o => o.DataHoraLimiteAtendimento)
-                            .FirstOrDefault().DataHoraLimiteAtendimento < os.DataHoraFechamento
-                        && os.CodCliente == filial.filial.CodFilial
-                    )
-                    .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
-                    .Select(os => new { f = os.Key, Count = os.Count() });
-
-                var d = dentro.Sum(d => d.Count);
-                var f = fora.Sum(d => d.Count);
-                var s = f + d;
-                decimal p = 0;
-                if (s > 0)
-                {
-                    p = (Convert.ToDecimal(d) / (s)) * 100;
-                }
-                else
-                {
-                    p = 100;
-                }
+                decimal percent = dados.Count > 0 ? ((dados.Count(d => d.dentro) / dados.Count) * 100) : 100;
 
                 Indicadores.Add(new Indicador()
                 {
-                    Label = filial.filial.NomeFilial,
-                    Valor = decimal.Round(p, 2, MidpointRounding.AwayFromZero)
+                    Label = filial.NomeFilial,
+                    Valor = decimal.Round(percent, 2, MidpointRounding.AwayFromZero)
                 });
             }
 

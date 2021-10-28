@@ -12,11 +12,28 @@ namespace SAT.SERVICES.Services
     public partial class IndicadorService : IIndicadorService
     {
         private readonly IOrdemServicoRepository _osRepository;
+        private readonly IDispBBCriticidadeRepository _dispBBCriticidadeRepository;
+        private readonly IFeriadoService _feriadoService;
+        private readonly IEquipamentoContratoRepository _equipamentoContratoRepository;
+        private readonly IDispBBRegiaoFilialRepository _dispBBRegiaoFilialRepository;
+        private readonly IDispBBPercRegiaoRepository _dispBBPercRegiaoRepository;
+        private readonly IDispBBDesvioRepository _dispBBDesvioRepository;
 
-        public IndicadorService(IOrdemServicoRepository osRepository
-                                )
+        public IndicadorService(IOrdemServicoRepository osRepository,
+            IFeriadoService feriadoService,
+            IEquipamentoContratoRepository equipamentoContratoRepository,
+            IDispBBRegiaoFilialRepository dispBBRegiaoFilialRepository,
+            IDispBBCriticidadeRepository dispBBCriticidadeRepository,
+            IDispBBPercRegiaoRepository dispBBPercRegiaoRepository,
+            IDispBBDesvioRepository dispBBDesvioRepository)
         {
             _osRepository = osRepository;
+            _feriadoService = feriadoService;
+            _dispBBCriticidadeRepository = dispBBCriticidadeRepository;
+            _equipamentoContratoRepository = equipamentoContratoRepository;
+            _dispBBRegiaoFilialRepository = dispBBRegiaoFilialRepository;
+            _dispBBPercRegiaoRepository = dispBBPercRegiaoRepository;
+            _dispBBDesvioRepository = dispBBDesvioRepository;
         }
 
         private IEnumerable<OrdemServico> ObterOrdensServico(IndicadorParameters parameters)
@@ -38,23 +55,17 @@ namespace SAT.SERVICES.Services
 
         public List<Indicador> ObterIndicadores(IndicadorParameters parameters)
         {
-            switch (parameters.Tipo)
+            return parameters.Tipo switch
             {
-                case IndicadorTipoEnum.ORDEM_SERVICO:
-                    return ObterIndicadorOrdemServico(parameters);
-                case IndicadorTipoEnum.SLA:
-                    return ObterIndicadorSLA(parameters);
-                case IndicadorTipoEnum.PENDENCIA:
-                    return ObterIndicadorPendencia(parameters);
-                case IndicadorTipoEnum.REINCIDENCIA:
-                    return ObterIndicadorReincidencia(parameters);
-                case IndicadorTipoEnum.SPA:
-                    return ObterIndicadorSPA(parameters);
-                case IndicadorTipoEnum.PECA_FALTANTE:
-                    return ObterIndicadorPecaFaltante(parameters);
-                default:
-                    throw new NotImplementedException("Não Implementado");
-            }
+                IndicadorTipoEnum.ORDEM_SERVICO => ObterIndicadorOrdemServico(parameters),
+                IndicadorTipoEnum.SLA => ObterIndicadorSLA(parameters),
+                IndicadorTipoEnum.PENDENCIA => ObterIndicadorPendencia(parameters),
+                IndicadorTipoEnum.REINCIDENCIA => ObterIndicadorReincidencia(parameters),
+                IndicadorTipoEnum.SPA => ObterIndicadorSPA(parameters),
+                IndicadorTipoEnum.PECA_FALTANTE => ObterIndicadorPecaFaltante(parameters),
+                IndicadorTipoEnum.DISPONIBILIDADE => ObterIndicadorDisponibilidade(parameters),
+                _ => throw new NotImplementedException("Não Implementado"),
+            };
         }
 
         public List<Indicador> ObterIndicadoresFiliais()

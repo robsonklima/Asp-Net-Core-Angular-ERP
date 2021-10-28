@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;

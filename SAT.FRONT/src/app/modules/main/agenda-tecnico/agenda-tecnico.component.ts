@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendar } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -112,6 +112,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   @ViewChild('sidenavChamados') sidenavChamados: MatSidenav;
   @ViewChild('sidenavFiltro') sidenavFiltro: MatSidenav;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('calendar') mobiscrollCalendar: MbscEventcalendar;
   protected _onDestroy = new Subject<void>();
 
   constructor (

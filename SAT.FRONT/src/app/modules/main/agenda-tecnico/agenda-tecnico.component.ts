@@ -131,6 +131,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   ngAfterViewInit(): void
   {
     this.carregarFiltro();
+    this.carregaTecnicosEChamadosTransferidos(true);
+    this.carregaChamadosAbertos();
 
     this.sidenavFiltro.closedStart.subscribe(() =>
     {
@@ -140,7 +142,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
     interval(10 * 60 * 1000)
       .pipe(
-        startWith(0),
+        startWith(1),
         takeUntil(this._onDestroy)
       )
       .subscribe(() =>
@@ -178,9 +180,9 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     this._cdr.detectChanges();
   }
 
-  private async carregaTecnicosEChamadosTransferidos()
+  private async carregaTecnicosEChamadosTransferidos(prompt: boolean=false)
   {
-    this.loading = true;
+    if (prompt) this.loading = true;
 
     const params = {
       indAtivo: 1,

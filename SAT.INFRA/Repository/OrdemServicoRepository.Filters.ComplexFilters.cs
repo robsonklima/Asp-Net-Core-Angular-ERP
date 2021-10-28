@@ -16,8 +16,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
             }
 
-            query = query.Where(os => os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
-                ((os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO) && os.DataHoraTransf.Value.Date == DateTime.Now.Date));
+            query = query.Where(os =>
+                // (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA || os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO) && 
+                (os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
+                ((os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO) && os.DataHoraTransf.Value.Date == DateTime.Now.Date)));
 
             return query;
         }

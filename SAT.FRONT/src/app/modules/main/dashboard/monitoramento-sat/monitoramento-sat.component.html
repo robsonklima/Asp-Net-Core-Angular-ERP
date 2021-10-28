@@ -47,7 +47,8 @@
                         <mat-icon clas="w-3">report_problem</mat-icon>
                     </td>
                     <td *ngIf="data.servidorOk">
-                        <mat-progress-spinner class="pl-15 left-9" [diameter]="20" [mode]="'indeterminate'"></mat-progress-spinner>
+                        <mat-progress-spinner class="pl-15 left-9" [diameter]="20" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
                     </td>
                     <td>{{data.tipo}}</td>
                     <td>{{data.servidor}}</td>

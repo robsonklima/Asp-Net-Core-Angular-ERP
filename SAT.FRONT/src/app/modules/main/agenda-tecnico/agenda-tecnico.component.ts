@@ -54,7 +54,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
         allDay: false,
         startDay: 1,
         startTime: '07:00',
-        endTime: '24:00'
+        endTime: '24:00',
       }
     },
     dragToMove: true,
@@ -103,7 +103,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       }
       return this.updateEvent(args);
     },
-    onEventDoubleClick: (args, inst) =>
+    onEventClick: (args, inst) =>
     {
       this.showOSInfo(args);
     }
@@ -627,14 +627,15 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     if (os == null) return;
 
     var text = "";
-    if (os.localAtendimento?.nomeLocal) text += 'Local Atendimento: ' + args.event.ordemServico.localAtendimento?.nomeLocal + '\n';
-    if (os.defeito) text += ', Defeito: ' + os.defeito + '\n';
+    if (os.localAtendimento?.nomeLocal) text += os.localAtendimento?.nomeLocal + '\n';
+    if (os.tipoIntervencao?.nomTipoIntervencao) text += 'Intervenção ' + os.tipoIntervencao?.nomTipoIntervencao + '\n';
 
     this._notify.alert(
       {
-        title: "OS " + args.event.ordemServico.codOS.toString(),
-        message: text,
-        display: 'center'
+        title: 'OS ' + os.codOS.toString(),
+        message: text.toUpperCase(),
+        display: 'center',
+        cssClass: 'os_info'
       }
     );
   }

@@ -7,6 +7,7 @@
         SPA,
         PENDENCIA,
         REINCIDENCIA,
-        PECA_FALTANTE
+        PECA_FALTANTE,
+        DISPONIBILIDADE
     }
 }

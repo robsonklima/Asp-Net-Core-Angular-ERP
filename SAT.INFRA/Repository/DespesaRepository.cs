@@ -5,6 +5,7 @@ using SAT.MODELS.Helpers;
 using System;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -39,7 +40,9 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Despesa> ObterPorParametros(DespesaParameters parameters)
         {
-            var despesas = _context.Despesa.AsQueryable();
+            var despesas = _context.Despesa
+            .Include(d => d.DespesaItems)
+            .AsQueryable();
 
             if (parameters.CodTecnico.HasValue)
                 despesas = despesas.Where(e => e.CodTecnico == parameters.CodTecnico);

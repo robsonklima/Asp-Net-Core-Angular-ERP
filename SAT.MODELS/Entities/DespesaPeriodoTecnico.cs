@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,8 +10,6 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodDespesaPeriodoTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
-        [ForeignKey("CodDespesaPeriodo")]
-        public DespesaPeriodo DespesaPeriodo { get; set; }
         public int CodTecnico { get; set; }
         [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }

@@ -9,6 +9,7 @@ import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
 import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
+import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { StatusServico } from "./status-servico.types";
@@ -26,6 +27,7 @@ export class OrdemServico
     filial?: Filial;
     regiao?: Regiao;
     autorizada?: Autorizada;
+    regiaoAutorizada?: RegiaoAutorizada;
     relatoriosAtendimento: RelatorioAtendimento[];
     fotos: Foto[];
     cliente: Cliente;
@@ -175,6 +177,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
     dataTransfInicio?: string;
     dataTransfFim?: string;
     include?: OrdemServicoIncludeEnum;
+    filterType?: OrdemServicoFilterEnum;
 };
 
 export enum OrdemServicoIncludeEnum
@@ -183,4 +186,9 @@ export enum OrdemServicoIncludeEnum
     OS_AGENDA = 2,
     OS_PECAS = 3,
     OS_CHAMADO_PECA = 4
+}
+
+export enum OrdemServicoFilterEnum
+{
+    FILTER_AGENDA = 1
 }

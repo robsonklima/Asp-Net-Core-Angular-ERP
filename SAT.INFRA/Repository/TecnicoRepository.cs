@@ -127,6 +127,12 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.Where(t => filiais.Any(a => a == t.CodFilial.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecs = parameters.CodTecnicos.Split(",");
+                tecnicos = tecnicos.Where(t => tecs.Any(a => a == t.CodTecnico.ToString()));
+            }
+
             if (parameters.CodStatusServicos != null)
             {
                 var codigosStatusServico = parameters.CodStatusServicos.Split(',');

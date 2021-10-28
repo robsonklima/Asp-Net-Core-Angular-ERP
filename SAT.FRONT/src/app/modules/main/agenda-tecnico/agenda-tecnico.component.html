@@ -1,13 +1,14 @@
 <mat-drawer-container class="flex-auto h-full" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
+    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'start'" #sidenavChamados>
         <div class="flex flex-col flex-auto p-6 bg-card">
             <div class="flex items-start justify-between">
                 <div class="flex-auto">
                     <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between pt-6 px-3">
                         <div class="flex justify-between">
                             <div class="text-4xl font-extrabold tracking-tight leading-none">Agendar</div>
-                
-                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'" (click)="sidenav.toggle()" class="-mt-1">
+
+                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'"
+                                (click)="sidenavChamados.toggle()" class="-mt-1">
                                 <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
                             </button>
                         </div>
@@ -15,17 +16,17 @@
                         <div class="flex w-full pt-6">
                             <mat-form-field class="w-full">
                                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                                <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+                                <input matInput #searchInputControl [autocomplete]="'off'"
+                                    [placeholder]="'Pesquisar...'">
                             </mat-form-field>
                         </div>
                     </div>
-                    
-                    <div *ngFor="let event of externalEventsFiltered"
-                        mbsc-draggable [dragData]="event"
-                        class="external-drop-task"
-                        [ngStyle]="{background: event.color}">
+
+                    <div *ngFor="let event of externalEventsFiltered" mbsc-draggable [dragData]="event"
+                        class="external-drop-task" [ngStyle]="{background: event.color}">
                         <div>{{ event.title }}</div>
-                        <div>Mais Detalhes</div>
+                        <div>{{ event.nomeLocal }} - {{ event.cliente }}</div>
+                        <div>{{ event.regiao }} - {{ event.autorizada }}</div>
                     </div>
 
                     <div *ngIf="!externalEventsFiltered.length" class="flex w-full pt-6">
@@ -36,35 +37,38 @@
         </div>
     </mat-drawer>
 
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavFiltro>
+        <app-agenda-tecnico-filtro [sidenavFiltro]="sidenavFiltro"></app-agenda-tecnico-filtro>
+    </mat-drawer>
+
     <mat-drawer-content>
         <div class="loading-shade" *ngIf="loading">
             <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
         </div>
 
-        <button class="add-button" (click)="sidenav.toggle()" [disabled]="loading">
+        <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
+        </button>
+
+        <button class="filter-button bg-gray-800" (click)="sidenavFiltro.toggle()" [disabled]="loading">
+            <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
         <div class="lg:max-h-200 md:max-h-200" *ngIf="!loading">
             <div class="md-resource-details lg:max-h-full md:max-h-full">
-                <mbsc-eventcalendar
-                    [options]="calendarOptions"
-                    [data]="events"
-                    [resources]="resources"
-                    [resourceTemplate]="resourceTemplate"
-                >
+                <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
+                    [resourceTemplate]="resourceTemplate">
                 </mbsc-eventcalendar>
             </div>
-    
+
             <ng-template #resourceTemplate let-resource>
                 <a (click)="abrirMapa(resource.id)">
                     <div class="md-resource-details-cont cursor-pointer">
-                        <img class="md-meeting-participant-avatar"
-                            [src]="resource.img"
+                        <img class="md-meeting-participant-avatar" [src]="resource.img"
                             onError="this.src='./assets/images/avatars/profile.jpg';" />
 
                         <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
-                    </div>        
+                    </div>
                 </a>
             </ng-template>
         </div>

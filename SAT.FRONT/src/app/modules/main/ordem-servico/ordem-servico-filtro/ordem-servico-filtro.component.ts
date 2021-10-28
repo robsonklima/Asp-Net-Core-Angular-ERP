@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, NgModel } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
@@ -20,8 +20,6 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import Enumerable from 'linq';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
-import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 
@@ -73,7 +71,6 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterAutorizadas();
-
     this.configurarFiliais();
   }
 

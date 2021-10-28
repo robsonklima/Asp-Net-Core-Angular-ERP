@@ -50,7 +50,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   calendarOptions: MbscEventcalendarOptions = {
     view: {
       timeline: {
-        type: 'day',
+        type: 'week',
         allDay: false,
         startDay: 1,
         startTime: '07:00',
@@ -112,7 +112,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   @ViewChild('sidenavChamados') sidenavChamados: MatSidenav;
   @ViewChild('sidenavFiltro') sidenavFiltro: MatSidenav;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild('calendar') mobiscrollCalendar: MbscEventcalendar;
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -267,7 +266,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       start: agendaTecnico.inicio,
       end: agendaTecnico.fim,
       ordemServico: os,
-      title: os.codOS.toString(),
+      title: os.localAtendimento?.nomeLocal.toUpperCase(),
       color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
       editable: true,
       resource: os.tecnico?.codTecnico,
@@ -305,7 +304,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       start: start,
       end: end,
       ordemServico: os,
-      title: os.codOS.toString(),
+      title: os.localAtendimento?.nomeLocal.toUpperCase(),
       color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
       editable: true,
       resource: os.tecnico?.codTecnico,

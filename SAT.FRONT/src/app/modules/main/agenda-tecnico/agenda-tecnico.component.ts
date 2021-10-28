@@ -3,7 +3,7 @@ import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from 
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
@@ -172,12 +172,8 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     var now = moment();
     Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
     {
-      var end = moment(e.end);
-      if (end < now)
-      {
+      if (moment(e.end) < now)
         e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
-        // if (e.ordemServico.statusServico.codStatusServico == 3) e.editable = false;
-      }
     });
     this._cdr.detectChanges();
   }
@@ -212,7 +208,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     this.chamados = (await this._osSvc.obterPorParametros({
       codFiliais: "4",
       include: OrdemServicoIncludeEnum.OS_AGENDA,
-      isAgendaTecnico: true,
+      filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
       sortActive: 'dataHoraTransf',
       sortDirection: 'asc'
     }).toPromise()).items;

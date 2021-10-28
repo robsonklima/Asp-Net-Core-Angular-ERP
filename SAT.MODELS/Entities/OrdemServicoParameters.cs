@@ -18,7 +18,6 @@ namespace SAT.MODELS.Entities
         public string CodFiliais { get; set; }
         public string CodAutorizadas { get; set; }
         public string CodEquipamentos { get; set; }
-        public string Equipamento { get; set; }
         public string CodTiposGrupo { get; set; }
         public string CodRegioes { get; set; }
         public DateTime DataAberturaInicio { get; set; }
@@ -28,8 +27,8 @@ namespace SAT.MODELS.Entities
         public DateTime DataTransfInicio { get; set; }
         public DateTime DataTransfFim { get; set; }
         public OrdemServicoIncludeEnum Include { get; set; }
+        public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }
         public int? CodTecnico { get; set; }
-        public bool IsAgendaTecnico { get; set; }
     }
 }

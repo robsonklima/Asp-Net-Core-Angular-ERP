@@ -11,8 +11,8 @@ namespace SAT.MODELS.Entities
         public int CodDespesaPeriodoTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
         public int CodTecnico { get; set; }
-        [ForeignKey("CodTecnico")]
-        public Tecnico Tecnico { get; set; }
+        [ForeignKey("CodTecnico, CodDespesaPeriodo")]
+        public List<Despesa> Despesas { get; set; }
         public int CodDespesaPeriodoTecnicoStatus { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }

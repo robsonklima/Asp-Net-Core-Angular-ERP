@@ -91,6 +91,11 @@ namespace SAT.API
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
             services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
 
+            services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
+            services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
+            services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
+            services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
+
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
             services.AddTransient<IAcordoNivelServicoService, AcordoNivelServicoService>();

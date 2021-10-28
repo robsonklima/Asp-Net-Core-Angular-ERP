@@ -6,8 +6,9 @@
                     <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between pt-6 px-3">
                         <div class="flex justify-between">
                             <div class="text-4xl font-extrabold tracking-tight leading-none">Agendar</div>
-                
-                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'" (click)="sidenavChamados.toggle()" class="-mt-1">
+
+                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'"
+                                (click)="sidenavChamados.toggle()" class="-mt-1">
                                 <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
                             </button>
                         </div>
@@ -15,15 +16,14 @@
                         <div class="flex w-full pt-6">
                             <mat-form-field class="w-full">
                                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                                <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+                                <input matInput #searchInputControl [autocomplete]="'off'"
+                                    [placeholder]="'Pesquisar...'">
                             </mat-form-field>
                         </div>
                     </div>
-                    
-                    <div *ngFor="let event of externalEventsFiltered"
-                        mbsc-draggable [dragData]="event"
-                        class="external-drop-task"
-                        [ngStyle]="{background: event.color}">
+
+                    <div *ngFor="let event of externalEventsFiltered" mbsc-draggable [dragData]="event"
+                        class="external-drop-task" [ngStyle]="{background: event.color}">
                         <div>{{ event.title }}</div>
                         <div>{{ event.nomeLocal }} - {{ event.cliente }}</div>
                         <div>{{ event.regiao }} - {{ event.autorizada }}</div>
@@ -54,26 +54,21 @@
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
-        <div class="lg:max-h-200 md:max-h-200" *ngIf="!loading">
+        <div *ngIf="!loading">
             <div class="md-resource-details lg:max-h-full md:max-h-full">
-                <mbsc-eventcalendar
-                    [options]="calendarOptions"
-                    [data]="events"
-                    [resources]="resources"
-                    [resourceTemplate]="resourceTemplate"
-                >
+                <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
+                    [resourceTemplate]="resourceTemplate">
                 </mbsc-eventcalendar>
             </div>
-    
+
             <ng-template #resourceTemplate let-resource>
                 <a (click)="abrirMapa(resource.id)">
                     <div class="md-resource-details-cont cursor-pointer">
-                        <img class="md-meeting-participant-avatar"
-                            [src]="resource.img"
+                        <img class="md-meeting-participant-avatar" [src]="resource.img"
                             onError="this.src='./assets/images/avatars/profile.jpg';" />
 
                         <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
-                    </div>        
+                    </div>
                 </a>
             </ng-template>
         </div>

@@ -15,7 +15,7 @@
                             <div class="text-4xl">{{ os.codOS }}</div>
                             <div class="font-medium tracking-tight text-secondary">{{ t('abertura').toUpperCase() }}
                             </div>
-                            <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}</div>
+                            <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM/YY HH:mm' }}</div>
                             <div class="font-medium tracking-tight text-secondary">{{ t('intervencao').toUpperCase() }}
                             </div>
                             <div class="font-medium">{{ os.tipoIntervencao.nomTipoIntervencao }}</div>
@@ -51,12 +51,12 @@
 
 
                     <!-- dados abertura -->
-                    <div class="grid grid-cols-12 gap-x-1 mt-12">
+                    <div class="grid grid-cols-12 gap-x-1 mt-10">
                         <div class="h-0	col-span-4 text-lg font-medium">{{ t('solicitacao') }}</div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ os?.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                            {{ os?.dataHoraSolicitacao | date:'dd/MM/YY HH:mm' }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -152,14 +152,6 @@
                         <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip | uppercase}}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
-
-                        <div class="col-span-12 text-lg font-medium" *ngIf="os?.defeitoRelatado">
-                            {{ t('defeito') }}
-                            <div class="col-span-12 self-center font-light text-base text-justify">
-                                {{ os?.defeitoRelatado }}</div>
-                            <div class="col-span-12 my-2 border-b"></div>
-                        </div>
-
                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 self-center text-right"></div>
@@ -173,7 +165,13 @@
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 col-span-6 self-center text-right">
                             {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
-                        <div class="h-4 col-span-12 my-2 border-b"></div>
+                        <div class="h-4 col-span-12 my-1"></div>
+                        <div class="col-span-12 text-lg font-medium"
+                            *ngIf="os?.equipamentoContrato?.acordoNivelServico?.descSLA">
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ os?.equipamentoContrato?.acordoNivelServico?.descSLA }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
 
                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('filial') }}</div>
                         <div class="h-0 self-center text-right"></div>
@@ -201,9 +199,15 @@
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 col-span-6 self-center text-right">
-                            {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
+                            {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/YY HH:mm') : '--' }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
+                        <div class="col-span-12 text-lg font-medium" *ngIf="os?.defeitoRelatado">
+                            {{ t('defeito') }}
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ os?.defeitoRelatado }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
                     </div>
                     <div *ngIf="os.relatoriosAtendimento.length > 0">
                         <div class="h-4 mt-2"></div>
@@ -228,7 +232,7 @@
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.nomeAcompanhante | uppercase) || '---' }}</div>
+                                        {{ (rat.nomeAcompanhante || 'Não informado') | uppercase  }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('status') }}</div>
@@ -242,14 +246,14 @@
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.dataHoraInicio | date:'dd/MM HH:mm') || "---" }}</div>
+                                        {{ (rat.dataHoraInicio | date:'dd/MM/YY HH:mm') || "---" }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.dataHoraFim | date:'dd/MM HH:mm') || "---" }}</div>
+                                        {{ (rat.dataHoraSolucao | date:'dd/MM/YY HH:mm') || "---" }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('horas gastas') }}</div>
@@ -257,9 +261,9 @@
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
                                         {{ (rat.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
+
                                     <div class="h-4 col-span-12 my-2 border-b" *ngIf="rat.relatoSolucao || rat.obsRAT">
                                     </div>
-
                                     <div class="col-span-12 text-lg font-medium" *ngIf="rat.relatoSolucao">
                                         {{ t('descricao da solucao') }}
                                         <div class="font-light text-base text-justify">

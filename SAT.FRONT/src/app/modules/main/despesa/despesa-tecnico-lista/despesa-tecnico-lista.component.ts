@@ -1,12 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
-import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { DespesaAdiantamentoPeriodoData, DespesaPeriodoData, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
+import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaPeriodoData, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
 import { TecnicoData } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -34,8 +32,6 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
 
   userSession: UserSession;
   isLoading: boolean = false;
-  despesasPeriodoTecnico: DespesaPeriodoTecnicoData;
-  despesasPeriodo: DespesaPeriodoData;
   despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
   tecnicos: TecnicoData;
 
@@ -43,8 +39,7 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _tecnicoSvc: TecnicoService,
-    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService)
   { this.userSession = JSON.parse(this._userService.userSession); }
 
   ngAfterViewInit()
@@ -77,27 +72,31 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
     }).toPromise());
   }
 
-  private async obterDespesasPeriodoTecnico()
-  {
-    this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
-      codTecnicos: this.getCodTecnicos(),
-      indAtivoPeriodo: 1,
-      pageSize: this.paginator?.pageSize
-    }).toPromise());
-
-    console.log(this.despesasPeriodoTecnico);
-
-  }
-
   private async obterDespesasAdiantamentoPeriodo()
   {
     this.despesasAdiantamentoPeriodo = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
       codTecnicos: this.getCodTecnicos(),
       indAtivoPeriodo: 1,
-      pageSize: this.paginator?.pageSize
+      pageNumber: this.paginator?.pageIndex,
     }).toPromise());
+  }
 
-    console.log(this.despesasAdiantamentoPeriodo);
+  saldoAdiantamento(codTecnico: number): string
+  {
+    var dap: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
+      .where(e => e.despesaAdiantamento.codTecnico == codTecnico).toArray();
+
+    if (dap == null) return 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+    var valorUtilizado = Enumerable.from(dap).where(e => e.despesaPeriodo.indAtivo == 1).sum(e => e.valorAdiantamentoUtilizado);
+
+    var valorAdiantamento = Enumerable.from(dap).where(e => e.despesaAdiantamento.indAtivo == 1 && e.despesaAdiantamento.codDespesaAdiantamentoTipo == 2).distinct(e => e.codDespesaAdiantamento).sum(e => e.despesaAdiantamento.valorAdiantamento);
+
+    var saldo = valorAdiantamento - valorUtilizado;
+
+    console.log(valorUtilizado, valorAdiantamento, saldo);
+
+    return (saldo < 0 ? saldo * -1 : saldo).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
   }
 
   private async obterDados()
@@ -105,12 +104,10 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
     this.isLoading = true;
 
     await this.obterTecnicos();
-    await this.obterDespesasPeriodoTecnico();
     await this.obterDespesasAdiantamentoPeriodo();
 
     this.isLoading = false;
   }
-
 
   private getCodTecnicos(): string
   {

@@ -5,7 +5,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
-import { DespesaAdiantamentoPeriodoData, DespesaPeriodo, DespesaPeriodoData, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
+import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaPeriodo, DespesaPeriodoData, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
@@ -15,10 +15,10 @@ import Enumerable from 'linq';
   templateUrl: './despesa-atendimento-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento {
-            grid-template-columns: 50px 130px 130px 130px 130px auto 130px 130px  5px;
-            @screen sm { grid-template-columns: 50px 130px 130px 130px 130px auto 130px 130px  50px; }
-            @screen md { grid-template-columns: 50px 130px 130px 130px 130px auto 130px 130px  50px; }
-            @screen lg { grid-template-columns: 50px 130px 130px 130px 130px auto 130px 130px  50px; }
+            grid-template-columns: 50px 130px 130px 130px 130px 150px 130px auto 50px;
+            @screen sm { grid-template-columns: 50px 130px 130px 130px 130px 150px 130px auto 50px; }
+            @screen md { grid-template-columns: 50px 130px 130px 130px 130px 150px 130px auto 50px; }
+            @screen lg { grid-template-columns: 50px 130px 130px 130px 130px 150px 130px auto 50px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -32,7 +32,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
 
   userSession: UserSession;
   isLoading: boolean = false;
-  despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
+  despesasPeriodoTecnico: DespesaPeriodoTecnicoData;
   despesasPeriodo: DespesaPeriodoData;
   despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
 
@@ -45,7 +45,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
   { this.userSession = JSON.parse(this._userService.userSession); }
 
-  ngAfterViewInit(): void
+  ngAfterViewInit()
   {
     this.obterDados();
 
@@ -84,7 +84,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
       codDespesaPeriodos: this.getCodDespesaPeriodos(),
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize
-    }).toPromise()).items;
+    }).toPromise());
   }
 
   private async obterDespesasAdiantamentoPeriodo()
@@ -104,8 +104,8 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     this.isLoading = true;
 
     await this.obterDespesasPeriodo();
-    this.obterDespesasPeriodoTecnico();
-    this.obterDespesasAdiantamentoPeriodo();
+    await this.obterDespesasPeriodoTecnico();
+    await this.obterDespesasAdiantamentoPeriodo();
 
     this.isLoading = false;
   }
@@ -115,8 +115,36 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     return Enumerable.from(this.despesasPeriodo.items).select(e => e.codDespesaPeriodo).toArray().join(',');
   }
 
+  /* statusDespesaPeriodoTecnico(dp: DespesaPeriodo): string
+  {
+    var dpt: DespesaPeriodoTecnico = Enumerable.from(this.despesasPeriodoTecnico?.items)
+      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
+    return dpt ? dpt.despesaPeriodoTecnicoStatus.nomeDespesaPeriodoTecnicoStatus.toString() : '---';
+  }
+
+  totalDespesaDespesaPeriodoTecnico(dp: DespesaPeriodo): string
+  {
+    var dpt: DespesaPeriodoTecnico = Enumerable.from(this.despesasPeriodoTecnico?.items)
+      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
+
+    return (dpt ? Enumerable.from(dpt.despesas)
+    .sum(e => Enumerable.from(e.despesaItens)
+    .where(ee => ee.codDespesaTipo != 1 && ee.codDespesaTipo != 8)
+    .sum(ee => ee.despesaValor)) : 0.00)
+      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  }
+
+  totalAdiantamentoDespesaPeriodoTecnico(dp: DespesaPeriodo): string
+  {
+    var dpt: DespesaAdiantamentoPeriodo = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
+      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
+
+    return (dpt ? dpt.valorAdiantamentoUtilizado : 0.00)
+      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  } */
+
   paginar()
   {
-    this.obterDespesasPeriodo();
+    this.obterDados();
   }
 }

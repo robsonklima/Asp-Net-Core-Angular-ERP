@@ -23,11 +23,19 @@ export interface DespesaPeriodoParameters extends QueryStringParameters
     indAtivo?: number;
 };
 
+export class DespesaPeriodoTecnicoStatus
+{
+    codDespesaPeriodoTecnicoStatus: string;
+    nomeDespesaPeriodoTecnicoStatus: string;
+}
+
 export class DespesaPeriodoTecnico
 {
     codDespesaPeriodoTecnico: number;
     codDespesaPeriodo: number;
+    despesas: Despesa[];
     codTecnico: number;
+    despesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatus;
     codDespesaPeriodoTecnicoStatus: number;
     codUsuarioCad: string;
     dataHoraCad: string;

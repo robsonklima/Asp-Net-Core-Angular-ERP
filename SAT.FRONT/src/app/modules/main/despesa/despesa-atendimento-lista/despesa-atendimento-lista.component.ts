@@ -36,7 +36,6 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
   despesasPeriodo: DespesaPeriodoData;
   despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
 
-
   constructor (
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
@@ -115,11 +114,11 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     return Enumerable.from(this.despesasPeriodo.items).select(e => e.codDespesaPeriodo).toArray().join(',');
   }
 
-  /* statusDespesaPeriodoTecnico(dp: DespesaPeriodo): string
+  statusDespesaPeriodoTecnico(dp: DespesaPeriodo): string
   {
     var dpt: DespesaPeriodoTecnico = Enumerable.from(this.despesasPeriodoTecnico?.items)
       .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
-    return dpt ? dpt.despesaPeriodoTecnicoStatus.nomeDespesaPeriodoTecnicoStatus.toString() : '---';
+    return dpt ? dpt.despesaPeriodoTecnicoStatus.nomeDespesaPeriodoTecnicoStatus.toString() : 'EM EDIÇÃO';
   }
 
   totalDespesaDespesaPeriodoTecnico(dp: DespesaPeriodo): string
@@ -128,20 +127,38 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
       .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
 
     return (dpt ? Enumerable.from(dpt.despesas)
-    .sum(e => Enumerable.from(e.despesaItens)
-    .where(ee => ee.codDespesaTipo != 1 && ee.codDespesaTipo != 8)
-    .sum(ee => ee.despesaValor)) : 0.00)
+      .sum(e => Enumerable.from(e.despesaItens)
+        .where(ee => ee.codDespesaTipo != 1 && ee.codDespesaTipo != 8 && ee.indAtivo == 1)
+        .sum(ee => ee.despesaValor)) : 0.00)
       .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
   }
 
   totalAdiantamentoDespesaPeriodoTecnico(dp: DespesaPeriodo): string
   {
-    var dpt: DespesaAdiantamentoPeriodo = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
-      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
+    var dpts: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
+      .where(e => e.codDespesaPeriodo == dp.codDespesaPeriodo).toArray();
 
-    return (dpt ? dpt.valorAdiantamentoUtilizado : 0.00)
+    return (dpts ? Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) : 0.00)
       .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  } */
+
+    /* var valorAdiantamento: number = Enumerable.from(dpts).sum(e => e.despesaAdiantamento.valorAdiantamento); */
+    /* var valorUtilizado: number = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado); */
+    /* var valorSaldo: number = valorAdiantamento - valorUtilizado; */
+  }
+
+  gastosExcedentesDespesaPeriodoTecnico(dp: DespesaPeriodo): string
+  {
+    var dpts: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
+      .where(e => e.codDespesaPeriodo == dp.codDespesaPeriodo).toArray();
+
+    var despesaTotal = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) ?? 0.00;
+    var adiantamentoUtilizado = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) ?? 0.00;
+
+    var total = adiantamentoUtilizado - despesaTotal;
+
+    return (total < 0 ? total * -1 : total)
+      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  }
 
   paginar()
   {

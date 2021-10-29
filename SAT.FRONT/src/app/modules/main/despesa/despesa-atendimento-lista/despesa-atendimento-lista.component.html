@@ -62,19 +62,19 @@
                                                 {{ dp.dataFim | date:'dd/MM/yyyy' }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ totalDespesaDespesaPeriodoTecnico(dp) }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ totalAdiantamentoDespesaPeriodoTecnico(dp) }}
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ gastosExcedentesDespesaPeriodoTecnico(dp) }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                ---
+                                                {{ statusDespesaPeriodoTecnico(dp) }}
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 {{ dp.indAtivo == 1 ? 'SIM' : 'NÃO'}}

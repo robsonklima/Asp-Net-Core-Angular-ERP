@@ -142,6 +142,7 @@ export class DespesaAdiantamentoPeriodo
     codUsuarioCad: string;
     dataHoraCad: string;
     despesaAdiantamento: DespesaAdiantamento;
+    despesaPeriodo: DespesaPeriodo;
 }
 
 export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 

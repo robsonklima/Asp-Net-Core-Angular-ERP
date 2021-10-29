@@ -105,6 +105,20 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.5',
+            releaseDate: '29 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajuste no filtro de técnico da RAT',
+                        'Ajustes na impressão de PDF',
+                        'Ajustes na Agenda Técnico'
+                    ],
+                }
+            ]
         }
     ];
 

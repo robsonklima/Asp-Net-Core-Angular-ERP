@@ -103,7 +103,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Nome != null)
             {
-                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome);
+                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome || t.Nome.Contains(parameters.Nome));
             }
 
             if (parameters.CodAutorizada != null)

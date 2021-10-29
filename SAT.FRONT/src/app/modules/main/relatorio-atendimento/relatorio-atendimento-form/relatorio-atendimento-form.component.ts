@@ -132,7 +132,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       pageSize: 100,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.ordemServico?.filial?.codFilial.toString()
+      codFiliais: this.getFiliais()
     }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges
@@ -146,9 +146,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
             sortActive: 'nome',
             sortDirection: 'asc',
             indAtivo: 1,
-            filter: query,
+            nome: query,
             pageSize: 100,
-            codFiliais: this.ordemServico?.filial?.toString()
+            codFiliais: this.getFiliais()
           }).toPromise();
 
           return data.items.slice();
@@ -562,6 +562,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
   public bloqueiaFormTecnico(ordemServico: OrdemServico)
   {
     return (ordemServico?.codStatusServico == 8 && ordemServico?.codTecnico != null);
+  }
+
+  private getFiliais()
+  {
+    var filiais: string[] = [];
+
+    if (this._userService.user?.codFilial)
+      filiais.push(this._userService.user?.codFilial.toString());
+
+    if (this._userService.user?.codFilial && this.ordemServico?.filial?.codFilial != this._userService.user?.codFilial)
+      filiais.push(this.ordemServico?.filial?.codFilial.toString());
+
+    return filiais.join(',');
   }
 
   ngOnDestroy()

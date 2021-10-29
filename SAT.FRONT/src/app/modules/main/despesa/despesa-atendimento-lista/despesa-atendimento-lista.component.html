@@ -86,8 +86,8 @@
                             <mat-paginator [hidden]="!despesasPeriodo?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="despesasPeriodo?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50, 100, 250]"
-                                [showFirstLastButtons]="true" (page)="paginar()">
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

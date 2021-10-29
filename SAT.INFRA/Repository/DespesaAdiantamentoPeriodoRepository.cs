@@ -51,8 +51,11 @@ namespace SAT.INFRA.Repository
                 despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => periodos.Any(p => p == e.CodDespesaPeriodo.ToString()));
             }
 
-            if (parameters.CodTecnico.HasValue)
-                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => e.DespesaAdiantamento.CodTecnico == parameters.CodTecnico);
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(',').Select(f => f.Trim());
+                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => tecnicos.Any(p => p == e.DespesaAdiantamento.CodTecnico.ToString()));
+            }
 
             if (parameters.IndAtivoPeriodo.HasValue)
                 despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);

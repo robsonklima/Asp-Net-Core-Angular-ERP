@@ -63,7 +63,7 @@ export interface DespesaPeriodoTecnicoData extends Meta
 
 export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {
-    codTecnico?: number;
+    codTecnicos?: string;
     codDespesaPeriodos?: string;
     indAtivoPeriodo?: number;
 };
@@ -147,7 +147,7 @@ export class DespesaAdiantamentoPeriodo
 export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 
 {
     codDespesaPeriodos?: string;
-    codTecnico?: number;
+    codTecnicos?: string;
     indAtivoPeriodo?: number;
 };
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
@@ -79,7 +79,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     if (!this.userSession.usuario.codTecnico) return;
 
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
-      codTecnico: this.userSession.usuario.codTecnico,
+      codTecnicos: this.userSession.usuario.codTecnico.toString(),
       codDespesaPeriodos: this.getCodDespesaPeriodos(),
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize
@@ -91,7 +91,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     if (!this.userSession.usuario.codTecnico) return;
 
     this.despesasAdiantamentoPeriodo = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
-      codTecnico: this.userSession.usuario.codTecnico,
+      codTecnicos: this.userSession.usuario.codTecnico.toString(),
       codDespesaPeriodos: this.getCodDespesaPeriodos(),
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize

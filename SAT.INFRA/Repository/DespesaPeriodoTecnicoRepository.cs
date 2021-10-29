@@ -47,13 +47,16 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
                 .AsQueryable();
 
-            if (parameters.CodTecnico.HasValue)
-                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => e.CodTecnico == parameters.CodTecnico);
-
             if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodos))
             {
                 var periodos = parameters.CodDespesaPeriodos.Split(',').Select(f => f.Trim());
                 despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => periodos.Any(p => p == e.CodDespesaPeriodo.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(',').Select(f => f.Trim());
+                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => tecnicos.Any(p => p == e.CodTecnico.ToString()));
             }
 
             if (parameters.IndAtivoPeriodo.HasValue)

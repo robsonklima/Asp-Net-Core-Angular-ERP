@@ -42,7 +42,6 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
   constructor (
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
-    private _despesaPeriodoSvc: DespesaPeriodoService,
     private _tecnicoSvc: TecnicoService,
     private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
@@ -80,13 +79,14 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
 
   private async obterDespesasPeriodoTecnico()
   {
-    if (!this.userSession.usuario.codTecnico) return;
-
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
       codTecnicos: this.getCodTecnicos(),
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize
     }).toPromise());
+
+    console.log(this.despesasPeriodoTecnico);
+
   }
 
   private async obterDespesasAdiantamentoPeriodo()
@@ -96,6 +96,8 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize
     }).toPromise());
+
+    console.log(this.despesasAdiantamentoPeriodo);
   }
 
   private async obterDados()

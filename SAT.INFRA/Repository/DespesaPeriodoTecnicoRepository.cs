@@ -65,8 +65,6 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesasPeriodoTecnico = despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
-            var t = despesasPeriodoTecnico.ToQueryString();
-
             return PagedList<DespesaPeriodoTecnico>.ToPagedList(despesasPeriodoTecnico, parameters.PageNumber, parameters.PageSize);
         }
     }

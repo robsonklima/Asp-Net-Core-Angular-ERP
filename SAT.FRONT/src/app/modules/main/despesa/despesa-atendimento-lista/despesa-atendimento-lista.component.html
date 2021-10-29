@@ -48,12 +48,10 @@
                                         {{ t('ativo') }}
                                     </div>
                                 </div>
-
                                 <ng-container *ngIf="despesasPeriodo?.items.length">
                                     <ng-container *ngFor="let dp of despesasPeriodo?.items">
                                         <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                             *transloco="let t">
-
                                             <div class="hidden md:block truncate">
                                                 ---
                                             </div>
@@ -79,7 +77,7 @@
                                                 ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ dp.indAtivo == 1 ? 'SIM' : 'NÃO'}}
                                             </div>
                                         </div>
                                     </ng-container>

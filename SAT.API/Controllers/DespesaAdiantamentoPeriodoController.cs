@@ -22,9 +22,9 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaAdiantamentoPeriodoParameters parameters) =>
             _despesaAdiantamentoPeriodoService.ObterPorParametros(parameters);
 
-        [HttpGet("{codDespesaAdiantamentoPerioo}")]
-        public DespesaAdiantamentoPeriodo Get(int codDespesaAdiantamentoPerioo) =>
-             _despesaAdiantamentoPeriodoService.ObterPorCodigo(codDespesaAdiantamentoPerioo);
+        [HttpGet("{codDespesaAdiantamentoPeriodo}")]
+        public DespesaAdiantamentoPeriodo Get(int codDespesaAdiantamentoPeriodo) =>
+             _despesaAdiantamentoPeriodoService.ObterPorCodigo(codDespesaAdiantamentoPeriodo);
 
         [HttpPost]
         public void Post([FromBody] DespesaAdiantamentoPeriodo despesa) =>
@@ -34,8 +34,8 @@ namespace SAT.API.Controllers
         public void Put([FromBody] DespesaAdiantamentoPeriodo despesa) =>
             _despesaAdiantamentoPeriodoService.Atualizar(despesa);
 
-        [HttpDelete("{codDespesaAdiantamentoPerioo}")]
-        public void Delete(int codDespesaAdiantamentoPerioo) =>
-            _despesaAdiantamentoPeriodoService.Deletar(codDespesaAdiantamentoPerioo);
+        [HttpDelete("{codDespesaAdiantamentoPeriodo}")]
+        public void Delete(int codDespesaAdiantamentoPeriodo) =>
+            _despesaAdiantamentoPeriodoService.Deletar(codDespesaAdiantamentoPeriodo);
     }
 }

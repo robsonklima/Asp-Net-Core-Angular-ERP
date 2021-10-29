@@ -41,10 +41,9 @@ namespace SAT.INFRA.Repository
         public PagedList<DespesaAdiantamento> ObterPorParametros(DespesaAdiantamentoParameters parameters)
         {
             var despesaAdiantamento = _context.DespesaAdiantamento
+            .Include(da => da.DespesaAdiantamentoTipo)
+            .Include(da => da.Tecnico)
             .AsQueryable();
-
-            if (parameters.CodTecnico.HasValue)
-                despesaAdiantamento = despesaAdiantamento.Where(e => e.CodTecnico == parameters.CodTecnico);
 
             return PagedList<DespesaAdiantamento>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
         }

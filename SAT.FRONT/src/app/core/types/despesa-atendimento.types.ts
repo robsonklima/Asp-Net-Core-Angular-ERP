@@ -56,7 +56,7 @@ export interface DespesaPeriodoTecnicoData extends Meta
 export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {
     codTecnico?: number;
-    codDespesaPeriodo?: number;
+    codDespesaPeriodos?: string;
     indAtivoPeriodo?: number;
 };
 
@@ -123,4 +123,41 @@ export class DespesaItem
     dataHoraManut: string;
     latitudeHotel: string;
     longitudeHotel: string;
+}
+
+export class DespesaAdiantamentoPeriodo
+{
+    codDespesaAdiantamentoPeriodo: number;
+    codDespesaAdiantamento: number;
+    codDespesaPeriodo: number;
+    valorAdiantamentoUtilizado: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    despesaAdiantamento: DespesaAdiantamento;
+}
+
+export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 
+{
+    codDespesaPeriodos?: string;
+    codTecnico?: number;
+    indAtivoPeriodo?: number;
+};
+
+export interface DespesaAdiantamentoPeriodoData extends Meta
+{
+    items: DespesaAdiantamentoPeriodo[]
+};
+
+export class DespesaAdiantamento
+{
+    codDespesaAdiantamento: number;
+    codTecnico: number;
+    codDespesaAdiantamentoTipo: number;
+    dataAdiantamento: string;
+    valorAdiantamento: number;
+    indAtivo: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
 }

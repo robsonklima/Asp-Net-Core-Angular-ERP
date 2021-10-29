@@ -2,11 +2,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEnc
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
-import { DespesaPeriodo, DespesaPeriodoData, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-periodo.types';
+import { DespesaAdiantamentoPeriodoData, DespesaPeriodo, DespesaPeriodoData, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-despesa-atendimento-lista',
@@ -32,19 +34,20 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
   isLoading: boolean = false;
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   despesasPeriodo: DespesaPeriodoData;
+  despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
 
 
   constructor (
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _despesaPeriodoSvc: DespesaPeriodoService,
+    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
   { this.userSession = JSON.parse(this._userService.userSession); }
 
   ngAfterViewInit(): void
   {
-    this.obterDespesasPeriodo();
-    this.obterDespesasPeriodoTecnico();
+    this.obterDados();
 
     if (this.sort && this.paginator)
     {
@@ -54,11 +57,22 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
       this.sort.sortChange.subscribe(() =>
       {
         this.paginator.pageIndex = 0;
-        this.obterDespesasPeriodo();
+        this.obterDados();
       });
     }
 
     this._cdr.detectChanges();
+  }
+
+  private async obterDespesasPeriodo()
+  {
+    this.despesasPeriodo = (await this._despesaPeriodoSvc.obterPorParametros({
+      indAtivo: 1,
+      pageNumber: this.paginator?.pageIndex + 1,
+      sortActive: this.sort?.active || 'codDespesaPeriodo',
+      sortDirection: this.sort?.direction || 'desc',
+      pageSize: this.paginator?.pageSize
+    }).toPromise());
   }
 
   private async obterDespesasPeriodoTecnico()
@@ -67,27 +81,39 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
 
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
       codTecnico: this.userSession.usuario.codTecnico,
+      codDespesaPeriodos: this.getCodDespesaPeriodos(),
       indAtivoPeriodo: 1,
-      pageSize: 500,
+      pageSize: this.paginator?.pageSize
     }).toPromise()).items;
   }
 
-  private async obterDespesasPeriodo()
+  private async obterDespesasAdiantamentoPeriodo()
+  {
+    if (!this.userSession.usuario.codTecnico) return;
+
+    this.despesasAdiantamentoPeriodo = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
+      codTecnico: this.userSession.usuario.codTecnico,
+      codDespesaPeriodos: this.getCodDespesaPeriodos(),
+      indAtivoPeriodo: 1,
+      pageSize: this.paginator?.pageSize
+    }).toPromise());
+  }
+
+  private async obterDados()
   {
     this.isLoading = true;
 
-    this.despesasPeriodo = (await this._despesaPeriodoSvc.obterPorParametros({
-      indAtivo: 1,
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'codDespesaPeriodo',
-      sortDirection: this.sort?.direction || 'desc',
-      pageSize: this.paginator?.pageSize
-    }).toPromise());
+    await this.obterDespesasPeriodo();
+    this.obterDespesasPeriodoTecnico();
+    this.obterDespesasAdiantamentoPeriodo();
 
     this.isLoading = false;
-
   }
 
+  private getCodDespesaPeriodos(): string
+  {
+    return Enumerable.from(this.despesasPeriodo.items).select(e => e.codDespesaPeriodo).toArray().join(',');
+  }
 
   paginar()
   {

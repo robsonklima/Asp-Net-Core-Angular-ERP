@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -8,7 +9,11 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodDespesaAdiantamento { get; set; }
         public int CodTecnico { get; set; }
+        [ForeignKey("CodTecnico")]
+        public Tecnico Tecnico { get; set; }
         public int CodDespesaAdiantamentoTipo { get; set; }
+        [ForeignKey("CodDespesaAdiantamentoTipo")]
+        public DespesaAdiantamentoTipo DespesaAdiantamentoTipo { get; set; }
         public DateTime DataAdiantamento { get; set; }
         public decimal ValorAdiantamento { get; set; }
         public byte IndAtivo { get; set; }

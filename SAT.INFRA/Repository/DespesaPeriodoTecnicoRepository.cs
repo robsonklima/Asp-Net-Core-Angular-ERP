@@ -43,7 +43,7 @@ namespace SAT.INFRA.Repository
             var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
                 .Include(dpt => dpt.DespesaPeriodo)
                 .Include(dpt => dpt.Despesas)
-                    .ThenInclude(dp => dp.DespesaItems)
+                    .ThenInclude(dp => dp.DespesaItens)
                 .AsQueryable();
 
             if (parameters.CodTecnico.HasValue)

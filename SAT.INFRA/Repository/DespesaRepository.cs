@@ -41,7 +41,7 @@ namespace SAT.INFRA.Repository
         public PagedList<Despesa> ObterPorParametros(DespesaParameters parameters)
         {
             var despesas = _context.Despesa
-            .Include(d => d.DespesaItems)
+            .Include(d => d.DespesaItens)
             .AsQueryable();
 
             if (parameters.CodTecnico.HasValue)

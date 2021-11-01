@@ -39,14 +39,11 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
   constructor (
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
-    private _despesaPeriodoSvc: DespesaPeriodoService,
-    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
   { this.userSession = JSON.parse(this._userService.userSession); }
 
   ngAfterViewInit()
   {
-    this.obterDados();
 
     if (this.sort && this.paginator)
     {
@@ -56,112 +53,24 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
       this.sort.sortChange.subscribe(() =>
       {
         this.paginator.pageIndex = 0;
-        this.obterDados();
       });
     }
 
+    this.obterDespesasPeriodoTecnico();
     this._cdr.detectChanges();
-  }
-
-  private async obterDespesasPeriodo()
-  {
-    this.despesasPeriodo = (await this._despesaPeriodoSvc.obterPorParametros({
-      indAtivo: 1,
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'codDespesaPeriodo',
-      sortDirection: this.sort?.direction || 'desc',
-      pageSize: this.paginator?.pageSize
-    }).toPromise());
   }
 
   private async obterDespesasPeriodoTecnico()
   {
-    if (!this.userSession.usuario.codTecnico) return;
-
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
-      codTecnicos: this.userSession.usuario.codTecnico.toString(),
-      codDespesaPeriodos: this.getCodDespesaPeriodos(),
+      codTecnico: this.userSession.usuario?.codTecnico,
       indAtivoPeriodo: 1,
       pageSize: this.paginator?.pageSize
     }).toPromise());
   }
 
-  private async obterDespesasAdiantamentoPeriodo()
+  public paginar()
   {
-    if (!this.userSession.usuario.codTecnico) return;
 
-    this.despesasAdiantamentoPeriodo = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
-      codTecnicos: this.userSession.usuario.codTecnico.toString(),
-      codDespesaPeriodos: this.getCodDespesaPeriodos(),
-      indAtivoPeriodo: 1,
-      pageSize: this.paginator?.pageSize
-    }).toPromise());
-  }
-
-  private async obterDados()
-  {
-    this.isLoading = true;
-
-    await this.obterDespesasPeriodo();
-    await this.obterDespesasPeriodoTecnico();
-    await this.obterDespesasAdiantamentoPeriodo();
-
-    this.isLoading = false;
-  }
-
-  private getCodDespesaPeriodos(): string
-  {
-    return Enumerable.from(this.despesasPeriodo.items).select(e => e.codDespesaPeriodo).toArray().join(',');
-  }
-
-  statusDespesaPeriodoTecnico(dp: DespesaPeriodo): string
-  {
-    var dpt: DespesaPeriodoTecnico = Enumerable.from(this.despesasPeriodoTecnico?.items)
-      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
-    return dpt ? dpt.despesaPeriodoTecnicoStatus.nomeDespesaPeriodoTecnicoStatus.toString() : 'EM EDIÇÃO';
-  }
-
-  totalDespesaDespesaPeriodoTecnico(dp: DespesaPeriodo): string
-  {
-    var dpt: DespesaPeriodoTecnico = Enumerable.from(this.despesasPeriodoTecnico?.items)
-      .firstOrDefault(e => e.codDespesaPeriodo == dp.codDespesaPeriodo);
-
-    return (dpt ? Enumerable.from(dpt.despesas)
-      .sum(e => Enumerable.from(e.despesaItens)
-        .where(ee => ee.codDespesaTipo != 1 && ee.codDespesaTipo != 8 && ee.indAtivo == 1)
-        .sum(ee => ee.despesaValor)) : 0.00)
-      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  }
-
-  totalAdiantamentoDespesaPeriodoTecnico(dp: DespesaPeriodo): string
-  {
-    var dpts: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
-      .where(e => e.codDespesaPeriodo == dp.codDespesaPeriodo).toArray();
-
-    return (dpts ? Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) : 0.00)
-      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-
-    /* var valorAdiantamento: number = Enumerable.from(dpts).sum(e => e.despesaAdiantamento.valorAdiantamento); */
-    /* var valorUtilizado: number = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado); */
-    /* var valorSaldo: number = valorAdiantamento - valorUtilizado; */
-  }
-
-  gastosExcedentesDespesaPeriodoTecnico(dp: DespesaPeriodo): string
-  {
-    var dpts: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
-      .where(e => e.codDespesaPeriodo == dp.codDespesaPeriodo).toArray();
-
-    var despesaTotal = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) ?? 0.00;
-    var adiantamentoUtilizado = Enumerable.from(dpts).sum(e => e.valorAdiantamentoUtilizado) ?? 0.00;
-
-    var total = adiantamentoUtilizado - despesaTotal;
-
-    return (total < 0 ? total * -1 : total)
-      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  }
-
-  paginar()
-  {
-    this.obterDados();
   }
 }

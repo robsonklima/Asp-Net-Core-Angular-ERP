@@ -45,20 +45,17 @@ namespace SAT.INFRA.Repository
             .Include(dap => dap.DespesaPeriodo)
             .AsQueryable();
 
-            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodos))
-            {
-                var periodos = parameters.CodDespesaPeriodos.Split(',').Select(f => f.Trim());
-                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => periodos.Any(p => p == e.CodDespesaPeriodo.ToString()));
-            }
+            if (parameters.CodDespesaPeriodo.HasValue)
+                despesaAdiantamentoPeriodo =
+                    despesaAdiantamentoPeriodo.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
-            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
-            {
-                var tecnicos = parameters.CodTecnicos.Split(',').Select(f => f.Trim());
-                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => tecnicos.Any(p => p == e.DespesaAdiantamento.CodTecnico.ToString()));
-            }
+            if (parameters.CodTecnico.HasValue)
+                despesaAdiantamentoPeriodo =
+                    despesaAdiantamentoPeriodo.Where(e => e.DespesaAdiantamento.CodTecnico == parameters.CodTecnico);
 
             if (parameters.IndAtivoPeriodo.HasValue)
-                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
+                despesaAdiantamentoPeriodo =
+                    despesaAdiantamentoPeriodo.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
 
             return PagedList<DespesaAdiantamentoPeriodo>.ToPagedList(despesaAdiantamentoPeriodo, parameters.PageNumber, parameters.PageSize);
         }

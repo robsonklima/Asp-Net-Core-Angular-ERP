@@ -5,13 +5,20 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
+    public partial class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
     {
+        private readonly IDespesaPeriodoRepository _despesaPeriodoRepo;
+        private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
 
-        public DespesaPeriodoTecnicoService(IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo)
+        public DespesaPeriodoTecnicoService(
+            IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
+            IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
+            IDespesaPeriodoRepository despesaPeriodoRepo)
         {
             _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
+            _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
+            _despesaPeriodoRepo = despesaPeriodoRepo;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesa)
@@ -34,13 +41,13 @@ namespace SAT.SERVICES.Services
             throw new System.NotImplementedException();
         }
 
-        public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
+        public DespesaPeriodoViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
+            var despesasPeriodoTecnico = GetDespesaPeriodoViewModel(parameters);
 
-            var lista = new ListViewModel
+            var lista = new DespesaPeriodoViewModel
             {
-                Items = despesasPeriodoTecnico,
+                Items = despesasPeriodoTecnico.Items,
                 TotalCount = despesasPeriodoTecnico.TotalCount,
                 CurrentPage = despesasPeriodoTecnico.CurrentPage,
                 PageSize = despesasPeriodoTecnico.PageSize,

@@ -47,23 +47,21 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodos))
-            {
-                var periodos = parameters.CodDespesaPeriodos.Split(',').Select(f => f.Trim());
-                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => periodos.Any(p => p == e.CodDespesaPeriodo.ToString()));
-            }
+            if (parameters.CodDespesaPeriodo.HasValue)
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
-            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
-            {
-                var tecnicos = parameters.CodTecnicos.Split(',').Select(f => f.Trim());
-                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => tecnicos.Any(p => p == e.CodTecnico.ToString()));
-            }
+            if (parameters.CodTecnico.HasValue)
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.CodTecnico == parameters.CodTecnico);
 
             if (parameters.IndAtivoPeriodo.HasValue)
-                despesasPeriodoTecnico = despesasPeriodoTecnico.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesasPeriodoTecnico = despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
             return PagedList<DespesaPeriodoTecnico>.ToPagedList(despesasPeriodoTecnico, parameters.PageNumber, parameters.PageSize);
         }

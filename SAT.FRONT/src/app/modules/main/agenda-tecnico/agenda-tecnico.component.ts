@@ -12,7 +12,8 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fromEvent, interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
-import { Router } from '@angular/router';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 
 setOptions({
   locale: localePtBR,
@@ -122,16 +123,21 @@ export class AgendaTecnicoComponent implements AfterViewInit
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   protected _onDestroy = new Subject<void>();
+  userSession: UserSession;
+
 
   constructor (
     private _notify: Notifications,
-    private _router: Router,
+    private _userService: UserService,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
     private _haversineSvc: HaversineService,
     private _cdr: ChangeDetectorRef,
     private _agendaTecnicoSvc: AgendaTecnicoService
-  ) { }
+  ) 
+  {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   ngAfterViewInit(): void
   {
@@ -183,7 +189,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     const tecnicos = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
-      codFiliais: "4",
+      codFiliais: this.getFiliais(),
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
@@ -201,8 +207,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
     });
 
     const chamados = await this._osSvc.obterPorParametros({
-      codFiliais: "4",
-      //codStatusServicos: "8",
+      codFiliais: this.getFiliais(),
       dataTransfInicio: moment().add(-1, 'days').toISOString(),
       dataTransfFim: moment().add(1, 'days').toISOString(),
       sortActive: 'dataHoraTransf',
@@ -211,7 +216,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
 
     const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
       tipo: "INTERVALO",
-      codFiliais: "4",
+      codFiliais: this.getFiliais(),
       data: moment().toISOString()
     }).toPromise();
 
@@ -383,7 +388,7 @@ export class AgendaTecnicoComponent implements AfterViewInit
   {
     const data = await this._osSvc.obterPorParametros({
       codStatusServicos: "1",
-      codFiliais: "4"
+      codFiliais: this.getFiliais(),
     }).toPromise();
 
     this.externalEvents = data.items.map(os =>
@@ -556,5 +561,10 @@ export class AgendaTecnicoComponent implements AfterViewInit
         display: 'center'
       }
     );
+  }
+
+  private getFiliais(): string
+  {
+    return this.userSession.usuario?.codFilial?.toString() ?? "4";
   }
 }

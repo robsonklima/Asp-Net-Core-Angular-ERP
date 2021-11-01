@@ -127,7 +127,8 @@ export class ChangelogComponent
                 {
                     type: 'Adições',
                     list: [
-                        'Filtro por filial na Agenda Técnico'
+                        'Filtro por filial na Agenda Técnico',
+                        'Ajustes na pesquisa de técnicos da RAT',
                     ],
                 }
             ]

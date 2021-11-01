@@ -83,7 +83,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo != null)
             {
-                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo && t.Usuario.IndAtivo == parameters.IndAtivo);
+                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo); // && t.Usuario.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.IndFerias != null)

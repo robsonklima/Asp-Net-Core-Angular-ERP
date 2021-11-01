@@ -42,7 +42,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
-                        <mat-select formControlName="codTecnico" #tecnicoSelect
+                        <mat-select formControlName="codTecnico"
                             [disabled]="!tecnicos.length || bloqueiaFormTecnico(ordemServico)">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."

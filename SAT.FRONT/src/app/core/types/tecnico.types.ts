@@ -80,8 +80,10 @@ export interface TecnicoData extends Meta
 export interface TecnicoParameters extends QueryStringParameters
 {
     codTecnico?: number;
+    nome?: string;
     indAtivo?: number;
     codFiliais?: string;
+    codTecnicos?: string;
     indFerias?: number;
     codAutorizada?: number;
     codPerfil?: number;

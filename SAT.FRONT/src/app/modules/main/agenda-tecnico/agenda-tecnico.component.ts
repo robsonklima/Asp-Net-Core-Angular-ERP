@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendar } from '@mobiscroll/angular';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -183,28 +183,27 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   {
     if (prompt) this.loading = true;
 
-    const params = {
+    const tecnicos = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codFiliais: this.getFiliais(),
+      codTecnicos: this.filtro?.parametros?.codTecnicos,
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
       sortActive: 'nome',
       sortDirection: 'asc'
-    };
-
-    const tecnicos = await this._tecnicoSvc.obterPorParametros({
-      ...params, ...this.filtro?.parametros
     }).toPromise();
 
-    this.resources = tecnicos.items.map(tecnico =>
-    {
-      return {
-        id: tecnico.codTecnico,
-        name: tecnico.nome,
-        img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
-      }
-    });
+    this.resources = Enumerable.from(tecnicos.items)
+      .distinct(t => t.codTecnico)
+      .select(tecnico =>
+      {
+        return {
+          id: tecnico.codTecnico,
+          name: tecnico.nome,
+          img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
+        }
+      }).toArray();
 
     this.chamados = (await this._osSvc.obterPorParametros({
       codFiliais: this.getFiliais(),
@@ -749,6 +748,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
   private getFiliais(): string
   {
-    return this.userSession.usuario?.codFilial?.toString() ?? "4";
+    return this.filtro?.parametros?.codFiliais || this.userSession?.usuario?.codFilial || "4";
   }
 }

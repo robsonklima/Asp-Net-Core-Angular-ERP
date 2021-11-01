@@ -119,6 +119,19 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.6',
+            releaseDate: '01 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Filtro por filial na Agenda Técnico',
+                        'Ajustes na pesquisa de técnicos da RAT',
+                    ],
+                }
+            ]
         }
     ];
 

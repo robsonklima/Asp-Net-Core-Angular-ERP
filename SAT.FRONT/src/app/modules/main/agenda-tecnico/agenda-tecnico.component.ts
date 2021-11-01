@@ -748,7 +748,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
   private getFiliais(): string
   {
-    return this.userSession.usuario?.codFilial?.toString() ?? "4";
+    return this.filtro?.parametros?.codFiliais;
   }
-
 }

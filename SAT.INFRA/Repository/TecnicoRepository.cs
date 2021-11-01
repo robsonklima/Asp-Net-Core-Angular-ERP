@@ -101,6 +101,11 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.Where(t => t.Usuario.CodPerfil == parameters.CodPerfil);
             }
 
+            if (parameters.Nome != null)
+            {
+                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome || t.Nome.Contains(parameters.Nome));
+            }
+
             if (parameters.CodAutorizada != null)
             {
                 tecnicos = tecnicos.Where(t => t.CodAutorizada == parameters.CodAutorizada);
@@ -120,6 +125,12 @@ namespace SAT.INFRA.Repository
             {
                 var filiais = parameters.CodFiliais.Split(",");
                 tecnicos = tecnicos.Where(t => filiais.Any(a => a == t.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecs = parameters.CodTecnicos.Split(",");
+                tecnicos = tecnicos.Where(t => tecs.Any(a => a == t.CodTecnico.ToString()));
             }
 
             if (parameters.CodStatusServicos != null)

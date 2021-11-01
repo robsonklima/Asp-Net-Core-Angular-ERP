@@ -15,11 +15,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatOptionModule } from '@angular/material/core';
+import { AgendaTecnicoFiltroComponent } from './agenda-tecnico-filtro/agenda-tecnico-filtro.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
         AgendaTecnicoComponent,
         RoteiroMapaComponent,
+        AgendaTecnicoFiltroComponent,
     ],
     imports: [
         RouterModule.forChild(agendaTecnicoRoutes),
@@ -31,12 +36,16 @@ import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
         HttpClientJsonpModule,
         TranslocoModule,
         MatSidenavModule,
+        MatSelectModule,
         MatIconModule,
         MatTooltipModule,
         MatButtonModule,
         MatProgressSpinnerModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatDialogModule,
+        MatOptionModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

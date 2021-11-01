@@ -11,7 +11,16 @@ export class ChangelogComponent
     changelog: any[] = [
         {
             version: 'v1.0.0',
-            releaseDate: '01 de Março de 2021'
+            releaseDate: '01 de Março de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Criação do sistema',
+                    ],
+
+                },
+            ]
         },
         {
             version: 'v1.0.1',
@@ -53,6 +62,60 @@ export class ChangelogComponent
                     type: 'Correções',
                     list: [
                         'Filtro de equipamento por texto'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.3',
+            releaseDate: '20 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Mapa de roteirização'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Melhoria performance Agenda Técnicos'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.4',
+            releaseDate: '26 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Impressão da OS',
+                        'Filtro na agenda técnicos',
+                        'Arrastar para transferir na agenda técnicos'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Melhorias no filtro por equipamento na listagem de OS'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.5',
+            releaseDate: '29 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajuste no filtro de técnico da RAT',
+                        'Ajustes na impressão de PDF',
+                        'Ajustes na Agenda Técnico'
                     ],
                 }
             ]

@@ -29,6 +29,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataTransfInicio { get; set; }
         public DateTime DataTransfFim { get; set; }
         public OrdemServicoIncludeEnum Include { get; set; }
+        public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }
         public int? CodTecnico { get; set; }
     }

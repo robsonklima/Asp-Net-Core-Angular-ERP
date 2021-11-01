@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -43,11 +46,13 @@ namespace SAT.SERVICES.Services
 
         public DespesaPeriodoViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico = GetDespesaPeriodoViewModel(parameters);
+            var despesasPeriodoTecnico =
+                PagedList<DespesaPeriodoTecnicoViewModel>.ToPagedList(
+                    GetDespesaPeriodoViewModel(parameters), parameters.PageNumber, parameters.PageSize);
 
             var lista = new DespesaPeriodoViewModel
             {
-                Items = despesasPeriodoTecnico.Items,
+                Items = despesasPeriodoTecnico,
                 TotalCount = despesasPeriodoTecnico.TotalCount,
                 CurrentPage = despesasPeriodoTecnico.CurrentPage,
                 PageSize = despesasPeriodoTecnico.PageSize,

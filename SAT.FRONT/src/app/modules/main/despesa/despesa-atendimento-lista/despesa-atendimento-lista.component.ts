@@ -2,13 +2,14 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
-import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
-import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaPeriodo, DespesaPeriodoData, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import Enumerable from 'linq';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
+registerLocaleData(localePt);
 
 @Component({
   selector: 'app-despesa-atendimento-lista',
@@ -22,7 +23,8 @@ import Enumerable from 'linq';
         }
     `],
   encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+  animations: fuseAnimations,
+  providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
 export class DespesaAtendimentoListaComponent implements AfterViewInit
@@ -33,8 +35,6 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
   userSession: UserSession;
   isLoading: boolean = false;
   despesasPeriodoTecnico: DespesaPeriodoTecnicoData;
-  despesasPeriodo: DespesaPeriodoData;
-  despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
 
   constructor (
     private _cdr: ChangeDetectorRef,
@@ -45,6 +45,8 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
   ngAfterViewInit()
   {
 
+    this.obterDados();
+
     if (this.sort && this.paginator)
     {
       this.sort.disableClear = true;
@@ -52,11 +54,11 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
 
       this.sort.sortChange.subscribe(() =>
       {
+        this.obterDados();
         this.paginator.pageIndex = 0;
       });
     }
 
-    this.obterDespesasPeriodoTecnico();
     this._cdr.detectChanges();
   }
 
@@ -65,12 +67,24 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
     this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
       codTecnico: this.userSession.usuario?.codTecnico,
       indAtivoPeriodo: 1,
-      pageSize: this.paginator?.pageSize
+      pageNumber: this.paginator?.pageIndex + 1,
+      pageSize: this.paginator?.pageSize,
+      sortActive: 'dataInicio',
+      sortDirection: 'desc'
     }).toPromise());
+  }
+
+  public async obterDados()
+  {
+    this.isLoading = true;
+
+    await this.obterDespesasPeriodoTecnico();
+
+    this.isLoading = false;
   }
 
   public paginar()
   {
-
+    this.obterDados();
   }
 }

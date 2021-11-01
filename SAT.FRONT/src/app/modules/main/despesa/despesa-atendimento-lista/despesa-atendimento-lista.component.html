@@ -56,16 +56,16 @@
                                                 ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ dp.dataInicio | date:'dd/MM/yyyy' }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ dp.dataFim | date:'dd/MM/yyyy' }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ dp.totalDespesa | currency:'BRL':true }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ dp.totalAdiantamento | currency:'BRL':true }}
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 ---
@@ -83,11 +83,11 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
-                            <mat-paginator [hidden]="!despesasPeriodo?.items?.length"
+                            <mat-paginator [hidden]="!despesasPeriodoTecnico?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                                [ngClass]="{'pointer-events-none': isLoading}" [length]="despesasPeriodo?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"
-                                (page)="paginar()">
+                                [ngClass]="{'pointer-events-none': isLoading}"
+                                [length]="despesasPeriodoTecnico?.totalCount" [pageSize]="10"
+                                [pageSizeOptions]="[5, 10, 25, 250]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

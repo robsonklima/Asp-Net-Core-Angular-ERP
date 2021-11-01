@@ -58,8 +58,23 @@ export class DespesaPeriodoTecnico
 
 export interface DespesaPeriodoTecnicoData extends Meta
 {
-    items: DespesaPeriodoTecnico[]
+    items: DespesaPeriodoViewModel[]
 };
+
+export interface DespesaPeriodoViewModel
+{
+    codTecnico: number;
+    codDespesaPeriodo: number;
+    dataInicio: string;
+    dataFim: string;
+    totalDespesa: number;
+    totalAdiantamento: number;
+    restituirAEmpresa: number;
+    gastosExcedentes: number;
+    status: DespesaPeriodoTecnicoStatus;
+    indAtivo: number;
+};
+
 
 export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {

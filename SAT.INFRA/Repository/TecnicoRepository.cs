@@ -83,7 +83,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo != null)
             {
-                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo && t.Usuario.IndAtivo == parameters.IndAtivo);
+                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo); // && t.Usuario.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.IndFerias != null)
@@ -103,7 +103,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Nome != null)
             {
-                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome);
+                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome || t.Nome.Contains(parameters.Nome));
             }
 
             if (parameters.CodAutorizada != null)

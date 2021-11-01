@@ -178,13 +178,13 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     this._cdr.detectChanges();
   }
 
-  private async carregaTecnicosEChamadosTransferidos(prompt: boolean=false)
+  private async carregaTecnicosEChamadosTransferidos(prompt: boolean = false)
   {
     if (prompt) this.loading = true;
 
     const params = {
       indAtivo: 1,
-      codFiliais: "4",
+      codFiliais: this.getFiliais(),
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
@@ -206,7 +206,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     });
 
     this.chamados = (await this._osSvc.obterPorParametros({
-      codFiliais: "4",
+      codFiliais: this.getFiliais(),
       include: OrdemServicoIncludeEnum.OS_AGENDA,
       filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
       sortActive: 'dataHoraTransf',
@@ -215,7 +215,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
     const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
       tipo: "INTERVALO",
-      codFiliais: "4",
+      codFiliais: this.getFiliais(),
       data: moment().toISOString()
     }).toPromise();
 
@@ -389,7 +389,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   {
     const data = await this._osSvc.obterPorParametros({
       codStatusServicos: "1",
-      codFiliais: "4"
+      codFiliais: this.getFiliais()
     }).toPromise();
 
     this.externalEvents = data.items.map(os =>
@@ -744,6 +744,11 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   private fimExpediente(reference: Moment = moment())
   {
     return moment(reference).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+  }
+
+  private getFiliais(): string
+  {
+    return this.userSession.usuario?.codFilial?.toString() ?? "4";
   }
 
 }

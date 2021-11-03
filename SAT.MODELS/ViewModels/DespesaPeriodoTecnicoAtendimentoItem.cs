@@ -17,9 +17,4 @@ namespace SAT.MODELS.ViewModels
         public DespesaPeriodoTecnicoStatus Status { get; set; }
         public bool IndAtivo { get; set; }
     }
-
-    public class DespesaPeriodoTecnicoAtendimentoViewModel : Meta
-    {
-        public List<DespesaPeriodoTecnicoAtendimentoItem> Items { get; set; }
-    }
 }

@@ -38,15 +38,14 @@ namespace SAT.SERVICES.Services
                     IndAtivo = parameters.IndAtivo
                 });
 
-
-        private List<Tecnico> ObterTecnicos(DespesaAdiantamentoPeriodoParameters parameters) =>
-            _tecnicoRepo.ObterPorParametros(
+        private PagedList<Tecnico> ObterTecnicos(DespesaAdiantamentoPeriodoParameters parameters) =>
+            PagedList<Tecnico>.ToPagedList(_tecnicoRepo.ObterPorParametros(
                 new TecnicoParameters
                 {
                     IndAtivo = parameters.IndAtivoTecnico,
                     SortActive = parameters.SortActive,
                     SortDirection = parameters.SortDirection
-                });
+                }), parameters.PageNumber, parameters.PageSize);
 
         private decimal SaldoAdiantamento(int codTecnico)
         {
@@ -85,9 +84,8 @@ namespace SAT.SERVICES.Services
             return true;
         }
 
-        private List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> CalculaAdiantamentoPorTecnico(DespesaAdiantamentoPeriodoParameters parameters) =>
-         this.ObterTecnicos(parameters)
-             .Select(tecnico =>
+        private List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> CalculaAdiantamentoPorTecnico(List<Tecnico> tecnicos) =>
+         tecnicos.Select(tecnico =>
             {
                 return new DespesaAdiantamentoPeriodoConsultaTecnicoItem
                 {
@@ -98,22 +96,20 @@ namespace SAT.SERVICES.Services
                 };
             }).ToList();
 
-
-        public DespesaAdiantamentoPeriodoConsultaTecnicoViewModel ObterConsultaTecnicos(DespesaAdiantamentoPeriodoParameters parameters)
+        public ListViewModel ObterConsultaTecnicos(DespesaAdiantamentoPeriodoParameters parameters)
         {
-            var consultaTecnicos =
-               PagedList<DespesaAdiantamentoPeriodoConsultaTecnicoItem>.ToPagedList(
-                   CalculaAdiantamentoPorTecnico(parameters), parameters.PageNumber, parameters.PageSize);
+            var tecnicos = this.ObterTecnicos(parameters);
+            var adiantamentos = this.CalculaAdiantamentoPorTecnico(tecnicos);
 
-            var lista = new DespesaAdiantamentoPeriodoConsultaTecnicoViewModel
+            var lista = new ListViewModel
             {
-                Items = consultaTecnicos,
-                TotalCount = consultaTecnicos.TotalCount,
-                CurrentPage = consultaTecnicos.CurrentPage,
-                PageSize = consultaTecnicos.PageSize,
-                TotalPages = consultaTecnicos.TotalPages,
-                HasNext = consultaTecnicos.HasNext,
-                HasPrevious = consultaTecnicos.HasPrevious
+                Items = adiantamentos,
+                TotalCount = tecnicos.TotalCount,
+                CurrentPage = tecnicos.CurrentPage,
+                PageSize = tecnicos.PageSize,
+                TotalPages = tecnicos.TotalPages,
+                HasNext = tecnicos.HasNext,
+                HasPrevious = tecnicos.HasPrevious
             };
 
             return lista;

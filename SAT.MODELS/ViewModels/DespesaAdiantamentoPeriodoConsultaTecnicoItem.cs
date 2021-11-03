@@ -11,9 +11,4 @@ namespace SAT.MODELS.ViewModels
         public bool Liberado { get; set; }
         public bool IndAtivo { get; set; }
     }
-
-    public class DespesaAdiantamentoPeriodoConsultaTecnicoViewModel : Meta
-    {
-        public List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> Items { get; set; }
-    }
 }

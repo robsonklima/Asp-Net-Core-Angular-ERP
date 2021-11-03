@@ -7,7 +7,7 @@ namespace SAT.SERVICES.Interfaces
     public interface IDespesaAdiantamentoPeriodoService
     {
         ListViewModel ObterPorParametros(DespesaAdiantamentoPeriodoParameters parameters);
-        DespesaAdiantamentoPeriodoConsultaTecnicoViewModel ObterConsultaTecnicos(DespesaAdiantamentoPeriodoParameters parameters);
+        ListViewModel ObterConsultaTecnicos(DespesaAdiantamentoPeriodoParameters parameters);
         DespesaAdiantamentoPeriodo Criar(DespesaAdiantamentoPeriodo despesa);
         void Deletar(int codigo);
         void Atualizar(DespesaAdiantamentoPeriodo despesa);

@@ -66,13 +66,13 @@ namespace SAT.SERVICES.Services
                 };
             }).ToList();
 
-        public DespesaPeriodoTecnicoAtendimentoViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters)
+        public ListViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters)
         {
             var despesasPeriodoTecnico =
                 PagedList<DespesaPeriodoTecnicoAtendimentoItem>.ToPagedList(
                     CalculaDespesasPorPeriodo(parameters), parameters.PageNumber, parameters.PageSize);
 
-            var lista = new DespesaPeriodoTecnicoAtendimentoViewModel
+            var lista = new ListViewModel
             {
                 Items = despesasPeriodoTecnico,
                 TotalCount = despesasPeriodoTecnico.TotalCount,

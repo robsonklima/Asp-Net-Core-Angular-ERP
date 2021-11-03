@@ -311,5 +311,11 @@
     "pendencia": "Pendency",
     "consulta de periodo": "Period Query",
     "despesas": "Expenditure",
-    "atendimentos": "Services"
+    "atendimentos": "Services",
+    "ponto": "Work Schedule",
+    "periodos": "Time Course",
+    "colaboradores": "Contributors",
+    "data inicio": "Initial Date",
+    "data fim": "End Date",
+    "ponto periodos": "Schedule Periods"
 }

@@ -20,5 +20,11 @@ namespace SAT.MODELS.Entities {
         public string CodUsuarioManut { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
+
+        [ForeignKey("CodPontoPeriodo")]
+        public PontoPeriodo PontoPeriodo { get; set; }
+        
+        [ForeignKey("CodUsuario")]
+        public Usuario Usuario { get; set; }
     }
 }

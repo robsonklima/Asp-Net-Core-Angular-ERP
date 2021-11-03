@@ -59,6 +59,8 @@ namespace SAT.INFRA.Context
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
+        public DbSet<PontoUsuario> PontoUsuario { get; set; }
+        public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -39,12 +39,9 @@ export class TecnicosReincidentesComponent implements OnInit {
       this.reincidenciaTecnicosModel.push(model);
     }
 
-    this.reincidenciaTecnicosModel = this.reincidenciaTecnicosModel.sort((a, b) =>
-      this.ordem == 'desc' ?
-        (a.reincidencia > b.reincidencia ? -1 : 1)
-        :
-        (a.reincidencia > b.reincidencia ? 1 : -1)
-    ).slice(0, 5);
+    this.reincidenciaTecnicosModel =
+      this.ordem == 'asc' ? this.reincidenciaTecnicosModel.orderBy('reincidencia').thenBy('qntAtendimentos').take(5) :
+        this.reincidenciaTecnicosModel.orderByDesc('reincidencia').thenByDesc('qntAtendimentos').take(5);
 
     this.loading = false;
   }

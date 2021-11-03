@@ -1,6 +1,8 @@
+import { Filial } from "../types/filial.types";
 import { Navegacao } from "../types/navegacao.types";
 
-export interface UserSession {
+export interface UserSession
+{
     usuario: User;
     navegacoes: Navegacao[];
     token: string;
@@ -9,8 +11,8 @@ export interface UserSession {
 export interface User
 {
     codUsuario: string;
-    codFilial?: any;
-    filial?: any;
+    codFilial?: number;
+    filial?: Filial;
     codAutorizada?: any;
     codTecnico?: any;
     codCliente?: any;

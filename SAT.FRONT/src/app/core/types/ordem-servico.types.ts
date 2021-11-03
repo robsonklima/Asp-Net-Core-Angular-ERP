@@ -1,3 +1,4 @@
+import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
@@ -8,13 +9,15 @@ import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
 import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
+import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export interface OrdemServico {
+export class OrdemServico
+{
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
@@ -24,6 +27,7 @@ export interface OrdemServico {
     filial?: Filial;
     regiao?: Regiao;
     autorizada?: Autorizada;
+    regiaoAutorizada?: RegiaoAutorizada;
     relatoriosAtendimento: RelatorioAtendimento[];
     fotos: Foto[];
     cliente: Cliente;
@@ -33,6 +37,7 @@ export interface OrdemServico {
     observacaoCliente?: string;
     dataHoraCad: string;
     dataHoraTransf: string;
+    dataHoraOSMobileLida: string;
     dataHoraFechamento: string;
     codUsuarioCad?: any;
     nomeSolicitante?: any;
@@ -145,13 +150,16 @@ export interface OrdemServico {
     dataHoraIntegracaoRevisaoAgendamentoV2?: any;
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
+    agendaTecnico?: AgendaTecnico;
 }
 
-export interface OrdemServicoData extends Meta {
+export interface OrdemServicoData extends Meta
+{
     items: OrdemServico[];
 };
 
-export interface OrdemServicoParameters extends QueryStringParameters {
+export interface OrdemServicoParameters extends QueryStringParameters
+{
     codOS?: number;
     codEquipContrato?: number;
     codTecnico?: number;
@@ -166,4 +174,19 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     codClientes?: string;
     codFiliais?: string;
     pa?: number;
+    dataTransfInicio?: string;
+    dataTransfFim?: string;
+    include?: OrdemServicoIncludeEnum;
+    filterType?: OrdemServicoFilterEnum;
 };
+
+export enum OrdemServicoIncludeEnum
+{
+    OS_RAT = 1,
+    OS_AGENDA = 2
+}
+
+export enum OrdemServicoFilterEnum
+{
+    FILTER_AGENDA = 1
+}

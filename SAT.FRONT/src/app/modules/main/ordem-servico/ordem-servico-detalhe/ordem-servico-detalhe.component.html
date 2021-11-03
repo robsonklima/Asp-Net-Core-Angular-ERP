@@ -31,57 +31,59 @@
                                     </h2>
                                 </div>
                             </div>
-                        </div>                
+                        </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
-                                [matTooltip]="t('novo relatorio de atendimento')"
-                                matTooltipPosition="above"
+                                [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
-                                [matTooltip]="t('editar')"
-                                matTooltipPosition="above"
+                                [matTooltip]="t('editar')" matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
-                                [matTooltip]="t('agendar')"
-                                (click)="agendar()"
-                                matTooltipPosition="above">
+                                [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-indigo-700" mat-flat-button
+                                *ngIf="os?.codStatusServico != 8"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
-                                [matTooltip]="t('transferir')"
-                                matTooltipPosition="above"
-                                (click)="sidenav.toggle()">
+                                [matTooltip]="t('transferir')" matTooltipPosition="above" (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
+
+                            <button class="fuse-mat-button-rounded bg-red-700" mat-flat-button
+                                *ngIf="os?.codStatusServico == 8" [matTooltip]="t('cancelar transferencia')"
+                                matTooltipPosition="above" (click)="cancelarTransferencia()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </button>
                         </div>
-                       
-                        <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700"  mat-flat-button [matMenuTriggerFor]="menu" *transloco="let t">
+
+                        <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                            [matMenuTriggerFor]="menu" *transloco="let t">
                             <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-    
+
                             <mat-menu #menu>
                                 <button mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
-                                </button>   
+                                </button>
                                 <button mat-menu-item (click)="cancelar()"
                                     [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
-                                    {{ t('cancelar') }} 
-                                </button>                                                                                      
-                            </mat-menu>  
-                        </button>                        
+                                    {{ t('cancelar') }}
+                                </button>
+                            </mat-menu>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -109,8 +111,7 @@
 
                                             <div class="my-2" *ngIf="ultimoAgendamento">
                                                 <div>{{ t('agendamento') }}</div>
-                                                <div class="text-secondary text-md"
-                                                    matTooltipPosition="above">
+                                                <div class="text-secondary text-md" matTooltipPosition="above">
                                                     {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                 </div>
                                             </div>
@@ -182,6 +183,12 @@
                                                 <div>{{ t('local de atendimento') }}</div>
                                                 <div class="text-secondary text-md">
                                                     {{ os?.localAtendimento?.nomeLocal | titlecase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('endereco') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.localAtendimento?.endereco || 'não informado' | titlecase }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
@@ -345,29 +352,29 @@
 
                                         <div class="flex flex-col my-2">
                                             <div class="my-2">
-                                                <div>Número</div>
+                                                <div>{{ t('numero') }}</div>
                                                 <div class="text-secondary text-md">{{ r.numRAT }}</div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Técnico</div>
+                                                <div> {{ t('tecnico') }} </div>
                                                 <div class="text-secondary text-md">{{ r.tecnico?.nome | titlecase }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Status</div>
+                                                <div> {{ t('status') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.statusServico?.nomeStatusServico || 'Não Informado'}}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Solicitação</div>
+                                                <div> {{ t('solicitacao') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.dataHoraSolicitacao ? (r.dataHoraSolicitacao | date:'dd/MM
                                                     HH:mm') : 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Período</div>
+                                                <div> {{ t('periodo') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.dataHoraInicio ? (r.dataHoraInicio | date:'dd/MM HH:mm') : 'Não
                                                     Informado' }} - {{ r.dataHoraSolucao ? (r.dataHoraSolucao |
@@ -375,13 +382,13 @@
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Horas Gastas</div>
+                                                <div> {{ t('horas gastas') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.qtdHorasTecnicas || 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Intervalo</div>
+                                                <div> {{ t('intervalo') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.horarioInicioIntervalo ? (r.horarioInicioIntervalo) : 'Não
                                                     Informado' }} - {{ r.horarioTerminoIntervalo ?
@@ -389,10 +396,16 @@
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div>Acompanhante</div>
+                                                <div> {{ t('acompanhante') }} </div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.nomeAcompanhante || 'Não Informado' }}
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngFor="let detalhe of r.relatorioAtendimentoDetalhes">
+                                            <div class="text-lg tracking-tight text-secondary">
+                                                {{ "No. " + detalhe.codRATDetalhe }}
                                             </div>
                                         </div>
                                     </div>
@@ -404,6 +417,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                             </ng-template>
                         </mat-tab>
 
@@ -436,8 +450,7 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-                        <mat-tab 
-                            *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
+                        <mat-tab *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS"
@@ -449,7 +462,8 @@
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <app-ordem-servico-historico [codOS]="codOS" [codEquipContrato]="os.codEquipContrato"></app-ordem-servico-historico>
+                                <app-ordem-servico-historico [codOS]="codOS" [codEquipContrato]="os.codEquipContrato">
+                                </app-ordem-servico-historico>
                             </ng-template>
                         </mat-tab>
                     </mat-tab-group>

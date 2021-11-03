@@ -13,11 +13,13 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
+        private readonly IAgendaTecnicoRepository _agendaTecnicoRepo;
 
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo)
+        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, IAgendaTecnicoRepository agendaTecnicoRepo, ISequenciaRepository sequenciaRepo)
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
+            _agendaTecnicoRepo = agendaTecnicoRepo;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
@@ -50,7 +52,6 @@ namespace SAT.SERVICES.Services
 
             return os;
         }
-
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
@@ -81,7 +82,6 @@ namespace SAT.SERVICES.Services
 
             return Alertas;
         }
-
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {
             if (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO)

@@ -16,43 +16,18 @@ namespace SAT.INFRA.Repository
         {
             _context = context;
         }
-        public void AtualizarAgenda(AgendaTecnico agenda)
+        public void Atualizar(AgendaTecnico agenda)
         {
-            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == agenda.Id);
+            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
 
             if (a != null)
             {
-                try
-                {
-                    _context.Entry(a).CurrentValues.SetValues(agenda);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+                _context.Entry(a).CurrentValues.SetValues(agenda);
+                _context.SaveChanges();
             }
         }
 
-        public void AtualizarEvento(AgendaTecnicoEvento evento)
-        {
-            AgendaTecnicoEvento e = _context.AgendaTecnicoEvento.SingleOrDefault(e => e.Id == evento.Id);
-
-            if (e != null)
-            {
-                try
-                {
-                    _context.Entry(e).CurrentValues.SetValues(evento);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-        }
-
-        public void CriarAgenda(AgendaTecnico agenda)
+        public void Criar(AgendaTecnico agenda)
         {
             try
             {
@@ -65,22 +40,9 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void CriarEvento(AgendaTecnicoEvento evento)
+        public void Deletar(int codigo)
         {
-            try
-            {
-                _context.Add(evento);
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void DeletarAgenda(int codigo)
-        {
-            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
+            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
 
             if (a != null)
             {
@@ -96,42 +58,23 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void DeletarEvento(int codigo)
+        public AgendaTecnico ObterPorCodigo(int codigo)
         {
-            AgendaTecnicoEvento e = _context.AgendaTecnicoEvento.SingleOrDefault(e => e.Id == codigo);
+            var agendas = _context.AgendaTecnico.AsQueryable();
 
-            if (e != null)
-            {
-                try
-                {
-                    _context.AgendaTecnicoEvento.Remove(e);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
+            return agendas.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
         }
 
-        public AgendaTecnico ObterAgendaPorCodigo(int codigo)
-        {
-            return _context.AgendaTecnico.SingleOrDefault(a => a.Id == codigo);
-        }
-
-        public PagedList<AgendaTecnico> ObterAgendasPorParametros(AgendaTecnicoParameters parameters)
+        public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico
-                .Include(a => a.Tecnico)
-                .AsQueryable();
+            .Include(ag => ag.Tecnico)
+            .Include(ag => ag.OrdemServico)
+            .AsQueryable();
 
-            if (parameters.Inicio != DateTime.MinValue && parameters.Fim != DateTime.MinValue)
+            if (parameters.CodOS != null)
             {
-                agendas = agendas.Include(a => a.Eventos.Where(
-                    a =>
-                    a.Start >= parameters.Inicio &&
-                    a.End <= parameters.Fim)
-                );
+                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
             }
 
             if (parameters.CodTecnico != null)
@@ -139,17 +82,34 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
             }
 
-            if (parameters.CodFilial != null)
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                agendas = agendas.Where(a => a.Tecnico.CodFilial == parameters.CodFilial);
+                var filiais = parameters.CodFiliais.Split(",");
+                agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
+            }
+
+            if (parameters.Inicio.HasValue && parameters.Fim.HasValue)
+            {
+                agendas = agendas.Where(ag => ag.Inicio >= parameters.Inicio && ag.Fim <= parameters.Fim);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Tipo))
+            {
+                agendas = agendas.Where(ag => ag.Tipo.ToLower() == parameters.Tipo.ToLower());
+            }
+
+            if (parameters.Data.HasValue)
+            {
+                agendas = agendas.Where(ag => ag.Inicio.Date.Date == parameters.Data.Value.Date && ag.Fim.Date == parameters.Data.Value.Date);
             }
 
             if (parameters.Filter != null)
             {
                 agendas = agendas.Where(
                     a =>
-                    a.Id.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    a.Title.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    a.CodAgendaTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    a.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    a.CodTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

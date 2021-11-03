@@ -83,17 +83,12 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo != null)
             {
-                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo && t.Usuario.IndAtivo == parameters.IndAtivo);
+                tecnicos = tecnicos.Where(t => t.IndAtivo == parameters.IndAtivo); // && t.Usuario.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.IndFerias != null)
             {
                 tecnicos = tecnicos.Where(t => t.IndFerias == parameters.IndFerias);
-            }
-
-            if (parameters.CodFilial != null)
-            {
-                tecnicos = tecnicos.Where(t => t.CodFilial == parameters.CodFilial);
             }
 
             if (parameters.CodTecnico != null)
@@ -104,6 +99,11 @@ namespace SAT.INFRA.Repository
             if (parameters.CodPerfil != null)
             {
                 tecnicos = tecnicos.Where(t => t.Usuario.CodPerfil == parameters.CodPerfil);
+            }
+
+            if (parameters.Nome != null)
+            {
+                tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome || t.Nome.Contains(parameters.Nome));
             }
 
             if (parameters.CodAutorizada != null)
@@ -121,19 +121,16 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            if (parameters.CodFiliais != null)
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var paramsSplit = parameters.CodFiliais.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var condicoes = string.Empty;
+                var filiais = parameters.CodFiliais.Split(",");
+                tecnicos = tecnicos.Where(t => filiais.Any(a => a == t.CodFilial.ToString()));
+            }
 
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
-                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
-                }
-
-                tecnicos = tecnicos.Where(condicoes);
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecs = parameters.CodTecnicos.Split(",");
+                tecnicos = tecnicos.Where(t => tecs.Any(a => a == t.CodTecnico.ToString()));
             }
 
             if (parameters.CodStatusServicos != null)

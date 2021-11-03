@@ -1,6 +1,6 @@
 import { FileService } from './../../../../core/services/file.service';
 import {
-    AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
+AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { fromEvent, interval, Subject } from 'rxjs';
@@ -13,13 +13,15 @@ import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
+import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
     selector: 'ordem-servico-lista',
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 56px 150px 24px;
+            grid-template-columns: 38px 60px 72px 60px 20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
             
             @screen sm {
                 grid-template-columns:  48px 72px 92px 92px 36px 36px auto 56px;
@@ -30,7 +32,7 @@ import { FileMime } from 'app/core/types/file.types';
             }
         
             @screen lg {
-                grid-template-columns: 48px 72px 72px 72px 20px 48px 72px 36px auto 56px 56px 100px 56px 150px 24px;
+                grid-template-columns: 38px 60px 72px 60px  20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
             }
         }
     `],
@@ -60,7 +62,6 @@ export class OrdemServicoListaComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.carregarFiltro();
-
         interval(5 * 60 * 1000)
             .pipe(
                 startWith(0),
@@ -73,21 +74,24 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.registrarEmitters();
 
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-                map((event: any) => {
-                    return event.target.value;
-                })
-                , debounceTime(1000)
-                , distinctUntilChanged()
-            ).subscribe((text: string) => {
-                this.paginator.pageIndex = 0;
-                this.obterOrdensServico(text);
-            });           
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+        ).subscribe((text: string) => {
+            this.paginator.pageIndex = 0;
+            this.obterOrdensServico(text);
+        });
 
         if (this.sort && this.paginator) {
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
             this.sort.sortChange.subscribe(() => {
+                this._userService.atualizarPropriedade("ordem-servico", "sortActive", this.sort.active);
+                this._userService.atualizarPropriedade("ordem-servico", "sortDirection", this.sort.direction);
+                this.carregarFiltro();
                 this.paginator.pageIndex = 0;
                 this.obterOrdensServico();
             });
@@ -96,14 +100,14 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    async obterOrdensServico(filter: string='') {
+    async obterOrdensServico(filter: string = '') {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
             pageNumber: this.paginator.pageIndex + 1,
-            sortActive: this.sort.active || 'codOS',
-            sortDirection: this.sort.direction || 'desc',
-            pageSize: this.filtro.parametros.qtdPaginacaoLista ?? this.paginator?.pageSize,
+            sortActive: this.filtro?.parametros?.sortActive || this.sort.active || 'codOS',
+            sortDirection: this.filtro?.parametros?.direction || this.sort.direction || 'desc',
+            pageSize: this.filtro?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
 
@@ -136,37 +140,101 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         if (this.userSession?.usuario?.codFilial) {
             this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
         }
-   
+
         Object.keys(this.filtro?.parametros).forEach((key) => {
-            if (this.filtro.parametros[key] instanceof Array) {
+            if (this.filtro?.parametros[key] instanceof Array) {
                 this.filtro.parametros[key] = this.filtro.parametros[key].join()
             };
         });
     }
 
-    public async exportar()
-    {
+    public async exportar() {
         this.isLoading = true;
         const params: OrdemServicoParameters = {
             sortDirection: 'desc',
-            pageSize: 6000,
+            pageSize: 100000,
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
-                ...this.filtro?.parametros,
-                ...params
-        })); 
-        this.isLoading = false;  
+            ...this.filtro?.parametros,
+            ...params
+        }));
+        this.isLoading = false;
     }
 
-    paginar() 
-    {
-        this._userService.atualizarPropriedade("ordem-servico", "qtdPaginacaoLista", this.paginator?.pageSize);
+    paginar() {
+        this._userService.atualizarPropriedade(this.filtro?.nome, "qtdPaginacaoLista", this.paginator?.pageSize);
         this.obterOrdensServico();
     }
 
     ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
+    }
+
+    statusSLADescricao(os: OrdemServico) {
+        if (os.prazosAtendimento == null) {
+            return "---";
+        }
+        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
+        {
+            var solucao = os.relatoriosAtendimento?.orderByDesc('codRAT')[0]?.dataHoraSolucao || os.dataHoraFechamento;
+            if (solucao < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
+                return "DENTRO";
+            return "FORA";
+        }
+        else if (os.prazosAtendimento?.length > 0) {
+            var now = moment();
+            var limit = moment(os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento);
+            if (now < limit)
+                return "DENTRO";
+            return "FORA";
+        }
+        return "---";
+    }
+
+    statusServicoDescricao(os: OrdemServico) {
+        var description = os.statusServico?.nomeStatusServico;
+
+        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
+            var pecas = Enumerable.from(os.relatoriosAtendimento)
+                .selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
+                    .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
+                        .select(dp => dp.peca?.codMagnus))).toArray();
+
+            if (pecas.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
+        }
+
+        return description;
+    }
+
+    tecnicoDescricao(os: OrdemServico) {
+        var description = os.tecnico?.nome;
+        description += '\n' + 'TRANSFERIDO EM: ';
+        description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
+        description += 'VISUALIZADO EM: ';
+        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO VISUALIZADO';
+        return description;
+    }
+
+    alternarDetalhes(id: number): void {
+        this.isLoading = true;
+
+        if (this.selectedItem && this.selectedItem.codOS === id) {
+            this.isLoading = false;
+            this.fecharDetalhes();
+            return;
+        }
+
+        this._ordemServicoService.obterPorCodigo(id)
+            .subscribe((item) => {
+                this.selectedItem = item;
+                this.isLoading = false;
+                this._cdr.markForCheck();
+            });
+    }
+
+    fecharDetalhes(): void {
+        this.selectedItem = null;
     }
 }

@@ -44,6 +44,16 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(e => e.CodEquip == parameters.CodEquip);
             }
 
+            if (parameters.CodTipo != null)
+            {
+                equips = equips.Where(e => e.CodTipoEquip.ToString() == parameters.CodTipo);
+            }
+
+            if (parameters.CodGrupo != null)
+            {
+                equips = equips.Where(e => e.CodGrupoEquip.ToString() == parameters.CodGrupo);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

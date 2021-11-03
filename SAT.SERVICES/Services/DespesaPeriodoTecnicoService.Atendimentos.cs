@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -71,8 +73,30 @@ namespace SAT.SERVICES.Services
                     TotalAdiantamento = this.TotalAdiantamentoUtilizado(parameters.CodTecnico.Value, despesa.CodDespesaPeriodo),
                     GastosExcedentes = 0,
                     RestituirAEmpresa = 0,
-                    Status = despesaPeriodoTecnico?.DespesaPeriodoTecnicoStatus
+                    Status = despesaPeriodoTecnico?.DespesaPeriodoTecnicoStatus,
+                    IndAtivo = Convert.ToBoolean(despesa.IndAtivo)
                 };
             }).ToList();
+
+
+        public DespesaPeriodoTecnicoAtendimentoViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters)
+        {
+            var despesasPeriodoTecnico =
+                PagedList<DespesaPeriodoTecnicoViewModel>.ToPagedList(
+                    GetDespesaPeriodoViewModel(parameters), parameters.PageNumber, parameters.PageSize);
+
+            var lista = new DespesaPeriodoTecnicoAtendimentoViewModel
+            {
+                Items = despesasPeriodoTecnico,
+                TotalCount = despesasPeriodoTecnico.TotalCount,
+                CurrentPage = despesasPeriodoTecnico.CurrentPage,
+                PageSize = despesasPeriodoTecnico.PageSize,
+                TotalPages = despesasPeriodoTecnico.TotalPages,
+                HasNext = despesasPeriodoTecnico.HasNext,
+                HasPrevious = despesasPeriodoTecnico.HasPrevious
+            };
+
+            return lista;
+        }
     }
 }

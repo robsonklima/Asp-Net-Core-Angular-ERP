@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
@@ -44,24 +42,9 @@ namespace SAT.SERVICES.Services
             throw new System.NotImplementedException();
         }
 
-        public DespesaPeriodoViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
+        public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico =
-                PagedList<DespesaPeriodoTecnicoViewModel>.ToPagedList(
-                    GetDespesaPeriodoViewModel(parameters), parameters.PageNumber, parameters.PageSize);
-
-            var lista = new DespesaPeriodoViewModel
-            {
-                Items = despesasPeriodoTecnico,
-                TotalCount = despesasPeriodoTecnico.TotalCount,
-                CurrentPage = despesasPeriodoTecnico.CurrentPage,
-                PageSize = despesasPeriodoTecnico.PageSize,
-                TotalPages = despesasPeriodoTecnico.TotalPages,
-                HasNext = despesasPeriodoTecnico.HasNext,
-                HasPrevious = despesasPeriodoTecnico.HasPrevious
-            };
-
-            return lista;
+            throw new System.NotImplementedException();
         }
     }
 }

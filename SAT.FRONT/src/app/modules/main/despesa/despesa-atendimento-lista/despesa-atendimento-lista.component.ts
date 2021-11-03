@@ -8,7 +8,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
+import { DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
 registerLocaleData(localePt);
 
 @Component({
@@ -34,7 +34,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
 
   userSession: UserSession;
   isLoading: boolean = false;
-  despesasPeriodoTecnico: DespesaPeriodoTecnicoData;
+  atendimentos: DespesaPeriodoTecnicoAtendimentoData;
 
   constructor (
     private _cdr: ChangeDetectorRef,
@@ -64,7 +64,7 @@ export class DespesaAtendimentoListaComponent implements AfterViewInit
 
   private async obterDespesasPeriodoTecnico()
   {
-    this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
+    this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
       codTecnico: this.userSession.usuario?.codTecnico,
       indAtivoPeriodo: 1,
       pageNumber: this.paginator?.pageIndex + 1,

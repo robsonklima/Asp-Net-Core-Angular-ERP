@@ -1,4 +1,4 @@
-import { DespesaPeriodo, DespesaPeriodoTecnicoStatus } from "./despesa-periodo";
+import { DespesaPeriodo, DespesaPeriodoTecnicoStatus } from "./despesa-periodo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico } from "./tecnico.types";
 
@@ -21,6 +21,7 @@ export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParamet
     indAtivoPeriodo?: number;
     indAtivoTecnico?: number;
     indAtivoAdiantamento?: number;
+    isTecnicoLiberado?: boolean;
 };
 
 export interface DespesaAdiantamentoPeriodoData extends Meta

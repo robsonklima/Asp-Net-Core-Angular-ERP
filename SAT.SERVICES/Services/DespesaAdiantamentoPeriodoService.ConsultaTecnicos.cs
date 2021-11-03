@@ -38,14 +38,25 @@ namespace SAT.SERVICES.Services
                     IndAtivo = parameters.IndAtivo
                 });
 
-        private PagedList<Tecnico> ObterTecnicos(DespesaAdiantamentoPeriodoParameters parameters) =>
-            PagedList<Tecnico>.ToPagedList(_tecnicoRepo.ObterPorParametros(
+        private PagedList<Tecnico> ObterTecnicos(DespesaAdiantamentoPeriodoParameters parameters)
+        {
+            var tecnicos = this._tecnicoRepo.ObterPorParametros(
                 new TecnicoParameters
                 {
                     IndAtivo = parameters.IndAtivoTecnico,
                     SortActive = parameters.SortActive,
-                    SortDirection = parameters.SortDirection
-                }), parameters.PageNumber, parameters.PageSize);
+                    SortDirection = parameters.SortDirection,
+                    PageNumber = parameters.PageNumber,
+                    PageSize = parameters.PageSize
+                });
+
+            if (parameters.IsTecnicoLiberado.HasValue)
+                tecnicos = PagedList<Tecnico>
+                    .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico) == parameters.IsTecnicoLiberado.Value)
+                    .ToList(), parameters.PageNumber, parameters.PageSize);
+
+            return tecnicos;
+        }
 
         private decimal SaldoAdiantamento(int codTecnico)
         {
@@ -84,14 +95,15 @@ namespace SAT.SERVICES.Services
             return true;
         }
 
-        private List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> CalculaAdiantamentoPorTecnico(List<Tecnico> tecnicos) =>
+        private List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> CalculaAdiantamentoPorTecnico(List<Tecnico> tecnicos, DespesaAdiantamentoPeriodoParameters parameters) =>
          tecnicos.Select(tecnico =>
             {
                 return new DespesaAdiantamentoPeriodoConsultaTecnicoItem
                 {
                     Tecnico = tecnico,
                     SaldoAdiantamento = this.SaldoAdiantamento(tecnico.CodTecnico),
-                    Liberado = this.IsLiberado(tecnico.CodTecnico),
+                    Liberado = parameters.IsTecnicoLiberado.HasValue ?
+                        parameters.IsTecnicoLiberado.Value : this.IsLiberado(tecnico.CodTecnico),
                     IndAtivo = Convert.ToBoolean(tecnico.IndAtivo)
                 };
             }).ToList();
@@ -99,7 +111,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterConsultaTecnicos(DespesaAdiantamentoPeriodoParameters parameters)
         {
             var tecnicos = this.ObterTecnicos(parameters);
-            var adiantamentos = this.CalculaAdiantamentoPorTecnico(tecnicos);
+            var adiantamentos = this.CalculaAdiantamentoPorTecnico(tecnicos, parameters);
 
             var lista = new ListViewModel
             {

@@ -8,7 +8,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento';
+import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 registerLocaleData(localePt);
 
 @Component({

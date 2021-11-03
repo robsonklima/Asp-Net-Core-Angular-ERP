@@ -9,5 +9,6 @@ namespace SAT.MODELS.Entities
         public int? IndAtivoTecnico { get; set; }
         public int? IndAdiantamentoAtivo { get; set; }
         public bool? IsTecnicoLiberado { get; set; }
+        public string CodFiliais { get; set; }
     }
 }

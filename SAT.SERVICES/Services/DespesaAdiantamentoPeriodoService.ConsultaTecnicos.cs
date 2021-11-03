@@ -46,10 +46,12 @@ namespace SAT.SERVICES.Services
                     IndAtivo = parameters.IndAtivoTecnico,
                     SortActive = parameters.SortActive,
                     SortDirection = parameters.SortDirection,
+                    CodFiliais = parameters.CodFiliais,
                     PageNumber = parameters.PageNumber,
                     PageSize = parameters.PageSize
                 });
 
+            // TO REFACTOR
             if (parameters.IsTecnicoLiberado.HasValue)
                 tecnicos = PagedList<Tecnico>
                     .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico) == parameters.IsTecnicoLiberado.Value)

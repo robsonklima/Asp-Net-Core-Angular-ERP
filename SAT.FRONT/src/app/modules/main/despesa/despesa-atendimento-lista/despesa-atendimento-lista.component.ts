@@ -4,11 +4,12 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
+import { FilterableComponent } from 'app/shared/filter/filterable-component';
+import { MatSidenav } from '@angular/material/sidenav';
 registerLocaleData(localePt);
 
 @Component({
@@ -27,24 +28,25 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaAtendimentoListaComponent implements AfterViewInit
+export class DespesaAtendimentoListaComponent extends FilterableComponent implements AfterViewInit
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
-  userSession: UserSession;
   isLoading: boolean = false;
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
 
   constructor (
+    protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _userService: UserService,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
-  { this.userSession = JSON.parse(this._userService.userSession); }
+  {
+    super(_userService, "despesa-atendimento");
+  }
 
   ngAfterViewInit()
   {
-
     this.obterDados();
 
     if (this.sort && this.paginator)

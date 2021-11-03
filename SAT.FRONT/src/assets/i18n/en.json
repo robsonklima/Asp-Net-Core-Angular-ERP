@@ -317,5 +317,8 @@
     "colaboradores": "Contributors",
     "data inicio": "Initial Date",
     "data fim": "End Date",
-    "ponto periodos": "Schedule Periods"
+    "ponto periodos": "Schedule Periods",
+    "ponto colaboradores": "Contributors Schedule",
+    "numero cracha": "Badge",
+    "turno": "Shift"
 }

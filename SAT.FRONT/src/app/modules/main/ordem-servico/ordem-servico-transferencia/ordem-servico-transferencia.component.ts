@@ -48,11 +48,11 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       filter: this.searchInputControl.nativeElement.val,
       pageSize: 10
     }
-        
+
     const data = await this._tecnicoService
       .obterPorParametros(params)
       .toPromise();
-    
+
     this.tecnicos = data.items;
   }
 

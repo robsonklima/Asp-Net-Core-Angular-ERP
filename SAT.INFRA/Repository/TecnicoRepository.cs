@@ -101,6 +101,11 @@ namespace SAT.INFRA.Repository
                 tecnicos = tecnicos.Where(t => t.Usuario.CodPerfil == parameters.CodPerfil);
             }
 
+            if (parameters.CodFilial != null)
+            {
+                tecnicos = tecnicos.Where(t => t.CodFilial == parameters.CodFilial);
+            }
+
             if (parameters.Nome != null)
             {
                 tecnicos = tecnicos.Where(t => t.Nome == parameters.Nome || t.Nome.Contains(parameters.Nome));

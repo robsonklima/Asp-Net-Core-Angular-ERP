@@ -77,6 +77,10 @@
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
                                 </button>
+                                <button mat-menu-item [disabled]="os?.ordemServicoRelatorioInstalacao?.length > 0 || os?.codTipoIntervencao != 4" [routerLink]="['/relatorio-instalacao/' + codOS]">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-text'"></mat-icon>
+                                    {{ t('relatorio instalacao') }}
+                                </button>
                                 <button mat-menu-item (click)="cancelar()"
                                     [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>

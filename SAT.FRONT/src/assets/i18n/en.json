@@ -93,6 +93,7 @@
     "relatorio": "Report",
     "detalhe": "Detail",
     "relatorio de atendimento": "Attendance Report",
+    "relatorio instalacao": "Install Report",
     "tipo de intervencao": "Intervention Type",
     "numero do RAT": "RAT Number",
     "nome do acompanhante": "Companion Name",
@@ -294,5 +295,8 @@
     "bloqueio orcamento": "Budget Lock: You do not have permission to close this ticket because you are in the budget process, please contact PEAR's Budget area",
     "alteracao corretiva invalida": "Without permission to change the intervention, contact the RPV area",
     "chamados abertos": "Openned Service Orders",
-    "pendencia": "Pendency"
+    "pendencia": "Pendency",
+    "relatorio nao conformidade": "Non-Compliance Report",
+    "ok": "OK",
+    "irregular": "IRREGULAR"
 }

@@ -56,7 +56,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
   {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.obterDadosOrdemServico();
-
+    
     this.perfis = PerfilEnum;
 
     this.sidenav.closedStart.subscribe(() =>
@@ -102,6 +102,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
   private async obterDadosOrdemServico()
   {
     this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+    
     if (this.os.agendamentos.length)
     {
       this.ultimoAgendamento = this.os.agendamentos

@@ -112,7 +112,10 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.CheckinsCheckouts)
-                .Include(os => os.OrdensServicoRelatorioInstalacao)
+                .Include(os => os.OrdemServicoRelatorioInstalacao)
+                    .ThenInclude(os => os.OrdemServicoRelatorioInstalacaoItem)
+                // .Include(os => os.OrdemServicoRelatorioInstalacaoNaoConformidade)
+                //     .ThenInclude(os => os.OrdemServicoRelatorioInstalacaoNaoConformidadeItem)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

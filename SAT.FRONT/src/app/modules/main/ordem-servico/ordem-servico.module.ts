@@ -60,7 +60,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         OrdemServicoTransferenciaComponent,
         OrdemServicoAgendamentoComponent,
         OrdemServicoFiltroComponent,
-        OrdemServicoHistoricoComponent
+        OrdemServicoHistoricoComponent,
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

@@ -1,0 +1,111 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                        {{ t('chamados') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codOS">
+                        {{ codOS }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        <!-- {{ isAddMode ? t('criando registro') : t('atualizando registro') }} -->
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('relatorio instalacao') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('relatorio instalacao') }}</p>
+                </div>
+                    <div
+                    class="grid sm:grid-cols-1 justify-items-center gap-x-6 p-10 flex flex-col flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 mt-5 gap-2 w-4/6 justify-between" *ngFor="let e of relatorioItens">
+                        <label >{{ e.item }}</label>
+                        <mat-radio-group
+                            class="flex flex-row"
+                            [color]="'primary'"
+                            formControlName="{{ e.codOSRelatorioInstalacaoItem }}">
+                            <mat-radio-button
+                                class="mb-2"
+                                [value]="'1'">
+                                {{ t('ok') }}
+                            </mat-radio-button>
+                            <mat-radio-button
+                                class="mb-2 ml-4"
+                                [value]="'0'">
+                                {{ t('irregular') }}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+              </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('relatorio nao conformidade') }}</p>
+                </div>
+                <div
+                    class="grid sm:grid-cols-1 justify-items-center	 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-6 mt-5 w-4/5 justify-between">
+                        <label class="col-span-2">Não conformidade encontrada: </label>
+                        <mat-radio-group
+                            class="grid grid-col-1 col-end-4 content-end sm:flex sm:flex-row"
+                            [color]="'primary'"
+                            formControlName="7">
+                                <mat-radio-button
+                                    class="mb-2"
+                                    [value]="1">
+                                    {{ t('ok') }}
+                                </mat-radio-button>
+                                <mat-radio-button
+                                    class="mb-2 sm:ml-4"
+                                    [value]="2">
+                                    {{ t('funcionais eletronicos') }}
+                                </mat-radio-button>
+                                <mat-radio-button
+                                class="mb-2 sm:ml-4"
+                                [value]="3">
+                                {{ t('nao funcionais mecanicos') }}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>       
+                   
+                </div>
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
+                        [routerLink]="['/ordem-servico/detalhe/'+codOS]">
+                        {{ t('voltar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
+                        [disabled]="form.invalid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div> 
+    </div>
+</div>

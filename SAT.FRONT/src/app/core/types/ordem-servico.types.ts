@@ -151,6 +151,38 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico;
+    ordemServicoRelatorioInstalacao: OrdemServicoRelatorioInstalacao;
+    ordemServicoRelatorioInstalacaoNaoConformidade: OrdemServicoRelatorioInstalacaoNaoConformidade;
+}
+
+export class OrdemServicoRelatorioInstalacao {
+    codOSRelatorioInstalacao?: number;
+    codOS: number;
+    codOSRelatorioInstalacaoItem: number;
+    ordemServicoRelatorioInstalacaoItem?: OrdemServicoRelatorioInstalacaoItem;
+    indStatus: number;
+    detalhe?: string;
+}
+
+export class OrdemServicoRelatorioInstalacaoItem {
+    codOSRelatorioInstalacao: number;
+    item: string;
+    indAtivo: number;
+}
+
+export class OrdemServicoRelatorioInstalacaoNaoConformidade {
+    codOSRelatorioInstalacao?: number;
+    codOS: number;
+    codOSRelatorioInstalacaoNaoConformidadeItem: number;
+    ordemServicoRelatorioInstalacaoNaoConformidadeItem?: any;
+    indStatus: number;
+    detalhe?: string;
+}
+
+export class OrdemServicoRelatorioInstalacaoNaoConformidadeItem {
+    codOSRelatorioNaoConformidadeItem: number;
+    item: string;
+    indAtivo: number;
 }
 
 export interface OrdemServicoData extends Meta

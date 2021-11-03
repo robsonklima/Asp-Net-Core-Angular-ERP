@@ -10,7 +10,7 @@ namespace SAT.SERVICES.Services
 {
     public partial class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
     {
-        public List<DespesaPeriodo> ObterDespesasPeriodo(DespesaPeriodoTecnicoParameters parameters) =>
+        private List<DespesaPeriodo> ObterDespesasPeriodo(DespesaPeriodoTecnicoParameters parameters) =>
             _despesaPeriodoRepo.ObterPorParametros(
                 new DespesaPeriodoParameters
                 {
@@ -19,7 +19,7 @@ namespace SAT.SERVICES.Services
                     SortDirection = parameters.SortDirection
                 });
 
-        public DespesaPeriodoTecnico ObterDespesaPeriodoTecnico(int codTecnico, int codPeriodo) =>
+        private DespesaPeriodoTecnico ObterDespesaPeriodoTecnico(int codTecnico, int codPeriodo) =>
             _despesaPeriodoTecnicoRepo.ObterPorParametros(
                 new DespesaPeriodoTecnicoParameters
                 {
@@ -28,7 +28,7 @@ namespace SAT.SERVICES.Services
                     IndAtivoPeriodo = 1
                 }).SingleOrDefault();
 
-        public List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(int codTecnico, int codPeriodo) =>
+        private List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(int codTecnico, int codPeriodo) =>
             _despesaAdiantamentoPeriodoRepo.ObterPorParametros(
                 new DespesaAdiantamentoPeriodoParameters
                 {
@@ -43,30 +43,19 @@ namespace SAT.SERVICES.Services
                     di.IndAtivo == 1 && di.CodDespesaTipo != 1 && di.CodDespesaTipo != 8).Sum(di =>
                         di.DespesaValor)) ?? 0 : 0;
 
-
-        private decimal TotalAdiantamento(int codTecnico, int codPeriodo)
-        {
-            var adiantamentos = this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo);
-
-            var valorAdiantamento = adiantamentos.Sum(a => a.DespesaAdiantamento.ValorAdiantamento);
-            var valorUtilizado = adiantamentos.Sum(a => a.ValorAdiantamentoUtilizado);
-            var valorSaldo = valorAdiantamento - valorUtilizado;
-
-            return valorSaldo;
-        }
-
         private decimal TotalAdiantamentoUtilizado(int codTecnico, int codPeriodo) =>
             this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo).Sum(a => a.ValorAdiantamentoUtilizado);
 
-        public List<DespesaPeriodoTecnicoViewModel> GetDespesaPeriodoViewModel(DespesaPeriodoTecnicoParameters parameters) =>
+        private List<DespesaPeriodoTecnicoAtendimentoItem> CalculaDespesasPorPeriodo(DespesaPeriodoTecnicoParameters parameters) =>
             this.ObterDespesasPeriodo(parameters).Select(despesa =>
             {
                 var despesaPeriodoTecnico =
                     this.ObterDespesaPeriodoTecnico(parameters.CodTecnico.Value, despesa.CodDespesaPeriodo);
 
-                return new DespesaPeriodoTecnicoViewModel
+                return new DespesaPeriodoTecnicoAtendimentoItem
                 {
                     CodTecnico = parameters.CodTecnico.Value,
+                    CodDespesaPeriodo = despesa.CodDespesaPeriodo,
                     DataInicio = despesa.DataInicio,
                     DataFim = despesa.DataFim,
                     TotalDespesa = this.TotalDespesa(despesaPeriodoTecnico),
@@ -78,12 +67,11 @@ namespace SAT.SERVICES.Services
                 };
             }).ToList();
 
-
         public DespesaPeriodoTecnicoAtendimentoViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters)
         {
             var despesasPeriodoTecnico =
-                PagedList<DespesaPeriodoTecnicoViewModel>.ToPagedList(
-                    GetDespesaPeriodoViewModel(parameters), parameters.PageNumber, parameters.PageSize);
+                PagedList<DespesaPeriodoTecnicoAtendimentoItem>.ToPagedList(
+                    CalculaDespesasPorPeriodo(parameters), parameters.PageNumber, parameters.PageSize);
 
             var lista = new DespesaPeriodoTecnicoAtendimentoViewModel
             {

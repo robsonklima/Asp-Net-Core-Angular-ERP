@@ -4,13 +4,14 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { UserService } from 'app/core/user/user.service';
-import { FilterBaseComponent } from 'app/core/filters/filter-base-component';
+import { FilterBase } from 'app/core/filters/filter-base';
+import { IFilterBase } from 'app/core/filters/ifilter-base';
 
 @Component({
   selector: 'app-despesa-filtro',
   templateUrl: './despesa-filtro.component.html'
 })
-export class DespesaFiltroComponent extends FilterBaseComponent implements OnInit
+export class DespesaFiltroComponent extends FilterBase implements OnInit, IFilterBase
 {
   @Input() sidenav: MatSidenav;
   filiais: Filial[] = [];
@@ -58,5 +59,4 @@ export class DespesaFiltroComponent extends FilterBaseComponent implements OnIni
     this.loadData();
     this.createForm();
   }
-
 }

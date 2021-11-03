@@ -8,7 +8,7 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
-import { FilterableComponent } from 'app/shared/filter/filterable-component';
+import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 registerLocaleData(localePt);
 
@@ -28,7 +28,7 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaAtendimentoListaComponent extends FilterableComponent implements AfterViewInit
+export class DespesaAtendimentoListaComponent extends Filterable implements AfterViewInit
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;

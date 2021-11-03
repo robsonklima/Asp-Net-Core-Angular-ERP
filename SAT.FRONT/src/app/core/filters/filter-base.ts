@@ -3,52 +3,19 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IFilterBase } from './ifilter-base';
+import { IFilterBaseCore } from './ifilter-base-core';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class FilterBaseComponent implements IFilterBase
+export class FilterBase implements IFilterBaseCore
 {
-    private _filterName: string;
-    private _filter: any;
-    private _userSession: UserSession;
-    private _form: FormGroup;
-    sidenav: MatSidenav;
-
-    public get form(): FormGroup
-    {
-        return this._form;
-    }
-    public set form(value: FormGroup)
-    {
-        this._form = value;
-    }
-    public get userSession(): UserSession
-    {
-        return this._userSession;
-    }
-    public set userSession(value: UserSession)
-    {
-        this._userSession = value;
-    }
-    public get filter(): any
-    {
-        return this._filter;
-    }
-    public set filter(value: any)
-    {
-        this._filter = value;
-    }
-    public get filterName(): string
-    {
-        return this._filterName;
-    }
-    public set filterName(value: string)
-    {
-        this._filterName = value;
-    }
+    public filterName: string;
+    public filter: any;
+    public userSession: UserSession;
+    public form: FormGroup;
+    public sidenav: MatSidenav;
 
     constructor (protected _userService: UserService, protected _formBuilder: FormBuilder, filterName: string)
     {
@@ -56,7 +23,6 @@ export class FilterBaseComponent implements IFilterBase
         this.userSession = JSON.parse(this._userService.userSession);
         this.filter = this._userService.obterFiltro(filterName);
     }
-
 
     apply(): void
     {
@@ -98,15 +64,5 @@ export class FilterBaseComponent implements IFilterBase
             select.patchValue([...values.map(item => item), 0]);
         else
             select.patchValue([]);
-    }
-
-    createForm(): void
-    {
-        throw new Error('Method not implemented.');
-    }
-
-    loadData(): void
-    {
-        throw new Error('Method not implemented.');
     }
 }

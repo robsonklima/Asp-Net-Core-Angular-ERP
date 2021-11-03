@@ -6,7 +6,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaAdiantamentoPeriodoConsultaTecnicoData } from 'app/core/types/despesa-adiantamento.types';
 import { UserService } from 'app/core/user/user.service';
-import { FilterableComponent } from 'app/core/filters/filterable-component';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/filters/ifilterable';
 
 @Component({
   selector: 'app-despesa-tecnico-lista',
@@ -24,7 +25,7 @@ import { FilterableComponent } from 'app/core/filters/filterable-component';
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaTecnicoListaComponent extends FilterableComponent implements AfterViewInit
+export class DespesaTecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable
 {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -83,7 +84,7 @@ export class DespesaTecnicoListaComponent extends FilterableComponent implements
     this.isLoading = false;
   }
 
-  private registrarEmitters(): void
+  registrarEmitters(): void
   {
     this.sidenav.closedStart.subscribe(() =>
     {

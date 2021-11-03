@@ -2,42 +2,17 @@ import { Injectable } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IFilterable } from './ifilterable';
+import { IFilterableCore } from './ifilterable-core';
 @Injectable({
     providedIn: 'root'
 })
 
-export class FilterableComponent implements IFilterable
+export class Filterable implements IFilterableCore
 {
-    private _filterName: string;
-    private _filter: any;
-    private _userSession: UserSession;
-    sidenav: MatSidenav;
-
-    public get userSession(): UserSession
-    {
-        return this._userSession;
-    }
-    public set userSession(value: UserSession)
-    {
-        this._userSession = value;
-    }
-    public get filter(): any
-    {
-        return this._filter;
-    }
-    public set filter(value: any)
-    {
-        this._filter = value;
-    }
-    public get filterName(): string
-    {
-        return this._filterName;
-    }
-    public set filterName(value: string)
-    {
-        this._filterName = value;
-    }
+    public filterName: string;
+    public filter: any;
+    public userSession: UserSession;
+    public sidenav: MatSidenav;
 
     carregaFiltro(): void
     {

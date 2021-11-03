@@ -33,7 +33,7 @@
         "@fullcalendar/moment": "4.4.2",
         "@fullcalendar/rrule": "4.4.2",
         "@fullcalendar/timegrid": "4.4.2",
-        "@mobiscroll/angular": "^5.10.1",
+        "@mobiscroll/angular": "^5.11.1",
         "@ngneat/transloco": "2.21.0",
         "@types/leaflet.markercluster": "^1.4.5",
         "apexcharts": "3.27.1",

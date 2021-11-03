@@ -129,7 +129,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       .obterPorParametros(params)
       .toPromise();
 
-    this.filiais = data.items;
+    this.filiais = data.items;    
   }
 
   async obterGrupoEquipamentos()
@@ -387,7 +387,22 @@ export class OrdemServicoFiltroComponent implements OnInit
   limpar(): void
   {
     this.form.reset();
-    this.aplicar();
+
+    if (this.sessionData.usuario.codFilial) {
+      this.filtro.parametros = null;
+
+      this.filtro.parametros = {
+        ...this.filtro.parametros,
+        ...{
+          codFiliais: [ this.sessionData.usuario.codFilial ]
+        }
+      }
+
+      this.form.patchValue(this.filtro?.parametros);
+      
+    }
+    
+    this.aplicar(); 
     this.sidenav.close();
   }
 

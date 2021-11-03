@@ -42,6 +42,7 @@ namespace SAT.INFRA.Repository
         {
             var despesaAdiantamentoPeriodo = _context.DespesaAdiantamentoPeriodo
             .Include(dap => dap.DespesaAdiantamento)
+                .ThenInclude(dapt => dapt.DespesaAdiantamentoTipo)
             .Include(dap => dap.DespesaPeriodo)
             .AsQueryable();
 
@@ -53,9 +54,9 @@ namespace SAT.INFRA.Repository
                 despesaAdiantamentoPeriodo =
                     despesaAdiantamentoPeriodo.Where(e => e.DespesaAdiantamento.CodTecnico == parameters.CodTecnico);
 
-            if (parameters.IndAtivoPeriodo.HasValue)
+            if (parameters.IndAdiantamentoAtivo.HasValue)
                 despesaAdiantamentoPeriodo =
-                    despesaAdiantamentoPeriodo.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
+                    despesaAdiantamentoPeriodo.Where(e => e.DespesaAdiantamento.IndAtivo == parameters.IndAdiantamentoAtivo);
 
             return PagedList<DespesaAdiantamentoPeriodo>.ToPagedList(despesaAdiantamentoPeriodo, parameters.PageNumber, parameters.PageSize);
         }

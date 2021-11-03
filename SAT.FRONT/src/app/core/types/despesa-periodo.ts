@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Tecnico } from "./tecnico.types";
 
 export class DespesaPeriodo
 {
@@ -60,26 +61,6 @@ export interface DespesaPeriodoTecnicoData extends Meta
 {
     items: DespesaPeriodoTecnico[]
 };
-
-export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
-{
-    items: DespesaPeriodoTecnicoAtendimentoViewModel[]
-};
-
-export interface DespesaPeriodoTecnicoAtendimentoViewModel
-{
-    codTecnico: number;
-    codDespesaPeriodo: number;
-    dataInicio: string;
-    dataFim: string;
-    totalDespesa: number;
-    totalAdiantamento: number;
-    restituirAEmpresa: number;
-    gastosExcedentes: number;
-    status: DespesaPeriodoTecnicoStatus;
-    indAtivo: number;
-};
-
 
 export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {
@@ -150,42 +131,4 @@ export class DespesaItem
     dataHoraManut: string;
     latitudeHotel: string;
     longitudeHotel: string;
-}
-
-export class DespesaAdiantamentoPeriodo
-{
-    codDespesaAdiantamentoPeriodo: number;
-    codDespesaAdiantamento: number;
-    codDespesaPeriodo: number;
-    valorAdiantamentoUtilizado: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    despesaAdiantamento: DespesaAdiantamento;
-    despesaPeriodo: DespesaPeriodo;
-}
-
-export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 
-{
-    codDespesaPeriodos?: string;
-    codTecnicos?: string;
-    indAtivoPeriodo?: number;
-};
-
-export interface DespesaAdiantamentoPeriodoData extends Meta
-{
-    items: DespesaAdiantamentoPeriodo[]
-};
-
-export class DespesaAdiantamento
-{
-    codDespesaAdiantamento: number;
-    codTecnico: number;
-    codDespesaAdiantamentoTipo: number;
-    dataAdiantamento: string;
-    valorAdiantamento: number;
-    indAtivo: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
 }

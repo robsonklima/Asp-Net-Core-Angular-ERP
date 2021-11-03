@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaAdiantamentoPeriodoParameters, DespesaPeriodo } from '../types/despesa-atendimento.types';
+import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoConsultaTecnicoData, DespesaAdiantamentoPeriodoData, DespesaAdiantamentoPeriodoParameters } from '../types/despesa-adiantamento';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +11,20 @@ import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaAdia
 export class DespesaAdiantamentoPeriodoService
 {
     constructor (private http: HttpClient) { }
+
+    obterConsultaTecnicos(parameters: DespesaAdiantamentoPeriodoParameters): Observable<DespesaAdiantamentoPeriodoConsultaTecnicoData>
+    {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(
+            `${c.api}/DespesaAdiantamentoPeriodo/Tecnicos`, { params: params })
+            .pipe(map((data: DespesaAdiantamentoPeriodoConsultaTecnicoData) => data));
+    }
 
     obterPorParametros(parameters: DespesaAdiantamentoPeriodoParameters): Observable<DespesaAdiantamentoPeriodoData>
     {

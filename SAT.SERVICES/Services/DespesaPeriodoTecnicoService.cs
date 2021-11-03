@@ -1,6 +1,5 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -11,15 +10,19 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaPeriodoRepository _despesaPeriodoRepo;
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
+        private readonly IDespesaAdiantamentoPeriodoService _despesaAdiantamentoPeriodoService;
 
         public DespesaPeriodoTecnicoService(
             IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
-            IDespesaPeriodoRepository despesaPeriodoRepo)
+            IDespesaPeriodoRepository despesaPeriodoRepo,
+            IDespesaAdiantamentoPeriodoService despesaAdiantamentoPeriodoService
+            )
         {
             _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _despesaPeriodoRepo = despesaPeriodoRepo;
+            _despesaAdiantamentoPeriodoService = despesaAdiantamentoPeriodoService;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesa)

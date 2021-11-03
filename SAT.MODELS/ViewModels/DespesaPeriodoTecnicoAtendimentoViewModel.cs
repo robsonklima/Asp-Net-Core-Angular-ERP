@@ -7,7 +7,6 @@ namespace SAT.MODELS.ViewModels
 {
     public class DespesaPeriodoTecnicoAtendimentoItem
     {
-        public int CodTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }

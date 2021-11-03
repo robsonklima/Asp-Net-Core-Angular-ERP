@@ -5,13 +5,25 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class DespesaAdiantamentoPeriodoService : IDespesaAdiantamentoPeriodoService
+    public partial class DespesaAdiantamentoPeriodoService : IDespesaAdiantamentoPeriodoService
     {
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
+        private readonly IDespesaAdiantamentoRepository _despesaAdiantamentoRepo;
+        private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
+        private readonly ITecnicoRepository _tecnicoRepo;
 
-        public DespesaAdiantamentoPeriodoService(IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo)
+
+        public DespesaAdiantamentoPeriodoService(
+            ITecnicoRepository tecnicoRepo,
+            IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
+            IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
+            IDespesaAdiantamentoRepository despesaAdiantamentoRepo
+            )
         {
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
+            _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
+            _tecnicoRepo = tecnicoRepo;
+            _despesaAdiantamentoRepo = despesaAdiantamentoRepo;
         }
 
         public void Atualizar(DespesaAdiantamentoPeriodo despesa)

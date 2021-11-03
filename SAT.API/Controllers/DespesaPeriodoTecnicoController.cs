@@ -23,7 +23,7 @@ namespace SAT.API.Controllers
             _despesaPeriodoTecnico.ObterPorParametros(parameters);
 
         [HttpGet("Atendimentos")]
-        public DespesaPeriodoTecnicoAtendimentoViewModel GetAtendimentos([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
+        public DespesaPeriodoTecnicoAtendimentoViewModel GetAtendimento([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
             _despesaPeriodoTecnico.ObterAtendimentos(parameters);
 
         [HttpGet("{codDespesaPeriodoTecnico}")]

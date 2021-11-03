@@ -41,19 +41,19 @@
                                         <div class="list-grid-tecnico-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                             *transloco="let t">
                                             <div class="hidden md:block truncate">
-                                                {{ tec.nome | uppercase }}
+                                                {{ tec.tecnico.nome | uppercase }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ saldoAdiantamento(tec.codTecnico) }}
+                                                {{ tec.saldoAdiantamento | currency:'BRL':'symbol-narrow' }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ tec.indAtivo == 1 ? 'SIM' : 'NÃO' }}
+                                                {{ (tec.indAtivo ? t('sim') : t('nao')) | uppercase }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (tec.liberado ? t('sim') : t('nao')) | uppercase}}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ tec.filial.nomeFilial | uppercase }}
+                                                {{ tec.tecnico.filial?.nomeFilial | uppercase }}
                                             </div>
                                         </div>
                                     </ng-container>

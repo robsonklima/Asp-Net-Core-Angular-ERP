@@ -28,13 +28,13 @@ namespace SAT.SERVICES.Services
                     IndAtivoPeriodo = 1
                 }).SingleOrDefault();
 
-        private List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(int codTecnico, int codPeriodo) =>
-            _despesaAdiantamentoPeriodoRepo.ObterPorParametros(
+        private List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(int codTecnico, int? codPeriodo = null) =>
+            _despesaAdiantamentoPeriodoService.ObterDespesasPeriodoAdiantamentos(
                 new DespesaAdiantamentoPeriodoParameters
                 {
                     CodTecnico = codTecnico,
                     CodDespesaPeriodo = codPeriodo,
-                    IndAtivoPeriodo = 1
+                    IndAdiantamentoAtivo = 1
                 });
 
         private decimal TotalDespesa(DespesaPeriodoTecnico despesaPeriodo) =>
@@ -54,7 +54,6 @@ namespace SAT.SERVICES.Services
 
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {
-                    CodTecnico = parameters.CodTecnico.Value,
                     CodDespesaPeriodo = despesa.CodDespesaPeriodo,
                     DataInicio = despesa.DataInicio,
                     DataFim = despesa.DataFim,

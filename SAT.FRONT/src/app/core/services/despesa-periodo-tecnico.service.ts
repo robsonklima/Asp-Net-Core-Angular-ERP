@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoParameters } from '../types/despesa-atendimento.types';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoParameters } from '../types/despesa-periodo';
+import { DespesaPeriodoTecnicoAtendimentoData } from '../types/despesa-adiantamento';
 
 @Injectable({
     providedIn: 'root'

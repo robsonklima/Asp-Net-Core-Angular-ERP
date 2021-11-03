@@ -22,6 +22,10 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaAdiantamentoPeriodoParameters parameters) =>
             _despesaAdiantamentoPeriodoService.ObterPorParametros(parameters);
 
+        [HttpGet("Tecnicos")]
+        public DespesaAdiantamentoPeriodoConsultaTecnicoViewModel GetConsultaTecnico([FromQuery] DespesaAdiantamentoPeriodoParameters parameters) =>
+            _despesaAdiantamentoPeriodoService.ObterConsultaTecnicos(parameters);
+
         [HttpGet("{codDespesaAdiantamentoPeriodo}")]
         public DespesaAdiantamentoPeriodo Get(int codDespesaAdiantamentoPeriodo) =>
              _despesaAdiantamentoPeriodoService.ObterPorCodigo(codDespesaAdiantamentoPeriodo);

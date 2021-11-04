@@ -104,8 +104,8 @@
                             <mat-paginator [hidden]="!atendimentos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 250]" [showFirstLastButtons]="true"
-                                (page)="paginar()">
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
+                                250]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

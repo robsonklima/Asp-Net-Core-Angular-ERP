@@ -1,10 +1,16 @@
+import { AbstractControl, FormGroup } from "@angular/forms";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSidenav } from "@angular/material/sidenav";
+import { MatSort } from "@angular/material/sort";
+import { UserSession } from "../user/user.types";
+
 export interface Filtro
 {
-    parametros: Parametros;
+    parametros: Parameters;
     nome: string
 }
 
-export interface Parametros 
+export interface Parameters 
 {
     codFiliais?: string,
     codAutorizadas?: string,
@@ -26,4 +32,50 @@ export interface Parametros
     codTipoEquip?: string
     codGrupoEquip?: string
     codEquipamentos?: string
+}
+
+export interface IFilterBaseCore
+{
+    form: FormGroup;
+    filter: any;
+    filterName: string;
+    userSession: UserSession;
+    sidenav: MatSidenav;
+
+    apply(): void;
+    clean(): void;
+    selectAll(select: AbstractControl, values, propertyName);
+}
+
+export interface IFilterableCore
+{
+    filter: Filtro;
+    filterName: string;
+    userSession: UserSession;
+
+    sidenav: MatSidenav;
+    paginator: MatPaginator;
+    sort: MatSort;
+
+    loadFilter(): void;
+    onSortChanged(): void;
+    onPaginationChanged(): void;
+    onSidenavClosed(): void;
+}
+
+export interface IFilterBase
+{
+    sidenav: MatSidenav;
+
+    createForm(): void;
+    loadData(): void;
+}
+
+export interface IFilterable
+{
+    sidenav: MatSidenav;
+    paginator: MatPaginator;
+    sort: MatSort;
+
+    registerEmitters(): void;
 }

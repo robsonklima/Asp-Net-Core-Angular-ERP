@@ -10,6 +10,7 @@ import localePt from '@angular/common/locales/pt';
 import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
+import { IFilterable } from 'app/core/types/filtro.types';
 registerLocaleData(localePt);
 
 @Component({
@@ -28,10 +29,10 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaAtendimentoListaComponent extends Filterable implements AfterViewInit
+export class DespesaAtendimentoListaComponent extends Filterable implements AfterViewInit, IFilterable
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   isLoading: boolean = false;
@@ -56,11 +57,12 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
       this.sort.sortChange.subscribe(() =>
       {
+        this.onSortChanged()
         this.obterDados();
-        this.paginator.pageIndex = 0;
       });
     }
 
+    this.registerEmitters();
     this._cdr.detectChanges();
   }
 
@@ -85,8 +87,18 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.isLoading = false;
   }
 
+  registerEmitters(): void
+  {
+    this.sidenav.closedStart.subscribe(() =>
+    {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
   public paginar()
   {
+    this.onPaginationChanged();
     this.obterDados();
   }
 }

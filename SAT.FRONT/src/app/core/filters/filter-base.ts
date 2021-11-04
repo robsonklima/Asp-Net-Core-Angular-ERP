@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IFilterBaseCore } from './ifilter-base-core';
+import { Filtro, IFilterBaseCore } from '../types/filtro.types';
 
 @Injectable({
     providedIn: 'root'
@@ -28,14 +28,18 @@ export class FilterBase implements IFilterBaseCore
     {
         const form: any = this.form.getRawValue();
 
-        const filtro: any = {
+        const filtro: Filtro = {
             nome: this.filterName,
             parametros: form
-        }
+        };
 
         this._userService.registrarFiltro(filtro);
 
-        const newFilter: any = { nome: this.filterName, parametros: this.form.getRawValue() }
+        const newFilter: Filtro = {
+            nome: this.filterName,
+            parametros: this.form.getRawValue()
+        };
+
         const oldFilter = this._userService.obterFiltro(this.filterName);
 
         if (oldFilter != null)

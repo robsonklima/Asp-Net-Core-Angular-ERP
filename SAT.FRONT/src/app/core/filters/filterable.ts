@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatSort } from '@angular/material/sort';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IFilterableCore } from './ifilterable-core';
+import { IFilterableCore } from '../types/filtro.types';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -12,9 +15,12 @@ export class Filterable implements IFilterableCore
     public filterName: string;
     public filter: any;
     public userSession: UserSession;
-    public sidenav: MatSidenav;
 
-    carregaFiltro(): void
+    public sidenav: MatSidenav;
+    paginator: MatPaginator;
+    sort: MatSort;
+
+    loadFilter(): void
     {
         this.filter = this._userService.obterFiltro(this.filterName);
 
@@ -31,6 +37,25 @@ export class Filterable implements IFilterableCore
     {
         this.filterName = filterName;
         this.userSession = JSON.parse(this._userService.userSession);
-        this.carregaFiltro();
+        this.loadFilter();
+    }
+
+    onSortChanged(): void
+    {
+        this._userService.atualizarPropriedade(this.filterName, "sortActive", this.sort.active);
+        this._userService.atualizarPropriedade(this.filterName, "sortDirection", this.sort.direction);
+        this.loadFilter();
+        this.paginator.pageIndex = 0;
+    }
+
+    onPaginationChanged(): void
+    {
+        this._userService.atualizarPropriedade(this.filterName, "qtdPaginacaoLista", this.paginator?.pageSize);
+    }
+
+    onSidenavClosed(): void
+    {
+        this.paginator.pageIndex = 0;
+        this.loadFilter();
     }
 }

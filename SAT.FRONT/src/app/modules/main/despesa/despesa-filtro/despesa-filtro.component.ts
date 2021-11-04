@@ -5,7 +5,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { UserService } from 'app/core/user/user.service';
 import { FilterBase } from 'app/core/filters/filter-base';
-import { IFilterBase } from 'app/core/filters/ifilter-base';
+import { IFilterBase } from 'app/core/types/filtro.types';
 
 @Component({
   selector: 'app-despesa-filtro',

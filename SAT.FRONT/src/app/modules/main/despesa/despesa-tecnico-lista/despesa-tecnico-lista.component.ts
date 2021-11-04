@@ -7,7 +7,7 @@ import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adi
 import { DespesaAdiantamentoPeriodoConsultaTecnicoData } from 'app/core/types/despesa-adiantamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
-import { IFilterable } from 'app/core/filters/ifilterable';
+import { IFilterable } from 'app/core/types/filtro.types';
 
 @Component({
   selector: 'app-despesa-tecnico-lista',
@@ -27,9 +27,8 @@ import { IFilterable } from 'app/core/filters/ifilterable';
 
 export class DespesaTecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable
 {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   isLoading: boolean = false;
@@ -54,12 +53,12 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
 
       this.sort.sortChange.subscribe(() =>
       {
-        this.paginator.pageIndex = 0;
+        this.onSortChanged();
         this.obterDados();
       });
     }
 
-    this.registrarEmitters();
+    this.registerEmitters();
     this._cdr.detectChanges();
   }
 
@@ -84,18 +83,18 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
     this.isLoading = false;
   }
 
-  registrarEmitters(): void
+  registerEmitters(): void
   {
     this.sidenav.closedStart.subscribe(() =>
     {
-      this.paginator.pageIndex = 0;
-      this.carregaFiltro();
+      this.onSidenavClosed();
       this.obterDados();
     })
   }
 
   paginar()
   {
+    this.onPaginationChanged();
     this.obterDados();
   }
 }

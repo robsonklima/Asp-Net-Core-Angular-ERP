@@ -1,10 +1,19 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
     <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('ponto periodos') }}</div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+            </mat-form-field>
+            <button class="ml-4" mat-button routerLink="/ponto/ponto-periodo-form">
+                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+        </div>
     </div>
 
     <div class="flex flex-auto overflow-hidden">
@@ -64,6 +73,18 @@
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:users'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            color="primary"
+                                            mat-stroked-button
+                                            [matTooltip]="'Exportar'"
+                                            matTooltipPosition="above"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto'">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:cloud-download'"></mat-icon>
                                         </button>
                                     </div>
                                 </div>

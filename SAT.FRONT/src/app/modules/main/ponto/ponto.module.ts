@@ -14,6 +14,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PontoColaboradorListaComponent } from './ponto-colaborador-lista/ponto-colaborador-lista.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -22,13 +23,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   imports: [
     CommonModule,
-    SharedModule,
     RouterModule.forChild(pontoRoutes),
     MatPaginatorModule,
+    SharedModule,
     MatIconModule,
     MatSortModule,
     MatMenuModule,
     MatFormFieldModule,
+    MatInputModule,
     MatProgressBarModule,
     TranslocoModule,
     MatButtonModule,

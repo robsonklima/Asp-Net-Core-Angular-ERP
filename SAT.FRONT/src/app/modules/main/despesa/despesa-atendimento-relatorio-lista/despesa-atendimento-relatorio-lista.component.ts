@@ -86,11 +86,12 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterDespesas()
   {
-    this.despesas = (await this._despesaSvc.obterPorParametros
-      ({
-        codTecnico: 1153,
-        codDespesaPeriodo: this.periodo.codDespesaPeriodo
-      }).toPromise());
+    this.despesas = this.userSession.usuario?.codTecnico != null ?
+      (await this._despesaSvc.obterPorParametros
+        ({
+          codTecnico: this.userSession.usuario.codTecnico,
+          codDespesaPeriodo: this.periodo.codDespesaPeriodo
+        }).toPromise()) : null;
   }
 
   private async obterOrdensDeServico()

@@ -39,6 +39,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DespesaAtendimentoFiltroComponent } from './despesa-atendimento-filtro/despesa-atendimento-filtro.component';
 import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-tecnico-filtro.component';
 import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
+import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
 
 @NgModule({
   declarations:
@@ -47,7 +48,8 @@ import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento
       DespesaAtendimentoListaComponent,
       DespesaAtendimentoFiltroComponent,
       DespesaTecnicoFiltroComponent,
-      DespesaAtendimentoRelatorioListaComponent
+      DespesaAtendimentoRelatorioListaComponent,
+      DespesaManutencaoComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

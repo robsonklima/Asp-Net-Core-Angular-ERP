@@ -61,19 +61,6 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
       });
     }
 
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
-        return event.target.value;
-      })
-      , debounceTime(1000)
-      , distinctUntilChanged()
-    ).subscribe((text: string) =>
-    {
-      this.paginator.pageIndex = 0;
-      this.obterDados(text);
-    });
-
     this.registerEmitters();
     this._cdr.detectChanges();
   }
@@ -103,6 +90,19 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
 
   registerEmitters(): void
   {
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()
+    ).subscribe((text: string) =>
+    {
+      this.paginator.pageIndex = 0;
+      this.obterDados(text);
+    });
+
     this.sidenav.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
@@ -8,6 +8,8 @@ import { DespesaAdiantamentoPeriodoConsultaTecnicoData } from 'app/core/types/de
 import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-despesa-tecnico-lista',
@@ -30,6 +32,7 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
   isLoading: boolean = false;
   tecnicos: DespesaAdiantamentoPeriodoConsultaTecnicoData;
@@ -58,16 +61,30 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
       });
     }
 
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()
+    ).subscribe((text: string) =>
+    {
+      this.paginator.pageIndex = 0;
+      this.obterDados(text);
+    });
+
     this.registerEmitters();
     this._cdr.detectChanges();
   }
 
-  private async obterConsultaTecnicos()
+  private async obterConsultaTecnicos(filter?: string)
   {
     this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterConsultaTecnicos({
       codFiliais: this.filter?.parametros?.codFiliais,
       indAtivoTecnico: this.filter?.parametros?.indAtivo,
       indTecnicoLiberado: this.filter?.parametros?.indTecnicoLiberado,
+      filter: filter,
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nome',
       sortDirection: this.sort?.direction || 'asc',
@@ -75,11 +92,11 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
     }).toPromise());
   }
 
-  private async obterDados()
+  private async obterDados(filter?: string)
   {
     this.isLoading = true;
 
-    await this.obterConsultaTecnicos();
+    await this.obterConsultaTecnicos(filter);
 
     this.isLoading = false;
   }

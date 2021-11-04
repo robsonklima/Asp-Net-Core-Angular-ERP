@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
@@ -59,13 +60,17 @@ namespace SAT.SERVICES.Services
                 });
 
         private decimal TotalDespesa(DespesaPeriodoTecnico despesaPeriodo) =>
-            despesaPeriodo != null ? despesaPeriodo.Despesas.Sum(d =>
-                d.DespesaItens.Where(di =>
-                    di.IndAtivo == 1 && di.CodDespesaTipo != 1 && di.CodDespesaTipo != 8).Sum(di =>
-                        di.DespesaValor)) ?? 0 : 0;
+            despesaPeriodo != null ?
+                despesaPeriodo.Despesas?.Sum(d =>
+                    d.DespesaItens.Where(di =>
+                        di.IndAtivo == 1 &&
+                        di.CodDespesaTipo != (int)DespesaTipoEnum.KM &&
+                        di.CodDespesaTipo != (int)DespesaTipoEnum.COMBUSTIVEL)
+                    .Sum(di => di.DespesaValor)) ?? 0 : 0;
 
         private decimal TotalAdiantamentoUtilizado(int codTecnico, int codPeriodo) =>
-            this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo).Sum(a => a.ValorAdiantamentoUtilizado);
+            this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
+                .Sum(a => a.ValorAdiantamentoUtilizado);
 
         private List<DespesaPeriodoTecnicoAtendimentoItem> CalculaDespesasPorPeriodo(List<DespesaPeriodo> periodos, DespesaPeriodoTecnicoParameters parameters) =>
             periodos.Select(despesa =>

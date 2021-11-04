@@ -74,8 +74,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
   ngOnInit(): void
   {
-    this.loadData();
     this.createForm();
+    this.loadData();
   }
 
   loadData(): void

@@ -14,18 +14,18 @@ import { UserSession } from 'app/core/user/user.types';
     /* language=SCSS */
     `
       .list-grid-ge {
-          grid-template-columns: 72px 128px 128px 154px 146px;
+          grid-template-columns: 72px auto 128px 154px 72px;
           
           @screen sm {
-              grid-template-columns: 72px 128px 128px 154px 146px;
+              grid-template-columns: 72px auto 128px 154px 72px;
           }
       
           @screen md {
-              grid-template-columns: 72px 128px 128px 154px 146px;
+              grid-template-columns: 72px auto 128px 154px 72px;
           }
       
           @screen lg {
-              grid-template-columns: 72px 128px 128px 154px 146px;
+              grid-template-columns: 72px auto 128px 154px 72px;
           }
       }
     `

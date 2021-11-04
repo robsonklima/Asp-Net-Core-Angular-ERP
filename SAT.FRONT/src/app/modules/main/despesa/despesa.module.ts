@@ -38,6 +38,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DespesaAtendimentoFiltroComponent } from './despesa-atendimento-filtro/despesa-atendimento-filtro.component';
 import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-tecnico-filtro.component';
+import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
 
 @NgModule({
   declarations:
@@ -45,7 +46,8 @@ import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-
       DespesaTecnicoListaComponent,
       DespesaAtendimentoListaComponent,
       DespesaAtendimentoFiltroComponent,
-      DespesaTecnicoFiltroComponent
+      DespesaTecnicoFiltroComponent,
+      DespesaAtendimentoRelatorioListaComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

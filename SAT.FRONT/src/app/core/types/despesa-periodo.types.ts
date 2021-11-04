@@ -1,5 +1,5 @@
+import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
-import { Tecnico } from "./tecnico.types";
 
 export class DespesaPeriodo
 {
@@ -70,71 +70,6 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
     inicioPeriodo?: string;
     fimPeriodo?: string;
 };
-
-export class Despesa
-{
-    codDespesa: number;
-    codDespesaPeriodo: number;
-    codRAT: number;
-    codTecnico: number;
-    despesaItens: DespesaItem[];
-    codFilial: number;
-    centroCusto: string;
-    indAtivo: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-}
-
-export class DespesaItem
-{
-    codDespesaItem: number;
-    codDespesa: number;
-    codDespesaTipo: number;
-    codDespesaConfiguracao: number;
-    sSequenciaDespesaKm: number;
-    numNF: string;
-    despesaValor: number;
-    enderecoOrigem: string;
-    numOrigem: string;
-    bairroOrigem: string;
-    codCidadeOrigem: number;
-    enderecoOrigemWebraska: string;
-    bairroOrigemWebraska: string;
-    nomeCidadeOrigemWebraska: string;
-    siglaUFOrigemWebraska: string;
-    siglaPaisOrigemWebraska: string;
-    indResidenciaOrigem: number;
-    indHotelOrigem: number;
-    enderecoDestino: string;
-    numDestino: string;
-    bairroDestino: string;
-    codCidadeDestino: number;
-    enderecoDestinoWebraska: string;
-    numDestinoWebraska: string;
-    bairroDestinoWebraska: string;
-    nomeCidadeDestinoWebraska: string;
-    siglaUFDestinoWebraska: string;
-    siglaPaisDestinoWebraska: string;
-    indResidenciaDestino: number;
-    indHotelDestino: number;
-    kmPrevisto: number;
-    kmPercorrido: number;
-    tentativaKM: string;
-    obs: string;
-    obsReprovacao: string;
-    codDespesaItemAlerta: number;
-    indWebrascaIndisponivel: number;
-    indReprovado: number;
-    indAtivo: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-    latitudeHotel: string;
-    longitudeHotel: string;
-}
 
 export enum DespesaPeriodoTecnicoStatusEnum
 {

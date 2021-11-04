@@ -62,30 +62,30 @@
                                         {{ t('total despesa') }}
                                     </div>
                                 </div>
-                                <!-- <ng-container *ngIf="atendimentos?.items.length">
-                                    <ng-container *ngFor="let dp of atendimentos?.items">
+                                <ng-container *ngIf="despesas?.items.length">
+                                    <ng-container *ngFor="let dp of despesas?.items">
                                         <div class="list-grid-despesa-atendimento-relatorio grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                             *transloco="let t">
                                             <div class="hidden md:block truncate">
                                                 ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.dataInicio | date:'dd/MM/yyyy' }}
+                                                {{ dp.relatorioAtendimento?.codOS }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.dataFim | date:'dd/MM/yyyy' }}
+                                                {{ dp.codRAT }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.totalDespesa | currency:'BRL':'symbol-narrow' }}
+                                                ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.totalAdiantamento | currency:'BRL':'symbol-narrow' }}
+                                                ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.restituirAEmpresa | currency:'BRL':'symbol-narrow' }}
+                                                ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.gastosExcedentes | currency:'BRL':'symbol-narrow' }}
+                                                ---
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 ---
@@ -101,11 +101,11 @@
                                             </div>
                                         </div>
                                     </ng-container>
-                                </ng-container> -->
+                                </ng-container>
                             </div>
-                            <mat-paginator [hidden]="!atendimentos?.items?.length"
+                            <mat-paginator [hidden]="!despesas?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                                [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="despesas?.totalCount"
                                 [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
                                 250]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>

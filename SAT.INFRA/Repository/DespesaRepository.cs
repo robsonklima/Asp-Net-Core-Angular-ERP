@@ -42,6 +42,7 @@ namespace SAT.INFRA.Repository
         {
             var despesas = _context.Despesa
             .Include(d => d.DespesaItens)
+            .Include(d => d.RelatorioAtendimento)
             .AsQueryable();
 
             if (parameters.CodTecnico.HasValue)

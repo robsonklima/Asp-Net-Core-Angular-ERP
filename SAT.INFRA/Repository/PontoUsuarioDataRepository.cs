@@ -10,22 +10,22 @@ using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
-    public class PontoUsuarioRepository : IPontoUsuarioRepository
+    public class PontoUsuarioDataRepository : IPontoUsuarioDataRepository
     {
         private readonly AppDbContext _context;
 
-        public PontoUsuarioRepository(AppDbContext context)
+        public PontoUsuarioDataRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public void Atualizar(PontoUsuario pontoUsuario)
+        public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
-            PontoUsuario per = _context.PontoUsuario.SingleOrDefault(p => p.CodPontoUsuario == pontoUsuario.CodPontoUsuario);
+            PontoUsuarioData per = _context.PontoUsuarioData.SingleOrDefault(p => p.CodPontoUsuarioData == pontoUsuarioData.CodPontoUsuarioData);
 
             if (per != null)
             {
-                _context.Entry(per).CurrentValues.SetValues(pontoUsuario);
+                _context.Entry(per).CurrentValues.SetValues(pontoUsuarioData);
 
                 try
                 {
@@ -38,11 +38,11 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Criar(PontoUsuario pontoUsuario)
+        public void Criar(PontoUsuarioData pontoUsuarioData)
         {
             try
             {
-                _context.Add(pontoUsuario);
+                _context.Add(pontoUsuarioData);
                 _context.SaveChanges();
             }
             catch (DbUpdateException)
@@ -53,11 +53,11 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            PontoUsuario per = _context.PontoUsuario.SingleOrDefault(p => p.CodPontoUsuario == codigo);
+            PontoUsuarioData per = _context.PontoUsuarioData.SingleOrDefault(p => p.CodPontoUsuarioData == codigo);
 
             if (per != null)
             {
-                _context.PontoUsuario.Remove(per);
+                _context.PontoUsuarioData.Remove(per);
 
                 try
                 {
@@ -70,33 +70,33 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public PontoUsuario ObterPorCodigo(int codigo)
+        public PontoUsuarioData ObterPorCodigo(int codigo)
         {
-            return _context.PontoUsuario.SingleOrDefault(p => p.CodPontoUsuario == codigo);
+            return _context.PontoUsuarioData.SingleOrDefault(p => p.CodPontoUsuarioData == codigo);
         }
 
-        public PagedList<PontoUsuario> ObterPorParametros(PontoUsuarioParameters parameters)
+        public PagedList<PontoUsuarioData> ObterPorParametros(PontoUsuarioDataParameters parameters)
         {
-            var query = _context.PontoUsuario
-                .Include(p => p.Usuario)
-                .Include(p => p.PontoPeriodo)
+            var query = _context.PontoUsuarioData
+                .Include(pd => pd.PontoUsuarioDataStatusAcesso)
+                .Include(pd => pd.PontoUsuarioDataStatus)
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
                 query = query.Where(
                     p =>
-                    p.CodPontoUsuario.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    p.CodPontoUsuarioData
+                        .ToString()
+                        .Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
-            if (parameters.CodUsuario != null)
-            {
+            if (parameters.CodUsuario != null) {
                 query = query.Where(p => p.CodUsuario == parameters.CodUsuario);
             }
 
-            if (parameters.CodPontoPeriodo != null)
-            {
+            if (parameters.CodPontoPeriodo != null) {
                 query = query.Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo);
             }
 
@@ -105,7 +105,7 @@ namespace SAT.INFRA.Repository
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<PontoUsuario>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+            return PagedList<PontoUsuarioData>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

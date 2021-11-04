@@ -50,8 +50,41 @@
                         </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
                         <mat-date-range-picker #pickerData></mat-date-range-picker>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('status') }}</mat-label>
+                        <mat-select formControlName="codPontoPeriodoStatus">
+                            <mat-option class="mat-primary fill" [value]=""></mat-option>
+                            <mat-option *ngFor="let status of pontosPeriodoStatus" [value]="status.codPontoPeriodoStatus">
+                                {{ status.nomePeriodoStatus }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('modo aprovacao') }}</mat-label>
+                        <mat-select formControlName="codPontoPeriodoModoAprovacao">
+                            <mat-option class="mat-primary fill" [value]=""></mat-option>
+                            <mat-option *ngFor="let modo of pontosModoAprovacao" [value]="modo.codPontoPeriodoModoAprovacao">
+                                {{ modo.descricao }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('intervalos acesso') }}</mat-label>
+                        <mat-select formControlName="codPontoPeriodoIntervaloAcessoData">
+                            <mat-option class="mat-primary fill" [value]=""></mat-option>
+                            <mat-option *ngFor="let intervalo of pontosIntervalo" [value]="intervalo.codPontoPeriodoIntervaloAcessoData">
+                                {{ intervalo.descricao }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

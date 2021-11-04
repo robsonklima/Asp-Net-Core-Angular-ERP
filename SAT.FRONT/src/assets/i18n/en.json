@@ -323,5 +323,12 @@
     "numero cracha": "Badge",
     "turno": "Shift",
     "turnos": "Shifts",
-    "horarios": "Schedules"
+    "horarios": "Schedules",
+    "modo aprovacao": "Approval Mode",
+    "intervalos acesso": "Access Interval",
+    "ponto horarios": "Time Registers",
+    "sem": "Week",
+    "marcacoes": "Marks",
+    "he": "EH",
+    "motivo": "Reason"
 }

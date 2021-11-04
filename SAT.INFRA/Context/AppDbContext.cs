@@ -64,6 +64,7 @@ namespace SAT.INFRA.Context
         public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
         public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
         public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
+        public DbSet<PontoUsuarioData> PontoUsuarioData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

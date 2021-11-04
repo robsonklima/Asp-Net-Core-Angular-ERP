@@ -86,6 +86,17 @@
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:cloud-download'"></mat-icon>
                                         </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Editar'"
+                                            [routerLink]="'/ponto/ponto-periodo-form/' + data.codPontoPeriodo"
+                                            matTooltipPosition="above">
+                                            <mat-icon
+                                                class="icon-size-5 text-pink-600"
+                                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

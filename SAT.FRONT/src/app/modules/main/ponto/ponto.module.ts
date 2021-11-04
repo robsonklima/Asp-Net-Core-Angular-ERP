@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { PontoPeriodoListaComponent } from './ponto-periodo-lista/ponto-periodo-lista.component';
 import { RouterModule } from '@angular/router';
 import { pontoRoutes } from './ponto.routing';
@@ -20,6 +20,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PontoTurnoListaComponent } from './ponto-turno-lista/ponto-turno-lista.component';
 import { PontoTurnoFormComponent } from './ponto-turno-form/ponto-turno-form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { PontoHorariosListaComponent } from './ponto-horarios-lista/ponto-horarios-lista.component';
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/pt';
+
+registerLocaleData(localeBr, 'pt')
 
 @NgModule({
   declarations: [
@@ -27,7 +34,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PontoColaboradorListaComponent,
     PontoPeriodoFormComponent,
     PontoTurnoListaComponent,
-    PontoTurnoFormComponent
+    PontoTurnoFormComponent,
+    PontoHorariosListaComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +52,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatButtonModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule
-  ]
+    MatDatepickerModule,
+    MatOptionModule,
+    MatSelectModule
+  ],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })
 export class PontoModule { }

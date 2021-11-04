@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
            {
@@ -100,6 +100,7 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoStatusRepository, PontoPeriodoStatusRepository>();
             services.AddTransient<IPontoPeriodoModoAprovacaoRepository, PontoPeriodoModoAprovacaoRepository>();
             services.AddTransient<IPontoPeriodoIntervaloAcessoDataRepository, PontoPeriodoIntervaloAcessoDataRepository>();
+            services.AddTransient<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -155,6 +156,7 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoStatusService, PontoPeriodoStatusService>();
             services.AddTransient<IPontoPeriodoModoAprovacaoService, PontoPeriodoModoAprovacaoService>();
             services.AddTransient<IPontoPeriodoIntervaloAcessoDataService, PontoPeriodoIntervaloAcessoDataService>();
+            services.AddTransient<IPontoUsuarioDataService, PontoUsuarioDataService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

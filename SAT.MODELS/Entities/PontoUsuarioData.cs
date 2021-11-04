@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,5 +17,11 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
         public int CodPontoUsuarioDataStatusAcesso { get; set; }
+
+        [ForeignKey("CodPontoUsuarioDataStatus")]
+        public PontoUsuarioDataStatus PontoUsuarioDataStatus { get; set; }
+
+        [ForeignKey("CodPontoUsuarioDataStatusAcesso")]
+        public PontoUsuarioDataStatusAcesso PontoUsuarioDataStatusAcesso { get; set; }
     }
 }

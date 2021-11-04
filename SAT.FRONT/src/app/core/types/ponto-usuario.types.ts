@@ -23,6 +23,7 @@ export interface PontoUsuarioData extends Meta {
 
 export interface PontoUsuarioParameters extends QueryStringParameters {
     codUsuario?: string;
-    dataHoraRegistroInicio: string;
-    dataHoraRegistroFim: string;
+    codPontoPeriodo?: number;
+    dataHoraRegistroInicio?: string;
+    dataHoraRegistroFim?: string;
 };

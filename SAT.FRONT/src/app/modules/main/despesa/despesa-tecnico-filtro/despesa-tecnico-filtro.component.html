@@ -20,7 +20,7 @@
                     <mat-select formControlName="codFiliais" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
                             'codFilial')" [value]="0">
-                            TODAS
+                            {{t('todas') | uppercase }}
                         </mat-option>
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                             {{ filial.nomeFilial }}

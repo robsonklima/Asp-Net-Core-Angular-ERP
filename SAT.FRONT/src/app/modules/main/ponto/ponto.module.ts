@@ -15,11 +15,19 @@ import { PontoColaboradorListaComponent } from './ponto-colaborador-lista/ponto-
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
+import { PontoPeriodoFormComponent } from './ponto-periodo-form/ponto-periodo-form.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PontoTurnoListaComponent } from './ponto-turno-lista/ponto-turno-lista.component';
+import { PontoTurnoFormComponent } from './ponto-turno-form/ponto-turno-form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
     PontoPeriodoListaComponent,
-    PontoColaboradorListaComponent
+    PontoColaboradorListaComponent,
+    PontoPeriodoFormComponent,
+    PontoTurnoListaComponent,
+    PontoTurnoFormComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +42,9 @@ import { MatInputModule } from '@angular/material/input';
     MatProgressBarModule,
     TranslocoModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule
   ]
 })
 export class PontoModule { }

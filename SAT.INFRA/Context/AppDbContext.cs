@@ -61,6 +61,9 @@ namespace SAT.INFRA.Context
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
         public DbSet<PontoUsuario> PontoUsuario { get; set; }
         public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
+        public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
+        public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
+        public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

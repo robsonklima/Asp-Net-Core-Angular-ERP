@@ -51,6 +51,12 @@ namespace SAT.INFRA.Repository
             if (parameters.CodDespesaPeriodo.HasValue)
                 despesas = despesas.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
+            if (!string.IsNullOrEmpty(parameters.CodRATs))
+            {
+                var codigos = parameters.CodRATs.Split(",").Select(a => a.Trim());
+                despesas = despesas.Where(d => codigos.Any(p => p == d.CodRAT.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesas = despesas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 

@@ -62,43 +62,43 @@
                                         {{ t('total despesa') }}
                                     </div>
                                 </div>
-                                <ng-container *ngIf="despesas?.items.length">
-                                    <ng-container *ngFor="let dp of despesas?.items">
-                                        <a [routerLink]="'despesa/'+dp.codDespesa">
+                                <ng-container *ngIf="rats?.items.length">
+                                    <ng-container *ngFor="let r of rats?.items">
+                                        <a [routerLink]="'despesa/'+r.codRAT">
                                             <div class="list-grid-despesa-atendimento-relatorio grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">
                                                     ---
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ dp.relatorioAtendimento?.codOS ?? "---" }}
+                                                    {{ r.codOS ?? "---" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ dp.codRAT  ?? "---" }}
+                                                    {{ r.codRAT  ?? "---" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ obterOSCliente(dp.relatorioAtendimento?.codOS) ?? "---" }}
+                                                    {{ obterOSCliente(r.codOS) ?? "---" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (obterNomeCliente(dp.relatorioAtendimento?.codOS) | uppercase) ?? "---"}}
+                                                    {{ (obterNomeCliente(r.codOS) | uppercase) ?? "---"}}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (obterLocalAtendimento(dp.relatorioAtendimento?.codOS) | uppercase) ?? "---" }}
+                                                    {{ (obterLocalAtendimento(r.codOS) | uppercase) ?? "---" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (dp.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy') ?? "--" }}
+                                                    {{ (r.dataHoraInicio | date:'dd/MM/yyyy') ?? "--" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (dp.relatorioAtendimento?.dataHoraInicio | date:'HH:mm') ?? "--" }}
+                                                    {{ (r.dataHoraInicio | date:'HH:mm') ?? "--" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (dp.relatorioAtendimento?.dataHoraSolucao | date:'dd/MM/yyyy') ?? "--" }}
+                                                    {{ (r.dataHoraSolucao | date:'dd/MM/yyyy') ?? "--" }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ (dp.relatorioAtendimento?.dataHoraSolucao | date:'HH:mm') ?? "--" }}
+                                                    {{ (r.dataHoraSolucao | date:'HH:mm') ?? "--" }}
                                                 </div>
                                                 <div class="hidden md:block truncate font-semibold">
-                                                    {{ (obterTotalDespesa(dp) | currency:'BRL':'symbol-narrow') ?? "--" }}
+                                                    {{ (obterTotalDespesa(r.codRAT) ?? "0") | currency:'BRL':'symbol-narrow' }}
                                                 </div>
                                             </div>
                                         </a>

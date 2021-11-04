@@ -8,13 +8,16 @@ import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodo } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaData } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-atendimento-relatorio-lista',
@@ -40,8 +43,8 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   isLoading: boolean = false;
   periodo: DespesaPeriodo;
-  atendimentos: DespesaPeriodoTecnicoAtendimentoData;
   despesas: DespesaData;
+  rats: RelatorioAtendimentoData;
   ordemServico: OrdemServicoData;
 
   constructor (
@@ -49,6 +52,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _despesaPeriodoSvc: DespesaPeriodoService,
+    private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _despesaSvc: DespesaService,
     private _ordemServicoSvc: OrdemServicoService)
   {
@@ -84,21 +88,37 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
       (await this._despesaPeriodoSvc.obterPorCodigo(codDespesaPeriodo).toPromise());
   }
 
+  private async obterRATs()
+  {
+    this.rats = this.userSession.usuario?.codTecnico != null ?
+      (await this._relatorioAtendimentoSvc.obterPorParametros
+        ({
+          codTecnicos: this.userSession.usuario.codTecnico,
+          dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
+          dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
+        }).toPromise()) : null;
+  }
+
   private async obterDespesas()
   {
+    var codigos: string =
+      Enumerable.from(this.rats.items)
+        .select(i => i.codRAT)
+        .distinct()
+        .toJoinedString(',');
+
     this.despesas = this.userSession.usuario?.codTecnico != null ?
       (await this._despesaSvc.obterPorParametros
         ({
-          codTecnico: this.userSession.usuario.codTecnico,
-          codDespesaPeriodo: this.periodo.codDespesaPeriodo
+          codRATs: codigos
         }).toPromise()) : null;
   }
 
   private async obterOrdensDeServico()
   {
     var codigos: string =
-      Enumerable.from(this.despesas.items)
-        .select(i => i.relatorioAtendimento.codOS)
+      Enumerable.from(this.rats.items)
+        .select(i => i.codOS)
         .distinct()
         .toJoinedString(',');
 
@@ -111,8 +131,9 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     this.isLoading = true;
 
     await this.obterPeriodo();
-    await this.obterDespesas();
+    await this.obterRATs();
     await this.obterOrdensDeServico();
+    await this.obterDespesas();
 
     this.isLoading = false;
   }
@@ -153,9 +174,13 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
       .firstOrDefault(i => i.codOS == codOS)?.localAtendimento?.nomeLocal;
   }
 
-  public obterTotalDespesa(dp?: Despesa)
+  public obterTotalDespesa(codRAT?: number)
   {
-    if (!dp || !dp.despesaItens) return null;
-    return Enumerable.from(dp.despesaItens).sum(di => di.despesaValor);
+    if (!codRAT) return null;
+
+    return Enumerable.from(this.despesas.items)
+      .where(d => d.codRAT == codRAT)
+      .sum(d => Enumerable.from(d.despesaItens)
+        .sum(di => di.despesaValor));
   }
 }

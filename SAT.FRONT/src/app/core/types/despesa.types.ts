@@ -27,8 +27,9 @@ export interface DespesaData extends Meta
 
 export interface DespesaParameters extends QueryStringParameters
 {
-    codDespesaPeriodo: number;
-    codTecnico: number;
+    codDespesaPeriodo?: number;
+    codTecnico?: number;
+    codRATs?: string;
 };
 
 export interface DespesaItem

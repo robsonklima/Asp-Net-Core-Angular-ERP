@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities
     {
         public int? CodDespesaPeriodo { get; set; }
         public int? CodTecnico { get; set; }
+        public string CodRATs { get; set; }
     }
 }

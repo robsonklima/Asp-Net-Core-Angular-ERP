@@ -87,9 +87,19 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodRAT != null)
-            {
+            if (parameters.CodRAT.HasValue)
                 relatorios = relatorios.Where(r => r.CodRAT == parameters.CodRAT);
+
+            if (parameters.DataInicio.HasValue)
+                relatorios = relatorios.Where(r => r.DataHoraInicio >= parameters.DataInicio.Value);
+
+            if (parameters.DataSolucao.HasValue)
+                relatorios = relatorios.Where(r => r.DataHoraSolucao <= parameters.DataSolucao.Value);
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
+                relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

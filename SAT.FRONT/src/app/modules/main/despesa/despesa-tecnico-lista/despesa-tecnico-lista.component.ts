@@ -39,7 +39,7 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
     protected _userService: UserService,
     private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService)
   {
-    super(_userService, 'despesa-atendimento');
+    super(_userService, 'despesa-tecnico');
   }
 
   ngAfterViewInit()
@@ -65,8 +65,9 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
   private async obterConsultaTecnicos()
   {
     this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterConsultaTecnicos({
-      indAtivoTecnico: 1,
       codFiliais: this.filter?.parametros?.codFiliais,
+      indAtivoTecnico: this.filter?.parametros?.indAtivo,
+      indTecnicoLiberado: this.filter?.parametros?.indTecnicoLiberado,
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nome',
       sortDirection: this.sort?.direction || 'asc',

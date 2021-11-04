@@ -28,10 +28,12 @@ export interface Parameters
     pontosEstrategicos?: number[],
     qtdPaginacaoLista?: number,
     sortActive?: string,
-    sortDirection?: string
-    codTipoEquip?: string
-    codGrupoEquip?: string
-    codEquipamentos?: string
+    sortDirection?: string,
+    codTipoEquip?: string,
+    codGrupoEquip?: string,
+    codEquipamentos?: string,
+    indAtivo?: number,
+    indTecnicoLiberado?: number
 }
 
 export interface IFilterBaseCore

@@ -52,9 +52,9 @@ namespace SAT.SERVICES.Services
                 });
 
             // TO REFACTOR
-            if (parameters.IsTecnicoLiberado.HasValue)
+            if (parameters.IndTecnicoLiberado.HasValue)
                 tecnicos = PagedList<Tecnico>
-                    .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico) == parameters.IsTecnicoLiberado.Value)
+                    .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico) == parameters.IndTecnicoLiberado.Value)
                     .ToList(), parameters.PageNumber, parameters.PageSize);
 
             return tecnicos;
@@ -88,13 +88,13 @@ namespace SAT.SERVICES.Services
             return valorSaldo;
         }
 
-        private bool IsLiberado(int codTecnico)
+        private int IsLiberado(int codTecnico)
         {
             var ultimaDespesa = this.ObterUltimaDespesaPeriodoTecnico(codTecnico);
 
-            if (ultimaDespesa == null || ultimaDespesa.CodDespesaPeriodoTecnicoStatus != 1) return false;
+            if (ultimaDespesa == null || ultimaDespesa.CodDespesaPeriodoTecnicoStatus != 1) return 0;
 
-            return true;
+            return 1;
         }
 
         private List<DespesaAdiantamentoPeriodoConsultaTecnicoItem> CalculaAdiantamentoPorTecnico(List<Tecnico> tecnicos, DespesaAdiantamentoPeriodoParameters parameters) =>
@@ -104,8 +104,8 @@ namespace SAT.SERVICES.Services
                 {
                     Tecnico = tecnico,
                     SaldoAdiantamento = this.SaldoAdiantamento(tecnico.CodTecnico),
-                    Liberado = parameters.IsTecnicoLiberado.HasValue ?
-                        parameters.IsTecnicoLiberado.Value : this.IsLiberado(tecnico.CodTecnico),
+                    Liberado = Convert.ToBoolean(parameters.IndTecnicoLiberado.HasValue ?
+                        parameters.IndTecnicoLiberado.Value : this.IsLiberado(tecnico.CodTecnico)),
                     IndAtivo = Convert.ToBoolean(tecnico.IndAtivo)
                 };
             }).ToList();

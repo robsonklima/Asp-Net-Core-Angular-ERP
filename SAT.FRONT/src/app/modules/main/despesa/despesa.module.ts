@@ -36,14 +36,16 @@ import { FuseCardModule } from '@fuse/components/card';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { DespesaFiltroComponent } from './despesa-filtro/despesa-filtro.component';
+import { DespesaAtendimentoFiltroComponent } from './despesa-atendimento-filtro/despesa-atendimento-filtro.component';
+import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-tecnico-filtro.component';
 
 @NgModule({
   declarations:
     [
       DespesaTecnicoListaComponent,
       DespesaAtendimentoListaComponent,
-      DespesaFiltroComponent
+      DespesaAtendimentoFiltroComponent,
+      DespesaTecnicoFiltroComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

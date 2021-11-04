@@ -8,10 +8,10 @@ import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
 
 @Component({
-  selector: 'app-despesa-filtro',
-  templateUrl: './despesa-filtro.component.html'
+  selector: 'app-despesa-atendimento-filtro',
+  templateUrl: './despesa-atendimento-filtro.component.html'
 })
-export class DespesaFiltroComponent extends FilterBase implements OnInit, IFilterBase
+export class DespesaAtendimentoFiltroComponent extends FilterBase implements OnInit, IFilterBase
 {
   @Input() sidenav: MatSidenav;
   filiais: Filial[] = [];

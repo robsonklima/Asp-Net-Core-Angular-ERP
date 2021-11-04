@@ -16,6 +16,8 @@ namespace SAT.SERVICES.Services
                 new DespesaPeriodoParameters
                 {
                     IndAtivo = parameters.IndAtivoPeriodo,
+                    InicioPeriodo = parameters.InicioPeriodo,
+                    FimPeriodo = parameters.FimPeriodo,
                     SortActive = parameters.SortActive,
                     SortDirection = parameters.SortDirection
                 });

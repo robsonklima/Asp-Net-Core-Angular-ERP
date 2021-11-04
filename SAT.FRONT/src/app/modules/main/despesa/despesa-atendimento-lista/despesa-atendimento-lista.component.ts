@@ -72,6 +72,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
       codTecnico: this.userSession.usuario?.codTecnico,
       indAtivoPeriodo: this.filter?.parametros?.indAtivo,
       codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
+      inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
+      fimPeriodo: this.filter?.parametros?.fimPeriodo,
       pageNumber: this.paginator?.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
       sortActive: 'dataInicio',

@@ -26,7 +26,9 @@ export class DespesaAtendimentoFiltroComponent extends FilterBase implements OnI
   {
     this.form = this._formBuilder.group({
       indAtivo: [1],
-      codDespesaPeriodoStatus: [undefined]
+      codDespesaPeriodoStatus: [undefined],
+      inicioPeriodo: [undefined],
+      fimPeriodo: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);

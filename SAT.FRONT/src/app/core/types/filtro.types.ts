@@ -34,7 +34,9 @@ export interface Parameters
     codEquipamentos?: string,
     indAtivo?: number,
     indTecnicoLiberado?: number,
-    codDespesaPeriodoStatus?: string
+    codDespesaPeriodoStatus?: string,
+    inicioPeriodo?: string,
+    fimPeriodo?: string
 }
 
 export interface IFilterBaseCore

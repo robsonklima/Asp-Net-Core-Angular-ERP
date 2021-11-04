@@ -21,6 +21,4 @@ export const despesaRoutes: Route[] = [
         path: 'atendimentos/relatorios/:codDespesaPeriodo',
         component: DespesaAtendimentoRelatorioListaComponent
     }
-
-
 ];

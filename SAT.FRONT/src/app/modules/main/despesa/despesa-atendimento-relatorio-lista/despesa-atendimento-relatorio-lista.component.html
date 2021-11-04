@@ -1,1 +1,118 @@
-<p>despesa-atendimento-relatorio-lista works!</p>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+                </div>
+                <div>
+                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                        {{ t('de') + " " + (periodo?.dataInicio | date:'dd/MM/yyyy')
+                        + " " + (t('ate') | lowercase) + " " + (periodo?.dataFim | date:'dd/MM/yyyy') }}
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-auto overflow-hidden">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid-despesa-atendimento-relatorio z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+                                    <div>
+                                        {{ t('acao') }}
+                                    </div>
+                                    <div>
+                                        {{ t('os') }}
+                                    </div>
+                                    <div>
+                                        {{ t('rat') }}
+                                    </div>
+                                    <div>
+                                        {{ t('os cliente') }}
+                                    </div>
+                                    <div>
+                                        {{ t('cliente') }}
+                                    </div>
+                                    <div>
+                                        {{ t('local') }}
+                                    </div>
+                                    <div>
+                                        {{ t('data inicial') }}
+                                    </div>
+                                    <div>
+                                        {{ t('hora inicial') }}
+                                    </div>
+                                    <div>
+                                        {{ t('data final') }}
+                                    </div>
+                                    <div>
+                                        {{ t('hora final') }}
+                                    </div>
+                                    <div>
+                                        {{ t('total despesa') }}
+                                    </div>
+                                </div>
+                                <!-- <ng-container *ngIf="atendimentos?.items.length">
+                                    <ng-container *ngFor="let dp of atendimentos?.items">
+                                        <div class="list-grid-despesa-atendimento-relatorio grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div class="hidden md:block truncate">
+                                                ---
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.dataInicio | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.dataFim | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.totalDespesa | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.totalAdiantamento | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.restituirAEmpresa | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.gastosExcedentes | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                ---
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                ---
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ (dp.status?.nomeDespesaPeriodoTecnicoStatus || "em edição") | uppercase }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                {{ dp.indAtivo ? "SIM" : "NÃO" }}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container> -->
+                            </div>
+                            <mat-paginator [hidden]="!atendimentos?.items?.length"
+                                class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
+                                250]" [showFirstLastButtons]="true" (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

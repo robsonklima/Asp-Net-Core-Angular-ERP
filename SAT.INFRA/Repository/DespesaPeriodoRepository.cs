@@ -33,10 +33,9 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
-        public DespesaPeriodo ObterPorCodigo(int codigo)
-        {
-            throw new NotImplementedException();
-        }
+        public DespesaPeriodo ObterPorCodigo(int codigo) =>
+            _context.DespesaPeriodo
+                .FirstOrDefault(d => d.CodDespesaPeriodo == codigo);
 
         public PagedList<DespesaPeriodo> ObterPorParametros(DespesaPeriodoParameters parameters)
         {

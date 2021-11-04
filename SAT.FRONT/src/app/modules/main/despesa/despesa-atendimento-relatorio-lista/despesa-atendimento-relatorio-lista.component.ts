@@ -9,12 +9,11 @@ import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodo } from 'app/core/types/despesa-periodo.types';
-import { Despesa, DespesaData } from 'app/core/types/despesa.types';
+import { DespesaData } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
-import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
+import { RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';

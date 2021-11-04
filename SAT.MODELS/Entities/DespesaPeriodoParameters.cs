@@ -4,6 +4,6 @@ namespace SAT.MODELS.Entities
 {
     public class DespesaPeriodoParameters : QueryStringParameters
     {
-        public byte? IndAtivo { get; set; }
+        public int? IndAtivo { get; set; }
     }
 }

@@ -33,7 +33,8 @@ export interface Parameters
     codGrupoEquip?: string,
     codEquipamentos?: string,
     indAtivo?: number,
-    indTecnicoLiberado?: number
+    indTecnicoLiberado?: number,
+    codDespesaPeriodoStatus?: string
 }
 
 export interface IFilterBaseCore

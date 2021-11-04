@@ -66,6 +66,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {
     codTecnico?: number;
     indAtivoPeriodo?: number;
+    codDespesaPeriodoStatus?: string;
 };
 
 export class Despesa
@@ -131,4 +132,12 @@ export class DespesaItem
     dataHoraManut: string;
     latitudeHotel: string;
     longitudeHotel: string;
+}
+
+export enum DespesaPeriodoTecnicoStatusEnum
+{
+    "EM EDIÇÃO" = "0",
+    "LIBERADO PARA ANÁLISE" = "1",
+    "APROVADO" = "2",
+    "REPROVADO" = "3"
 }

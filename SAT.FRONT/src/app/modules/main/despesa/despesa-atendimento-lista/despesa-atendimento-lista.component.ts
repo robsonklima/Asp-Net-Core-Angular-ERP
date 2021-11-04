@@ -70,7 +70,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   {
     this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
       codTecnico: this.userSession.usuario?.codTecnico,
-      indAtivoPeriodo: 1,
+      indAtivoPeriodo: this.filter?.parametros?.indAtivo,
+      codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
       pageNumber: this.paginator?.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
       sortActive: 'dataInicio',

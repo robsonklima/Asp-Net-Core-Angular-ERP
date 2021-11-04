@@ -10,16 +10,35 @@ namespace SAT.SERVICES.Services
 {
     public partial class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
     {
-        private PagedList<DespesaPeriodo> ObterPeriodos(DespesaPeriodoTecnicoParameters parameters) =>
-            PagedList<DespesaPeriodo>.ToPagedList(_despesaPeriodoRepo.ObterPorParametros(
+        private PagedList<DespesaPeriodo> ObterPeriodos(DespesaPeriodoTecnicoParameters parameters)
+        {
+            var periodos = _despesaPeriodoRepo.ObterPorParametros(
                 new DespesaPeriodoParameters
                 {
                     IndAtivo = parameters.IndAtivoPeriodo,
                     SortActive = parameters.SortActive,
                     SortDirection = parameters.SortDirection
-                }), parameters.PageNumber, parameters.PageSize);
+                });
 
-        private DespesaPeriodoTecnico ObterDespesaPeriodoTecnico(int codTecnico, int codPeriodo, string codDespesaPeriodoStatus) =>
+            // TO REFACTOR
+            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus) && !parameters.CodDespesaPeriodoStatus.Contains("0"))
+            {
+                var status = parameters.CodDespesaPeriodoStatus
+                    .Split(',')
+                    .Select(f => f.Trim());
+
+                periodos = PagedList<DespesaPeriodo>
+                    .ToPagedList(periodos.Where(p => status.Any(s =>
+                    this.ObterDespesaPeriodoTecnico(parameters.CodTecnico.Value, p.CodDespesaPeriodo)?.CodDespesaPeriodoTecnicoStatus.ToString() == s)).ToList(), parameters.PageNumber, parameters.PageSize);
+
+                return periodos;
+            }
+
+            return PagedList<DespesaPeriodo>
+                    .ToPagedList(periodos, parameters.PageNumber, parameters.PageSize);
+        }
+
+        private DespesaPeriodoTecnico ObterDespesaPeriodoTecnico(int codTecnico, int codPeriodo) =>
             _despesaPeriodoTecnicoRepo.ObterPorParametros(
                 new DespesaPeriodoTecnicoParameters
                 {
@@ -50,7 +69,7 @@ namespace SAT.SERVICES.Services
             periodos.Select(despesa =>
             {
                 var despesaPeriodoTecnico =
-                    this.ObterDespesaPeriodoTecnico(parameters.CodTecnico.Value, despesa.CodDespesaPeriodo, parameters.CodDespesaPeriodoStatus);
+                    this.ObterDespesaPeriodoTecnico(parameters.CodTecnico.Value, despesa.CodDespesaPeriodo);
 
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {

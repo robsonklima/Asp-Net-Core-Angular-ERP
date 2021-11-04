@@ -35,7 +35,6 @@ export class DespesaAtendimentoFiltroComponent extends FilterBase implements OnI
   loadData(): void 
   {
     this.obterStatus();
-
   }
 
   private obterStatus()

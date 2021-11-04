@@ -136,7 +136,6 @@ export class DespesaItem
 
 export enum DespesaPeriodoTecnicoStatusEnum
 {
-    "EM EDIÇÃO" = "0",
     "LIBERADO PARA ANÁLISE" = "1",
     "APROVADO" = "2",
     "REPROVADO" = "3"

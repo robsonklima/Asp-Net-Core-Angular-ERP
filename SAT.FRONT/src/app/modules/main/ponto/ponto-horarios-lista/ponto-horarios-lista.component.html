@@ -8,21 +8,21 @@
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500" routerLink="/ponto/colaboradores/196">
+                        <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ponto/colaboradores/' + codPontoPeriodo">
                             {{ t('ponto colaboradores') }}
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <span class="ml-1 text-secondary">{{ t('ponto') }}</span>
+                        <span class="ml-1 text-secondary">{{ t('ponto horarios') }}</span>
                     </div>
                 </div>
 
                 <div class="mt-2">
                     <h2
                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        {{ t('ponto horarios') }}
+                        {{ dataSourceData?.items[0].usuario.nomeUsuario | titlecase }}
                     </h2>
                 </div>
             </div>
@@ -69,12 +69,20 @@
                             <ng-container *ngFor="let data of dataSourceData?.items">
                                 <div
                                     class="list-grid-pud grid items-center h-11 pt-2 gap-4 py-3 px-12 text-sm md:px-8 border-b hover:bg-gray-100">
-                                    <div class="truncate">
-                                        {{ data.pontoUsuarioDataStatus.descricao }}
-                                    </div>
 
                                     <div class="truncate font-semibold">
                                         {{ data.dataRegistro | date:'dd/MM/yyyy' }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        <span
+                                            class="py-1 px-2 rounded text-white"
+                                            [class.bg-green-600]="data.pontoUsuarioDataStatus.descricao === 'Conferido'"
+                                            [class.bg-black]="data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'"
+                                            [class.bg-red-600]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente'"
+                                            [class.bg-blue-600]="data.pontoUsuarioDataStatus.descricao === 'Aguardando Conferência'">
+                                            {{ data.pontoUsuarioDataStatus.descricao }}
+                                        </span>
                                     </div>
 
                                     <div class="truncate">
@@ -95,8 +103,16 @@
 
                                     </div>
 
-                                    <div class="truncate">
-                                        
+                                    <div>
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Reprovar'"
+                                            matTooltipPosition="above">
+                                            <mat-icon
+                                                class="icon-size-5 text-red-600"
+                                                [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

@@ -1,11 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
+import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
+import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
+import { UsuarioData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ponto-colaborador-lista',
@@ -35,8 +39,11 @@ import { UserSession } from 'app/core/user/user.types';
 })
 export class PontoColaboradorListaComponent implements AfterViewInit {
   codPontoPeriodo: number;
+  pontoPeriodo: PontoPeriodo;
+  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
+  filtro: string;
   dataSourceData: UsuarioData;
   isLoading: boolean = false;
   userSession: UserSession;
@@ -44,7 +51,8 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _userSvc: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _pontoPeriodoSvc: PontoPeriodoService
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -63,23 +71,40 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
       });
     }
 
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) => {
+        return event.target.value;
+      })
+      , debounceTime(700)
+      , distinctUntilChanged()
+    ).subscribe((text: string) => {
+      this.paginator.pageIndex = 0;
+      this.filtro = text;
+      this.obterDados();
+    });
+
     this._cdr.detectChanges();
   }
 
   async obterDados() {
     this.isLoading = true;
-    
-    const params: UsuarioParameters = {
-      pageSize: this.paginator?.pageSize,
-      pageNumber: this.paginator.pageIndex + 1,
-      sortActive: this.sort.active || 'nomeUsuario',
-      sortDirection: this.sort.direction || 'asc',
-      indAtivo: 1,
-      codPontoPeriodo: this.codPontoPeriodo
-    };
 
+    this._pontoPeriodoSvc
+      .obterPorCodigo(this.codPontoPeriodo)
+      .subscribe((pp: PontoPeriodo) => {
+        this.pontoPeriodo = pp;
+      });
+    
     const data = await this._userSvc
-      .obterPorParametros(params)
+      .obterPorParametros({
+        pageSize: this.paginator?.pageSize,
+        pageNumber: this.paginator.pageIndex + 1,
+        sortActive: this.sort.active || 'nomeUsuario',
+        sortDirection: this.sort.direction || 'asc',
+        indAtivo: 1,
+        codPontoPeriodo: this.codPontoPeriodo,
+        filter: this.filtro
+      })
       .toPromise();
 
     this.dataSourceData = data;

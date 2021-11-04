@@ -80,6 +80,7 @@ namespace SAT.INFRA.Repository
             var query = _context.PontoUsuarioData
                 .Include(pd => pd.PontoUsuarioDataStatusAcesso)
                 .Include(pd => pd.PontoUsuarioDataStatus)
+                .Include(pd => pd.Usuario)
                 .AsQueryable();
 
             if (parameters.Filter != null)

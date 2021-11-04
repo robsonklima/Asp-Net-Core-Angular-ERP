@@ -4,27 +4,36 @@
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
-        <div class="flex flex-auto items-center min-w-0" *transloco="let t">
+        <div class="flex flex-auto items-center min-w-0">
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center font-medium">
                     <div>
                         <a class="whitespace-nowrap text-primary-500" routerLink="/ponto/periodos">
-                            {{ t('periodos') }}
+                            Períodos
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <span class="ml-1 text-secondary">{{ t('ponto') }}</span>
+                        <span class="ml-1 text-secondary">
+                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} até {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
+                        </span>
                     </div>
                 </div>
 
                 <div class="mt-2">
                     <h2
                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        {{ t('ponto colaboradores') }}
+                        Ponto Colaboradores
                     </h2>
                 </div>
+            </div>
+
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+                </mat-form-field>
             </div>
         </div>
     </div>
@@ -107,7 +116,8 @@
                                             mat-stroked-button
                                             [matTooltip]="'Horários'"
                                             matTooltipPosition="above"
-                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario">
+                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario"
+                                            [disabled]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:clock'"></mat-icon>

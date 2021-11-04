@@ -61,7 +61,7 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
       dataFim: [undefined, Validators.required],
       codPontoPeriodoStatus: [undefined, Validators.required],
       codPontoPeriodoModoAprovacao: [undefined, Validators.required],
-      codPontoPeriodoIntervaloAcessoData: [undefined, Validators.required]
+      codPontoPeriodoIntervaloAcessoData: [undefined, Validators.required],
     });
 
     this.obterPontosPeriodoStatus();

@@ -19,18 +19,18 @@ import moment from 'moment';
     /* language=SCSS */
     `
       .list-grid-pud {
-          grid-template-columns: 186px 80px 112px auto 72px 198px 112px;
+          grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
           
           @screen sm {
-              grid-template-columns: 186px 80px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
           }
       
           @screen md {
-              grid-template-columns: 186px 80px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
           }
       
           @screen lg {
-              grid-template-columns: 186px 80px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
           }
       }
     `
@@ -86,8 +86,6 @@ export class PontoHorariosListaComponent implements AfterViewInit {
       datas.items[i].pontosUsuario = this.obterPontosPorData(pontoUsuarioData, pontos.items);
     }
 
-    console.log(datas.items);
-    
     this.dataSourceData = datas;
     this.isLoading = false;
   }

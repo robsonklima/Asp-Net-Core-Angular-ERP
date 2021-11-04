@@ -160,7 +160,7 @@ export interface OrdemServicoData extends Meta
 
 export interface OrdemServicoParameters extends QueryStringParameters
 {
-    codOS?: number;
+    codOS?: string;
     codEquipContrato?: number;
     codTecnico?: number;
     numOSCliente?: string;

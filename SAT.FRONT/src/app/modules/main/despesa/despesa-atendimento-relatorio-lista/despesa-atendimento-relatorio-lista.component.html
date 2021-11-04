@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="flex flex-auto overflow-hidden">
-                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto" *ngIf="!isLoading">
                     <ng-container>
                         <ng-container>
                             <div class="grid">
@@ -70,34 +70,34 @@
                                                 ---
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.relatorioAtendimento?.codOS }}
+                                                {{ dp.relatorioAtendimento?.codOS ?? "---" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ dp.codRAT }}
+                                                {{ dp.codRAT  ?? "---" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ obterOSCliente(dp.relatorioAtendimento?.codOS) ?? "---" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (obterNomeCliente(dp.relatorioAtendimento?.codOS) | uppercase) ?? "---"}}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (obterLocalAtendimento(dp.relatorioAtendimento?.codOS) | uppercase) ?? "---" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (dp.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy') ?? "--" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (dp.relatorioAtendimento?.dataHoraInicio | date:'HH:mm') ?? "--" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                ---
+                                                {{ (dp.relatorioAtendimento?.dataHoraSolucao | date:'dd/MM/yyyy') ?? "--" }}
                                             </div>
                                             <div class="hidden md:block truncate">
-                                                {{ (dp.status?.nomeDespesaPeriodoTecnicoStatus || "em edição") | uppercase }}
+                                                {{ (dp.relatorioAtendimento?.dataHoraSolucao | date:'HH:mm') ?? "--" }}
                                             </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ dp.indAtivo ? "SIM" : "NÃO" }}
+                                            <div class="hidden md:block truncate font-semibold">
+                                                {{ (obterTotalDespesa(dp) | currency:'BRL':'symbol-narrow') ?? "--" }}
                                             </div>
                                         </div>
                                     </ng-container>

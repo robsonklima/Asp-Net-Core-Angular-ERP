@@ -1,28 +1,30 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
 import { DespesaService } from 'app/core/services/despesa.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodo } from 'app/core/types/despesa-periodo.types';
-import { DespesaData } from 'app/core/types/despesa.types';
+import { Despesa, DespesaData } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-despesa-atendimento-relatorio-lista',
   templateUrl: './despesa-atendimento-relatorio-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento-relatorio {
-            grid-template-columns: 100px 75px 75px 100px 75px auto 100px  100px 100px 100px 100px;
-            @screen sm { grid-template-columns: 100px 75px 75px 100px 75px auto 100px  100px 100px 100px 100px; }
-            @screen md { grid-template-columns: 100px 75px 75px 100px 75px auto 100px  100px 100px 100px 100px; }
-            @screen lg { grid-template-columns: 100px 75px 75px 100px 75px auto 100px  100px 100px 100px 100px; }
+            grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 50px 100px;
+            @screen sm { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
+            @screen md { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
+            @screen lg { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -39,7 +41,8 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
   isLoading: boolean = false;
   periodo: DespesaPeriodo;
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
-  despesas: DespesaData
+  despesas: DespesaData;
+  ordemServico: OrdemServicoData;
 
   constructor (
     protected _userService: UserService,
@@ -47,14 +50,14 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     private _route: ActivatedRoute,
     private _despesaPeriodoSvc: DespesaPeriodoService,
     private _despesaSvc: DespesaService,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _ordemServicoSvc: OrdemServicoService)
   {
     super(_userService, "despesa-atendimento-relatorio");
   }
 
-  ngAfterViewInit()
+  async ngAfterViewInit()
   {
-    this.obterDados();
+    await this.obterDados();
 
     if (this.sort && this.paginator)
     {
@@ -88,8 +91,18 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
         codTecnico: 1153,
         codDespesaPeriodo: this.periodo.codDespesaPeriodo
       }).toPromise());
+  }
 
-    console.log(this.despesas);
+  private async obterOrdensDeServico()
+  {
+    var codigos: string =
+      Enumerable.from(this.despesas.items)
+        .select(i => i.relatorioAtendimento.codOS)
+        .distinct()
+        .toJoinedString(',');
+
+    this.ordemServico = (await this._ordemServicoSvc.obterPorParametros
+      ({ codOS: codigos }).toPromise());
   }
 
   public async obterDados()
@@ -98,6 +111,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
     await this.obterPeriodo();
     await this.obterDespesas();
+    await this.obterOrdensDeServico();
 
     this.isLoading = false;
   }
@@ -115,5 +129,32 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
   {
     this.onPaginationChanged();
     this.obterDados();
+  }
+
+  public obterOSCliente(codOS?: number)
+  {
+    if (!codOS) return null;
+    return Enumerable.from(this.ordemServico?.items)
+      .firstOrDefault(i => i.codOS == codOS)?.numOSCliente;
+  }
+
+  public obterNomeCliente(codOS?: number)
+  {
+    if (!codOS) return null;
+    return Enumerable.from(this.ordemServico?.items)
+      .firstOrDefault(i => i.codOS == codOS)?.cliente?.nomeFantasia;
+  }
+
+  public obterLocalAtendimento(codOS?: number)
+  {
+    if (!codOS) return null;
+    return Enumerable.from(this.ordemServico?.items)
+      .firstOrDefault(i => i.codOS == codOS)?.localAtendimento?.nomeLocal;
+  }
+
+  public obterTotalDespesa(dp?: Despesa)
+  {
+    if (!dp || !dp.despesaItens) return null;
+    return Enumerable.from(dp.despesaItens).sum(di => di.despesaValor);
   }
 }

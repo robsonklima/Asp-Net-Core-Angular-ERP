@@ -40,7 +40,7 @@ export interface DespesaItem
     codDespesaConfiguracao: number;
     sequenciaDespesaKm: number;
     numNF: string;
-    dspesaValor: number;
+    despesaValor: number;
     enderecoOrigem: string;
     numOrigem: string;
     bairroOrigem: string;

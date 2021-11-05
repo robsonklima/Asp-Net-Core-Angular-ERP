@@ -7,6 +7,7 @@ namespace SAT.MODELS.Entities
     {
         public IndicadorAgrupadorEnum Agrupador { get; set; }
         public OrdemServicoIncludeEnum Include { get; set; }
+        public OrdemServicoFilterEnum FilterType { get; set; }
         public IndicadorTipoEnum Tipo { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }

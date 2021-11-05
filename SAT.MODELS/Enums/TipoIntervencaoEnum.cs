@@ -20,6 +20,7 @@ namespace SAT.MODELS.Enums
         HELPDESK = 23,
         TROCA_VELOH_C = 24,
         LAUDO_TECNICO = 26,
+        HELP_DESK_DSS = 27,
         PREVENTIVA_GERENCIAL = 28,
         VANDALISMO = 30,
         MANUTENCAO_GERENCIAL = 31,

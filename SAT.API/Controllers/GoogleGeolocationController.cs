@@ -39,7 +39,7 @@ namespace SAT.API.Controllers
         {
             // Verifica se existe no banco a o endereço antes
             ListViewModel localizacoes = this.GetGeolocalizacao(parameters);
-            GoogleGeolocation model = new GoogleGeolocation();
+            GoogleGeolocation model = new();
 
             if (((List<Geolocalizacao>)localizacoes.Items).Count > 0)
             {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import Enumerable from 'linq';
 import moment from 'moment';
 
 @Component({
@@ -39,9 +40,10 @@ export class TecnicosDesempenhoSpaComponent implements OnInit {
       this.desempenhoTecnicosModel.push(model);
     }
 
-    this.desempenhoTecnicosModel =
-      this.ordem == 'asc' ? this.desempenhoTecnicosModel.orderBy('spa').thenBy('qntAtendimentos').take(5) :
-        this.desempenhoTecnicosModel.orderByDesc('spa').thenByDesc('qntAtendimentos').take(5);
+    this.desempenhoTecnicosModel.push(...
+      this.ordem == 'asc' ? Enumerable.from(this.desempenhoTecnicosModel).orderBy(ord => ord.spa).thenBy(ord => ord.qntAtendimentos).take(5) :
+        Enumerable.from(this.desempenhoTecnicosModel).orderByDescending(ord => ord.spa).thenByDescending(ord => ord.qntAtendimentos).take(5)
+    );
 
     this.loading = false;
   }

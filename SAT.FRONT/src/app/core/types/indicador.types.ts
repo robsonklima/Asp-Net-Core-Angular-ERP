@@ -1,4 +1,5 @@
 import { QueryStringParameters } from "./generic.types";
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from "./ordem-servico.types";
 
 
 export class DadosPeca {
@@ -7,15 +8,15 @@ export class DadosPeca {
     index: number;
     quantidade: number;
     chamadosPeca: ChamadosPeca[];
-  }
-  
-  export class ChamadosPeca {
+}
+
+export class ChamadosPeca {
     filial: string;
     ordemServico: string;
     dataSolucao: string;
     cliente: string;
     equipamento: string;
-  }
+}
 
 export interface Indicador {
     label: string;
@@ -33,6 +34,8 @@ export interface IndicadorParameters extends QueryStringParameters {
     codTiposIntervencao?: string;
     codAutorizadas?: string;
     codTiposGrupo?: string;
+    include?: OrdemServicoIncludeEnum;
+    filterType?: OrdemServicoFilterEnum;
 };
 
 export enum IndicadorAgrupadorEnum {
@@ -43,7 +46,7 @@ export enum IndicadorAgrupadorEnum {
     DATA,
     TECNICO_PERCENT_REINCIDENTES,
     TECNICO_QNT_CHAMADOS_REINCIDENTES,
-    EQUIPAMENTO_PERCENT_REINCIDENTES, 
+    EQUIPAMENTO_PERCENT_REINCIDENTES,
     TECNICO_PERCENT_SPA,
     TECNICO_QNT_CHAMADOS_SPA,
     TECNICO_PERCENT_PENDENTES,

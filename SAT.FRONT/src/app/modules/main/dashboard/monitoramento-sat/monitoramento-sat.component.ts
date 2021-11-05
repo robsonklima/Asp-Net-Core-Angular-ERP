@@ -3,6 +3,7 @@ import { MonitoramentoService } from 'app/core/services/monitoramento.service';
 import { Monitoramento, MonitoramentoStorage } from 'app/core/types/monitoramento.type';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -141,7 +142,7 @@ export class MonitoramentoSatComponent implements OnInit {
       },
       xaxis:
       {
-        categories: apl1.map(m => m.unidade).orderBy('unidade')
+        categories: Enumerable.from(apl1.map(m => m.unidade)).orderBy(ord => ord)
       },
       yaxis:
       {
@@ -221,7 +222,7 @@ export class MonitoramentoSatComponent implements OnInit {
       },
       xaxis:
       {
-        categories: int1.map(m => m.unidade).orderBy('unidade')
+        categories: Enumerable.from(int1.map(m => m.unidade)).orderBy(ord => ord)
       },
       yaxis:
       {

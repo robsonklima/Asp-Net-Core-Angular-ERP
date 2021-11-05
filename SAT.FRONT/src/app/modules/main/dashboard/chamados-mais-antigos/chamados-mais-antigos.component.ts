@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import Enumerable from 'linq';
 import moment from 'moment';
 
 @Component({
@@ -25,25 +26,24 @@ export class ChamadosMaisAntigosComponent implements OnInit {
   }
 
   async obterDadosCorretivas() {
-    this.element_data_corretivas = (await this.obterDados("2")).items;//CORRETIVA
-    this.element_data_corretivas.sort((a, b) => (a.dataHoraAberturaOS > b.dataHoraAberturaOS ? 1 : -1));
+    this.element_data_corretivas = (await this.obterDados(OrdemServicoFilterEnum.FILTER_CORRETIVAS_ANTIGAS)).items;//CORRETIVA
+    Enumerable.from(this.element_data_corretivas).orderBy(os => os.dataHoraAberturaOS);
     this.loading_corretivas = false;
   }
 
   async obterDadosOrcamentos() {
-    this.element_data_orcamentos = (await (this.obterDados("5"))).items;//ORÇAMENTO
-    this.element_data_orcamentos.sort((a, b) => (a.dataHoraAberturaOS > b.dataHoraAberturaOS ? 1 : -1));
+    this.element_data_orcamentos = (await (this.obterDados(OrdemServicoFilterEnum.FILTER_ORCAMENTOS_ANTIGOS))).items;//ORÇAMENTO
+    Enumerable.from(this.element_data_orcamentos).orderBy(os => os.dataHoraAberturaOS);
     this.loading_orcamentos = false;
   }
 
-  async obterDados(codTipoIntervencao: string): Promise<OrdemServicoData> {
+  async obterDados(_filterType: OrdemServicoFilterEnum): Promise<OrdemServicoData> {
     const params: OrdemServicoParameters = {
-      sortActive: 'DataHoraAberturaOS',
-      sortDirection: 'desc',
-      dataAberturaInicio: '2021-01-01', //moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataAberturaFim: moment().endOf('month').format('YYYY-MM-DD hh:mm'),
+      include: OrdemServicoIncludeEnum.OS_EQUIPAMENTOS,
+      filterType: _filterType,
       pageSize: 5,
-      codTiposIntervencao: codTipoIntervencao
+      sortDirection: 'asc',
+      sortActive: 'datahoraAberturaOS'
     };
 
     return await this._ordemServicoService

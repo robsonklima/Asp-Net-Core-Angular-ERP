@@ -8,6 +8,7 @@ import { startWith, takeUntil } from 'rxjs/operators';
 import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { Peca } from 'app/core/types/peca.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-pecas-faltantes-mais-criticas',
@@ -26,7 +27,7 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
   public tabelaChamados = ['filial', 'ordemServico', 'dataSolucao', 'cliente', 'equipamento']
   protected _onDestroy = new Subject<void>();
   private _indicadorParams = {
-    agrupador:IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
+    agrupador: IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
     tipo: IndicadorTipoEnum.PECA_FALTANTE,
     dataInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
     dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
@@ -35,7 +36,7 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
   constructor(
     private _indicadorService: IndicadorService,
     private _pecaService: PecaService,
-	private _osService: OrdemServicoService
+    private _osService: OrdemServicoService
   ) { }
 
   ngOnInit(): void {
@@ -44,16 +45,17 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
 
   private async obterDados() {
     this.loading = true;
-    
+
     const topPecas = await this._indicadorService
-								.obterPorParametros({...this._indicadorParams,
-													...{include: OrdemServicoIncludeEnum.OS_PECAS}
-												}).toPromise();										
+      .obterPorParametros({
+        ...this._indicadorParams,
+        ...{ include: OrdemServicoIncludeEnum.OS_PECAS }
+      }).toPromise();
 
     let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(','));
-	this.osTopPecas = (await this._osService.obterPorParametros({codOS:codOsPecas }).toPromise()).items;
+    this.osTopPecas = (await this._osService.obterPorParametros({ codOS: codOsPecas }).toPromise()).items;
 
-	let codPecas = topPecas.map(item => item.label).join(',');
+    let codPecas = topPecas.map(item => item.label).join(',');
     const pecasInfo = (await this._pecaService.obterPorParametros({ codPeca: codPecas }).toPromise()).items;
 
     interval(30000)
@@ -65,15 +67,15 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
         this.showPeca(pecasInfo[this.index], topPecas);
         this.loading = false;
         if (this.index > 8)
-            this.index = 0;
-          else this.index++;
+          this.index = 0;
+        else this.index++;
       });
   }
 
   private showPeca(peca: Peca, topPecas: Indicador[]) {
 
     let topPecaAtual = topPecas.find(f => +f.label == peca.codPeca);
-        
+
     let osPecas: ChamadosPeca[] = [];
 
     for (let c of topPecaAtual.filho) {
@@ -92,7 +94,7 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
       descricao: peca.nomePeca,
       quantidade: topPecaAtual.valor,
       index: this.index + 1,
-      chamadosPeca: osPecas.orderByDesc('dataSolucao')
+      chamadosPeca: Enumerable.from(osPecas).orderByDescending(ord => ord.dataSolucao).toArray()
     }
   }
 

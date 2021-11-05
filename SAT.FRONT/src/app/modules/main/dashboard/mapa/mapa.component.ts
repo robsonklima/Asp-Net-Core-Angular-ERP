@@ -11,6 +11,7 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { NominatimService } from 'app/core/services/nominatim.service';
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 
 @Component({
   selector: 'app-mapa',
@@ -91,79 +92,84 @@ export class MapaComponent implements AfterViewInit {
 
   private async obterFiliais() {
 
+    // Filiais
+    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) => {
+      this.filiais.push(...data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33)); // Remover EXP,OUT,IND
+    });
+
     // Indicadores
     var params: IndicadorParameters =
     {
-      agrupador: IndicadorAgrupadorEnum.FILIAL,
       tipo: IndicadorTipoEnum.SLA,
       codFiliais: this.filiais.map((f) => f.codFilial).join(','),
-      dataInicio: moment().startOf('month').toISOString(),
-      dataFim: moment().endOf('month').toISOString()
+      agrupador: IndicadorAgrupadorEnum.FILIAL,
+      include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
+      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
+      codAutorizadas: "",
+      codTiposGrupo: "",
+      codTiposIntervencao: "",
+      dataInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
     };
 
     var indicadores = await this._indicadorService.obterPorParametros(params).toPromise();
 
     let markers: any[] = [];
 
-    this._filialService.obterPorParametros({}).subscribe((data: FilialData) => {
+    this.filiais.forEach(async (filial) => {
 
-      this.filiais.push(...data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33)); // Remover EXP,OUT,IND
+      // Google
+      // Tenta pelo cep (nem sempre os endereços são corretos)
+      let mapService = (await this._googleGeolocationService.obterPorParametros
+        ({ enderecoCep: filial.cep }).toPromise()).results.shift();
 
-      this.filiais.forEach(async (filial) => {
+      // Se não encontra pelo cep, tenta pelo endereço
+      if (!mapService) {
+        mapService = (await this._googleGeolocationService.obterPorParametros
+          ({ enderecoCep: filial.endereco }).toPromise()).results.shift();
+      }
 
-        // Google
-        // Tenta pelo cep (nem sempre os endereços são corretos)
-        let mapService = (await this._googleGeolocationService.obterPorParametros
-          ({ enderecoCep: filial.cep }).toPromise()).results.shift();
+      // Nominatim
+      // // Tenta pelo cep (nem sempre os endereços são corretos)
+      // let mapService = (await this._nominatimService.buscarEndereco(filial.cep).toPromise()).results.shift();
+      // // Se não encontra pelo cep, tenta pelo endereço
+      // if (!mapService) {
+      //   mapService = (await this._nominatimService.buscarEndereco(filial.endereco).toPromise()).results.shift();
+      // }
 
-        // Se não encontra pelo cep, tenta pelo endereço
-        if (!mapService) {
-          mapService = (await this._googleGeolocationService.obterPorParametros
-            ({ enderecoCep: filial.endereco }).toPromise()).results.shift();
-        }
+      if (mapService) {
 
-        // Nominatim
-        // // Tenta pelo cep (nem sempre os endereços são corretos)
-        // let mapService = (await this._nominatimService.buscarEndereco(filial.cep).toPromise()).results.shift();
-        // // Se não encontra pelo cep, tenta pelo endereço
-        // if (!mapService) {
-        //   mapService = (await this._nominatimService.buscarEndereco(filial.endereco).toPromise()).results.shift();
-        // }
+        let mark = {
+          lat: +mapService.geometry.location.lat,
+          lng: +mapService.geometry.location.lng,
+          toolTip: filial.nomeFilial,
+          count: 1
+        };
 
-        if (mapService) {
+        let valorIndicador = indicadores?.find(f => f.label == filial.nomeFilial)?.valor || 0;
 
-          let mark = {
-            lat: +mapService.geometry.location.lat,
-            lng: +mapService.geometry.location.lng,
-            toolTip: filial.nomeFilial,
-            count: 1
-          };
+        var icon = new L.Icon({
+          iconUrl:
+            valorIndicador >= 95 ?
+              'assets/icons/marker-green-32.svg' :
+              valorIndicador >= 92 ?
+                'assets/icons/marker-yellow-32.svg' :
+                'assets/icons/marker-red-32.svg'
+          ,
+          iconSize: [32, 32],
+          iconAnchor: [15, 32],
+          popupAnchor: [1, -32]
+        });
 
-          let valorIndicador = indicadores?.find(f => f.label == filial.nomeFilial)?.valor || 0;
+        let marker = new L.Marker([+mapService.geometry.location.lat, +mapService.geometry.location.lng],
+          { icon: icon }).bindPopup(filial.nomeFilial);
 
-          var icon = new L.Icon({
-            iconUrl:
-              valorIndicador >= 95 ?
-                'assets/icons/marker-green-32.svg' :
-                valorIndicador >= 92 ?
-                  'assets/icons/marker-yellow-32.svg' :
-                  'assets/icons/marker-red-32.svg'
-            ,
-            iconSize: [32, 32],
-            iconAnchor: [15, 32],
-            popupAnchor: [1, -32]
-          });
-
-          let marker = new L.Marker([+mapService.geometry.location.lat, +mapService.geometry.location.lng],
-            { icon: icon }).bindPopup(filial.nomeFilial);
-
-          marker.addTo(this.map);
-          markers.push(mark);
-          this.map.fitBounds(markers);
-          this.map.invalidateSize();
-        }
-      });
+        marker.addTo(this.map);
+        markers.push(mark);
+        this.map.fitBounds(markers);
+        this.map.invalidateSize();
+      }
     });
-    this.loading=false;
+    this.loading = false;
   }
 }

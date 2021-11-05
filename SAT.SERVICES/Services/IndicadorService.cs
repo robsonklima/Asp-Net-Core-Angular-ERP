@@ -49,7 +49,8 @@ namespace SAT.SERVICES.Services
                 CodAutorizadas = parameters.CodAutorizadas,
                 CodTiposGrupo = parameters.CodTiposGrupo,
                 Include = parameters.Include,
-                PageSize = Int32.MaxValue
+                PageSize = Int32.MaxValue,
+                FilterType = parameters.FilterType
             }).Where(w => w.PrazosAtendimento.Count > 0);
         }
 

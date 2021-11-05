@@ -12,7 +12,7 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorSLA(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
             var chamados = ObterOrdensServico(parameters);
 
             switch (parameters.Agrupador)
@@ -88,7 +88,7 @@ namespace SAT.SERVICES.Services
         {
             List<Indicador> Indicadores = new();
 
-            foreach (var filial in chamados.Select(s => new { s.Filial.CodFilial, s.Filial.NomeFilial }))
+            foreach (var filial in chamados.Select(s => new { s.Filial.CodFilial, s.Filial.NomeFilial }).Distinct())
             {
                 var dados = (from ch in chamados.Where(r => r.CodFilial == filial.CodFilial && r.CodStatusServico != 2/*cancelado*/)
                              .GroupBy(g => g.CodCliente).FirstOrDefault()
@@ -104,7 +104,8 @@ namespace SAT.SERVICES.Services
                                  >= dataLimite)
                              }).ToList();
 
-                decimal percent = dados.Count > 0 ? ((dados.Count(d => d.dentro) / dados.Count) * 100) : 100;
+                decimal countDentro = dados.Count(d => d.dentro);
+                decimal percent = dados.Count > 0 ? ((countDentro / dados.Count) * 100) : 100;
 
                 Indicadores.Add(new Indicador()
                 {

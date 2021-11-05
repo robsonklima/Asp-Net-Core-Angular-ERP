@@ -1,9 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { Despesa } from 'app/core/types/despesa.types';
+import { Despesa, DespesaTipo } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 
@@ -22,6 +23,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
   despesa: Despesa;
   rat: RelatorioAtendimento;
   ordemServico: OrdemServico;
+  tiposDespesa: DespesaTipo[] = [];
   displayedColumns: string[] = ['acao', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal'];
 
   constructor (
@@ -29,6 +31,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
     private _despesaSvc: DespesaService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
+    private _despesaTipoSvc: DespesaTipoService,
     private _route: ActivatedRoute) 
   {
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
@@ -67,6 +70,22 @@ export class DespesaManutencaoComponent implements AfterViewInit
     this.despesa = (await this._despesaSvc.obterPorParametros({ codRATs: this.codRAT.toString() }).toPromise()).items[0];
   }
 
+  private async obterTiposDespesa()
+  {
+    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
+  }
+
+  private async lancarDespesaItem()
+  {
+
+  }
+
+  private criarFormularioDespesaItem()
+  {
+
+  }
+
+
   public async obterDados()
   {
     this.isLoading = true;
@@ -74,6 +93,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
     await this.obterRAT();
     await this.obterOS();
     await this.obterDespesa();
+    await this.obterTiposDespesa();
 
     this.isLoading = false;
   }

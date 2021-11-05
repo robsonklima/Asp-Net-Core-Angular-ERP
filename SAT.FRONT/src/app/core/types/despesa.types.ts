@@ -94,3 +94,13 @@ export interface DespesaTipo
     codUsuarioManut: string;
     dataHoraManut: string;
 }
+
+export interface DespesaTipoData extends Meta
+{
+    items: DespesaTipo[]
+};
+
+export interface DespesaTipoParameters extends QueryStringParameters
+{
+    indAtivo?: number;
+};

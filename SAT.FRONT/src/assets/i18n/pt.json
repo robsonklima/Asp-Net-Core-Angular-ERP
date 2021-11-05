@@ -332,5 +332,7 @@
     "sem": "Sem.",
     "marcacoes": "Marcações",
     "he": "HE",
-    "motivo": "Motivo"
+    "motivo": "Motivo",
+    "dia inicio": "Dia Início",
+    "dia fim": "Dia Fim"
 }

@@ -27,7 +27,16 @@
                                 {{ t('codigo') }}
                             </div>
                             <div [mat-sort-header]="'dataInicio'">
-                                {{ t('período') }}
+                                {{ t('dia inicio') }}
+                            </div>
+                            <div [mat-sort-header]="'dataInicio'">
+                                {{ t('data fim') }}
+                            </div>
+                            <div [mat-sort-header]="'dataInicio'">
+                                {{ t('dia fim') }}
+                            </div>
+                            <div [mat-sort-header]="'dataInicio'">
+                                {{ t('data fim') }}
                             </div>
                             <div>
                                 {{ t('status') }}
@@ -45,8 +54,16 @@
                                         {{ data.codPontoPeriodo }}
                                     </div>
                                     <div class="truncate">
-                                        <span class="font-semibold">{{ data.dataInicio | date:'fullDate' | titlecase }}</span> até 
-                                        <span class="font-semibold">{{ data.dataFim | date:'fullDate' | titlecase }}</span>
+                                        <span class="font-semibold">{{ data.dataInicio | date:'dd/MM/yyyy' | titlecase }}</span>
+                                    </div>
+                                    <div class="truncate">
+                                        <span class="font-semibold">{{ data.dataInicio | date:'EEEE' | titlecase }}</span>
+                                    </div>
+                                    <div class="truncate">
+                                        <span class="font-semibold">{{ data.dataFim | date:'dd/MM/yyyy' | titlecase }}</span>
+                                    </div>
+                                    <div class="truncate">
+                                        <span class="font-semibold">{{ data.dataFim | date:'EEEE' | titlecase }}</span>
                                     </div>
                                     <div class="truncate">
                                         <span

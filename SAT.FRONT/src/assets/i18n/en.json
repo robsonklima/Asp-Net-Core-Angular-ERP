@@ -330,5 +330,7 @@
     "sem": "Week",
     "marcacoes": "Marks",
     "he": "EH",
-    "motivo": "Reason"
+    "motivo": "Reason",
+    "dia inicio": "Start Day",
+    "dia fim": "End Day"
 }

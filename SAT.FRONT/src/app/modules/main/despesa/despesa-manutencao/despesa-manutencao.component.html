@@ -72,7 +72,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                 </div>
-                <div class="flex items-center justify-between py-1" *ngIf="!despesa?.despesaItens.length && !isLoading">
+                <div class="flex items-center justify-between py-1" *ngIf="!despesaItens.length && !isLoading">
                     <div class="text-lg font-semibold text-secondary tracking-tight">
                         {{ "Nenhuma despesa lançada até o momento!" }}</div>
                 </div>

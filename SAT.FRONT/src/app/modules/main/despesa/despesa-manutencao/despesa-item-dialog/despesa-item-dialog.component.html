@@ -24,12 +24,12 @@
             <ng-template matStepLabel>Dados</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
-                    <input matInput [formControlName]="'notaFiscal'" [placeholder]="'Nota Fiscal'">
+                    <input matInput autocomplete="off" [formControlName]="'notaFiscal'" [placeholder]="'Nota Fiscal'">
                     <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:finger-print'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="flex-auto gt-xs:pl-3">
                     <input matInput [formControlName]="'valor'" [placeholder]="'Valor'" mask="separator.2"
-                        thousandSeparator="." decimalMarker="," prefix="R$" [showMaskTyped]="false"
+                        thousandSeparator="." decimalMarker="," prefix="R$" autocomplete="off"
                         [dropSpecialCharacters]="true" required>
                     <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:cash'">
                     </mat-icon>

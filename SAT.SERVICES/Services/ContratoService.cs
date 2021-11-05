@@ -42,7 +42,7 @@ namespace SAT.SERVICES.Services
         public Contrato Criar(Contrato contrato)
         {
             contrato.CodContrato = _sequenciaRepo.ObterContador("Contrato");
-            
+
             _contratoRepo.Criar(contrato);
             
             return contrato;

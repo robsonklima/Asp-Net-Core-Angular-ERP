@@ -1,28 +1,25 @@
-import { ClienteService } from './../../../../../core/services/cliente.service';
 import { ContratoParameters } from './../../../../../core/types/contrato.types';
-import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
-import { fuseAnimations } from '@fuse/animations';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { ContratoData, Contrato } from 'app/core/types/contrato.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { interval, Subject } from 'rxjs';
-import { startWith, takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { FileMime } from 'app/core/types/file.types';
 import { FileService } from 'app/core/services/file.service';
 
 @Component({
-  selector: 'app-contrato-lista',
-  templateUrl: './contrato-lista.component.html',
-  styles: [`
+    selector: 'app-contrato-lista',
+    templateUrl: './contrato-lista.component.html',
+    styles: [`
         .list-grid-contrato {
             grid-template-columns: 48px 250px 150px auto 120px 30px;
             
-            @screen sm {
-                grid-template-columns: 48px 250px 150px auto 120px 30px;
+            /* @screen sm {
+               grid-template-columns: 48px 250px 150px auto 120px 30px;
             }
         
             @screen md{
@@ -31,14 +28,12 @@ import { FileService } from 'app/core/services/file.service';
         
             @screen lg {
                 grid-template-columns: 48px 250px 150px auto 120px 30px;
-            }
+            }  */
         }
     `],
-    encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
 })
-export class ContratoListaComponent implements OnInit {
-  @ViewChild('sidenav') sidenav: MatSidenav;
+export class ContratoListaComponent implements AfterViewInit {
+    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     userSession: UserSession;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) private sort: MatSort;
@@ -47,35 +42,36 @@ export class ContratoListaComponent implements OnInit {
     filtro: any;
     isLoading: boolean = false;
     protected _onDestroy = new Subject<void>();
-    
-  constructor(        
+
+    constructor(
         private _cdr: ChangeDetectorRef,
         private _contratoService: ContratoService,
         private _userService: UserService,
         private _fileService: FileService
-        ) { 
+    ) {
 
         this.userSession = JSON.parse(this._userService.userSession);
-        }
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  ngAfterViewInit(): void {
-        this.carregarFiltro();
+    ngAfterViewInit(): void {
+        this.obterContratos();        
 
-        interval(5 * 60 * 1000)
-            .pipe(
-                startWith(0),
-                takeUntil(this._onDestroy)
-            )
-            .subscribe(() => {
-                this.obterContratos();
-            });
-
-        /* this.registrarEmitters(); */
+        fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+        ).subscribe((text: string) => {
+            this.paginator.pageIndex = 0;
+            this.obterContratos(text);
+        });
 
         if (this.sort && this.paginator) {
+
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
@@ -88,16 +84,7 @@ export class ContratoListaComponent implements OnInit {
         this._cdr.detectChanges();
     }
 
-  private registrarEmitters(): void {
-        // Quando o sidebar fecha
-        this.sidenav.closedStart.subscribe(() => {
-            this.paginator.pageIndex = 0;
-            this.carregarFiltro();
-            this.obterContratos();
-        })
-    }
-
-  async obterContratos() {
+    public async obterContratos(filter: string = '') {
         this.isLoading = true;
 
         const params: ContratoParameters = {
@@ -105,6 +92,7 @@ export class ContratoListaComponent implements OnInit {
             sortActive: this.sort.active || 'codContrato',
             sortDirection: this.sort.direction || 'desc',
             pageSize: this.paginator?.pageSize,
+            filter: filter
         };
 
         const data: ContratoData = await this._contratoService
@@ -115,31 +103,11 @@ export class ContratoListaComponent implements OnInit {
             .toPromise();
 
         this.dataSourceData = data;
-        console.log(data);
         this.isLoading = false;
     }
+    
 
-    carregarFiltro(): void {
-        this.filtro = this._userService.obterFiltro('contrato');
-
-        if (!this.filtro) {
-            return;
-        }
-
-        // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial) {
-            this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
-        }
-
-        Object.keys(this.filtro?.parametros).forEach((key) => {
-            if (this.filtro.parametros[key] instanceof Array) {
-                this.filtro.parametros[key] = this.filtro.parametros[key].join()
-            };
-        });
-    }
-
-    public async exportar()
-    {
+    public async exportar() {
         this.isLoading = true;
         const params: ContratoParameters = {
             sortDirection: 'desc',
@@ -147,10 +115,10 @@ export class ContratoListaComponent implements OnInit {
         };
 
         window.open(await this._fileService.downloadLink("Contrato", FileMime.Excel, {
-                ...this.filtro?.parametros,
-                ...params
-        })); 
-        this.isLoading = false;  
+            ...this.filtro?.parametros,
+            ...params
+        }));
+        this.isLoading = false;
     }
 
     paginar() {

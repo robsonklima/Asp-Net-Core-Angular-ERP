@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContratoFormLayoutComponent implements OnInit {
 
-  constructor() { }
+  public codContrato: number;
+
+  constructor(
+    private _route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
   }
 
 }

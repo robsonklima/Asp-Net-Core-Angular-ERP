@@ -304,5 +304,9 @@
     "pendencia": "Pendency",
     "relatorio nao conformidade": "Non-Compliance Report",
     "ok": "OK",
-    "irregular": "IRREGULAR"
+    "irregular": "IRREGULAR",
+    "lista de modelos": "Model List",
+    "multa": "Penalty",
+    "valor unitario": "Unitary value",
+    "deletar": "Delete"
 }

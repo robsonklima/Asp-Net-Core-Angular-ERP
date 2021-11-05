@@ -19,7 +19,7 @@ export const contratoRoutes: Route[] = [
         component: ContratoFormComponent,
     },
     {
-        path: 'form/:codContrato',
+        path: ':codContrato',
         component: ContratoFormLayoutComponent,
     },
 ];

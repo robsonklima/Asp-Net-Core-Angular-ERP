@@ -308,5 +308,9 @@
     "ok": "OK",
     "irregular": "IRREGULAR",
     "funcionais eletronicos": "Funcionais (Eletrônicos)",
-    "nao funcionais mecanicos": "Não Funcionais (Mecânicos)"
+    "nao funcionais mecanicos": "Não Funcionais (Mecânicos)",
+    "lista de modelos": "Lista de Modelos",
+    "multa": "Multa",
+    "valor unitario": "Valor Unitário",
+    "deletar": "Deletar"
 }

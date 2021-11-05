@@ -1,113 +1,145 @@
-<mat-drawer-container>
-  <mat-drawer-content>
-    <div class="flex flex-col flex-auto min-w-0" *transloco='let t'>
-      <div class="flex-auto mt-4 sm:mt-6">
-        <div class="w-full max-w-screen-xl mx-auto">
-          <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-            <mat-tab [label]="t('contrato')">
-              <ng-template matTabContent>
-                  <div
-                    class="
-                      sm:col-span-2
-                      lg:col-span-3  
-                      flex flex-col flex-auto
-                      bg-card
-                      shadow
-                      rounded-2xl
-                      overflow-hidden
-                      p-8">
-                    <app-contrato-form></app-contrato-form>
+<mat-drawer-container class="flex-auto h-full">   
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="dark bg-card dark:border-b">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/contrato">
+                                            {{ t('contratos') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('contrato') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <h2
+                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                       	{{ codContrato }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>                       
+                       
                     </div>
-              </ng-template>
-            </mat-tab>
+                </div>
+            </div>
 
-            <mat-tab [label]="t('modelos')">
-                <ng-template matTabContent>
-                    <div
-                      class="
-                        sm:col-span-4
-                        lg:col-span-5
-                        flex flex-col flex-auto
-                        bg-card
-                        shadow
-                        rounded-2xl
-                        overflow-hidden
-                        p-8">
-                        Weabo
-                      </div>
-                </ng-template>
-              </mat-tab>
-
-              <mat-tab [label]="t('sla')">
-                <ng-template matTabContent>
-                    <div
-                      class="
-                        sm:col-span-4
-                        lg:col-span-5
-                        flex flex-col flex-auto
-                        bg-card
-                        shadow
-                        rounded-2xl
-                        overflow-hidden
-                        p-8">
-                        Weabo
-                      </div>
-                </ng-template>
-              </mat-tab>
-
-              <mat-tab [label]="t('servicos')">
-                <ng-template matTabContent>
-                    <div
-                      class="
-                        sm:col-span-4
-                        lg:col-span-5
-                        flex flex-col flex-auto
-                        bg-card
-                        shadow
-                        rounded-2xl
-                        overflow-hidden
-                        p-8">
-                        Weabo
-                      </div>
-                </ng-template>
-              </mat-tab>
-
-              <mat-tab [label]="t('equipamentos')">
-                <ng-template matTabContent>
-                    <div
-                      class="
-                        sm:col-span-4
-                        lg:col-span-5
-                        flex flex-col flex-auto
-                        bg-card
-                        shadow
-                        rounded-2xl
-                        overflow-hidden
-                        p-8">
-                        Weabo
-                      </div>
-                </ng-template>
-              </mat-tab>
-
-              <mat-tab [label]="t('lista peca especifica')">
-                <ng-template matTabContent>
-                    <div
-                      class="
-                        sm:col-span-4
-                        lg:col-span-5
-                        flex flex-col flex-auto
-                        bg-card
-                        shadow
-                        rounded-2xl
-                        overflow-hidden
-                        p-8">
-                        Weabo
-                      </div>
-                </ng-template>
-              </mat-tab>
-          </mat-tab-group>
+            <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                <div class="w-full max-w-screen-xl mx-auto">
+					<mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+						<mat-tab [label]="t('contrato')">
+						  <ng-template matTabContent>
+							  <div
+								class="
+								  sm:col-span-2
+								  lg:col-span-3  
+								  flex flex-col flex-auto
+								  bg-card
+								  shadow
+								  rounded-2xl
+								  max-w-5xl
+								  ">
+								<app-contrato-form></app-contrato-form>
+								</div>
+						  </ng-template>
+						</mat-tab>
+			
+						<mat-tab [label]="t('modelos')">
+							<ng-template matTabContent>
+								<div
+								  class="
+								  sm:col-span-2
+								  lg:col-span-3  
+								  flex flex-col flex-auto
+								  bg-card
+								  shadow
+								  rounded-2xl
+								  max-w-5xl
+								  overflow-hidden">
+									<app-contrato-modelo-lista></app-contrato-modelo-lista>
+								  </div>
+							</ng-template>
+						  </mat-tab>
+			
+						  <mat-tab [label]="t('sla')">
+							<ng-template matTabContent>
+								<div
+								  class="
+									sm:col-span-4
+									lg:col-span-5
+									flex flex-col flex-auto
+									bg-card
+									shadow
+									rounded-2xl
+									overflow-hidden
+									p-8">
+									Weabo
+								  </div>
+							</ng-template>
+						  </mat-tab>
+			
+						  <mat-tab [label]="t('servicos')">
+							<ng-template matTabContent>
+								<div
+								  class="
+									sm:col-span-4
+									lg:col-span-5
+									flex flex-col flex-auto
+									bg-card
+									shadow
+									rounded-2xl
+									overflow-hidden
+									p-8">
+									Weabo
+								  </div>
+							</ng-template>
+						  </mat-tab>
+			
+						  <mat-tab [label]="t('equipamentos')">
+							<ng-template matTabContent>
+								<div
+								  class="
+									sm:col-span-4
+									lg:col-span-5
+									flex flex-col flex-auto
+									bg-card
+									shadow
+									rounded-2xl
+									overflow-hidden
+									p-8">
+									Weabo
+								  </div>
+							</ng-template>
+						  </mat-tab>
+			
+						  <mat-tab [label]="t('lista peca especifica')">
+							<ng-template matTabContent>
+								<div
+								  class="
+									sm:col-span-4
+									lg:col-span-5
+									flex flex-col flex-auto
+									bg-card
+									shadow
+									rounded-2xl
+									overflow-hidden
+									p-8">
+									Weabo
+								  </div>
+							</ng-template>
+						  </mat-tab>
+					  </mat-tab-group>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </mat-drawer-content>
+    </mat-drawer-content>
 </mat-drawer-container>

@@ -92,11 +92,19 @@
                         {{ t('cancelar') }}
                     </button>
 
+                    <button class="px-6" mat-button (click)="excluir()" *ngIf="!form.disabled && codPontoPeriodo">
+                        <span class="text-red-600" *ngIf="!form.disabled && !loading">
+                            {{ t('remover') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled || loading" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
-                        <span *ngIf="!form.disabled">
+                        <span *ngIf="!form.disabled && !loading">
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        <mat-progress-spinner *ngIf="form.disabled || loading" [diameter]="24" [mode]="'indeterminate'">
                         </mat-progress-spinner>
                     </button>
                 </div>

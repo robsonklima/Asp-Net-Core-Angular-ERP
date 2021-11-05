@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PontoPeriodoIntervaloAcessoDataIntervaloAcessoDataService } from 'app/core/services/ponto-periodo-intervalo-acesso-data.service';
 import { PontoPeriodoModoAprovacaoService } from 'app/core/services/ponto-periodo-modo-aprovacao.service';
@@ -13,6 +14,7 @@ import { PontoPeriodoStatus, PontoPeriodoStatusParameters } from 'app/core/types
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
@@ -28,6 +30,7 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
   codPontoPeriodo: number;
   pontoPeriodo: PontoPeriodo;
   isAddMode: boolean;
+  loading: boolean;
   form: FormGroup;
   userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
@@ -37,7 +40,9 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
+    private _router: Router,
     private _userService: UserService,
+    private _dialog: MatDialog,
     private _pontoPeriodoSvc: PontoPeriodoService,
     private _pontoPeriodoStatusSvc: PontoPeriodoStatusService,
     private _pontoPeriodoModoAprovacaoSvc: PontoPeriodoModoAprovacaoService,
@@ -116,7 +121,7 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
     
     this._pontoPeriodoSvc.atualizar(obj).subscribe(() => {
       this._snack.exibirToast(`Período atualizado com sucesso!`, "success");
-      this._location.back();
+      this._router.navigate(['ponto/periodos']);
     });
   }
 
@@ -134,7 +139,35 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
 
     this._pontoPeriodoSvc.criar(obj).subscribe(() => {
       this._snack.exibirToast(`Período adicionado com sucesso!`, "success");
-      this._location.back();
+      this._router.navigate(['ponto/periodos']);
+    });
+  }
+
+  excluir(): void {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja remover este período?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      this.loading = true;
+
+      if (confirmacao)
+      {
+        this._pontoPeriodoSvc.deletar(this.codPontoPeriodo).subscribe(() => {
+          this._snack.exibirToast(`Período removido com sucesso!`, "success");
+          this._router.navigate(['ponto/periodos']);
+        });
+      }
+
+      this.loading = false;
     });
   }
 

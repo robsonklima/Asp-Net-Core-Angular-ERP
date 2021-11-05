@@ -19,18 +19,18 @@ import moment from 'moment';
     /* language=SCSS */
     `
       .list-grid-pud {
-          grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
+          grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
           
           @screen sm {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
           }
       
           @screen md {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
           }
       
           @screen lg {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 112px;
+              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
           }
       }
     `

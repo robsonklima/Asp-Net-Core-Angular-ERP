@@ -107,11 +107,31 @@
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2"
                                             mat-stroked-button
-                                            [matTooltip]="'Reprovar'"
+                                            [matTooltip]="'Conferir'"
+                                            matTooltipPosition="above">
+                                            <mat-icon
+                                                class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Ver RATs'"
+                                            matTooltipPosition="above">
+                                            <mat-icon
+                                                class="icon-size-5 text-gray-600"
+                                                [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                         </button>
                                     </div>
                                 </div>

@@ -309,6 +309,7 @@
     "data contrato": "Contract Date",
     "data assinatura": "Signature Date",
     "tipo-reajuste": "Tipo de Reajuste",
+    "tipo despesa": "Expense Type",
     "indice reajuste": "Índice do Reajuste",
     "inicio vigencia": "Beginning of Term",
     "termino vigencia": "Ending of Term",

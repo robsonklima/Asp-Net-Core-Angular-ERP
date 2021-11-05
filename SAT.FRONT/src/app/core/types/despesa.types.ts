@@ -34,54 +34,63 @@ export interface DespesaParameters extends QueryStringParameters
 
 export interface DespesaItem
 {
-    codDespesaItem: number;
+    codDespesaItem?: number;
     codDespesa: number;
     codDespesaTipo: number;
-    despesaTipo: DespesaTipo;
-    codDespesaConfiguracao: number;
-    sequenciaDespesaKm: number;
-    numNF: string;
-    despesaValor: number;
-    enderecoOrigem: string;
-    numOrigem: string;
-    bairroOrigem: string;
-    codCidadeOrigem: number;
-    enderecoOrigemWebraska: string;
-    numOrigemWebraska: string;
-    bairroOrigemWebraska: string;
-    nomeCidadeOrigemWebraska: string;
-    siglaUFOrigemWebraska: string;
-    siglaPaisOrigemWebraska: string;
-    indResidenciaOrigem: number;
-    indHotelOrigem: number;
-    enderecoDestino: string;
-    numDestino: string;
-    bairroDestino: string;
-    codCidadeDestino: number;
-    enderecoDestinoWebraska: string;
-    numDestinoWebraska: string;
-    bairroDestinoWebraska: string;
-    nomeCidadeDestinoWebraska: string;
-    siglaUFDestinoWebraska: string;
-    siglaPaisDestinoWebraska: string;
-    indResidenciaDestino: number;
-    indHotelDestino: number;
-    kmPrevisto: number;
-    kmPercorrido: number;
-    tentativaKM: string;
-    obs: string;
-    obsReprovacao: string;
-    codDespesaItemAlerta: number;
-    indWebrascaIndisponivel: number;
-    indReprovado: number;
-    indAtivo: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-    latitudeHotel: string;
-    longitudeHotel: string;
+    despesaTipo?: DespesaTipo;
+    codDespesaConfiguracao?: number;
+    sequenciaDespesaKm?: number;
+    numNF?: string;
+    despesaValor?: number;
+    enderecoOrigem?: string;
+    numOrigem?: string;
+    bairroOrigem?: string;
+    codCidadeOrigem?: number;
+    enderecoOrigemWebraska?: string;
+    numOrigemWebraska?: string;
+    bairroOrigemWebraska?: string;
+    nomeCidadeOrigemWebraska?: string;
+    siglaUFOrigemWebraska?: string;
+    siglaPaisOrigemWebraska?: string;
+    indResidenciaOrigem?: number;
+    indHotelOrigem?: number;
+    enderecoDestino?: string;
+    numDestino?: string;
+    bairroDestino?: string;
+    codCidadeDestino?: number;
+    enderecoDestinoWebraska?: string;
+    numDestinoWebraska?: string;
+    bairroDestinoWebraska?: string;
+    nomeCidadeDestinoWebraska?: string;
+    siglaUFDestinoWebraska?: string;
+    siglaPaisDestinoWebraska?: string;
+    indResidenciaDestino?: number;
+    indHotelDestino?: number;
+    kmPrevisto?: number;
+    kmPercorrido?: number;
+    tentativaKM?: string;
+    obs?: string;
+    obsReprovacao?: string;
+    codDespesaItemAlerta?: number;
+    indWebrascaIndisponivel?: number;
+    indReprovado?: number;
+    indAtivo?: number;
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
+    latitudeHotel?: string;
+    longitudeHotel?: string;
 }
+
+export interface DespesaItemData extends Meta
+{
+    items: DespesaItem[]
+};
+
+export interface DespesaItemParameters extends QueryStringParameters
+{
+};
 
 export interface DespesaTipo
 {

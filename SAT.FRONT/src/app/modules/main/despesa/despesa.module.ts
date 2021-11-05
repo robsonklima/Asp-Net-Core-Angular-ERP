@@ -40,6 +40,16 @@ import { DespesaAtendimentoFiltroComponent } from './despesa-atendimento-filtro/
 import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-tecnico-filtro.component';
 import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
 import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { DespesaItemDialogComponent } from './despesa-manutencao/despesa-item-dialog/despesa-item-dialog.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+
+const maskConfigFunction: () => Partial<IConfig> = () =>
+{
+  return {
+    validation: false,
+  };
+};
 
 @NgModule({
   declarations:
@@ -49,10 +59,12 @@ import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manuten
       DespesaAtendimentoFiltroComponent,
       DespesaTecnicoFiltroComponent,
       DespesaAtendimentoRelatorioListaComponent,
-      DespesaManutencaoComponent
+      DespesaManutencaoComponent,
+      DespesaItemDialogComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     CommonModule,
     MatButtonToggleModule,
     MatChipsModule,
@@ -85,7 +97,8 @@ import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manuten
     MatStepperModule,
     FuseAlertModule,
     MatProgressSpinnerModule,
-    TranslocoModule
+    TranslocoModule,
+    MatRadioModule
   ]
 })
 export class DespesaModule { }

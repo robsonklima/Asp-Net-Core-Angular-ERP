@@ -16,18 +16,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-ge {
-          grid-template-columns: 72px 128px auto 154px 164px;
+          grid-template-columns: 72px auto 154px 164px;
           
           @screen sm {
-              grid-template-columns: 72px 128px auto 154px 164px;
+              grid-template-columns: 72px auto 154px 164px;
           }
       
           @screen md {
-              grid-template-columns: 72px 128px auto 154px 164px;
+              grid-template-columns: 72px auto 154px 164px;
           }
       
           @screen lg {
-              grid-template-columns: 72px 128px auto 154px 164px;
+              grid-template-columns: 72px auto 154px 164px;
           }
       }
     `

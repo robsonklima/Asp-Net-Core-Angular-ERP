@@ -27,10 +27,7 @@
                                 {{ t('codigo') }}
                             </div>
                             <div [mat-sort-header]="'dataInicio'">
-                                {{ t('data inicio') }}
-                            </div>
-                            <div [mat-sort-header]="'dataFim'">
-                                {{ t('data fim') }}
+                                {{ t('período') }}
                             </div>
                             <div>
                                 {{ t('status') }}
@@ -48,10 +45,8 @@
                                         {{ data.codPontoPeriodo }}
                                     </div>
                                     <div class="truncate">
-                                        {{ data.dataInicio | date:'dd/MM/yyyy' }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ data.dataFim | date:'dd/MM/yyyy' }}
+                                        <span class="font-semibold">{{ data.dataInicio | date:'fullDate' | titlecase }}</span> até 
+                                        <span class="font-semibold">{{ data.dataFim | date:'fullDate' | titlecase }}</span>
                                     </div>
                                     <div class="truncate">
                                         <span

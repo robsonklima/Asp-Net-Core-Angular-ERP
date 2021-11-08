@@ -251,6 +251,11 @@ export class DespesaItemDialogComponent implements OnInit
     }
   }
 
+  validaQuilometragem(): void
+  {
+
+  }
+
   private resetFields(): void
   {
     (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].reset();

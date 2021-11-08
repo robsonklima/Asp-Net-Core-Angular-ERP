@@ -114,7 +114,6 @@ export class DespesaItemDialogComponent implements OnInit
   {
     this.onLocalInicoDeslocamentoChanged();
     this.onEnderecoChanged();
-    // this.onTipoDespesaChanged();
   }
 
   obterTipoDespesa()
@@ -147,17 +146,6 @@ export class DespesaItemDialogComponent implements OnInit
         () => this.dialogRef.close(false));
   }
 
-  onTipoDespesaChanged(): void
-  {
-    (this.despesaItemForm.get('step1') as FormGroup)
-      .controls['codDespesaTipo']
-      .valueChanges.subscribe(() =>
-      {
-        this.resetFields();
-        this.configuraCamposObrigatorios();
-      });
-  }
-
   private onLocalInicoDeslocamentoChanged(): void
   {
     (this.despesaItemForm.get('step2') as FormGroup)
@@ -169,18 +157,7 @@ export class DespesaItemDialogComponent implements OnInit
         if ((this.despesaItemForm.get('step2') as FormGroup)
           .controls['localInicoDeslocamento'].value === "residencial")
         {
-          (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(this.rat.tecnico.endereco);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].setValue(this.rat.tecnico.cep);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(this.rat.tecnico.bairro);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].setValue(this.rat.tecnico.enderecoComplemento);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(this.rat.tecnico.cidade.nomeCidade);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(this.rat.tecnico.usuario.numero);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.siglaUF);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.pais.siglaPais);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.rat.tecnico.latitude);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
-          (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
-          (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
+          this.setOrigemResidencial();
           this.disableOrigin();
         }
         else
@@ -221,21 +198,6 @@ export class DespesaItemDialogComponent implements OnInit
 
     if (googleAddress)
       this.updateGoogleAddress(googleAddress);
-  }
-
-  private resetFields(): void
-  {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].reset();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].reset();
   }
 
   private updateGoogleAddress(googleAddress: Result): void
@@ -287,6 +249,37 @@ export class DespesaItemDialogComponent implements OnInit
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].enable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
+  }
+
+  private resetFields(): void
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].reset();
+  }
+
+  private setOrigemResidencial(): void
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(this.rat.tecnico.endereco);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].setValue(this.rat.tecnico.cep);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(this.rat.tecnico.bairro);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].setValue(this.rat.tecnico.enderecoComplemento);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(this.rat.tecnico.cidade.nomeCidade);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(this.rat.tecnico.usuario.numero);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.siglaUF);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.pais.siglaPais);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.rat.tecnico.latitude);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
   }
 
   private disableOrigin()

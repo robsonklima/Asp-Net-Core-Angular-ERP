@@ -4,20 +4,20 @@ import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 
 export interface Despesa
 {
-    codDespesa: number;
+    codDespesa?: number;
     codDespesaPeriodo: number;
     codRAT: number;
-    relatorioAtendimento: RelatorioAtendimento;
+    relatorioAtendimento?: RelatorioAtendimento;
     codTecnico: number;
-    despesaItens: DespesaItem[];
+    despesaItens?: DespesaItem[];
     codFilial: number;
-    filial: Filial;
+    filial?: Filial;
     centroCusto: string;
     indAtivo: number;
     codUsuarioCad: string;
     dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
 }
 
 export interface DespesaData extends Meta

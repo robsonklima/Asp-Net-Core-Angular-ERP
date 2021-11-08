@@ -9,7 +9,10 @@ import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendim
 import { Despesa, DespesaItem } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-dialog.component';
 
 @Component({
@@ -40,16 +43,18 @@ export class DespesaManutencaoComponent implements AfterViewInit
   rat: RelatorioAtendimento;
   ordemServico: OrdemServico;
   displayedColumns: string[] = ['acao', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal'];
+  userSession: UserSession;
 
   constructor (
+    private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _despesaSvc: DespesaService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
-    private _despesaItemSvc: DespesaItemService,
     private _dialog: MatDialog)
   {
+    this.userSession = JSON.parse(this._userService.userSession);
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
   }
 
@@ -89,9 +94,37 @@ export class DespesaManutencaoComponent implements AfterViewInit
     this.isDespesaLoading = false;
   }
 
-  lancarDespesaItem()
+  private async criaDespesa()
   {
-    const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
+    var codDespesaPeriodo =
+      +this._route.snapshot.paramMap.get('codDespesaPeriodo');
+
+    var despesa: Despesa =
+    {
+      codRAT: this.rat.codRAT,
+      indAtivo: 1,
+      centroCusto: "1008",
+      codFilial: this.rat.tecnico.codFilial,
+      codTecnico: this.rat.codTecnico,
+      codDespesaPeriodo: codDespesaPeriodo,
+      codUsuarioCad: this.userSession.usuario.codUsuario,
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
+    };
+
+    this.despesa = (await this._despesaSvc.criar(despesa).toPromise());
+  }
+
+  async lancarDespesaItem()
+  {
+    if (!this.despesa) 
+      this.criaDespesa()
+        .finally(() => this.abrirDialogoDespesaItem());
+    else this.abrirDialogoDespesaItem();
+  }
+
+  abrirDialogoDespesaItem(): void
+  {
+     const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
       data:
       {
         codDespesa: this.despesa.codDespesa

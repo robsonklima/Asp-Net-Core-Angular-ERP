@@ -25,7 +25,8 @@ namespace SAT.INFRA.Repository
 
         public void Criar(Despesa despesa)
         {
-            throw new NotImplementedException();
+            _context.Add(despesa);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)

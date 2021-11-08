@@ -102,7 +102,10 @@
                                     <div class="truncate">
                                         <div class="ml-2" *ngFor="let divergencia of data.divergencias">
                                             <span *ngIf="!divergencia.pontoUsuarioDataModoDivergencia.divergenciaValidada">
-                                                <span class="font-semibold">{{ divergencia.pontoUsuarioDataModoDivergencia.descricao }}</span> : 
+                                                <span class="font-semibold">
+                                                    {{ divergencia.pontoUsuarioDataModoDivergencia.descricao == 'Divergência Manual' ? 'Conferente' : 'Automático' }} :
+                                                </span>
+
                                                 <span>{{ divergencia.pontoUsuarioDataMotivoDivergencia.descricao }}</span>
                                             </span>
                                         </div>

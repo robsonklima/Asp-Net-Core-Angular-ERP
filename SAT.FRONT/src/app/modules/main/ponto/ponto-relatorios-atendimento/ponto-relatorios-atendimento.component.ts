@@ -27,7 +27,7 @@ export class PontoRelatoriosAtendimentoComponent implements OnInit {
   codUsuario: string;
   dataSource: RATData[];
   displayedColumns: string[] = [
-    'dataInicio', 'dataHoraInicio', 'dataHoraSolucao', 'codOS', 'numRAT',
+    'dataHoraInicio', 'dataHoraSolucao', 'codOS', 'numRAT',
     'local', 'cidade', 'uf', 'inicioIntervalo', 'fimIntervalo'
   ];
   relatorios: RATData[] = [];

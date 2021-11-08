@@ -16,13 +16,15 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(ContratoReajuste tipoCausa)
+        public void Atualizar(ContratoReajuste contratoReajuste)
         {
-            ContratoReajuste tc = _context.ContratoReajuste.FirstOrDefault(tc => tc.CodContratoReajuste == tipoCausa.CodContratoReajuste);
-
+            ContratoReajuste tc = _context.ContratoReajuste.FirstOrDefault(tc => tc.CodContrato == contratoReajuste.CodContrato);
+            
             if (tc != null)
             {
-                _context.Entry(tc).CurrentValues.SetValues(tipoCausa);
+                contratoReajuste.CodContratoReajuste = tc.CodContratoReajuste;        
+
+                _context.Entry(tc).CurrentValues.SetValues(contratoReajuste);
                 _context.SaveChanges();
             }
         }

@@ -33,15 +33,15 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public Contrato Post([FromBody] Contrato contrato)
         {
-
+            return _contratoInterface.Criar(contrato);
         }
 
         [HttpPut]
-        public void Put([FromBody] string value)
+        public Contrato Put([FromBody] Contrato contrato)
         {
-
+            return _contratoInterface.Atualizar(contrato);
         }
 
         [HttpDelete("{codContrato}")]

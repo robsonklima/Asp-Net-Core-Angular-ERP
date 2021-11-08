@@ -22,7 +22,7 @@ import { ContratoReajusteService } from 'app/core/services/contrato-reajuste.ser
 	templateUrl: './contrato-form.component.html',
 })
 export class ContratoFormComponent implements OnInit {
-		codContrato: number;
+	codContrato: number;
 	contrato: Contrato;
 	contratoReajuste: ContratoReajuste;
 	form: FormGroup;
@@ -59,49 +59,18 @@ export class ContratoFormComponent implements OnInit {
 		await this.obterDados();
 	}
 
-	private inicializarForm(): void {
-		this.form = this._formBuilder.group({
-			codContrato: [
-				{
-					value: undefined,
-					disabled: true,
-				}, [Validators.required]
-			],
-			codContratoPai: [undefined],
-			codCliente: [undefined, Validators.required],
-			codTipoContrato: [undefined, Validators.required],
-			codTipoIndiceReajuste: [undefined, Validators.required],
-			percReajuste: [undefined],
-			nroContrato: [undefined, Validators.required],
-			nomeContrato: [undefined, Validators.required],
-			dataContrato: [undefined, Validators.required],
-			dataAssinatura: [undefined, Validators.required],
-			dataInicioVigencia: [undefined, Validators.required],
-			dataFimVigencia: [undefined, Validators.required],
-			dataInicioPeriodoReajuste: [undefined],
-			dataFimPeriodoReajuste: [undefined],
-			nomeResponsavelPerto: [undefined, Validators.required],
-			nomeResponsavelCliente: [undefined, Validators.required],
-			objetoContrato: [undefined],
-			semCobertura: [undefined],
-			valTotalContrato: [undefined, Validators.required],
-			indPermitePecaEspecifica: [undefined, Validators.required],
-			numDiasSubstEquip: [undefined]
-
-		});
-	}
 
 	private async obterDados() {
 		this.tipoContrato = (await this._tipoContratoService.obterPorParametros({}).toPromise()).items;
 		this.tipoReajuste = (await this._tipoIndiceReajusteService.obterPorParametros({}).toPromise()).items;
 		this.contratoReajuste = (await this._contratoReajusteService
-											.obterPorParametros({ codContrato: this.codContrato, indAtivo: 1 })
-											.toPromise()).items.pop();
+			.obterPorParametros({ codContrato: this.codContrato, indAtivo: 1 })
+			.toPromise()).items.pop();
 		if (!this.isAddMode) {
 			let data = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
 			this.contrato = data;
-			
-			this.form.patchValue(this.contrato);	
+
+			this.form.patchValue(this.contrato);
 			this.form.patchValue(this.contratoReajuste);
 		}
 	}
@@ -136,10 +105,23 @@ export class ContratoFormComponent implements OnInit {
 		Object.keys(obj).forEach((key) => {
 			typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
 		});
+		
+		this._contratoService.atualizar(obj).subscribe((ct) => {
+			console.log(form);
+			console.log(ct);
+			
+			let ctReajs: ContratoReajuste = {
+				codContrato: ct.codContrato,
+				codTipoIndiceReajuste: form.codTipoIndiceReajuste,
+				percReajuste: form.percReajuste,
+				indAtivo: 1,
+				codUsuarioCad: obj.codUsuarioManut,
+				dataHoraCad: obj.dataHoraManut
+			}
 
-		this._contratoService.atualizar(obj).subscribe(() => {
-			this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
-			this._router.navigate(['ordem-servico/detalhe/' + this.codContrato]);
+			this._contratoReajusteService.atualizar(ctReajs).subscribe();
+			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+			this.form.enable();
 		});
 	}
 
@@ -159,9 +141,52 @@ export class ContratoFormComponent implements OnInit {
 			typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
 		});
 
-		this._contratoService.criar(obj).subscribe((os) => {
+		this._contratoService.criar(obj).subscribe((ct) => {
+			
+			let ctReajs: ContratoReajuste = {
+				codContrato: ct.codContrato,
+				codTipoIndiceReajuste: form.codTipoIndiceReajuste,
+				percReajuste: form.percReajuste,
+				indAtivo: 1,
+				codUsuarioCad: obj.codUsuarioCad,
+				dataHoraCad: obj.dataHoraCad
+			}
+
+			this._contratoReajusteService.criar(ctReajs).subscribe();
 			this._snack.exibirToast("Registro adicionado com sucesso!", "success");
-			this._router.navigate(['ordem-servico/detalhe/' + os.codContrato]);
+			this._router.navigate(['contrato/' + ct.codContrato]);
+		});
+	}
+
+	private inicializarForm(): void {
+		this.form = this._formBuilder.group({
+			codContrato: [
+				{
+					value: undefined,
+					disabled: true,
+				}, [Validators.required]
+			],
+			codContratoPai: [undefined],
+			codCliente: [undefined, Validators.required],
+			codTipoContrato: [undefined, Validators.required],
+			codTipoIndiceReajuste: [undefined, Validators.required],
+			percReajuste: [undefined],
+			nroContrato: [undefined, Validators.required],
+			nomeContrato: [undefined, Validators.required],
+			dataContrato: [undefined, Validators.required],
+			dataAssinatura: [undefined, Validators.required],
+			dataInicioVigencia: [undefined, Validators.required],
+			dataFimVigencia: [undefined, Validators.required],
+			dataInicioPeriodoReajuste: [undefined],
+			dataFimPeriodoReajuste: [undefined],
+			nomeResponsavelPerto: [undefined, Validators.required],
+			nomeResponsavelCliente: [undefined, Validators.required],
+			objetoContrato: [undefined],
+			semCobertura: [undefined],
+			valTotalContrato: [undefined, Validators.required],
+			indPermitePecaEspecifica: [undefined, Validators.required],
+			numDiasSubstEquip: [undefined]
+
 		});
 	}
 

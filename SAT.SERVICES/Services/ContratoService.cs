@@ -53,9 +53,11 @@ namespace SAT.SERVICES.Services
             _contratoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(Contrato contrato)
+        public Contrato Atualizar(Contrato contrato)
         {
             _contratoRepo.Atualizar(contrato);
+            
+            return contrato;
         }
 
         public Contrato ObterPorCodigo(int codigo)

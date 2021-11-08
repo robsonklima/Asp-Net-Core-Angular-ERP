@@ -2,14 +2,14 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { TipoIndiceReajuste } from "./tipo-indice-reajuste.types";
 
 export class ContratoReajuste {
-    codContratoReajuste: number;
-    codContrato: number;
-    codTipoIndiceReajuste: number;
-    tipoIndiceReajuste: TipoIndiceReajuste;
+    codContratoReajuste?: number;
+    codContrato?: number;
+    codTipoIndiceReajuste?: number;
+    tipoIndiceReajuste?: TipoIndiceReajuste;
     percReajuste: number;        
-    indAtivo: number;
+    indAtivo?: number;
     codUsuarioCad: string;
-    dataHoraCad: Date;  
+    dataHoraCad?: Date;  
 }
 
 export interface ContratoReajusteData extends Meta {

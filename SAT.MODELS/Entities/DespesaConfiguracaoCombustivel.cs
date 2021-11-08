@@ -9,7 +9,7 @@ namespace SAT.MODELS.Entities
         public int CodDespesaConfiguracaoCombustivel { get; set; }
         public int? CodFilial { get; set; }
         public int? CodUf { get; set; }
-        public float? PrecoLitro { get; set; }
+        public double? PrecoLitro { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime? DataHoraManut { get; set; }

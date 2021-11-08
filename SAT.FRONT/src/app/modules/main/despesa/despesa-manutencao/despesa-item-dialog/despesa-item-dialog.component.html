@@ -219,6 +219,7 @@
                 <p class="my-2 font-medium">Revisão</p>
                 <p>Tipo de despesa: {{ obterTipoDespesa() }} </p>
                 <p>Quilometragem informada: {{ this.despesaItemForm.value.step2.quilometragem + "km" }}
+                    <p>Despesa: {{ calculaConsumoCombustivel() | currency:'BRL':'symbol-narrow' }}
             </div>
 
             <div class="flex justify-end mt-8">

@@ -164,7 +164,5 @@ export class DespesaManutencaoComponent implements AfterViewInit
         codFilial: this.ordemServico.codFilial,
         codUf: this.ordemServico.localAtendimento.cidade?.codUF
       }).toPromise()).items[0];
-
-    console.log(this.despesaConfiguracaoCombustivel);
   }
 }

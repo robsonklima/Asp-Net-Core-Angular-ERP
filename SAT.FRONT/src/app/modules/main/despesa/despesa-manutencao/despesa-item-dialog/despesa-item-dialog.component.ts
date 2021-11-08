@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
-import { DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { Despesa, DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
@@ -27,6 +27,7 @@ export class DespesaItemDialogComponent implements OnInit
   codDespesa: number;
   ordemServico: OrdemServico;
   rat: RelatorioAtendimento;
+  despesa: Despesa;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -42,6 +43,7 @@ export class DespesaItemDialogComponent implements OnInit
       this.codDespesa = data.codDespesa;
       this.ordemServico = data.ordemServico;
       this.rat = data.rat;
+      this.despesa = data.despesa;
     }
 
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -55,6 +57,12 @@ export class DespesaItemDialogComponent implements OnInit
   private async obterTiposDespesa()
   {
     this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
+
+    if (Enumerable.from(this.despesa.despesaItens)
+      .any(i => i.codDespesaTipo == DespesaTipoEnum.KM))
+      this.tiposDespesa = Enumerable.from(this.tiposDespesa)
+        .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
+        .toArray();
   }
 
   private criarFormularioDespesaItem()
@@ -68,6 +76,7 @@ export class DespesaItemDialogComponent implements OnInit
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
         enderecoDestino: { value: this.ordemServico?.localAtendimento.endereco ?? "Não consta", disabled: true },
+        cepDestino: { value: this.ordemServico?.localAtendimento.cep ?? "Não consta", disabled: true },
         bairroDestino: { value: this.ordemServico?.localAtendimento.bairro ?? "Não consta", disabled: true },
         complementoDestino: { value: this.ordemServico?.localAtendimento.enderecoComplemento ?? "Não consta", disabled: true },
         numeroDestino: { value: this.ordemServico?.localAtendimento.numeroEnd ?? "Não consta", disabled: true },
@@ -78,6 +87,7 @@ export class DespesaItemDialogComponent implements OnInit
         longitudeDestino: { value: this.ordemServico?.localAtendimento.longitude ?? "Não consta", disabled: true },
 
         enderecoOrigem: [undefined, Validators.required],
+        cepOrigem: [undefined, Validators.required],
         bairroOrigem: [undefined, Validators.required],
         complementoOrigem: [undefined],
         numeroOrigem: [undefined, Validators.required],
@@ -144,6 +154,7 @@ export class DespesaItemDialogComponent implements OnInit
           .controls['localInicoDeslocamento'].value === "residencial")
         {
           (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(this.rat.tecnico.endereco);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].setValue(this.rat.tecnico.cep);
           (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(this.rat.tecnico.bairro);
           (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].setValue(this.rat.tecnico.enderecoComplemento);
           (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(this.rat.tecnico.cidade.nomeCidade);
@@ -154,6 +165,11 @@ export class DespesaItemDialogComponent implements OnInit
           (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
           (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
           (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
+          this.disableOrigin();
+        }
+        else
+        {
+          this.enableOrigin();
         }
       });
 
@@ -163,17 +179,7 @@ export class DespesaItemDialogComponent implements OnInit
   private onEnderecoChanged(): void
   {
     (this.despesaItemForm.get('step2') as FormGroup)
-      .controls['enderecoOrigem']
-      .valueChanges.pipe(
-        debounceTime(700),
-        distinctUntilChanged()
-      ).subscribe(async () =>
-      {
-        this.getGoogleLocation();
-      });
-
-    (this.despesaItemForm.get('step2') as FormGroup)
-      .controls['cidadeOrigem']
+      .controls['cepOrigem']
       .valueChanges.pipe(
         debounceTime(700),
         distinctUntilChanged()
@@ -190,18 +196,13 @@ export class DespesaItemDialogComponent implements OnInit
       .value === "residencial")
       return;
 
-    var address: string = (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].value?.toString();
-    var city: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].value?.toString();
+    var cep: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].value?.toString();
 
-    var query = Enumerable.from([address, city])
-      .where(i => i?.length > 0)
-      .toArray()
-      .join(',');
-
-    if (!query) return;
+    console.log(cep);
+    if (!cep) return;
 
     var googleAddress =
-      await this._geolocationService.obterPorEndereco(query);
+      await this._geolocationService.obterPorEndereco(cep);
 
     if (googleAddress)
       this.updateGoogleAddress(googleAddress);
@@ -209,6 +210,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   private resetFields(): void
   {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].reset();
@@ -223,6 +225,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   private updateGoogleAddress(googleAddress: Result): void
   {
+    console.log(googleAddress);
     var lat = googleAddress.geometry.location.lng;
     var long = googleAddress.geometry.location.lat;
     if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
@@ -231,6 +234,9 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(googleAddress.geometry.location.lng);
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(googleAddress.geometry.location.lat);
     this.disableLatLgnOrigin();
+
+    var endereco = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("route")).firstOrDefault();
+    if (endereco) (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(endereco.short_name);
 
     var numero = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("street_number")).firstOrDefault();
     if (numero) (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(numero.long_name);
@@ -243,6 +249,7 @@ export class DespesaItemDialogComponent implements OnInit
 
     var estado = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_1")).firstOrDefault();
     if (estado) (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(estado.short_name);
+
 
     var pais = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("country")).firstOrDefault();
     if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
@@ -263,6 +270,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   private disableOrigin()
   {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].disable();
@@ -272,7 +280,20 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].disable();
+  }
+
+  private enableOrigin()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].enable();
   }
 
   private disableLatLgnOrigin()

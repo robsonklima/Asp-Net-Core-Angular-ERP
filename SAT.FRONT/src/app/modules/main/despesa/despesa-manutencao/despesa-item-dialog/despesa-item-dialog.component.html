@@ -57,6 +57,11 @@
                         </div>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
+                            <input matInput autocomplete="off" mask="00000-000" [formControlName]="'cepOrigem'"
+                                [placeholder]="'CEP'">
+                        </mat-form-field>
+
+                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoOrigem'"
                                 [placeholder]="'Endereço'">
                         </mat-form-field>
@@ -121,6 +126,11 @@
                                 <span></span>
                             </label>
                         </div>
+
+                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
+                            <input matInput autocomplete="off" mask="00000-000" [formControlName]="'cepDestino'"
+                                [placeholder]="'CEP'">
+                        </mat-form-field>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoDestino'"

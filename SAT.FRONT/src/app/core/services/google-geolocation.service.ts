@@ -31,7 +31,7 @@ export class GoogleGeolocationService
   public async obterPorEndereco(cep: string)
   {
     if (cep == null) return null;
-    return (await this.obterPorParametros({ enderecoCep: cep.trim() }))
+    return (await this.obterPorParametros({ enderecoCep: cep.trim(), pageSize: 1 }))
       .toPromise()
       .then(result => { return result.results.shift() });
   }

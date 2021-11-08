@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewEncapsulati
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
@@ -116,7 +115,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
 
   async lancarDespesaItem()
   {
-    if (!this.despesa) 
+    if (!this.despesa)
       this.criaDespesa()
         .finally(() => this.abrirDialogoDespesaItem());
     else this.abrirDialogoDespesaItem();
@@ -124,12 +123,13 @@ export class DespesaManutencaoComponent implements AfterViewInit
 
   abrirDialogoDespesaItem(): void
   {
-     const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
+    const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
       data:
       {
         codDespesa: this.despesa.codDespesa,
         ordemServico: this.ordemServico,
-        rat: this.rat
+        rat: this.rat,
+        despesa: this.despesa
       }
     });
 

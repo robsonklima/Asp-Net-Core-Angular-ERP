@@ -3,7 +3,7 @@
         <mat-step [formGroupName]="'step1'" [stepControl]="despesaItemForm.get('step1')" #horizontalStepperStep1>
             <ng-template matStepLabel>Tipo de despesa</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
-                <mat-form-field class="flex-auto gt-xs:pr-3">
+                <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3">
                     <mat-select formControlName="codDespesaTipo" required>
                         <mat-option *ngFor="let tipo of tiposDespesa" [value]="tipo.codDespesaTipo">
                             {{ tipo.nomeTipo }}
@@ -23,14 +23,15 @@
         <mat-step [formGroupName]="'step2'" [stepControl]="despesaItemForm.get('step2')" #horizontalStepperStep2>
             <ng-template matStepLabel>Dados</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
-                <div class="flex flex-col gt-xs:flex-row" *ngIf="!isQuilometragem()">
-                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                <div class="flex flex-col  fuse-mat-dense gt-xs:flex-row" *ngIf="!isQuilometragem()">
+
+                    <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3">
                         <input matInput autocomplete="off" [formControlName]="'notaFiscal'"
                             [placeholder]="'Nota Fiscal'">
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:finger-print'"></mat-icon>
                     </mat-form-field>
 
-                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pl-3">
                         <input matInput [formControlName]="'valor'" [placeholder]="'Valor'" mask="separator.2"
                             thousandSeparator="." decimalMarker="," prefix="R$" autocomplete="off"
                             [dropSpecialCharacters]="true" required>
@@ -39,12 +40,12 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex flex-row justify-between space-x-4" *ngIf="isQuilometragem()">
+                <div class="flex flex-row justify-between fuse-mat-dense space-x-4" *ngIf="isQuilometragem()">
 
                     <div class="min-w-1/2">
                         <div class="mb-1">Origem</div>
 
-                        <div class="flex-auto space-x-4 w-full p-2">
+                        <div class="flex-auto fuse-mat-dense space-x-4 w-full p-2">
                             <label>
                                 <input type="radio" value="residencial" formControlName="localInicoDeslocamento">
                                 <span>Residência</span>
@@ -55,53 +56,53 @@
                             </label>
                         </div>
 
-                        <mat-form-field class="flex-auto w-full">
+                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoOrigem'"
                                 [placeholder]="'Endereço'">
                         </mat-form-field>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'bairroOrigem'"
                                     [placeholder]="'Bairro'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'complementoOrigem'"
                                     [placeholder]="'Complemento'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'numeroOrigem'"
                                     [placeholder]="'Número'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'cidadeOrigem'"
                                     [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'ufOrigem'" [placeholder]="'UF'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'paisOrigem'"
                                     [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'latitudeOrigem'"
                                     [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'longitudeOrigem'"
                                     [placeholder]="'Longitude'">
                             </mat-form-field>
@@ -121,53 +122,53 @@
                             </label>
                         </div>
 
-                        <mat-form-field class="flex-auto w-full">
+                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoDestino'"
                                 [placeholder]="'Endereço'">
                         </mat-form-field>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'bairroDestino'"
                                     [placeholder]="'Bairro'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'complementoDestino'"
                                     [placeholder]="'Complemento'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'numeroDestino'"
                                     [placeholder]="'Número'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'cidadeDestino'"
                                     [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'ufDestino'" [placeholder]="'UF'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'paisDestino'"
                                     [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between space-x-4 w-full">
-                            <mat-form-field class="flex-auto w-1/2">
+                        <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'latitudeDestino'"
                                     [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto w-1/2">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'longitudeDestino'"
                                     [placeholder]="'Longitude'">
                             </mat-form-field>
@@ -175,8 +176,8 @@
 
                     </div>
                 </div>
-                <div class="flex flex-row justify-between space-x-4 w-1/2">
-                    <mat-form-field class="flex-auto w-1/2">
+                <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-1/2">
+                    <mat-form-field class="flex-auto fuse-mat-dense w-1/2" *ngIf="isQuilometragem()">
                         <input matInput autocomplete="off" type="number" min="0" [formControlName]="'quilometragem'"
                             [placeholder]="'Quilometragem'">
                     </mat-form-field>

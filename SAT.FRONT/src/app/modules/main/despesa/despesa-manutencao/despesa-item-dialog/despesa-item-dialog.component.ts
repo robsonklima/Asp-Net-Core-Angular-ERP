@@ -96,15 +96,40 @@ export class DespesaItemDialogComponent implements OnInit
     this.registerEmitters();
   }
 
+  registerEmitters()
+  {
+    this.onLocalInicoDeslocamentoChanged();
+    this.onEnderecoChanged();
+  }
+
+  obterTipoDespesa()
+  {
+    return Enumerable.from(this.tiposDespesa)
+      .firstOrDefault(i => i.codDespesaTipo == this.despesaItemForm.value.step1.codDespesaTipo)?.nomeTipo;
+  }
+
   public isQuilometragem()
   {
     return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.KM;
   }
 
-  registerEmitters()
+  confirmar(): void
   {
-    this.onLocalInicoDeslocamentoChanged();
-    this.onEnderecoChanged();
+    var despesaItem: DespesaItem =
+    {
+      codDespesa: this.codDespesa,
+      numNF: this.despesaItemForm.value.step2.notaFiscal,
+      codDespesaTipo: this.despesaItemForm.value.step1.codDespesaTipo,
+      despesaValor: this.despesaItemForm.value.step2.valor,
+      codUsuarioCad: this.userSession.usuario.codUsuario,
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      codDespesaItemAlerta: 1
+    };
+
+    this._despesaItemSvc.criar(despesaItem)
+      .subscribe(
+        () => this.dialogRef.close(true),
+        () => this.dialogRef.close(false));
   }
 
   private onLocalInicoDeslocamentoChanged(): void
@@ -223,25 +248,6 @@ export class DespesaItemDialogComponent implements OnInit
     if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
   }
 
-  confirmar(): void
-  {
-    var despesaItem: DespesaItem =
-    {
-      codDespesa: this.codDespesa,
-      numNF: this.despesaItemForm.value.step2.notaFiscal,
-      codDespesaTipo: this.despesaItemForm.value.step1.codDespesaTipo,
-      despesaValor: this.despesaItemForm.value.step2.valor,
-      codUsuarioCad: this.userSession.usuario.codUsuario,
-      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: 1
-    };
-
-    this._despesaItemSvc.criar(despesaItem)
-      .subscribe(
-        () => this.dialogRef.close(true),
-        () => this.dialogRef.close(false));
-  }
-
   configuraCamposObrigatorios(): void
   {
     if (!this.isQuilometragem())
@@ -266,6 +272,7 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].disable();
   }
 
   private disableLatLgnOrigin()
@@ -285,11 +292,5 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisDestino'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].disable();
-  }
-
-  obterTipoDespesa()
-  {
-    return Enumerable.from(this.tiposDespesa)
-      .firstOrDefault(i => i.codDespesaTipo == this.despesaItemForm.value.step1.codDespesaTipo)?.nomeTipo;
   }
 }

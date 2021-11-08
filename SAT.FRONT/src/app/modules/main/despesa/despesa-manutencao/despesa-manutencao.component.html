@@ -7,25 +7,47 @@
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
-                <div>
-                    <div class="text-4xl font-extrabold tracking-tight">
-                        {{ "RAT " + codRAT }}
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center font-medium">
+                            <div>
+                                <a class="whitespace-nowrap text-primary-500" routerLink="/despesa/atendimentos">
+                                    {{ t('atendimentos') }}
+                                </a>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                <span class="ml-1 text-secondary">{{ t('relatorio') + " " + codRAT }}</span>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                <span class="ml-1 text-secondary">{{ t('despesas') }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <h2
+                                class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                {{ 'Consulta de Despesas' }}
+                            </h2>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col flex-auto p-6 bg-card rounded-2xl overflow-auto">
+                <div>
                     <div class="text-lg font-semibold text-secondary tracking-tight" *ngIf="!isLoading">
                         {{ "OS " + rat?.codOS }} {{ " - " + ordemServico?.cliente?.nomeFantasia + ", " }}
                         {{ ordemServico?.cliente?.numBanco || '---' }}
                         {{ ordemServico?.localAtendimento?.numAgencia || '---' }}/{{ ordemServico?.localAtendimento?.dcPosto || '---' }}
                     </div>
                     <div class="text-lg font-semibold text-secondary tracking-tight" *ngIf="!isLoading">
-                        {{  ordemServico?.localAtendimento?.endereco + ' - ' + ordemServico?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
-                                                        ordemServico?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
-                                                        || 'não informado' }}
+                        {{  ordemServico?.localAtendimento?.endereco + ' - ' + ordemServico?.localAtendimento?.cidade?.nomeCidade + ' - ' + ordemServico?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'não informado' }}
                     </div>
 
                 </div>
-            </div>
-
-            <div class="flex flex-col flex-auto p-6 bg-card rounded-2xl overflow-auto">
                 <div class="flex items-center justify-between" *ngIf="!isLoading">
                     <div class="text-2xl font-extrabold tracking-tight"> {{ t('despesas') | uppercase }}</div>
                     <div class="absolute inset-x-0 bottom-0" *ngIf="isDespesaLoading && !isLoading">
@@ -35,7 +57,7 @@
                         <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>
-                <div class="flex flex-col my-2 max-h-screen overflow-auto"
+                <div class="flex flex-col fuse-mat-dense my-2 max-h-screen overflow-auto"
                     *ngIf="despesaItens.length > 0 && !isDespesaLoading">
                     <table mat-table [dataSource]="despesaItens" class="mat-elevation-z4">
 
@@ -73,7 +95,7 @@
                     </table>
                 </div>
                 <div *ngIf="!despesaItens.length && !isLoading"
-                    class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                    class="p-8 sm:p-16 border-t fuse-mat-dense text-2xl font-semibold tracking-tight text-center">
                     Nenhuma despesa lançada até o momento.</div>
             </div>
         </div>

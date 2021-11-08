@@ -110,6 +110,7 @@ export class DespesaItemDialogComponent implements OnInit
   {
     this.onLocalInicoDeslocamentoChanged();
     this.onEnderecoChanged();
+    // this.onTipoDespesaChanged();
   }
 
   obterTipoDespesa()
@@ -140,6 +141,17 @@ export class DespesaItemDialogComponent implements OnInit
       .subscribe(
         () => this.dialogRef.close(true),
         () => this.dialogRef.close(false));
+  }
+
+  onTipoDespesaChanged(): void
+  {
+    (this.despesaItemForm.get('step1') as FormGroup)
+      .controls['codDespesaTipo']
+      .valueChanges.subscribe(() =>
+      {
+        this.resetFields();
+        this.configuraCamposObrigatorios();
+      });
   }
 
   private onLocalInicoDeslocamentoChanged(): void
@@ -261,6 +273,8 @@ export class DespesaItemDialogComponent implements OnInit
     {
       this.disableOrigin();
       this.disableDestination();
+      (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].disable();
+      (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].enable();
     }
     else
     {

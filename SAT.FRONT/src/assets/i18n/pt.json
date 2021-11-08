@@ -336,5 +336,8 @@
     "motivo": "Motivo",
     "dia inicio": "Dia Início",
     "dia fim": "Dia Fim",
-    "divergencias": "Divergências"
+    "divergencias": "Divergências",
+    "inconsistencia": "Inconsistência",
+    "tipo de advertencia": "Tipo de Advertência",
+    "motivo de divergencia": "Motivo de Divergência"
 }

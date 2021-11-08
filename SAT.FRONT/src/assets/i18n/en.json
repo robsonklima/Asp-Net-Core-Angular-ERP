@@ -334,5 +334,8 @@
     "motivo": "Reason",
     "dia inicio": "Start Day",
     "dia fim": "End Day",
-    "divergencias": "Divergênces"
+    "divergencias": "Divergênces",
+    "inconsistencia": "Inconsistency",
+    "tipo de advertencia": "Warning Type",
+    "motivo de divergencia": "Reason for Sivergence"
 }

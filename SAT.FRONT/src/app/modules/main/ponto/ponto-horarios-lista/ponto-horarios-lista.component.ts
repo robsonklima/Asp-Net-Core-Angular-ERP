@@ -12,7 +12,9 @@ import { PontoUsuario, PontoUsuarioParameters } from 'app/core/types/ponto-usuar
 import { UsuarioData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
+import { PontoInconsistenciaFormComponent } from '../ponto-inconsistencia-form/ponto-inconsistencia-form.component';
 import { PontoRelatoriosAtendimentoComponent } from '../ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
 
 @Component({
@@ -113,6 +115,40 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     {
       
     });
+  }
+
+  conferir() {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja conferir este horário?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        // this._pontoPeriodoSvc.deletar(this.codPontoPeriodo).subscribe(() => {
+        //   this._snack.exibirToast(`Período removido com sucesso!`, "success");
+        //   this._router.navigate(['ponto/periodos']);
+        // });
+      }
+    });
+  }
+
+  informarInconsistencia() {
+    const dialogRef = this._dialog.open(PontoInconsistenciaFormComponent, {
+      data: {
+
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   paginar() {

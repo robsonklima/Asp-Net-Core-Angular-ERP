@@ -101,6 +101,8 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoModoAprovacaoRepository, PontoPeriodoModoAprovacaoRepository>();
             services.AddTransient<IPontoPeriodoIntervaloAcessoDataRepository, PontoPeriodoIntervaloAcessoDataRepository>();
             services.AddTransient<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaRepository, PontoUsuarioDataMotivoDivergenciaRepository>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaRepository, PontoUsuarioDataTipoAdvertenciaRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -157,6 +159,8 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoModoAprovacaoService, PontoPeriodoModoAprovacaoService>();
             services.AddTransient<IPontoPeriodoIntervaloAcessoDataService, PontoPeriodoIntervaloAcessoDataService>();
             services.AddTransient<IPontoUsuarioDataService, PontoUsuarioDataService>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaService, PontoUsuarioDataMotivoDivergenciaService>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaService, PontoUsuarioDataTipoAdvertenciaService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

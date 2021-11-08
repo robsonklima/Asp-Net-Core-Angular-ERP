@@ -27,6 +27,7 @@ import { registerLocaleData } from '@angular/common';
 import localeBr from '@angular/common/locales/pt';
 import { PontoRelatoriosAtendimentoComponent } from './ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
 import { MatTableModule } from '@angular/material/table';
+import { PontoInconsistenciaFormComponent } from './ponto-inconsistencia-form/ponto-inconsistencia-form.component';
 
 registerLocaleData(localeBr, 'pt')
 
@@ -38,7 +39,8 @@ registerLocaleData(localeBr, 'pt')
     PontoTurnoListaComponent,
     PontoTurnoFormComponent,
     PontoHorariosListaComponent,
-    PontoRelatoriosAtendimentoComponent
+    PontoRelatoriosAtendimentoComponent,
+    PontoInconsistenciaFormComponent
   ],
   imports: [
     CommonModule,

@@ -83,6 +83,7 @@ export class DespesaItemDialogComponent implements OnInit
         paisOrigem: [undefined, Validators.required],
         latitudeOrigem: [undefined, Validators.required],
         longitudeOrigem: [undefined, Validators.required],
+        quilometragem: [undefined, Validators.required],
       }),
       step3: this._formBuilder.group({
         revision: [undefined]
@@ -136,6 +137,7 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].reset();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].reset();
   }
 
   confirmar(): void

@@ -6,7 +6,7 @@ namespace SAT.MODELS.Entities
 {
     public class OrdemServicoParameters : QueryStringParameters
     {
-        public string CodOS { get; set; }
+        public int CodOS { get; set; }
         public int? CodEquipContrato { get; set; }
         public string CodTecnicos { get; set; }
         public string NumOSCliente { get; set; }

@@ -127,7 +127,9 @@ export class DespesaManutencaoComponent implements AfterViewInit
      const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
       data:
       {
-        codDespesa: this.despesa.codDespesa
+        codDespesa: this.despesa.codDespesa,
+        ordemServico: this.ordemServico,
+        rat: this.rat
       }
     });
 

@@ -92,6 +92,7 @@ namespace SAT.API
             services.AddTransient<IOrdemServicoRelatorioInstalacaoRepository, OrdemServicoRelatorioInstalacaoRepository>();
             services.AddTransient<IOrdemServicoRelatorioInstalacaoNaoConformidadeRepository, OrdemServicoRelatorioInstalacaoNaoConformidadeRepository>();
             services.AddTransient<IOrdemServicoRelatorioInstalacaoItemRepository, OrdemServicoRelatorioInstalacaoItemRepository>();
+            services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -139,6 +140,7 @@ namespace SAT.API
             services.AddTransient<IOrdemServicoRelatorioInstalacaoService, OrdemServicoRelatorioInstalacaoService>();
             services.AddTransient<IOrdemServicoRelatorioInstalacaoNaoConformidadeService, OrdemServicoRelatorioInstalacaoNaoConformidadeService>();
             services.AddTransient<IOrdemServicoRelatorioInstalacaoItemService, OrdemServicoRelatorioInstalacaoItemService>();
+            services.AddTransient<IInstalacaoService,InstalacaoService>();
 
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

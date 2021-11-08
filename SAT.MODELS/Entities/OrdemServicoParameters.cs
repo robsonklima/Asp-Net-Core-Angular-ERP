@@ -34,5 +34,12 @@ namespace SAT.MODELS.Entities
         public int? CodTecnico { get; set; }
         public DateTime DataHoraInicioInicio { get; set; }
         public DateTime DataHoraInicioFim { get; set; }
+        public int? IndServico { get; set; }
+        public int? CodContrato { get; set; }
+        public int? PA { get; set; }
+        public string CodUsuarioCadastro { get; set; }
+        public string NotIn_CodStatusServicos { get; set; }
+        public DateTime? DataInicioDispBB { get; set; }
+        public DateTime? DataFimDispBB { get; set; }
     }
 }

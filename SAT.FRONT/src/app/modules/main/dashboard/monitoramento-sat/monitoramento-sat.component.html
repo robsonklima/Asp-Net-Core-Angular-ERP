@@ -1,70 +1,72 @@
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-6 gap-1">
 
-    <div>
-        <div class="items-center justify-center h-90">
-            <apx-chart *ngIf="!loading && haveData" [series]="chartOptionsAPL.series" [chart]="chartOptionsAPL.chart"
-                [labels]="chartOptionsAPL.dataLabels" [yaxis]="chartOptionsAPL.yaxis" [xaxis]="chartOptionsAPL.xaxis"
-                [grid]="chartOptionsAPL.grid" [stroke]="chartOptionsAPL.stroke" [colors]="chartOptionsAPL.colors"
-                [legend]="chartOptionsAPL.legend" [title]="chartOptionsAPL.title"></apx-chart>
-            <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center h-90">
-                <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+    <div class="flex flex-col-reverse divide-y divide-y-reverse">
+        <div>
+            <div class="items-center justify-center">
+                <apx-chart *ngIf="!loading && haveData" [series]="chartOptionsINT.series"
+                    [chart]="chartOptionsINT.chart" [labels]="chartOptionsINT.dataLabels"
+                    [yaxis]="chartOptionsINT.yaxis" [xaxis]="chartOptionsINT.xaxis" [grid]="chartOptionsINT.grid"
+                    [stroke]="chartOptionsINT.stroke" [colors]="chartOptionsINT.colors"
+                    [legend]="chartOptionsINT.legend" [title]="chartOptionsINT.title"></apx-chart>
+                <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center h-40">
+                    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="items-center justify-center">
+                <apx-chart *ngIf="!loading && haveData" [series]="chartOptionsAPL.series"
+                    [chart]="chartOptionsAPL.chart" [labels]="chartOptionsAPL.dataLabels"
+                    [yaxis]="chartOptionsAPL.yaxis" [xaxis]="chartOptionsAPL.xaxis" [grid]="chartOptionsAPL.grid"
+                    [stroke]="chartOptionsAPL.stroke" [colors]="chartOptionsAPL.colors"
+                    [legend]="chartOptionsAPL.legend" [title]="chartOptionsAPL.title"></apx-chart>
+                <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center h-40">
+                    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-span-2">
-        <table class="w-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
+    <div class="col-span-5">
+        <table class="w-full h-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl"
+            *ngIf="!loading">
             <thead class="text-center">
-                <tr>
-                    <th>Status</th>
-                    <th>Tipo</th>
-                    <th>Servidor</th>
-                    <th>Item</th>
-                    <th>Mensagem</th>
-                    <th>Data Processamento</th>
-                    <th>Ociosidade</th>
-                </tr>
+                <th>Status</th>
+                <th>Tipo</th>
+                <th>Servidor</th>
+                <th>Item</th>
+                <th>Mensagem</th>
+                <th>Data Processamento</th>
+                <th>Ociosidade</th>
             </thead>
             <tbody>
-                <!-- <tr *ngFor="let data of monitoramentoModel" class="text-center"> -->
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                </tr>
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
+                <tr *ngFor="let data of listaMonitoramento.integracaoServidor" class="text-center"
+                    [class.bg-yellow-50]="!data.servidorOk">
+                    <td *ngIf="!data.servidorOk">
+                        <mat-icon clas="w-3">report_problem</mat-icon>
+                    </td>
+                    <td *ngIf="data.servidorOk">
+                        <mat-progress-spinner class="pl-15 left-9" [diameter]="20" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </td>
+                    <td>{{data.tipo}}</td>
+                    <td>{{data.servidor}}</td>
+                    <td>{{data.item}}</td>
+                    <td>{{data.mensagem}}</td>
+                    <td>{{data.dataHoraProcessamento | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                    <td>{{data.ociosidade}}</td>
                 </tr>
             </tbody>
         </table>
 
         <div class="flex justify-center items-center" *ngIf="loading">
             <div class="">
-                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
         </div>
     </div>
 
-    <div>
-        <div class="items-center justify-center h-90">
-            <apx-chart *ngIf="!loading && haveData" [series]="chartOptionsINT.series" [chart]="chartOptionsINT.chart"
-                [labels]="chartOptionsINT.dataLabels" [yaxis]="chartOptionsINT.yaxis" [xaxis]="chartOptionsINT.xaxis"
-                [grid]="chartOptionsINT.grid" [stroke]="chartOptionsINT.stroke" [colors]="chartOptionsINT.colors"
-                [legend]="chartOptionsINT.legend" [title]="chartOptionsINT.title"></apx-chart>
-            <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center h-90">
-                <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
-            </div>
-        </div>
-    </div>
+
 
 </div>

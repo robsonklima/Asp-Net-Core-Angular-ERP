@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
-    public class FilialRepository : IFilialRepository
+    public partial class FilialRepository : IFilialRepository
     {
         private readonly AppDbContext _context;
 
@@ -39,59 +39,13 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Filial> ObterPorParametros(FilialParameters parameters)
         {
-            var filiais = _context.Filial
-                .Include(i => i.Cidade)
-                .Include(i => i.Cidade.UnidadeFederativa)
-                .AsQueryable();
+            var query = _context.Filial.AsNoTracking().AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                filiais = filiais.Where(
-                        f =>
-                        f.CodFilial.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                        f.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            query = AplicarIncludes(query, parameters.Include);
+            query = AplicarFiltros(query, parameters);
+            query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            if (parameters.CodFilial != null)
-            {
-                filiais = filiais.Where(f => f.CodFilial == parameters.CodFilial);
-            }
-
-            if (parameters.CodFiliais != null)
-            {
-                var paramsSplit = parameters.CodFiliais.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
-                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
-                }
-
-                filiais = filiais.Where(condicoes);
-            }
-
-            if (parameters.IndAtivo != null)
-            {
-                filiais = filiais.Where(f => f.IndAtivo == parameters.IndAtivo);
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
-            {
-                filiais.Include(i => i.Cidade)
-                        .Include(i => i.Cidade.UnidadeFederativa);
-
-                filiais = filiais.Where(f => f.Cidade.UnidadeFederativa.SiglaUF == parameters.SiglaUF);
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                filiais = filiais.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
-
-            return PagedList<Filial>.ToPagedList(filiais, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Filial>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

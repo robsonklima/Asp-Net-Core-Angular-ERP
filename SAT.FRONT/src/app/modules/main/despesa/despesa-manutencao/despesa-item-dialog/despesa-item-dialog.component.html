@@ -57,52 +57,53 @@
 
                         <mat-form-field class="flex-auto w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoOrigem'"
-                                [placeholder]="'Endereço de origem'">
+                                [placeholder]="'Endereço'">
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto w-full">
-                            <input matInput autocomplete="off" [formControlName]="'bairroOrigem'"
-                                [placeholder]="'Bairro de origem'">
-                        </mat-form-field>
+                        <div class="flex flex-row justify-between space-x-4 w-full">
+                            <mat-form-field class="flex-auto w-1/2">
+                                <input matInput autocomplete="off" [formControlName]="'bairroOrigem'"
+                                    [placeholder]="'Bairro'">
+                            </mat-form-field>
 
-                        <mat-form-field class="flex-auto w-full">
-                            <input matInput autocomplete="off" [formControlName]="'complementoOrigem'"
-                                [placeholder]="'Complemento de origem'">
-                        </mat-form-field>
+                            <mat-form-field class="flex-auto w-1/2">
+                                <input matInput autocomplete="off" [formControlName]="'complementoOrigem'"
+                                    [placeholder]="'Complemento'">
+                            </mat-form-field>
+                        </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'numeroOrigem'"
-                                    [placeholder]="'Número de origem'">
+                                    [placeholder]="'Número'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'cidadeOrigem'"
-                                    [placeholder]="'Cidade de origem'">
+                                    [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'ufOrigem'"
-                                    [placeholder]="'UF de origem'">
+                                <input matInput autocomplete="off" [formControlName]="'ufOrigem'" [placeholder]="'UF'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'paisOrigem'"
-                                    [placeholder]="'País de origem'">
+                                    [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'latitudeOrigem'"
-                                    [placeholder]="'Latitude de origem'">
+                                    [placeholder]="'Latitude'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'latitudeOrigem'"
-                                    [placeholder]="'Longitude de origem'">
+                                <input matInput autocomplete="off" [formControlName]="'longitudeOrigem'"
+                                    [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
 
@@ -122,52 +123,53 @@
 
                         <mat-form-field class="flex-auto w-full">
                             <input matInput autocomplete="off" [formControlName]="'enderecoDestino'"
-                                [placeholder]="'Endereço de destino'">
+                                [placeholder]="'Endereço'">
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto w-full">
-                            <input matInput autocomplete="off" [formControlName]="'bairroDestino'"
-                                [placeholder]="'Bairro de destino'">
-                        </mat-form-field>
+                        <div class="flex flex-row justify-between space-x-4 w-full">
+                            <mat-form-field class="flex-auto w-1/2">
+                                <input matInput autocomplete="off" [formControlName]="'bairroDestino'"
+                                    [placeholder]="'Bairro'">
+                            </mat-form-field>
 
-                        <mat-form-field class="flex-auto w-full">
-                            <input matInput autocomplete="off" [formControlName]="'complementoDestino'"
-                                [placeholder]="'Complemento de destino'">
-                        </mat-form-field>
+                            <mat-form-field class="flex-auto w-1/2">
+                                <input matInput autocomplete="off" [formControlName]="'complementoDestino'"
+                                    [placeholder]="'Complemento'">
+                            </mat-form-field>
+                        </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'numeroDestino'"
-                                    [placeholder]="'Número de destino'">
+                                    [placeholder]="'Número'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'cidadeDestino'"
-                                    [placeholder]="'Cidade de destino'">
+                                    [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'ufDestino'"
-                                    [placeholder]="'UF de destino'">
+                                <input matInput autocomplete="off" [formControlName]="'ufDestino'" [placeholder]="'UF'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'paisDestino'"
-                                    [placeholder]="'País de destino'">
+                                    [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between space-x-4 w-full">
                             <mat-form-field class="flex-auto w-1/2">
                                 <input matInput autocomplete="off" [formControlName]="'latitudeDestino'"
-                                    [placeholder]="'Latitude de destino'">
+                                    [placeholder]="'Latitude'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'latitudeDestino'"
-                                    [placeholder]="'Longitude de destino'">
+                                <input matInput autocomplete="off" [formControlName]="'longitudeDestino'"
+                                    [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
 

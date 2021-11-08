@@ -3,14 +3,16 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
+import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
-import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
+import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-despesa-item-dialog',
@@ -32,6 +34,7 @@ export class DespesaItemDialogComponent implements OnInit
     private _despesaTipoSvc: DespesaTipoService,
     private _despesaItemSvc: DespesaItemService,
     private _userSvc: UserService,
+    private _geolocationService: GoogleGeolocationService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>)
   {
     if (data)
@@ -64,19 +67,19 @@ export class DespesaItemDialogComponent implements OnInit
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
-        enderecoDestino: { value: this.ordemServico?.localAtendimento.endereco ?? "Não informado", disabled: true },
-        bairroDestino: { value: this.ordemServico?.localAtendimento.bairro ?? "Não informado", disabled: true },
-        complementoDestino: { value: this.ordemServico?.localAtendimento.enderecoComplemento ?? "Não informado", disabled: true },
-        numeroDestino: { value: this.ordemServico?.localAtendimento.numeroEnd ?? "Não informado", disabled: true },
-        cidadeDestino: { value: this.ordemServico?.localAtendimento.cidade?.nomeCidade ?? "Não informado", disabled: true },
-        ufDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa?.siglaUF ?? "Não informado", disabled: true },
-        paisDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa.pais?.siglaPais ?? "Não informado", disabled: true },
-        latitudeDestino: { value: this.ordemServico?.localAtendimento.latitude ?? "Não informado", disabled: true },
-        longitudeDestino: { value: this.ordemServico?.localAtendimento.longitude ?? "Não informado", disabled: true },
+        enderecoDestino: { value: this.ordemServico?.localAtendimento.endereco ?? "Não consta", disabled: true },
+        bairroDestino: { value: this.ordemServico?.localAtendimento.bairro ?? "Não consta", disabled: true },
+        complementoDestino: { value: this.ordemServico?.localAtendimento.enderecoComplemento ?? "Não consta", disabled: true },
+        numeroDestino: { value: this.ordemServico?.localAtendimento.numeroEnd ?? "Não consta", disabled: true },
+        cidadeDestino: { value: this.ordemServico?.localAtendimento.cidade?.nomeCidade ?? "Não consta", disabled: true },
+        ufDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa?.siglaUF ?? "Não consta", disabled: true },
+        paisDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa.pais?.siglaPais ?? "Não consta", disabled: true },
+        latitudeDestino: { value: this.ordemServico?.localAtendimento.latitude ?? "Não consta", disabled: true },
+        longitudeDestino: { value: this.ordemServico?.localAtendimento.longitude ?? "Não consta", disabled: true },
 
         enderecoOrigem: [undefined, Validators.required],
         bairroOrigem: [undefined, Validators.required],
-        complementoOrigem: [undefined, Validators.required],
+        complementoOrigem: [undefined],
         numeroOrigem: [undefined, Validators.required],
         cidadeOrigem: [undefined, Validators.required],
         ufOrigem: [undefined, Validators.required],
@@ -100,6 +103,12 @@ export class DespesaItemDialogComponent implements OnInit
 
   registerEmitters()
   {
+    this.onLocalInicoDeslocamentoChanged();
+    this.onEnderecoChanged();
+  }
+
+  private onLocalInicoDeslocamentoChanged(): void
+  {
     (this.despesaItemForm.get('step2') as FormGroup)
       .controls['localInicoDeslocamento']
       .valueChanges.subscribe(() =>
@@ -118,15 +127,62 @@ export class DespesaItemDialogComponent implements OnInit
           (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.pais.siglaPais);
           (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.rat.tecnico.latitude);
           (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
+          (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
         }
-        else
-        {
+      });
 
-        }
+    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].setValue("residencial");
+  }
+
+  private onEnderecoChanged(): void
+  {
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['enderecoOrigem']
+      .valueChanges.pipe(
+        debounceTime(700),
+        distinctUntilChanged()
+      ).subscribe(async () =>
+      {
+        this.getGoogleLocation();
+      });
+
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['cidadeOrigem']
+      .valueChanges.pipe(
+        debounceTime(700),
+        distinctUntilChanged()
+      ).subscribe(async () =>
+      {
+        this.getGoogleLocation();
       });
   }
 
-  resetFields()
+  async getGoogleLocation()
+  {
+    if ((this.despesaItemForm.get('step2') as FormGroup)
+      .controls['localInicoDeslocamento']
+      .value === "residencial")
+      return;
+
+    var address: string = (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].value?.toString();
+    var city: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].value?.toString();
+
+    var query = Enumerable.from([address, city])
+      .where(i => i?.length > 0)
+      .toArray()
+      .join(',');
+
+    if (!query) return;
+
+    var googleAddress =
+      await this._geolocationService.obterPorEndereco(query);
+
+    if (googleAddress)
+      this.updateGoogleAddress(googleAddress);
+  }
+
+  private resetFields(): void
   {
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
@@ -138,6 +194,33 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].reset();
+  }
+
+  private updateGoogleAddress(googleAddress: Result): void
+  {
+    var lat = googleAddress.geometry.location.lng;
+    var long = googleAddress.geometry.location.lat;
+    if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
+      long == (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].value) return;
+
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(googleAddress.geometry.location.lng);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(googleAddress.geometry.location.lat);
+    this.disableLatLgnOrigin();
+
+    var numero = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("street_number")).firstOrDefault();
+    if (numero) (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(numero.long_name);
+
+    var bairro = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("sublocality_level_1")).firstOrDefault();
+    if (bairro) (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(bairro.long_name);
+
+    var cidade = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_2")).firstOrDefault();
+    if (cidade) (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(cidade.long_name);
+
+    var estado = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_1")).firstOrDefault();
+    if (estado) (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(estado.short_name);
+
+    var pais = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("country")).firstOrDefault();
+    if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
   }
 
   confirmar(): void
@@ -163,30 +246,45 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isQuilometragem())
     {
-      (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
-
-      (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['complementoDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['numeroDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['paisDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].disable();
-      (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].disable();
+      this.disableOrigin();
+      this.disableDestination();
     }
     else
     {
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
+  }
+
+  private disableOrigin()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
+  }
+
+  private disableLatLgnOrigin()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
+  }
+
+  private disableDestination()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['paisDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].disable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].disable();
   }
 
   obterTipoDespesa()

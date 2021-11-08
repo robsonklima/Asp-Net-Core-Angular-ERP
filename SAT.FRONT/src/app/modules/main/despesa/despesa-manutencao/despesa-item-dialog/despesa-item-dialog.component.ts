@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
-import { DespesaItem, DespesaTipo } from 'app/core/types/despesa.types';
+import { DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
@@ -20,6 +20,7 @@ export class DespesaItemDialogComponent implements OnInit
   userSession: UserSession;
   tiposDespesa: DespesaTipo[] = [];
   codDespesa: number;
+  despesaKM: number = DespesaTipoEnum.KM;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,

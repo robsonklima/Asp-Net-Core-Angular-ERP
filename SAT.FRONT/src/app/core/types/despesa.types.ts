@@ -104,6 +104,12 @@ export interface DespesaTipo
     dataHoraManut: string;
 }
 
+export enum DespesaTipoEnum
+{
+    KM = 1,
+    COMBUSTIVEL = 8
+}
+
 export interface DespesaTipoData extends Meta
 {
     items: DespesaTipo[]

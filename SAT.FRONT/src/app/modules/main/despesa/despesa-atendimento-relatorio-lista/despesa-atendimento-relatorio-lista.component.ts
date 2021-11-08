@@ -106,10 +106,11 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
         .distinct()
         .toJoinedString(',');
 
-    this.despesas = this.userSession.usuario?.codTecnico != null ?
+    this.despesas = this.userSession.usuario?.codTecnico != null && codigos?.length > 0 ?
       (await this._despesaSvc.obterPorParametros
         ({
-          codRATs: codigos
+          codRATs: codigos,
+          codTecnico: this.userSession.usuario?.codTecnico
         }).toPromise()) : null;
   }
 
@@ -122,7 +123,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
         .toJoinedString(',');
 
     this.ordemServico = (await this._ordemServicoSvc.obterPorParametros
-      ({ codOS: codigos }).toPromise());
+      ({ codOS: codigos, pageSize: codigos?.length > 0 ? codigos?.length : 1 }).toPromise());
   }
 
   public async obterDados()

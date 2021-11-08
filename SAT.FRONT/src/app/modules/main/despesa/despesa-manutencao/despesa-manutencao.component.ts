@@ -92,7 +92,8 @@ export class DespesaManutencaoComponent implements AfterViewInit
   lancarDespesaItem()
   {
     const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
-      data: {
+      data:
+      {
         codDespesa: this.despesa.codDespesa
       }
     });

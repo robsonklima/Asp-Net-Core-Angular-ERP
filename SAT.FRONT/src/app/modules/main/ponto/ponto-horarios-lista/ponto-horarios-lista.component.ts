@@ -1,16 +1,19 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
+import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
 import { PontoUsuarioData, PontoUsuarioDataData, PontoUsuarioDataParameters } from 'app/core/types/ponto-usuario-data.types';
 import { PontoUsuario, PontoUsuarioParameters } from 'app/core/types/ponto-usuario.types';
 import { UsuarioData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
+import { PontoRelatoriosAtendimentoComponent } from '../ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
 
 @Component({
   selector: 'app-ponto-horarios-lista',
@@ -19,18 +22,18 @@ import moment from 'moment';
     /* language=SCSS */
     `
       .list-grid-pud {
-          grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
+          grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
           
           @screen sm {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
+              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
           }
       
           @screen md {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
+              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
           }
       
           @screen lg {
-              grid-template-columns: 80px 186px 112px auto 72px 198px 196px;
+              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
           }
       }
     `
@@ -49,6 +52,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     private _pontoUsuarioDataSvc: PontoUsuarioDataService,
     private _pontoUsuarioSvc: PontoUsuarioService,
     private _cdr: ChangeDetectorRef,
+    private _dialog: MatDialog,
     private _userSvc: UserService,
     private _route: ActivatedRoute
   ) {
@@ -94,6 +98,21 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     return pontos.filter(
       p => moment(p.dataHoraRegistro).format('yyyy-MM-DD') == moment(pontoUsuarioData.dataRegistro).format('yyyy-MM-DD')
     );
+  }
+
+  visualizarRelatoriosAtendimento(dataRegistro: string, codUsuario: string): void {
+    const dialogRef = this._dialog.open(PontoRelatoriosAtendimentoComponent, {
+      data: {
+        dataRegistro: dataRegistro,
+        codUsuario: codUsuario
+      },
+      width: '960px',
+    });
+
+    dialogRef.afterClosed().subscribe((data: any) =>
+    {
+      
+    });
   }
 
   paginar() {

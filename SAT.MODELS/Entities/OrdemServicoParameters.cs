@@ -32,5 +32,7 @@ namespace SAT.MODELS.Entities
         public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }
         public int? CodTecnico { get; set; }
+        public DateTime DataHoraInicioInicio { get; set; }
+        public DateTime DataHoraInicioFim { get; set; }
     }
 }

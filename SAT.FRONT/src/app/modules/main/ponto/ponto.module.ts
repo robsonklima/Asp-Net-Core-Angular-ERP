@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { PontoHorariosListaComponent } from './ponto-horarios-lista/ponto-horarios-lista.component';
 import { registerLocaleData } from '@angular/common';
 import localeBr from '@angular/common/locales/pt';
+import { PontoRelatoriosAtendimentoComponent } from './ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
+import { MatTableModule } from '@angular/material/table';
 
 registerLocaleData(localeBr, 'pt')
 
@@ -35,7 +37,8 @@ registerLocaleData(localeBr, 'pt')
     PontoPeriodoFormComponent,
     PontoTurnoListaComponent,
     PontoTurnoFormComponent,
-    PontoHorariosListaComponent
+    PontoHorariosListaComponent,
+    PontoRelatoriosAtendimentoComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +57,8 @@ registerLocaleData(localeBr, 'pt')
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })

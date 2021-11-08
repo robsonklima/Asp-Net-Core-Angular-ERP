@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,8 @@ namespace SAT.MODELS.Entities
 
         [ForeignKey("CodUsuario")]
         public Usuario Usuario { get; set; }
+
+        [ForeignKey("CodPontoUsuarioData")]
+        public List<PontoUsuarioDataDivergencia> Divergencias { get; set; }
     }
 }

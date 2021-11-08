@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { PontoUsuarioDataDivergencia } from "./ponto-usuario-data-divergencia.types";
 import { PontoUsuario } from "./ponto-usuario.types";
 
 export class PontoUsuarioData {
@@ -13,6 +14,7 @@ export class PontoUsuarioData {
     codUsuarioManut: string;
     codPontoUsuarioDataStatusAcesso: number;
     pontosUsuario: PontoUsuario[];
+    divergencias: PontoUsuarioDataDivergencia[];
 }
 
 export interface PontoUsuarioDataData extends Meta {

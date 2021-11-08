@@ -31,6 +31,7 @@ export class PontoRelatoriosAtendimentoComponent implements OnInit {
     'local', 'cidade', 'uf', 'inicioIntervalo', 'fimIntervalo'
   ];
   relatorios: RATData[] = [];
+  loading: boolean;
 
   constructor(
     private _userService: UserService,
@@ -43,6 +44,7 @@ export class PontoRelatoriosAtendimentoComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loading = true;
     const usuario = await this._userService.obterPorCodigo(this.codUsuario).toPromise();
 
     const chamados = await this._ordemServicoService.obterPorParametros({
@@ -66,6 +68,7 @@ export class PontoRelatoriosAtendimentoComponent implements OnInit {
     }));
 
     this.dataSource = this.relatorios;
+    this.loading = false;
   }
 
   fechar(): void {

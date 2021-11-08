@@ -23,12 +23,12 @@
                         + " " + (t('ate') | lowercase) + " " + (periodo?.dataFim | date:'dd/MM/yyyy') }}</span>
                                     </div>
                                 </div>
-                                <div class="mt-2">
-                                    <h2
-                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                        {{ 'Consulta de RATs' }}
-                                    </h2>
+
+                                <div
+                                    class="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                    {{ 'Consulta de RATs' }}
                                 </div>
+
                                 <div class="mt-2" *ngIf="isLoading">
                                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                                 </div>

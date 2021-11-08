@@ -36,15 +36,35 @@ import { FuseCardModule } from '@fuse/components/card';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { DespesaAtendimentoFiltroComponent } from './despesa-atendimento-filtro/despesa-atendimento-filtro.component';
+import { DespesaTecnicoFiltroComponent } from './despesa-tecnico-filtro/despesa-tecnico-filtro.component';
+import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
+import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { DespesaItemDialogComponent } from './despesa-manutencao/despesa-item-dialog/despesa-item-dialog.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+
+const maskConfigFunction: () => Partial<IConfig> = () =>
+{
+  return {
+    validation: false,
+  };
+};
 
 @NgModule({
   declarations:
     [
       DespesaTecnicoListaComponent,
-      DespesaAtendimentoListaComponent
+      DespesaAtendimentoListaComponent,
+      DespesaAtendimentoFiltroComponent,
+      DespesaTecnicoFiltroComponent,
+      DespesaAtendimentoRelatorioListaComponent,
+      DespesaManutencaoComponent,
+      DespesaItemDialogComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     CommonModule,
     MatButtonToggleModule,
     MatChipsModule,
@@ -77,7 +97,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatStepperModule,
     FuseAlertModule,
     MatProgressSpinnerModule,
-    TranslocoModule
+    TranslocoModule,
+    MatRadioModule
   ]
 })
 export class DespesaModule { }

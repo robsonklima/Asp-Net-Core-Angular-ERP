@@ -5,13 +5,24 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
+    public partial class DespesaPeriodoTecnicoService : IDespesaPeriodoTecnicoService
     {
+        private readonly IDespesaPeriodoRepository _despesaPeriodoRepo;
+        private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
+        private readonly IDespesaAdiantamentoPeriodoService _despesaAdiantamentoPeriodoService;
 
-        public DespesaPeriodoTecnicoService(IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo)
+        public DespesaPeriodoTecnicoService(
+            IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
+            IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
+            IDespesaPeriodoRepository despesaPeriodoRepo,
+            IDespesaAdiantamentoPeriodoService despesaAdiantamentoPeriodoService
+            )
         {
             _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
+            _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
+            _despesaPeriodoRepo = despesaPeriodoRepo;
+            _despesaAdiantamentoPeriodoService = despesaAdiantamentoPeriodoService;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesa)
@@ -36,20 +47,7 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = despesasPeriodoTecnico,
-                TotalCount = despesasPeriodoTecnico.TotalCount,
-                CurrentPage = despesasPeriodoTecnico.CurrentPage,
-                PageSize = despesasPeriodoTecnico.PageSize,
-                TotalPages = despesasPeriodoTecnico.TotalPages,
-                HasNext = despesasPeriodoTecnico.HasNext,
-                HasPrevious = despesasPeriodoTecnico.HasPrevious
-            };
-
-            return lista;
+            throw new System.NotImplementedException();
         }
     }
 }

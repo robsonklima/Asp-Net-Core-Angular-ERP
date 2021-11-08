@@ -19,13 +19,14 @@ namespace SAT.INFRA.Repository
                 );
             }
             
-            if (parameters.CodOS.HasValue)
+            if (parameters.CodOS != null) {
                 query = query.Where(os => os.CodOS == parameters.CodOS);
+            }
 
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
 
-            if (string.IsNullOrEmpty(parameters.NumOSQuarteirizada))
+            if (!string.IsNullOrEmpty(parameters.NumOSQuarteirizada))
                 query = query.Where(os => os.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
 
             if (parameters.CodTecnico.HasValue)

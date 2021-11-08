@@ -45,6 +45,14 @@ namespace SAT.INFRA.Repository
             .Include(da => da.Tecnico)
             .AsQueryable();
 
+            if (parameters.CodTecnico.HasValue)
+                despesaAdiantamento =
+                    despesaAdiantamento.Where(e => e.CodTecnico == parameters.CodTecnico);
+
+            if (parameters.IndAtivo.HasValue)
+                despesaAdiantamento =
+                    despesaAdiantamento.Where(e => e.IndAtivo == parameters.IndAtivo);
+
             return PagedList<DespesaAdiantamento>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
         }
     }

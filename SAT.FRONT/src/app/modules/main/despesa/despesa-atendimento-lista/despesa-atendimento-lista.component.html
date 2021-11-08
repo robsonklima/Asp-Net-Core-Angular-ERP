@@ -1,4 +1,7 @@
 <mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-despesa-atendimento-filtro [sidenav]="sidenav"></app-despesa-atendimento-filtro>
+    </mat-drawer>
     <mat-drawer-content>
         <div
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
@@ -11,6 +14,11 @@
                     <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
                         {{ t('consulta de periodo') }}
                     </div>
+                </div>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                    </button>
                 </div>
             </div>
             <div class="flex flex-auto overflow-hidden">
@@ -42,52 +50,66 @@
                                         {{ t('gastos excedentes') }}
                                     </div>
                                     <div>
+                                        {{ t('adiantamento') }}
+                                    </div>
+                                    <div>
+                                        {{ t('liberar') }}
+                                    </div>
+                                    <div>
                                         {{ t('status') }}
                                     </div>
                                     <div>
                                         {{ t('ativo') }}
                                     </div>
                                 </div>
-                                <ng-container *ngIf="despesasPeriodo?.items.length">
-                                    <ng-container *ngFor="let dp of despesasPeriodo?.items">
-                                        <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                            *transloco="let t">
-                                            <div class="hidden md:block truncate">
-                                                ---
+                                <ng-container *ngIf="atendimentos?.items.length">
+                                    <ng-container *ngFor="let dp of atendimentos?.items">
+                                        <a [routerLink]="'relatorios/'+dp.codDespesaPeriodo">
+                                            <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                *transloco="let t">
+                                                <div class="hidden md:block truncate">
+                                                    ---
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.dataInicio | date:'dd/MM/yyyy' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.dataFim | date:'dd/MM/yyyy' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.totalDespesa | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.totalAdiantamento | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.restituirAEmpresa | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.gastosExcedentes | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    ---
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    ---
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (dp.status?.nomeDespesaPeriodoTecnicoStatus || "em edição") | uppercase }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ dp.indAtivo ? "SIM" : "NÃO" }}
+                                                </div>
                                             </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ dp.dataInicio | date:'dd/MM/yyyy' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ dp.dataFim | date:'dd/MM/yyyy' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ totalDespesaDespesaPeriodoTecnico(dp) }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ totalAdiantamentoDespesaPeriodoTecnico(dp) }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                ---
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ gastosExcedentesDespesaPeriodoTecnico(dp) }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ statusDespesaPeriodoTecnico(dp) }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ dp.indAtivo == 1 ? 'SIM' : 'NÃO'}}
-                                            </div>
-                                        </div>
+                                        </a>
                                     </ng-container>
                                 </ng-container>
                             </div>
-                            <mat-paginator [hidden]="!despesasPeriodo?.items?.length"
+                            <mat-paginator [hidden]="!atendimentos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                                [ngClass]="{'pointer-events-none': isLoading}" [length]="despesasPeriodo?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"
-                                (page)="paginar()">
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
+                                250]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

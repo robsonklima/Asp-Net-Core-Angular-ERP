@@ -33,10 +33,9 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
-        public DespesaPeriodo ObterPorCodigo(int codigo)
-        {
-            throw new NotImplementedException();
-        }
+        public DespesaPeriodo ObterPorCodigo(int codigo) =>
+            _context.DespesaPeriodo
+                .FirstOrDefault(d => d.CodDespesaPeriodo == codigo);
 
         public PagedList<DespesaPeriodo> ObterPorParametros(DespesaPeriodoParameters parameters)
         {
@@ -44,6 +43,10 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo.HasValue)
                 despesasPeriodo = despesasPeriodo.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+            if (parameters.InicioPeriodo.HasValue && parameters.FimPeriodo.HasValue)
+                despesasPeriodo =
+                    despesasPeriodo.Where(e => e.DataInicio >= parameters.InicioPeriodo.Value && e.DataFim <= parameters.FimPeriodo.Value);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesasPeriodo = despesasPeriodo.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

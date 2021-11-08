@@ -1,14 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
-import { TecnicoService } from 'app/core/services/tecnico.service';
-import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData, DespesaPeriodoData, DespesaPeriodoTecnicoData } from 'app/core/types/despesa-atendimento.types';
-import { TecnicoData } from 'app/core/types/tecnico.types';
+import { DespesaAdiantamentoPeriodoConsultaTecnicoData } from 'app/core/types/despesa-adiantamento.types';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
-import Enumerable from 'linq';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-despesa-tecnico-lista',
@@ -22,25 +23,27 @@ import Enumerable from 'linq';
         }
     `],
   encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+  animations: fuseAnimations,
+  providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaTecnicoListaComponent implements AfterViewInit
+export class DespesaTecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
-  userSession: UserSession;
   isLoading: boolean = false;
-  despesasAdiantamentoPeriodo: DespesaAdiantamentoPeriodoData;
-  tecnicos: TecnicoData;
+  tecnicos: DespesaAdiantamentoPeriodoConsultaTecnicoData;
 
   constructor (
     private _cdr: ChangeDetectorRef,
-    private _userService: UserService,
-    private _tecnicoSvc: TecnicoService,
+    protected _userService: UserService,
     private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService)
-  { this.userSession = JSON.parse(this._userService.userSession); }
+  {
+    super(_userService, 'despesa-tecnico');
+  }
 
   ngAfterViewInit()
   {
@@ -53,18 +56,22 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
 
       this.sort.sortChange.subscribe(() =>
       {
-        this.paginator.pageIndex = 0;
+        this.onSortChanged();
         this.obterDados();
       });
     }
 
+    this.registerEmitters();
     this._cdr.detectChanges();
   }
 
-  private async obterTecnicos()
+  private async obterConsultaTecnicos(filter?: string)
   {
-    this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
-      indAtivo: 1,
+    this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterConsultaTecnicos({
+      codFiliais: this.filter?.parametros?.codFiliais,
+      indAtivoTecnico: this.filter?.parametros?.indAtivo,
+      indTecnicoLiberado: this.filter?.parametros?.indTecnicoLiberado,
+      filter: filter,
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nome',
       sortDirection: this.sort?.direction || 'asc',
@@ -72,50 +79,40 @@ export class DespesaTecnicoListaComponent implements AfterViewInit
     }).toPromise());
   }
 
-  private async obterDespesasAdiantamentoPeriodo()
-  {
-    this.despesasAdiantamentoPeriodo = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
-      codTecnicos: this.getCodTecnicos(),
-      indAtivoPeriodo: 1,
-      pageNumber: this.paginator?.pageIndex,
-    }).toPromise());
-  }
-
-  saldoAdiantamento(codTecnico: number): string
-  {
-    var dap: DespesaAdiantamentoPeriodo[] = Enumerable.from(this.despesasAdiantamentoPeriodo?.items)
-      .where(e => e.despesaAdiantamento.codTecnico == codTecnico).toArray();
-
-    if (dap == null) return 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-
-    var valorUtilizado = Enumerable.from(dap).where(e => e.despesaPeriodo.indAtivo == 1).sum(e => e.valorAdiantamentoUtilizado);
-
-    var valorAdiantamento = Enumerable.from(dap).where(e => e.despesaAdiantamento.indAtivo == 1 && e.despesaAdiantamento.codDespesaAdiantamentoTipo == 2).distinct(e => e.codDespesaAdiantamento).sum(e => e.despesaAdiantamento.valorAdiantamento);
-
-    var saldo = valorAdiantamento - valorUtilizado;
-
-    console.log(valorUtilizado, valorAdiantamento, saldo);
-
-    return (saldo < 0 ? saldo * -1 : saldo).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  }
-
-  private async obterDados()
+  private async obterDados(filter?: string)
   {
     this.isLoading = true;
 
-    await this.obterTecnicos();
-    await this.obterDespesasAdiantamentoPeriodo();
+    await this.obterConsultaTecnicos(filter);
 
     this.isLoading = false;
   }
 
-  private getCodTecnicos(): string
+  registerEmitters(): void
   {
-    return Enumerable.from(this.tecnicos.items).select(e => e.codTecnico).toArray().join(',');
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()
+    ).subscribe((text: string) =>
+    {
+      this.paginator.pageIndex = 0;
+      this.obterDados(text);
+    });
+
+    this.sidenav.closedStart.subscribe(() =>
+    {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
   }
 
   paginar()
   {
+    this.onPaginationChanged();
     this.obterDados();
   }
 }

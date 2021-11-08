@@ -1,6 +1,5 @@
 import { Meta } from "@angular/platform-browser";
-import { MbscCalendarEvent, MbscCellHoverEvent } from "@mobiscroll/angular";
-import { Moment } from "moment";
+import { MbscCalendarEvent } from "@mobiscroll/angular";
 import { QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
 import { Tecnico } from "./tecnico.types";

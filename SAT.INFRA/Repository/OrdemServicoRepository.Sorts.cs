@@ -89,6 +89,8 @@ namespace SAT.INFRA.Repository
                             query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
                                  .OrderByDescending(q => q.Tecnico.Nome);
                         break;
+                    case "statusSLA":
+                        break;
 
                     default:
                         query = query.OrderBy(string.Format("{0} {1}", sortActive, sortDirection));

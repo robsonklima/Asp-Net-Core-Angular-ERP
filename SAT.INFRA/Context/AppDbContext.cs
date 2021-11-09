@@ -29,6 +29,13 @@ namespace SAT.INFRA.Context
         public DbSet<GrupoEquipamento> GrupoEquipamento { get; set; }
         public DbSet<TipoEquipamento> TipoEquipamento { get; set; }
         public DbSet<EquipamentoContrato> EquipamentoContrato { get; set; }
+        public DbSet<DespesaPeriodo> DespesaPeriodo { get; set; }
+        public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
+        public DbSet<Despesa> Despesa { get; set; }
+        public DbSet<DespesaTipo> DespesaTipo { get; set; }
+        public DbSet<DespesaItem> DespesaItem { get; set; }
+        public DbSet<DespesaAdiantamentoPeriodo> DespesaAdiantamentoPeriodo { get; set; }
+        public DbSet<DespesaAdiantamento> DespesaAdiantamento { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<Filial> Filial { get; set; }
         public DbSet<Defeito> Defeito { get; set; }
@@ -56,6 +63,14 @@ namespace SAT.INFRA.Context
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
+        public DbSet<PontoUsuario> PontoUsuario { get; set; }
+        public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
+        public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
+        public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
+        public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
+        public DbSet<PontoUsuarioData> PontoUsuarioData { get; set; }
+        public DbSet<PontoUsuarioDataTipoAdvertencia> PontoUsuarioDataTipoAdvertencia { get; set; }
+        public DbSet<PontoUsuarioDataMotivoDivergencia> PontoUsuarioDataMotivoDivergencia { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,6 +93,9 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);
+
+            modelBuilder.Entity<DespesaPeriodoTecnico>()
+                        .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
         }
     }
 }

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { forkJoin } from 'rxjs';
 import { SharedService } from 'app/shared.service';
 import { MapaComponent } from '../mapa/mapa.component';
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 
 @Component({
   selector: 'app-indicadores-filiais',
@@ -69,8 +70,8 @@ export class IndicadoresFiliaisComponent implements OnInit, AfterViewInit {
         });
 
         this.element_data.sort((a, b) => (a.sla > b.sla ? -1 : 1));
-        this.loading = false;
         this.calculaResultadoGeralDSS();
+        this.loading = false;
       });
   }
 
@@ -98,10 +99,10 @@ export class IndicadoresFiliaisComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private obterFiliais(): void {
-    this._filialService.obterPorParametros({}).subscribe((data: FilialData) => {
-      // Remover EXP e IND
-      this.filiais = data.items.filter((f) => f.codFilial != 7 && f.codFilial != 33);
+  private async obterFiliais() {
+    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) => {
+      // Remover EXP,OUT,IND
+      this.filiais = data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);
     });
   }
 
@@ -109,6 +110,8 @@ export class IndicadoresFiliaisComponent implements OnInit, AfterViewInit {
     const params = {
       tipo: indicadorTipoEnum,
       agrupador: IndicadorAgrupadorEnum.FILIAL,
+      include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
+      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
       codAutorizadas: "",
       codTiposGrupo: "",
       codTiposIntervencao: "",

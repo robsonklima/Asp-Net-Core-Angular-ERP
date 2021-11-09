@@ -8,15 +8,18 @@ import { GoogleGeolocation, GoogleGeolocationParameters } from '../types/google-
 @Injectable({
   providedIn: 'root'
 })
-export class GoogleGeolocationService {
-  constructor(
+export class GoogleGeolocationService
+{
+  constructor (
     private http: HttpClient
   ) { }
 
-  obterPorParametros(parameters: GoogleGeolocationParameters): Observable<GoogleGeolocation> {
+  obterPorParametros(parameters: GoogleGeolocationParameters): Observable<GoogleGeolocation>
+  {
     let params = new HttpParams();
 
-    Object.keys(parameters).forEach(key => {
+    Object.keys(parameters).forEach(key =>
+    {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
 
@@ -25,4 +28,11 @@ export class GoogleGeolocationService {
     )
   }
 
+  public async obterPorEndereco(cep: string)
+  {
+    if (cep == null) return null;
+    return (await this.obterPorParametros({ enderecoCep: cep.trim(), pageSize: 1 }))
+      .toPromise()
+      .then(result => { return result.results.shift() });
+  }
 }

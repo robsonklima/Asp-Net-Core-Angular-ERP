@@ -10,5 +10,6 @@ namespace SAT.MODELS.Entities
         public int? CodPerfil { get; set; }
         public int? IndAtivo { get; set; }
         public int? CodTecnico { get; set; }
+        public int? CodPontoPeriodo { get; set; }
     }
 }

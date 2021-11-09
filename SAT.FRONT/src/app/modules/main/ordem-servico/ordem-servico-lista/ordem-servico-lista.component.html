@@ -150,7 +150,7 @@
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
                                                         {{ os.statusServico?.codStatusServico == 8 ||
-                                                    filtro?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0,
+                                                    filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0,
                                                     os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
                                                     </span>
                                                 </div>
@@ -239,13 +239,12 @@
                             </div>
 
                             <div *ngIf="!dataSourceData?.items.length && !isLoading"
-                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum
-                                chamado encontrado!</div>
+                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum Registro Encontrado</div>
 
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                                [pageSize]="filtro?.parametros.qtdPaginacaoLista ?? 10"
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10"
                                 [pageSizeOptions]="[5, 10, 25, 50, 100, 250]" [showFirstLastButtons]="true"
                                 (page)="paginar()">
                             </mat-paginator>

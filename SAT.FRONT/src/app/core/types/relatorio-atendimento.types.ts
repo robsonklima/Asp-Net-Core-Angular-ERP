@@ -93,4 +93,7 @@ export interface RelatorioAtendimentoData extends Meta
 export interface RelatorioAtendimentoParameters extends QueryStringParameters
 {
     codOS?: number;
+    codTecnicos?: string;
+    dataInicio?: string;
+    dataSolucao?: string;
 };

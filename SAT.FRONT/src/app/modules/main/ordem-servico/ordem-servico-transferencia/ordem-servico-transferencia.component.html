@@ -29,17 +29,15 @@
         <a class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b" (click)="transferir(tecnico)">
             <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
                 <ng-container>
-                    <img
-                        class="object-cover w-full h-full"
-                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario.codUsuario + '.jpg'"
-                        onError="this.src='./assets/images/avatars/profile.jpg';"
-                        [alt]="tecnico.nome" />
+                    <img class="object-cover w-full h-full"
+                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico.usuario?.codUsuario + '.jpg'"
+                        onError="this.src='./assets/images/avatars/profile.jpg';" [alt]="tecnico.nome" />
                 </ng-container>
             </div>
             <div class="min-w-0 ml-4">
                 <div class="font-medium leading-5 truncate">{{ tecnico.nome }}</div>
                 <div class="leading-5 truncate text-secondary">
-                    {{ tecnico.autorizada.nomeFantasia }} - 
+                    {{ tecnico.autorizada.nomeFantasia }} -
                     {{ tecnico.regiao.nomeRegiao }}
                 </div>
             </div>

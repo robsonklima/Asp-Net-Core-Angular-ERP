@@ -50,6 +50,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
     dataSourceData: OrdemServicoData;
     selectedItem: OrdemServico | null = null;
     isLoading: boolean = false;
+    filtro: any;
     protected _onDestroy = new Subject<void>();
 
     constructor (
@@ -113,6 +114,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
             sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
             pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
+            codFiliais: this.userSession.usuario.filial?.codFilial.toString(),
             filter: filter
         };
 
@@ -141,8 +143,15 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         super.loadFilter();
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial)
-            this.filter.parametros.codFiliais = [this.userSession.usuario.codFilial]
+        if (this.userSession?.usuario?.codFilial) {
+            this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
+        }        
+
+        Object.keys(this.filtro?.parametros).forEach((key) => {
+            if (this.filtro?.parametros[key] instanceof Array) {
+                this.filtro.parametros[key] = this.filtro.parametros[key].join()
+            };
+        });
     }
 
     public async exportar()

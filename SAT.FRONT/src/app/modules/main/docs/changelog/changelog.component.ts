@@ -132,7 +132,20 @@ export class ChangelogComponent
                     ],
                 }
             ]
-        }
+        },
+        {
+            version: 'v1.0.7',
+            releaseDate: '03 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Carregamento de chamados da filial do perfil de usuário',
+                        'Manter filtro de filial após limpar filtros',
+                    ],
+                }
+            ]
+        }        
     ];
 
     constructor () { }

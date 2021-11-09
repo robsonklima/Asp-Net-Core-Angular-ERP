@@ -11,27 +11,16 @@ namespace SAT.MODELS.Entities
         [Key]
         public string CodUsuario { get; set; }
         public int? CodFilial { get; set; }
-        [ForeignKey("CodFilial")]
-        public Filial Filial { get; set; }
         public int? CodAutorizada { get; set; }
         public int? CodTecnico { get; set; }
-        [ForeignKey("CodTecnico")]
-        public Tecnico Tecnico { get; set; }
-        public int? CodCliente { get; set; }
-        [ForeignKey("CodCliente")]
-        public Cliente Cliente { get; set; }
         public int? CodCargo { get; set; }
         public int? CodDepartamento { get; set; }
         public int? CodTurno { get; set; }
         public int? CodCidade { get; set; }
-        [ForeignKey("CodCidade")]
-        public Cidade Cidade { get; set; }
         public int? CodFilialPonto { get; set; }
         public int CodFusoHorario { get; set; }
         public int CodLingua { get; set; }
         public int? CodPerfil { get; set; }
-        [ForeignKey("CodPerfil")]
-        public Perfil Perfil { get; set; }
         public int? CodSmartCard { get; set; }
         public string CodContrato { get; set; }
         public DateTime? DataAdmissao { get; set; }
@@ -48,8 +37,6 @@ namespace SAT.MODELS.Entities
         public string NumCracha { get; set; }
         public string CodRelatorioNaoMostrado { get; set; }
         public string InstalPerfilPagina { get; set; }
-        [JsonIgnore]
-        public string Senha { get; set; }
         public byte IndAtivo { get; set; }
         public byte? IndAssinaInvoice { get; set; }
         public string CodUsuarioCad { get; set; }
@@ -62,7 +49,42 @@ namespace SAT.MODELS.Entities
         public string Complemento { get; set; }
         public int? CodTransportadora { get; set; }
         public bool? IndPermiteRegistrarEquipPOS { get; set; }
+        
+
+        [JsonIgnore]
+        public string Senha { get; set; }
+
+        
+        [ForeignKey("CodFilial")]
+        public Filial Filial { get; set; }
+
+        [ForeignKey("CodTecnico")]
+        public Tecnico Tecnico { get; set; }
+
+        public int? CodCliente { get; set; }
+        [ForeignKey("CodCliente")]
+        public Cliente Cliente { get; set; }
+
+        [ForeignKey("CodCidade")]
+        public Cidade Cidade { get; set; }
+
+        [ForeignKey("CodPerfil")]
+        public Perfil Perfil { get; set; }
+
+        [ForeignKey("CodCargo")]
+        public Cargo Cargo { get; set; }
+
+        [ForeignKey("CodTurno")]
+        public Turno Turno { get; set; }
+
         [ForeignKey("CodUsuario")]
         public List<Localizacao> Localizacoes { get; set; }
+
+        [ForeignKey("CodUsuario")]
+        public List<PontoPeriodoUsuario> PontosPeriodoUsuario { get; set; }
+
+        [ForeignKey("CodFilialPonto")]
+        [Column("CodFilial")]
+        public Filial FilialPonto { get; set; }
     }
 }

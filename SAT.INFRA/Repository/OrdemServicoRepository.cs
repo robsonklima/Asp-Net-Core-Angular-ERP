@@ -47,7 +47,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
         {
-            var query = _context.OrdemServico.AsQueryable();
+            var query = _context.OrdemServico.AsNoTracking().AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);

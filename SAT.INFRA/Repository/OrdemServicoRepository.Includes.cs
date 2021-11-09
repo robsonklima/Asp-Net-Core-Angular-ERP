@@ -32,6 +32,29 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.RegiaoAutorizada.Regiao);
                     break;
 
+                case (OrdemServicoIncludeEnum.OS_EQUIPAMENTOS):
+                    query = query
+                        .Include(os => os.Filial)
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.Cliente)
+                        .Include(os => os.Equipamento)
+                        .Include(os => os.EquipamentoContrato);
+                    break;
+
+                case (OrdemServicoIncludeEnum.OS_TECNICOS):
+                    query = query
+                        .Include(os => os.TipoIntervencao)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(r => r.StatusServico);
+                    break;
+
+                case (OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO):
+                    query = query
+                        .Include(os => os.RelatoriosAtendimento)
+                        .Include(os => os.Filial)
+                        .Include(os => os.PrazosAtendimento);
+                    break;
+
                 default:
                     query = query
                         .Include(os => os.StatusServico)

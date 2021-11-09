@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IndicadorService } from 'app/core/services/indicador.service';
-import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { MonitoramentoService } from 'app/core/services/monitoramento.service';
+import { Monitoramento, MonitoramentoStorage } from 'app/core/types/monitoramento.type';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from "moment";
+import Enumerable from 'linq';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -46,7 +46,7 @@ export class MonitoramentoSatComponent implements OnInit {
   public chartOptionsINT: Partial<ChartOptions>;
   public loading: boolean;
   public haveData: boolean;
-  public monitoramentoModel: MonitoramentoModel[] = [];
+  public listaMonitoramento: Monitoramento;
 
   private chartMax: number = 100;
   private meta: number = 70;
@@ -54,66 +54,41 @@ export class MonitoramentoSatComponent implements OnInit {
   private greenColor: string = "#009900";
 
   constructor(
-    private _indicadorService: IndicadorService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _monitoramentoService: MonitoramentoService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
   ngOnInit(): void {
-    this.carregarGrafico();
+    this.carregarDados();
   }
 
-  public async carregarGrafico() {
-
+  public async carregarDados() {
     this.loading = true;
-
-    const params: IndicadorParameters =
-    {
-      agrupador: IndicadorAgrupadorEnum.CLIENTE,
-      tipo: IndicadorTipoEnum.SLA,
-      codTiposIntervencao: "1,2,3,4,6,7",
-      codAutorizadas: "8, 10, 13, 40, 48, 102, 108, 119, 130, 132, 141, 169, 172, 177, 178, 182, 183, 189, 190, 191, 192, 202",
-      codTiposGrupo: "1,3,5,7,8,9,10,11",
-      //dataInicio: moment().startOf('month').toISOString(),
-      //dataFim: moment().endOf('month').toISOString()
-      dataInicio: moment().startOf('month').toISOString(),
-      dataFim: moment().endOf('month').toISOString(),
-    }
-
-    // let m: MonitoramentoModel = new MonitoramentoModel();
-    // m.DataProcessamento = moment().date();
-
-    // this.MonitoramentoModel.push(new MonitoramentoModel(){
-
-    // });
-
-    let data = await this._indicadorService.obterPorParametros(params).toPromise();
-
-    if (data?.length) {
-      data = data.sort((a, b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
-      const labels = data.map(d => d.label);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.valor);
-      let valoresLinha: number[] = [];
-      valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
+    this.listaMonitoramento = (await this._monitoramentoService.obterListaMonitoramento().toPromise());
+    if (this.listaMonitoramento != null) {
       this.haveData = true;
-      this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);
+      console.log(this.listaMonitoramento.integracaoServidor);
+      let aplMeta: number[] = [];
+      let intMeta: number[] = [];
+      this.listaMonitoramento.storageAPL1.forEach(e => { aplMeta.push(this.meta); })
+      this.listaMonitoramento.storageINT1.forEach(e => { intMeta.push(this.meta); })
+      this.inicializarGrafico(this.greenColor, this.redColor, this.meta, this.listaMonitoramento.storageAPL1, this.listaMonitoramento.storageINT1, aplMeta, intMeta);
     }
-
-    this.loading = false;
   }
 
-  private inicializarGrafico(labels: string[], valoresColuna: number[], valoresLinha: number[], meta: number, greenColor: string, redColor: string) {
+  private async inicializarGrafico(greenColor: string, redColor: string, meta: number, apl1: MonitoramentoStorage[], int1: MonitoramentoStorage[], aplMeta: number[], intMeta: number[]) {
     this.chartOptionsAPL = {
       series: [
         {
           name: "Percentual",
           type: "bar",
-          data: [30, 10, 40, 90]
+          data: apl1.map(m => m.valor)
         },
         {
           name: "Meta de estabilidade",
           type: "line",
-          data: [this.meta, this.meta, this.meta, this.meta],
+          data: aplMeta,
           color: redColor
         }
       ],
@@ -130,7 +105,7 @@ export class MonitoramentoSatComponent implements OnInit {
         }
       ],
       chart: {
-        height: 350,
+        height: 250,
         type: "line",
         toolbar: {
           tools: {
@@ -162,12 +137,12 @@ export class MonitoramentoSatComponent implements OnInit {
         }
       },
       title: {
-        text: 'Serviços SAT-APL1',
+        text: 'SAT-APL1',
         align: 'center'
       },
       xaxis:
       {
-        categories: ['C:', 'D:', 'E:', 'F:']
+        categories: Enumerable.from(apl1.map(m => m.unidade)).orderBy(ord => ord)
       },
       yaxis:
       {
@@ -188,12 +163,12 @@ export class MonitoramentoSatComponent implements OnInit {
         {
           name: "Percentual",
           type: "bar",
-          data: [60, 5]
+          data: int1.map(m => m.valor)
         },
         {
           name: "Meta de estabilidade",
           type: "line",
-          data: [this.meta, this.meta],
+          data: intMeta,
           color: redColor
         }
       ],
@@ -210,7 +185,7 @@ export class MonitoramentoSatComponent implements OnInit {
         }
       ],
       chart: {
-        height: 350,
+        height: 250,
         type: "line",
         toolbar: {
           tools: {
@@ -242,12 +217,12 @@ export class MonitoramentoSatComponent implements OnInit {
         }
       },
       title: {
-        text: 'Integrações SAT-INT1',
+        text: 'SAT-INT1',
         align: 'center'
       },
       xaxis:
       {
-        categories: ['C:', 'D:']
+        categories: Enumerable.from(int1.map(m => m.unidade)).orderBy(ord => ord)
       },
       yaxis:
       {
@@ -262,15 +237,7 @@ export class MonitoramentoSatComponent implements OnInit {
         }
       }
     };
-  }
-}
 
-export class MonitoramentoModel {
-  public Status: boolean;
-  public Tipo: string;
-  public Servidor: string;
-  public Item: string;
-  public Mensagem: string;
-  public DataProcessamento: Date;
-  public Ociosidade: string;
+    this.loading = false;
+  }
 }

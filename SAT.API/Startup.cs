@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
            {
@@ -92,11 +92,23 @@ namespace SAT.API
             services.AddTransient<IDespesaRepository, DespesaRepository>();
             services.AddTransient<IDespesaItemRepository, DespesaItemRepository>();
             services.AddTransient<IDespesaPeriodoRepository, DespesaPeriodoRepository>();
-            services.AddTransient<IDespesaConfiguracaoCombustivelRepository, DespesaConfiguracaoCombustivelRepository>();
             services.AddTransient<IDespesaAdiantamentoPeriodoRepository, DespesaAdiantamentoPeriodoRepository>();
             services.AddTransient<IDespesaAdiantamentoRepository, DespesaAdiantamentoRepository>();
             services.AddTransient<IDespesaTipoRepository, DespesaTipoRepository>();
             services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
+            services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
+            services.AddTransient<IPontoPeriodoRepository, PontoPeriodoRepository>();
+            services.AddTransient<IPontoPeriodoStatusRepository, PontoPeriodoStatusRepository>();
+            services.AddTransient<IPontoPeriodoModoAprovacaoRepository, PontoPeriodoModoAprovacaoRepository>();
+            services.AddTransient<IPontoPeriodoIntervaloAcessoDataRepository, PontoPeriodoIntervaloAcessoDataRepository>();
+            services.AddTransient<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaRepository, PontoUsuarioDataMotivoDivergenciaRepository>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaRepository, PontoUsuarioDataTipoAdvertenciaRepository>();
+            services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
+            services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
+            services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
+            services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
+            services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -143,13 +155,22 @@ namespace SAT.API
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
-            services.AddTransient<IDespesaConfiguracaoCombustivelService, DespesaConfiguracaoCombustivelService>();
             services.AddTransient<IDespesaService, DespesaService>();
             services.AddTransient<IDespesaItemService, DespesaItemService>();
             services.AddTransient<IDespesaPeriodoService, DespesaPeriodoService>();
             services.AddTransient<IDespesaTipoService, DespesaTipoService>();
             services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
-
+            services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
+            services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
+            services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
+            services.AddTransient<IPontoPeriodoService, PontoPeriodoService>();
+            services.AddTransient<IPontoPeriodoStatusService, PontoPeriodoStatusService>();
+            services.AddTransient<IPontoPeriodoModoAprovacaoService, PontoPeriodoModoAprovacaoService>();
+            services.AddTransient<IPontoPeriodoIntervaloAcessoDataService, PontoPeriodoIntervaloAcessoDataService>();
+            services.AddTransient<IPontoUsuarioDataService, PontoUsuarioDataService>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaService, PontoUsuarioDataMotivoDivergenciaService>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaService, PontoUsuarioDataTipoAdvertenciaService>();
+            services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 

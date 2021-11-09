@@ -9,10 +9,18 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<OrdemServico> AplicarFiltroPadrao(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
         {
-            if (!string.IsNullOrEmpty(parameters.CodOS))
+            if (!string.IsNullOrEmpty(parameters.Filter))
             {
-                var codigos = parameters.CodOS.Split(",").Select(a => a.Trim());
-                query = query.Where(os => codigos.Any(p => p == os.CodOS.ToString()));
+                query = query.Where(
+                    t =>
+                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+            
+            if (parameters.CodOS != null) {
+                query = query.Where(os => os.CodOS == parameters.CodOS);
             }
 
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
@@ -39,14 +47,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
                     && os.DataHoraTransf <= parameters.DataTransfFim);
 
-            if (!string.IsNullOrEmpty(parameters.Filter))
-            {
-                query = query.Where(
-                    t =>
-                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
+            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue) {
+                query = query
+                    .Where(os => os.RelatoriosAtendimento
+                    .Any(r => r.DataHoraInicio >= parameters.DataHoraInicioInicio && r.DataHoraInicio <= parameters.DataHoraInicioFim));
             }
 
             if (!string.IsNullOrEmpty(parameters.PAS))

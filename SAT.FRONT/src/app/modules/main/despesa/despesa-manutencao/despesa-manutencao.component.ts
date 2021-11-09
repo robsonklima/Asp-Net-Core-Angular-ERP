@@ -2,11 +2,9 @@ import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewEncapsulati
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { Despesa, DespesaItem } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
@@ -45,7 +43,6 @@ export class DespesaManutencaoComponent implements AfterViewInit
   ordemServico: OrdemServico;
   displayedColumns: string[] = ['acao', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal'];
   userSession: UserSession;
-  despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel
 
   constructor (
     private _userService: UserService,
@@ -54,7 +51,6 @@ export class DespesaManutencaoComponent implements AfterViewInit
     private _despesaSvc: DespesaService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
-    private _despesaConfCombustivelSvc: DespesaConfiguracaoCombustivelService,
     private _dialog: MatDialog)
   {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -133,8 +129,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
         codDespesa: this.despesa.codDespesa,
         ordemServico: this.ordemServico,
         rat: this.rat,
-        despesa: this.despesa,
-        despesaConfiguracaoCombustivel: this.despesaConfiguracaoCombustivel
+        despesa: this.despesa
       }
     });
 
@@ -152,17 +147,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
     await this.obterRAT();
     await this.obterOS();
     await this.obterDespesa();
-    await this.obterConfiguracaoCombustivel();
 
     this.isLoading = false;
-  }
-
-  public async obterConfiguracaoCombustivel()
-  {
-    this.despesaConfiguracaoCombustivel =
-      (await this._despesaConfCombustivelSvc.obterPorParametros({
-        codFilial: this.ordemServico.codFilial,
-        codUf: this.ordemServico.localAtendimento.cidade?.codUF
-      }).toPromise()).items[0];
   }
 }

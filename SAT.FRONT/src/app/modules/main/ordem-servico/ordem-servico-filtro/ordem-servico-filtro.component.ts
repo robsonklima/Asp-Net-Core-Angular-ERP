@@ -29,6 +29,7 @@ import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.t
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -50,6 +51,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   tecnicos: Tecnico[] = [];
   pas: number[] = [];
   pontosEstrategicos: any;
+  sessionData: UsuarioSessao;
+  filtro: any;
   clienteFilterCtrl: FormControl = new FormControl();
 
   protected _onDestroy = new Subject<void>();
@@ -132,7 +135,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       .obterPorParametros(params)
       .toPromise();
 
-    this.filiais = data.items;
+    this.filiais = data.items;    
   }
 
   async obterGrupoEquipamentos()
@@ -358,6 +361,53 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       {
         this.obterClientes(this.clienteFilterCtrl.value);
       });
+  }
+
+  aplicar(): void
+  {
+    const form: any = this.form.getRawValue();
+
+    const filtro: any = {
+      nome: 'ordem-servico',
+      parametros: form
+    }
+
+    this._userService.registrarFiltro(filtro);
+
+    const newFilter: any = { nome: 'ordem-servico', parametros: this.form.getRawValue() }
+    const oldFilter = this._userService.obterFiltro('ordem-servico');
+
+    if (oldFilter != null)
+      newFilter.parametros =
+      {
+        ...newFilter.parametros,
+        ...oldFilter.parametros
+      };
+
+    this._userService.registrarFiltro(newFilter);
+    this.sidenav.close();
+  }
+
+  limpar(): void
+  {
+    this.form.reset();
+
+    if (this.sessionData.usuario.codFilial) {
+      this.filtro.parametros = null;
+
+      this.filtro.parametros = {
+        ...this.filtro.parametros,
+        ...{
+          codFiliais: [ this.sessionData.usuario.codFilial ]
+        }
+      }
+
+      this.form.patchValue(this.filtro?.parametros);
+      
+    }
+    
+    this.aplicar(); 
+    this.sidenav.close();
   }
 
   ngOnDestroy()

@@ -1,0 +1,41 @@
+{
+  "name": "@mobiscroll/angular",
+  "version": "5.10.1",
+  "description": "Angular UI library for progressive web and hybrid apps",
+  "homepage": "https://mobiscroll.com/",
+  "license": "Apache-2.0",
+  "keywords": [
+    "mobile web",
+    "hybrid apps",
+    "javascript",
+    "mobiscroll",
+    "javascript library",
+    "angular",
+    "component library",
+    "ui components",
+    "ui kit",
+    "ionic plugin"
+  ],
+  "author": {
+    "name": "Mobiscroll",
+    "url": "https://mobiscroll.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/acidb/mobiscroll/issues"
+  },
+  "main": "dist/js/mobiscroll.angular.min.js",
+  "module": "dist/esm5/mobiscroll.angular.min.js",
+  "types": "dist/js/mobiscroll.angular.min.d.ts",
+  "style": "dist/css/mobiscroll.angular.min.css",
+  "files": [
+    "dist/css/**",
+    "dist/esm5/**",
+    "dist/js/**",
+    "dist/src/**"
+  ],
+  "peerDependencies": {
+    "@angular/core": ">=2.0.0",
+    "@angular/common": ">=2.0.0",
+    "@angular/forms": ">=2.0.0"
+  }
+}

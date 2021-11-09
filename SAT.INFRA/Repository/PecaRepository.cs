@@ -73,15 +73,16 @@ namespace SAT.INFRA.Repository
                     p.NomePeca.Contains(parameters.Filter)
                 );
             }
-
-            if (parameters.CodPeca.HasValue)
+      
+            if (!string.IsNullOrEmpty(parameters.CodPeca))
             {
-                pecas = pecas.Where(p => p.CodPeca == parameters.CodPeca);
+                var split = parameters.CodPeca.Split(",").Select(int.Parse).ToArray();
+                pecas = pecas.Where(p => split.Any(s => s.Equals(p.CodPeca)));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodMagnus))
             {
-                pecas = pecas.Where(p => p.CodPeca == parameters.CodPeca);
+                pecas = pecas.Where(p => p.CodPeca == Convert.ToInt32(parameters.CodPeca));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

@@ -33,7 +33,6 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaItem> DespesaItem { get; set; }
         public DbSet<DespesaAdiantamentoPeriodo> DespesaAdiantamentoPeriodo { get; set; }
         public DbSet<DespesaAdiantamento> DespesaAdiantamento { get; set; }
-        public DbSet<DespesaConfiguracaoCombustivel> DespesaConfiguracaoCombustivel { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
         public DbSet<Filial> Filial { get; set; }
         public DbSet<Defeito> Defeito { get; set; }
@@ -61,6 +60,14 @@ namespace SAT.INFRA.Context
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
+        public DbSet<PontoUsuario> PontoUsuario { get; set; }
+        public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
+        public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
+        public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
+        public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
+        public DbSet<PontoUsuarioData> PontoUsuarioData { get; set; }
+        public DbSet<PontoUsuarioDataTipoAdvertencia> PontoUsuarioDataTipoAdvertencia { get; set; }
+        public DbSet<PontoUsuarioDataMotivoDivergencia> PontoUsuarioDataMotivoDivergencia { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

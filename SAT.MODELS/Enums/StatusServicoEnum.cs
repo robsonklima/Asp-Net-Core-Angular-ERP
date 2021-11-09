@@ -5,6 +5,7 @@ namespace SAT.MODELS.Enums
         ABERTO = 1,
         CANCELADO = 2,
         FECHADO = 3,
+        INSTALACAO = 4,
         PARCIAL = 5,
         PECAS_LIBERADAS = 6,
         PECAS_PENDENTES = 7,

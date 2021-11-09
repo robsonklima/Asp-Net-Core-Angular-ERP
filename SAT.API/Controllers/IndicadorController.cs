@@ -26,9 +26,9 @@ namespace SAT.API.Controllers
         }
 
         //[HttpGet("IndicadoresFiliais")]
-        //public List<Indicador> ObterIndicadoresFiliais()
+        //public List<Indicador> ObterIndicadorDisponibilidade()
         //{
-        //    return _indicadorService.ObterIndicadoresFiliais();
+        //    return _indicadorService.ObterIndicadorDisponibilidade();
         //}
     }
 }

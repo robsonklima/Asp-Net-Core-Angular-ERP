@@ -4,6 +4,7 @@ import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import moment from 'moment';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-tecnicos-mais-pendentes',
@@ -18,7 +19,7 @@ export class TecnicosMaisPendentesComponent implements OnInit {
   constructor(
     private _tecnicoService: TecnicoService,
     private _indicadorService: IndicadorService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.obterDados();
@@ -29,25 +30,25 @@ export class TecnicosMaisPendentesComponent implements OnInit {
 
     let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES);
     let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES);
-    let listaTecnicos = (await this._tecnicoService.obterPorParametros({ }).toPromise()).items;
-    
-    for (let indicador of dadosIndicadoresPercent) 
-    {
+    let listaTecnicos = (await this._tecnicoService.obterPorParametros({}).toPromise()).items;
+
+    for (let indicador of dadosIndicadoresPercent) {
       let tecnico = listaTecnicos.find(t => t.codTecnico == +indicador.label);
       let model: PendenciaTecnicosModel = new PendenciaTecnicosModel();
       model.filial = tecnico?.filial?.nomeFilial;
       model.nomeTecnico = tecnico?.nome;
       model.pendencia = indicador.valor;
-      model.qntAtendimentos = dadosIndicadoresQnt.find(qtd => qtd.label == indicador.label)?.valor?? 0;
-  
+      model.qntAtendimentos = dadosIndicadoresQnt.find(qtd => qtd.label == indicador.label)?.valor ?? 0;
+
       this.pendenciaTecnicosModel.push(model);
     }
 
-    this.pendenciaTecnicosModel =
-        this.ordem == 'asc' ? this.pendenciaTecnicosModel.orderByDesc('pendencia').take(5) :
-          this.pendenciaTecnicosModel.orderBy('pendencia').take(5);
-    console.log (this.pendenciaTecnicosModel);
-        this.loading = false;
+    this.pendenciaTecnicosModel.push(...
+      this.ordem == 'asc' ? Enumerable.from(this.pendenciaTecnicosModel).orderByDescending(ord => ord.pendencia).take(5) :
+        Enumerable.from(this.pendenciaTecnicosModel).orderBy(ord => ord.pendencia).take(5)
+    );
+
+    this.loading = false;
   }
   private async buscaIndicadores(indicadorAgrupadorEnum: IndicadorAgrupadorEnum): Promise<Indicador[]> {
     let indicadorParams = {

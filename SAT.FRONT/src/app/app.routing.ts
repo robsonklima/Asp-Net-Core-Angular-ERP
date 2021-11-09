@@ -84,6 +84,7 @@ export const appRoutes: Route[] = [
             { path: 'cidade', loadChildren: () => import('app/modules/main/cadastro/cidade/cidade.module').then(m => m.CidadeModule) },
             { path: 'contrato', loadChildren: () => import('app/modules/main/cadastro/contrato/contrato.module').then(m => m.ContratoModule) },
             { path: 'despesa', loadChildren: () => import('app/modules/main/despesa/despesa.module').then(m => m.DespesaModule) },
+            { path: 'ponto', loadChildren: () => import('app/modules/main/ponto/ponto.module').then(m => m.PontoModule) },
 
             // 404 & Catch all
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/error/error-404/error-404.module').then(m => m.Error404Module) },

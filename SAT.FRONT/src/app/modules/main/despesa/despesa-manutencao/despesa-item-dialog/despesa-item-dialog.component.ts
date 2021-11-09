@@ -1,11 +1,9 @@
 import { Inject, Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { appConfig } from 'app/core/config/app.config';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
-import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { Despesa, DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
@@ -30,7 +28,6 @@ export class DespesaItemDialogComponent implements OnInit
   ordemServico: OrdemServico;
   rat: RelatorioAtendimento;
   despesa: Despesa;
-  despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -47,7 +44,6 @@ export class DespesaItemDialogComponent implements OnInit
       this.ordemServico = data.ordemServico;
       this.rat = data.rat;
       this.despesa = data.despesa;
-      this.despesaConfiguracaoCombustivel = data.despesaConfiguracaoCombustivel;
     }
 
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -214,6 +210,7 @@ export class DespesaItemDialogComponent implements OnInit
 
     var cep: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].value?.toString();
 
+    console.log(cep);
     if (!cep) return;
 
     var googleAddress =
@@ -240,6 +237,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   private updateGoogleAddress(googleAddress: Result): void
   {
+    console.log(googleAddress);
     var lat = googleAddress.geometry.location.lng;
     var long = googleAddress.geometry.location.lat;
     if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
@@ -264,13 +262,9 @@ export class DespesaItemDialogComponent implements OnInit
     var estado = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_1")).firstOrDefault();
     if (estado) (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(estado.short_name);
 
+
     var pais = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("country")).firstOrDefault();
     if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
-  }
-
-  calculaConsumoCombustivel(): number
-  {
-    return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 
   configuraCamposObrigatorios(): void
@@ -284,7 +278,6 @@ export class DespesaItemDialogComponent implements OnInit
     }
     else
     {
-      (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].enable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
   }

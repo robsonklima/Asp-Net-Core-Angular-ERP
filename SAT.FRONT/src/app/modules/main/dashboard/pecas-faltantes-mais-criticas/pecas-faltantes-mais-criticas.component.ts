@@ -53,7 +53,7 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
       }).toPromise();
 
     let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(','));
-    this.osTopPecas = (await this._osService.obterPorParametros({ codOS: codOsPecas }).toPromise()).items;
+    this.osTopPecas = (await this._osService.obterPorParametros({ codOS: codOsPecas.toString() }).toPromise()).items;
 
     let codPecas = topPecas.map(item => item.label).join(',');
     const pecasInfo = (await this._pecaService.obterPorParametros({ codPeca: codPecas }).toPromise()).items;

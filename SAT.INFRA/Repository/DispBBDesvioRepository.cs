@@ -17,13 +17,7 @@ namespace SAT.INFRA.Repository
 
         public List<DispBBDesvio> ObterPorParametros(DispBBDesvioParameters parameters)
         {
-            var desvios = _context.DispBBDesvio
-                .AsQueryable();
-
-            if (parameters.IndAtivo.HasValue)
-                desvios = desvios.Where(c => c.IndAtivo == parameters.IndAtivo.Value);
-
-            return desvios.ToList();
+            return null;
         }
     }
 }

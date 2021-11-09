@@ -137,6 +137,34 @@ namespace SAT.MODELS.Entities{
         [ForeignKey("CodContrato")]
         public Contrato Contrato { get; set; }
 
-        
+        [ForeignKey("CodTipoEquip")]
+        public TipoEquipamento TipoEquipamento { get; set; }    
+
+        [ForeignKey("CodGrupoEquip")]
+        public GrupoEquipamento GrupoEquipamento { get; set; }         
+
+        [ForeignKey("CodEquip")]
+        public Equipamento Equipamento { get; set; }         
+
+        [ForeignKey("CodRegiao")]
+        public Regiao Regiao { get; set; }         
+
+        [ForeignKey("CodAutorizada")]
+        public Autorizada Autorizada { get; set; }           
+
+        [ForeignKey("CodFilial")]
+        public Filial Filial { get; set; }  
+
+        [ForeignKey("CodEquipContrato")]
+        public EquipamentoContrato EquipamentoContrato { get; set; }          
+
+        [ForeignKey("CodCliente")]
+        public Cliente Cliente { get; set; }       
+
+        [ForeignKey("CodPosto")]
+        public LocalAtendimento LocalAtendimento { get; set; }                       
+
+        //[ForeignKey("CodSla")]
+        //public SLA SLA { get; set; }                 
     }    
 }

@@ -9,19 +9,8 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<OrdemServico> AplicarFiltroPadrao(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
         {
-            if (!string.IsNullOrEmpty(parameters.Filter))
-            {
-                query = query.Where(
-                    t =>
-                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
-            
-            if (parameters.CodOS != null) {
+            if (parameters.CodOS.HasValue)
                 query = query.Where(os => os.CodOS == parameters.CodOS);
-            }
 
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
@@ -47,10 +36,14 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
                     && os.DataHoraTransf <= parameters.DataTransfFim);
 
-            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue) {
-                query = query
-                    .Where(os => os.RelatoriosAtendimento
-                    .Any(r => r.DataHoraInicio >= parameters.DataHoraInicioInicio && r.DataHoraInicio <= parameters.DataHoraInicioFim));
+            if (!string.IsNullOrEmpty(parameters.Filter))
+            {
+                query = query.Where(
+                    t =>
+                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
             }
 
             if (!string.IsNullOrEmpty(parameters.PAS))

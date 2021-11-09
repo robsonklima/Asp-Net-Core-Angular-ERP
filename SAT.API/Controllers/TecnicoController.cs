@@ -18,7 +18,7 @@ namespace SAT.API.Controllers
 
         public TecnicoController(ITecnicoService tecnicoService)
         {
-            this._tecnicoService = tecnicoService;
+            _tecnicoService = tecnicoService;
         }
 
         [HttpGet]

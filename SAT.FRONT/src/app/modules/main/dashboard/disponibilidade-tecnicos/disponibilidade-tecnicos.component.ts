@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Cidade } from 'app/core/types/cidade.types';
-import { DashboardTecnicoDisponibilidadeFilialViewModel, Filial, FilialFilterEnum, FilialIncludeEnum } from 'app/core/types/filial.types';
+import { Filial, FilialFilterEnum, FilialIncludeEnum } from 'app/core/types/filial.types';
 import { Filtro } from 'app/core/types/filtro.types';
-import { DashboardTecnicoDisponibilidadeTecnicoViewModel, Tecnico, TecnicoFilterEnum, TecnicoIncludeEnum } from 'app/core/types/tecnico.types';
+import { OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { statusServicoConst } from 'app/core/types/status-servico.types';
+import { Tecnico, TecnicoFilterEnum, TecnicoIncludeEnum } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
 import moment from 'moment';
 
@@ -18,6 +21,7 @@ import moment from 'moment';
 export class DisponibilidadeTecnicosComponent implements OnInit {
   @Input() filtro: Filtro;
   public loading: boolean = true;
+  public resultadoGeralTotal: Tecnico;
   public disponibilidadeTecnicosModel: DisponibilidadeTecnicosModel[] = [];
 
   public totalTecnicosAtivos: number = 0;
@@ -31,6 +35,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
 
   constructor(private _cdr: ChangeDetectorRef,
     private _tecnicoService: TecnicoService,
+    private _ordemServicoService: OrdemServicoService,
     private _filialService: FilialService) { }
 
   ngOnInit(): void {
@@ -43,14 +48,17 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss');
     let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    let dadosTecnicosDashboard = (await this._tecnicoService
+    let dadosTecnicosDashboard = Enumerable.from((await this._tecnicoService
       .obterPorParametros({
         filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
-        include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
         periodoMediaAtendInicio: dataInicio,
         periodoMediaAtendFim: dataFim
-      }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
-
+      }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[])
+      .where(tec =>
+        tec.usuario != undefined && tec.filial != undefined && tec.usuario.codFilial != undefined &&
+        tec.usuario?.indAtivo == 1 && tec.indAtivo == 1
+      ).toArray();
+//debugger; lista n trazendo dados?
     for (let tecnico of dadosTecnicosDashboard) {
 
       let dadosDashboard = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == tecnico.filial.codFilial);
@@ -67,18 +75,20 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
         // Quantidade de técnicos total da filial
         dadosDashboard.qntTotalTecnicos = dadosDashboard.qntTecnicosAtivosChamados + dadosDashboard.qntTecnicosInativos;
 
+        // TERMINAR A REGRA
+
+        dadosDashboard.mediaAtendimentoTodos = tecnico.qtdChamadosAtendidosTodasIntervencoes;
+        dadosDashboard.mediaAtendimentoCorretivo = tecnico.qtdChamadosAtendidosSomenteCorretivos;
+        dadosDashboard.mediaAtendimentoPreventivo = tecnico.qtdChamadosAtendidosSomentePreventivos;
+
         this.disponibilidadeTecnicosModel.push(dadosDashboard);
       }
 
       // Quantidade de técnicos sem OS Transferidas
-      if (tecnico.tecnicoSemChamadosTransferidos) {
+      if (Enumerable.from(tecnico.ordensServico).count(w => w.codStatusServico == statusServicoConst.TRANSFERIDO) == 0) {
         dadosDashboard.qntTecnicosAtivosSemChamadosTransferidos++;
         dadosDashboard.qntTecnicosAtivosChamados--;
       }
-
-      dadosDashboard.mediaAtendimentoTodos += tecnico.mediaAtendimentosPorDiaTodasIntervencoes;
-      dadosDashboard.mediaAtendimentoCorretivo += tecnico.mediaAtendimentosPorDiaCorretivos;
-      dadosDashboard.mediaAtendimentoPreventivo += tecnico.mediaAtendimentosPorDiaPreventivos;
     }
 
     /** DADOS DAS FILIAIS **/
@@ -92,23 +102,88 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     }).toPromise()).items as DashboardTecnicoDisponibilidadeFilialViewModel[];
 
     for (let filial of filialTecnico) {
-      let dadosFilial = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == filial.codFilial);
-      dadosFilial.qtdOSNaoTransferidasCorretivas = filial.qtdOSNaoTransferidasCorretivas;
-      dadosFilial.mediaAtendimentoTodos = dadosFilial.mediaAtendimentoTodos / dadosFilial.qntTotalTecnicos;
-      dadosFilial.mediaAtendimentoCorretivo = dadosFilial.mediaAtendimentoCorretivo / dadosFilial.qntTotalTecnicos;
-      dadosFilial.mediaAtendimentoPreventivo = dadosFilial.mediaAtendimentoPreventivo / dadosFilial.qntTotalTecnicos;
+      Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == filial.codFilial)
+        .qtdOSNaoTransferidasCorretivas = filial.qtdOSNaoTransferidasCorretivas;
     }
 
     this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderByDescending(o => o.filial.nomeFilial).toArray();
+
+    // Remover EXP,OUT,IND
+    // let filiais = (await this._filialService.obterPorParametros({ indAtivo: 1 }).toPromise()).items.
+    //   filter(g =>
+    //     g.codFilial != null && g.codFilial != 7 && g.codFilial != 21 && g.codFilial != 33).map(m => m.codFilial);
+
+    // let groupList = Enumerable.from(dadosTecnicosDashboard.filter(g =>
+    //   filiais.includes(g.filial?.codFilial))).groupBy(gr => gr.filial?.codFilial).toArray();
+
+    // debugger;
+    // for (let grupo of Enumerable.from(dadosTecnicosDashboard).groupBy(gr => gr.filial?.codFilial)) {
+
+    //   let dado = new DisponibilidadeTecnicosModel();
+    //   let qntTodosAtendimentos = 0;
+    //   let qntTodosAtendimentosCorretiva = 0;
+    //   let qntTodosAtendimentosPreventiva = 0;
+    //   // let valores = Enumerable.from(dadosTecnicosDashboard).where(k => k.filial?.codFilial == grupo.key).toArray();
+    //   //  debugger;
+    //   // Dados dos técnicos
+    //   // if (grupo) {
+    //   //debugger;
+    //   for (let tecnico of grupo.getSource().filter(t => t.indTecnicoAtivo == 1 && t.indUsuarioAtivo == 1)) {
+
+    //     if (!dado.filial) {
+    //       dado.filial = tecnico.filial.nomeFilial; // Nome Filial
+    //     }
+
+    //     dado.totalQntTecnicos++;
+
+    //     if (tecnico.indFerias) {
+    //       dado.qntInativos++;
+    //     }
+    //     else {
+
+    //       // let listaOSTecnico = await this._ordemServicoService.obterPorParametros({
+    //       //   codTecnico: tecnico.codTecnico,
+    //       //   dataAberturaInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+    //       //   dataAberturaFim: moment().endOf('month').format('YYYY-MM-DD hh:mm'),
+    //       //   include: OrdemServicoIncludeEnum.OS_TECNICOS
+    //       // }).toPromise();
+
+    //       // if (listaOSTecnico.items?.length > 0) {
+
+    //       // dado.qntAtivosChamados++;
+
+    //       // qntTodosAtendimentos += tecnico.qtdChamadosTotal;
+    //       // qntTodosAtendimentosCorretiva += tecnico.qtdChamadosCorretivos;
+    //       // qntTodosAtendimentosPreventiva += tecnico.qtdChamadosPreventivos;
+
+    //       // dado.qntAtivosSemChamadosTransferidos += tecnico.qtdChamadosTransferidos;
+
+    //       // dado.qntOsNaoTransferidas = 
+    //       //   listaOSTecnico.items.filter(os =>
+    //       //     os.codTipoIntervencao == 2 &&
+    //       //     os.relatoriosAtendimento.filter(rat =>
+    //       //       rat.statusServico.codStatusServico != 2 &&
+    //       //       rat.statusServico.codStatusServico != 8 &&
+    //       //       moment(rat.dataHoraSolucao, 'YYYY-MM-DD') > moment().add(-30, 'days'))).length;
+
+    //       // }
+    //     }
+    //   }
+    //   dado.mediaAtendimentoTodos = ((qntTodosAtendimentos / dado.qntAtivosChamados) / 5) || 0;
+    //   dado.mediaAtendimentoCorretivo = ((qntTodosAtendimentosCorretiva / dado.qntAtivosChamados) / 5) || 0;
+    //   dado.mediaAtendimentoPreventivo = ((qntTodosAtendimentosPreventiva / dado.qntAtivosChamados) / 5) || 0;
+    //   this.disponibilidadeTecnicosModel.push(dado);
+    // }
+    //}
 
     this.totalTecnicosAtivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTecnicosAtivosChamados);
     this.totalTecnicosSemChamadosTransf = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTecnicosAtivosSemChamadosTransferidos);
     this.totalInativos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTecnicosInativos);
     this.totalTecnicos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTotalTecnicos);
     this.totalOsNaoTransf = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qtdOSNaoTransferidasCorretivas);
-    this.totalMediaAtendimento = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTodos / this.disponibilidadeTecnicosModel.length);
-    this.totalMediaAtendimentoCorretivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoCorretivo / this.disponibilidadeTecnicosModel.length);
-    this.totalMediaAtendimentoPreventivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoPreventivo / this.disponibilidadeTecnicosModel.length);
+    this.totalMediaAtendimento = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTodos);
+    this.totalMediaAtendimentoCorretivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoCorretivo);
+    this.totalMediaAtendimentoPreventivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoPreventivo);
 
     this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderBy(o => o.filial).toArray();
     this.loading = false;
@@ -126,6 +201,22 @@ export class DisponibilidadeTecnicosModel {
   mediaAtendimentoTodos: number = 0;
   mediaAtendimentoCorretivo: number = 0;
   mediaAtendimentoPreventivo: number = 0;
-  mediaAtendimentoInstalacao: number = 0;
-  mediaAtendimentoEngenharia: number = 0;
+}
+
+export class DashboardTecnicoDisponibilidadeFilialViewModel implements Filial {
+  codFilial: number;
+  razaoSocial: string;
+  nomeFilial: string;
+  cidade: Cidade;
+  endereco: string;
+  cep: string;
+  qtdOSNaoTransferidasCorretivas: number;
+}
+
+export class DashboardTecnicoDisponibilidadeTecnicoViewModel extends Tecnico {
+  filial: Filial;
+  qtdChamadosAtendidosTodasIntervencoes: number;
+  qtdChamadosAtendidosSomenteCorretivos: number;
+  qtdChamadosAtendidosSomentePreventivos: number;
+  qtdChamadosAtendidosTodasIntervencoesDia: number;
 }

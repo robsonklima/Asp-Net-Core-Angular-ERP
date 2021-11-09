@@ -17,7 +17,12 @@ namespace SAT.INFRA.Repository
 
         public List<DispBBRegiaoFilial> ObterPorParametros(DispBBRegiaoFilialParameters parameters)
         {
-            return null;
+            var filiais = _context.DispBBRegiaoFilial.AsQueryable();
+
+            if (!string.IsNullOrEmpty(parameters.CodDispBBRegiao))
+                filiais = filiais.Where(c => c.CodDispBBRegiao == parameters.CodDispBBRegiao);
+
+            return filiais.ToList();
         }
     }
 }

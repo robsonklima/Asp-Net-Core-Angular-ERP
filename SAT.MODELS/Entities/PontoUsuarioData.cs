@@ -18,17 +18,5 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
         public int CodPontoUsuarioDataStatusAcesso { get; set; }
-
-        [ForeignKey("CodPontoUsuarioDataStatus")]
-        public PontoUsuarioDataStatus PontoUsuarioDataStatus { get; set; }
-
-        [ForeignKey("CodPontoUsuarioDataStatusAcesso")]
-        public PontoUsuarioDataStatusAcesso PontoUsuarioDataStatusAcesso { get; set; }
-
-        [ForeignKey("CodUsuario")]
-        public Usuario Usuario { get; set; }
-
-        [ForeignKey("CodPontoUsuarioData")]
-        public List<PontoUsuarioDataDivergencia> Divergencias { get; set; }
     }
 }

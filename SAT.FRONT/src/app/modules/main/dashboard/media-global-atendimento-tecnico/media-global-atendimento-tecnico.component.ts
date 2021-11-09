@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filtro } from 'app/core/types/filtro.types';
-import { DashboardTecnicoDisponibilidadeTecnicoViewModel, TecnicoFilterEnum, TecnicoIncludeEnum } from 'app/core/types/tecnico.types';
-import Enumerable from 'linq';
 import moment from 'moment';
-import { DisponibilidadeTecnicosModel } from '../disponibilidade-tecnicos/disponibilidade-tecnicos.component';
 
 @Component({
   selector: 'app-media-global-atendimento-tecnico',
@@ -17,10 +15,10 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
   @Input() filtro: Filtro;
   public mediaGlobalAtendimentoTecnicosModel: MediaGlobalAtendimentoTecnicosModel = new MediaGlobalAtendimentoTecnicosModel();
   public loading: boolean = true;
-  public disponibilidadeTecnicosModel: DisponibilidadeTecnicosModel[] = [];
 
   constructor(private _cdr: ChangeDetectorRef,
-    private _tecnicoService: TecnicoService) { }
+    private _tecnicoService: TecnicoService,
+    private _ordemServicoService: OrdemServicoService) { }
 
   ngOnInit(): void {
     this.obterDados();
@@ -28,54 +26,28 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
 
   async obterDados() {
     this.loading = true;
-    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss');
-    let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    let dadosTecnicosDashboard = (await this._tecnicoService
-      .obterPorParametros({
-        filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
-        include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-        periodoMediaAtendInicio: dataInicio,
-        periodoMediaAtendFim: dataFim
-      }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
 
-    for (let tecnico of dadosTecnicosDashboard) {
+    let listaTecnicos = (await this._tecnicoService
+      .obterPorParametros({})
+      .toPromise()).items;
 
-      let dadosDashboard = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == tecnico.filial.codFilial);
+    for (let tecnico of listaTecnicos.filter(m => m.indAtivo && m.usuario?.indAtivo)) {
 
-      /** DADOS DOS TÉCNICOS **/
-      if (!dadosDashboard) {
-        dadosDashboard = new DisponibilidadeTecnicosModel();
-        // Nome Filial
-        dadosDashboard.filial = tecnico.filial;
-        // Quantidade de técnicos ativos da filial
-        dadosDashboard.qntTecnicosAtivosChamados = Enumerable.from(dadosTecnicosDashboard).count(c => c.filial.codFilial == tecnico.filial.codFilial && c.indFerias == 0);
-        // Quantidade de técnicos inativos da filial
-        dadosDashboard.qntTecnicosInativos = Enumerable.from(dadosTecnicosDashboard).count(c => c.filial.codFilial == tecnico.filial.codFilial && c.indFerias == 1);
-        // Quantidade de técnicos total da filial
-        dadosDashboard.qntTotalTecnicos = dadosDashboard.qntTecnicosAtivosChamados + dadosDashboard.qntTecnicosInativos;
+      let listaOSTecnico = await this._ordemServicoService.obterPorParametros({
+        codTecnico: tecnico.codTecnico,
+        dataAberturaInicio: '2021-08-01', //moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+        dataAberturaFim: moment().endOf('month').format('YYYY-MM-DD hh:mm'),
+      }).toPromise();
 
-        this.disponibilidadeTecnicosModel.push(dadosDashboard);
+      if (listaOSTecnico.items?.length > 0) {
+        this.mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes += listaOSTecnico.items.filter(os => os.codStatusServico != 2).length;
+        this.mediaGlobalAtendimentoTecnicosModel.qntCorretivos += listaOSTecnico.items.filter(os => os.codTipoIntervencao == 2).length;
+        this.mediaGlobalAtendimentoTecnicosModel.qntPreventivos += listaOSTecnico.items.filter(os => os.codTipoIntervencao == 8).length;
+        this.mediaGlobalAtendimentoTecnicosModel.qntInstalacoes += listaOSTecnico.items.filter(os => os.codTipoIntervencao == 4).length;
+        this.mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia += listaOSTecnico.items.filter(os => os.codTipoIntervencao == 1).length;
       }
-
-      // Quantidade de técnicos sem OS Transferidas
-      if (tecnico.tecnicoSemChamadosTransferidos) {
-        dadosDashboard.qntTecnicosAtivosSemChamadosTransferidos++;
-        dadosDashboard.qntTecnicosAtivosChamados--;
-      }
-
-      dadosDashboard.mediaAtendimentoTodos += tecnico.mediaAtendimentosPorDiaTodasIntervencoes;
-      dadosDashboard.mediaAtendimentoCorretivo += tecnico.mediaAtendimentosPorDiaCorretivos;
-      dadosDashboard.mediaAtendimentoPreventivo += tecnico.mediaAtendimentosPorDiaPreventivos;
-      dadosDashboard.mediaAtendimentoInstalacao += tecnico.mediaAtendimentosPorDiaInstalacoes;
-      dadosDashboard.mediaAtendimentoEngenharia += tecnico.mediaAtendimentosPorDiaEngenharia;
     }
-
-    this.mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoTodos / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntCorretivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoCorretivo / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntPreventivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoPreventivo / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntInstalacoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoInstalacao / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoEngenharia / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
 
     this.loading = false;
     this._cdr.detectChanges();

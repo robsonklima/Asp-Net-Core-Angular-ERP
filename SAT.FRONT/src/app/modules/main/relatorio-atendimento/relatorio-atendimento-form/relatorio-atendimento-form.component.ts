@@ -26,8 +26,9 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
+import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
-import Enumerable from 'linq';
+import { TipoCausaService } from 'app/core/services/tipo-causa.service';
 
 
 @Component({
@@ -92,7 +93,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
-      this.form.controls['codTecnico'].setValue(this.relatorioAtendimento.codTecnico);
       this.form.patchValue(this.relatorioAtendimento);
     } else
     {
@@ -120,11 +120,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.validaBloqueioStatus();
     })
 
-    this.form.controls['codTecnico'].valueChanges.subscribe(() =>
-    {
-      console.log(this.relatorioAtendimento.codTecnico);
-    })
-
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
       indAtivo: 1,
       pageSize: 100,
@@ -134,9 +129,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
+      pageSize: 100,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.getFiliais()
+      codFiliais: this.ordemServico?.filial?.codFilial.toString()
     }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges
@@ -150,9 +146,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
             sortActive: 'nome',
             sortDirection: 'asc',
             indAtivo: 1,
-            nome: query,
+            filter: query,
             pageSize: 100,
-            codFiliais: this.getFiliais()
+            codFiliais: this.ordemServico?.filial?.toString()
           }).toPromise();
 
           return data.items.slice();
@@ -566,22 +562,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
   public bloqueiaFormTecnico(ordemServico: OrdemServico)
   {
     return (ordemServico?.codStatusServico == 8 && ordemServico?.codTecnico != null);
-  }
-
-  private getFiliais()
-  {
-    var filiais: string[] = [];
-
-    if (this._userService.user?.codFilial)
-      filiais.push(this._userService.user?.codFilial.toString());
-
-    if (this.ordemServico?.codFilial)
-      filiais.push(this.ordemServico?.codFilial.toString());
-
-    if (this.relatorioAtendimento?.tecnico?.codFilial)
-      filiais.push(this.relatorioAtendimento?.tecnico?.codFilial.toString());
-
-    return Enumerable.from(filiais).distinct(f => f).toJoinedString(',');
   }
 
   ngOnDestroy()

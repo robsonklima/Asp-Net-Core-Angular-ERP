@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System;
 using System.Linq;
 
 namespace SAT.SERVICES.Services
@@ -39,12 +37,6 @@ namespace SAT.SERVICES.Services
             var navegacoes = usuarioLogado.Perfil?.NavegacoesConfiguracao
                 .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
             usuarioLogado.Perfil.NavegacoesConfiguracao = null;
-
-
-            if (navegacoes.Count == 0) {
-                throw new Exception(Constants.USUARIO_NAO_POSSUI_PERFIL_DE_ACESSO);
-            }
-            
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
 
             return new UsuarioLoginViewModel()

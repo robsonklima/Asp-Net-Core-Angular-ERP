@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -16,7 +17,13 @@ namespace SAT.INFRA.Repository
 
         public List<DispBBPercRegiao> ObterPorParametros(DispBBPercRegiaoParameters parameters)
         {
-            return null;
+            var perc = _context.DispBBPercRegiao
+                .AsQueryable();
+
+            if (parameters.IndAtivo.HasValue)
+                perc = perc.Where(c => c.IndAtivo == parameters.IndAtivo.Value);
+
+            return perc.ToList();
         }
     }
 }

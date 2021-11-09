@@ -1,8 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
 
-export interface GrupoEquipamento
-{
+export interface GrupoEquipamento {
     codGrupoEquip: number;
     codTipoEquip: number;
     codEGrupoEquip: string;
@@ -10,13 +9,10 @@ export interface GrupoEquipamento
     tipoEquipamento: TipoEquipamento;
 }
 
-export interface GrupoEquipamentoData extends Meta
-{
+export interface GrupoEquipamentoData extends Meta {
     items: GrupoEquipamento[];
 };
 
-export interface GrupoEquipamentoParameters extends QueryStringParameters
-{
+export interface GrupoEquipamentoParameters extends QueryStringParameters {
     codGrupoEquip?: number;
-    codTipoEquip?: string;
 };

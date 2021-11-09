@@ -18,7 +18,13 @@ namespace SAT.INFRA.Repository
 
         public List<DispBBCriticidade> ObterPorParametros(DispBBCriticidadeParameters parameters)
         {
-            return null;
+            var criticidades = _context.DispBBCriticidade
+                .AsQueryable();
+
+            if (parameters.IndAtivo.HasValue)
+                criticidades = criticidades.Where(c => c.IndAtivo == parameters.IndAtivo.Value);
+
+            return criticidades.ToList();
         }
     }
 }

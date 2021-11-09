@@ -37,6 +37,7 @@ export class RoteiroMapaComponent implements OnInit {
       .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
       .map(os => { return L.latLng(+os.localAtendimento.latitude, +os.localAtendimento.longitude) });
 
+
     const usuarios = await this._usuarioSvc.obterPorParametros({
       nomeUsuario: this.resource.name,
       indAtivo: 1

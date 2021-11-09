@@ -20,7 +20,29 @@ namespace SAT.INFRA.Repository
 
         private List<IntegracaoServidorModel> ObterListaGeralMonitoramento()
         {
-            return null;
+            string[] notServidores = new string[] { "GD3234", "SAT_INT1", "SAT_APL1" };
+            DateTime hoje = DateTime.Now;
+            return (from monitoramento in this._context.Monitoramento.Where(m =>
+                                                       !m.Servidor.Equals("GD3233") && !m.Item.Equals("Ticket_Log") &&
+                                                       !notServidores.Contains(m.Servidor) &&
+                                                       (!m.Disco.Equals(@"O:\") || string.IsNullOrWhiteSpace(m.Disco)))
+                    group monitoramento
+                    by new { monitoramento.Servidor, monitoramento.Item, monitoramento.Mensagem, monitoramento.Disco, monitoramento.Tipo, monitoramento.TamanhoEmGb }
+                             into gruposMonitoramento
+                    select new IntegracaoServidorModel()
+                    {
+                        Tipo = gruposMonitoramento.Key.Tipo,
+                        Disco = gruposMonitoramento.Key.Disco,
+                        TamanhoEmGB = gruposMonitoramento.Key.TamanhoEmGb,
+                        Item = gruposMonitoramento.Key.Item,
+                        Servidor = gruposMonitoramento.Key.Servidor.Equals("SATAPLPROD") ? "SAT_APL1" : "SAT_INT1",
+                        Mensagem = gruposMonitoramento.Max(e => e.EspacoEmGb) == null ? gruposMonitoramento.Key.Mensagem :
+                                   $"{gruposMonitoramento.Key.Mensagem} {gruposMonitoramento.Key.Disco} {this._context.Monitoramento.Where(f => f.Disco == gruposMonitoramento.Key.Disco && f.Servidor == gruposMonitoramento.Key.Servidor).OrderByDescending(ord => ord.DataHoraProcessamento).FirstOrDefault().EspacoEmGb} GB",
+                        EspacoEmGb = gruposMonitoramento.Max(e => e.EspacoEmGb),
+                        DataHoraProcessamento = gruposMonitoramento.Max(e => e.DataHoraProcessamento ?? e.DataHoraCad),
+                        DataHoraCad = gruposMonitoramento.Max(e => e.DataHoraCad)
+                    }
+            ).ToList();
         }
 
         public MonitoramentoViewModel ObterListaMonitoramento()

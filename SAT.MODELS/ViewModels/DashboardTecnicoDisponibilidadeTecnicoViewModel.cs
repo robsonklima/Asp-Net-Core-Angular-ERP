@@ -4,11 +4,9 @@ namespace SAT.MODELS.ViewModels
 {
     public class DashboardTecnicoDisponibilidadeTecnicoViewModel : Tecnico
     {
-        public double MediaAtendimentosPorDiaPreventivos { get; set; }
-        public double MediaAtendimentosPorDiaCorretivos { get; set; }
-        public double MediaAtendimentosPorDiaInstalacoes { get; set; }
-        public double MediaAtendimentosPorDiaEngenharia { get; set; }
-        public double MediaAtendimentosPorDiaTodasIntervencoes { get; set; }
-        public bool TecnicoSemChamadosTransferidos { get; set; }
+        public int QtdChamadosAtendidosTodasIntervencoes { get; set; }
+        public int QtdChamadosAtendidosSomenteCorretivos { get; set; }
+        public int QtdChamadosAtendidosSomentePreventivos { get; set; }
+        public int QtdChamadosAtendidosTodasIntervencoesDia { get; set; }        
     }
 }

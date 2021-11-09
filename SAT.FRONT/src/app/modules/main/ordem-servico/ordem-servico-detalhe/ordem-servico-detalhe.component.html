@@ -77,10 +77,6 @@
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
                                 </button>
-                                <button mat-menu-item [disabled]="os?.ordemServicoRelatorioInstalacao?.length > 0 || os?.codTipoIntervencao != 4" [routerLink]="['/relatorio-instalacao/' + codOS]">
-                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-text'"></mat-icon>
-                                    {{ t('relatorio instalacao') }}
-                                </button>
                                 <button mat-menu-item (click)="cancelar()"
                                     [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
@@ -192,9 +188,7 @@
                                             <div class="my-2">
                                                 <div>{{ t('endereco') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    {{  os?.localAtendimento?.endereco + ' - ' + os?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
-                                                        os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF 
-                                                        || 'não informado' }}
+                                                    {{ os?.localAtendimento?.endereco || 'não informado' | titlecase }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
@@ -277,6 +271,12 @@
                                                 </div>
                                             </div>
                                             <div class="my-2">
+                                                <div>{{ t('codigo pai') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    ????
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
                                                 <div>{{ t('sugestao') }}</div>
                                                 <div class="text-secondary text-md">
                                                     {{ os?.sugestaoOS || 'Não Informado' }}
@@ -352,29 +352,29 @@
 
                                         <div class="flex flex-col my-2">
                                             <div class="my-2">
-                                                <div>{{ t('numero') }}</div>
+                                                <div>Número</div>
                                                 <div class="text-secondary text-md">{{ r.numRAT }}</div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('tecnico') }} </div>
+                                                <div>Técnico</div>
                                                 <div class="text-secondary text-md">{{ r.tecnico?.nome | titlecase }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('status') }} </div>
+                                                <div>Status</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.statusServico?.nomeStatusServico || 'Não Informado'}}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('solicitacao') }} </div>
+                                                <div>Solicitação</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.dataHoraSolicitacao ? (r.dataHoraSolicitacao | date:'dd/MM
                                                     HH:mm') : 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('periodo') }} </div>
+                                                <div>Período</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.dataHoraInicio ? (r.dataHoraInicio | date:'dd/MM HH:mm') : 'Não
                                                     Informado' }} - {{ r.dataHoraSolucao ? (r.dataHoraSolucao |
@@ -382,13 +382,13 @@
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('horas gastas') }} </div>
+                                                <div>Horas Gastas</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.qtdHorasTecnicas || 'Não Informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('intervalo') }} </div>
+                                                <div>Intervalo</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.horarioInicioIntervalo ? (r.horarioInicioIntervalo) : 'Não
                                                     Informado' }} - {{ r.horarioTerminoIntervalo ?
@@ -396,16 +396,10 @@
                                                 </div>
                                             </div>
                                             <div class="my-2">
-                                                <div> {{ t('acompanhante') }} </div>
+                                                <div>Acompanhante</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.nomeAcompanhante || 'Não Informado' }}
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <div *ngFor="let detalhe of r.relatorioAtendimentoDetalhes">
-                                            <div class="text-lg tracking-tight text-secondary">
-                                                {{ "No. " + detalhe.codRATDetalhe }}
                                             </div>
                                         </div>
                                     </div>
@@ -417,7 +411,6 @@
                                         </p>
                                     </div>
                                 </div>
-
                             </ng-template>
                         </mat-tab>
 

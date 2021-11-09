@@ -150,47 +150,14 @@ export class OrdemServico {
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico;
-    ordemServicoRelatorioInstalacao: OrdemServicoRelatorioInstalacao;
-    ordemServicoRelatorioInstalacaoNaoConformidade: OrdemServicoRelatorioInstalacaoNaoConformidade;
-}
-
-export class OrdemServicoRelatorioInstalacao {
-    codOSRelatorioInstalacao?: number;
-    codOS: number;
-    codOSRelatorioInstalacaoItem: number;
-    ordemServicoRelatorioInstalacaoItem?: OrdemServicoRelatorioInstalacaoItem;
-    indStatus: number;
-    detalhe?: string;
-}
-
-export class OrdemServicoRelatorioInstalacaoItem {
-    codOSRelatorioInstalacao: number;
-    item: string;
-    indAtivo: number;
-}
-
-export class OrdemServicoRelatorioInstalacaoNaoConformidade {
-    codOSRelatorioInstalacao?: number;
-    codOS: number;
-    codOSRelatorioInstalacaoNaoConformidadeItem: number;
-    ordemServicoRelatorioInstalacaoNaoConformidadeItem?: any;
-    indStatus: number;
-    detalhe?: string;
-}
-
-export class OrdemServicoRelatorioInstalacaoNaoConformidadeItem {
-    codOSRelatorioNaoConformidadeItem: number;
-    item: string;
-    indAtivo: number;
 }
 
 export interface OrdemServicoData extends Meta {
     items: OrdemServico[];
 };
 
-export interface OrdemServicoParameters extends QueryStringParameters
-{
-    codOS?: string;
+export interface OrdemServicoParameters extends QueryStringParameters {
+    codOS?: string[];
     codEquipContrato?: number;
     codTecnico?: number;
     numOSCliente?: string;
@@ -208,8 +175,6 @@ export interface OrdemServicoParameters extends QueryStringParameters
     dataTransfFim?: string;
     include?: OrdemServicoIncludeEnum;
     filterType?: OrdemServicoFilterEnum;
-    dataHoraInicioInicio?: string;
-    dataHoraInicioFim?: string;
 };
 
 export enum OrdemServicoIncludeEnum {

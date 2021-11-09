@@ -33,12 +33,6 @@ export enum FilialFilterEnum {
     FILTER_DASHBOARD_DISPONIBILIDADE_TECNICOS = 1
 }
 
-export class DashboardTecnicoDisponibilidadeFilialViewModel implements Filial {
-    codFilial: number;
-    razaoSocial: string;
-    nomeFilial: string;
-    cidade: Cidade;
-    endereco: string;
-    cep: string;
-    qtdOSNaoTransferidasCorretivas: number;
+export class DashboardTecnicoDisponibilidadeViewModel {
+    QtdOSNaoTransferidasCorretivas: number;
 }

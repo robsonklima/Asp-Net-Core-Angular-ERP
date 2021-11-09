@@ -16,14 +16,13 @@ export interface AppConfig
     api: Api;
     tempo_atualizacao_dashboard_minutos: number;
     map_quest_keys: string[];
-    tailwind_css: string;
 }
 
 export const appConfig: AppConfig = {
-    layout: 'classic',
+    layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: 'https://localhost:5001/api',
+    api: 'https://localhost:44341/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',
@@ -33,5 +32,4 @@ export const appConfig: AppConfig = {
     ],
     tempo_atualizacao_dashboard_minutos: 5,
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
-    tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css'
 };

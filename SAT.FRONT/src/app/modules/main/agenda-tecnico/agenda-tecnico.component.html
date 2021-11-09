@@ -54,7 +54,7 @@
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
-        <div *ngIf="!loading">
+        <div class="lg:max-h-200 md:max-h-200" *ngIf="!loading">
             <div class="md-resource-details lg:max-h-full md:max-h-full">
                 <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
                     [resourceTemplate]="resourceTemplate">

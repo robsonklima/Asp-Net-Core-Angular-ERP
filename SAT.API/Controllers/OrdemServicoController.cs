@@ -7,7 +7,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]

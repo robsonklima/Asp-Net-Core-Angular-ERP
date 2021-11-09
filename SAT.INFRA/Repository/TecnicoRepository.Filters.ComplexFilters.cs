@@ -11,6 +11,19 @@ namespace SAT.INFRA.Repository
 {
     public partial class TecnicoRepository : ITecnicoRepository
     {
+        public IQueryable<Tecnico> AplicarFiltroDataOS(IQueryable<Tecnico> query, TecnicoParameters parameters)
+        {
+            // Filtro nas OS
+            if (parameters.PeriodoMediaAtendInicio != DateTime.MinValue && parameters.PeriodoMediaAtendInicio != DateTime.MinValue)
+            {
+                query = query
+                   .Include(t => t.OrdensServico.Where(os => os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                   os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim));
+            }
+
+            return query;
+        }
+        
         public IQueryable<DashboardTecnicoDisponibilidadeTecnicoViewModel> AplicarFiltroDashboardTecnicoDisponibilidade(IQueryable<Tecnico> query, TecnicoParameters parameters)
         {
             DateTime agora = DateTime.Now;
@@ -23,71 +36,106 @@ namespace SAT.INFRA.Repository
                    os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim));
             }
 
-            List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
-
-            foreach (var tecnico in query.Where(q => q.IndAtivo == 1 && q.Usuario != null &&
-                                                     q.Usuario.IndAtivo == 1 && q.Filial != null).ToArray())
+            try
             {
-                PontoUsuario[] pontoUsuario = _context.PontoUsuario.Where(p =>
-                        p.DataHoraRegistro >= parameters.PeriodoMediaAtendInicio &&
-                        p.DataHoraRegistro <= parameters.PeriodoMediaAtendFim &&
-                        tecnico.Usuario.CodUsuario == p.CodUsuario && p.IndAtivo == 1).ToArray();
+                var t = (from tecnico in query.Where(q => q.IndAtivo == 1 && q.Usuario != null && q.Filial.NomeFilial == "FAM")//.ToArray()
 
-                // Se por algum motivo não tem ponto ou chamados, não tem porque contabilizar 
-                if (pontoUsuario.Length == 0 || tecnico.OrdensServico.Count == 0) continue;
+                         //join ponto in _context.PontoUsuario.Where(p =>
+                         //    p.DataHoraRegistro >= parameters.PeriodoMediaAtendInicio &&
+                         //    p.DataHoraRegistro <= parameters.PeriodoMediaAtendFim)
+                         //on tecnico.Usuario.CodUsuario equals ponto.CodUsuario into pontoUsuario
 
-                double diasTrabalhados = pontoUsuario.Max(s => s.DataHoraRegistro).Subtract(pontoUsuario.Min(s => s.DataHoraRegistro)).TotalDays;
+                         //join loc in _context.Localizacao.Where(w =>
+                         //        w.DataHoraCad.AddMinutes(-90) >= agora &&
+                         //        w.DataHoraCad.AddMinutes(90) <= agora
+                         //        ) on tecnico.Usuario.CodUsuario equals loc.CodUsuario into temp
+                         //from local in temp.DefaultIfEmpty()
 
-                IEnumerable<OrdemServico> osTecnico = tecnico.OrdensServico.Where(os =>
-                                       os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
-                                       os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
-                                       os.RelatoriosAtendimento != null && os.RelatoriosAtendimento.Count > 0);
+                         select new DashboardTecnicoDisponibilidadeTecnicoViewModel()
+                         {
+                             //NomeUsuario = tecnico.Usuario.NomeUsuario,
+                             //CodUsuario = tecnico.Usuario.CodUsuario,
+                             CodTecnico = tecnico.CodTecnico,
+                             Filial = tecnico.Filial,
+                             IndFerias = tecnico.IndFerias,
+                             //IndUsuarioAtivo = tecnico.Usuario.IndAtivo,
+                             //IndTecnicoAtivo = tecnico.IndAtivo.Value,
+                             //QtdPonto = pontoUsuario.Count(),
+                             //SinalSatelite = local != null ? local.CodLocalizacao : null,
 
-                retorno.Add(new DashboardTecnicoDisponibilidadeTecnicoViewModel()
-                {
-                    Usuario = tecnico.Usuario,
-                    IndFerias = tecnico.IndFerias,
-                    IndAtivo = tecnico.IndAtivo,
-                    CodTecnico = tecnico.CodTecnico,
-                    Filial = tecnico.Filial,
+                             //QtdChamadosTotal = tecnico.OrdensServico.Count,
 
-                    TecnicoSemChamadosTransferidos = !tecnico.OrdensServico.Any(w => w.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO),
+                             //QtdChamadosTransferidos = tecnico.OrdensServico.Where(t => t.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO).Count(),
 
-                    MediaAtendimentosPorDiaTodasIntervencoes = osTecnico.Where(os =>
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO &&
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELPDESK &&
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELP_DESK_DSS
-                                           ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                         rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                         rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+                             QtdChamadosAtendidosTodasIntervencoes = tecnico.OrdensServico.Where(os =>
+                                                os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                                os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                                                os.CodTipoIntervencao != (int)TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO &&
+                                                os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELPDESK &&
+                                                os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELP_DESK_DSS
+                                               ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                             rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                             rat.DataHoraSolucao > agora.AddDays(-30)),
 
-                    MediaAtendimentosPorDiaCorretivos = osTecnico.Where(os =>
-                                          os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA
-                                                    ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                                  rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                                  rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+                             QtdChamadosAtendidosSomenteCorretivos = tecnico.OrdensServico.Where(os =>
+                             os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                                os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                                                os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA
+                                               ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                             rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                             rat.DataHoraSolucao > agora.AddDays(-30)),
 
-                    MediaAtendimentosPorDiaPreventivos = osTecnico.Where(os =>
-                                         os.CodTipoIntervencao == (int)TipoIntervencaoEnum.PREVENTIVA
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+                             //QtdChamadosAtendidosSomenteInstalacao = tecnico.OrdensServico.Where(os =>
+                             //os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                             //                   os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                             //                   os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO
+                             //                  ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                             //                rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                             //                rat.DataHoraSolucao > agora.AddDays(-30)),
 
-                    MediaAtendimentosPorDiaInstalacoes = osTecnico.Where(os =>
-                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+                             //QtdChamadosAtendidosSomenteEngenharia = tecnico.OrdensServico.Where(os =>
+                             //os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                             //                   os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                             //                   os.CodTipoIntervencao == (int)TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA
+                             //                  ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                             //                rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                             //                rat.DataHoraSolucao > agora.AddDays(-30)),
 
-                    MediaAtendimentosPorDiaEngenharia = osTecnico.Where(os =>
-                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
-                });
+                             QtdChamadosAtendidosSomentePreventivos = tecnico.OrdensServico.Where(os =>
+                             os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                                os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                                                 os.CodTipoIntervencao == (int)TipoIntervencaoEnum.PREVENTIVA
+                                               ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                             rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                             rat.DataHoraSolucao > agora.AddDays(-30)),
+
+                             QtdChamadosAtendidosTodasIntervencoesDia = tecnico.OrdensServico.Where(os =>
+                             os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                                os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim).SelectMany(r => r.RelatoriosAtendimento)
+                                                                      .Count(rat =>
+                                                                     rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                                                     rat.DataHoraSolucao >= agora.Date),
+
+                             //QtdDiasUteisTech = (from p in pontoUsuario.Where(d => d.DataHoraRegistro >= agora.AddDays(-30))
+                             //                    where
+                             //                    !_context.PlantaoTecnico
+                             //                    .Where(s => s.CodUsuarioCad == p.CodUsuario)
+                             //                    .Select(s => s.DataPlantao)
+                             //                    .Contains(p.DataHoraRegistro)
+                             //                    select p.DataHoraRegistro).Distinct().Count()
+
+                         });//.ToList();
+
+
+                //var ia = i.Any(s => s.QtdChamadosTotal > 0);
+
+                return t;
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
-            return retorno.AsQueryable();
         }
     }
 }

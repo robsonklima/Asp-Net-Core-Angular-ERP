@@ -1,6 +1,5 @@
 ﻿using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
-using System;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -11,6 +10,5 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(Feriado feriado);
         void Deletar(int codFeriado);
         Feriado ObterPorCodigo(int codigo);
-        int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, int? codCidade = null);
     }
 }

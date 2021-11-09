@@ -5,7 +5,6 @@ import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Regiao } from "./regiao.types";
 import { TipoRota } from "./tipo-rota.types";
-import { UnidadeFederativa } from "./unidade-federativa.types";
 
 export class LocalAtendimento {
     codPosto: number;

@@ -200,7 +200,7 @@
                 </button>
                 <button class="px-8" mat-flat-button [color]="'primary'"
                     [disabled]="horizontalStepperStep2.stepControl.pristine || horizontalStepperStep2.stepControl.invalid"
-                    type="button" matStepperNext>
+                    type="button" (click)="revisar()" matStepperNext>
                     Próximo
                 </button>
             </div>
@@ -220,6 +220,7 @@
                 <p>Tipo de despesa: {{ obterTipoDespesa() }}</p>
                 <p>Quilometragem informada: {{ this.despesaItemForm.value.step2.quilometragem + "km" }}</p>
                 <p>Valor da despesa: {{ calculaConsumoCombustivel() | currency:'BRL':'symbol-narrow' }}</p>
+                <div class="hidden" id="map"></div>
             </div>
 
             <div class="flex justify-end mt-8">

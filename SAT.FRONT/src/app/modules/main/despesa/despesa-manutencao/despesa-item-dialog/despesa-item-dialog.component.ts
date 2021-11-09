@@ -1,4 +1,4 @@
-import { Inject, Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Inject, Component, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
@@ -15,6 +15,10 @@ import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import 'leaflet';
+import 'leaflet-routing-machine';
+declare var L: any;
+
 
 @Component({
   selector: 'app-despesa-item-dialog',
@@ -31,6 +35,8 @@ export class DespesaItemDialogComponent implements OnInit
   rat: RelatorioAtendimento;
   despesa: Despesa;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel;
+  mapsPlaceholder: any = [];
+  @ViewChild('map') private map: any;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -237,9 +243,43 @@ export class DespesaItemDialogComponent implements OnInit
     return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 
-  validaQuilometragem(): void
+  revisar(): void
   {
+    this.validaQuilometragem();
+  }
 
+  async validaQuilometragem()
+  {
+    var quilometragem = await this.calculaQuilometragem();
+    console.log(quilometragem);
+  }
+
+  async calculaQuilometragem()
+  {
+    var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
+      (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
+
+    var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
+      (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
+
+    if (this.map == null)
+      this.map = L.map('map').setView(origem, destino, 1);
+
+    var routing = L.Routing.control({
+      waypoints: [origem, destino],
+      routeWhileDragging: true,
+      show: false,
+      createMarker: function (p1, p2) { }
+    })
+
+    return new Promise(resolve => routing.on('routesfound', function (e)
+    {
+      var routes = e.routes;
+      var summary = routes[0].summary;
+      // alert('A distância é de ' + summary.totalDistance / 1000 + 'km e o tempo é ' + 
+      // Math.round(summary.totalTime % 3600 / 60) + ' minutos');
+      resolve(summary.totalDistance / 1000);
+    }).addTo(this.map));
   }
 
   configuraCamposObrigatorios(): void

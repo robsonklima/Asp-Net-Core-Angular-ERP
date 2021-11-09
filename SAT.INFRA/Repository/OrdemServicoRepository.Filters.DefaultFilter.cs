@@ -19,7 +19,7 @@ namespace SAT.INFRA.Repository
                 );
             }
             
-            if (parameters.CodOS != null) {
+            if (parameters.CodOS > 0) {
                 query = query.Where(os => os.CodOS == parameters.CodOS);
             }
 

@@ -250,11 +250,13 @@ export class DespesaItemDialogComponent implements OnInit
 
   async validaQuilometragem()
   {
-    var quilometragem = await this.calculaQuilometragem();
-    console.log(quilometragem);
+    var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
+    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
+    console.log(quilometragemLeaflet);
+    // console.log(quilometragemGoogle);
   }
 
-  async calculaQuilometragem()
+  async calculaQuilometragemLeaflet()
   {
     var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
       (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
@@ -280,6 +282,22 @@ export class DespesaItemDialogComponent implements OnInit
       // Math.round(summary.totalTime % 3600 / 60) + ' minutos');
       resolve(summary.totalDistance / 1000);
     }).addTo(this.map));
+  }
+
+
+  async calculaQuilometragemGoogle()
+  {
+    var oLat = (this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value;
+    var oLong = (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value;
+
+    var dLat = (this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value;
+    var dLong = (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value;
+
+    return new Promise(resolve => this._geolocationService.calcularDistancia(oLat, oLong, dLat, dLong).subscribe(result =>
+    {
+      resolve(result);
+
+    }));
   }
 
   configuraCamposObrigatorios(): void

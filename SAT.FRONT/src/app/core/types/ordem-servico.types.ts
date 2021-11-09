@@ -175,6 +175,8 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     dataTransfFim?: string;
     include?: OrdemServicoIncludeEnum;
     filterType?: OrdemServicoFilterEnum;
+    dataHoraInicioInicio?: string;
+    dataHoraInicioFim?: string;
 };
 
 export enum OrdemServicoIncludeEnum {

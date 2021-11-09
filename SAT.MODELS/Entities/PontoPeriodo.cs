@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities 
 {
@@ -16,5 +17,14 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public int? CodPontoPeriodoModoAprovacao { get; set; }
         public int CodPontoPeriodoIntervaloAcessoData { get; set; }
+
+        [ForeignKey("CodPontoPeriodoStatus")]
+        public PontoPeriodoStatus PontoPeriodoStatus { get; set; }
+
+        [ForeignKey("CodPontoPeriodoModoAprovacao")]
+        public PontoPeriodoModoAprovacao PontoPeriodoModoAprovacao { get; set; }
+
+        [ForeignKey("CodPontoPeriodoIntervaloAcessoData")]
+        public PontoPeriodoIntervaloAcessoData PontoPeriodoIntervaloAcessoData { get; set; }
     }
 }

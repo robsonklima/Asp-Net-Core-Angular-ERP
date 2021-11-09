@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,5 +14,11 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioCad { get; set; }
         public int CodPontoUsuarioDataMotivoDivergencia { get; set; }
         public int? DivergenciaValidada { get; set; }
+
+        [ForeignKey("CodPontoUsuarioDataModoDivergencia")]
+        public PontoUsuarioDataModoDivergencia PontoUsuarioDataModoDivergencia { get; set; }
+
+        [ForeignKey("CodPontoUsuarioDataMotivoDivergencia")]
+        public PontoUsuarioDataMotivoDivergencia PontoUsuarioDataMotivoDivergencia { get; set; }
     }
 }

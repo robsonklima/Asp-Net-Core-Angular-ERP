@@ -89,8 +89,15 @@ namespace SAT.API
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
+            services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
+            services.AddTransient<IPontoPeriodoRepository, PontoPeriodoRepository>();
+            services.AddTransient<IPontoPeriodoStatusRepository, PontoPeriodoStatusRepository>();
+            services.AddTransient<IPontoPeriodoModoAprovacaoRepository, PontoPeriodoModoAprovacaoRepository>();
+            services.AddTransient<IPontoPeriodoIntervaloAcessoDataRepository, PontoPeriodoIntervaloAcessoDataRepository>();
+            services.AddTransient<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaRepository, PontoUsuarioDataMotivoDivergenciaRepository>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaRepository, PontoUsuarioDataTipoAdvertenciaRepository>();
             services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
-
             services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
             services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
             services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
@@ -139,6 +146,14 @@ namespace SAT.API
             services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
+            services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
+            services.AddTransient<IPontoPeriodoService, PontoPeriodoService>();
+            services.AddTransient<IPontoPeriodoStatusService, PontoPeriodoStatusService>();
+            services.AddTransient<IPontoPeriodoModoAprovacaoService, PontoPeriodoModoAprovacaoService>();
+            services.AddTransient<IPontoPeriodoIntervaloAcessoDataService, PontoPeriodoIntervaloAcessoDataService>();
+            services.AddTransient<IPontoUsuarioDataService, PontoUsuarioDataService>();
+            services.AddTransient<IPontoUsuarioDataMotivoDivergenciaService, PontoUsuarioDataMotivoDivergenciaService>();
+            services.AddTransient<IPontoUsuarioDataTipoAdvertenciaService, PontoUsuarioDataTipoAdvertenciaService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

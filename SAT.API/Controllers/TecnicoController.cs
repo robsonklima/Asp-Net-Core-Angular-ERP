@@ -5,7 +5,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
-
 namespace SAT.API.Controllers
 {
     [Authorize]
@@ -18,7 +17,7 @@ namespace SAT.API.Controllers
 
         public TecnicoController(ITecnicoService tecnicoService)
         {
-            _tecnicoService = tecnicoService;
+            this._tecnicoService = tecnicoService;
         }
 
         [HttpGet]

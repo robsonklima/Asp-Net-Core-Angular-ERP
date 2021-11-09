@@ -1,0 +1,75 @@
+<div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-4 border-b" *transloco="let t">
+    <div class="flex justify-between">
+        <div class="text-3xl font-extrabold tracking-tight leading-none mt-0">
+            {{ dataRegistro | date: 'dd/MM/yy' }} - {{ t('relatorios de atendimento') }}
+        </div>
+    </div>
+</div>
+<div mat-dialog-content>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" *ngIf="relatorios.length">
+        <ng-container matColumnDef="dataHoraInicio">
+            <th mat-header-cell *matHeaderCellDef>Início</th>
+            <td mat-cell *matCellDef="let row"> {{ row.dataHoraInicio | date:'HH:mm' }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="dataHoraSolucao">
+            <th mat-header-cell *matHeaderCellDef>Fim</th>
+            <td mat-cell *matCellDef="let row"> {{ row.dataHoraSolucao | date:'HH:mm' }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="codOS">
+            <th mat-header-cell *matHeaderCellDef>OS</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="font-semibold">{{ row.codOS }}</span>
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="numRAT">
+            <th mat-header-cell *matHeaderCellDef>RAT</th>
+            <td mat-cell *matCellDef="let row"> {{ row.numRAT }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="local">
+            <th mat-header-cell *matHeaderCellDef>Local</th>
+            <td mat-cell *matCellDef="let row"> {{ row.local }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="cidade">
+            <th mat-header-cell *matHeaderCellDef>Cidade</th>
+            <td mat-cell *matCellDef="let row"> {{ row.cidade }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="uf">
+            <th mat-header-cell *matHeaderCellDef>UF</th>
+            <td mat-cell *matCellDef="let row"> {{ row.uf }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="inicioIntervalo">
+            <th mat-header-cell *matHeaderCellDef>Início Interv.</th>
+            <td mat-cell *matCellDef="let row"> {{ row.inicioIntervalo || '--' }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="fimIntervalo">
+            <th mat-header-cell *matHeaderCellDef>Fim Interv.</th>
+            <td mat-cell *matCellDef="let row"> {{ row.fimIntervalo || '--' }} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *transloco="let t" class='flex items-center justify-center'>
+        <div class="p-4" *ngIf="!relatorios.length">
+            <p *ngIf="!loading">{{ t('nenhum registro encontrado') }}</p>
+        </div>
+
+        <div class="p-6" *ngIf="loading">
+            <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions class="mt-4" *transloco="let t" align="end">
+    <button mat-button (click)="fechar()">{{ t('fechar') }}</button>
+</div>

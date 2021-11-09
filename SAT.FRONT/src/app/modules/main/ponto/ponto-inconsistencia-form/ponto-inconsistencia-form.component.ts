@@ -31,7 +31,7 @@ export class PontoInconsistenciaFormComponent implements OnInit {
           value: undefined,
         }, [Validators.required]
       ],
-      codPontoUsuarioDataTipoAdvertencia: [
+      codPontoUsuarioDataTipoAdvertenciaTipoAdvertencia: [
         {
           value: undefined,
         }, [Validators.required]

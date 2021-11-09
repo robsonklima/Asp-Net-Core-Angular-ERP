@@ -52,46 +52,7 @@ namespace SAT.INFRA.Repository
             int[] codServicosExclusos = new int[] { 2, 3 };
 
             query = query
-                .Where(s => s.CodTipoIntervencao == (int)tipoIntervencao/*2: corretivo / 17: orçamento aprovado*/ && !codServicosExclusos.Contains(s.CodStatusServico)
-                && s.Filial.IndAtivo == 1
-                && s.Filial.CodFilial != 21/*PERTO - OUTSOURCING*/
-                && !s.Equipamento.NomeEquip.Contains("POS")
-                && !s.Equipamento.NomeEquip.Contains("PIN")
-                && !s.Equipamento.NomeEquip.Contains("PERTOS")
-                );
-
-            return query;
-        }
-
-        public IQueryable<OrdemServico> AplicarFiltroIndicadores(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
-        {
-            if (parameters.DataAberturaInicio != DateTime.MinValue && parameters.DataAberturaFim != DateTime.MinValue)
-            {
-                query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataAberturaInicio
-                    && os.DataHoraAberturaOS <= parameters.DataAberturaFim);
-            }
-
-            if (parameters.DataFechamentoInicio != DateTime.MinValue && parameters.DataFechamentoFim != DateTime.MinValue)
-            {
-                query = query.Where(os => os.DataHoraFechamento >= parameters.DataFechamentoInicio
-                    && os.DataHoraFechamento <= parameters.DataFechamentoFim);
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodFiliais))
-            {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
-                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
-            }
-
-            return query;
-        }
-
-        public IQueryable<OrdemServico> AplicarFiltroChamadosMaisAntigos(IQueryable<OrdemServico> query, OrdemServicoParameters parameters, TipoIntervencaoEnum tipoIntervencao)
-        {
-            int[] codServicosExclusos = new int[] { 2, 3 };
-
-            query = query
-                .Where(s => s.CodTipoIntervencao == (int)tipoIntervencao/*2: corretivo / 17: orçamento aprovado*/ && !codServicosExclusos.Contains(s.CodStatusServico)
+                .Where(s => s.CodTipoIntervencao == (int)tipoIntervencao/*2: corretivo / 17: orcamento aprovado*/ && !codServicosExclusos.Contains(s.CodStatusServico)
                 && s.Filial.IndAtivo == 1
                 && s.Filial.CodFilial != 21/*PERTO - OUTSOURCING*/
                 && !s.Equipamento.NomeEquip.Contains("POS")

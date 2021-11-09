@@ -1,4 +1,4 @@
-﻿using SAT.INFRA.Context;
+using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using System.Linq.Dynamic.Core;
 using System.Linq;

@@ -15,7 +15,8 @@ import Enumerable from 'linq';
   templateUrl: './pecas-faltantes-mais-criticas.component.html',
   styleUrls: ['./pecas-faltantes-mais-criticas.component.css']
 })
-export class PecasFaltantesMaisCriticasComponent implements OnInit {
+export class PecasFaltantesMaisCriticasComponent implements OnInit
+{
   public dadosPeca: DadosPeca;
   public chamadosPeca: ChamadosPeca;
   public osTopPecas: OrdemServico[] = [];
@@ -33,17 +34,19 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
     dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
   }
 
-  constructor(
+  constructor (
     private _indicadorService: IndicadorService,
     private _pecaService: PecaService,
     private _osService: OrdemServicoService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.obterDados();
   }
 
-  private async obterDados() {
+  private async obterDados()
+  {
     this.loading = true;
 
     const topPecas = await this._indicadorService
@@ -52,7 +55,7 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
         ...{ include: OrdemServicoIncludeEnum.OS_PECAS }
       }).toPromise();
 
-    let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(','));
+    let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(',')).toString();
     this.osTopPecas = (await this._osService.obterPorParametros({ codOS: codOsPecas }).toPromise()).items;
 
     let codPecas = topPecas.map(item => item.label).join(',');
@@ -63,7 +66,8 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
         startWith(0),
         takeUntil(this._onDestroy)
       )
-      .subscribe(async () => {
+      .subscribe(async () =>
+      {
         this.showPeca(pecasInfo[this.index], topPecas);
         this.loading = false;
         if (this.index > 8)
@@ -72,13 +76,15 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
       });
   }
 
-  private showPeca(peca: Peca, topPecas: Indicador[]) {
+  private showPeca(peca: Peca, topPecas: Indicador[])
+  {
 
     let topPecaAtual = topPecas.find(f => +f.label == peca.codPeca);
 
     let osPecas: ChamadosPeca[] = [];
 
-    for (let c of topPecaAtual.filho) {
+    for (let c of topPecaAtual.filho)
+    {
       let obj: ChamadosPeca = {
         filial: this.osTopPecas.find(f => f.codOS == c.valor).filial?.nomeFilial,
         ordemServico: c.valor.toString(),
@@ -98,7 +104,8 @@ export class PecasFaltantesMaisCriticasComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

@@ -3,9 +3,11 @@ import { RelatorioAtendimentoDetalhe } from "./relatorio-atendimento-detalhe.typ
 import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 
-export interface RelatorioAtendimento {
+export interface RelatorioAtendimento
+{
     codRAT?: number;
     numRAT?: string;
+    codTecnico?: number;
     nomeRespCliente: string;
     nomeAcompanhante: string;
     dataHoraChegada: string;
@@ -83,10 +85,15 @@ export interface RelatorioAtendimento {
     tecnico: Tecnico;
 }
 
-export interface RelatorioAtendimentoData extends Meta {
+export interface RelatorioAtendimentoData extends Meta
+{
     items: RelatorioAtendimento[];
 };
 
-export interface RelatorioAtendimentoParameters extends QueryStringParameters {
+export interface RelatorioAtendimentoParameters extends QueryStringParameters
+{
+    codTecnicos?: string;
     codOS?: number;
+    dataInicio?: string;
+    dataSolucao?: string;
 };

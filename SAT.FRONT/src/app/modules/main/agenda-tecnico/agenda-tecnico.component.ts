@@ -114,6 +114,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   protected _onDestroy = new Subject<void>();
 
+
   constructor (
     private _notify: Notifications,
     private _tecnicoSvc: TecnicoService,

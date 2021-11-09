@@ -188,7 +188,9 @@
                                             <div class="my-2">
                                                 <div>{{ t('endereco') }}</div>
                                                 <div class="text-secondary text-md">
-                                                    {{ os?.localAtendimento?.endereco || 'não informado' | titlecase }}
+                                                    {{  os?.localAtendimento?.endereco + ' - ' + os?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
+                                                        os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF 
+                                                        || 'não informado' }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
@@ -268,12 +270,6 @@
                                                 <div>{{ t('reincidencia') }}</div>
                                                 <div class="text-secondary text-md">
                                                     {{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('codigo pai') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    ????
                                                 </div>
                                             </div>
                                             <div class="my-2">

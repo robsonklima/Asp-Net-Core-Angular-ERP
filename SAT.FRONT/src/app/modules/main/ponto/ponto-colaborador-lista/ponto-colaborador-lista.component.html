@@ -101,10 +101,10 @@
                                     <div class="truncate">
                                         <span
                                             class="py-1 px-2 rounded text-white"
-                                            [class.bg-green-600]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Conferido'"
-                                            [class.bg-black]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'"
-                                            [class.bg-red-600]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Inconsistente'"
-                                            [class.bg-blue-600]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Aguardando Conferência'">
+                                            [class.bg-green-600]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Conferido'"
+                                            [class.bg-black]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'"
+                                            [class.bg-red-600]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Inconsistente'"
+                                            [class.bg-blue-600]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Aguardando Conferência'">
                                             {{ data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao }}
                                         </span>
                                     </div>

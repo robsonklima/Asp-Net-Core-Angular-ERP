@@ -24,11 +24,11 @@ namespace SAT.INFRA.Repository
             if (ValidateLogin(usuario))
             {
                 return _context.Usuario
-                        .Include(u => u.Filial)
-                        .Include(u => u.Perfil)
-                        .Include(u => u.Perfil.NavegacoesConfiguracao)
-                            .ThenInclude(conf => conf.Navegacao)
-                        .FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
+                    .Include(u => u.Filial)
+                    .Include(u => u.Perfil)
+                    .Include(u => u.Perfil.NavegacoesConfiguracao)
+                        .ThenInclude(conf => conf.Navegacao)
+                    .FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
             }
             else
             {
@@ -38,13 +38,13 @@ namespace SAT.INFRA.Repository
 
         private bool ValidateLogin(Usuario usuario)
         {
-            var usuarios = _context.Usuario.FromSqlRaw(string.Format(@"
+            var query = _context.Usuario.FromSqlRaw(string.Format(@"
                 SELECT	    *
                 FROM	    Usuario
                 WHERE	    CodUsuario = '{0}'
                 AND		    (PWDCompare('{1}', Senha) = 1)", usuario.CodUsuario, usuario.Senha)).ToList();
 
-            if (usuarios.Count > 0)
+            if (query.Count > 0)
             {
                 return true;
             }
@@ -54,7 +54,10 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Usuario> ObterPorParametros(UsuarioParameters parameters)
         {
-            var usuarios = _context.Usuario
+            var query = _context.Usuario
+                .Include(u => u.FilialPonto)
+                .Include(u => u.Cargo)
+                .Include(u => u.Turno)
                 .Include(u => u.Perfil)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Localizacoes.OrderByDescending(loc => loc.CodLocalizacao).Take(1))
@@ -62,49 +65,65 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Filter != null)
             {
-                usuarios = usuarios.Where(
+                query = query.Where(
                     u =>
                     u.NomeUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    u.CodUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    u.CodUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    u.NumCracha.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
             if (parameters.CodUsuario != null)
             {
-                usuarios = usuarios.Where(u => u.CodUsuario == parameters.CodUsuario);
+                query = query.Where(u => u.CodUsuario == parameters.CodUsuario);
             }
 
             if (parameters.NomeUsuario != null)
             {
-                usuarios = usuarios.Where(u => u.NomeUsuario == parameters.NomeUsuario);
+                query = query.Where(u => u.NomeUsuario == parameters.NomeUsuario);
             }
 
             if (parameters.CodPerfil != null)
             {
-                usuarios = usuarios.Where(u => u.CodPerfil == parameters.CodPerfil);
+                query = query.Where(u => u.CodPerfil == parameters.CodPerfil);
             }
 
             if (parameters.CodFilial != null)
             {
-                usuarios = usuarios.Where(u => u.CodFilial == parameters.CodFilial);
+                query = query.Where(u => u.CodFilial == parameters.CodFilial);
             }
 
             if (parameters.CodTecnico != null)
             {
-                usuarios = usuarios.Where(u => u.CodTecnico == parameters.CodTecnico);
+                query = query.Where(u => u.CodTecnico == parameters.CodTecnico);
             }
 
             if (parameters.IndAtivo != null)
             {
-                usuarios = usuarios.Where(u => u.IndAtivo == parameters.IndAtivo);
+                query = query.Where(u => u.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.CodPontoPeriodo != null)
+            {
+                query = query.Where(u => u.PontosPeriodoUsuario.Any(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo));
+
+                query = query
+                    .Include(u => u.PontosPeriodoUsuario
+                        .Where(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo))
+                            .ThenInclude(p => p.PontoPeriodo)
+                                .ThenInclude(p => p.PontoPeriodoStatus)
+                    .Include(u => u.PontosPeriodoUsuario
+                        .Where(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo))
+                            .ThenInclude(p => p.PontoPeriodoUsuarioStatus);
+
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                usuarios = usuarios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<Usuario>.ToPagedList(usuarios, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Usuario>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
 
         public Usuario ObterPorCodigo(string codigo)

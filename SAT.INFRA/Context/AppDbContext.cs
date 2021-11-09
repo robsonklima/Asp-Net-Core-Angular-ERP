@@ -10,9 +10,6 @@ namespace SAT.INFRA.Context
         { }
 
         public DbSet<OrdemServico> OrdemServico { get; set; }
-        public DbSet<OrdemServicoRelatorioInstalacao> OrdemServicoRelatorioInstalacao { get; set; }
-        public DbSet<OrdemServicoRelatorioInstalacaoItem> OrdemServicoRelatorioInstalacaoItem { get; set; }
-        public DbSet<OrdemServicoRelatorioInstalacaoNaoConformidade> OrdemServicoRelatorioInstalacaoNaoConformidade { get; set; }
         public DbSet<RelatorioAtendimento> RelatorioAtendimento { get; set; }
         public DbSet<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhe { get; set; }
         public DbSet<RelatorioAtendimentoDetalhePeca> RelatorioAtendimentoDetalhePeca { get; set; }
@@ -59,6 +56,39 @@ namespace SAT.INFRA.Context
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
+        public DbSet<Monitoramento> Monitoramento { get; set; }
+        public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
+        public DbSet<DispBBRegiaoFilial> DispBBRegiaoFilial { get; set; }
+        public DbSet<DispBBPercRegiao> DispBBPercRegiao { get; set; }
+        public DbSet<DispBBDesvio> DispBBDesvio { get; set; }
+        public DbSet<PontoMovel> PontoMovel { get; set; }
+        public DbSet<PontoMovelTipoHorario> PontoMovelTipoHorario { get; set; }
+        public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
+        public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
+        public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
+        public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
+        public DbSet<PontoPeriodoUsuario> PontoPeriodoUsuario { get; set; }
+        public DbSet<PontoPeriodoUsuarioStatus> PontoPeriodoUsuarioStatus { get; set; }
+        public DbSet<PontoSobreAviso> PontoSobreAviso { get; set; }
+        public DbSet<PontoTipoHora> PontoTipoHora { get; set; }
+        public DbSet<PontoUsuario> PontoUsuario { get; set; }
+        public DbSet<PontoUsuarioData> PontoUsuarioData { get; set; }
+        public DbSet<PontoUsuarioDataAdvertencia> PontoUsuarioDataAdvertencia { get; set; }
+        public DbSet<PontoUsuarioDataControleAlteracaoAcesso> PontoUsuarioDataControleAlteracaoAcesso { get; set; }
+        public DbSet<PontoUsuarioDataDivergencia> PontoUsuarioDataDivergencia { get; set; }
+        public DbSet<PontoUsuarioDataDivergenciaObservacao> PontoUsuarioDataDivergenciaObservacao { get; set; }
+        public DbSet<PontoUsuarioDataDivergenciaRAT> PontoUsuarioDataDivergenciaRAT { get; set; }
+        public DbSet<PontoUsuarioDataJustificativaAlteracaoAcesso> PontoUsuarioDataJustificativaAlteracaoAcesso { get; set; }
+        public DbSet<PontoUsuarioDataJustificativaValidacao> PontoUsuarioDataJustificativaValidacao { get; set; }
+        public DbSet<PontoUsuarioDataModoAlteracaoAcesso> PontoUsuarioDataModoAlteracaoAcesso { get; set; }
+        public DbSet<PontoUsuarioDataModoDivergencia> PontoUsuarioDataModoDivergencia { get; set; }
+        public DbSet<PontoUsuarioDataMotivoDivergencia> PontoUsuarioDataMotivoDivergencia { get; set; }
+        public DbSet<PontoUsuarioDataStatus> PontoUsuarioDataStatus { get; set; }
+        public DbSet<PontoUsuarioDataStatusAcesso> PontoUsuarioDataStatusAcesso { get; set; }
+        public DbSet<PontoUsuarioDataTipoAdvertencia> PontoUsuarioDataTipoAdvertencia { get; set; }
+        public DbSet<PontoUsuarioDataValidacao> PontoUsuarioDataValidacao { get; set; }
+        public DbSet<PontoUsuarioRejeicao> PontoUsuarioRejeicao { get; set; }
+        public DbSet<PlantaoTecnico> PlantaoTecnico { get; set; }       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

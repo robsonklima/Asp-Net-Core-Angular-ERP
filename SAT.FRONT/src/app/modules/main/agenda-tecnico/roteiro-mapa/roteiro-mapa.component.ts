@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
-declare var L:any;
+declare var L: any;
 import 'leaflet';
 import 'leaflet-routing-machine';
 
@@ -36,6 +36,7 @@ export class RoteiroMapaComponent implements OnInit {
       .filter(os => os.localAtendimento !== null)
       .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
       .map(os => { return L.latLng(+os.localAtendimento.latitude, +os.localAtendimento.longitude) });
+
 
     const usuarios = await this._usuarioSvc.obterPorParametros({
       nomeUsuario: this.resource.name,
@@ -74,11 +75,11 @@ export class RoteiroMapaComponent implements OnInit {
             shadowUrl: null,
           })
         })
-        .bindPopup((usuarios.items[0].localizacoes.length > 0 && i == 0) ? 'Localização do Técnico' : `${i+1}° Atendimento`);
+          .bindPopup((usuarios.items[0].localizacoes.length > 0 && i == 0) ? 'Localização do Técnico' : `${i + 1}° Atendimento`);
       },
-      lineOptions : {
+      lineOptions: {
         addWaypoints: false,
-        styles:[{color: 'green', opacity: 1, weight: 3}]
+        styles: [{ color: 'green', opacity: 1, weight: 3 }]
       }
     }).addTo(map);
 

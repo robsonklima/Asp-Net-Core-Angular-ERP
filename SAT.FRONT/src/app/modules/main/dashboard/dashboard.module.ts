@@ -1,3 +1,4 @@
+import { MatTableModule } from '@angular/material/table';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from 'app/shared/shared.module';
@@ -87,6 +88,7 @@ registerLocaleData(ptBR);
     MatButtonToggleModule,
     MatMenuModule,
     MatTabsModule,
+    MatTableModule,
     NgApexchartsModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
@@ -96,7 +98,7 @@ registerLocaleData(ptBR);
     MatSelectModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR'}
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 })
 export class DashboardModule { }

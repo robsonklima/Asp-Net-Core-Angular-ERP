@@ -93,18 +93,12 @@
     "relatorio": "Report",
     "detalhe": "Detail",
     "relatorio de atendimento": "Attendance Report",
-    "relatorio instalacao": "Install Report",
     "tipo de intervencao": "Intervention Type",
     "numero do RAT": "RAT Number",
-    "acompanhante": "Companion",
     "nome do acompanhante": "Companion Name",
     "data": "Date",
     "hora do inicio": "Start Time",
-    "inicio": "Start",
     "hora da solucao": "Finished Time",
-    "descricao da solucao": "Solution description",
-    "horas gastas": "Hours spent",
-    "intervalo": "Break",
     "finalizar": "Done",
     "proximo": "Next",
     "voltar": "Back",
@@ -293,7 +287,6 @@
     "indice reajuste": "Índice do Reajuste",
     "inicio vigencia": "Beginning of Term",
     "termino vigencia": "Ending of Term",
-    "termino": "End",
     "inicio periodo reajuste": "Start of Readjustment Period",
     "termino periodo reajuste": "End of Readjustment Period",
     "data RAT Invalida": "RAT date must be greater than the Opening / Scheduling date",
@@ -308,5 +301,10 @@
     "lista de modelos": "Model List",
     "multa": "Penalty",
     "valor unitario": "Unitary value",
-    "deletar": "Delete"
+    "deletar": "Delete",
+    "nro-chamado": "SO Number",
+    "descricao": "Description",
+    "novas pecas cadastradas": "NEW REGISTERED PIECES",
+    "pecas liberadas": "RELEASED PARTS"
+
 }

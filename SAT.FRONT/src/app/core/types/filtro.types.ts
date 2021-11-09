@@ -23,7 +23,4 @@ export interface Parametros
     qtdPaginacaoLista?: number,
     sortActive?: string,
     sortDirection?: string
-    codTipoEquip?: string
-    codGrupoEquip?: string
-    codEquipamentos?: string
 }

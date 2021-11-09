@@ -16,8 +16,7 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export class OrdemServico
-{
+export class OrdemServico {
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
@@ -151,48 +150,14 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico;
-    ordemServicoRelatorioInstalacao: OrdemServicoRelatorioInstalacao;
-    ordemServicoRelatorioInstalacaoNaoConformidade: OrdemServicoRelatorioInstalacaoNaoConformidade;
 }
 
-export class OrdemServicoRelatorioInstalacao {
-    codOSRelatorioInstalacao?: number;
-    codOS: number;
-    codOSRelatorioInstalacaoItem: number;
-    ordemServicoRelatorioInstalacaoItem?: OrdemServicoRelatorioInstalacaoItem;
-    indStatus: number;
-    detalhe?: string;
-}
-
-export class OrdemServicoRelatorioInstalacaoItem {
-    codOSRelatorioInstalacao: number;
-    item: string;
-    indAtivo: number;
-}
-
-export class OrdemServicoRelatorioInstalacaoNaoConformidade {
-    codOSRelatorioInstalacao?: number;
-    codOS: number;
-    codOSRelatorioInstalacaoNaoConformidadeItem: number;
-    ordemServicoRelatorioInstalacaoNaoConformidadeItem?: any;
-    indStatus: number;
-    detalhe?: string;
-}
-
-export class OrdemServicoRelatorioInstalacaoNaoConformidadeItem {
-    codOSRelatorioNaoConformidadeItem: number;
-    item: string;
-    indAtivo: number;
-}
-
-export interface OrdemServicoData extends Meta
-{
+export interface OrdemServicoData extends Meta {
     items: OrdemServico[];
 };
 
-export interface OrdemServicoParameters extends QueryStringParameters
-{
-    codOS?: number;
+export interface OrdemServicoParameters extends QueryStringParameters {
+    codOS?: string[];
     codEquipContrato?: number;
     codTecnico?: number;
     numOSCliente?: string;
@@ -212,13 +177,19 @@ export interface OrdemServicoParameters extends QueryStringParameters
     filterType?: OrdemServicoFilterEnum;
 };
 
-export enum OrdemServicoIncludeEnum
-{
+export enum OrdemServicoIncludeEnum {
     OS_RAT = 1,
-    OS_AGENDA = 2
+    OS_AGENDA = 2,
+    OS_PECAS = 3,
+    OS_CHAMADO_PECA = 4,
+    OS_RAT_FILIAL_PRAZOS_ATENDIMENTO = 5,
+    OS_EQUIPAMENTOS = 6,
+    OS_TECNICOS = 7
 }
 
-export enum OrdemServicoFilterEnum
-{
-    FILTER_AGENDA = 1
+export enum OrdemServicoFilterEnum {
+    FILTER_AGENDA = 1,
+    FILTER_INDICADOR = 2,
+    FILTER_CORRETIVAS_ANTIGAS = 3,
+    FILTER_ORCAMENTOS_ANTIGOS = 4
 }

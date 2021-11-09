@@ -21,10 +21,10 @@ const routerConfig: ExtraOptions = {
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
-    imports: [ 
-    MbscModule, 
+    imports: [
+        MbscModule,
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,

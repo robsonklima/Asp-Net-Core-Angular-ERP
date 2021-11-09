@@ -47,9 +47,9 @@
                       <span class="truncate">Performance das Filiais e Resultado Geral</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                    <!-- <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
                       <span class="truncate">Disponibilidade BBTS</span>
-                    </button>
+                    </button> -->
 
                     <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
                       <span class="truncate">Disponibilidade dos Técnicos</span>
@@ -166,10 +166,10 @@
             </mat-tab>
             <!-- Tab -->
 
-            <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+            <!-- <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel -->
+                  Panel 
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -190,7 +190,7 @@
                   </div>
                 </div>
               </ng-template>
-            </mat-tab>
+            </mat-tab> -->
 
             <!-- Tab -->
             <mat-tab label="Disponibilidade dos Técnicos"
@@ -495,7 +495,7 @@
             <!-- Tab -->
             <mat-tab label="Top Peças Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.TOP_PECAS_FALTANTES">
               <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                <div class="grid lg:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
                   <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">

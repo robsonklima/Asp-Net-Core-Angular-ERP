@@ -47,7 +47,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
         {
-            var query = _context.OrdemServico.AsQueryable();
+            var query = _context.OrdemServico.AsNoTracking().AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
@@ -84,9 +84,6 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.ProtocolosSTN)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
-                        .ThenInclude(d => d.TipoServico)
-                .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                         .ThenInclude(d => d.TipoCausa)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
@@ -100,10 +97,6 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                         .ThenInclude(d => d.Defeito)
-                 .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
-                        .ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
-                            .ThenInclude(d => d.Peca)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)
@@ -112,10 +105,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.CheckinsCheckouts)
-                .Include(os => os.OrdemServicoRelatorioInstalacao)
-                    .ThenInclude(os => os.OrdemServicoRelatorioInstalacaoItem)
-                // .Include(os => os.OrdemServicoRelatorioInstalacaoNaoConformidade)
-                //     .ThenInclude(os => os.OrdemServicoRelatorioInstalacaoNaoConformidadeItem)
+                .Include(os => os.OrdensServicoRelatorioInstalacao)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

@@ -22,12 +22,6 @@ import Enumerable from 'linq';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
-import { GrupoEquipamento, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
-import { TipoEquipamento } from 'app/core/types/tipo-equipamento.types';
-import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
-import { EquipamentoService } from 'app/core/services/equipamento.service';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -45,9 +39,6 @@ export class OrdemServicoFiltroComponent implements OnInit
   autorizadas: Autorizada[] = [];
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
-  gruposEquip: GrupoEquipamento[] = [];
-  tipoEquip: TipoEquipamento[] = [];
-  equipamentos: Equipamento[] = [];
   tecnicos: Tecnico[] = [];
   pas: number[] = [];
   pontosEstrategicos: any;
@@ -57,9 +48,6 @@ export class OrdemServicoFiltroComponent implements OnInit
   constructor (
     private _filialService: FilialService,
     private _tipoIntervencaoService: TipoIntervencaoService,
-    private _grupoEquipService: GrupoEquipamentoService,
-    private _tipoEquipService: TipoEquipamentoService,
-    private _equipamentoService: EquipamentoService,
     private _statusServicoService: StatusServicoService,
     private _clienteService: ClienteService,
     private _userService: UserService,
@@ -83,10 +71,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.inicializarForm();
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterAutorizadas();
-    this.obterTipoEquipamentos();
-
     this.configurarFiliais();
-    this.configurarEquipamentos();
   }
 
   private inicializarForm(): void
@@ -99,6 +84,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
+      equipamento: [undefined],
       codOS: [undefined],
       numOSCliente: [undefined],
       numOSQuarteirizada: [undefined],
@@ -107,10 +93,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
       pas: [undefined],
-      pontosEstrategicos: [undefined],
-      codTipoEquip: [undefined],
-      codGrupoEquip: [undefined],
-      codEquipamentos: [undefined]
+      pontosEstrategicos: [undefined]
     });
 
     this.form.patchValue(this.filtro?.parametros);
@@ -129,54 +112,7 @@ export class OrdemServicoFiltroComponent implements OnInit
       .obterPorParametros(params)
       .toPromise();
 
-    this.filiais = data.items;    
-  }
-
-  async obterGrupoEquipamentos()
-  {
-    let params: GrupoEquipamentoParameters =
-    {
-      codTipoEquip: this.form.controls['codTipoEquip'].value,
-      sortActive: 'nomeGrupoEquip',
-      sortDirection: 'asc'
-    }
-
-    const data = await this._grupoEquipService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.gruposEquip = data.items;
-  }
-
-  async obterTipoEquipamentos()
-  {
-    let params = {
-      sortActive: 'nomeTipoEquip',
-      sortDirection: 'asc'
-    }
-
-    const data = await this._tipoEquipService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.tipoEquip = data.items;
-  }
-
-  async obterEquipamentos()
-  {
-    let params: EquipamentoParameters =
-    {
-      codGrupo: this.form.controls['codGrupoEquip'].value,
-      codTipo: this.form.controls['codTipoEquip'].value,
-      sortActive: 'nomeEquip',
-      sortDirection: 'asc'
-    }
-
-    const data = await this._equipamentoService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.equipamentos = data.items;
+    this.filiais = data.items;
   }
 
   async obterTiposIntervencao()
@@ -248,53 +184,6 @@ export class OrdemServicoFiltroComponent implements OnInit
 
     this.obterTecnicos(this.form.controls['codFiliais'].value);
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
-  }
-
-  configurarEquipamentos()
-  {
-    if ((this.form.controls['codTipoEquip'].value))
-      this.obterGrupoEquipamentos();
-    else
-      this.form.controls['codGrupoEquip'].disable();
-
-    if ((this.form.controls['codGrupoEquip'].value))
-      this.obterEquipamentos();
-    else
-      this.form.controls['codEquipamentos'].disable();
-
-
-    this.form.controls['codTipoEquip']
-      .valueChanges
-      .subscribe(() => 
-      {
-        if (this.form.controls['codTipoEquip'].value)
-        {
-          this.obterGrupoEquipamentos();
-          this.form.controls['codGrupoEquip'].enable();
-        }
-        else
-        {
-          this.form.controls['codGrupoEquip'].setValue("");
-          this.form.controls['codGrupoEquip'].disable();
-        }
-      });
-
-    this.form.controls['codGrupoEquip']
-      .valueChanges
-      .subscribe(() => 
-      {
-        if (this.form.controls['codGrupoEquip'].value)
-        {
-          this.obterEquipamentos();
-          this.form.controls['codEquipamentos'].enable();
-        }
-        else
-        {
-          this.form.controls['codEquipamentos'].setValue("");
-          this.form.controls['codEquipamentos'].disable();
-        }
-      });
-
   }
 
   async obterRegioesAutorizadas(filialFilter: any)
@@ -387,22 +276,7 @@ export class OrdemServicoFiltroComponent implements OnInit
   limpar(): void
   {
     this.form.reset();
-
-    if (this.sessionData.usuario.codFilial) {
-      this.filtro.parametros = null;
-
-      this.filtro.parametros = {
-        ...this.filtro.parametros,
-        ...{
-          codFiliais: [ this.sessionData.usuario.codFilial ]
-        }
-      }
-
-      this.form.patchValue(this.filtro?.parametros);
-      
-    }
-    
-    this.aplicar(); 
+    this.aplicar();
     this.sidenav.close();
   }
 

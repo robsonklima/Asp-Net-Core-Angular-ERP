@@ -66,7 +66,6 @@ export const appRoutes: Route[] = [
             // Main
             {path: 'ordem-servico', loadChildren: () => import('app/modules/main/ordem-servico/ordem-servico.module').then(m => m.OrdemServicoModule)},
             {path: 'relatorio-atendimento', loadChildren: () => import('app/modules/main/relatorio-atendimento/relatorio-atendimento.module').then(m => m.RelatorioAtendimentoModule)},
-            {path: 'relatorio-instalacao', loadChildren: () => import('app/modules/main/relatorio-instalacao/relatorio-instalacao.module').then(m => m.RelatorioInstalacaoModule)},
             {path: 'regiao', loadChildren: () => import('app/modules/main/cadastro/regiao/regiao.module').then(m => m.RegiaoModule)},
             {path: 'autorizada', loadChildren: () => import('app/modules/main/cadastro/autorizada/autorizada.module').then(m => m.AutorizadaModule)},
             {path: 'grupo-equipamento', loadChildren: () => import('app/modules/main/cadastro/grupo-equipamento/grupo-equipamento.module').then(m => m.GrupoEquipamentoModule)},

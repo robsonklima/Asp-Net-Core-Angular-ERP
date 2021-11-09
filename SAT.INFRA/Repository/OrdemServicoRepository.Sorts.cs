@@ -90,6 +90,12 @@ namespace SAT.INFRA.Repository
                                  .OrderByDescending(q => q.Tecnico.Nome);
                         break;
 
+                    case "datahoraAberturaOS":
+                        query = sortDirection == "asc" ?
+                            query.Where(s => s.DataHoraAberturaOS != null).OrderBy(q => q.DataHoraAberturaOS) :
+                            query.Where(s => s.DataHoraAberturaOS != null).OrderByDescending(q => q.DataHoraAberturaOS);
+                        break;
+
                     default:
                         query = query.OrderBy(string.Format("{0} {1}", sortActive, sortDirection));
                         break;

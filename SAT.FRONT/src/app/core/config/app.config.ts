@@ -16,7 +16,6 @@ export interface AppConfig
     api: Api;
     tempo_atualizacao_dashboard_minutos: number;
     map_quest_keys: string[];
-    tailwind_css: string;
 }
 
 export const appConfig: AppConfig = {
@@ -33,5 +32,4 @@ export const appConfig: AppConfig = {
     ],
     tempo_atualizacao_dashboard_minutos: 5,
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
-    tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css'
 };

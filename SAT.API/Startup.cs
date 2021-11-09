@@ -92,9 +92,12 @@ namespace SAT.API
             services.AddTransient<IContratoReajusteRepository, ContratoReajusteRepository>();
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoRepository, OrdemServicoRelatorioInstalacaoRepository>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoNaoConformidadeRepository, OrdemServicoRelatorioInstalacaoNaoConformidadeRepository>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoItemRepository, OrdemServicoRelatorioInstalacaoItemRepository>();
+            services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
+
+            services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
+            services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
+            services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
+            services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -142,10 +145,7 @@ namespace SAT.API
             services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoService, OrdemServicoRelatorioInstalacaoService>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoNaoConformidadeService, OrdemServicoRelatorioInstalacaoNaoConformidadeService>();
-            services.AddTransient<IOrdemServicoRelatorioInstalacaoItemService, OrdemServicoRelatorioInstalacaoItemService>();
-
+            services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 

@@ -25,6 +25,7 @@
         public static string NAO_FOI_POSSIVEL_CRIAR = "Não foi possível criar o registro";
         public static string NAO_FOI_POSSIVEL_OBTER = "Não foi possível atualizar o(s) registro(s)";
         public static string USUARIO_OU_SENHA_INVALIDOS = "Usuário ou senha inválidos";
+        public static string USUARIO_NAO_POSSUI_PERFIL_DE_ACESSO = "Usuário não possui perfil de acesso";
 
         // Filiais
         public static int FRS = 4;

@@ -54,7 +54,8 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Regiao)
                 .Include(t => t.Usuario)
                 .Include(t => t.Cidade)
-                .Include(t => t.Cidade.UnidadeFederativa)
+                    .ThenInclude(t => t.UnidadeFederativa)
+                        .ThenInclude(t => t.Pais)
                 .FirstOrDefault(t => t.CodTecnico == codigo);
         }
 

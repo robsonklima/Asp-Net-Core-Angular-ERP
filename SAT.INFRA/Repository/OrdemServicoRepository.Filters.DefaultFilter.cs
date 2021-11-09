@@ -9,8 +9,11 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<OrdemServico> AplicarFiltroPadrao(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
         {
-            if (parameters.CodOS.HasValue)
-                query = query.Where(os => os.CodOS == parameters.CodOS);
+            if (!string.IsNullOrEmpty(parameters.CodOS))
+            {
+                var codigos = parameters.CodOS.Split(",").Select(a => a.Trim());
+                query = query.Where(os => codigos.Any(p => p == os.CodOS.ToString()));
+            }
 
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);

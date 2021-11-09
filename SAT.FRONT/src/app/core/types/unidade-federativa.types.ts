@@ -1,8 +1,11 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Pais } from "./pais.types";
 
-export class UnidadeFederativa {
+export class UnidadeFederativa
+{
     codUF: number;
     siglaUF: string;
+    pais: Pais;
     nomeUF: string;
     codPais: number;
     indAtivo: number;
@@ -12,11 +15,13 @@ export class UnidadeFederativa {
     dataHoraManut: string;
 }
 
-export interface UnidadeFederativaData extends Meta {
+export interface UnidadeFederativaData extends Meta
+{
     items: UnidadeFederativa[];
 };
 
-export interface UnidadeFederativaParameters extends QueryStringParameters {
+export interface UnidadeFederativaParameters extends QueryStringParameters
+{
     codUF?: number;
     codPais?: number;
 };

@@ -1,13 +1,10 @@
 import { FileService } from './../../../../core/services/file.service';
-import {
-AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import { MatSort } from '@angular/material/sort';
 import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -15,6 +12,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -39,60 +38,65 @@ import moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class OrdemServicoListaComponent implements AfterViewInit {
+
+export class OrdemServicoListaComponent extends Filterable implements AfterViewInit, IFilterable
+{
     @ViewChild('sidenav') sidenav: MatSidenav;
-    userSession: UserSession;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) private sort: MatSort;
+    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+
+    @ViewChild(MatSort) sort: MatSort;
+
     dataSourceData: OrdemServicoData;
     selectedItem: OrdemServico | null = null;
-    filtro: any;
     isLoading: boolean = false;
-    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
-    constructor(
+    constructor (
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
-        private _userService: UserService,
+        protected _userService: UserService,
         private _fileService: FileService
-    ) {
-        this.userSession = JSON.parse(this._userService.userSession);
+    )
+    {
+        super(_userService, 'ordem-servico')
     }
 
-    ngAfterViewInit(): void {
-        this.carregarFiltro();
+    ngAfterViewInit(): void
+    {
         interval(5 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
-            .subscribe(() => {
+            .subscribe(() =>
+            {
                 this.obterOrdensServico();
             });
 
-        this.registrarEmitters();
+        this.registerEmitters();
 
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-            map((event: any) => {
+            map((event: any) =>
+            {
                 return event.target.value;
             })
             , debounceTime(1000)
             , distinctUntilChanged()
-        ).subscribe((text: string) => {
+        ).subscribe((text: string) =>
+        {
             this.paginator.pageIndex = 0;
             this.obterOrdensServico(text);
         });
 
-        if (this.sort && this.paginator) {
+        if (this.sort && this.paginator)
+        {
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
-            this.sort.sortChange.subscribe(() => {
-                this._userService.atualizarPropriedade("ordem-servico", "sortActive", this.sort.active);
-                this._userService.atualizarPropriedade("ordem-servico", "sortDirection", this.sort.direction);
-                this.carregarFiltro();
-                this.paginator.pageIndex = 0;
+            this.sort.sortChange.subscribe(() =>
+            {
+                this.onSortChanged();
                 this.obterOrdensServico();
             });
         }
@@ -100,22 +104,22 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this._cdr.detectChanges();
     }
 
-    async obterOrdensServico(filter: string = '') {
+    async obterOrdensServico(filter: string = '')
+    {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
             pageNumber: this.paginator.pageIndex + 1,
-            sortActive: this.filtro?.parametros?.sortActive || this.sort.active || 'codOS',
-            sortDirection: this.filtro?.parametros?.direction || this.sort.direction || 'desc',
-            pageSize: this.filtro?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
-            codFiliais: this.userSession.usuario.filial?.codFilial.toString(),
+            sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
+            sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
+            pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
 
         const data: OrdemServicoData = await this._ordemServicoService
             .obterPorParametros({
                 ...params,
-                ...this.filtro?.parametros
+                ...this.filter?.parametros
             })
             .toPromise();
 
@@ -123,58 +127,57 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         this.isLoading = false;
     }
 
-    private registrarEmitters(): void {
-        this.sidenav.closedStart.subscribe(() => {
-            this.paginator.pageIndex = 0;
-            this.carregarFiltro();
+    registerEmitters(): void
+    {
+        this.sidenav.closedStart.subscribe(() =>
+        {
+            this.onSidenavClosed();
             this.obterOrdensServico();
         })
     }
 
-    private carregarFiltro(): void {
-        this.filtro = this._userService.obterFiltro('ordem-servico');
-        if (!this.filtro) {
-            return;
-        }
+    loadFilter(): void
+    {
+        super.loadFilter();
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial) {
-            this.filtro.parametros.codFiliais = [this.userSession.usuario.codFilial]
-        }        
-
-        Object.keys(this.filtro?.parametros).forEach((key) => {
-            if (this.filtro?.parametros[key] instanceof Array) {
-                this.filtro.parametros[key] = this.filtro.parametros[key].join()
-            };
-        });
+        if (this.userSession?.usuario?.codFilial)
+            this.filter.parametros.codFiliais = [this.userSession.usuario.codFilial]
     }
 
-    public async exportar() {
+    public async exportar()
+    {
         this.isLoading = true;
+
         const params: OrdemServicoParameters = {
             sortDirection: 'desc',
             pageSize: 100000,
         };
 
         window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
-            ...this.filtro?.parametros,
+            ...this.filter?.parametros,
             ...params
         }));
+
         this.isLoading = false;
     }
 
-    paginar() {
-        this._userService.atualizarPropriedade(this.filtro?.nome, "qtdPaginacaoLista", this.paginator?.pageSize);
+    paginar()
+    {
+        this.onPaginationChanged();
         this.obterOrdensServico();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy()
+    {
         this._onDestroy.next();
         this._onDestroy.complete();
     }
 
-    statusSLADescricao(os: OrdemServico) {
-        if (os.prazosAtendimento == null) {
+    statusSLADescricao(os: OrdemServico)
+    {
+        if (os.prazosAtendimento == null)
+        {
             return "---";
         }
         else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
@@ -184,7 +187,8 @@ export class OrdemServicoListaComponent implements AfterViewInit {
                 return "DENTRO";
             return "FORA";
         }
-        else if (os.prazosAtendimento?.length > 0) {
+        else if (os.prazosAtendimento?.length > 0)
+        {
             var now = moment();
             var limit = moment(os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento);
             if (now < limit)
@@ -194,10 +198,12 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         return "---";
     }
 
-    statusServicoDescricao(os: OrdemServico) {
+    statusServicoDescricao(os: OrdemServico)
+    {
         var description = os.statusServico?.nomeStatusServico;
 
-        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
+        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10)
+        {
             var pecas = Enumerable.from(os.relatoriosAtendimento)
                 .selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
                     .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
@@ -209,7 +215,8 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         return description;
     }
 
-    tecnicoDescricao(os: OrdemServico) {
+    tecnicoDescricao(os: OrdemServico)
+    {
         var description = os.tecnico?.nome;
         description += '\n' + 'TRANSFERIDO EM: ';
         description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
@@ -218,24 +225,28 @@ export class OrdemServicoListaComponent implements AfterViewInit {
         return description;
     }
 
-    alternarDetalhes(id: number): void {
+    alternarDetalhes(id: number): void
+    {
         this.isLoading = true;
 
-        if (this.selectedItem && this.selectedItem.codOS === id) {
+        if (this.selectedItem && this.selectedItem.codOS === id)
+        {
             this.isLoading = false;
             this.fecharDetalhes();
             return;
         }
 
         this._ordemServicoService.obterPorCodigo(id)
-            .subscribe((item) => {
+            .subscribe((item) =>
+            {
                 this.selectedItem = item;
                 this.isLoading = false;
                 this._cdr.markForCheck();
             });
     }
 
-    fecharDetalhes(): void {
+    fecharDetalhes(): void
+    {
         this.selectedItem = null;
     }
 }

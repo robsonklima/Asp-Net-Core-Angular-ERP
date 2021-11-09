@@ -52,7 +52,7 @@ namespace SAT.INFRA.Repository
             int[] codServicosExclusos = new int[] { 2, 3 };
 
             query = query
-                .Where(s => s.CodTipoIntervencao == (int)tipoIntervencao/*2: corretivo / 17: orçamento aprovado*/ && !codServicosExclusos.Contains(s.CodStatusServico)
+                .Where(s => s.CodTipoIntervencao == (int)tipoIntervencao/*2: corretivo / 17: orcamento aprovado*/ && !codServicosExclusos.Contains(s.CodStatusServico)
                 && s.Filial.IndAtivo == 1
                 && s.Filial.CodFilial != 21/*PERTO - OUTSOURCING*/
                 && !s.Equipamento.NomeEquip.Contains("POS")

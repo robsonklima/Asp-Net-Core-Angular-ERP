@@ -14,15 +14,6 @@ namespace SAT.INFRA.Repository
                 case (OrdemServicoFilterEnum.FILTER_AGENDA):
                     query = AplicarFiltroAgendaTecnico(query, parameters);
                     break;
-                case (OrdemServicoFilterEnum.FILTER_INDICADOR):
-                    query = AplicarFiltroIndicadores(query, parameters);
-                    break;
-                case (OrdemServicoFilterEnum.FILTER_CORRETIVAS_ANTIGAS):
-                    query = AplicarFiltroChamadosMaisAntigos(query, parameters, TipoIntervencaoEnum.CORRETIVA);
-                    break;
-                case (OrdemServicoFilterEnum.FILTER_ORCAMENTOS_ANTIGOS):
-                    query = AplicarFiltroChamadosMaisAntigos(query, parameters, TipoIntervencaoEnum.ORC_APROVADO);
-                    break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);
                     break;

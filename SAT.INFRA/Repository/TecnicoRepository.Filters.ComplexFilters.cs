@@ -33,7 +33,7 @@ namespace SAT.INFRA.Repository
                         p.DataHoraRegistro <= parameters.PeriodoMediaAtendFim &&
                         tecnico.Usuario.CodUsuario == p.CodUsuario && p.IndAtivo == 1).ToArray();
 
-                // Se por algum motivo não tem ponto ou chamados, não tem porque contabilizar 
+                // Se por algum motivo nï¿½o tem ponto ou chamados, nï¿½o tem porque contabilizar 
                 if (pontoUsuario.Length == 0 || tecnico.OrdensServico.Count == 0) continue;
 
                 double diasTrabalhados = pontoUsuario.Max(s => s.DataHoraRegistro).Subtract(pontoUsuario.Min(s => s.DataHoraRegistro)).TotalDays;

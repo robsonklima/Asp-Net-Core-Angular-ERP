@@ -11,23 +11,25 @@ namespace SAT.SERVICES.Services
     public class TecnicoService : ITecnicoService
     {
         private readonly ITecnicoRepository _tecnicosRepo;
+        private readonly IOrdemServicoRepository _osRepo;
         private readonly ISequenciaRepository _seqRepo;
 
         public TecnicoService(
             ITecnicoRepository tecnicosRepo,
             ISequenciaRepository seqRepo,
-            IFeriadoRepository feriadoRepository
+            IOrdemServicoRepository osRepo
         )
         {
-            this._tecnicosRepo = tecnicosRepo;
-            this._seqRepo = seqRepo;
+            _tecnicosRepo = tecnicosRepo;
+            _osRepo = osRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(TecnicoParameters parameters)
         {
             var tecnicos = _tecnicosRepo.ObterPorParametros(parameters);
 
-            return new ListViewModel
+           return new ListViewModel
             {
                 Items = tecnicos,
                 TotalCount = tecnicos.TotalCount,

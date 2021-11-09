@@ -96,6 +96,9 @@ namespace SAT.INFRA.Repository
                             query.Where(s => s.DataHoraAberturaOS != null).OrderByDescending(q => q.DataHoraAberturaOS);
                         break;
 
+                    case "statusSLA":
+                        break;
+
                     default:
                         query = query.OrderBy(string.Format("{0} {1}", sortActive, sortDirection));
                         break;

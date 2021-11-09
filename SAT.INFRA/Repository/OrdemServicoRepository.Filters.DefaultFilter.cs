@@ -18,12 +18,15 @@ namespace SAT.INFRA.Repository
                     t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
-            
-            if (parameters.CodOS > 0) {
-                query = query.Where(os => os.CodOS == parameters.CodOS);
+
+            if (!string.IsNullOrEmpty(parameters.CodOS))
+            {
+                var cods = parameters.CodOS.Split(",").Select(a => a.Trim());
+                query = query.Where(os => cods.Any(p => p == os.CodOS.ToString()));
             }
 
-            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue) {
+            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue)
+            {
                 query = query
                     .Where(os => os.RelatoriosAtendimento
                     .Any(r => r.DataHoraInicio >= parameters.DataHoraInicioInicio && r.DataHoraInicio <= parameters.DataHoraInicioFim));

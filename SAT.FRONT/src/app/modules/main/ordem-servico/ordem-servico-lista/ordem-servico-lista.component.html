@@ -141,9 +141,7 @@
                                                         [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
-                                                        <<<<<<< HEAD
-                                                            {{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}======={{ os.statusServico?.codStatusServico == 8 || filtro?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}>
-                                                            >>>>>> despesas-bak
+                                                        {{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}======={{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}>
                                                     </span>
                                                 </div>
 

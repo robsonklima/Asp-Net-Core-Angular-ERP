@@ -26,12 +26,26 @@ namespace SAT.MODELS.Helpers
             }
 
             var o = items.ToList();
-        //    L.AddRange(items);
+            //    L.AddRange(items);
 
             AddRange(items);
         }
 
         public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        {
+            try
+            {
+                var count = source.Count();
+                var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static PagedList<T> ToPagedList(List<T> source, int pageNumber, int pageSize)
         {
             try
             {

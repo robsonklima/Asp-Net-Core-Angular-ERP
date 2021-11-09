@@ -5,7 +5,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
-using System.Reflection;
 
 namespace SAT.INFRA.Repository
 {
@@ -51,6 +50,11 @@ namespace SAT.INFRA.Repository
             var relatorio = _context.RelatorioAtendimento
                 .Include(r => r.StatusServico)
                 .Include(r => r.Tecnico)
+                    .ThenInclude(r => r.Usuario)
+                .Include(r => r.Tecnico)
+                    .ThenInclude(t => t.Cidade)
+                        .ThenInclude(t => t.UnidadeFederativa)
+                            .ThenInclude(t => t.Pais)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)
@@ -88,15 +92,23 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodRAT != null)
-            {
+            if (parameters.CodRAT.HasValue)
                 relatorios = relatorios.Where(r => r.CodRAT == parameters.CodRAT);
+
+            if (parameters.DataInicio.HasValue)
+                relatorios = relatorios.Where(r => r.DataHoraInicio >= parameters.DataInicio.Value);
+
+            if (parameters.DataSolucao.HasValue)
+                relatorios = relatorios.Where(r => r.DataHoraSolucao <= parameters.DataSolucao.Value);
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
+                relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
                 relatorios = relatorios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<RelatorioAtendimento>.ToPagedList(relatorios, parameters.PageNumber, parameters.PageSize);
         }

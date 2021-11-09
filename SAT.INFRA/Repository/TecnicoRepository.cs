@@ -11,10 +11,9 @@ namespace SAT.INFRA.Repository
     public partial class TecnicoRepository : ITecnicoRepository
     {
         private readonly AppDbContext _context;
-
         public TecnicoRepository(AppDbContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         public void Atualizar(Tecnico tecnico)

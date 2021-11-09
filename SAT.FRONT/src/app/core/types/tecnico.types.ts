@@ -112,3 +112,13 @@ export enum FrotaCobrancaGaragemEnum {
     "Pelo Técnico" = 2,
     "Pelo Técnico Sem Cobrança" = 3
 }
+
+export class DashboardTecnicoDisponibilidadeTecnicoViewModel extends Tecnico {
+    filial: Filial;
+    mediaAtendimentosPorDiaPreventivos: number;
+    mediaAtendimentosPorDiaCorretivos: number;
+    mediaAtendimentosPorDiaTodasIntervencoes: number;
+    mediaAtendimentosPorDiaInstalacoes: number;
+    mediaAtendimentosPorDiaEngenharia: number;
+    tecnicoSemChamadosTransferidos: boolean;
+}

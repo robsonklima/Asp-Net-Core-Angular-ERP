@@ -56,7 +56,7 @@ namespace SAT.SERVICES.Services
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
 
-            var lista = new ListViewModel
+            return new ListViewModel
             {
                 Items = ordensServico,
                 TotalCount = ordensServico.TotalCount,
@@ -66,8 +66,6 @@ namespace SAT.SERVICES.Services
                 HasNext = ordensServico.HasNext,
                 HasPrevious = ordensServico.HasPrevious
             };
-
-            return lista;
         }
 
         private List<Alerta> ObterAlertas(int codos)

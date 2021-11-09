@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
@@ -14,5 +15,6 @@ namespace SAT.MODELS.Entities
         public string Endereco { get; set; }
         public string Cep { get; set; }
         public byte? IndAtivo { get; set; }
+        public List<OrdemServico> OrdensServico { get; set; }
     }
 }

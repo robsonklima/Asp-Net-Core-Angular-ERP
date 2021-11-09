@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
+import { Filtro } from '../types/filtro.types';
 
 @Injectable({
   providedIn: 'root'

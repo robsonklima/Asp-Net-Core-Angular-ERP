@@ -19,4 +19,26 @@ export interface FilialParameters extends QueryStringParameters {
     codFiliais?: string;
     indAtivo?: number;
     SiglaUF?: string;
+    include?: FilialIncludeEnum;
+    filterType?: FilialFilterEnum;
+    periodoInicioAtendendimento?: string;
+    periodoFimAtendendimento?: string;
 };
+
+export enum FilialIncludeEnum {
+    FILIAL_ORDENS_SERVICO = 1
+}
+
+export enum FilialFilterEnum {
+    FILTER_DASHBOARD_DISPONIBILIDADE_TECNICOS = 1
+}
+
+export class DashboardTecnicoDisponibilidadeFilialViewModel implements Filial {
+    codFilial: number;
+    razaoSocial: string;
+    nomeFilial: string;
+    cidade: Cidade;
+    endereco: string;
+    cep: string;
+    qtdOSNaoTransferidasCorretivas: number;
+}

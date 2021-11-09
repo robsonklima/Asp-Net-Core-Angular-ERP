@@ -18,7 +18,7 @@ namespace SAT.SERVICES.Services
         {
             var filiais = _filialRepo.ObterPorParametros(parameters);
 
-            var lista = new ListViewModel
+            return new ListViewModel
             {
                 Items = filiais,
                 TotalCount = filiais.TotalCount,
@@ -28,8 +28,6 @@ namespace SAT.SERVICES.Services
                 HasNext = filiais.HasNext,
                 HasPrevious = filiais.HasPrevious
             };
-
-            return lista;
         }
 
         public Filial Criar(Filial filial)

@@ -6,7 +6,7 @@ namespace SAT.MODELS.Entities
 {
     public class OrdemServicoParameters : QueryStringParameters
     {
-        public string CodOS { get; set; }
+        public int? CodOS { get; set; }
         public int? CodEquipContrato { get; set; }
         public string CodTecnicos { get; set; }
         public string NumOSCliente { get; set; }
@@ -19,8 +19,6 @@ namespace SAT.MODELS.Entities
         public string CodAutorizadas { get; set; }
         public string CodEquipamentos { get; set; }
         public string CodTiposGrupo { get; set; }
-        public string CodTipoEquip { get; set; }
-        public string CodGrupoEquip { get; set; }
         public string CodRegioes { get; set; }
         public DateTime DataAberturaInicio { get; set; }
         public DateTime DataAberturaFim { get; set; }
@@ -32,5 +30,12 @@ namespace SAT.MODELS.Entities
         public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }
         public int? CodTecnico { get; set; }
+        public int? IndServico { get; set; }
+        public int? CodContrato { get; set; }
+        public int? PA { get; set; }
+        public string CodUsuarioCadastro { get; set; }
+        public string NotIn_CodStatusServicos { get; set; }
+        public DateTime? DataInicioDispBB { get; set; }
+        public DateTime? DataFimDispBB { get; set; }
     }
 }

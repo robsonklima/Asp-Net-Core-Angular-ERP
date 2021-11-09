@@ -121,9 +121,9 @@ namespace SAT.SERVICES.Services
             var ratsTecnicos = chamados.Where(ch => ch.RelatoriosAtendimento != null)
                                     .SelectMany(ch => ch.RelatoriosAtendimento)
                                     .Where(ch => ch.Tecnico != null && Convert.ToBoolean(ch.Tecnico.IndAtivo))
-                                    .GroupBy(ch => ch.CodTecnico);
+                                    .GroupBy(ch => ch.CodTecnico).ToList();
            
-            ratsTecnicos.ToList().ForEach(r => 
+            ratsTecnicos.ForEach(r => 
             {
                 var ratsPecasPendentes = r.ToList().Where(rt => rt.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES).Count();
                 var ratsTotais = r.ToList().Count();

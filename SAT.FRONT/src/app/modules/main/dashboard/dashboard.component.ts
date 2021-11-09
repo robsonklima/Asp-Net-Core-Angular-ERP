@@ -19,7 +19,7 @@ export class DashboardComponent implements AfterViewInit {
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.MONITORAMENTO_SAT; //PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
@@ -33,11 +33,11 @@ export class DashboardComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
-      .pipe(
+      .pipe(      
         takeUntil(this._onDestroy)
       )
       .subscribe(() => {
-        //this.trocarDashboardOuSlide();
+        this.trocarDashboardOuSlide();
       });
 
     this.configurarFiltro();

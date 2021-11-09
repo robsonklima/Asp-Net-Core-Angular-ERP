@@ -6,6 +6,8 @@ namespace SAT.MODELS.Entities
     public class IndicadorParameters
     {
         public IndicadorAgrupadorEnum Agrupador { get; set; }
+        public OrdemServicoIncludeEnum Include { get; set; }
+        public OrdemServicoFilterEnum FilterType { get; set; }
         public IndicadorTipoEnum Tipo { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
@@ -15,5 +17,6 @@ namespace SAT.MODELS.Entities
         public string CodTiposIntervencao { get; set; }
         public string CodAutorizadas { get; set; }
         public string CodTiposGrupo { get; set; }
+        public string CodMagnus { get; set; }
     }
 }

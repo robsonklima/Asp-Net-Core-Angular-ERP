@@ -17,7 +17,7 @@ export class IndicadorService {
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
-
+    
     return this.http.get(`${c.api}/Indicador`, { params: params }).pipe(
       map((data: Indicador[]) => data)
     )

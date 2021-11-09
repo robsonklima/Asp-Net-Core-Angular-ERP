@@ -47,7 +47,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
         {
-            var query = _context.OrdemServico.AsQueryable();
+            var query = _context.OrdemServico.AsNoTracking().AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
@@ -64,7 +64,6 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.LocalAtendimento)
                 .Include(os => os.LocalAtendimento.Cidade)
                 .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
-                .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa.Pais)
                 .Include(os => os.Equipamento)
                 .Include(os => os.EquipamentoContrato)
                 .Include(os => os.EquipamentoContrato.AcordoNivelServico)
@@ -85,9 +84,6 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.ProtocolosSTN)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
-                        .ThenInclude(d => d.TipoServico)
-                .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                         .ThenInclude(d => d.TipoCausa)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
@@ -101,10 +97,6 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                         .ThenInclude(d => d.Defeito)
-                 .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
-                        .ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
-                            .ThenInclude(d => d.Peca)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)

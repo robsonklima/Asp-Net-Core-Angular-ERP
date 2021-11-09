@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
@@ -14,7 +14,6 @@ import { Regiao } from 'app/core/types/regiao.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/Autorizada.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -22,59 +21,79 @@ import Enumerable from 'linq';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
+import { GrupoEquipamento, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
+import { TipoEquipamento } from 'app/core/types/tipo-equipamento.types';
+import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
+import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { FilterBase } from 'app/core/filters/filter-base';
+import { IFilterBase } from 'app/core/types/filtro.types';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
   templateUrl: './ordem-servico-filtro.component.html'
 })
-export class OrdemServicoFiltroComponent implements OnInit
+export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase
 {
-  filtro: any;
-  sessionData: UsuarioSessao;
   @Input() sidenav: MatSidenav;
-  form: FormGroup;
+
   filiais: Filial[] = [];
   clientes: Cliente[] = [];
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
   statusServicos: StatusServico[] = [];
   tiposIntervencao: TipoIntervencao[] = [];
+  gruposEquip: GrupoEquipamento[] = [];
+  tipoEquip: TipoEquipamento[] = [];
+  equipamentos: Equipamento[] = [];
   tecnicos: Tecnico[] = [];
   pas: number[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
+
   protected _onDestroy = new Subject<void>();
 
   constructor (
     private _filialService: FilialService,
     private _tipoIntervencaoService: TipoIntervencaoService,
+    private _grupoEquipService: GrupoEquipamentoService,
+    private _tipoEquipService: TipoEquipamentoService,
+    private _equipamentoService: EquipamentoService,
     private _statusServicoService: StatusServicoService,
     private _clienteService: ClienteService,
-    private _userService: UserService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _autorizadaService: AutorizadaService,
-    private _formBuilder: FormBuilder,
-    private _tecnicoService: TecnicoService
+    private _tecnicoService: TecnicoService,
+    protected _userService: UserService,
+    protected _formBuilder: FormBuilder
   )
   {
-    this.filtro = this._userService.obterFiltro('ordem-servico');
-    this.sessionData = JSON.parse(this._userService.userSession);
+    super(_userService, _formBuilder, 'ordem-servico');
   }
 
   ngOnInit(): void
   {
+    this.createForm();
+    this.loadData();
+  }
+
+  loadData(): void
+  {
+    this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterFiliais();
     this.obterClientes();
     this.obterTiposIntervencao();
     this.obterStatusServicos();
     this.registrarEmitters();
-    this.inicializarForm();
-    this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterAutorizadas();
+    this.obterTipoEquipamentos();
+
     this.configurarFiliais();
+    this.configurarEquipamentos();
   }
 
-  private inicializarForm(): void
+  createForm(): void
   {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
@@ -84,7 +103,6 @@ export class OrdemServicoFiltroComponent implements OnInit
       codTiposIntervencao: [undefined],
       codClientes: [undefined],
       codStatusServicos: [undefined],
-      equipamento: [undefined],
       codOS: [undefined],
       numOSCliente: [undefined],
       numOSQuarteirizada: [undefined],
@@ -93,10 +111,13 @@ export class OrdemServicoFiltroComponent implements OnInit
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
       pas: [undefined],
-      pontosEstrategicos: [undefined]
+      pontosEstrategicos: [undefined],
+      codTipoEquip: [undefined],
+      codGrupoEquip: [undefined],
+      codEquipamentos: [undefined]
     });
 
-    this.form.patchValue(this.filtro?.parametros);
+    this.form.patchValue(this.filter?.parametros);
   }
 
   async obterFiliais()
@@ -104,8 +125,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     let params: FilialParameters = {
       indAtivo: 1,
       sortActive: 'nomeFilial',
-      sortDirection: 'asc',
-      pageSize: 50
+      sortDirection: 'asc'
     };
 
     const data = await this._filialService
@@ -113,6 +133,53 @@ export class OrdemServicoFiltroComponent implements OnInit
       .toPromise();
 
     this.filiais = data.items;
+  }
+
+  async obterGrupoEquipamentos()
+  {
+    let params: GrupoEquipamentoParameters =
+    {
+      codTipoEquip: this.form.controls['codTipoEquip'].value,
+      sortActive: 'nomeGrupoEquip',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._grupoEquipService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.gruposEquip = data.items;
+  }
+
+  async obterTipoEquipamentos()
+  {
+    let params = {
+      sortActive: 'nomeTipoEquip',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._tipoEquipService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.tipoEquip = data.items;
+  }
+
+  async obterEquipamentos()
+  {
+    let params: EquipamentoParameters =
+    {
+      codGrupo: this.form.controls['codGrupoEquip'].value,
+      codTipo: this.form.controls['codTipoEquip'].value,
+      sortActive: 'nomeEquip',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._equipamentoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.equipamentos = data.items;
   }
 
   async obterTiposIntervencao()
@@ -167,7 +234,7 @@ export class OrdemServicoFiltroComponent implements OnInit
 
   configurarFiliais()
   {
-    if (!this.sessionData.usuario.codFilial)
+    if (!this.userSession.usuario.codFilial)
       this.form.controls['codFiliais']
         .valueChanges
         .subscribe(() => 
@@ -176,14 +243,60 @@ export class OrdemServicoFiltroComponent implements OnInit
           this.obterTecnicos(this.form.controls['codFiliais'].value);
         });
 
-    if (this.sessionData.usuario.codFilial)
+    if (this.userSession.usuario.codFilial)
     {
-      this.form.controls['codFiliais'].setValue([this.sessionData.usuario.codFilial]);
+      this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
 
     this.obterTecnicos(this.form.controls['codFiliais'].value);
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+  }
+
+  configurarEquipamentos()
+  {
+    if ((this.form.controls['codTipoEquip'].value))
+      this.obterGrupoEquipamentos();
+    else
+      this.form.controls['codGrupoEquip'].disable();
+
+    if ((this.form.controls['codGrupoEquip'].value))
+      this.obterEquipamentos();
+    else
+      this.form.controls['codEquipamentos'].disable();
+
+
+    this.form.controls['codTipoEquip']
+      .valueChanges
+      .subscribe(() => 
+      {
+        if (this.form.controls['codTipoEquip'].value)
+        {
+          this.obterGrupoEquipamentos();
+          this.form.controls['codGrupoEquip'].enable();
+        }
+        else
+        {
+          this.form.controls['codGrupoEquip'].setValue("");
+          this.form.controls['codGrupoEquip'].disable();
+        }
+      });
+
+    this.form.controls['codGrupoEquip']
+      .valueChanges
+      .subscribe(() => 
+      {
+        if (this.form.controls['codGrupoEquip'].value)
+        {
+          this.obterEquipamentos();
+          this.form.controls['codEquipamentos'].enable();
+        }
+        else
+        {
+          this.form.controls['codEquipamentos'].setValue("");
+          this.form.controls['codEquipamentos'].disable();
+        }
+      });
   }
 
   async obterRegioesAutorizadas(filialFilter: any)
@@ -207,7 +320,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     let params: AutorizadaParameters = {
       filter: filter,
       indAtivo: 1,
-      codFilial: this.sessionData.usuario.codFilial,
+      codFilial: this.userSession.usuario.codFilial,
       pageSize: 1000
     };
 
@@ -223,8 +336,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     let params: StatusServicoParameters = {
       indAtivo: 1,
       sortActive: 'nomeStatusServico',
-      sortDirection: 'asc',
-      pageSize: 50
+      sortDirection: 'asc'
     }
 
     const data = await this._statusServicoService
@@ -234,7 +346,7 @@ export class OrdemServicoFiltroComponent implements OnInit
     this.statusServicos = data.items;
   }
 
-  private registrarEmitters(): void
+  registrarEmitters(): void
   {
     this.clienteFilterCtrl.valueChanges
       .pipe(
@@ -248,51 +360,9 @@ export class OrdemServicoFiltroComponent implements OnInit
       });
   }
 
-  aplicar(): void
-  {
-    const form: any = this.form.getRawValue();
-
-    const filtro: any = {
-      nome: 'ordem-servico',
-      parametros: form
-    }
-
-    this._userService.registrarFiltro(filtro);
-
-    const newFilter: any = { nome: 'ordem-servico', parametros: this.form.getRawValue() }
-    const oldFilter = this._userService.obterFiltro('ordem-servico');
-
-    if (oldFilter != null)
-      newFilter.parametros =
-      {
-        ...newFilter.parametros,
-        ...oldFilter.parametros
-      };
-
-    this._userService.registrarFiltro(newFilter);
-    this.sidenav.close();
-  }
-
-  limpar(): void
-  {
-    this.form.reset();
-    this.aplicar();
-    this.sidenav.close();
-  }
-
   ngOnDestroy()
   {
     this._onDestroy.next();
     this._onDestroy.complete();
-  }
-
-  selectAll(select: AbstractControl, values, propertyName)
-  {
-    if (select.value[0] == 0 && propertyName != '')
-      select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
-    else if (select.value[0] == 0 && propertyName == '')
-      select.patchValue([...values.map(item => item), 0]);
-    else
-      select.patchValue([]);
   }
 }

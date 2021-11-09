@@ -39,8 +39,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { ContratoFormLayoutComponent } from './contrato-form-layout/contrato-form-layout.component';
 import { ContratoModeloListaComponent } from './contrato-modelo/contrato-modelo-lista/contrato-modelo-lista.component';
-import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -54,7 +54,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		ContratoFormComponent,
 		ContratoFormLayoutComponent,
 		ContratoModeloListaComponent,
-		ContratoModeloFormComponent
+  		ContratoModeloFormComponent,
 	],
 	imports: [
 		CommonModule,

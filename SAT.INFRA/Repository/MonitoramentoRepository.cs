@@ -20,7 +20,7 @@ namespace SAT.INFRA.Repository
 
         private List<IntegracaoServidorModel> ObterListaGeralMonitoramento()
         {
-            return null;
+            return new List<IntegracaoServidorModel>();
         }
 
         public MonitoramentoViewModel ObterListaMonitoramento()

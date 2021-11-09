@@ -94,6 +94,8 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters)
         {
+            if (!parameters.CodTecnico.HasValue) return new ListViewModel();
+
             var despesasPeriodo = this.ObterPeriodos(parameters);
             var despesasPeriodoTecnico = this.CalculaDespesasPorPeriodo(despesasPeriodo, parameters);
 

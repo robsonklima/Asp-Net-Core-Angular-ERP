@@ -10,7 +10,6 @@ namespace SAT.MODELS.Entities
         public string CodTecnicos { get; set; }
         public string Nome { get; set; }
         public int? IndAtivo { get; set; }
-        public int? CodFilial { get; set; }
         public string CodFiliais { get; set; }
         public int? IndFerias { get; set; }
         public string CodStatusServicos { get; set; }

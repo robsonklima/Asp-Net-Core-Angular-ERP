@@ -79,6 +79,7 @@ export class DespesaItemDialogComponent implements OnInit
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
+
         enderecoDestino: { value: this.ordemServico?.localAtendimento.endereco ?? "Não consta", disabled: true },
         cepDestino: { value: this.ordemServico?.localAtendimento.cep ?? "Não consta", disabled: true },
         bairroDestino: { value: this.ordemServico?.localAtendimento.bairro ?? "Não consta", disabled: true },
@@ -100,6 +101,7 @@ export class DespesaItemDialogComponent implements OnInit
         paisOrigem: [undefined, Validators.required],
         latitudeOrigem: [undefined, Validators.required],
         longitudeOrigem: [undefined, Validators.required],
+
         quilometragem: [undefined, Validators.required],
       }),
       step3: this._formBuilder.group({
@@ -235,6 +237,11 @@ export class DespesaItemDialogComponent implements OnInit
     return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 
+  validaQuilometragem(): void
+  {
+
+  }
+
   configuraCamposObrigatorios(): void
   {
     if (!this.isQuilometragem())
@@ -249,11 +256,6 @@ export class DespesaItemDialogComponent implements OnInit
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].enable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
-  }
-
-  validaQuilometragem(): void
-  {
-
   }
 
   private resetFields(): void

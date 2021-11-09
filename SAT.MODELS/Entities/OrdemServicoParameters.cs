@@ -37,5 +37,7 @@ namespace SAT.MODELS.Entities
         public string NotIn_CodStatusServicos { get; set; }
         public DateTime? DataInicioDispBB { get; set; }
         public DateTime? DataFimDispBB { get; set; }
+        public DateTime DataHoraInicioInicio { get; set; }
+        public DateTime DataHoraInicioFim { get; set; }
     }
 }

@@ -23,6 +23,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.CodOS == parameters.CodOS);
             }
 
+            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue) {
+                query = query
+                    .Where(os => os.RelatoriosAtendimento
+                    .Any(r => r.DataHoraInicio >= parameters.DataHoraInicioInicio && r.DataHoraInicio <= parameters.DataHoraInicioFim));
+            }
+
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
 

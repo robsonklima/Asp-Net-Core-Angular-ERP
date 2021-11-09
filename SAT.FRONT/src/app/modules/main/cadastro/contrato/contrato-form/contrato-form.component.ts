@@ -131,6 +131,7 @@ export class ContratoFormComponent implements OnInit {
 			...this.contrato,
 			...form,
 			...{
+				indAtivo: 1,
 				dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario?.codUsuario,

@@ -1,3 +1,4 @@
+import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
 import { Route } from '@angular/router';
 import { ContratoListaComponent } from './contrato-lista/contrato-lista.component';
 import { ContratoFormComponent } from './contrato-form/contrato-form.component';
@@ -17,6 +18,10 @@ export const contratoRoutes: Route[] = [
     {
         path: 'form',
         component: ContratoFormComponent,
+    },
+    {
+        path: 'modelo-form/:codContrato',
+        component: ContratoModeloFormComponent,
     },
     {
         path: ':codContrato',

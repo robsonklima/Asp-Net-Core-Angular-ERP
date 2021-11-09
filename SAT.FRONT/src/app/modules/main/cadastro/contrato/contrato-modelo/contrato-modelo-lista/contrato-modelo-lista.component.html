@@ -4,13 +4,11 @@
 			<span class="text-lg font-medium">{{ t('lista de modelos') }}</span>
 		</div>
 		<div class="flex place-content-end">
-			<button 			
-				class="fuse-mat-button-rounded bg-gray-50 text-green-600 hover:bg-green-600 hover:text-gray-50" 
-				mat-flat-button
-				[matTooltip]="t('adicionar')"
-				[routerLink]=""
-			>
-				<mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:plus-circle'">
+			<button 
+				mat-icon-button	
+				[matTooltip]="t('novo')"
+				[routerLink]="'/contrato/modelo-form/' + codContrato">
+				<mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
 				</mat-icon>
 			</button>
 		</div>

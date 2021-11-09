@@ -39,6 +39,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { ContratoFormLayoutComponent } from './contrato-form-layout/contrato-form-layout.component';
 import { ContratoModeloListaComponent } from './contrato-modelo/contrato-modelo-lista/contrato-modelo-lista.component';
+import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -51,7 +53,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		ContratoListaComponent,
 		ContratoFormComponent,
 		ContratoFormLayoutComponent,
-		ContratoModeloListaComponent
+		ContratoModeloListaComponent,
+		ContratoModeloFormComponent
 	],
 	imports: [
 		CommonModule,
@@ -59,6 +62,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		NgxMaskModule.forRoot(maskConfigFunction),
 		MatButtonToggleModule,
 		MatChipsModule,
+		MatRadioModule,
 		MatDatepickerModule,
 		MatDividerModule,
 		MatMomentDateModule,

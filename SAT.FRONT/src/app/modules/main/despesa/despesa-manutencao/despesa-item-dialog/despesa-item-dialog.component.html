@@ -219,17 +219,32 @@
         <mat-step [formGroupName]="'step3'" [stepControl]="despesaItemForm.get('step3')" #horizontalStepperStep3>
             <ng-template matStepLabel>Revisão</ng-template>
 
-            <div *ngIf="!isQuilometragem()">
+            <div class="flex justify-center items-center" *ngIf=" isValidating">
+                <mat-progress-spinner diameter="50" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+
+            <div *ngIf="!isQuilometragem() && !isValidating">
                 <p class="my-2 font-medium">Revisão</p>
                 <p>Tipo de despesa: {{ obterTipoDespesa() }} </p>
                 <p>Nota fiscal: {{ this.despesaItemForm.value.step2.notaFiscal ?? "Não informada" }} </p>
                 <p>Valor da despesa: {{ this.despesaItemForm.value.step2.valor | currency:'BRL':'symbol-narrow' }} </p>
             </div>
-            <div *ngIf="isQuilometragem()">
+
+            <div *ngIf="isQuilometragem() && !isValidating">
                 <p class="my-2 font-medium">Revisão</p>
                 <p>Tipo de despesa: {{ obterTipoDespesa() }}</p>
                 <p>Quilometragem informada: {{ this.despesaItemForm.value.step2.quilometragem + "km" }}</p>
                 <p>Valor da despesa: {{ calculaConsumoCombustivel() | currency:'BRL':'symbol-narrow' }}</p>
+
+                <div class="mt-4" *ngIf="kmInvalid">
+                    <p class="font-semibold">Atenção!</p>
+                    <p class="font-medium">O quilometragem informada excedeu o limite calculado. Por
+                        favor, justifique o excesso.</p>
+                    <mat-form-field class="flex-auto fuse-mat-dense w-full">
+                        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            [formControlName]="'obs'"></textarea>
+                    </mat-form-field>
+                </div>
                 <div class="hidden" id="map"></div>
             </div>
 
@@ -237,7 +252,8 @@
                 <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
                     Voltar
                 </button>
-                <button class="px-8" mat-flat-button [color]="'primary'" type="button" (click)="confirmar()">
+                <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
+                    [color]="'primary'" type="button" (click)="confirmar()">
                     Concluir
                 </button>
             </div>

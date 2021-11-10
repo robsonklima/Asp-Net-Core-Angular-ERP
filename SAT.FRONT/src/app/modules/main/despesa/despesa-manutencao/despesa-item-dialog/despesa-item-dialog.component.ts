@@ -38,6 +38,8 @@ export class DespesaItemDialogComponent implements OnInit
   mapsPlaceholder: any = [];
   @ViewChild('map') private map: any;
   isResidencial: boolean;
+  kmInvalid: boolean = false;
+  isValidating: boolean = false;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -112,7 +114,8 @@ export class DespesaItemDialogComponent implements OnInit
         quilometragem: [undefined, Validators.required],
       }),
       step3: this._formBuilder.group({
-        revision: [undefined]
+        revision: [undefined],
+        obs: [undefined, Validators.required],
       }),
     });
 
@@ -243,9 +246,13 @@ export class DespesaItemDialogComponent implements OnInit
     return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 
-  revisar(): void
+  async revisar()
   {
-    this.validaQuilometragem();
+    this.isValidating = true;
+
+    await this.validaQuilometragem();
+
+    this.isValidating = false;
   }
 
   async validaQuilometragem()
@@ -257,7 +264,14 @@ export class DespesaItemDialogComponent implements OnInit
     if (this.despesaItemForm.value.step2.quilometragem > quilometragemLeaflet &&
       Math.abs(quilometragemLeaflet - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
-
+      this.kmInvalid = true;
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
+    }
+    else
+    {
+      this.kmInvalid = false;
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].reset();
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
     }
   }
 
@@ -314,11 +328,13 @@ export class DespesaItemDialogComponent implements OnInit
     if (!this.isQuilometragem())
     {
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].disable();
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].enable();
     }
     else
     {
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].enable();
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
   }

@@ -57,59 +57,68 @@
                         </div>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" mask="00000-000" [formControlName]="'cepOrigem'"
+                            <input matInput autocomplete="off" mask="00000-000" [readonly]="isResidencial"
+                                [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'cepOrigem'"
                                 [placeholder]="'CEP'">
                         </mat-form-field>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" [formControlName]="'enderecoOrigem'"
+                            <input matInput autocomplete="off" [readonly]="isResidencial"
+                                [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'enderecoOrigem'"
                                 [placeholder]="'Endereço'">
                         </mat-form-field>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'bairroOrigem'"
-                                    [placeholder]="'Bairro'">
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}"
+                                    [formControlName]="'bairroOrigem'" [placeholder]="'Bairro'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'complementoOrigem'"
-                                    [placeholder]="'Complemento'">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'numeroOrigem'"
-                                    [placeholder]="'Número'">
-                            </mat-form-field>
-
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'cidadeOrigem'"
-                                    [placeholder]="'Cidade'">
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}"
+                                    [formControlName]="'complementoOrigem'" [placeholder]="'Complemento'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'ufOrigem'" [placeholder]="'UF'">
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}"
+                                    [formControlName]="'numeroOrigem'" [placeholder]="'Número'">
                             </mat-form-field>
 
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'paisOrigem'"
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}"
+                                    [formControlName]="'cidadeOrigem'" [placeholder]="'Cidade'">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'ufOrigem'"
+                                    [placeholder]="'UF'">
+                            </mat-form-field>
+
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="isResidencial"
+                                    [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'paisOrigem'"
                                     [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'latitudeOrigem'"
-                                    [placeholder]="'Latitude'">
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true"
+                                    [formControlName]="'latitudeOrigem'" [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'longitudeOrigem'"
-                                    [placeholder]="'Longitude'">
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true"
+                                    [formControlName]="'longitudeOrigem'" [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
 
@@ -127,60 +136,61 @@
                             </label>
                         </div>
 
-                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" mask="00000-000" [formControlName]="'cepDestino'"
-                                [placeholder]="'CEP'">
+                        <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
+                            <input matInput autocomplete="off" [readonly]="true" mask="00000-000"
+                                [formControlName]="'cepDestino'" [placeholder]="'CEP'">
                         </mat-form-field>
 
-                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" [formControlName]="'enderecoDestino'"
+                        <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
+                            <input matInput autocomplete="off" [readonly]="true" [formControlName]="'enderecoDestino'"
                                 [placeholder]="'Endereço'">
                         </mat-form-field>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'bairroDestino'"
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'bairroDestino'"
                                     [placeholder]="'Bairro'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'complementoDestino'"
-                                    [placeholder]="'Complemento'">
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true"
+                                    [formControlName]="'complementoDestino'" [placeholder]="'Complemento'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'numeroDestino'"
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'numeroDestino'"
                                     [placeholder]="'Número'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'cidadeDestino'"
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'cidadeDestino'"
                                     [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'ufDestino'" [placeholder]="'UF'">
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'ufDestino'"
+                                    [placeholder]="'UF'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'paisDestino'"
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'paisDestino'"
                                     [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
+                        <div class="pointer-events-none flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'latitudeDestino'"
-                                    [placeholder]="'Latitude'">
+                                <input matInput autocomplete="off" [readonly]="true"
+                                    [formControlName]="'latitudeDestino'" [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [formControlName]="'longitudeDestino'"
-                                    [placeholder]="'Longitude'">
+                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" [readonly]="true"
+                                    [formControlName]="'longitudeDestino'" [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
 

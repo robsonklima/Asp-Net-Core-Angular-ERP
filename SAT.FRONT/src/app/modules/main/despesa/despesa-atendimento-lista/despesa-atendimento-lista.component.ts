@@ -18,10 +18,10 @@ registerLocaleData(localePt);
   templateUrl: './despesa-atendimento-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento {
-            grid-template-columns: 80px 80px 130px 130px 150px 130px  50px 50px auto 50px;
-            @screen sm { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
-            @screen md { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
-            @screen lg { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
+            grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px;
+            @screen sm { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
+            @screen md { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
+            @screen lg { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

@@ -120,6 +120,10 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
+
+            modelBuilder.Entity<DespesaCartaoCombustivelTecnico>()
+            .Property(e => e.CodTecnico)
+            .HasConversion<string>();
         }
     }
 }

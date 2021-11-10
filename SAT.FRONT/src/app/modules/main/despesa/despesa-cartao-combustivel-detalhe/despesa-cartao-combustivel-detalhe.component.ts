@@ -64,7 +64,5 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
           }
         )
         .toPromise()).items;
-
-    console.log(this.historico);
   }
 }

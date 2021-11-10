@@ -28,6 +28,20 @@ export class GoogleGeolocationService
     )
   }
 
+  obterDistancia(parameters: GoogleGeolocationParameters): any
+  {
+    let params = new HttpParams();
+
+    Object.keys(parameters).forEach(key =>
+    {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/GoogleGeolocation/DistanceMatrix`, { params: params }).pipe(
+      map((data: GoogleGeolocation) => data)
+    )
+  }
+
   public async obterPorEndereco(cep: string)
   {
     if (cep == null) return null;
@@ -36,17 +50,4 @@ export class GoogleGeolocationService
       .then(result => { return result.results.shift() });
   }
 
-  calcularDistancia(originLat: string, originLong: string, destinationLat: string, destinationLong: string): Observable<any>
-  {
-    var key = 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM';
-
-    originLat = encodeURIComponent(originLat);
-    originLong = encodeURIComponent(originLong);
-    destinationLat = encodeURIComponent(destinationLat);
-    destinationLong = encodeURIComponent(destinationLong);
-
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${destinationLat}%2C${destinationLong}&origins=${originLat}%2C${originLong}&key=${key}`;
-
-    return this.http.get<any>(url).pipe(map((data: any) => data));
-  }
 }

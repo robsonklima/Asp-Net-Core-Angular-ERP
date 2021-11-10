@@ -251,9 +251,9 @@ export class DespesaItemDialogComponent implements OnInit
   async validaQuilometragem()
   {
     var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
-    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
+    var quilometragemGoogle = await this.calculaQuilometragemGoogle();
     console.log(quilometragemLeaflet);
-    // console.log(quilometragemGoogle);
+    console.log(quilometragemGoogle);
   }
 
   async calculaQuilometragemLeaflet()
@@ -293,10 +293,14 @@ export class DespesaItemDialogComponent implements OnInit
     var dLat = (this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value;
     var dLong = (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value;
 
-    return new Promise(resolve => this._geolocationService.calcularDistancia(oLat, oLong, dLat, dLong).subscribe(result =>
+    return new Promise(resolve => this._geolocationService.obterDistancia({
+      latitudeDestino: dLat,
+      longitudeDestino: dLong,
+      latitudeOrigem: oLat,
+      longitudeOrigem: oLong
+    }).subscribe(result =>
     {
-      resolve(result);
-
+      resolve(result.rows[0]?.elements[0]?.distance?.value / 1000);
     }));
   }
 

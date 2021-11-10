@@ -334,5 +334,6 @@
     "placa": "License Plate",
     "ano": "Year",
     "cor": "Color",
-    "combustivel": "Gas"
+    "combustivel": "Gas",
+    "inicio de uso": "Use start"
 }

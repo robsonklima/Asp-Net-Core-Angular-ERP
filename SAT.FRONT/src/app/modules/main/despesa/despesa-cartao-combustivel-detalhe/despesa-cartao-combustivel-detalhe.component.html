@@ -95,7 +95,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </fuse-card>
 
                                     <fuse-card
@@ -105,18 +104,24 @@
                                         </div>
 
                                         <div class="flex flex-col my-2">
-                                            <div class="my-2">
-                                                <div>{{ t('abertura') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    "ola!"
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('abertura') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    "ola!"
-                                                </div>
-                                            </div>
+                                            <table mat-table [dataSource]="historico" class="mat-elevation-z2">
+
+                                                <ng-container matColumnDef="tecnico">
+                                                    <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                        {{ t('tecnico') }} </th>
+                                                    <td mat-cell *matCellDef="let di" class="text-sm">
+                                                        {{ di?.tecnico?.nome }} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="inicio de uso">
+                                                    <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                        {{ t('inicio de uso') }} </th>
+                                                    <td mat-cell *matCellDef="let di" class="text-sm">
+                                                        {{ di?.dataHoraInicio | date:'dd/MM/yyyy' }} </td>
+                                                </ng-container>
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                            </table>
                                         </div>
                                     </fuse-card>
                                 </div>

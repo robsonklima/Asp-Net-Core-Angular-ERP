@@ -19,6 +19,7 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
   cartao: DespesaCartaoCombustivel;
   historico: DespesaCartaoCombustivelTecnico[] = [];
   userSession: UsuarioSessao;
+  displayedColumns: string[] = ['tecnico', 'inicio de uso'];
 
   constructor (
     private _route: ActivatedRoute,

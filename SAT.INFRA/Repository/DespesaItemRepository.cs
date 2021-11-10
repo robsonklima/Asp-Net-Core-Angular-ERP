@@ -5,6 +5,8 @@ using SAT.MODELS.Helpers;
 using System;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using SAT.MODELS.Entities.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -30,7 +32,21 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            throw new NotImplementedException();
+            DespesaItem di = _context.DespesaItem.SingleOrDefault(p => p.CodDespesaItem == codigo);
+
+            if (di != null)
+            {
+                _context.DespesaItem.Remove(di);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
+                }
+            }
         }
 
         public DespesaItem ObterPorCodigo(int codigo)

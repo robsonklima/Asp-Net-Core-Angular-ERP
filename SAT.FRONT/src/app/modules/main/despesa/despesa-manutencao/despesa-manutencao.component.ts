@@ -2,7 +2,9 @@ import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, LOCALE_I
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
+import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
@@ -12,6 +14,7 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-dialog.component';
@@ -43,7 +46,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   despesaItens: DespesaItem[] = [];
   rat: RelatorioAtendimento;
   ordemServico: OrdemServico;
-  displayedColumns: string[] = ['acao', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal'];
+  displayedColumns: string[] = ['codDespesaItem', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal', 'acao'];
   userSession: UserSession;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel
 
@@ -52,6 +55,8 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _despesaSvc: DespesaService,
+    private _snack: CustomSnackbarService,
+    private _despesaItemSvc: DespesaItemService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
     private _despesaConfCombustivelSvc: DespesaConfiguracaoCombustivelService,
@@ -159,6 +164,41 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     await this.obterConfiguracaoCombustivel();
 
     this.isLoading = false;
+  }
+
+  public excluirDespesaItem(di: DespesaItem)
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja remover este lançamento de despesa?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this._despesaItemSvc.deletar(di.codDespesaItem).subscribe(() =>
+        {
+          this._snack.exibirToast('Despesa removido com sucesso!', 'success');
+          this.obterDespesa();
+        }, e =>
+        {
+          this._snack.exibirToast('Erro ao remover despesa', 'error');
+        })
+      }
+    });
+  }
+
+  public permissaoParaRemoverDespesaItem()
+  {
+    // Quem tem permissão para excluir?
+    return this.userSession.usuario.codPerfil == 3;
   }
 
   public async obterConfiguracaoCombustivel()

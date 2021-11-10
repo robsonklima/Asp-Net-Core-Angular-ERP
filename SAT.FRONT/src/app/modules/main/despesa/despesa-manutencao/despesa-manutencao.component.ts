@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -31,14 +31,14 @@ import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-d
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaManutencaoComponent implements AfterViewInit
+export class DespesaManutencaoComponent implements AfterContentInit, OnInit
 {
-
-  isLoading: boolean = false;
-  isDespesaLoading: boolean = false;
+  isLoading: boolean;
+  isDespesaLoading: boolean;
   sort: any;
   paginator: any;
   codRAT: number;
+  codDespesaPeriodo: number;
   despesa: Despesa;
   despesaItens: DespesaItem[] = [];
   rat: RelatorioAtendimento;
@@ -59,9 +59,16 @@ export class DespesaManutencaoComponent implements AfterViewInit
   {
     this.userSession = JSON.parse(this._userService.userSession);
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
+    this.codDespesaPeriodo = +this._route.snapshot.paramMap.get('codDespesaPeriodo');
   }
 
-  async ngAfterViewInit()
+  ngOnInit()
+  {
+    this.isDespesaLoading = false;
+    this.isLoading = false;
+  }
+
+  async ngAfterContentInit()
   {
     await this.obterDados();
 
@@ -99,9 +106,6 @@ export class DespesaManutencaoComponent implements AfterViewInit
 
   private async criaDespesa()
   {
-    var codDespesaPeriodo =
-      +this._route.snapshot.paramMap.get('codDespesaPeriodo');
-
     var despesa: Despesa =
     {
       codRAT: this.rat.codRAT,
@@ -109,7 +113,7 @@ export class DespesaManutencaoComponent implements AfterViewInit
       centroCusto: "1008",
       codFilial: this.rat.tecnico.codFilial,
       codTecnico: this.rat.codTecnico,
-      codDespesaPeriodo: codDespesaPeriodo,
+      codDespesaPeriodo: this.codDespesaPeriodo,
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
     };

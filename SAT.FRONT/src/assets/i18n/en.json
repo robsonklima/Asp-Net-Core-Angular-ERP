@@ -323,5 +323,6 @@
     "consulta de periodo": "Period Query",
     "hora inicial": "Start Time",
     "hora final": "End Time",
-    "rat": "RAT"
+    "rat": "RAT",
+    "consulta de despesas": "Expense Inquiry"
 }

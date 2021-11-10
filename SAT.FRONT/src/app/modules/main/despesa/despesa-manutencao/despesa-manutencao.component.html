@@ -19,12 +19,15 @@
                             <div class="flex items-center ml-1 whitespace-nowrap">
                                 <mat-icon class="icon-size-5 text-secondary"
                                     [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                                <span class="ml-1 text-secondary">{{ t('relatorio') }}</span>
+                                <a class="whitespace-nowrap text-primary-500"
+                                    [routerLink]="['/despesa/atendimentos/relatorios/' + codDespesaPeriodo]">
+                                    {{ t('relatorios') }}
+                                </a>
                             </div>
                             <div class="flex items-center ml-1 whitespace-nowrap">
                                 <mat-icon class="icon-size-5 text-secondary"
                                     [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                                <span class="ml-1 text-secondary">{{ codRAT }}</span>
+                                <span class="ml-1 text-secondary">RAT {{ codRAT }}</span>
                             </div>
                             <div class="flex items-center ml-1 whitespace-nowrap">
                                 <mat-icon class="icon-size-5 text-secondary"
@@ -34,7 +37,7 @@
                         </div>
                         <div class="text-3xl mt-2 md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10
                                 truncate">
-                            {{ 'Consulta de Despesas' }}
+                            {{ t('consulta de despesas') }}
                         </div>
                         <div class="mt-2">
                             <div class="text-base font-semibold text-secondary tracking-tight" *ngIf="!isLoading">

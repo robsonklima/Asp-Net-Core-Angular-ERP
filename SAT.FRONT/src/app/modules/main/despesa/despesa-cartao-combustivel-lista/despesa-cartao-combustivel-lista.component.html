@@ -1,7 +1,4 @@
 <mat-drawer-container class="flex-auto h-full">
-    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <app-despesa-atendimento-filtro [sidenav]="sidenav"></app-despesa-atendimento-filtro>
-    </mat-drawer>
     <mat-drawer-content>
         <div
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
@@ -23,11 +20,7 @@
                     </mat-form-field>
 
                     <button class="ml-4" mat-icon-button>
-                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                    </button>
-
-                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
-                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                        <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -44,23 +37,17 @@
                                     <div>
                                         {{ t('ativo') }}
                                     </div>
-                                    <div>
-                                        {{ t('acao') }}
-                                    </div>
                                 </div>
                                 <ng-container *ngIf="cartoes?.items.length">
-                                    <ng-container *ngFor="let dp of cartoes?.items">
+                                    <ng-container *ngFor="let cc of cartoes?.items">
                                         <a>
                                             <div class="list-grid-despesa-cartao-combustivel grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">
-                                                    ---
+                                                    {{ cc.numero | mask: '0000 0000 0000 0000'}}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ dp.indAtivo ? "SIM" : "NÃO" }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    ---
+                                                    {{ cc.indAtivo ? "SIM" : "NÃO" }}
                                                 </div>
                                             </div>
                                         </a>
@@ -70,8 +57,8 @@
                             <mat-paginator [hidden]="!cartoes?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="cartoes?.totalCount"
-                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
-                                50]" [showFirstLastButtons]="true" (page)="paginar()">
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

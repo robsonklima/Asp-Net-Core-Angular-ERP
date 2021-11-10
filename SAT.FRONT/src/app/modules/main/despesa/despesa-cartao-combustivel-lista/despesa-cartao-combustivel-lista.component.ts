@@ -1,15 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { Filterable } from 'app/core/filters/filterable';
-import { MatSidenav } from '@angular/material/sidenav';
-import { IFilterable } from 'app/core/types/filtro.types';
 import { DespesaCartaoCombustivelData } from 'app/core/types/despesa-cartao-combustivel.types';
+import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 registerLocaleData(localePt);
 
 @Component({
@@ -17,10 +16,10 @@ registerLocaleData(localePt);
   templateUrl: './despesa-cartao-combustivel-lista.component.html',
   styles: [`
         .list-grid-despesa-cartao-combustivel {
-            grid-template-columns: auto 80px 80px;
-            @screen sm { grid-template-columns: auto 80px 80px; }
-            @screen md { grid-template-columns: auto 80px 80px; }
-            @screen lg { grid-template-columns: auto 80px 80px; }
+            grid-template-columns: auto 80px;
+            @screen sm { grid-template-columns: auto 80px;}
+            @screen md { grid-template-columns: auto 80px; }
+            @screen lg { grid-template-columns: auto 80px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -28,62 +27,67 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaCartaoCombustivelListaComponent extends Filterable implements AfterViewInit, IFilterable
+export class DespesaCartaoCombustivelListaComponent implements AfterViewInit
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
   isLoading: boolean = false;
   cartoes: DespesaCartaoCombustivelData;
 
   constructor (
     protected _userService: UserService,
-    private _cdr: ChangeDetectorRef)
-  {
-    super(_userService, "despesa-cartao-combustivel");
-  }
+    private _cdr: ChangeDetectorRef,
+    private _cartaoCombustivelSvc: DespesaCartaoCombustivelService) { }
 
   ngAfterViewInit()
   {
     this.obterDados();
 
-    if (this.sort && this.paginator)
-    {
-      this.sort.disableClear = true;
+    if (this.paginator)
       this._cdr.markForCheck();
-
-      this.sort.sortChange.subscribe(() =>
-      {
-        this.onSortChanged()
-        this.obterDados();
-      });
-    }
 
     this.registerEmitters();
     this._cdr.detectChanges();
   }
 
+  private async obterCartoes(filter: string)
+  {
+    this.cartoes = (await this._cartaoCombustivelSvc.obterPorParametros({
+      pageNumber: this.paginator.pageIndex + 1,
+      pageSize: this.paginator?.pageSize,
+      filter: filter
+    }).toPromise());
+  }
 
-  public async obterDados()
+  public async obterDados(filter: string = null)
   {
     this.isLoading = true;
-
+    this.obterCartoes(filter);
     this.isLoading = false;
   }
 
   registerEmitters(): void
   {
-    this.sidenav.closedStart.subscribe(() =>
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()
+    ).subscribe((text: string) =>
     {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
+      if (text && text != "")
+      {
+        this.paginator.pageIndex = 0;
+        this.obterDados(text);
+      }
+    });
   }
 
   public paginar()
   {
-    this.onPaginationChanged();
     this.obterDados();
   }
 }

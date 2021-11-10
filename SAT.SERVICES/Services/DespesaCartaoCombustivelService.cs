@@ -14,6 +14,26 @@ namespace SAT.SERVICES.Services
             _cartaoRepo = cartaoRepo;
         }
 
+        public void Atualizar(DespesaCartaoCombustivel despesaCartaoCombustivel)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public DespesaCartaoCombustivel Criar(DespesaCartaoCombustivel despesaCartaoCombustivel)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Deletar(int codigo)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public DespesaCartaoCombustivel ObterPorCodigo(int codigo)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public ListViewModel ObterPorParametros(DespesaCartaoCombustivelParameters parameters)
         {
             var cartaos = _cartaoRepo.ObterPorParametros(parameters);
@@ -30,27 +50,6 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
-        }
-
-        public DespesaCartaoCombustivel Criar(DespesaCartaoCombustivel despesaCartaoCombustivel)
-        {
-            //_cartaoRepo.Criar(despesaCartaoCombustivel);
-            return despesaCartaoCombustivel;
-        }
-
-        public void Deletar(int codigo)
-        {
-            //_cartaoRepo.Deletar(codigo);
-        }
-
-        public void Atualizar(DespesaCartaoCombustivel despesaCartaoCombustivel)
-        {
-            //_cartaoRepo.Atualizar(DespesaCartaoCombustivel);
-        }
-
-        public DespesaCartaoCombustivel ObterPorCodigo(int codigo)
-        {
-            return null; //_cartaoRepo.ObterPorCodigo(codigo);
         }
     }
 }

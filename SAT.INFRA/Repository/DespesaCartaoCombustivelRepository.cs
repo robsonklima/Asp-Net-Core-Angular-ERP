@@ -20,28 +20,18 @@ namespace SAT.INFRA.Repository
         {
             var cartoes = _context.DespesaCartaoCombustivel.AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                cartoes = cartoes.Where(
-                    c =>
-                    c.Numero.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                cartoes = cartoes.Where(c =>
+                c.Numero.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
 
-            if (parameters.CodDespesaCartaoCombustivel != null)
-            {
+            if (parameters.CodDespesaCartaoCombustivel.HasValue)
                 cartoes = cartoes.Where(a => a.CodDespesaCartaoCombustivel == parameters.CodDespesaCartaoCombustivel);
-            }
 
-            if (parameters.IndAtivo != null)
-            {
+            if (parameters.IndAtivo.HasValue)
                 cartoes = cartoes.Where(a => a.IndAtivo == parameters.IndAtivo);
-            }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 cartoes = cartoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<DespesaCartaoCombustivel>.ToPagedList(cartoes, parameters.PageNumber, parameters.PageSize);
         }

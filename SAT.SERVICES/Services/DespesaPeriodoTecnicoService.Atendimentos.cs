@@ -85,8 +85,8 @@ namespace SAT.SERVICES.Services
                     DataFim = despesa.DataFim,
                     TotalDespesa = this.TotalDespesa(despesaPeriodoTecnico),
                     TotalAdiantamento = this.TotalAdiantamentoUtilizado(parameters.CodTecnico.Value, despesa.CodDespesaPeriodo),
-                    GastosExcedentes = 0,
-                    RestituirAEmpresa = 0,
+                    GastosExcedentes = 0, // TODO
+                    RestituirAEmpresa = 0, // TODO
                     Status = despesaPeriodoTecnico?.DespesaPeriodoTecnicoStatus,
                     IndAtivo = Convert.ToBoolean(despesa.IndAtivo)
                 };

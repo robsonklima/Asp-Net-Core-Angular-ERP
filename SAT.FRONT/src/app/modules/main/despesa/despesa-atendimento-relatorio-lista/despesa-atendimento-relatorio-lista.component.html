@@ -45,9 +45,6 @@
                                     <div class="list-grid-despesa-atendimento-relatorio z-10 sticky top-0 grid gap-4 py-2 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                         matSort matSortDisableClear>
                                         <div>
-                                            {{ t('acao') }}
-                                        </div>
-                                        <div>
                                             {{ t('os') }}
                                         </div>
                                         <div>
@@ -77,15 +74,15 @@
                                         <div>
                                             {{ t('total despesa') }}
                                         </div>
+                                        <div>
+                                            {{ t('acao') }}
+                                        </div>
                                     </div>
                                     <ng-container *ngIf="rats?.items.length">
                                         <ng-container *ngFor="let r of rats?.items">
                                             <a [routerLink]="'despesa/'+r.codRAT">
                                                 <div class="list-grid-despesa-atendimento-relatorio grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                     *transloco="let t">
-                                                    <div class="hidden md:block truncate">
-                                                        ---
-                                                    </div>
                                                     <div class="hidden md:block truncate">
                                                         {{ r.codOS ?? "---" }}
                                                     </div>
@@ -115,6 +112,9 @@
                                                     </div>
                                                     <div class="hidden md:block truncate font-semibold">
                                                         {{ (obterTotalDespesa(r.codRAT) ?? "0") | currency:'BRL':'symbol-narrow' }}
+                                                    </div>
+                                                    <div class="hidden md:block truncate">
+                                                        ---
                                                     </div>
                                                 </div>
                                             </a>

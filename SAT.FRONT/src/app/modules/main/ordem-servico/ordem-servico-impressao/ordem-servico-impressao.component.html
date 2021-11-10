@@ -1,144 +1,363 @@
-<div class="text-center min-h-full" *transloco="let t">
-    <div class="inline-block p-6 sm:p-10 text-left print:p-0">
-        <div
-            class="w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
-
-            <div class="flex items-start justify-between">
-                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
-                    <div class="text-4xl tracking-tight text-secondary">{{ t('os') }}</div>
-                    <div class="text-4xl">{{ os.codOS }}</div>
-                    <div class="font-medium tracking-tight text-secondary">{{ t('abertura').toUpperCase() }}</div>
-                    <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}</div>
-                    <div class="font-medium tracking-tight text-secondary">{{ t('intervencao').toUpperCase() }}</div>
-                    <div class="font-medium">{{ os.tipoIntervencao.nomTipoIntervencao }}</div>
-                    <div class="font-medium tracking-tight text-secondary">STATUS</div>
-                    <div class="font-medium">{{ os.statusServico.nomeStatusServico }}</div>
+        <button class="add-button" (click)="print()" [disabled]="loading">
+            <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+        </button>
+        <div class="flex-auto h-full text-center" *transloco="let t">
+            <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+                <div class="loading-shade" *ngIf="loading">
+                    <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
                 </div>
-                <div class="grid auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
-                    <div class="place-self-center w-24">
-                        <img class="w-24" src="assets/images/logo/logo.png">
+                <div id="print-area" class="w-240 overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none
+            print:bg-transparent" *ngIf="!loading">
+
+                    <div class="flex items-start justify-between">
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                            <div class="text-4xl tracking-tight text-secondary">{{ t('os') }}</div>
+                            <div class="text-4xl">{{ os.codOS }}</div>
+                            <div class="font-medium tracking-tight text-secondary">{{ t('abertura').toUpperCase() }}
+                            </div>
+                            <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM/YY HH:mm' }}</div>
+                            <div class="font-medium tracking-tight text-secondary">{{ t('intervencao').toUpperCase() }}
+                            </div>
+                            <div class="font-medium">{{ os.tipoIntervencao.nomTipoIntervencao }}</div>
+                            <div class="font-medium tracking-tight text-secondary">STATUS</div>
+                            <div class="font-medium">{{ os.statusServico.nomeStatusServico }}</div>
+                        </div>
+                        <div
+                            class="grid auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
+                            <div class="place-self-center w-24">
+                                <img class="w-24" src="assets/images/logo/logo.png">
+                            </div>
+                            <div class="pl-10 border-l text-md mr-10">
+                                <div class="font-medium">Perto S.A.</div>
+                                <div>Tecnologia para Bancos e Varejo</div>
+                                <div>Rua Nissin Castiel, 640 Distrito Industrial</div>
+                                <div>CEP: 94045-420 | Gravataí | RS | Brasil</div>
+                                <div>(51) 3489-8700</div>
+                                <div>www.perto.com.br</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pl-10 border-l text-md">
-                        <div class="font-medium">Perto S.A.</div>
-                        <div>Tecnologia para Bancos e Varejo</div>
-                        <div>Rua Nissin Castiel, 640 Distrito Industrial</div>
-                        <div>CEP: 94045-420 | Gravataí | RS | Brasil</div>
-                        <div>(51) 3489-8700</div>
-                        <div>www.perto.com.br</div>
+
+                    <div class="text-md">
+                        <div class="text-xl font-medium">{{ os.cliente.nomeFantasia }}</div>
+                        <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }}
+                            {{os.localAtendimento.nomeLocal }}</div>
+                        <div>
+                            {{ os?.localAtendimento?.endereco.trim() + " - " | titlecase }}
+                            {{ os?.localAtendimento?.bairro.trim() + "," | titlecase }}
+                            {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="text-md">
-                <div class="text-xl font-medium">{{ os.cliente.nomeFantasia }}</div>
-                <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }} {{os.localAtendimento.nomeLocal }}</div>
-                <div>
-                    {{ os?.localAtendimento?.endereco | titlecase }}
-                    {{ os?.localAtendimento?.bairro | titlecase }}
-                    {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
-                </div>
-            </div>
 
-            <div class="grid grid-cols-12 gap-x-1 mt-12">
-                <div class="h-0	col-span-4 text-lg font-medium">{{ t('solicitacao') }}</div>
-                <div class="h-0	self-center text-right"></div>
-                <div class="h-0	self-center text-right"></div>
-                <div class="h-0	col-span-6 self-center text-right">{{ os?.dataHoraSolicitacao | date:'dd/MM HH:mm' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
+                    <!-- dados abertura -->
+                    <div class="grid grid-cols-12 gap-x-1 mt-10">
+                        <div class="h-0	col-span-4 text-lg font-medium">{{ t('solicitacao') }}</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-6 self-center text-right">
+                            {{ os?.dataHoraSolicitacao | date:'dd/MM/YY HH:mm' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                <div class="h-0	col-span-8 text-lg font-medium">{{ t('os cliente') }}</div>
-                <div class="h-0	self-center text-right"></div>
-                <div class="h-0	self-center text-right"></div>
-                <div class="h-0	col-span-2 self-center text-right">{{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
+                        <div class="h-0	col-span-8 text-lg font-medium">{{ t('os cliente') }}</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-2 self-center text-right">
+                            {{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('os quarteirizada') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('status servico') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.statusServico?.nomeStatusServico }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-8 text-lg font-medium">{{ t('cliente') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-2 self-center text-right">{{ os?.cliente?.numBanco }} - {{ os?.cliente?.nomeFantasia }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('bairro') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.bairro }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('cliente') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.cidade?.nomeCidade }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('solicitante') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeSolicitante || 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('contato') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.nomeContato || 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('telefone') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('equipamento') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.numSerie }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('sla') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
-                <div class="h-4 col-span-12 my-2 border-b"></div>
-							
-                <div class="h-0 col-span-4 text-lg font-medium">{{ t('filial') }}</div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 self-center text-right"></div>
-                <div class="h-0 col-span-6 self-center text-right">{{ os?.filial?.nomeFilial }}</div>
-            </div>
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('os quarteirizada') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado') | uppercase}}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-            <!-- <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos> -->
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('status servico') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.statusServico?.nomeStatusServico }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-            <div class="mt-16">
-                <div class="flex items-start mt-4">
-                    <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
-                    <div class="ml-6 text-sm text-secondary">
-                        In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue dolor. Quisque
-                        scelerisque lacus sed feugiat fermentum.
-                        Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus
-                        dapibus. Etiam at felis volutpat est mollis lacinia.
-                        Mauris placerat sem sit amet velit mollis, in porttitor ex finibus. Proin eu nibh id libero
-                        tincidunt lacinia et eget.
+                        <div class="h-0 col-span-4 text-lg font-medium"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right"></div>
+                        <div class="h-4 col-span-12 my-2"></div>
+
+                        <!-- dados cliente -->
+                        <div class="h-0 col-span-8 text-lg font-medium">{{ t('cliente') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-2 self-center text-right">{{ os?.cliente?.numBanco }} -
+                            {{ os?.cliente?.nomeFantasia }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('cidade') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.localAtendimento?.cidade?.nomeCidade | uppercase }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('bairro') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.localAtendimento?.bairro | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('endereco') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.localAtendimento?.endereco | uppercase }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('solicitante') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (os?.nomeSolicitante || 'Não Informado')| uppercase }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('telefone solicitante') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' | uppercase }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('contato') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ (os?.nomeContato || 'Não Informado')| uppercase }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right"></div>
+                        <div class="h-4 col-span-12 my-2"></div>
+
+                        <!-- dados equipamento -->
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('equipamento') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.equipamento?.nomeEquip | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.equipamentoContrato?.numSerie | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('sla') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
+                        <div class="h-4 col-span-12 my-1"></div>
+                        <div class="col-span-12 text-lg font-medium"
+                            *ngIf="os?.equipamentoContrato?.acordoNivelServico?.descSLA">
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ os?.equipamentoContrato?.acordoNivelServico?.descSLA }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('filial') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.filial?.nomeFilial }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">PAT</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                            {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('regiao') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                            {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('fim sla') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/YY HH:mm') : '--' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+                        <div class="col-span-12 text-lg font-medium" *ngIf="os?.defeitoRelatado">
+                            {{ t('defeito') }}
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ os?.defeitoRelatado }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+                    </div>
+                    <div *ngIf="os.relatoriosAtendimento.length > 0">
+                        <div class="h-4 mt-2"></div>
+                        <div class="text-xl tracking-tight text-secondary">ATENDIMENTOS</div>
+                        <div>
+                            <div *ngFor="let rat of os.relatoriosAtendimento">
+                                <div class="grid mt-5">
+
+                                    <div class="text-lg tracking-tight text-secondary">{{ "RAT no. " + rat.numRAT }}
+                                    </div>
+                                    <div class="h-0 col-span-12 my-2"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('tecnico') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ rat.tecnico.nome | uppercase }}
+                                    </div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('acompanhante') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ (rat.nomeAcompanhante || 'Não informado') | uppercase  }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('status') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ rat.statusServico.nomeStatusServico | uppercase }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('inicio') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ (rat.dataHoraInicio | date:'dd/MM/YY HH:mm') || "---" }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ (rat.dataHoraSolucao | date:'dd/MM/YY HH:mm') || "---" }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('horas gastas') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ (rat.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
+
+                                    <div class="h-4 col-span-12 my-2 border-b" *ngIf="rat.relatoSolucao || rat.obsRAT">
+                                    </div>
+                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat.relatoSolucao">
+                                        {{ t('descricao da solucao') }}
+                                        <div class="font-light text-base text-justify">
+                                            {{ rat.relatoSolucao }}</div>
+                                        <div class="col-span-12 my-2 border-b"></div>
+                                    </div>
+
+                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat.obsRAT">
+                                        {{ t('observacao') }}
+                                        <div class="font-light text-base text-justify">
+                                            {{ rat.obsRAT }}</div>
+                                        <div class="col-span-12 my-2 border-b"></div>
+                                    </div>
+
+                                    <div class="col-span-12" *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
+                                        <div class="text-lg mt-5 tracking-tight text-secondary">
+                                            {{ "DETALHES" }}
+                                        </div>
+                                        <div class="col-span-12 my-1"></div>
+                                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('tipo de servico') }}</div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 col-span-6 self-center text-right">
+                                            {{ (detalhe.tipoServico?.nomeServico | uppercase) || "---" }}</div>
+                                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('causa') }}</div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 col-span-6 self-center text-right">
+                                            {{ detalhe.causa.codCausa + ' - ' + detalhe.causa.nomeCausa | uppercase }}
+                                        </div>
+                                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('defeito') }}</div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 col-span-6 self-center text-right">
+                                            {{ detalhe.defeito.codDefeito + ' - ' + detalhe.defeito.nomeDefeito | uppercase }}
+                                        </div>
+                                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('acao') }}</div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 self-center text-right"></div>
+                                        <div class="h-0 col-span-6 self-center text-right">
+                                            {{ detalhe.acao.codAcao + ' - ' + detalhe.acao.nomeAcao | uppercase }}
+                                        </div>
+                                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                        <div *ngFor="let detalhesPeca of detalhe.relatorioAtendimentoDetalhePecas">
+                                            <div *ngIf="detalhe.relatorioAtendimentoDetalhePecas.length > 0">
+                                                <div class="text-lg tracking-tight text-secondary">
+                                                    {{ t('pecas') | uppercase }}
+                                                </div>
+
+                                                <div class="grid grid-cols-10">
+                                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('codigo') }}
+                                                    </div>
+                                                    <div class="h-0 self-center text-right"></div>
+                                                    <div class="h-0 self-center text-right"></div>
+                                                    <div class="h-0 col-span-6 self-center text-right">
+                                                        {{ detalhesPeca.peca.codMagnus  }}
+                                                    </div>
+                                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                                    <div class="h-0 col-span-4 text-lg font-medium">
+                                                        {{ t('quantidade') }}
+                                                    </div>
+                                                    <div class="h-0 self-center text-right"></div>
+                                                    <div class="h-0 self-center text-right"></div>
+                                                    <div class="h-0 col-span-6 self-center text-right">
+                                                        {{ detalhesPeca.qtdePecas }}
+                                                    </div>
+                                                    <div class="h-4 col-span-12 my-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="h-4 col-span-12 my-2 mb-2 border-b-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-start mt-4">
+                                <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">
+                                <div class="ml-6 text-sm text-secondary">
+                                    <div class="font-medium">Perto S.A.</div>
+                                    <div>Tecnologia para Bancos e Varejo</div>
+                                    <div class="font-medium">SAT - Sistema de Assistência Técnica</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>

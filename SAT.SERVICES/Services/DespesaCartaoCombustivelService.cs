@@ -29,10 +29,8 @@ namespace SAT.SERVICES.Services
             throw new System.NotImplementedException();
         }
 
-        public DespesaCartaoCombustivel ObterPorCodigo(int codigo)
-        {
-            throw new System.NotImplementedException();
-        }
+        public DespesaCartaoCombustivel ObterPorCodigo(int codigo) =>
+            _cartaoRepo.ObterPorCodigo(codigo);
 
         public ListViewModel ObterPorParametros(DespesaCartaoCombustivelParameters parameters)
         {

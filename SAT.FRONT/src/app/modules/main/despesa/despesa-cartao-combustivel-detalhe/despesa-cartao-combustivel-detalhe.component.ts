@@ -1,16 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { DespesaCartaoCombustivel } from 'app/core/types/despesa-cartao-combustivel.types';
+import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 
 @Component({
   selector: 'app-despesa-cartao-combustivel-detalhe',
-  templateUrl: './despesa-cartao-combustivel-detalhe.component.html'
+  templateUrl: './despesa-cartao-combustivel-detalhe.component.html',
+  encapsulation: ViewEncapsulation.None,
 })
-export class DespesaCartaoCombustivelDetalheComponent implements OnInit
+export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
 {
+  codDespesaCartaoCombustivel: number;
+  cartao: DespesaCartaoCombustivel;
+  userSession: UsuarioSessao;
 
-  constructor () { }
-
-  ngOnInit(): void
+  constructor (
+    private _route: ActivatedRoute,
+    private _cartaoCombustivelSvc: DespesaCartaoCombustivelService,
+    private _userService: UserService,
+    private _cdr: ChangeDetectorRef,
+    private _snack: CustomSnackbarService,
+  )
   {
+    this.userSession = JSON.parse(this._userService.userSession);
+    this.codDespesaCartaoCombustivel = +this._route.snapshot.paramMap.get('codDespesaCartaoCombustivel');
   }
 
+  ngAfterViewInit(): void
+  {
+    this.obterDados();
+    this._cdr.detectChanges();
+  }
+
+
+  private async obterDados()
+  {
+    this.cartao =
+      await this._cartaoCombustivelSvc
+        .obterPorCodigo(this.codDespesaCartaoCombustivel)
+        .toPromise();
+  }
 }

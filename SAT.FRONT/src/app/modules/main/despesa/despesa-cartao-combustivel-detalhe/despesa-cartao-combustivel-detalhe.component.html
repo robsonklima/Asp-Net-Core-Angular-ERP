@@ -1,1 +1,146 @@
-<p>despesa-cartao-combustivel-detalhe works!</p>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="dark bg-card dark:border-b">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/cartoes-combustivel">
+                                            {{ t('cartoes combustivel') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('cartao') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <h2
+                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                        {{ codDespesaCartaoCombustivel }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                                [matTooltip]="t('exemplo')" matTooltipPosition="above" [routerLink]="'/exemplo'">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                <div class="w-full max-w-screen-xl mx-auto">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                        <mat-tab label="{{ t('detalhes') }}">
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0">
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{ t('cartao') }}</div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>{{ t('numero') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.numero | mask: '0000 0000 0000 0000'}}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('carro') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.carro | uppercase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('placa') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.placa | uppercase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('ano') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.ano | uppercase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('cor') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.cor | uppercase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('combustivel') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ cartao?.combustivel | uppercase }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('ativo') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ (cartao?.indAtivo ? t('sim') : t('nao')) | uppercase }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fuse-card>
+
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-2xl font-semibold leading-tight">{{ t('historico') }}</div>
+                                        </div>
+
+                                        <div class="flex flex-col my-2">
+                                            <div class="my-2">
+                                                <div>{{ t('abertura') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    "ola!"
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>{{ t('abertura') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    "ola!"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('cadastrar novo tecnico') }}
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <div class="prose prose-sm max-w-3xl ml-5 mt-2">
+                                    <p>
+                                        {{ t('nenhum registro encontrado') }}
+                                    </p>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

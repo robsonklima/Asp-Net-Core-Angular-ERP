@@ -249,7 +249,9 @@
     "frota": "Frota",
     "cartao combustivel": "Cartão Combustível",
     "cartoes combustivel": "Cartões Combustível",
+    "cartao": "Cartão",
     "numero do cartao": "Número do Cartão",
+    "cadastrar novo tecnico": "Cadastrar Novo Técnico",
     "filial perto": "Filial Perto",
     "usuarios": "Usuários",
     "cargo": "Cargo",
@@ -330,5 +332,10 @@
     "hora inicial": "Hora Inicial",
     "hora final": "Hora Final",
     "rat": "RAT",
-    "consulta de despesas": "Consulta de Despesas"
+    "consulta de despesas": "Consulta de Despesas",
+    "carro": "Carro",
+    "placa": "Placa",
+    "ano": "Ano",
+    "cor": "Cor",
+    "combustivel": "Combustível"
 }

@@ -6,5 +6,7 @@ namespace SAT.INFRA.Interfaces
     public interface IDespesaCartaoCombustivelRepository
     {
         PagedList<DespesaCartaoCombustivel> ObterPorParametros(DespesaCartaoCombustivelParameters parameters);
+        DespesaCartaoCombustivel ObterPorCodigo(int codigo);
+
     }
 }

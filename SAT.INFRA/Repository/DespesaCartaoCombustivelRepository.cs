@@ -16,6 +16,10 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
+        public DespesaCartaoCombustivel ObterPorCodigo(int codigo) =>
+            _context.DespesaCartaoCombustivel
+                .AsQueryable()
+                .FirstOrDefault(i => i.CodDespesaCartaoCombustivel == codigo);
         public PagedList<DespesaCartaoCombustivel> ObterPorParametros(DespesaCartaoCombustivelParameters parameters)
         {
             var cartoes = _context.DespesaCartaoCombustivel.AsQueryable();

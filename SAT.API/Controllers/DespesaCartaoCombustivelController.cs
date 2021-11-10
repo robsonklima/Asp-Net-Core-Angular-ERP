@@ -27,5 +27,9 @@ namespace SAT.API.Controllers
         {
             return _despesaCartaoCombustivelService.ObterPorParametros(parameters);
         }
+
+        [HttpGet("{codDespesaCartaoCombustivel}")]
+        public DespesaCartaoCombustivel Get(int codDespesaCartaoCombustivel) =>
+             _despesaCartaoCombustivelService.ObterPorCodigo(codDespesaCartaoCombustivel);
     }
 }

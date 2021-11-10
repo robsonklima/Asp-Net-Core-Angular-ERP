@@ -248,7 +248,9 @@
     "frota": "Fleet",
     "cartao combustivel": "Gas Card",
     "cartoes combustivel": "Gas Cards",
+    "cartao": "Card",
     "numero do cartao": "Card Number",
+    "cadastrar novo tecnico": "Register New Technician",
     "filial perto": "Perto Subsidiary",
     "usuarios": "Users",
     "cargo": "Role",
@@ -302,7 +304,6 @@
     "descricao": "Description",
     "novas pecas cadastradas": "NEW REGISTERED PIECES",
     "pecas liberadas": "RELEASED PARTS",
-
     "data inicial": "Initial Date",
     "data final": "Final Date",
     "despesas": "Expenses",
@@ -328,5 +329,10 @@
     "hora inicial": "Start Time",
     "hora final": "End Time",
     "rat": "RAT",
-    "consulta de despesas": "Expense Inquiry"
+    "consulta de despesas": "Expense Inquiry",
+    "carro": "Car",
+    "placa": "License Plate",
+    "ano": "Year",
+    "cor": "Color",
+    "combustivel": "Gas"
 }

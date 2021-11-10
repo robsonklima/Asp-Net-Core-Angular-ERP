@@ -43,6 +43,7 @@ import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manuten
 import { MatRadioModule } from '@angular/material/radio';
 import { DespesaItemDialogComponent } from './despesa-manutencao/despesa-item-dialog/despesa-item-dialog.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -60,7 +61,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaTecnicoFiltroComponent,
       DespesaAtendimentoRelatorioListaComponent,
       DespesaManutencaoComponent,
-      DespesaItemDialogComponent
+      DespesaItemDialogComponent,
+      DespesaCartaoCombustivelListaComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

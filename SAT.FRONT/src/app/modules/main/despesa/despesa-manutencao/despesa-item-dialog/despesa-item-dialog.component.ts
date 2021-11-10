@@ -257,8 +257,13 @@ export class DespesaItemDialogComponent implements OnInit
 
   async validaQuilometragem()
   {
+    if (!this.isQuilometragem()) return;
+
     var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
-    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
+    var quilometragemGoogle = await this.calculaQuilometragemGoogle();
+
+    console.log(quilometragemLeaflet);
+    console.log(quilometragemGoogle);
 
     // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
     if (this.despesaItemForm.value.step2.quilometragem > quilometragemLeaflet &&
@@ -293,12 +298,10 @@ export class DespesaItemDialogComponent implements OnInit
       createMarker: function (p1, p2) { }
     })
 
-    return new Promise(resolve => routing.on('routesfound', function (e)
+    return new Promise(resolve => routing.on('routesfound', (e) =>
     {
       var routes = e.routes;
       var summary = routes[0].summary;
-      // alert('A distância é de ' + summary.totalDistance / 1000 + 'km e o tempo é ' + 
-      // Math.round(summary.totalTime % 3600 / 60) + ' minutos');
       resolve(summary.totalDistance / 1000);
     }).addTo(this.map));
   }

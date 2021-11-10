@@ -17,6 +17,7 @@ import moment from 'moment';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'leaflet';
 import 'leaflet-routing-machine';
+import { CidadeService } from 'app/core/services/cidade.service';
 declare var L: any;
 
 
@@ -40,6 +41,7 @@ export class DespesaItemDialogComponent implements OnInit
   isResidencial: boolean;
   kmInvalid: boolean = false;
   isValidating: boolean = false;
+  kmPrevisto: number;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -47,6 +49,7 @@ export class DespesaItemDialogComponent implements OnInit
     private _despesaTipoSvc: DespesaTipoService,
     private _despesaItemSvc: DespesaItemService,
     private _userSvc: UserService,
+    private _cidadeSvc: CidadeService,
     private _geolocationService: GoogleGeolocationService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>)
   {
@@ -139,8 +142,69 @@ export class DespesaItemDialogComponent implements OnInit
     return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.KM;
   }
 
-  confirmar(): void
+  async confirmar()
   {
+    var despesaItem: DespesaItem =
+      this.isQuilometragem() ? await this.criaQuilometragem() : await this.criaDespesa();
+
+    this._despesaItemSvc.criar(despesaItem)
+      .subscribe(
+        () => this.dialogRef.close(true),
+        () => this.dialogRef.close(false));
+  }
+
+  async criaQuilometragem(): Promise<DespesaItem>
+  {
+    var codCidadeOrigem =
+      await this.obterCidadePeloNome(this.despesaItemForm.value.step2.cidadeOrigem);
+
+    var despesaItem: DespesaItem =
+    {
+      codDespesa: this.codDespesa,
+      numNF: this.despesaItemForm.value.step2.notaFiscal,
+      codDespesaTipo: this.despesaItemForm.value.step1.codDespesaTipo,
+      despesaValor: this.calculaConsumoCombustivel(),
+      codUsuarioCad: this.userSession.usuario.codUsuario,
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      codDespesaItemAlerta: 1,
+      enderecoOrigem: this.despesaItemForm.value.step2.enderecoOrigem,
+      numOrigem: this.despesaItemForm.value.step2.numeroOrigem,
+      bairroOrigem: this.despesaItemForm.value.step2.bairroOrigem,
+      codCidadeOrigem: codCidadeOrigem,
+      indResidenciaOrigem: +this.isResidencial,
+      indHotelOrigem: 0,
+      enderecoDestino: this.despesaItemForm.value.step2.enderecoDestino,
+      numDestino: this.despesaItemForm.value.step2.numeroDestino,
+      bairroDestino: this.despesaItemForm.value.step2.bairroDestino,
+      codCidadeDestino: this.ordemServico?.localAtendimento?.cidade?.codCidade,
+      sequenciaDespesaKm: 1,
+      indResidenciaDestino: +(codCidadeOrigem == this.rat.tecnico.codCidade),
+      indHotelDestino: 0,
+      kmPrevisto: this.kmPrevisto,
+      kmPercorrido: this.despesaItemForm.value.step2.quilometragem,
+      tentativaKM: "",
+      obs: this.despesaItemForm.value.step3.obs,
+      latitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeOrigem : null,
+      longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null
+    };
+
+    return despesaItem;
+
+  }
+
+  async obterCidadePeloNome(nomeCidade: string): Promise<number>
+  {
+    return (await this._cidadeSvc.obterPorParametros
+      ({
+        filter: nomeCidade,
+        indAtivo: 1,
+        pageSize: 5
+      }).toPromise()).items[0]?.codCidade;
+  }
+
+  criaDespesa(): DespesaItem
+  {
+
     var despesaItem: DespesaItem =
     {
       codDespesa: this.codDespesa,
@@ -152,10 +216,7 @@ export class DespesaItemDialogComponent implements OnInit
       codDespesaItemAlerta: 1
     };
 
-    this._despesaItemSvc.criar(despesaItem)
-      .subscribe(
-        () => this.dialogRef.close(true),
-        () => this.dialogRef.close(false));
+    return despesaItem;
   }
 
   private onLocalInicoDeslocamentoChanged(): void
@@ -259,15 +320,12 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isQuilometragem()) return;
 
-    var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
-    var quilometragemGoogle = await this.calculaQuilometragemGoogle();
-
-    console.log(quilometragemLeaflet);
-    console.log(quilometragemGoogle);
+    this.kmPrevisto = await this.calculaQuilometragemLeaflet();
+    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
 
     // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
-    if (this.despesaItemForm.value.step2.quilometragem > quilometragemLeaflet &&
-      Math.abs(quilometragemLeaflet - this.despesaItemForm.value.step2.quilometragem) > 1)
+    if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&
+      Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
       this.kmInvalid = true;
       (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();

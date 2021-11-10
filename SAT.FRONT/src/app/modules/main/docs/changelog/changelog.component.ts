@@ -145,6 +145,19 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.8',
+            releaseDate: '10 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Atualização de Dashboard',
+                        'Inclusão de módulos de ponto e despesa',
+                    ],
+                }
+            ]
         }
     ];
 

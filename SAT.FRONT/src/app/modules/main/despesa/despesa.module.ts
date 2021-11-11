@@ -46,6 +46,7 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
 import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
 import { DespesaCartaoCombustivelDialogComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-dialog/despesa-cartao-combustivel-dialog.component';
+import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/despesa-adiantamento-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -66,7 +67,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaItemDialogComponent,
       DespesaCartaoCombustivelListaComponent,
       DespesaCartaoCombustivelDetalheComponent,
-      DespesaCartaoCombustivelDialogComponent
+      DespesaCartaoCombustivelDialogComponent,
+      DespesaAdiantamentoListaComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

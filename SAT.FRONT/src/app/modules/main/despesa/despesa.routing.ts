@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/despesa-adiantamento-lista.component';
 import { DespesaAtendimentoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-lista.component';
 import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
 import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
@@ -35,5 +36,9 @@ export const despesaRoutes: Route[] = [
     {
         path: 'cartoes-combustivel/detalhe/:codDespesaCartaoCombustivel',
         component: DespesaCartaoCombustivelDetalheComponent
+    },
+    {
+        path: 'adiantamentos',
+        component: DespesaAdiantamentoListaComponent
     }
 ];

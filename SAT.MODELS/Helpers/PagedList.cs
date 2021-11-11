@@ -18,16 +18,6 @@ namespace SAT.MODELS.Helpers
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            List<T> L = new List<T>(TotalCount);
-            foreach (var item in items)
-            {
-                L.Add(item);
-            }
-
-            var o = items.ToList();
-            //    L.AddRange(items);
-
             AddRange(items);
         }
 
@@ -39,9 +29,9 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -53,9 +43,9 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

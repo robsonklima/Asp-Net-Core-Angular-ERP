@@ -5,6 +5,7 @@ import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento
 import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
 import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
 import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
+import { DespesaProtocoloListaComponent } from './despesa-protocolo-lista/despesa-protocolo-lista.component';
 import { DespesaTecnicoListaComponent } from './despesa-tecnico-lista/despesa-tecnico-lista.component';
 
 export const despesaRoutes: Route[] = [
@@ -40,5 +41,9 @@ export const despesaRoutes: Route[] = [
     {
         path: 'adiantamentos',
         component: DespesaAdiantamentoListaComponent
+    },
+    {
+        path: 'protocolos',
+        component: DespesaProtocoloListaComponent
     }
 ];

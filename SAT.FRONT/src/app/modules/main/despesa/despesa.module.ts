@@ -48,6 +48,8 @@ import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combu
 import { DespesaCartaoCombustivelDialogComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-dialog/despesa-cartao-combustivel-dialog.component';
 import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/despesa-adiantamento-lista.component';
 import { DespesaAdiantamentoFiltroComponent } from './despesa-adiantamento-filtro/despesa-adiantamento-filtro.component';
+import { DespesaProtocoloListaComponent } from './despesa-protocolo-lista/despesa-protocolo-lista.component';
+import { DespesaProtocoloFiltroComponent } from './despesa-protocolo-filtro/despesa-protocolo-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -70,7 +72,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaCartaoCombustivelDetalheComponent,
       DespesaCartaoCombustivelDialogComponent,
       DespesaAdiantamentoListaComponent,
-      DespesaAdiantamentoFiltroComponent
+      DespesaAdiantamentoFiltroComponent,
+      DespesaProtocoloListaComponent,
+      DespesaProtocoloFiltroComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

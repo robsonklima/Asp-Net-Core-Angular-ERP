@@ -91,6 +91,7 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaConfiguracaoCombustivel> DespesaConfiguracaoCombustivel { get; set; }
         public DbSet<DespesaItem> DespesaItem { get; set; }
         public DbSet<DespesaPeriodo> DespesaPeriodo { get; set; }
+        public DbSet<DespesaProtocolo> DespesaProtocolo { get; set; }
         public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }

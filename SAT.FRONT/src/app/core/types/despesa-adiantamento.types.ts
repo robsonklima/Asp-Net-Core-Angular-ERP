@@ -2,7 +2,7 @@ import { DespesaPeriodo, DespesaPeriodoTecnicoStatus } from "./despesa-periodo.t
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico } from "./tecnico.types";
 
-export class DespesaAdiantamentoPeriodo
+export interface DespesaAdiantamentoPeriodo
 {
     codDespesaAdiantamentoPeriodo: number;
     codDespesaAdiantamento: number;
@@ -36,6 +36,7 @@ export interface DespesaAdiantamento
     tecnico?: Tecnico;
     codTecnico: number;
     codDespesaAdiantamentoTipo: number;
+    despesaAdiantamentoTipo: DespesaAdiantamentoTipo;
     dataAdiantamento: string;
     valorAdiantamento: number;
     indAtivo: number;
@@ -53,11 +54,6 @@ export interface DespesaAdiantamentoData extends Meta
 export interface DespesaAdiantamentoParameters extends QueryStringParameters
 {
     indAtivo?: number;
-};
-
-export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
-{
-    items: DespesaPeriodoTecnicoAtendimentoItem[];
 };
 
 export interface DespesaPeriodoTecnicoAtendimentoItem
@@ -78,6 +74,11 @@ export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta
     items: DespesaAdiantamentoPeriodoConsultaTecnicoItem[];
 };
 
+export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
+{
+    items: DespesaPeriodoTecnicoAtendimentoItem[];
+};
+
 export interface DespesaAdiantamentoPeriodoConsultaTecnicoItem
 {
     tecnico: Tecnico;
@@ -85,4 +86,10 @@ export interface DespesaAdiantamentoPeriodoConsultaTecnicoItem
     status: DespesaPeriodoTecnicoStatus;
     indAtivo: boolean;
     liberado: boolean;
+};
+
+export interface DespesaAdiantamentoTipo
+{
+    codDespesaAdiantamentoTipo?: number;
+    nomeAdiantamentoTipo?: string;
 };

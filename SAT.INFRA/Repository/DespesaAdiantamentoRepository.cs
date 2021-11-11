@@ -53,6 +53,9 @@ namespace SAT.INFRA.Repository
                 despesaAdiantamento =
                     despesaAdiantamento.Where(e => e.IndAtivo == parameters.IndAtivo);
 
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
+                despesaAdiantamento = despesaAdiantamento.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+
             return PagedList<DespesaAdiantamento>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
         }
     }

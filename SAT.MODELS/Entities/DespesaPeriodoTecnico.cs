@@ -11,8 +11,10 @@ namespace SAT.MODELS.Entities
         public int CodDespesaPeriodoTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
         [ForeignKey("CodDespesaPeriodo")]
-        public DespesaPeriodo DespesaPeriodo { get; set; }
+        public virtual DespesaPeriodo DespesaPeriodo { get; set; }
         public int CodTecnico { get; set; }
+        [ForeignKey("CodTecnico")]
+        public Tecnico Tecnico { get; set; }
         [ForeignKey("CodTecnico, CodDespesaPeriodo")]
         public List<Despesa> Despesas { get; set; }
         public int CodDespesaPeriodoTecnicoStatus { get; set; }
@@ -35,5 +37,6 @@ namespace SAT.MODELS.Entities
         public byte? IndCompensacao { get; set; }
         public DateTime? DataHoraCompensacao { get; set; }
         public string CodUsuarioCompensacao { get; set; }
+        public virtual DespesaProtocoloPeriodoTecnico DespesaProtocoloPeriodoTecnico { get; set; }
     }
 }

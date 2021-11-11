@@ -1,3 +1,4 @@
+import { DespesaPeriodoTecnico } from "./despesa-periodo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export interface DespesaProtocolo
@@ -15,6 +16,7 @@ export interface DespesaProtocolo
     dataHoraManut: string;
     indIntegracao: number;
     indImpresso: number;
+    despesaProtocoloPeriodoTecnico: DespesaProtocoloPeriodoTecnico[];
 }
 
 export interface DespesaProtocoloData extends Meta
@@ -26,3 +28,18 @@ export interface DespesaProtocoloParameters extends QueryStringParameters
 {
 
 };
+
+export interface DespesaProtocoloPeriodoTecnico
+{
+    codDespesaProtocolo: number;
+    codDespesaPeriodoTecnico: number;
+    despesaPeriodoTecnico: DespesaPeriodoTecnico;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioCredito: string;
+    dataHoraCredito: string;
+    codUsuarioCreditoCancelado: string;
+    dataHoraCreditoCancelado: string;
+    indCreditado: number;
+    indAtivo: number;
+}

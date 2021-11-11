@@ -40,7 +40,9 @@ namespace SAT.INFRA.Repository
 
         public PagedList<DespesaProtocolo> ObterPorParametros(DespesaProtocoloParameters parameters)
         {
-            var protocolos = _context.DespesaProtocolo.AsQueryable();
+            var protocolos = _context.DespesaProtocolo
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
                 protocolos =

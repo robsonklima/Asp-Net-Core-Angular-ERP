@@ -50,6 +50,7 @@ import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/
 import { DespesaAdiantamentoFiltroComponent } from './despesa-adiantamento-filtro/despesa-adiantamento-filtro.component';
 import { DespesaProtocoloListaComponent } from './despesa-protocolo-lista/despesa-protocolo-lista.component';
 import { DespesaProtocoloFiltroComponent } from './despesa-protocolo-filtro/despesa-protocolo-filtro.component';
+import { DespesaProtocoloDetalheComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -74,7 +75,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaAdiantamentoListaComponent,
       DespesaAdiantamentoFiltroComponent,
       DespesaProtocoloListaComponent,
-      DespesaProtocoloFiltroComponent
+      DespesaProtocoloFiltroComponent,
+      DespesaProtocoloDetalheComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

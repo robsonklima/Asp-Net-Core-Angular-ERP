@@ -80,7 +80,6 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
         sortDirection: 'desc',
         filter: filter
       }).toPromise();
-
   }
 
   public async obterDados(filter: string = null)
@@ -112,6 +111,21 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       this.onSidenavClosed();
       this.obterDados();
     })
+  }
+
+  obterDataInicial()
+  {
+
+  }
+
+  obterDataFinal()
+  {
+
+  }
+
+  obterTecnicos()
+  {
+
   }
 
   public paginar()

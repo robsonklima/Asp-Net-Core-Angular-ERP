@@ -96,6 +96,7 @@ namespace SAT.INFRA.Context
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
         public DbSet<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
+        public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -123,8 +124,8 @@ namespace SAT.INFRA.Context
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
 
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>()
-            .Property(e => e.CodTecnico)
-            .HasConversion<string>();
+                        .Property(e => e.CodTecnico)
+                        .HasConversion<string>();
         }
     }
 }

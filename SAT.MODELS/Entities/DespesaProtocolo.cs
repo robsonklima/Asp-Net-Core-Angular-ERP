@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -7,6 +9,8 @@ namespace SAT.MODELS.Entities
     {
         [Key]
         public int CodDespesaProtocolo { get; set; }
+        [ForeignKey("CodDespesaProtocolo")]
+        public List<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
         public int? CodFilial { get; set; }
         public string NomeProtocolo { get; set; }
         public string ObsProtocolo { get; set; }

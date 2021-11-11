@@ -3,6 +3,7 @@ using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -24,7 +25,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(DespesaCartaoCombustivelTecnico despesa)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                _context.Add(despesa);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public PagedList<DespesaCartaoCombustivelTecnico> ObterPorParametros(DespesaCartaoCombustivelTecnicoParameters parameters)

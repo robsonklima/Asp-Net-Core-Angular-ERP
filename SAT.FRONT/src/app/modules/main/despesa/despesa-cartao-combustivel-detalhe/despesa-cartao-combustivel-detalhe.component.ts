@@ -7,6 +7,9 @@ import { UserService } from 'app/core/user/user.service';
 import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from 'app/core/types/despesa-cartao-combustivel.types';
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { DespesaCartaoCombustivelTecnicoService } from 'app/core/services/despesa-cartao-combustivel-tecnico.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DespesaCartaoCombustivelDialogComponent } from './despesa-cartao-combustivel-dialog/despesa-cartao-combustivel-dialog.component';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-despesa-cartao-combustivel-detalhe',
@@ -20,6 +23,7 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
   historico: DespesaCartaoCombustivelTecnico[] = [];
   userSession: UsuarioSessao;
   displayedColumns: string[] = ['tecnico', 'inicio de uso'];
+  isHistoricoLoading: boolean;
 
   constructor (
     private _route: ActivatedRoute,
@@ -27,7 +31,7 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
     private _cartaoCombustivelControleSvc: DespesaCartaoCombustivelTecnicoService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _snack: CustomSnackbarService,
+    private _dialog: MatDialog
   )
   {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -57,17 +61,33 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
 
   private async obterHistorico()
   {
+    this.isHistoricoLoading = true;
+
     this.historico =
-      (await this._cartaoCombustivelControleSvc
+      Enumerable.from((await this._cartaoCombustivelControleSvc
         .obterPorParametros(
           {
             codDespesaCartaoCombustivel: this.cartao?.codDespesaCartaoCombustivel
           }
         )
-        .toPromise()).items;
+        .toPromise()).items).orderBy(i => i.dataHoraInicio).toArray();
+
+    this.isHistoricoLoading = false;
   }
 
   vincularNovoTecnico(): void
   {
+    const dialogRef = this._dialog.open(DespesaCartaoCombustivelDialogComponent, {
+      data:
+      {
+        codDespesaCartaoCombustivel: this.codDespesaCartaoCombustivel
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+        this.obterHistorico();
+    });
   }
 }

@@ -66,4 +66,9 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
         )
         .toPromise()).items;
   }
+
+  vincularNovoTecnico(): void
+  {
+
+  }
 }

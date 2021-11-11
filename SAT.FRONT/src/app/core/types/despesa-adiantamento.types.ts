@@ -30,9 +30,10 @@ export interface DespesaAdiantamentoPeriodoData extends Meta
     items: DespesaAdiantamentoPeriodo[]
 };
 
-export class DespesaAdiantamento
+export interface DespesaAdiantamento
 {
-    codDespesaAdiantamento: number;
+    codDespesaAdiantamento?: number;
+    tecnico?: Tecnico;
     codTecnico: number;
     codDespesaAdiantamentoTipo: number;
     dataAdiantamento: string;
@@ -43,6 +44,16 @@ export class DespesaAdiantamento
     codUsuarioManut: string;
     dataHoraManut: string;
 }
+
+export interface DespesaAdiantamentoData extends Meta
+{
+    items: DespesaAdiantamento[]
+};
+
+export interface DespesaAdiantamentoParameters extends QueryStringParameters
+{
+    indAtivo?: number;
+};
 
 export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
 {

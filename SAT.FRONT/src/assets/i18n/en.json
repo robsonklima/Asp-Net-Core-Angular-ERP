@@ -335,5 +335,6 @@
     "ano": "Year",
     "cor": "Color",
     "combustivel": "Gas",
-    "inicio de uso": "Use start"
+    "inicio de uso": "Use start",
+    "historico de uso do cartao": "Card Usage History"
 }

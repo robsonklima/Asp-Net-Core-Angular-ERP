@@ -70,6 +70,8 @@ export class DespesaAdiantamentoListaComponent extends Filterable implements Aft
   {
     this.adiantamentos = (await this._despesaAdiantamentoSvc.obterPorParametros({
       indAtivo: this.filter?.parametros?.indAtivo,
+      codDespesaAdiantamentoTipo: this.filter?.parametros?.codDespesaAdiantamentoTipo,
+      codTecnicos: this.filter?.parametros?.codTecnicos,
       pageNumber: this.paginator?.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
       sortActive: 'dataAdiantamento',

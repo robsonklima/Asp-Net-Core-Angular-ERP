@@ -34,7 +34,7 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoRepo.ObterPorParametros(
                 new DespesaAdiantamentoParameters
                 {
-                    CodTecnico = parameters.CodTecnico,
+                    CodTecnicos = parameters.CodTecnicos,
                     IndAtivo = parameters.IndAtivo
                 });
 
@@ -72,7 +72,7 @@ namespace SAT.SERVICES.Services
             var adiantamentos =
                 this.ObterDespesasAdiantamento(new DespesaAdiantamentoParameters
                 {
-                    CodTecnico = codTecnico,
+                    CodTecnicos = codTecnico.ToString(),
                     IndAtivo = 1
                 });
 

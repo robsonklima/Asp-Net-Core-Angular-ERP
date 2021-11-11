@@ -51,9 +51,17 @@ export interface DespesaAdiantamentoData extends Meta
     items: DespesaAdiantamento[]
 };
 
+export enum DespesaAdiantamentoTipoEnum
+{
+    "FIXO" = "1",
+    "PROVISÓRIO" = "2"
+};
+
 export interface DespesaAdiantamentoParameters extends QueryStringParameters
 {
     indAtivo?: number;
+    codDespesaAdiantamentoTipo?: string;
+    codTecnicos?: string;
 };
 
 export interface DespesaPeriodoTecnicoAtendimentoItem

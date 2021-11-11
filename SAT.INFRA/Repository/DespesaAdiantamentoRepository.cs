@@ -45,13 +45,23 @@ namespace SAT.INFRA.Repository
             .Include(da => da.Tecnico)
             .AsQueryable();
 
-            if (parameters.CodTecnico.HasValue)
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var codigos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
                 despesaAdiantamento =
-                    despesaAdiantamento.Where(e => e.CodTecnico == parameters.CodTecnico);
+                    despesaAdiantamento.Where(e => codigos.Any(p => p == e.CodTecnico.ToString()));
+            }
 
             if (parameters.IndAtivo.HasValue)
                 despesaAdiantamento =
                     despesaAdiantamento.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+            if (!string.IsNullOrEmpty(parameters.CodDespesaAdiantamentoTipo))
+            {
+                var tipos = parameters.CodDespesaAdiantamentoTipo.Split(",").Select(a => a.Trim());
+                despesaAdiantamento =
+                    despesaAdiantamento.Where(e => tipos.Any(p => p == e.CodDespesaAdiantamentoTipo.ToString()));
+            }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesaAdiantamento = despesaAdiantamento.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

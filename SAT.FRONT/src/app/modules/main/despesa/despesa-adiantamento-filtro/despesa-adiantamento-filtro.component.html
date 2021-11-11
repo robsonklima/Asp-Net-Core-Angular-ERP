@@ -23,6 +23,33 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('tipo') }}</mat-label>
+                    <mat-select formControlName="codDespesaAdiantamentoTipo" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codDespesaAdiantamentoTipo, despesaAdiantamentoTipo,
+                            'codDespesaAdiantamentoTipo')" [value]="0">
+                            {{t('todos') | uppercase }}
+                        </mat-option>
+                        <mat-option *ngFor="let tipo of despesaAdiantamentoTipo"
+                            [value]="tipo?.codDespesaAdiantamentoTipo">
+                            {{ tipo?.nomeAdiantamentoTipo }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('tecnico') }}</mat-label>
+                    <mat-select formControlName="codTecnicos" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTecnicos, tecnicos,
+                            'codTecnico')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                            {{ tecnico.nome }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
             </div>
 
             <div class="mt-6 border-t"></div>

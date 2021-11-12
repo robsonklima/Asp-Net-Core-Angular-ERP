@@ -5,6 +5,8 @@ import { UserService } from 'app/core/user/user.service';
 import { DespesaProtocolo, DespesaProtocoloPeriodoListView } from 'app/core/types/despesa-protocolo.types';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
 import Enumerable from 'linq';
+import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
+import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -59,7 +61,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
             dataInicial: dpt.despesaPeriodo.dataInicio,
             dataFinal: dpt.despesaPeriodo.dataFim,
             tecnico: dpt.tecnico.nome,
-            valor: 1
+            valor: this.calculaDespesa(dpt)
           });
       });
     })
@@ -71,6 +73,20 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   {
     this.protocolo =
       (await this._despesaProtocoloSvc.obterPorCodigo(this.codDespesaProtocolo).toPromise());
+  }
+
+  calculaDespesa(dpt: DespesaPeriodoTecnico)
+  {
+    return Enumerable.from(dpt.despesas)
+      .sum(d => Enumerable.from(d.despesaItens).
+        where(i => i.indAtivo == 1 &&
+          i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
+        .sum(i => i.despesaValor));
+  }
+
+  fechar(): void
+  {
+
   }
 
   imprimir(): void

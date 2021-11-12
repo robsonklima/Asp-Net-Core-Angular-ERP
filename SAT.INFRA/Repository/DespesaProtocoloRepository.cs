@@ -45,6 +45,10 @@ namespace SAT.INFRA.Repository
                 .Include(d => d.DespesaProtocoloPeriodoTecnico)
                     .ThenInclude(d => d.DespesaPeriodoTecnico)
                         .ThenInclude(d => d.DespesaPeriodoTecnicoStatus)
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.Despesas)
+                            .ThenInclude(d => d.DespesaItens)
                 .FirstOrDefault(i => i.CodDespesaProtocolo == codigo);
         }
 

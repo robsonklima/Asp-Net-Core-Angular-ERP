@@ -35,7 +35,17 @@ namespace SAT.INFRA.Repository
 
         public DespesaProtocolo ObterPorCodigo(int codigo)
         {
-            throw new NotImplementedException();
+            return _context.DespesaProtocolo
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.Tecnico)
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.DespesaPeriodo)
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.DespesaPeriodoTecnicoStatus)
+                .FirstOrDefault(i => i.CodDespesaProtocolo == codigo);
         }
 
         public PagedList<DespesaProtocolo> ObterPorParametros(DespesaProtocoloParameters parameters)

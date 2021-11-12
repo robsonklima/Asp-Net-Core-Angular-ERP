@@ -1,7 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { MatSidenav } from '@angular/material/sidenav';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from 'app/core/types/despesa-cartao-combustivel.types';

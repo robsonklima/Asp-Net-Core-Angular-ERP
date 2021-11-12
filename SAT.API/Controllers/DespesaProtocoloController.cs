@@ -22,5 +22,9 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaProtocoloParameters parameters) =>
             _protocoloService.ObterPorParametros(parameters);
 
+        [HttpGet("{codDespesaProtocolo}")]
+        public DespesaProtocolo Get(int codDespesaProtocolo) =>
+             _protocoloService.ObterPorCodigo(codDespesaProtocolo);
+
     }
 }

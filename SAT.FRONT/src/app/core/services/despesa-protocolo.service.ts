@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaProtocoloParameters, DespesaProtocoloData } from '../types/despesa-protocolo.types';
+import { DespesaProtocoloParameters, DespesaProtocoloData, DespesaProtocolo } from '../types/despesa-protocolo.types';
 
 @Injectable({
     providedIn: 'root'
@@ -24,5 +24,12 @@ export class DespesaProtocoloService
         return this.http.get(
             `${c.api}/DespesaProtocolo`, { params: params })
             .pipe(map((data: DespesaProtocoloData) => data));
+    }
+
+    obterPorCodigo(codDespesaProtocolo: number): Observable<DespesaProtocolo>
+    {
+        return this.http.get<DespesaProtocolo>(
+            `${c.api}/DespesaProtocolo/${codDespesaProtocolo}`)
+            .pipe(map((obj) => obj));
     }
 }

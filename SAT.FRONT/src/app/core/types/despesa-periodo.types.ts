@@ -1,5 +1,6 @@
 import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Tecnico } from "./tecnico.types";
 
 export class DespesaPeriodo
 {
@@ -37,6 +38,7 @@ export class DespesaPeriodoTecnico
     despesaPeriodo: DespesaPeriodo;
     despesas: Despesa[];
     codTecnico: number;
+    tecnico: Tecnico;
     despesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatus;
     codDespesaPeriodoTecnicoStatus: number;
     codUsuarioCad: string;

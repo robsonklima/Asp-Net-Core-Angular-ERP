@@ -60,9 +60,6 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 protocolos = protocolos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
-
-            var temp = protocolos.ToQueryString();
-
             return PagedList<DespesaProtocolo>.ToPagedList(protocolos, parameters.PageNumber, parameters.PageSize);
         }
     }

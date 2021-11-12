@@ -18,6 +18,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraCreditoCancelado { get; set; }
         public byte? IndCreditado { get; set; }
         public byte? IndAtivo { get; set; }
-        public virtual DespesaPeriodoTecnico DespesaPeriodoTecnico { get; set; }
+        public virtual ICollection<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
     }
 }

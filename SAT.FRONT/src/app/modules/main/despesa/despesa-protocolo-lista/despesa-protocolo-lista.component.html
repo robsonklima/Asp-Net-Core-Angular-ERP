@@ -68,13 +68,13 @@
                                                     {{ p?.obsProtocolo }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ p?.dataHoraCad | date:'dd/MM/yyyy' }}
+                                                    {{ obterDataInicial(p) | date:'dd/MM/yyyy' }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ p?.dataHoraFechamento | date:'dd/MM/yyyy' }}
+                                                    {{ obterDataFinal(p) | date:'dd/MM/yyyy' }}
                                                 </div>
                                                 <div class="hidden md:block truncate">
-                                                    {{ "---" }}
+                                                    {{ obterTecnicos(p) }}
                                                 </div>
                                             </div>
                                         </a>

@@ -10,9 +10,10 @@ import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
-import { DespesaProtocoloData } from 'app/core/types/despesa-protocolo.types';
+import { DespesaProtocolo, DespesaProtocoloData } from 'app/core/types/despesa-protocolo.types';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
+import Enumerable from 'linq';
 registerLocaleData(localePt);
 
 @Component({
@@ -20,10 +21,10 @@ registerLocaleData(localePt);
   templateUrl: './despesa-protocolo-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento {
-            grid-template-columns: 100px 200px auto 100px 100px 50px;
-            @screen sm { grid-template-columns: 100px 200px auto 100px 100px 50px; }
-            @screen md { grid-template-columns: 100px 200px auto 100px 100px 50px; }
-            @screen lg { grid-template-columns: 100px 200px auto 100px 100px 50px; }
+            grid-template-columns: 100px 100px 250px 100px 100px auto;
+            @screen sm { grid-template-columns: 100px 100px 250px 100px 100px auto; }
+            @screen md { grid-template-columns: 100px 100px 250px 100px 100px auto; }
+            @screen lg { grid-template-columns: 100px 100px 250px 100px 100px auto; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -80,8 +81,6 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
         sortDirection: 'desc',
         filter: filter
       }).toPromise();
-
-    console.log(this.protocolos);
   }
 
   public async obterDados(filter: string = null)
@@ -115,19 +114,37 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     })
   }
 
-  obterDataInicial()
+  obterDataInicial(dp: DespesaProtocolo)
   {
+    var dataInicial = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
+      .selectMany(e => e.despesaPeriodoTecnico)
+      .select(e => e.despesaPeriodo)
+      .orderBy(e => e.dataInicio)
+      .firstOrDefault()?.dataInicio;
 
+    return dataInicial != null ? dataInicial : "---";
   }
 
-  obterDataFinal()
+  obterDataFinal(dp: DespesaProtocolo)
   {
+    var dataFinal = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
+      .selectMany(e => e.despesaPeriodoTecnico)
+      .select(e => e.despesaPeriodo)
+      .orderByDescending(e => e.dataFim)
+      .firstOrDefault()?.dataInicio;
 
+    return dataFinal != null ? dataFinal : "---";
   }
 
-  obterTecnicos()
+  obterTecnicos(dp: DespesaProtocolo)
   {
+    var tecnicos = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
+      .selectMany(e => e.despesaPeriodoTecnico)
+      .select(e => e.tecnico.nome)
+      .orderBy(e => e)
+      .toArray();
 
+    return tecnicos != null ? tecnicos.join(", ") : "---";
   }
 
   public paginar()

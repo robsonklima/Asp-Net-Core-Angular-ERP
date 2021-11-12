@@ -123,6 +123,14 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
 
+            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
+                        .HasOne(p => p.DespesaPeriodoTecnico)
+                        .WithOne(p => p.DespesaProtocoloPeriodoTecnico)
+                        .HasForeignKey<DespesaPeriodoTecnico>("CodTecnico")
+                        .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodo")
+                        .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
+                        .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
+
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>()
                         .Property(e => e.CodTecnico)
                         .HasConversion<string>();

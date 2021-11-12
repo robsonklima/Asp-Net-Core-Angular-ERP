@@ -34,6 +34,7 @@ export class DespesaPeriodoTecnico
 {
     codDespesaPeriodoTecnico: number;
     codDespesaPeriodo: number;
+    despesaPeriodo: DespesaPeriodo;
     despesas: Despesa[];
     codTecnico: number;
     despesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatus;

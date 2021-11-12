@@ -42,6 +42,14 @@ namespace SAT.INFRA.Repository
         {
             var protocolos = _context.DespesaProtocolo
                 .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.Tecnico)
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.DespesaPeriodo)
+                .Include(d => d.DespesaProtocoloPeriodoTecnico)
+                    .ThenInclude(d => d.DespesaPeriodoTecnico)
+                        .ThenInclude(d => d.DespesaPeriodoTecnicoStatus)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
@@ -51,6 +59,9 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 protocolos = protocolos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+
+
+            var temp = protocolos.ToQueryString();
 
             return PagedList<DespesaProtocolo>.ToPagedList(protocolos, parameters.PageNumber, parameters.PageSize);
         }

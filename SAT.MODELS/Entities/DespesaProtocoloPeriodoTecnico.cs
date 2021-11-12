@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -16,5 +18,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraCreditoCancelado { get; set; }
         public byte? IndCreditado { get; set; }
         public byte? IndAtivo { get; set; }
+        public virtual DespesaPeriodoTecnico DespesaPeriodoTecnico { get; set; }
     }
 }

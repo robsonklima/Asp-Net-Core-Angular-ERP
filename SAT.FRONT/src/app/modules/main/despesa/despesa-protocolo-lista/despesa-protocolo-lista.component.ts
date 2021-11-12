@@ -80,6 +80,8 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
         sortDirection: 'desc',
         filter: filter
       }).toPromise();
+
+    console.log(this.protocolos);
   }
 
   public async obterDados(filter: string = null)

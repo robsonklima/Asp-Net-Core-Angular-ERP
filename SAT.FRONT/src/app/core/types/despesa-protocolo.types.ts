@@ -33,7 +33,7 @@ export interface DespesaProtocoloPeriodoTecnico
 {
     codDespesaProtocolo: number;
     codDespesaPeriodoTecnico: number;
-    despesaPeriodoTecnico: DespesaPeriodoTecnico;
+    despesaPeriodoTecnico: DespesaPeriodoTecnico[];
     codUsuarioCad: string;
     dataHoraCad: string;
     codUsuarioCredito: string;

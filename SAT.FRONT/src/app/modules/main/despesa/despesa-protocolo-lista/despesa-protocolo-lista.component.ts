@@ -131,7 +131,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       .selectMany(e => e.despesaPeriodoTecnico)
       .select(e => e.despesaPeriodo)
       .orderByDescending(e => e.dataFim)
-      .firstOrDefault()?.dataInicio;
+      .firstOrDefault()?.dataFim;
 
     return dataFinal != null ? dataFinal : "---";
   }

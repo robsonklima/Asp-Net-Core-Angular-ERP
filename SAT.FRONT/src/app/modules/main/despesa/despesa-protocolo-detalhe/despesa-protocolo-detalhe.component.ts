@@ -7,6 +7,8 @@ import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.ser
 import Enumerable from 'linq';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { MatDialog } from '@angular/material/dialog';
+import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -26,7 +28,8 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     private _route: ActivatedRoute,
     private _despesaProtocoloSvc: DespesaProtocoloService,
     private _userService: UserService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _dialog: MatDialog
   )
   {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -97,5 +100,17 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   adicionarPeriodo(): void
   {
 
+    const dialogRef = this._dialog.open(DespesaProtocoloDetalhePeriodosDialogComponent, {
+      data:
+      {
+        codDespesaProtocolo: this.codDespesaProtocolo
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+        console.log("e nois");
+    });
   }
 }

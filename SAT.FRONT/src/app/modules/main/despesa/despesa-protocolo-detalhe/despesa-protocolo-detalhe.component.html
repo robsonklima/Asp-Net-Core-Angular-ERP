@@ -57,14 +57,14 @@
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-red-100" mat-flat-button
-                                [matTooltip]="t('fechar')" matTooltipPosition="above" (click)="fechar()">
+                                [matTooltip]="t('fechar')" matTooltipPosition="above" (click)="fecharProtocolo()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-closed'"></mat-icon>
                             </button>
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-100" mat-flat-button
-                                [matTooltip]="t('imprimir')" matTooltipPosition="above" (click)="imprimir()">
+                                [matTooltip]="t('imprimir')" matTooltipPosition="above" (click)="imprimirProtocolo()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
                         </div>
@@ -122,6 +122,14 @@
                                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                     </table>
+                                </div>
+                                <div class="flex justify-center align-middle items-center">
+                                    <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
+                                        [matTooltip]="t('adicionar')" matTooltipPosition="above"
+                                        (click)="adicionarPeriodo()">
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'">
+                                        </mat-icon>
+                                    </button>
                                 </div>
                             </div>
                         </div>

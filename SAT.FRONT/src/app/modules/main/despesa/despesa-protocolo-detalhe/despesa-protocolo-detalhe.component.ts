@@ -84,12 +84,17 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
         .sum(i => i.despesaValor));
   }
 
-  fechar(): void
+  fecharProtocolo(): void
   {
 
   }
 
-  imprimir(): void
+  imprimirProtocolo(): void
+  {
+
+  }
+
+  adicionarPeriodo(): void
   {
 
   }

@@ -55,7 +55,8 @@
                                 </div>
                                 <ng-container *ngIf="protocolos?.items.length">
                                     <ng-container *ngFor="let p of protocolos?.items">
-                                        <a>
+                                        <a [routerLink]="'/despesa/protocolos/detalhe/' +
+                                            p.codDespesaProtocolo">
                                             <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">

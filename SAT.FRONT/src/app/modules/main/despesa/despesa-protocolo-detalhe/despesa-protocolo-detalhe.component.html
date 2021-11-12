@@ -83,6 +83,58 @@
                                         </div>
                                     </div>
                                 </fuse-card>
+
+                                <!-- <fuse-card
+                                    class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"> -->
+                                <div class="p-6">
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-2xl font-semibold leading-tight">
+                                            {{ t('periodos') }}</div>
+                                    </div>
+
+
+                                    <div class="flex flex-col my-2">
+                                        <div class="flex justify-center align-middle items-center" *ngIf="isLoading">
+                                            <mat-progress-spinner diameter="50" [mode]="'indeterminate'">
+                                            </mat-progress-spinner>
+                                        </div>
+                                        <table mat-table [dataSource]="listView" [tHead]="" class="mat-elevation-z2"
+                                            *ngIf="!isLoading">
+                                            <ng-container matColumnDef="data inicial">
+                                                <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                    {{ t('data inicial') }} </th>
+                                                <td mat-cell *matCellDef="let di" class="text-sm">
+                                                    {{ di?.dataInicial | date:'dd/MM/yyyy' }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="data final">
+                                                <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                    {{ t('data final') }} </th>
+                                                <td mat-cell *matCellDef="let di" class="text-sm">
+                                                    {{ di?.dataFinal | date:'dd/MM/yyyy' }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="tecnico">
+                                                <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                    {{ t('tecnico') }} </th>
+                                                <td mat-cell *matCellDef="let di" class="text-sm">
+                                                    {{ di?.tecnico | uppercase }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="valor">
+                                                <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                    {{ t('valor') }} </th>
+                                                <td mat-cell *matCellDef="let di" class="text-sm">
+                                                    {{ di?.valor | currency:'BRL':'symbol-narrow' }} </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- </fuse-card> -->
                             </div>
                         </div>
                     </div>

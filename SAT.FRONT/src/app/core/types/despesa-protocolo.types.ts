@@ -43,3 +43,11 @@ export interface DespesaProtocoloPeriodoTecnico
     indCreditado: number;
     indAtivo: number;
 }
+
+export interface DespesaProtocoloPeriodoListView
+{
+    dataInicial: string;
+    dataFinal: string;
+    tecnico: string;
+    valor: number;
+}

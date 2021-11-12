@@ -2,8 +2,9 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { ActivatedRoute } from '@angular/router';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { DespesaProtocolo } from 'app/core/types/despesa-protocolo.types';
+import { DespesaProtocolo, DespesaProtocoloPeriodoListView } from 'app/core/types/despesa-protocolo.types';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -13,7 +14,9 @@ import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.ser
 export class DespesaProtocoloDetalheComponent implements AfterViewInit
 {
   codDespesaProtocolo: number;
+  displayedColumns: string[] = ['data inicial', 'data final', 'tecnico', 'valor'];
   protocolo: DespesaProtocolo;
+  listView: DespesaProtocoloPeriodoListView[] = [];
   userSession: UsuarioSessao;
   isLoading: boolean;
 
@@ -34,18 +37,40 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     this._cdr.detectChanges();
   }
 
-
   private async obterDados()
   {
+    this.isLoading = true;
+
     await this.obterProtocolo();
+    await this.criaListaPeriodos();
+
+    this.isLoading = false;
+
+  }
+
+  private criaListaPeriodos()
+  {
+    this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dppt =>
+    {
+      dppt.despesaPeriodoTecnico.forEach(dpt =>
+      {
+        this.listView.push(
+          {
+            dataInicial: dpt.despesaPeriodo.dataInicio,
+            dataFinal: dpt.despesaPeriodo.dataFim,
+            tecnico: dpt.tecnico.nome,
+            valor: 1
+          });
+      });
+    })
+
+    this.listView = Enumerable.from(this.listView).orderByDescending(i => i.dataInicial).toArray();
   }
 
   private async obterProtocolo()
   {
     this.protocolo =
       (await this._despesaProtocoloSvc.obterPorCodigo(this.codDespesaProtocolo).toPromise());
-
-    console.log(this.protocolo);
   }
 
   imprimir(): void

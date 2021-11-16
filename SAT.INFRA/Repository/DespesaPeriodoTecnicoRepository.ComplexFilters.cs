@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
@@ -8,13 +9,25 @@ namespace SAT.INFRA.Repository
 {
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
-        public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPeriodosAprovados(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
+        public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPeriodosAprovados(DespesaPeriodoTecnicoParameters parameters)
         {
-            query = query
-                .Where(i => i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO &&
-                _despesaProtocoloPeriodoTecnicoRepo.ObterPorCodigoPeriodoTecnico(i.CodDespesaPeriodoTecnicoStatus) == null);
+            var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
+                .Include(t => t.Tecnico)
+                .Include(t => t.DespesaPeriodo)
+                .AsQueryable();
 
-            return query;
+            var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico.AsQueryable();
+            var aprovado = (int)DespesaPeriodoTecnicoStatusEnum.APROVADO;
+
+            despesasPeriodoTecnico = from dpt in despesasPeriodoTecnico
+                                     where dpt.CodDespesaPeriodoTecnicoStatus == aprovado
+                                        && !(from dpp in despesaProtocoloPeriodoTecnico
+                                             select dpp.CodDespesaPeriodoTecnico)
+                                             .Contains(dpt.CodDespesaPeriodoTecnico)
+                                     orderby dpt.Tecnico.Nome, dpt.DespesaPeriodo.DataInicio
+                                     select dpt;
+
+            return despesasPeriodoTecnico;
         }
     }
 }

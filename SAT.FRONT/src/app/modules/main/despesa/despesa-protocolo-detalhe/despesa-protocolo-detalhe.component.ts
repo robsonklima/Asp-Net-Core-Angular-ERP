@@ -28,7 +28,6 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   constructor (
     private _route: ActivatedRoute,
     private _despesaProtocoloSvc: DespesaProtocoloService,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
@@ -101,11 +100,6 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   adicionarPeriodo(): void
   {
-    var a = this._despesaPeriodoTecnicoSvc.obterPeriodosAprovados().subscribe(r =>
-    {
-      console.log(r);
-    });
-
     const dialogRef = this._dialog.open(DespesaProtocoloDetalhePeriodosDialogComponent, {
       data:
       {

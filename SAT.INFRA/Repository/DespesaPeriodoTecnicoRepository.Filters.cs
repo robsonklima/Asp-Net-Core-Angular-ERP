@@ -6,13 +6,12 @@ namespace SAT.INFRA.Repository
 {
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
-
         public IQueryable<DespesaPeriodoTecnico> AplicarFiltros(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
             switch (parameters.FilterType)
             {
                 case MODELS.Enums.DespesaPeriodoTecnicoFilterEnum.FILTER_PERIODOS_APROVADOS:
-                    query = AplicarFiltroPeriodosAprovados(query, parameters);
+                    query = AplicarFiltroPeriodosAprovados(parameters);
                     break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);

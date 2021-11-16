@@ -11,8 +11,6 @@ namespace SAT.INFRA.Repository
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
         private readonly AppDbContext _context;
-        private readonly IDespesaProtocoloPeriodoTecnicoRepository _despesaProtocoloPeriodoTecnicoRepo;
-
         public DespesaPeriodoTecnicoRepository(AppDbContext context, IDespesaProtocoloPeriodoTecnicoRepository despesaProtocoloPeriodoTecnicoRepo)
         {
             _context = context;

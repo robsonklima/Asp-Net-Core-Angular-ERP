@@ -31,17 +31,17 @@ export interface DespesaProtocoloParameters extends QueryStringParameters
 
 export interface DespesaProtocoloPeriodoTecnico
 {
-    codDespesaProtocolo: number;
-    codDespesaPeriodoTecnico: number;
-    despesaPeriodoTecnico: DespesaPeriodoTecnico[];
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioCredito: string;
-    dataHoraCredito: string;
-    codUsuarioCreditoCancelado: string;
-    dataHoraCreditoCancelado: string;
-    indCreditado: number;
-    indAtivo: number;
+    codDespesaProtocolo?: number;
+    codDespesaPeriodoTecnico?: number;
+    despesaPeriodoTecnico?: DespesaPeriodoTecnico[];
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
+    codUsuarioCredito?: string;
+    dataHoraCredito?: string;
+    codUsuarioCreditoCancelado?: string;
+    dataHoraCreditoCancelado?: string;
+    indCreditado?: number;
+    indAtivo?: number;
 }
 
 export interface DespesaProtocoloPeriodoListView

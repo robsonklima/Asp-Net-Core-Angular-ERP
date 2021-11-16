@@ -25,5 +25,9 @@ namespace SAT.API.Controllers
         {
             return _despesaProtocoloService.ObterPorParametros(parameters);
         }
+
+        [HttpPost]
+        public void Post([FromBody] DespesaProtocoloPeriodoTecnico despesaProtocoloPeriodoTecnico) =>
+            _despesaProtocoloService.Criar(despesaProtocoloPeriodoTecnico);
     }
 }

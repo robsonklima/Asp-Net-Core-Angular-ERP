@@ -56,6 +56,8 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   private criaListaPeriodos()
   {
+    this.listView = [];
+
     this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dppt =>
     {
       dppt.despesaPeriodoTecnico.forEach(dpt =>
@@ -110,7 +112,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-        console.log("e nois");
+        this.obterDados();
     });
   }
 }

@@ -158,6 +158,18 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.9',
+            releaseDate: '16 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Filtro tela de chamados',
+                    ],
+                }
+            ]
         }
     ];
 

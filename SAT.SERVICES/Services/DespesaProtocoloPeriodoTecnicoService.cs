@@ -36,11 +36,6 @@ namespace SAT.SERVICES.Services
             return _despesaProtocoloRepo.ObterPorCodigo(codigo);
         }
 
-        public DespesaProtocoloPeriodoTecnico ObterPorCodigoPeriodoTecnico(int codigo)
-        {
-            return _despesaProtocoloRepo.ObterPorCodigoPeriodoTecnico(codigo);
-        }
-
         public ListViewModel ObterPorParametros(DespesaProtocoloPeriodoTecnicoParameters parameters)
         {
             var protocolos = _despesaProtocoloRepo.ObterPorParametros(parameters);

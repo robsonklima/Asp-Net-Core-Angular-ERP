@@ -9,7 +9,6 @@ import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { MatDialog } from '@angular/material/dialog';
 import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
-import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -28,7 +27,6 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   constructor (
     private _route: ActivatedRoute,
     private _despesaProtocoloSvc: DespesaProtocoloService,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
@@ -101,10 +99,6 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   adicionarPeriodo(): void
   {
-    var a = this._despesaPeriodoTecnicoSvc.obterPeriodosAprovados().subscribe(r =>
-    {
-      console.log(r);
-    });
 
     const dialogRef = this._dialog.open(DespesaProtocoloDetalhePeriodosDialogComponent, {
       data:

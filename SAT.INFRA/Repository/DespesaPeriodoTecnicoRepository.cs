@@ -5,15 +5,15 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace SAT.INFRA.Repository
 {
-    public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
+    public class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
         private readonly AppDbContext _context;
-        private readonly IDespesaProtocoloPeriodoTecnicoRepository _despesaProtocoloPeriodoTecnicoRepo;
 
-        public DespesaPeriodoTecnicoRepository(AppDbContext context, IDespesaProtocoloPeriodoTecnicoRepository despesaProtocoloPeriodoTecnicoRepo)
+        public DespesaPeriodoTecnicoRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -40,14 +40,30 @@ namespace SAT.INFRA.Repository
 
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var query = _context.DespesaPeriodoTecnico.AsNoTracking().AsQueryable();
+            var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
+                .Include(dpt => dpt.DespesaPeriodo)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
+                .AsQueryable();
 
-            query = AplicarIncludes(query);
-            query = AplicarFiltros(query, parameters);
-            query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
+            if (parameters.CodDespesaPeriodo.HasValue)
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
-            return PagedList<DespesaPeriodoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+            if (parameters.CodTecnico.HasValue)
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.CodTecnico == parameters.CodTecnico);
 
+            if (parameters.IndAtivoPeriodo.HasValue)
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
+
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
+                despesasPeriodoTecnico =
+                    despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+
+            return PagedList<DespesaPeriodoTecnico>.ToPagedList(despesasPeriodoTecnico, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

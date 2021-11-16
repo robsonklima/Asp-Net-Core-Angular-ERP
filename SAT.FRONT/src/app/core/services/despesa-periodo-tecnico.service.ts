@@ -27,13 +27,6 @@ export class DespesaPeriodoTecnicoService
             .pipe(map((data: DespesaPeriodoTecnicoAtendimentoData) => data));
     }
 
-    obterPeriodosAprovados(): Observable<DespesaPeriodoTecnicoAtendimentoData>
-    {
-        return this.http.get(
-            `${c.api}/DespesaPeriodoTecnico/Aprovados`)
-            .pipe(map((data: DespesaPeriodoTecnicoAtendimentoData) => data));
-    }
-
     obterPorCodigo(codDespesaPeriodoTecnico: number): Observable<DespesaPeriodoTecnico>
     {
         return this.http.get<DespesaPeriodoTecnico>(

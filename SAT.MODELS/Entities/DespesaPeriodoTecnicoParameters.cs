@@ -1,5 +1,6 @@
 using System;
 using SAT.MODELS.Entities.Helpers;
+using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities
 {
@@ -11,5 +12,6 @@ namespace SAT.MODELS.Entities
         public string CodDespesaPeriodoStatus { get; set; }
         public DateTime? InicioPeriodo { get; set; }
         public DateTime? FimPeriodo { get; set; }
+        public DespesaPeriodoTecnicoFilterEnum FilterType { get; set; }
     }
 }

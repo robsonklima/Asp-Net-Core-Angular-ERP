@@ -10,5 +10,6 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         void Atualizar(DespesaProtocoloPeriodoTecnico despesa);
         DespesaProtocoloPeriodoTecnico ObterPorCodigo(int codigo);
+        DespesaProtocoloPeriodoTecnico ObterPorCodigoPeriodoTecnico(int codigo);
     }
 }

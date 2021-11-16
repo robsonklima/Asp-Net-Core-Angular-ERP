@@ -38,11 +38,21 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
+        public DespesaProtocoloPeriodoTecnico ObterPorCodigoPeriodoTecnico(int codigo)
+        {
+            return _context.DespesaProtocoloPeriodoTecnico
+            .Include(d => d.DespesaPeriodoTecnico)
+            .FirstOrDefault(i => i.CodDespesaPeriodoTecnico == codigo);
+        }
+
         public PagedList<DespesaProtocoloPeriodoTecnico> ObterPorParametros(DespesaProtocoloPeriodoTecnicoParameters parameters)
         {
             var despesasProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico
                 .Include(d => d.DespesaPeriodoTecnico)
                 .AsQueryable();
+
+            if (parameters.IndAtivo.HasValue)
+                despesasProtocoloPeriodoTecnico = despesasProtocoloPeriodoTecnico.Where(i => i.IndAtivo == parameters.IndAtivo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesasProtocoloPeriodoTecnico =

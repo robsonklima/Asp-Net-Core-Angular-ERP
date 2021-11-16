@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IFilterableCore } from '../types/filtro.types';
+import { Parameters, IFilterableCore } from '../types/filtro.types';
 
 @Injectable({
     providedIn: 'root'
@@ -24,11 +24,21 @@ export class Filterable implements IFilterableCore
     {
         this.filter = this._userService.obterFiltro(this.filterName);
 
-        if (!this.filter) return;
-
-        Object.keys(this.filter?.parametros).forEach((key) =>
+        if (!this.filter) 
         {
-            if (this.filter?.parametros[key] instanceof Array)
+            var params: Parameters = {};
+            this.filter =
+            {
+                nome: this.filterName,
+                parametros: params
+            };
+
+            return;
+        }
+
+        Object.keys(this.filter.parametros).forEach((key) =>
+        {
+            if (this.filter.parametros[key] instanceof Array)
                 this.filter.parametros[key] = this.filter.parametros[key].join();
         });
     }

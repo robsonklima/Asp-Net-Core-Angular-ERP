@@ -141,8 +141,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         super.loadFilter();
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial)
-            this.filter.parametros.codFiliais = [this.userSession.usuario.codFilial]
+        if (this.userSession?.usuario?.codFilial && this.filter)
+            this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
     }
 
     public async exportar()

@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -109,6 +110,8 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
       if (confirmacao)
       {
         this.protocolo.indFechamento = 1;
+        this.protocolo.dataHoraFechamento = moment().format('yyyy-MM-DD HH:mm:ss');
+
         await this._despesaProtocoloSvc.atualizar(this.protocolo).toPromise();
       }
     });

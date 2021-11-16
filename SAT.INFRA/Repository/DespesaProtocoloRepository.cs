@@ -20,7 +20,14 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaProtocolo protocolo)
         {
-            throw new NotImplementedException();
+            DespesaProtocolo d =
+                _context.DespesaProtocolo.FirstOrDefault(d => d.CodDespesaProtocolo == protocolo.CodDespesaProtocolo);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(protocolo);
+                _context.SaveChanges();
+            }
         }
 
         public void Criar(DespesaProtocolo protocolo)

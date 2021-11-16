@@ -26,5 +26,8 @@ namespace SAT.API.Controllers
         public DespesaProtocolo Get(int codDespesaProtocolo) =>
              _protocoloService.ObterPorCodigo(codDespesaProtocolo);
 
+        [HttpPut]
+        public void Put([FromBody] DespesaProtocolo despesaProtocolo) =>
+           _protocoloService.Atualizar(despesaProtocolo);
     }
 }

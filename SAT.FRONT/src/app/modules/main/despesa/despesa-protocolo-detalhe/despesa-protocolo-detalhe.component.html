@@ -125,8 +125,9 @@
                                 </div>
                                 <div class="flex justify-center align-middle items-center">
                                     <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
-                                        [matTooltip]="t('adicionar')" matTooltipPosition="above"
-                                        (click)="adicionarPeriodo()">
+                                        [matTooltip]="t('adicionar')"
+                                        [disabled]="!(protocolo?.indFechamento == 0 && protocolo?.indAtivo == 1)"
+                                        matTooltipPosition="above" (click)="adicionarPeriodo()">
                                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'">
                                         </mat-icon>
                                     </button>

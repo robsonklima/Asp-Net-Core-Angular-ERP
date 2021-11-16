@@ -32,4 +32,11 @@ export class DespesaProtocoloService
             `${c.api}/DespesaProtocolo/${codDespesaProtocolo}`)
             .pipe(map((obj) => obj));
     }
+
+    atualizar(despesaProtocolo: DespesaProtocolo): Observable<DespesaProtocolo>
+    {
+        return this.http.put<DespesaProtocolo>(
+            `${c.api}/DespesaProtocolo`, despesaProtocolo)
+            .pipe(map((obj) => obj));
+    }
 }

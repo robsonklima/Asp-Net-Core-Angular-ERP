@@ -8,7 +8,7 @@ export interface DespesaProtocolo
     nomeProtocolo: string;
     obsProtocolo: string;
     indAtivo: number;
-    ondFechamento: number;
+    indFechamento: number;
     dataHoraFechamento: number;
     codUsuarioCad: string;
     dataHoraCad: string;

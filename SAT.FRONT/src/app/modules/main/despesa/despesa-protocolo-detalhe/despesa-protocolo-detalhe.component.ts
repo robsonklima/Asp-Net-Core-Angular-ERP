@@ -10,6 +10,7 @@ import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { MatDialog } from '@angular/material/dialog';
 import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -90,14 +91,50 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
         .sum(i => i.despesaValor));
   }
 
-  fecharProtocolo(): void
+  async fecharProtocolo(): Promise<void>
   {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja fechar o protocolo?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this.protocolo.indFechamento = 1;
+        await this._despesaProtocoloSvc.atualizar(this.protocolo).toPromise();
+      }
+    });
   }
 
-  imprimirProtocolo(): void
+  async imprimirProtocolo(): Promise<void>
   {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja imprimir o protocolo?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this.protocolo.indImpresso = 1;
+        await this._despesaProtocoloSvc.atualizar(this.protocolo).toPromise();
+      }
+    });
   }
 
   adicionarPeriodo(): void

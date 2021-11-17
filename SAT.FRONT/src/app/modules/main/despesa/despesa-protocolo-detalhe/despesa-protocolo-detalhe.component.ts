@@ -124,7 +124,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
-        }
+        },
       }
     });
 
@@ -136,6 +136,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
         await this._despesaProtocoloSvc.atualizar(this.protocolo).toPromise();
 
         this._dialog.open(DespesaProtocoloDetalheImpressaoComponent, {
+          panelClass: 'no-padding-dialog-container',
           data:
           {
             protocolo: this.protocolo

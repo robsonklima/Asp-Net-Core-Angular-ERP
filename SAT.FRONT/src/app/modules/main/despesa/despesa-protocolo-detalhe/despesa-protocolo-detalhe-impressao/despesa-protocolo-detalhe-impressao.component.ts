@@ -12,7 +12,6 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 {
   isLoading: boolean;
   protocolo: DespesaProtocolo;
-  displayedColumns: string[] = ['filial', 'tecnico', 'periodo'];
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any) 

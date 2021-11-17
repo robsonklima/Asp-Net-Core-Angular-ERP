@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
+import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaProtocolo, DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import Enumerable from 'linq';
@@ -14,9 +16,12 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 {
   isLoading: boolean;
   protocolo: DespesaProtocolo;
+  adiantamentos: DespesaAdiantamentoPeriodo[] = [];
+
 
   constructor (
-    @Inject(MAT_DIALOG_DATA) private data: any) 
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService)
   {
 
     if (data)
@@ -25,6 +30,24 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 
   async ngOnInit()
   {
+    this.isLoading = true;
+
+    await this.obterAdiantamentos();
+
+    this.isLoading = false;
+  }
+
+  private async obterAdiantamentos()
+  {
+    for (const e of this.protocolo.despesaProtocoloPeriodoTecnico)
+    {
+      var adiantamentos = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
+        codTecnico: e.despesaPeriodoTecnico.codTecnico,
+        codDespesaPeriodo: e.despesaPeriodoTecnico.codDespesaPeriodo
+      }).toPromise()).items;
+
+      this.adiantamentos.push(...adiantamentos);
+    }
   }
 
   print()
@@ -45,6 +68,22 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
         && i.codDespesaTipo == tipo).sum(i => i.despesaValor);
 
     return sum.toFixed(2).replace(".", ",");
+  }
+
+  calcularAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
+  {
+    var codTecnico = dp.despesaPeriodoTecnico.codTecnico;
+    var codPeriodo = dp.despesaPeriodoTecnico.codDespesaPeriodo;
+
+    return Enumerable.from(this.adiantamentos).where(i => i.despesaAdiantamento.indAtivo == 1
+      && i.despesaAdiantamento.codTecnico == codTecnico && i.despesaPeriodo.codDespesaPeriodo == codPeriodo)
+      .sum(i => i.valorAdiantamentoUtilizado);
+  }
+
+  calcularDespesaTotal(dp: DespesaProtocoloPeriodoTecnico)
+  {
+    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
+      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
   }
 
   obterValorAluguelCarro(dp: DespesaProtocoloPeriodoTecnico)
@@ -137,19 +176,16 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 
   obterTotal(dp: DespesaProtocoloPeriodoTecnico)
   {
-    var sum = Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
-      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
-
-    return sum.toFixed(2).replace(".", ",");
+    return this.calcularDespesaTotal(dp).toFixed(2).replace(".", ",");
   }
 
   obterAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return "TO DO"
+    return this.calcularAdiantamento(dp).toFixed(2).replace(".", ",");
   }
 
   obterSaldo(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return "TO DO";
+    return (this.calcularAdiantamento(dp) - this.calcularDespesaTotal(dp)).toFixed(2).replace(".", ",");;
   }
 }

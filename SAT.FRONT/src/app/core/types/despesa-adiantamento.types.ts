@@ -16,8 +16,8 @@ export interface DespesaAdiantamentoPeriodo
 
 export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 
 {
-    codDespesaPeriodos?: string;
-    codTecnicos?: string;
+    codDespesaPeriodo?: number;
+    codTecnico?: number;
     indAtivoPeriodo?: number;
     indAtivoAdiantamento?: number;
     indTecnicoLiberado?: number;

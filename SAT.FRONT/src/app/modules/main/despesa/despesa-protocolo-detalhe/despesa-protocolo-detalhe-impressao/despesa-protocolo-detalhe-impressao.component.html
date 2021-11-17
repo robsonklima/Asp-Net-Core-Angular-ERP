@@ -7,8 +7,7 @@
                     <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
                 </div>
                 <div id="print-area"
-                    class="h-200 min-w-screen overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent"
-                    *ngIf="!isLoading">
+                    class="h-200 min-w-screen overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
 
                     <div class="flex items-start justify-between">
                         <div class="grid grid-cols-1 gap-x-4">
@@ -105,7 +104,7 @@
                             </div>
                             <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                {{ "Internet" | uppercase }}
+                                {{ "Net." | uppercase }}
                             </div>
                             <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
@@ -140,87 +139,87 @@
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorAluguelCarro(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorCartaoCombustivel() }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorCartaoTel(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorCombustivel() }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorCorreio(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorEstacionamento(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorFerramentas(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorFrete(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorHotel(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorOnibus(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorOutros(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorPA(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorPecas(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorPed(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorKm() }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorTaxi(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorTelefone(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterValorInternet(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterTotal(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterAdiantamento(e) }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ 300 }}
+                                    {{ obterSaldo(e) }}
                                 </div>
                             </div>
                         </ng-container>

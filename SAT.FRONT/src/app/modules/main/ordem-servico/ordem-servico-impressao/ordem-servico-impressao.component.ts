@@ -46,9 +46,4 @@ export class OrdemServicoImpressaoComponent implements OnInit
     windowPopup.onafterprint = window.close;
     windowPopup.document.close();
   }
-
-  window_print()
-  {
-
-  }
 }

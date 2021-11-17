@@ -26,8 +26,7 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
     private dialogRef: MatDialogRef<DespesaProtocoloDetalhePeriodosDialogComponent>,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaProtocoloTecnicoSvc: DespesaProtocoloPeriodoTecnicoService,
-    private _userService: UserService,
-    private _snack: CustomSnackbarService) 
+    private _userService: UserService) 
   {
     if (data)
       this.codDespesaProtocolo = data.codDespesaProtocolo;

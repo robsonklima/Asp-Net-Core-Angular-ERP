@@ -12,6 +12,7 @@ import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protoc
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
+import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -119,7 +120,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   async imprimirProtocolo(): Promise<void>
   {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+    const printDialog = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
         message: 'Deseja imprimir o protocolo?',
@@ -130,12 +131,19 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
       }
     });
 
-    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
+    printDialog.afterClosed().subscribe(async (confirmacao: boolean) =>
     {
       if (confirmacao)
       {
         this.protocolo.indImpresso = 1;
         await this._despesaProtocoloSvc.atualizar(this.protocolo).toPromise();
+
+        this._dialog.open(DespesaProtocoloDetalheImpressaoComponent, {
+          data:
+          {
+            protocolo: this.protocolo
+          }
+        });
       }
     });
   }

@@ -71,8 +71,7 @@
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="!isLoading">
                             <button class="fuse-mat-button-rounded bg-green-100" mat-flat-button
-                                [matTooltip]="t('imprimir')" [disabled]="protocolo?.indImpresso == 1"
-                                matTooltipPosition="above" (click)="imprimirProtocolo()">
+                                [matTooltip]="t('imprimir')" matTooltipPosition="above" (click)="imprimirProtocolo()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
                         </div>
@@ -139,8 +138,9 @@
                                 <div class="flex justify-center align-middle items-center"
                                     *ngIf="!isLoading && (protocolo?.indImpresso == 0 && protocolo?.indAtivo == 1)">
                                     <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
-                                        [matTooltip]="t('adicionar')" [disabled]="protocolo?.indImpresso == 1"
-                                        matTooltipPosition="above" (click)="adicionarPeriodo()">
+                                        [matTooltip]="t('adicionar')" [disabled]="protocolo?.indImpresso == 1 ||
+                                        protocolo?.indFechamento == 1" matTooltipPosition="above"
+                                        (click)="adicionarPeriodo()">
                                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'">
                                         </mat-icon>
                                     </button>

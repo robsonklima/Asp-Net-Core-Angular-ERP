@@ -24,7 +24,6 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   async ngOnInit()
   {
     this.isLoading = true;
-    console.log(this.protocolo);
     this.isLoading = false;
   }
 
@@ -34,7 +33,7 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
     windowPopup.document.write(`<html><head><link rel="stylesheet" type="text/css" href="${appConfig.tailwind_css}"/></head><body onload = "window.print()"> ${contentToPrint} </body></html>`);
-    windowPopup.document.title = `protocolo.pdf`;
+    windowPopup.document.title = `Protocolo_${this.protocolo.codDespesaProtocolo}.pdf`
     windowPopup.onafterprint = window.close;
     windowPopup.document.close();
   }

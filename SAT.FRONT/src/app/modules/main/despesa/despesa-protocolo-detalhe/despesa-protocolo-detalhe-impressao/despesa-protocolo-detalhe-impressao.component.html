@@ -136,7 +136,7 @@
 
                                 <div class="flex-1 min-w-40 w-40 max-w-40 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ (e.despesaPeriodoTecnico.despesaPeriodo.dataInicio | date:'dd/MM/yyyy')  + " - " + (e.despesaPeriodoTecnico.despesaPeriodo.dataFim | date:'dd/MM/yyyy') }}
+                                    {{ (e.despesaPeriodoTecnico.despesaPeriodo.dataInicio | date:'dd/MM/yyyy')  + " " + (t('ate') | lowercase) + " " + (e.despesaPeriodoTecnico.despesaPeriodo.dataFim | date:'dd/MM/yyyy') }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">

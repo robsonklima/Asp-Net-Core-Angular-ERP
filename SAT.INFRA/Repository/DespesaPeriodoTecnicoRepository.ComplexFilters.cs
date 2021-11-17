@@ -9,25 +9,22 @@ namespace SAT.INFRA.Repository
 {
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
-        public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPeriodosAprovados(DespesaPeriodoTecnicoParameters parameters)
+        public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPeriodosAprovados(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
-                .Include(t => t.Tecnico)
-                .Include(t => t.DespesaPeriodo)
+            var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico
                 .AsQueryable();
 
-            var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico.AsQueryable();
             var aprovado = (int)DespesaPeriodoTecnicoStatusEnum.APROVADO;
 
-            despesasPeriodoTecnico = from dpt in despesasPeriodoTecnico
-                                     where dpt.CodDespesaPeriodoTecnicoStatus == aprovado
-                                        && !(from dpp in despesaProtocoloPeriodoTecnico
-                                             select dpp.CodDespesaPeriodoTecnico)
-                                             .Contains(dpt.CodDespesaPeriodoTecnico)
-                                     orderby dpt.Tecnico.Nome, dpt.DespesaPeriodo.DataInicio
-                                     select dpt;
+            query = from dpt in query
+                    where dpt.CodDespesaPeriodoTecnicoStatus == aprovado
+                       && !(from dpp in despesaProtocoloPeriodoTecnico
+                            select dpp.CodDespesaPeriodoTecnico)
+                            .Contains(dpt.CodDespesaPeriodoTecnico)
+                    orderby dpt.Tecnico.Nome, dpt.DespesaPeriodo.DataInicio
+                    select dpt;
 
-            return despesasPeriodoTecnico;
+            return query;
         }
     }
 }

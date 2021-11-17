@@ -11,7 +11,7 @@ namespace SAT.INFRA.Repository
             switch (parameters.FilterType)
             {
                 case MODELS.Enums.DespesaPeriodoTecnicoFilterEnum.FILTER_PERIODOS_APROVADOS:
-                    query = AplicarFiltroPeriodosAprovados(parameters);
+                    query = AplicarFiltroPeriodosAprovados(query, parameters);
                     break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);

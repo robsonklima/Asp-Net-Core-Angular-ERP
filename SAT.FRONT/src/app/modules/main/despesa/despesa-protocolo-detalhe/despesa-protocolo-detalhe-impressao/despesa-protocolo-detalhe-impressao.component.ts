@@ -57,19 +57,14 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     return "---";
   }
 
-  obterValorCartaoCombustivel()
+  obterValorCartaoCombustivel(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return "TO DO";
+    return this.calcularTipoDespesa(dp, DespesaTipoEnum.KM);
   }
 
   obterValorCartaoTel(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.CARTAO_TEL);
-  }
-
-  obterValorCombustivel()
-  {
-    return this.valorDescontinuado();
   }
 
   obterValorCorreio(dp: DespesaProtocoloPeriodoTecnico)
@@ -118,17 +113,11 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   obterValorPecas(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.PECAS);
-
   }
 
   obterValorPed(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.PEDAGIO);
-  }
-
-  obterValorKm()
-  {
-    return this.valorDescontinuado();
   }
 
   obterValorTaxi(dp: DespesaProtocoloPeriodoTecnico)
@@ -144,7 +133,6 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   obterValorInternet(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.INTERNET);
-
   }
 
   obterTotal(dp: DespesaProtocoloPeriodoTecnico)

@@ -117,8 +117,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
   obterDataInicial(dp: DespesaProtocolo)
   {
     var dataInicial = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
-      .selectMany(e => e.despesaPeriodoTecnico)
-      .select(e => e.despesaPeriodo)
+      .select(e => e.despesaPeriodoTecnico.despesaPeriodo)
       .orderBy(e => e.dataInicio)
       .firstOrDefault()?.dataInicio;
 
@@ -128,8 +127,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
   obterDataFinal(dp: DespesaProtocolo)
   {
     var dataFinal = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
-      .selectMany(e => e.despesaPeriodoTecnico)
-      .select(e => e.despesaPeriodo)
+      .select(e => e.despesaPeriodoTecnico.despesaPeriodo)
       .orderByDescending(e => e.dataFim)
       .firstOrDefault()?.dataFim;
 
@@ -139,8 +137,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
   obterTecnicos(dp: DespesaProtocolo)
   {
     var tecnicos = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
-      .selectMany(e => e.despesaPeriodoTecnico)
-      .select(e => e.tecnico.nome)
+      .select(e => e.despesaPeriodoTecnico.tecnico.nome)
       .orderBy(e => e)
       .toArray();
 

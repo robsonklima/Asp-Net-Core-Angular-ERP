@@ -1,8 +1,8 @@
-        <button class="add-button" (click)="print()" [disabled]="isLoading">
-            <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
-        </button>
-        <div class="flex-auto h-full text-center" *transloco="let t">
-            <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+        <div class="flex-auto max-h-200 min-w-240 text-center overflow-y-scroll overflow-x-hidden" *transloco="let t">
+            <button class="add-button" (click)="print()" [disabled]="isLoading">
+                <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+            </button>
+            <div class="inline-block text-left print:p-0">
                 <div class="loading-shade" *ngIf="isLoading">
                     <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
                 </div>
@@ -36,22 +36,22 @@
 
                         <ng-container matColumnDef="filial">
                             <th mat-header-cell *matHeaderCellDef> {{ t('filial') }} </th>
-                            <td mat-cell *matCellDef="let e"> {{ e.despesaPeriodoTecnico[0].tecnico.filial.nomeFilial }}
+                            <td mat-cell *matCellDef="let e"> {{ e.despesaPeriodoTecnico.tecnico.filial.nomeFilial }}
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="tecnico">
                             <th mat-header-cell *matHeaderCellDef> {{ t('tecnico') }} </th>
-                            <td mat-cell *matCellDef="let e"> {{ e.despesaPeriodoTecnico[0].tecnico.nome }} </td>
+                            <td mat-cell *matCellDef="let e"> {{ e.despesaPeriodoTecnico.tecnico.nome }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="periodo">
                             <th mat-header-cell *matHeaderCellDef> {{ t('periodo') }} </th>
                             <td mat-cell *matCellDef="let e">
                                 {{ (t('de') + " " + 
-                                (e.despesaPeriodoTecnico[0].despesaPeriodo.dataInicio | date:'dd/MM/yyyy') + " " +
+                                (e.despesaPeriodoTecnico.despesaPeriodo.dataInicio | date:'dd/MM/yyyy') + " " +
                                 t('ate') + " " +
-                                (e.despesaPeriodoTecnico[0].despesaPeriodo.dataFim | date:'dd/MM/yyyy') | uppercase) }}
+                                (e.despesaPeriodoTecnico.despesaPeriodo.dataFim | date:'dd/MM/yyyy') | uppercase) }}
                             </td>
                         </ng-container>
 

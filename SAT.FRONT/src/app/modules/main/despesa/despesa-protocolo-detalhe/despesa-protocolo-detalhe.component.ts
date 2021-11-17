@@ -63,16 +63,13 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
     this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dppt =>
     {
-      dppt.despesaPeriodoTecnico.forEach(dpt =>
-      {
-        this.listView.push(
-          {
-            dataInicial: dpt.despesaPeriodo.dataInicio,
-            dataFinal: dpt.despesaPeriodo.dataFim,
-            tecnico: dpt.tecnico.nome,
-            valor: this.calculaDespesa(dpt)
-          });
-      });
+      this.listView.push(
+        {
+          dataInicial: dppt.despesaPeriodoTecnico.despesaPeriodo.dataInicio,
+          dataFinal: dppt.despesaPeriodoTecnico.despesaPeriodo.dataFim,
+          tecnico: dppt.despesaPeriodoTecnico.tecnico.nome,
+          valor: this.calculaDespesa(dppt.despesaPeriodoTecnico)
+        });
     })
 
     this.listView = Enumerable.from(this.listView).orderByDescending(i => i.dataInicial).toArray();

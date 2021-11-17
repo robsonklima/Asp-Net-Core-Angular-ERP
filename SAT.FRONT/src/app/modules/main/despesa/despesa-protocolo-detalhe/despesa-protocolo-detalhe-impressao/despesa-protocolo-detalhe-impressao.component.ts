@@ -129,19 +129,16 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   obterValorHotel(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.HOTEL);
-
   }
 
   obterValorOnibus(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.ONIBUS);
-
   }
 
   obterValorOutros(dp: DespesaProtocoloPeriodoTecnico)
   {
     return this.calcularTipoDespesa(dp, DespesaTipoEnum.OUTROS);
-
   }
 
   obterValorPA(dp: DespesaProtocoloPeriodoTecnico)

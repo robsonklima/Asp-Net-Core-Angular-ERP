@@ -51,3 +51,32 @@ export interface DespesaProtocoloPeriodoListView
     tecnico: string;
     valor: number;
 }
+
+export interface DespesaProtocoloImpressaoListView
+{
+    dp: number;
+    filial: string;
+    tecnico: string;
+    periodo: string;
+    aluguelCarro: string;
+    cartaoCombustivel: string;
+    cartaoTel: string;
+    combustivel: string;
+    correios: string;
+    estacionamento: string;
+    ferramentas: string;
+    frete: string;
+    hotel: string;
+    onibus: string;
+    outros: string;
+    pa: string;
+    pecas: string;
+    pedagio: string;
+    km: string;
+    taxi: string;
+    telefone: string;
+    internet: string;
+    despesas: string;
+    adiantamentos: string;
+    saldo: string;
+}

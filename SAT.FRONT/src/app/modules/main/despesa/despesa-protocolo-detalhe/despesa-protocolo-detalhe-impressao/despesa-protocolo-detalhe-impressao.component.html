@@ -118,107 +118,207 @@
                                 {{ "Saldo" | uppercase }}
                             </div>
                         </div>
-                        <ng-container *ngFor="let e of protocolo.despesaProtocoloPeriodoTecnico">
+                        <ng-container *ngFor="let e of listView">
                             <div style="font-size: 8px;" class="flex flex-1 border-b
                                     hover:bg-gray-100">
 
                                 <div class="border-l flex-1 min-w-11 w-11 max-w-11 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ e.despesaPeriodoTecnico.tecnico.filial.nomeFilial }}
+                                    {{ e.filial }}
                                 </div>
 
                                 <div class="flex-1 min-w-36 w-36 max-w-36 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ e.despesaPeriodoTecnico.tecnico.nome }}
+                                    {{ e.tecnico }}
                                 </div>
 
                                 <div class="flex-1 min-w-40 w-40 max-w-40 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ (e.despesaPeriodoTecnico.despesaPeriodo.dataInicio | date:'dd/MM/yy')  + " " + (t('ate') | lowercase) + " " + (e.despesaPeriodoTecnico.despesaPeriodo.dataFim | date:'dd/MM/yy') }}
+                                    {{ e.periodo }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ obterValorAluguelCarro(e) }}
+                                    {{ e.aluguelCarro }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ obterValorCartaoCombustivel(e) }}
+                                    {{ e.cartaoCombustivel }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
-                                    {{ obterValorCartaoTel(e) }}
+                                    {{ e.cartaoTel }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
+                                    {{ e.combustivel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.correios }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.estacionamento }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.ferramentas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.frete }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.hotel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.onibus }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.outros }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pa }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pecas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pedagio }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.km }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.taxi }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.telefone }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.internet }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.despesas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.adiantamentos }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.saldo }}
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div style="font-size: 8px;" class="flex flex-1 border-b
+                                    hover:bg-gray-100">
+                                <div class="border-l flex-1 min-w-11 w-11 max-w-11 text-left font-mono p-1">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+
+                                <div class="flex-1 min-w-36 w-36 max-w-36 text-left font-mono font-semibold p-1">
+                                    {{ "TOTAL" }}
+                                </div>
+
+                                <div class="flex-1 min-w-40 w-40 max-w-40 text-left font-mono border-r p-1">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalAluguelCarro) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCartaoCombustivel) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCartaoTel) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
                                     {{ valorDescontinuado() }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorCorreio(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCorreios) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorEstacionamento(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalEstacionamento) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorFerramentas(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalFerramentas) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorFrete(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalFrete) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorHotel(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalHotel) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorOnibus(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalOnibus) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorOutros(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalOutros) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorPA(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPA) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorPecas(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPecas) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorPed(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPedagio) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
                                     {{ valorDescontinuado() }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorTaxi(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalTaxi) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorTelefone(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalTelefone) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterValorInternet(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalInternet) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterTotal(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalDespesas) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterAdiantamento(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalAdiantamentos) }}
                                 </div>
-                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
-                                        border-r p-1">
-                                    {{ obterSaldo(e) }}
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalSaldos) }}
                                 </div>
                             </div>
                         </ng-container>

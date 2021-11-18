@@ -2,22 +2,44 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
-import { DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData } from 'app/core/types/despesa-adiantamento.types';
-import { DespesaProtocolo, DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
+import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
+import { DespesaProtocolo, DespesaProtocoloImpressaoListView, DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe-impressao',
   templateUrl: './despesa-protocolo-detalhe-impressao.component.html',
   styleUrls: ['./despesa-protocolo-detalhe-impressao.component.scss']
 })
+
 export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 {
   isLoading: boolean;
   protocolo: DespesaProtocolo;
   adiantamentos: DespesaAdiantamentoPeriodo[] = [];
+  listView: DespesaProtocoloImpressaoListView[] = [];
 
+  totalAluguelCarro: number = 0;
+  totalCartaoCombustivel: number = 0;
+  totalCartaoTel: number = 0;
+  totalCorreios: number = 0;
+  totalEstacionamento: number = 0;
+  totalFerramentas: number = 0;
+  totalFrete: number = 0;
+  totalHotel: number = 0;
+  totalOnibus: number = 0;
+  totalOutros: number = 0;
+  totalPA: number = 0;
+  totalPecas: number = 0;
+  totalPedagio: number = 0;
+  totalTaxi: number = 0;
+  totalTelefone: number = 0;
+  totalInternet: number = 0;
+  totalDespesas: number = 0;
+  totalAdiantamentos: number = 0;
+  totalSaldos: number = 0;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -33,6 +55,7 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     this.isLoading = true;
 
     await this.obterAdiantamentos();
+    this.prepararLista();
 
     this.isLoading = false;
   }
@@ -56,21 +79,54 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
     windowPopup.document.write(`<html><head><link rel="stylesheet" type="text/css" href="${appConfig.tailwind_css}"/></head><body onload = "window.print()"> ${contentToPrint} </body></html>`);
-    windowPopup.document.title = `Protocolo_${this.protocolo.codDespesaProtocolo}.pdf`
+    windowPopup.document.title = `Protocolo_${this.protocolo.codDespesaProtocolo}.pdf`;
     windowPopup.onafterprint = window.close;
     windowPopup.document.close();
   }
 
-  calcularTipoDespesa(dp: DespesaProtocoloPeriodoTecnico, tipo: DespesaTipoEnum)
+  private prepararLista()
   {
-    var sum = Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
-      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1
-        && i.codDespesaTipo == tipo).sum(i => i.despesaValor);
-
-    return sum.toFixed(2).replace(".", ",");
+    this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dp =>
+    {
+      this.listView.push(
+        {
+          dp: dp.codDespesaPeriodoTecnico,
+          filial: dp.despesaPeriodoTecnico.tecnico.filial.nomeFilial,
+          tecnico: dp.despesaPeriodoTecnico.tecnico.nome,
+          periodo: moment(dp.despesaPeriodoTecnico.despesaPeriodo.dataInicio).format('DD/MM/yy') + " até " + moment(dp.despesaPeriodoTecnico.despesaPeriodo.dataFim).format('DD/MM/yy'),
+          aluguelCarro: this.obterValorAluguelCarro(dp),
+          cartaoCombustivel: this.obterValorCartaoCombustivel(dp),
+          cartaoTel: this.obterValorCartaoTel(dp),
+          combustivel: this.valorDescontinuado(),
+          correios: this.obterValorCorreio(dp),
+          estacionamento: this.obterValorEstacionamento(dp),
+          ferramentas: this.obterValorFerramentas(dp),
+          frete: this.obterValorFrete(dp),
+          hotel: this.obterValorHotel(dp),
+          onibus: this.obterValorOnibus(dp),
+          outros: this.obterValorOutros(dp),
+          pa: this.obterValorPA(dp),
+          pecas: this.obterValorPecas(dp),
+          pedagio: this.obterValorPedagio(dp),
+          km: this.valorDescontinuado(),
+          taxi: this.obterValorTaxi(dp),
+          telefone: this.obterValorTelefone(dp),
+          internet: this.obterValorInternet(dp),
+          despesas: this.obterValorTotalDespesa(dp),
+          adiantamentos: this.obterValorAdiantamento(dp),
+          saldo: this.obterValorSaldo(dp)
+        })
+    })
   }
 
-  calcularAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
+  private calcularTipoDespesa(dp: DespesaProtocoloPeriodoTecnico, tipo: DespesaTipoEnum)
+  {
+    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
+      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1
+        && i.codDespesaTipo == tipo).sum(i => i.despesaValor);
+  }
+
+  private calcularAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
   {
     var codTecnico = dp.despesaPeriodoTecnico.codTecnico;
     var codPeriodo = dp.despesaPeriodoTecnico.codDespesaPeriodo;
@@ -80,15 +136,10 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
       .sum(i => i.valorAdiantamentoUtilizado);
   }
 
-  calcularDespesaTotal(dp: DespesaProtocoloPeriodoTecnico)
+  private calcularDespesaTotal(dp: DespesaProtocoloPeriodoTecnico)
   {
     return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
       .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
-  }
-
-  obterValorAluguelCarro(dp: DespesaProtocoloPeriodoTecnico)
-  {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.ALUGUEL_CARRO);
   }
 
   valorDescontinuado()
@@ -96,93 +147,160 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     return "---";
   }
 
-  obterValorCartaoCombustivel(dp: DespesaProtocoloPeriodoTecnico)
+  toInterface(n: number)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.KM);
+    return n.toFixed(2).replace(".", ",");
   }
 
-  obterValorCartaoTel(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorAluguelCarro(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.CARTAO_TEL);
+    var aluguelCarro = this.calcularTipoDespesa(dp, DespesaTipoEnum.ALUGUEL_CARRO);
+    this.totalAluguelCarro += aluguelCarro;
+
+    return this.toInterface(aluguelCarro);
   }
 
-  obterValorCorreio(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorCartaoCombustivel(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.CORREIO);
+    var cb = this.calcularTipoDespesa(dp, DespesaTipoEnum.KM);
+    this.totalCartaoCombustivel += cb;
+
+    return this.toInterface(cb);
   }
 
-  obterValorEstacionamento(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorCartaoTel(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.ESTACIONAMENTO);
+    var cartaoTel = this.calcularTipoDespesa(dp, DespesaTipoEnum.CARTAO_TEL);
+    this.totalCartaoTel += cartaoTel;
+
+    return this.toInterface(cartaoTel);
   }
 
-  obterValorFerramentas(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorCorreio(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.FERRAMENTAS);
+    var correios = this.calcularTipoDespesa(dp, DespesaTipoEnum.CORREIO);
+    this.totalCorreios += correios;
+
+    return this.toInterface(correios);
   }
 
-  obterValorFrete(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorEstacionamento(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.FRETE);
+    var estacionamento = this.calcularTipoDespesa(dp, DespesaTipoEnum.ESTACIONAMENTO);
+    this.totalEstacionamento += estacionamento;
+
+    return this.toInterface(estacionamento);
   }
 
-  obterValorHotel(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorFerramentas(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.HOTEL);
+    var ferramentas = this.calcularTipoDespesa(dp, DespesaTipoEnum.FERRAMENTAS);
+    this.totalFerramentas += ferramentas;
+
+    return this.toInterface(ferramentas);
   }
 
-  obterValorOnibus(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorFrete(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.ONIBUS);
+    var frete = this.calcularTipoDespesa(dp, DespesaTipoEnum.FRETE);
+    this.totalFrete += frete;
+
+    return this.toInterface(frete);
   }
 
-  obterValorOutros(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorHotel(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.OUTROS);
+    var hotel = this.calcularTipoDespesa(dp, DespesaTipoEnum.HOTEL);
+    this.totalHotel += hotel;
+
+    return this.toInterface(hotel);
   }
 
-  obterValorPA(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorOnibus(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.PA);
+    var onibus = this.calcularTipoDespesa(dp, DespesaTipoEnum.ONIBUS);
+    this.totalOnibus += onibus;
+
+    return this.toInterface(onibus);
   }
 
-  obterValorPecas(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorOutros(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.PECAS);
+    var outros = this.calcularTipoDespesa(dp, DespesaTipoEnum.OUTROS);
+    this.totalOutros += outros;
+
+    return this.toInterface(outros);
   }
 
-  obterValorPed(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorPA(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.PEDAGIO);
+    var pa = this.calcularTipoDespesa(dp, DespesaTipoEnum.PA);
+    this.totalPA += pa;
+
+    return this.toInterface(pa);
   }
 
-  obterValorTaxi(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorPecas(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.TAXI);
+    var pecas = this.calcularTipoDespesa(dp, DespesaTipoEnum.PECAS);
+    this.totalPecas += pecas;
+
+    return this.toInterface(pecas);
   }
 
-  obterValorTelefone(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorPedagio(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.TELEFONE);
+    var pedagio = this.calcularTipoDespesa(dp, DespesaTipoEnum.PEDAGIO);
+    this.totalPedagio += pedagio;
+
+    return this.toInterface(pedagio);
   }
 
-  obterValorInternet(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorTaxi(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularTipoDespesa(dp, DespesaTipoEnum.INTERNET);
+    var taxi = this.calcularTipoDespesa(dp, DespesaTipoEnum.TAXI);
+    this.totalTaxi += taxi;
+
+    return this.toInterface(taxi);
   }
 
-  obterTotal(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorTelefone(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularDespesaTotal(dp).toFixed(2).replace(".", ",");
+    var telefone = this.calcularTipoDespesa(dp, DespesaTipoEnum.TELEFONE);
+    this.totalTelefone += telefone;
+
+    return this.toInterface(telefone);
   }
 
-  obterAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorInternet(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return this.calcularAdiantamento(dp).toFixed(2).replace(".", ",");
+    var internet = this.calcularTipoDespesa(dp, DespesaTipoEnum.INTERNET);
+    this.totalInternet += internet;
+
+    return this.toInterface(internet);
   }
 
-  obterSaldo(dp: DespesaProtocoloPeriodoTecnico)
+  private obterValorTotalDespesa(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return (this.calcularAdiantamento(dp) - this.calcularDespesaTotal(dp)).toFixed(2).replace(".", ",");;
+    var total = this.calcularDespesaTotal(dp);
+    this.totalDespesas += total;
+
+    return this.toInterface(total);
+  }
+
+  private obterValorAdiantamento(dp: DespesaProtocoloPeriodoTecnico)
+  {
+    var adiantamento = this.calcularAdiantamento(dp);
+    this.totalAdiantamentos += adiantamento;
+
+    return this.toInterface(adiantamento);
+  }
+
+  private obterValorSaldo(dp: DespesaProtocoloPeriodoTecnico)
+  {
+    var saldo = this.calcularAdiantamento(dp) - this.calcularDespesaTotal(dp);
+    this.totalSaldos += saldo;
+
+    return this.toInterface(saldo);
   }
 }

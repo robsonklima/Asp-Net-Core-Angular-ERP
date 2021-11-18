@@ -1,22 +1,24 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, Pipe, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { DespesaProtocoloData } from 'app/core/types/despesa-protocolo.types';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-despesa-credito-cartao-lista',
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px;
-            @screen sm { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
-            @screen md { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
-            @screen lg { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px;
+            @screen sm { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            @screen md { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            @screen lg { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -30,18 +32,19 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   isLoading: boolean = false;
-  protocolos: DespesaProtocoloData;
+  periodos: DespesaPeriodoTecnicoData;
 
   constructor (
     protected _userService: UserService,
-    private _cdr: ChangeDetectorRef)
+    private _cdr: ChangeDetectorRef,
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
   {
     super(_userService, 'despesa-credito-cartao');
   }
 
-  async ngAfterViewInit()
+  ngAfterViewInit()
   {
-    await this.obterDados();
+    this.obterDados();
 
     if (this.sort && this.paginator)
     {
@@ -50,7 +53,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
       this.sort.sortChange.subscribe(() =>
       {
-        this.onSortChanged()
+        this.onSortChanged();
         this.obterDados();
       });
     }
@@ -62,6 +65,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   public async obterDados()
   {
     this.isLoading = true;
+    await this.obterPeriodosTecnico();
+    this.prepareData();
 
     this.isLoading = false;
   }
@@ -72,6 +77,32 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     {
       this.onSidenavClosed();
       this.obterDados();
+    })
+  }
+
+  private async obterPeriodosTecnico()
+  {
+    this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
+      {
+        codDespesaPeriodoStatus: DespesaPeriodoTecnicoStatusEnum.APROVADO,
+        pageNumber: this.paginator.pageIndex + 1,
+        pageSize: this.paginator.pageSize,
+        sortActive: 'codDespesaPeriodoTecnico',
+        sortDirection: 'desc'
+      }
+    ).toPromise());
+
+    console.log(this.periodos);
+  }
+
+  prepareData()
+  {
+    this.periodos.items.forEach(p =>
+    {
+      p.tecnico.despesaCartaoCombustivelTecnico =
+        Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
+          .orderByDescending(i => i.dataHoraInicio)
+          .toArray();
     })
   }
 

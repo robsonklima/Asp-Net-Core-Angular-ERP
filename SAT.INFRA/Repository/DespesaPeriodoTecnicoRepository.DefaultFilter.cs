@@ -18,6 +18,12 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivoPeriodo.HasValue)
                 query = query.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
 
+            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus))
+            {
+                var codigos = parameters.CodDespesaPeriodoStatus.Split(',').Select(f => f.Trim());
+                query = query.Where(e => codigos.Any(p => p == e.CodDespesaPeriodoTecnicoStatus.ToString()));
+            }
+
             return query;
         }
     }

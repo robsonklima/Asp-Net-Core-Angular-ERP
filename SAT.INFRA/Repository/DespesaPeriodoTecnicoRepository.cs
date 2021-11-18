@@ -38,7 +38,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var query = _context.DespesaPeriodoTecnico.AsNoTracking().AsQueryable();
+            var query = _context.DespesaPeriodoTecnico.AsQueryable();
 
             query = AplicarIncludes(query);
             query = AplicarFiltros(query, parameters);

@@ -9,10 +9,11 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodDespesaCartaoCombustivelTecnico { get; set; }
         public int CodDespesaCartaoCombustivel { get; set; }
+
+        [ForeignKey("CodDespesaCartaoCombustivel")]
+        public DespesaCartaoCombustivel DespesaCartaoCombustivel { get; set; }
         [Column(TypeName = "nchar")]
         public int CodTecnico { get; set; }
-        [ForeignKey("CodTecnico")]
-        public Tecnico Tecnico { get; set; }
         public DateTime? DataHoraInicio { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime? DataHoraCad { get; set; }

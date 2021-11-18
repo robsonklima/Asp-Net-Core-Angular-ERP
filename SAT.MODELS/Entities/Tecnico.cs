@@ -59,8 +59,8 @@ namespace SAT.MODELS.Entities
         [ForeignKey("CodRegiao")]
         public Regiao Regiao { get; set; }
         public int? CodDespesaCartaoCombustivel { get; set; }
-        [ForeignKey("CodDespesaCartaoCombustivel")]
-        public DespesaCartaoCombustivel DespesaCartaoCombustivel { get; set; }
+        [ForeignKey("CodTecnico")]
+        public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public int? CodFrotaCobrancaGaragem { get; set; }
         public int? CodFrotaFinalidadeUso { get; set; }
         public string Cnh { get; set; }

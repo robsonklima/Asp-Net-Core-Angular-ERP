@@ -1,12 +1,14 @@
 import { Autorizada } from "./autorizada.types";
 import { Cidade } from "./cidade.types";
+import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from "./despesa-cartao-combustivel.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
 import { TipoRota } from "./tipo-rota.types";
 import { Usuario } from "./usuario.types";
 
-export class Tecnico {
+export class Tecnico
+{
     codTecnico: number;
     codAutorizada: number;
     codFilial: number;
@@ -69,13 +71,16 @@ export class Tecnico {
     tempoResidenciaLocalAtendimento: string;
     usuario: Usuario;
     mediaTempoAtendMin: number;
+    despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
 }
 
-export interface TecnicoData extends Meta {
+export interface TecnicoData extends Meta
+{
     items: Tecnico[];
 };
 
-export interface TecnicoParameters extends QueryStringParameters {
+export interface TecnicoParameters extends QueryStringParameters
+{
     codTecnico?: number;
     nome?: string;
     indAtivo?: number;
@@ -91,27 +96,32 @@ export interface TecnicoParameters extends QueryStringParameters {
     filterType?: TecnicoFilterEnum;
 };
 
-export enum TecnicoIncludeEnum {
+export enum TecnicoIncludeEnum
+{
     TECNICO_ORDENS_SERVICO = 1
 }
 
-export enum TecnicoFilterEnum {
+export enum TecnicoFilterEnum
+{
     FILTER_TECNICO_OS = 1
 }
 
 
-export enum FrotaFinalidadeUsoEnum {
+export enum FrotaFinalidadeUsoEnum
+{
     "Apenas Trabalho" = 1,
     "Apenas Trabalho/Particular" = 2
 }
 
-export enum FrotaCobrancaGaragemEnum {
+export enum FrotaCobrancaGaragemEnum
+{
     "Pela Empresa" = 1,
     "Pelo Técnico" = 2,
     "Pelo Técnico Sem Cobrança" = 3
 }
 
-export class DashboardTecnicoDisponibilidadeTecnicoViewModel extends Tecnico {
+export class DashboardTecnicoDisponibilidadeTecnicoViewModel extends Tecnico
+{
     filial: Filial;
     mediaAtendimentosPorDiaPreventivos: number;
     mediaAtendimentosPorDiaCorretivos: number;

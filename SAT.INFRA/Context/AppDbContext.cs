@@ -120,6 +120,12 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);
 
+            modelBuilder.Entity<Tecnico>()
+                        .HasMany<DespesaCartaoCombustivelTecnico>(e => e.DespesaCartaoCombustivelTecnico)
+                        .WithOne()
+                        .HasForeignKey("CodTecnico")
+                        .HasPrincipalKey("CodTecnico");
+
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
 

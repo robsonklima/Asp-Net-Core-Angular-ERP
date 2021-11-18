@@ -40,7 +40,6 @@ namespace SAT.INFRA.Repository
         {
             var cartoes =
             _context.DespesaCartaoCombustivelTecnico
-                .Include(d => d.Tecnico)
                 .AsQueryable();
 
             if (parameters.CodDespesaCartaoCombustivel.HasValue)

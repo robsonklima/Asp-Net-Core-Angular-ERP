@@ -36,6 +36,7 @@ export class DespesaCartaoCombustivelTecnico
     dataHoraInicio?: string;
     codUsuarioCad?: string;
     dataHoraCad?: string;
+    despesaCartaoCombustivel?: DespesaCartaoCombustivel;
 }
 
 export interface DespesaCartaoCombustivelTecnicoData extends Meta

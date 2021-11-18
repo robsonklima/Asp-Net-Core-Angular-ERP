@@ -1,3 +1,4 @@
+import { DespesaProtocoloPeriodoTecnico } from "./despesa-protocolo.types";
 import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico } from "./tecnico.types";
@@ -58,6 +59,7 @@ export class DespesaPeriodoTecnico
     indCompensacao: number;
     dataHoraCompensacao: string;
     codUsuarioCompensacao: string;
+    despesaProtocoloPeriodoTecnico?: DespesaProtocoloPeriodoTecnico;
 }
 
 export interface DespesaPeriodoTecnicoData extends Meta

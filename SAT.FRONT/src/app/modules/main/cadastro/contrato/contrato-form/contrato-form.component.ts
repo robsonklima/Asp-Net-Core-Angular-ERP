@@ -161,7 +161,6 @@ export class ContratoFormComponent implements OnInit {codContrato: number;
   private async obterContrato() {
     if (!this.isAddMode) {
       let data = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
-      console.log(data)
       this.contrato = data;
       this.form.patchValue(this.contrato);
     } 

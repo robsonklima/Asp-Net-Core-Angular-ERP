@@ -68,7 +68,6 @@ export class MonitoramentoSatComponent implements OnInit {
     this.listaMonitoramento = (await this._monitoramentoService.obterListaMonitoramento().toPromise());
     if (this.listaMonitoramento != null) {
       this.haveData = true;
-      console.log(this.listaMonitoramento.integracaoServidor);
       let aplMeta: number[] = [];
       let intMeta: number[] = [];
       this.listaMonitoramento.storageAPL1.forEach(e => { aplMeta.push(this.meta); })

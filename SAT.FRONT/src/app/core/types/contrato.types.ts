@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { InstalacaoLote } from "./instalacao-lote.types";
 
 export class Contrato {
     codContrato: number;
@@ -54,6 +55,7 @@ export class Contrato {
     percReajuste: number;
     indPermitePecaEspecifica: number;
     semCobertura: string;
+    lotes: InstalacaoLote[];
 }
 
 export interface ContratoData extends Meta {

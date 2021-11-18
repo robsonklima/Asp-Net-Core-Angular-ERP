@@ -323,5 +323,7 @@
     "consulta de periodo": "Period Query",
     "hora inicial": "Start Time",
     "hora final": "End Time",
-    "rat": "RAT"
+    "rat": "RAT",
+    "contratos de venda": "Selling Contracts",
+    "lotes": "Lots"
 }

@@ -130,41 +130,5 @@ namespace SAT.MODELS.Entities{
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
-
-        [ForeignKey("CodInstalLote")]
-        public InstalLote InstalLote { get; set; }
-
-        [ForeignKey("CodContrato")]
-        public Contrato Contrato { get; set; }
-
-        [ForeignKey("CodTipoEquip")]
-        public TipoEquipamento TipoEquipamento { get; set; }    
-
-        [ForeignKey("CodGrupoEquip")]
-        public GrupoEquipamento GrupoEquipamento { get; set; }         
-
-        [ForeignKey("CodEquip")]
-        public Equipamento Equipamento { get; set; }         
-
-        [ForeignKey("CodRegiao")]
-        public Regiao Regiao { get; set; }         
-
-        [ForeignKey("CodAutorizada")]
-        public Autorizada Autorizada { get; set; }           
-
-        [ForeignKey("CodFilial")]
-        public Filial Filial { get; set; }  
-
-        [ForeignKey("CodEquipContrato")]
-        public EquipamentoContrato EquipamentoContrato { get; set; }          
-
-        [ForeignKey("CodCliente")]
-        public Cliente Cliente { get; set; }       
-
-        [ForeignKey("CodPosto")]
-        public LocalAtendimento LocalAtendimento { get; set; }                       
-
-        //[ForeignKey("CodSla")]
-        //public SLA SLA { get; set; }                 
     }    
 }

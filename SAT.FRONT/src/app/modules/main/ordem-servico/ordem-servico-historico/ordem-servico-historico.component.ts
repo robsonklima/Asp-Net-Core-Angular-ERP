@@ -14,10 +14,7 @@ export class OrdemServicoHistoricoComponent implements OnInit {
 
   constructor(
     private _ordemServicoService: OrdemServicoService
-  ) {
-    console.log(this.codOS);
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.obterDados();

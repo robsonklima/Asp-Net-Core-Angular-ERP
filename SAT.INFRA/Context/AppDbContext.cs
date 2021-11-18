@@ -94,6 +94,8 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
+        public DbSet<Instalacao>  Instalacao { get; set; }
+        public DbSet<InstalacaoLote>  InstalacaoLote { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

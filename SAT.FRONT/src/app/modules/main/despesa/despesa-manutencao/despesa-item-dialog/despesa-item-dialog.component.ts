@@ -251,9 +251,6 @@ export class DespesaItemDialogComponent implements OnInit
   async validaQuilometragem()
   {
     var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
-    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
-    console.log(quilometragemLeaflet);
-    // console.log(quilometragemGoogle);
   }
 
   async calculaQuilometragemLeaflet()

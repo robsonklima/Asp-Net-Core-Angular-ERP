@@ -115,7 +115,6 @@ export class ContratoListaComponent implements OnInit {
             .toPromise();
 
         this.dataSourceData = data;
-        console.log(data);
         this.isLoading = false;
     }
 

@@ -15,8 +15,8 @@ namespace SAT.INFRA.Repository
                 {
                     case "fimSLA":
                         query = sortDirection == "asc" ?
-                        query.OrderBy(q => q.PrazosAtendimento.Max(i => i.DataHoraLimiteAtendimento)) :
-                        query.OrderByDescending(q => q.PrazosAtendimento.Max(i => i.DataHoraLimiteAtendimento));
+                            query.OrderBy(q => q.PrazosAtendimento.Min(i => i.DataHoraLimiteAtendimento)) :
+                            query.OrderByDescending(q => q.PrazosAtendimento.Max(i => i.DataHoraLimiteAtendimento));
                         break;
 
                     case "statusOS":

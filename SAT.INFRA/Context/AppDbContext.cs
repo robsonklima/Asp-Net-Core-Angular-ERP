@@ -97,6 +97,7 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
         public DbSet<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
+        public DbSet<TicketLogPedidoCredito> TicketLogPedidoCredito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -105,6 +106,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Sequencia>(new SequenciaMap().Configure);
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
+            modelBuilder.Entity<DespesaPeriodoTecnico>(new DespesaPeriodoTecnicoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -125,9 +127,6 @@ namespace SAT.INFRA.Context
                         .WithOne()
                         .HasForeignKey("CodTecnico")
                         .HasPrincipalKey("CodTecnico");
-
-            modelBuilder.Entity<DespesaPeriodoTecnico>()
-                        .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
 
             modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodDespesaProtocolo, ra.CodDespesaPeriodoTecnico });

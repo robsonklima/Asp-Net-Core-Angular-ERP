@@ -30,7 +30,6 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
-
   isLoading: boolean = false;
   periodos: DespesaPeriodoTecnicoData;
 
@@ -82,7 +81,6 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   private async obterPeriodosTecnico()
   {
-    console.log(this.filter);
     this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
       {
         filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_CREDITOS_CARTAO,

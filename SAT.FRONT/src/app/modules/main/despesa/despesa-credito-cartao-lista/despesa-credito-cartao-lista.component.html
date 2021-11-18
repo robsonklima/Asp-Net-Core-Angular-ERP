@@ -77,7 +77,7 @@
                                                 {{ a.codDespesaPeriodoTecnico }}
                                             </div>
                                             <div>
-                                                ---
+                                                {{ a.dataHoraCad | date:'dd/MM/yy' }}
                                             </div>
                                             <div>
                                                 {{ a.tecnico?.nome }}
@@ -92,7 +92,7 @@
                                                 ---
                                             </div>
                                             <div>
-                                                ---
+                                                {{ a.ticketLogPedidoCredito.dataHoraProcessamento | date:'dd/MM/yy HH:mm' ?? "---" }}
                                             </div>
                                             <div>
                                                 {{ a.despesaPeriodo.dataInicio | date:'dd/MM/yy' }}
@@ -101,7 +101,7 @@
                                                 {{ a.despesaPeriodo.dataFim | date:'dd/MM/yy' }}
                                             </div>
                                             <div>
-                                                ---
+                                                {{ a.ticketLogPedidoCredito.valor | currency:'BRL':'symbol-narrow' ?? "---" }}
                                             </div>
                                             <div>
                                                 ---

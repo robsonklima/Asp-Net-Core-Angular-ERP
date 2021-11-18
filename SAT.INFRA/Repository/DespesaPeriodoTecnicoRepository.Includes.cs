@@ -20,6 +20,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(dpt => dpt.DespesaCartaoCombustivelTecnico)
                         .ThenInclude(dpt => dpt.DespesaCartaoCombustivel)
                 .Include(dpt => dpt.DespesaProtocoloPeriodoTecnico)
+                .Include(dpt => dpt.TicketLogPedidoCredito)
                 .AsQueryable();
 
             return query;

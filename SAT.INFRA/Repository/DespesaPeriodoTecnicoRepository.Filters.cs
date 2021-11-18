@@ -13,6 +13,9 @@ namespace SAT.INFRA.Repository
                 case MODELS.Enums.DespesaPeriodoTecnicoFilterEnum.FILTER_PERIODOS_APROVADOS:
                     query = AplicarFiltroPeriodosAprovados(query, parameters);
                     break;
+                case MODELS.Enums.DespesaPeriodoTecnicoFilterEnum.FILTER_CREDITOS_CARTAO:
+                    query = AplicarFiltroCreditosCartao(query, parameters);
+                    break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);
                     break;

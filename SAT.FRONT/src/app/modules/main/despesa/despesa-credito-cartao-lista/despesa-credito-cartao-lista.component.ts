@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
@@ -15,10 +15,10 @@ import Enumerable from 'linq';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px;
-            @screen sm { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
-            @screen md { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
-            @screen lg { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px;
+            @screen sm { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
+            @screen md { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
+            @screen lg { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -84,7 +84,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   {
     this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
       {
-        codDespesaPeriodoStatus: DespesaPeriodoTecnicoStatusEnum.APROVADO,
+        filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_CREDITOS_CARTAO,
         pageNumber: this.paginator.pageIndex + 1,
         pageSize: this.paginator.pageSize,
         sortActive: 'codDespesaPeriodoTecnico',

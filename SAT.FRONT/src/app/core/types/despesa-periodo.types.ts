@@ -86,5 +86,6 @@ export enum DespesaPeriodoTecnicoStatusEnum
 
 export enum DespesaPeriodoTecnicoFilterEnum
 {
-    FILTER_PERIODOS_APROVADOS = 1
+    FILTER_PERIODOS_APROVADOS = 1,
+    FILTER_CREDITOS_CARTAO = 2
 }

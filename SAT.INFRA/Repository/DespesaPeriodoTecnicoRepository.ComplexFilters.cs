@@ -26,5 +26,12 @@ namespace SAT.INFRA.Repository
 
             return query;
         }
+
+        public IQueryable<DespesaPeriodoTecnico> AplicarFiltroCreditosCartao(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
+        {
+            return query.Where(i =>
+                i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
+                && i.Tecnico.DespesaCartaoCombustivelTecnico.Any());
+        }
     }
 }

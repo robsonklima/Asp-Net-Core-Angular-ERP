@@ -53,6 +53,8 @@ import { DespesaProtocoloFiltroComponent } from './despesa-protocolo-filtro/desp
 import { DespesaProtocoloDetalheComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe.component';
 import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
 import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
+import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
+import { DespesaCreditoCartaoFiltroComponent } from './despesa-credito-cartao-filtro/despesa-credito-cartao-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -80,7 +82,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaProtocoloFiltroComponent,
       DespesaProtocoloDetalheComponent,
       DespesaProtocoloDetalhePeriodosDialogComponent,
-      DespesaProtocoloDetalheImpressaoComponent
+      DespesaProtocoloDetalheImpressaoComponent,
+      DespesaCreditoCartaoListaComponent,
+      DespesaCreditoCartaoFiltroComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

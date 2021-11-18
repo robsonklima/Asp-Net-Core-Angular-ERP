@@ -12,8 +12,17 @@ namespace SAT.INFRA.Repository
             if (parameters.CodDespesaPeriodo.HasValue)
                 query = query.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
-            if (parameters.CodTecnico.HasValue)
-                query = query.Where(e => e.CodTecnico == parameters.CodTecnico);
+            if (!string.IsNullOrEmpty(parameters.CodTecnico))
+            {
+                var codigos = parameters.CodTecnico.Split(',').Select(f => f.Trim());
+                query = query.Where(e => codigos.Any(p => p == e.CodTecnico.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodFilial))
+            {
+                var codigos = parameters.CodFilial.Split(',').Select(f => f.Trim());
+                query = query.Where(e => codigos.Any(p => p == e.Tecnico.CodFilial.ToString()));
+            }
 
             if (parameters.IndAtivoPeriodo.HasValue)
                 query = query.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);

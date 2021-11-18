@@ -29,6 +29,8 @@ namespace SAT.INFRA.Repository
 
         public IQueryable<DespesaPeriodoTecnico> AplicarFiltroCreditosCartao(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
+            query = AplicarFiltroPadrao(query, parameters);
+
             return query.Where(i =>
                 i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
                 && i.Tecnico.DespesaCartaoCombustivelTecnico.Any());

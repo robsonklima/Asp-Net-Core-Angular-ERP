@@ -82,11 +82,14 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   private async obterPeriodosTecnico()
   {
+    console.log(this.filter);
     this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
       {
         filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_CREDITOS_CARTAO,
         pageNumber: this.paginator.pageIndex + 1,
         pageSize: this.paginator.pageSize,
+        codTecnico: this.filter?.parametros.codTecnicos,
+        codFilial: this.filter?.parametros.codFiliais,
         sortActive: 'codDespesaPeriodoTecnico',
         sortDirection: 'desc'
       }

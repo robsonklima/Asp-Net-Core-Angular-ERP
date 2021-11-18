@@ -320,8 +320,8 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isQuilometragem()) return;
 
-    this.kmPrevisto = await this.calculaQuilometragemLeaflet();
-    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
+    // this.kmPrevisto = await this.calculaQuilometragemLeaflet();
+    this.kmPrevisto = await this.calculaQuilometragemGoogle();
 
     // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
     if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&

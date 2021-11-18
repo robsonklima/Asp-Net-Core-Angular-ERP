@@ -91,8 +91,6 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         sortDirection: 'desc'
       }
     ).toPromise());
-
-    console.log(this.periodos);
   }
 
   prepareData()

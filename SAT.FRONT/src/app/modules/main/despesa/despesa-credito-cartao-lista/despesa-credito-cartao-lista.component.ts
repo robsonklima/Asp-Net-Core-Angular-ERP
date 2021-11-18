@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';

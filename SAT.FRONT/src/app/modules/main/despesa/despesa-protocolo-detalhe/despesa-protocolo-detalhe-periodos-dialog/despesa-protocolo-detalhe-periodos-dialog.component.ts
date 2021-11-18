@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloPeriodoTecnicoService } from 'app/core/services/despesa-protocolo-periodo-tecnico.service';
-import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
+import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -17,7 +16,7 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
 {
   userSession: UsuarioSessao;
   codDespesaProtocolo: number;
-  aprovadas: DespesaPeriodoTecnicoAtendimentoData;
+  aprovadas: DespesaPeriodoTecnicoData;
   isLoading: boolean = false;
   selectedOptions: number[] = [];
 
@@ -43,7 +42,11 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
   {
     this.isLoading = true;
 
-    this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPeriodosAprovados().toPromise());
+    this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
+      {
+        filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_PERIODOS_APROVADOS
+      }
+    ).toPromise());
 
     this.isLoading = false;
   }

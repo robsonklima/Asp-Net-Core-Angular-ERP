@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoParameters } from '../types/despesa-periodo.types';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoParameters } from '../types/despesa-periodo.types';
 import { DespesaPeriodoTecnicoAtendimentoData } from '../types/despesa-adiantamento.types';
 
 @Injectable({
@@ -27,11 +27,18 @@ export class DespesaPeriodoTecnicoService
             .pipe(map((data: DespesaPeriodoTecnicoAtendimentoData) => data));
     }
 
-    obterPeriodosAprovados(): Observable<DespesaPeriodoTecnicoAtendimentoData>
+    obterPorParametros(parameters: DespesaPeriodoTecnicoParameters): Observable<DespesaPeriodoTecnicoData>
     {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
         return this.http.get(
-            `${c.api}/DespesaPeriodoTecnico/Aprovados`)
-            .pipe(map((data: DespesaPeriodoTecnicoAtendimentoData) => data));
+            `${c.api}/DespesaPeriodoTecnico`, { params: params })
+            .pipe(map((data: DespesaPeriodoTecnicoData) => data));
     }
 
     obterPorCodigo(codDespesaPeriodoTecnico: number): Observable<DespesaPeriodoTecnico>

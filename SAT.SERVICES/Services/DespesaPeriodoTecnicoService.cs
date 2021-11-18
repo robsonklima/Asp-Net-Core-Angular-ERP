@@ -47,7 +47,20 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            throw new System.NotImplementedException();
+            var despesas = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = despesas,
+                TotalCount = despesas.TotalCount,
+                CurrentPage = despesas.CurrentPage,
+                PageSize = despesas.PageSize,
+                TotalPages = despesas.TotalPages,
+                HasNext = despesas.HasNext,
+                HasPrevious = despesas.HasPrevious
+            };
+
+            return lista;
         }
     }
 }

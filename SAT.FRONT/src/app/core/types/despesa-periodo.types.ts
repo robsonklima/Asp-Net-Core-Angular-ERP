@@ -72,6 +72,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
     codDespesaPeriodoStatus?: string;
     inicioPeriodo?: string;
     fimPeriodo?: string;
+    filterType?: DespesaPeriodoTecnicoFilterEnum;
 };
 
 export enum DespesaPeriodoTecnicoStatusEnum
@@ -79,4 +80,9 @@ export enum DespesaPeriodoTecnicoStatusEnum
     "LIBERADO PARA ANÁLISE" = "1",
     "APROVADO" = "2",
     "REPROVADO" = "3"
+}
+
+export enum DespesaPeriodoTecnicoFilterEnum
+{
+    FILTER_PERIODOS_APROVADOS = 1
 }

@@ -36,7 +36,7 @@
                                 {{ t('tipo') }}
                             </div>
                             <div>
-                                {{ t('qtd lote') }}
+                                {{ t('lotes') }}
                             </div>
                         </div>
 
@@ -51,7 +51,13 @@
                                         {{ data.nroContrato | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        {{ data.nomeContrato | titlecase }}
+                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/' + data.codContrato ]">
+                                            {{ data.nomeContrato | titlecase }}
+                                        </a>
+
+                                        <span *ngIf="!data.lotes.length">
+                                            {{ data.nomeContrato | titlecase }}
+                                        </span>
                                     </div>
                                     <div class="truncate">
                                         {{ data.cliente.nomeFantasia | titlecase }}
@@ -60,8 +66,12 @@
                                         {{ data.tipoContrato.nomeTipoContrato | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        <a class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/lote/', data.codContrato ]">
-                                            {{ data.lotes.length ? data.lotes.length > 1 ? data.lotes.length + ' Lotes' : data.lotes.length + ' Lote' : 'Nenhum' }}
+                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/lote/', data.codContrato ]">
+                                            {{ data.lotes.length > 1 ? data.lotes.length + ' Lotes' : data.lotes.length + ' Lote' }}
+                                        </a>
+
+                                        <a *ngIf="!data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/lote-form/' + data.codContrato ]">
+                                            Novo Lote
                                         </a>
                                     </div>
                                 </div>

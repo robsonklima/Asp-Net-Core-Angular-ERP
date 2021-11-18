@@ -38,22 +38,29 @@ namespace SAT.INFRA.Repository
 
         public PagedList<InstalacaoLote> ObterPorParametros(InstalacaoLoteParameters parameters)
         {
-            var instalacoes = _context.InstalacaoLote
+            var query = _context.InstalacaoLote
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                instalacoes = instalacoes.Where(p =>
-                    p.CodInstalLote.ToString().Contains(parameters.Filter)
+                query = query.Where(p =>
+                    p.CodInstalLote.ToString().Contains(parameters.Filter) ||
+                    p.NomeLote.Contains(parameters.Filter) ||
+                    p.DescLote.Contains(parameters.Filter)
                 );
+            }
+
+            if (parameters.CodContrato != null)
+            {
+                query = query.Where(l => l.CodContrato == parameters.CodContrato);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                instalacoes = instalacoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<InstalacaoLote>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
+            return PagedList<InstalacaoLote>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

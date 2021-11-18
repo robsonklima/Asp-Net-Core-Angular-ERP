@@ -325,5 +325,7 @@
     "hora final": "End Time",
     "rat": "RAT",
     "contratos de venda": "Selling Contracts",
-    "lotes": "Lots"
-}
+    "lotes": "Lots",
+    "lote": "Lot",
+    "instalacoes": "Installations",
+    "transportadora": "Carrier Company"

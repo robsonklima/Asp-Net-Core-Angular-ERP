@@ -70,6 +70,11 @@ namespace SAT.INFRA.Repository
                 transportadoras = transportadoras.Where(t => t.CodTransportadora == parameters.CodTransportadora);
             }
 
+            if (parameters.indAtivo != null)
+            {
+                transportadoras = transportadoras.Where(t => t.IndAtivo == parameters.indAtivo);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 transportadoras = transportadoras.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

@@ -31,4 +31,5 @@ export interface TransportadoraData extends Meta {
 
 export interface TransportadoraParameters extends QueryStringParameters {
     codTransportadora?: number;
+    indAtivo?: number;
 };

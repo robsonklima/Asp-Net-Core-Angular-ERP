@@ -130,5 +130,18 @@ namespace SAT.MODELS.Entities{
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
+        
+
+        [ForeignKey("CodCliente")]
+        public Cliente Cliente { get; set; }
+
+        [ForeignKey("CodFilial")]
+        public Filial Filial { get; set; }
+
+        [ForeignKey("CodEquip")]
+        public Equipamento Equipamento { get; set; }
+
+        [ForeignKey("CodEquipContrato")]
+        public EquipamentoContrato EquipamentoContrato { get; set; }
     }    
 }

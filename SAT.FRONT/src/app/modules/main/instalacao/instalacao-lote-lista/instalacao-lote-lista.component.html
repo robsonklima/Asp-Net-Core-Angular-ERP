@@ -59,16 +59,13 @@
                                 {{ t('nome') }}
                             </div>
                             <div>
-                                {{ t('descricao') }}
-                            </div>
-                            <div>
                                 {{ t('contrato') }}
                             </div>
                             <div>
                                 {{ t('dt rec') }}
                             </div>
                             <div>
-                                {{ t('qtd') }}
+                                {{ t('equipamentos') }}
                             </div>
                         </div>
 
@@ -80,16 +77,15 @@
                                         {{ data.codInstalLote }}
                                     </div>
                                     <div class="truncate">
-                                        {{ data.nomeLote }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ data.descLote }}
+                                        <a class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/' + data.codContrato + '/' + data.codInstalLote ]">
+                                            {{ data.nomeLote }}
+                                        </a>
                                     </div>
                                     <div class="truncate">
                                         {{ contrato?.nomeContrato }}
                                     </div>
                                     <div class="truncate">
-                                        {{ data.dataRecLote }}
+                                        {{ data.dataRecLote | date:'dd/MM/YYYY' }}
                                     </div>
                                     <div class="truncate">
                                         {{ data.qtdEquipLote }}

@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-instalacao-lote {
-          grid-template-columns: 72px 136px auto 136px 200px 154px;
+          grid-template-columns: 72px auto 240px 120px 154px;
       }
     `
   ],

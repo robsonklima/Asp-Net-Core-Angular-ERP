@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities
     public class TransportadoraParameters : QueryStringParameters
     {
         public int? CodTransportadora { get; set; }
+        public int? indAtivo { get; set; }
     }
 }

@@ -26,10 +26,7 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
-import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
-import { TipoCausaService } from 'app/core/services/tipo-causa.service';
-
 
 @Component({
   selector: 'app-relatorio-atendimento-form',

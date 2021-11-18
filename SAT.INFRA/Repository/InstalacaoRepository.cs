@@ -19,17 +19,30 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Instalacao instalacao)
         {
-            throw new System.NotImplementedException();
+            Instalacao inst = _context.Instalacao.FirstOrDefault(i => i.CodInstalacao == instalacao.CodInstalacao);
+
+            if (inst != null)
+            {
+                _context.Entry(inst).CurrentValues.SetValues(instalacao);
+                _context.SaveChanges();
+            }
         }
 
         public void Criar(Instalacao instalacao)
         {
-            throw new System.NotImplementedException();
+            _context.Add(instalacao);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
         {
-            throw new System.NotImplementedException();
+            Instalacao inst = _context.Instalacao.FirstOrDefault(i => i.CodInstalacao == codigo);
+
+            if (inst != null)
+            {
+                _context.Instalacao.Remove(inst);
+                _context.SaveChanges();
+            }
         }
 
         public Instalacao ObterPorCodigo(int codigo)
@@ -40,6 +53,10 @@ namespace SAT.INFRA.Repository
         public PagedList<Instalacao> ObterPorParametros(InstalacaoParameters parameters)
         {
             var instalacoes = _context.Instalacao
+                .Include(i => i.Cliente)
+                .Include(i => i.Filial)
+                .Include(i => i.Equipamento)
+                .Include(i => i.EquipamentoContrato)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -47,6 +64,16 @@ namespace SAT.INFRA.Repository
                 instalacoes = instalacoes.Where(p =>
                     p.CodInstalacao.ToString().Contains(parameters.Filter)
                 );
+            }
+
+            if (parameters.CodContrato != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodContrato == parameters.CodContrato);
+            }            
+
+            if (parameters.CodInstalLote != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodInstalLote == parameters.CodInstalLote);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

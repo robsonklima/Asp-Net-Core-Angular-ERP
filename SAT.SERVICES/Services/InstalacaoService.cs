@@ -8,10 +8,15 @@ namespace SAT.SERVICES.Services
     public class InstalacaoService : IInstalacaoService
     {
         private readonly IInstalacaoRepository _instalacaoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public InstalacaoService(IInstalacaoRepository instalacaoRepo)
+        public InstalacaoService(
+            IInstalacaoRepository instalacaoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _instalacaoRepo = instalacaoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(InstalacaoParameters parameters)
@@ -32,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Instalacao Criar(Instalacao instalacao)
         {
+            instalacao.CodInstalacao = _sequenciaRepo.ObterContador("Instalacao");
             _instalacaoRepo.Criar(instalacao);
             return instalacao;
         }

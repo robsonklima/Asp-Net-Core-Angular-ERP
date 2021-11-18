@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-instalacao-contrato {
-          grid-template-columns: 72px 136px auto 136px 200px 154px;
+          grid-template-columns: 72px 136px auto 200px 140px 154px;
       }
     `
   ],

@@ -20,13 +20,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { InstalacaoContratoListaComponent } from './instalacao-contrato-lista/instalacao-contrato-lista.component';
 import { InstalacaoLoteListaComponent } from './instalacao-lote-lista/instalacao-lote-lista.component';
-
-
+import { InstalacaoLoteFormComponent } from './instalacao-lote-form/instalacao-lote-form.component';
+import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
     InstalacaoContratoListaComponent,
     InstalacaoLoteListaComponent,
+    InstalacaoLoteFormComponent,
+    InstalacaoListaComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +48,7 @@ import { InstalacaoLoteListaComponent } from './instalacao-lote-lista/instalacao
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatOptionModule,
+    NgxMatSelectSearchModule,
     MatSelectModule,
     MatTableModule
   ]

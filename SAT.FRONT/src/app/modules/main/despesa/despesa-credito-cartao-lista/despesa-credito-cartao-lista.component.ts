@@ -13,10 +13,10 @@ import { UserService } from 'app/core/user/user.service';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px;
-            @screen sm { grid-template-columns: 60px; }
-            @screen md { grid-template-columns: 60px; }
-            @screen lg { grid-template-columns: 60px; }
+            grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px;
+            @screen sm { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            @screen md { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
+            @screen lg { grid-template-columns: 70px 70px 60px auto 60px 150px 100px 100px 60px 60px 100px 80px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

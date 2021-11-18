@@ -347,5 +347,10 @@
     "protocolos": "Protocolos",
     "protocolo": "Protocolo",
     "periodos aprovados": "Períodos Aprovados",
-    "creditos cartao": "Créditos Cartão"
+    "creditos cartao": "Créditos Cartão",
+    "inicio": "Inicio",
+    "fim": "Fim",
+    "saldo": "Saldo",
+    "cadastro": "Cadastro",
+    "integrado": "Integrado"
 }

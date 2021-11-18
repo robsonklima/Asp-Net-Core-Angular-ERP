@@ -344,5 +344,10 @@
     "protocolos": "Protocols",
     "protocolo": "Protocol",
     "periodos aprovados": "Approved Periods",
-    "creditos cartao": "Credits Card"
+    "creditos cartao": "Credits Card",
+    "inicio": "Start",
+    "fim": "End",
+    "saldo": "Balance",
+    "cadastro": "Registration",
+    "integrado": "Integrated"
 }

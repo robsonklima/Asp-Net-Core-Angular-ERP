@@ -10,15 +10,6 @@
                             *transloco="let t">
                             <div class="flex flex-auto items-center min-w-0">
                                 <div class="flex-1 min-w-0">
-                                    <div class="flex flex-wrap items-center font-medium">
-                                        <div>
-                                            <a class="whitespace-nowrap text-primary-500"
-                                                routerLink="/despesa/creditos-cartao">
-                                                {{ t('creditos cartao') }}
-                                            </a>
-                                        </div>
-                                    </div>
-
                                     <div
                                         class="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                                         {{ t('creditos cartao') }}
@@ -43,23 +34,85 @@
                                             <div>
                                                 {{ t('protocolo') }}
                                             </div>
+                                            <div>
+                                                {{ "RD" }}
+                                            </div>
+                                            <div>
+                                                {{ t('cadastro') }}
+                                            </div>
+                                            <div>
+                                                {{ t('tecnico') }}
+                                            </div>
+                                            <div>
+                                                {{ t('filial') }}
+                                            </div>
+                                            <div>
+                                                {{ t('cartao') }}
+                                            </div>
+                                            <div>
+                                                {{ t('saldo') }}
+                                            </div>
+                                            <div>
+                                                {{ t('integrado') }}
+                                            </div>
+                                            <!-- <div>
+                                                {{ t('observacao') }}
+                                            </div> -->
+                                            <div>
+                                                {{ t('inicio') }}
+                                            </div>
+                                            <div>
+                                                {{ t('fim') }}
+                                            </div>
+                                            <div>
+                                                {{ t('combustivel') }}
+                                            </div>
+                                            <div>
+                                                {{ t('acoes') }}
+                                            </div>
                                         </div>
                                         <ng-container>
                                             <ng-container *ngFor="let r of protocolos?.items">
-                                                <a [routerLink]="'despesa/'+r.codRAT">
-                                                    <div class="list-grid-despesa-credito-cartao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                                        *transloco="let t">
+                                                <div class="list-grid-despesa-credito-cartao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                    *transloco="let t">
 
-                                                        <div class="hidden md:block truncate">
-                                                            ---
-                                                        </div>
+                                                    <div>
+                                                        ---
                                                     </div>
-                                                </a>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <!-- <div>
+                                                        ---
+                                                    </div> -->
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+                                                    <div>
+                                                        ---
+                                                    </div>
+
+                                                </div>
                                             </ng-container>
                                         </ng-container>
-                                        <!-- <div *ngIf="!protocolos?.items.length && !isLoading"
-                                        class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
-                                        Nenhum relatório registrado no período.</div> -->
                                     </div>
                                     <mat-paginator [hidden]="!protocolos?.items?.length"
                                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"

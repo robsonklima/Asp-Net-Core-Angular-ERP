@@ -15,10 +15,10 @@ import Enumerable from 'linq';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px;
-            @screen sm { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
-            @screen md { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
-            @screen lg { grid-template-columns: 60px 60px 60px auto 60px 150px 100px 100px 60px 60px 80px 60px; }
+            grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px;
+            @screen sm { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            @screen md { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            @screen lg { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

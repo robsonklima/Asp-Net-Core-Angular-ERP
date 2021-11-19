@@ -1,5 +1,6 @@
 <mat-drawer-container class="flex-auto h-full" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'start'" #sidenavChamados>
+
+    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
         <div class="flex flex-col flex-auto p-6 bg-card">
             <div class="flex items-start justify-between">
                 <div class="flex-auto">
@@ -35,8 +36,8 @@
                 </div>
             </div>
         </div>
-    </mat-drawer>
 
+    </mat-drawer>
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavFiltro>
         <app-agenda-tecnico-filtro [sidenavFiltro]="sidenavFiltro"></app-agenda-tecnico-filtro>
     </mat-drawer>

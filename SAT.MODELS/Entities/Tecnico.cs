@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class Tecnico
     {
-        [Key]
         public int CodTecnico { get; set; }
         public int? CodAutorizada { get; set; }
-        [ForeignKey("CodAutorizada")]
-        public Autorizada Autorizada { get; set; }
         public int? CodFilial { get; set; }
-        [ForeignKey("CodFilial")]
-        public Filial Filial { get; set; }
         public int CodTipoRota { get; set; }
-        [ForeignKey("CodTipoRota")]
-        public TipoRota TipoRota { get; set; }
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public DateTime? DataNascimento { get; set; }
@@ -36,8 +27,6 @@ namespace SAT.MODELS.Entities
         public string PaisCoordenadas { get; set; }
         public string Bairro { get; set; }
         public int? CodCidade { get; set; }
-        [ForeignKey("CodCidade")]
-        public Cidade Cidade { get; set; }
         public string Fone { get; set; }
         public string Email { get; set; }
         public string NumCrea { get; set; }
@@ -56,11 +45,7 @@ namespace SAT.MODELS.Entities
         public string Cpflogix { get; set; }
         public int IndFerias { get; set; }
         public int? CodRegiao { get; set; }
-        [ForeignKey("CodRegiao")]
-        public Regiao Regiao { get; set; }
         public int? CodDespesaCartaoCombustivel { get; set; }
-        [ForeignKey("CodTecnico")]
-        public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public int? CodFrotaCobrancaGaragem { get; set; }
         public int? CodFrotaFinalidadeUso { get; set; }
         public string Cnh { get; set; }
@@ -71,9 +56,13 @@ namespace SAT.MODELS.Entities
         public string CNHvalidade { get; set; }
         public List<OrdemServico> OrdensServico { get; set; }
         public virtual Usuario Usuario { get; set; }
-        [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
-        [NotMapped]
+        public TipoRota TipoRota { get; set; }
+        public Filial Filial { get; set; }
+        public Regiao Regiao { get; set; }
+        public Autorizada Autorizada { get; set; }
+        public Cidade Cidade { get; set; }
+        public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public int MediaTempoAtendMin { get; set; }
     }
 }

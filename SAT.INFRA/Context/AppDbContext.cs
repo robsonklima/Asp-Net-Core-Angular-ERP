@@ -107,6 +107,11 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
             modelBuilder.Entity<DespesaPeriodoTecnico>(new DespesaPeriodoTecnicoMap().Configure);
+            modelBuilder.Entity<TicketLogPedidoCredito>(new TicketLogPedidoCreditoMap().Configure);
+            modelBuilder.Entity<TicketLogUsuarioCartaoPlaca>(new TicketLogUsuarioCartaoPlacaMap().Configure);
+            modelBuilder.Entity<DespesaCartaoCombustivel>(new DespesaCartaoCombustivelMap().Configure);
+            modelBuilder.Entity<Tecnico>(new TecnicoMap().Configure);
+            modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -119,15 +124,6 @@ namespace SAT.INFRA.Context
                         .HasOne<Navegacao>(nc => nc.Navegacao)
                         .WithMany(nc => nc.NavegacoesConfiguracao);
 
-            modelBuilder.Entity<Tecnico>()
-                        .HasMany<OrdemServico>(os => os.OrdensServico);
-
-            modelBuilder.Entity<Tecnico>()
-                        .HasMany<DespesaCartaoCombustivelTecnico>(e => e.DespesaCartaoCombustivelTecnico)
-                        .WithOne()
-                        .HasForeignKey("CodTecnico")
-                        .HasPrincipalKey("CodTecnico");
-
             modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodDespesaProtocolo, ra.CodDespesaPeriodoTecnico });
 
@@ -136,10 +132,6 @@ namespace SAT.INFRA.Context
                         .WithOne(p => p.DespesaProtocoloPeriodoTecnico)
                         .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
                         .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
-
-            modelBuilder.Entity<DespesaCartaoCombustivelTecnico>()
-                        .Property(e => e.CodTecnico)
-                        .HasConversion<string>();
         }
     }
 }

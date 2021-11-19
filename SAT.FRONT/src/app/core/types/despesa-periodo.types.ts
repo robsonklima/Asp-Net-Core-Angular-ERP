@@ -82,6 +82,23 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
     filterType?: DespesaPeriodoTecnicoFilterEnum;
 };
 
+
+export interface DespesaCreditosCartaoListView 
+{
+    protocolo: string;
+    rd: number;
+    cadastro: string;
+    tecnico: string;
+    filial: string;
+    cartao: string;
+    saldo: number;
+    integrado: string;
+    obs?: string;
+    inicio: string;
+    fim: string;
+    combustivel: number;
+}
+
 export enum DespesaPeriodoTecnicoStatusEnum
 {
     "LIBERADO PARA ANÁLISE" = "1",

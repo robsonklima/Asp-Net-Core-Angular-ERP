@@ -31,6 +31,6 @@ namespace SAT.MODELS.Entities
         public DespesaPeriodoTecnicoStatus DespesaPeriodoTecnicoStatus { get; set; }
         public Tecnico Tecnico { get; set; }
         public virtual DespesaPeriodo DespesaPeriodo { get; set; }
-        public TicketLogPedidoCredito TicketLogPedidoCredito { get; set; }
+        public virtual TicketLogPedidoCredito TicketLogPedidoCredito { get; set; }
     }
 }

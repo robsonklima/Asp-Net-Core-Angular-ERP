@@ -1,11 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities
 {
     public class TicketLogPedidoCredito
     {
-        [Key]
         public int CodTicketLogPedidoCredito { get; set; }
         public int? CodDespesaPeriodoTecnico { get; set; }
         public double? Valor { get; set; }

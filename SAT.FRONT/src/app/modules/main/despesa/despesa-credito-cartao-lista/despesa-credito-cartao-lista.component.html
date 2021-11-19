@@ -67,41 +67,41 @@
                                     </div>
                                 </div>
                                 <ng-container *ngIf="periodos?.items.length">
-                                    <ng-container *ngFor="let a of periodos?.items">
+                                    <ng-container *ngFor="let a of listview">
                                         <div class="list-grid-despesa-credito-cartao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                             *transloco="let t">
                                             <div>
-                                                {{ "P" + a.despesaProtocoloPeriodoTecnico.codDespesaProtocolo }}
+                                                {{ a.protocolo }}
                                             </div>
                                             <div>
-                                                {{ a.codDespesaPeriodoTecnico }}
+                                                {{ a.rd }}
                                             </div>
                                             <div>
-                                                {{ a.dataHoraCad | date:'dd/MM/yy' }}
+                                                {{ a.cadastro }}
                                             </div>
                                             <div>
-                                                {{ a.tecnico?.nome }}
+                                                {{ a.tecnico}}
                                             </div>
                                             <div>
-                                                {{ a.tecnico?.filial?.nomeFilial }}
+                                                {{ a.filial }}
                                             </div>
                                             <div>
-                                                {{ a.tecnico?.despesaCartaoCombustivelTecnico[0]?.despesaCartaoCombustivel?.numero }}
+                                                {{ a.cartao ?? "---" }}
                                             </div>
                                             <div>
-                                                ---
+                                                {{ (a.saldo | currency:'BRL':'symbol-narrow') ?? "---" }}
                                             </div>
                                             <div>
-                                                {{ a.ticketLogPedidoCredito.dataHoraProcessamento | date:'dd/MM/yy HH:mm' ?? "---" }}
+                                                {{ a.integrado }}
                                             </div>
                                             <div>
-                                                {{ a.despesaPeriodo.dataInicio | date:'dd/MM/yy' }}
+                                                {{ a.inicio }}
                                             </div>
                                             <div>
-                                                {{ a.despesaPeriodo.dataFim | date:'dd/MM/yy' }}
+                                                {{ a.fim }}
                                             </div>
                                             <div>
-                                                {{ a.ticketLogPedidoCredito.valor | currency:'BRL':'symbol-narrow' ?? "---" }}
+                                                {{ a.combustivel | currency:'BRL':'symbol-narrow' }}
                                             </div>
                                             <div>
                                                 ---

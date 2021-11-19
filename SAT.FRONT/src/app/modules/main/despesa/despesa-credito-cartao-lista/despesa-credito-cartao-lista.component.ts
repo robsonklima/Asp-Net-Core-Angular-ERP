@@ -1,24 +1,26 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, Pipe, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-credito-cartao-lista',
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px;
-            @screen sm { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
-            @screen md { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
-            @screen lg { grid-template-columns: 60px 60px 60px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px;
+            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -32,6 +34,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   @ViewChild('sidenav') sidenav: MatSidenav;
   isLoading: boolean = false;
   periodos: DespesaPeriodoTecnicoData;
+  listview: DespesaCreditosCartaoListView[] = [];
 
   constructor (
     protected _userService: UserService,
@@ -64,8 +67,9 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   public async obterDados()
   {
     this.isLoading = true;
+
     await this.obterPeriodosTecnico();
-    this.prepareData();
+    await this.criarListView();
 
     this.isLoading = false;
   }
@@ -94,15 +98,49 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     ).toPromise());
   }
 
-  prepareData()
+  criarListView()
   {
+    this.listview = [];
+
     this.periodos.items.forEach(p =>
     {
-      p.tecnico.despesaCartaoCombustivelTecnico =
-        Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
-          .orderByDescending(i => i.dataHoraInicio)
-          .toArray();
+      this.listview.push(
+        {
+          protocolo: "P" + p.despesaProtocoloPeriodoTecnico.codDespesaProtocolo,
+          rd: p.codDespesaPeriodoTecnico,
+          cadastro: moment(p.dataHoraManut).format('DD/MM'),
+          tecnico: p.tecnico?.nome,
+          filial: p.tecnico?.filial?.nomeFilial,
+          cartao: this.obterCartaoAtual(p),
+          saldo: this.obterSaldoAtual(p),
+          integrado: moment(p.ticketLogPedidoCredito.dataHoraProcessamento).format('DD/MM HH:mm'),
+          inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
+          fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
+          combustivel: this.obterDespesasCombustivel(p)
+        })
     })
+  }
+
+  obterCartaoAtual(p: DespesaPeriodoTecnico)
+  {
+    return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
+      .orderByDescending(i => i.dataHoraInicio)
+      .firstOrDefault()?.despesaCartaoCombustivel?.numero;
+  }
+
+  obterSaldoAtual(p: DespesaPeriodoTecnico)
+  {
+    return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
+      .orderByDescending(i => i.dataHoraInicio)
+      .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.saldo;
+  }
+
+  obterDespesasCombustivel(p: DespesaPeriodoTecnico)
+  {
+    return Enumerable.from(p.despesas).sum(i =>
+      Enumerable.from(i.despesaItens)
+        .where(i => i.codDespesaTipo == DespesaTipoEnum.KM)
+        .sum(i => i.despesaValor));
   }
 
   public paginar()

@@ -17,10 +17,10 @@ import moment from 'moment';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px;
-            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
-            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
-            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px; }
+            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px;
+            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
+            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
+            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -98,7 +98,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     ).toPromise());
   }
 
-  criarListView()
+  private criarListView()
   {
     this.listview = [];
 
@@ -116,26 +116,27 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
           integrado: moment(p.ticketLogPedidoCredito.dataHoraProcessamento).format('DD/MM HH:mm'),
           inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
           fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
-          combustivel: this.obterDespesasCombustivel(p)
+          combustivel: this.obterDespesasCombustivel(p),
+          indCreditado: p.indCredito == 1 ? true : false
         })
     })
   }
 
-  obterCartaoAtual(p: DespesaPeriodoTecnico)
+  private obterCartaoAtual(p: DespesaPeriodoTecnico)
   {
     return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.numero;
   }
 
-  obterSaldoAtual(p: DespesaPeriodoTecnico)
+  private obterSaldoAtual(p: DespesaPeriodoTecnico)
   {
     return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.saldo;
   }
 
-  obterDespesasCombustivel(p: DespesaPeriodoTecnico)
+  private obterDespesasCombustivel(p: DespesaPeriodoTecnico)
   {
     return Enumerable.from(p.despesas).sum(i =>
       Enumerable.from(i.despesaItens)
@@ -143,9 +144,19 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         .sum(i => i.despesaValor));
   }
 
-  public paginar()
+  paginar()
   {
     this.onPaginationChanged();
     this.obterDados();
+  }
+
+  creditarRD()
+  {
+    alert("creditar");
+  }
+
+  validarRD()
+  {
+    alert("validar");
   }
 }

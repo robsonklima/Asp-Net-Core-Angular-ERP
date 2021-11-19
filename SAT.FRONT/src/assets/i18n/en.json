@@ -349,5 +349,7 @@
     "fim": "End",
     "saldo": "Balance",
     "cadastro": "Registration",
-    "integrado": "Integrated"
+    "integrado": "Integrated",
+    "creditar": "Credit",
+    "validar": "Validate"
 }

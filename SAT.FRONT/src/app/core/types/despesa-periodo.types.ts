@@ -97,6 +97,7 @@ export interface DespesaCreditosCartaoListView
     inicio: string;
     fim: string;
     combustivel: number;
+    indCreditado: boolean;
 }
 
 export enum DespesaPeriodoTecnicoStatusEnum

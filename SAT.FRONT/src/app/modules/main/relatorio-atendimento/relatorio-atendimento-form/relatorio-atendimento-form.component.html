@@ -38,7 +38,7 @@
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
                 </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
@@ -104,7 +104,7 @@
                     <p class="text-lg font-medium">{{ t('periodo de atendimento') }}</p>
                 </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data') }}</mat-label>
                         <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
@@ -120,9 +120,9 @@
                         </mat-icon>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3 pointer-events-none">
                         <mat-label>{{ t('hora da solucao') }}</mat-label>
-                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                        <input matInput formControlName="horaFim" mask="00:00" [readonly]="true"
                             [dropSpecialCharacters]="false" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
@@ -156,7 +156,7 @@
                     <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
                 </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('observacao') }}</mat-label>

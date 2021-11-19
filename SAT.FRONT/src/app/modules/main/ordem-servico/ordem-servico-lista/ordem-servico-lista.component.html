@@ -211,6 +211,10 @@
                                 </ng-container>
                             </div>
 
+                            <div *ngIf="!dataSourceData?.items.length && !isLoading"
+                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum
+                                chamado encontrado!</div>
+
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"

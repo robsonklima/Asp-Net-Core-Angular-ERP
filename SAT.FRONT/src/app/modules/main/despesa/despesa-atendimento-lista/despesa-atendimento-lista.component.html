@@ -59,7 +59,7 @@
                                         {{ t('ativo') }}
                                     </div>
                                 </div>
-                                <ng-container *ngIf="atendimentos?.items.length">
+                                <ng-container *ngIf="atendimentos?.items?.length">
                                     <ng-container *ngFor="let dp of atendimentos?.items">
                                         <a [ngClass]="{'bg-red-100': dp.status?.codDespesaPeriodoTecnicoStatus == 3, 'bg-green-100': dp.status?.codDespesaPeriodoTecnicoStatus == 2, 'bg-yellow-100': dp.status?.codDespesaPeriodoTecnicoStatus == 1}"
                                             [routerLink]="'relatorios/'+dp.codDespesaPeriodo">
@@ -99,7 +99,14 @@
                                         </a>
                                     </ng-container>
                                 </ng-container>
+                                <div *ngIf="!atendimentos?.items?.length && !isLoading"
+                                    class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                                    Técnico
+                                    não encontrado.</div>
                             </div>
+
+
+
                             <mat-paginator [hidden]="!atendimentos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"

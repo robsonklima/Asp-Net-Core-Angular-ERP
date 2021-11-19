@@ -11,6 +11,7 @@ import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adi
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { ActivatedRoute } from '@angular/router';
 registerLocaleData(localePt);
 
 @Component({
@@ -37,13 +38,16 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   isLoading: boolean = false;
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
+  codTecnico: string;
 
   constructor (
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
+    private _route: ActivatedRoute,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
   {
     super(_userService, "despesa-atendimento");
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico');
   }
 
   ngAfterViewInit()
@@ -68,8 +72,11 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   private async obterDespesasPeriodoTecnico()
   {
+    var codTecnico: string =
+      this.userSession.usuario?.codTecnico || this.codTecnico;
+
     this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
-      codTecnico: this.userSession.usuario?.codTecnico,
+      codTecnico: codTecnico,
       indAtivoPeriodo: this.filter?.parametros?.indAtivo,
       codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
       inicioPeriodo: this.filter?.parametros?.inicioPeriodo,

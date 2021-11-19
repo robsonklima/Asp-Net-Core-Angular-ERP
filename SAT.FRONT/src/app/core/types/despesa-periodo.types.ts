@@ -25,6 +25,8 @@ export interface DespesaPeriodoData extends Meta
 export interface DespesaPeriodoParameters extends QueryStringParameters
 {
     indAtivo?: number;
+    inicioPeriodo?: string;
+    fimPeriodo?: string;
 };
 
 export class DespesaPeriodoTecnicoStatus

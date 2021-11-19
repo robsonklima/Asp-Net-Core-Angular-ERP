@@ -44,7 +44,6 @@
     "distancia da pat": "PAT Distance",
     "contrato": "Contract",
     "contrato pai": "Parent Contract",
-    "numero-contrato": "Contract Number",
     "tipo-contrato": "Contract Type",
     "nome-contrato": "Contract Name",
     "contratos": "Contracts",
@@ -300,7 +299,6 @@
     "descricao": "Description",
     "novas pecas cadastradas": "NEW REGISTERED PIECES",
     "pecas liberadas": "RELEASED PARTS",
-
     "data inicial": "Initial Date",
     "data final": "Final Date",
     "despesas": "Expenses",
@@ -328,4 +326,9 @@
     "lotes": "Lots",
     "lote": "Lot",
     "instalacoes": "Installations",
-    "transportadora": "Carrier Company"
+    "transportadora": "Carrier Company",
+    "data remessa": "Shipping Data",
+    "pedido compra": "Purchase Order",
+    "super E": "Super_E",
+    "cma": "CMA"   
+}

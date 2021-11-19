@@ -47,7 +47,14 @@ namespace SAT.INFRA.Repository
 
         public Instalacao ObterPorCodigo(int codigo)
         {
-            return _context.Instalacao.FirstOrDefault(f => f.CodInstalacao == codigo);
+            return _context.Instalacao
+                .Include(i => i.Cliente)
+                .Include(i => i.Filial)
+                .Include(i => i.Equipamento)
+                .Include(i => i.EquipamentoContrato)
+                .Include(i => i.InstalacaoLote)
+                .Include(i => i.Contrato)
+                .FirstOrDefault(f => f.CodInstalacao == codigo);
         }
 
         public PagedList<Instalacao> ObterPorParametros(InstalacaoParameters parameters)
@@ -57,6 +64,8 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Filial)
                 .Include(i => i.Equipamento)
                 .Include(i => i.EquipamentoContrato)
+                .Include(i => i.InstalacaoLote)
+                .Include(i => i.Contrato)
                 .AsQueryable();
 
             if (parameters.Filter != null)

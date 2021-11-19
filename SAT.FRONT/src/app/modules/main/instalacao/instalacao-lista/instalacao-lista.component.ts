@@ -6,10 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { FilialService } from 'app/core/services/filial.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { Contrato } from 'app/core/types/contrato.types';
+import { Filial } from 'app/core/types/filial.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
@@ -40,6 +42,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
   instalacaoLote: InstalacaoLote;
   instalacaoSelecionada: Instalacao;
   transportadoras: Transportadora[] = [];
+  filiais: Filial[] = [];
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
@@ -56,6 +59,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
     private _formBuilder: FormBuilder,
     private _instalacaoSvc: InstalacaoService,
     private _transportadoraSvc: TransportadoraService,
+    private _filialSvc: FilialService,
     private _contratoSvc: ContratoService,
     private _instalacaoLoteSvc: InstalacaoLoteService,
     private _snack: CustomSnackbarService,
@@ -70,6 +74,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this.obterInstalacoes();
     this.obterTransportadoras();
+    this.obterFiliais();
     this.obterContrato();
     this.obterLote();
 
@@ -85,11 +90,14 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this.form = this._formBuilder.group({
       codInstalacao: [''],
-      codInstalLote: [''],
-      a: [''],
-      b: [''],
-      sku: [''],
-      codTransportadora: ['']
+      codTransportadora: [''],
+      nomeFilial: [{ value: '', disabled: true }],
+      nomeLote: [{ value: '', disabled: true }],     
+      dataRecLote: [{ value: '', disabled: true }],
+      nroContrato: [{ value: '', disabled: true }],
+      pedidoCompra: [''],
+      superE: [''],
+      csl: ['']
     })
 
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -152,6 +160,18 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.transportadoras = data.items;
   }
 
+  private async obterFiliais(filter: string='') {
+    const data = await this._filialSvc.obterPorParametros({
+      indAtivo: 1,
+      sortActive: 'NomeFilial',
+      sortDirection: 'asc',
+      filter: filter
+    }).toPromise();
+
+    this.filiais = data.items;
+  }
+
+
   private async obterContrato() {
     this.contrato = await this._contratoSvc.obterPorCodigo(this.codContrato).toPromise();
   }
@@ -176,12 +196,20 @@ export class InstalacaoListaComponent implements AfterViewInit {
       .subscribe((instalacao) => {
           this.instalacaoSelecionada = instalacao;
           this.form.patchValue(instalacao);
+          this.form.controls['nomeFilial'].setValue(instalacao.filial?.nomeFilial);
+          this.form.controls['nomeLote'].setValue(instalacao.instalacaoLote?.nomeLote);
+          this.form.controls['dataRecLote'].setValue(instalacao.instalacaoLote?.dataRecLote);
+          this.form.controls['nroContrato'].setValue(instalacao.contrato?.nroContrato);
           this.isLoading = false;
           this._cdr.markForCheck();
+
+          console.log(instalacao);
+          
       }, () => {
         this.isLoading = false;
       });
   }
+
 
   fecharDetalhe(): void {
     this.instalacaoSelecionada = null;

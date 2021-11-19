@@ -6,6 +6,7 @@ import { Equipamento } from "./equipamento.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { GrupoEquipamento } from "./grupo-equipamento.types";
+import { InstalacaoLote } from "./instalacao-lote.types";
 import { LocalAtendimento } from "./local-atendimento.types";
 import { Regiao } from "./regiao.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
@@ -135,7 +136,7 @@ export interface Instalacao {
     antigoPedidoCompraRedestinacao?: string;
     antigoProtocoloCdo?: string;
     novoProtocoloCdo?: string;
-    instalLote?: string;
+    instalacaoLote?: InstalacaoLote;
     contrato?: Contrato;
     tipoEquipamento?: TipoEquipamento;
     grupoEquipamento?: GrupoEquipamento;

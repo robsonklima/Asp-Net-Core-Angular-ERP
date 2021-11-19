@@ -143,5 +143,11 @@ namespace SAT.MODELS.Entities{
 
         [ForeignKey("CodEquipContrato")]
         public EquipamentoContrato EquipamentoContrato { get; set; }
+
+        [ForeignKey("CodInstalLote")]
+        public InstalacaoLote InstalacaoLote { get; set; }
+
+        [ForeignKey("CodContrato")]
+        public Contrato Contrato { get; set; }
     }    
 }

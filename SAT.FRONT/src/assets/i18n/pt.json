@@ -42,7 +42,6 @@
     "distancia da pat": "Distância da PAT",
     "contrato": "Contrato",
     "contrato pai": "Contrato Pai",
-    "numero-contrato": "Número Contrato",
     "tipo-contrato": "Tipo Contrato",
     "nome-contrato": "Nome Contrato",
     "contratos": "Contratos",
@@ -330,5 +329,9 @@
     "lotes": "Lotes",
     "lote": "Lote",
     "instalacoes": "Instalações",
-    "transportadora": "Transportadora"
+    "transportadora": "Transportadora",
+    "data remessa": "Data Remessa",
+    "pedido compra": "Pedido Compra",
+    "super E": "Super_E",
+    "cma": "CMA"
 }

@@ -55,6 +55,8 @@ import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protoc
 import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
 import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
 import { DespesaCreditoCartaoFiltroComponent } from './despesa-credito-cartao-filtro/despesa-credito-cartao-filtro.component';
+import { DespesaPeriodoListaComponent } from './despesa-periodo-lista/despesa-periodo-lista.component';
+import { DespesaPeriodoFiltroComponent } from './despesa-periodo-filtro/despesa-periodo-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -84,7 +86,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaProtocoloDetalhePeriodosDialogComponent,
       DespesaProtocoloDetalheImpressaoComponent,
       DespesaCreditoCartaoListaComponent,
-      DespesaCreditoCartaoFiltroComponent
+      DespesaCreditoCartaoFiltroComponent,
+      DespesaPeriodoListaComponent,
+      DespesaPeriodoFiltroComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

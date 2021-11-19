@@ -6,6 +6,7 @@ import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combu
 import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
 import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
 import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
+import { DespesaPeriodoListaComponent } from './despesa-periodo-lista/despesa-periodo-lista.component';
 import { DespesaProtocoloDetalheComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe.component';
 import { DespesaProtocoloListaComponent } from './despesa-protocolo-lista/despesa-protocolo-lista.component';
 import { DespesaTecnicoListaComponent } from './despesa-tecnico-lista/despesa-tecnico-lista.component';
@@ -59,5 +60,9 @@ export const despesaRoutes: Route[] = [
     {
         path: 'creditos-cartao',
         component: DespesaCreditoCartaoListaComponent
+    },
+    {
+        path: 'periodos',
+        component: DespesaPeriodoListaComponent
     }
 ];

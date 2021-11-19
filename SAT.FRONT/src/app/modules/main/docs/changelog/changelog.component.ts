@@ -84,6 +84,92 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.0.4',
+            releaseDate: '26 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Impressão da OS',
+                        'Filtro na agenda técnicos',
+                        'Arrastar para transferir na agenda técnicos'
+                    ],
+
+                },
+                {
+                    type: 'Correções',
+                    list: [
+                        'Melhorias no filtro por equipamento na listagem de OS'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.5',
+            releaseDate: '29 de Outubro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajuste no filtro de técnico da RAT',
+                        'Ajustes na impressão de PDF',
+                        'Ajustes na Agenda Técnico'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.6',
+            releaseDate: '01 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Filtro por filial na Agenda Técnico',
+                        'Ajustes na pesquisa de técnicos da RAT',
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.7',
+            releaseDate: '03 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Carregamento de chamados da filial do perfil de usuário',
+                        'Manter filtro de filial após limpar filtros',
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.8',
+            releaseDate: '10 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Atualização de Dashboard',
+                        'Inclusão de módulos de ponto e despesa',
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.0.9',
+            releaseDate: '16 de Novembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Filtro tela de chamados',
+                    ],
+                }
+            ]
         }
     ];
 

@@ -13,8 +13,8 @@
 
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">
@@ -28,7 +28,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="form.controls['codFiliais'].value != ''">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4" *ngIf="form.controls['codFiliais'].value != ''">
                     <mat-label>{{ t('regiao') }}</mat-label>
                     <mat-select formControlName="codRegioes" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
@@ -41,20 +41,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="form.controls['codFiliais'].value != ''">
-                    <mat-label>{{ t('tecnico') }}</mat-label>
-                    <mat-select formControlName="codTecnicos" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTecnicos, tecnicos,
-                            'codTecnico')" [value]="0">
-                            TODOS
-                        </mat-option>
-                        <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
-                            {{ tecnico.nome }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('autorizada') }}</mat-label>
                     <mat-select formControlName="codAutorizadas" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codAutorizadas, autorizadas,
@@ -67,34 +54,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('equipamento') }}</mat-label>
-                    <input matInput formControlName="equipamento" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
-                    </mat-icon>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('data de abertura') }}</mat-label>
-                    <mat-date-range-input [rangePicker]="pickerAbertura">
-                        <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
-                        <input formControlName="dataAberturaFim" matEndDate placeholder="Fim">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="pickerAbertura"></mat-datepicker-toggle>
-                    <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('data de fechamento') }}</mat-label>
-                    <mat-date-range-input [rangePicker]="pickerFechamento">
-                        <input formControlName="dataFechamentoInicio" matStartDate placeholder="Início">
-                        <input formControlName="dataFechamentoFim" matEndDate placeholder="Fim">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
-                    <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status de servico') }}</mat-label>
                     <mat-select formControlName="codStatusServicos" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codStatusServicos, statusServicos,
@@ -108,7 +68,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo de intervencao') }}</mat-label>
                     <mat-select formControlName="codTiposIntervencao" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTiposIntervencao, tiposIntervencao,
@@ -122,28 +82,20 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('os perto') }}</mat-label>
-                    <input matInput formControlName="codOS" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'">
-                    </mat-icon>
+                <mat-form-field class="fuse-mat-dense sm:col-span-4" *ngIf="form.controls['codFiliais'].value != ''">
+                    <mat-label>{{ t('tecnico') }}</mat-label>
+                    <mat-select formControlName="codTecnicos" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTecnicos, tecnicos,
+                            'codTecnico')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                            {{ tecnico.nome }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('os cliente') }}</mat-label>
-                    <input matInput formControlName="numOSCliente" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
-                    </mat-icon>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                    <input matInput formControlName="numOSQuarteirizada" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
-                    </mat-icon>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
                     <mat-select formControlName="codClientes" multiple="true">
                         <mat-option>
@@ -157,7 +109,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('pa') }}</mat-label>
                     <mat-select formControlName="pas" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
@@ -170,7 +122,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ponto estrategico') }}</mat-label>
                     <mat-select formControlName="pontosEstrategicos" multiple="true">
                         <mat-option [value]="pontosEstrategicos.NAO">
@@ -185,7 +137,77 @@
                             {{pontosEstrategicos[2]}}
                         </mat-option>
                     </mat-select>
+                </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('tipo equipamento') }}</mat-label>
+                    <mat-select formControlName="codTipoEquip">
+                        <mat-option class="mat-primary fill" [value]=""></mat-option>
+                        <mat-option *ngFor="let tipo of tipoEquip" [value]="tipo.codTipoEquip">
+                            {{ tipo.nomeTipoEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('grupo de equipamento') }}</mat-label>
+                    <mat-select formControlName="codGrupoEquip">
+                        <mat-option class="mat-primary fill" [value]=""></mat-option>
+
+                        <mat-option *ngFor="let grupo of gruposEquip" [value]="grupo.codGrupoEquip">
+                            {{ grupo.nomeGrupoEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('equipamento') }}</mat-label>
+                    <mat-select formControlName="codEquipamentos" multiple="true">
+                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data de abertura') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerAbertura">
+                        <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataAberturaFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerAbertura"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data de fechamento') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerFechamento">
+                        <input formControlName="dataFechamentoInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataFechamentoFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('os perto') }}</mat-label>
+                    <input matInput formControlName="codOS" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'">
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('os cliente') }}</mat-label>
+                    <input matInput formControlName="numOSCliente" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                    <input matInput formControlName="numOSQuarteirizada" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
+                    </mat-icon>
                 </mat-form-field>
             </div>
 

@@ -85,7 +85,15 @@ namespace SAT.INFRA.Context
         public DbSet<PontoUsuarioDataTipoAdvertencia> PontoUsuarioDataTipoAdvertencia { get; set; }
         public DbSet<PontoUsuarioDataValidacao> PontoUsuarioDataValidacao { get; set; }
         public DbSet<PontoUsuarioRejeicao> PontoUsuarioRejeicao { get; set; }
-        public DbSet<PlantaoTecnico> PlantaoTecnico { get; set; }       
+        public DbSet<PlantaoTecnico> PlantaoTecnico { get; set; }
+        public DbSet<DespesaAdiantamentoPeriodo> DespesaAdiantamentoPeriodo { get; set; }
+        public DbSet<DespesaAdiantamento> DespesaAdiantamento { get; set; }
+        public DbSet<DespesaConfiguracaoCombustivel> DespesaConfiguracaoCombustivel { get; set; }
+        public DbSet<DespesaItem> DespesaItem { get; set; }
+        public DbSet<DespesaPeriodo> DespesaPeriodo { get; set; }
+        public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
+        public DbSet<Despesa> Despesa { get; set; }
+        public DbSet<DespesaTipo> DespesaTipo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -108,6 +116,9 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);
+
+            modelBuilder.Entity<DespesaPeriodoTecnico>()
+                        .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
         }
     }
 }

@@ -105,6 +105,14 @@ namespace SAT.API
             services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
             services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
             services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
+            services.AddTransient<IDespesaRepository, DespesaRepository>();
+            services.AddTransient<IDespesaItemRepository, DespesaItemRepository>();
+            services.AddTransient<IDespesaPeriodoRepository, DespesaPeriodoRepository>();
+            services.AddTransient<IDespesaConfiguracaoCombustivelRepository, DespesaConfiguracaoCombustivelRepository>();
+            services.AddTransient<IDespesaAdiantamentoPeriodoRepository, DespesaAdiantamentoPeriodoRepository>();
+            services.AddTransient<IDespesaAdiantamentoRepository, DespesaAdiantamentoRepository>();
+            services.AddTransient<IDespesaTipoRepository, DespesaTipoRepository>();
+            services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -160,6 +168,14 @@ namespace SAT.API
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
+            services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
+            services.AddTransient<IDespesaConfiguracaoCombustivelService, DespesaConfiguracaoCombustivelService>();
+            services.AddTransient<IDespesaService, DespesaService>();
+            services.AddTransient<IDespesaItemService, DespesaItemService>();
+            services.AddTransient<IDespesaPeriodoService, DespesaPeriodoService>();
+            services.AddTransient<IDespesaTipoService, DespesaTipoService>();
+            services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
 
             services.AddAuthentication(auth =>
             {

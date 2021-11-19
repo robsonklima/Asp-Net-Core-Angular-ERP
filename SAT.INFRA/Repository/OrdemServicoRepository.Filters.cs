@@ -2,6 +2,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.MODELS.Enums;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -19,6 +20,16 @@ namespace SAT.INFRA.Repository
                     break;
             }
             return query;
+        }
+
+
+        public class OrdemServicoComparer : IEqualityComparer<OrdemServico>
+        {
+            public bool Equals(OrdemServico x, OrdemServico y) =>
+                x.CodOS.Equals(y.CodOS);
+
+            public int GetHashCode(OrdemServico obj) =>
+                obj.CodOS.GetHashCode();
         }
     }
 }

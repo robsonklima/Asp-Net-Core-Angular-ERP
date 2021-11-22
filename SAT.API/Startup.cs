@@ -113,6 +113,7 @@ namespace SAT.API
             services.AddTransient<IDespesaAdiantamentoRepository, DespesaAdiantamentoRepository>();
             services.AddTransient<IDespesaTipoRepository, DespesaTipoRepository>();
             services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
+            services.AddTransient<ITurnoRepository, TurnoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -166,6 +167,7 @@ namespace SAT.API
             services.AddTransient<IPontoUsuarioDataMotivoDivergenciaService, PontoUsuarioDataMotivoDivergenciaService>();
             services.AddTransient<IPontoUsuarioDataTipoAdvertenciaService, PontoUsuarioDataTipoAdvertenciaService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
+            services.AddTransient<ITurnoService, TurnoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();

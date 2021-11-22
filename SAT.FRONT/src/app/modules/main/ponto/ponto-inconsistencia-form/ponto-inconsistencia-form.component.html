@@ -43,7 +43,7 @@
 <div mat-dialog-actions *transloco="let t" align="end">
     <button mat-button (click)="fechar()">{{ t('cancelar') }}</button>
 
-    <button mat-button [color]="'primary'" [disabled]="!form.valid" (click)="salvar()">
+    <button mat-button [disabled]="!form.valid" [color]="'primary'" (click)="salvar()">
         {{ t('salvar') }}
     </button>
 </div>

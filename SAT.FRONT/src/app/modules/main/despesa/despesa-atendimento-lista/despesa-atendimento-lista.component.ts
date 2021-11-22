@@ -11,11 +11,12 @@ import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ActivatedRoute } from '@angular/router';
-import { DespesaPeriodo, DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
+import { DespesaAtendimentoReprovacaoDialogComponent } from './despesa-atendimento-reprovacao-dialog/despesa-atendimento-reprovacao-dialog.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -42,6 +43,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   isLoading: boolean = false;
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
   codTecnico: string;
+  periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
 
   constructor (
     protected _userService: UserService,
@@ -138,6 +140,16 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   }
 
+  analisar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    this._dialog.open(DespesaAtendimentoReprovacaoDialogComponent, {
+      data:
+      {
+        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+      }
+    });
+  }
+
   liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
@@ -155,7 +167,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     {
       if (confirmacao)
       {
-        dpi.status = { codDespesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'] };
+        dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };
         var dp = this.criaDespesaPeriodoTecnico(dpi);
 
         this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() =>

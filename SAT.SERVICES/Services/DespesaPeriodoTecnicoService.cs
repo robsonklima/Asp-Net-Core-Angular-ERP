@@ -43,7 +43,7 @@ namespace SAT.SERVICES.Services
 
         public DespesaPeriodoTecnico ObterPorCodigo(int codigo)
         {
-            throw new System.NotImplementedException();
+            return _despesaPeriodoTecnicoRepo.ObterPorCodigo(codigo);
         }
 
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)

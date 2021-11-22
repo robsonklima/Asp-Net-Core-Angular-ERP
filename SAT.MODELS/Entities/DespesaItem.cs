@@ -55,5 +55,11 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string LatitudeHotel { get; set; }
         public string LongitudeHotel { get; set; }
+
+        [ForeignKey("CodCidadeOrigem")]
+        public virtual Cidade CidadeOrigem { get; set; }
+
+        [ForeignKey("CodCidadeDestino")]
+        public virtual Cidade CidadeDestino { get; set; }
     }
 }

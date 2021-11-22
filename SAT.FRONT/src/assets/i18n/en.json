@@ -351,5 +351,17 @@
     "cadastro": "Registration",
     "integrado": "Integrated",
     "creditar": "Credit",
-    "validar": "Validate"
+    "validar": "Validate",
+    "analisar": "Analyze",
+    "reprovado": "Disapproved", 
+    "desaprovar": "Disapprove", 
+    "aprovado": "Approved",
+    "solucao": "Solution",
+    "valor unitario": "Unit Value",
+    "km previsto": "Expected KM",
+    "km percorrido": "Covered KM",
+    "motivo": "Reason",
+    "endereco de origem":"Origin Address",
+    "endereco de destino":"Destination Address",
+    "comparar no mapa": "Compare on Map"
 }

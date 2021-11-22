@@ -106,6 +106,13 @@
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
+                                                <button class="cursor-pointer" [disabled]="dp.status?.codDespesaPeriodoTecnicoStatus !=
+                                                    periodoLiberado" (click)="analisar(dp)">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('analisar')"
+                                                        [svgIcon]="'heroicons_outline:check-circle'">
+                                                    </mat-icon>
+                                                </button>
                                                 <button class="cursor-pointer"
                                                     [disabled]="userSession.usuario?.codPerfil != 35 || dp.status != null"
                                                     (click)="liberar(dp)">

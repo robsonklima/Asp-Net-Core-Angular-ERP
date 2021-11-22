@@ -1,0 +1,175 @@
+<h1 mat-dialog-title>
+    Despesas do Período
+</h1>
+
+<div mat-dialog-content *transloco="let t">
+    <div class="flex-auto w-full">
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid">
+                            <div class="list-grid-despesa-atendimento-reprovacao z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear>
+                                <div>
+                                    {{ t('data inicial') }}
+                                </div>
+                                <div>
+                                    {{ t('data final') }}
+                                </div>
+                                <div>
+                                    {{ t('tipo') }}
+                                </div>
+                                <div>
+                                    {{ t('valor') }}
+                                </div>
+                            </div>
+                            <ng-container *ngIf="despesas?.length">
+                                <ng-container *ngFor="let d of despesas">
+                                    <ng-container *ngFor="let i of d.despesaItens">
+                                        <div
+                                            class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                            <div class="pointer-events-none">
+                                                {{ d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ d?.relatorioAtendimento?.dataHoraSolucao | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ i?.despesaTipo?.nomeTipo }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ i?.despesaValor | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div>
+                                                <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                                    (click)="toggleDetails(i?.codDespesaItem)">
+                                                    <mat-icon class="icon-size-5" [svgIcon]="despesaItemSelecionada?.codDespesaItem === i.codDespesaItem ?
+                                        'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <ng-container
+                                                *ngIf="despesaItemSelecionada?.codDespesaItem === i.codDespesaItem">
+                                                <ng-container
+                                                    *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: i}">
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #rowDetailsTemplate let-despesa>
+    <div class="shadow-lg mb-10" *transloco="let t">
+        <div class="flex border-b">
+
+            <form class="flex flex-col" [formGroup]="despesaSelecionadaForm">
+
+                <div class="flex flex-col p-2 text-xs mt-2">
+
+                    <div class="flex flex-auto flex-wrap">
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('inicio')}}</mat-label>
+                            <input matInput formControlName="dataInicio" [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('solucao')}}</mat-label>
+                            <input matInput formControlName="dataSolucao" [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('valor unitario')}}</mat-label>
+                            <input matInput mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$"
+                                [showMaskTyped]="false" [dropSpecialCharacters]="true" formControlName="valorUnitario"
+                                [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('nf')}}</mat-label>
+                            <input matInput formControlName="notaFiscal" [readonly]="true">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="flex flex-auto flex-wrap" *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('km percorrido')}}</mat-label>
+                            <input matInput mask="separator.2" thousandSeparator="." decimalMarker=","
+                                formControlName="kmPercorrido" [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('km previsto')}}</mat-label>
+                            <input matInput mask="separator.2" thousandSeparator="." decimalMarker=","
+                                formControlName="kmPrevisto" [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('motivo')}}</mat-label>
+                            <input matInput formControlName="motivo" [readonly]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="fuse-mat-dense text-xs max-w-19 mr-5 pointer-events-none">
+                            <mat-label>{{t('observacao')}}</mat-label>
+                            <input matInput formControlName="observacao" [readonly]="true">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="flex flex-auto flex-wrap" *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
+
+                        <mat-form-field class="fuse-mat-dense text-xs min-w-full pointer-events-none">
+                            <mat-label>{{t('endereco de origem')}}</mat-label>
+                            <input matInput formControlName="origem" [readonly]="true">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="flex flex-auto flex-wrap" *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
+
+                        <mat-form-field class="fuse-mat-dense text-xs min-w-full pointer-events-none">
+                            <mat-label>{{t('endereco de destino')}}</mat-label>
+                            <input matInput formControlName="destino" [readonly]="true">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="flex flex-auto flex-wrap justify-end">
+
+                        <div class="fuse-mat-dense flex flex-col text-xs mr-5"
+                            *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
+                            <span class="font-semibold mb-2">{{ t('comparar no mapa') }}</span>
+                            <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                (click)="compararNoMapa()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:map'">
+                                </mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="fuse-mat-dense flex flex-col text-xs mr-5">
+                            <span class="font-semibold mb-2">{{ t('desaprovar') }}</span>
+                            <mat-slide-toggle [formControlName]="'indReprovado'" [color]="'primary'">
+                                {{despesaSelecionadaForm.get('indReprovado').value === true ? t('reprovado') : t('aprovado') }}
+                            </mat-slide-toggle>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

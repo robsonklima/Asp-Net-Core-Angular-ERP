@@ -80,6 +80,7 @@ namespace SAT.SERVICES.Services
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {
                     CodDespesaPeriodo = despesa.CodDespesaPeriodo,
+                    CodDespesaPeriodoTecnico = despesaPeriodoTecnico?.CodDespesaPeriodoTecnico,
                     CodTecnico = codTecnico,
                     DataInicio = despesa.DataInicio,
                     DataFim = despesa.DataFim,

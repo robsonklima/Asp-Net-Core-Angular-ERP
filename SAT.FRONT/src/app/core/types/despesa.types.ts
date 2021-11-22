@@ -1,3 +1,4 @@
+import { Cidade } from "./cidade.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";
@@ -45,12 +46,14 @@ export interface DespesaItem
     enderecoOrigem?: string;
     numOrigem?: string;
     bairroOrigem?: string;
+    cidadeOrigem?: Cidade;
     codCidadeOrigem?: number;
     indResidenciaOrigem?: number;
     indHotelOrigem?: number;
     enderecoDestino?: string;
     numDestino?: string;
     bairroDestino?: string;
+    cidadeDestino?: Cidade;
     codCidadeDestino?: number;
     indResidenciaDestino?: number;
     indHotelDestino?: number;

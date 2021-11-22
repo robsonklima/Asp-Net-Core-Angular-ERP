@@ -104,6 +104,7 @@ export interface DespesaCreditosCartaoListView
 export interface DespesaPeriodoTecnicoAtendimentoItem
 {
     codDespesaPeriodo: number;
+    codDespesaPeriodoTecnico?: number;
     codTecnico: string;
     dataInicio: string;
     dataFim: string;

@@ -53,7 +53,34 @@ namespace SAT.INFRA.Repository
 
         public DespesaPeriodoTecnico ObterPorCodigo(int codigo)
         {
-            throw new NotImplementedException();
+            return _context.DespesaPeriodoTecnico
+                .Include(dpt => dpt.DespesaPeriodo)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.CidadeOrigem)
+                            .ThenInclude(dpt => dpt.UnidadeFederativa)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.CidadeDestino)
+                            .ThenInclude(dpt => dpt.UnidadeFederativa)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dpi => dpi.DespesaTipo)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.RelatorioAtendimento)
+                .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
+                .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.Filial)
+                .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.DespesaCartaoCombustivelTecnico)
+                        .ThenInclude(dpt => dpt.DespesaCartaoCombustivel)
+                            .ThenInclude(dpt => dpt.TicketLogUsuarioCartaoPlaca)
+                .Include(dpt => dpt.DespesaProtocoloPeriodoTecnico)
+                .Include(dpt => dpt.TicketLogPedidoCredito)
+                .FirstOrDefault(i => i.CodDespesaPeriodoTecnico == codigo);
+
         }
 
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)

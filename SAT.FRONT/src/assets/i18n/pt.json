@@ -354,5 +354,17 @@
     "cadastro": "Cadastro",
     "integrado": "Integrado",
     "creditar": "Creditar",
-    "validar": "Validar"
+    "validar": "Validar",
+    "analisar": "Analisar",
+    "reprovado": "Reprovado", 
+    "desaprovar": "Desaprovar", 
+    "aprovado": "Aprovado",
+    "solucao": "Solução",
+    "valor unitario": "Valor Unitário",
+    "km previsto": "KM Previsto",
+    "km percorrido": "KM Percorrido",
+    "motivo": "Motivo",
+    "endereco de origem":"Endereço de Origem",
+    "endereco de destino":"Endereço de Destino",
+    "comparar no mapa": "Comparar no Mapa"
 }

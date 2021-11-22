@@ -57,7 +57,7 @@ import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lis
 import { DespesaCreditoCartaoFiltroComponent } from './despesa-credito-cartao-filtro/despesa-credito-cartao-filtro.component';
 import { DespesaPeriodoListaComponent } from './despesa-periodo-lista/despesa-periodo-lista.component';
 import { DespesaPeriodoFiltroComponent } from './despesa-periodo-filtro/despesa-periodo-filtro.component';
-import { DespesaAtendimentoReprovacaoDialogComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-dialog/despesa-atendimento-reprovacao-dialog.component';
+import { DespesaAtendimentoReprovacaoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -90,7 +90,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaCreditoCartaoFiltroComponent,
       DespesaPeriodoListaComponent,
       DespesaPeriodoFiltroComponent,
-      DespesaAtendimentoReprovacaoDialogComponent
+      DespesaAtendimentoReprovacaoListaComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

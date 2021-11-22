@@ -16,7 +16,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
-import { DespesaAtendimentoReprovacaoDialogComponent } from './despesa-atendimento-reprovacao-dialog/despesa-atendimento-reprovacao-dialog.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -138,16 +137,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   listarAtendimentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
 
-  }
-
-  analisar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
-  {
-    this._dialog.open(DespesaAtendimentoReprovacaoDialogComponent, {
-      data:
-      {
-        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
-      }
-    });
   }
 
   liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)

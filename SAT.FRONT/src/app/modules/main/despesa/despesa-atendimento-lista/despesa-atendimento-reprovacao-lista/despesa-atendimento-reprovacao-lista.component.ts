@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, Inject, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { Cidade } from 'app/core/types/cidade.types';
@@ -10,20 +10,21 @@ import Enumerable from 'linq';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-despesa-atendimento-reprovacao-dialog',
-  templateUrl: './despesa-atendimento-reprovacao-dialog.component.html',
+  selector: 'app-despesa-atendimento-reprovacao-lista',
+  templateUrl: './despesa-atendimento-reprovacao-lista.component.html',
   styles: [`.list-grid-despesa-atendimento-reprovacao {
-            grid-template-columns: 80px 80px 100px 100px 50px;
-            @screen sm { grid-template-columns: 80px 80px 100px 100px 50px; }
-            @screen md { grid-template-columns: 80px 80px 100px 100px 50px; }
-            @screen lg { grid-template-columns: 80px 80px 100px 100px 50px; }
+            grid-template-columns: 80px 80px auto 100px 100px 50px;
+            @screen sm { grid-template-columns: 80px 80px auto 100px 100px 50px; }
+            @screen md { grid-template-columns: 80px 80px auto 100px 100px 50px; }
+            @screen lg { grid-template-columns: 80px 80px auto 100px 100px 50px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
+
+export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
 {
   isLoading: boolean = false;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
@@ -32,19 +33,17 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
   despesaItemSelecionada: DespesaItem;
   despesaSelecionadaForm: FormGroup;
 
-  constructor (@Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<DespesaAtendimentoReprovacaoDialogComponent>,
-    private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
+  constructor (private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _formBuilder: FormBuilder,
+    private _route: ActivatedRoute,
     private _changeDetectorRef: ChangeDetectorRef)
   {
-    if (data)
-      this.codDespesaPeriodoTecnico = data.codDespesaPeriodoTecnico
+    this.codDespesaPeriodoTecnico = +this._route.snapshot.paramMap.get('codDespesaPeriodoTecnico');
   }
 
   async ngOnInit()
   {
-    await this.obterDespesas();
+    await this.getDespesas();
     this.criarForm();
     this.registerEmitters();
   }
@@ -81,7 +80,7 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
     });
   }
 
-  async obterDespesas()
+  async getDespesas()
   {
     this.isLoading = true;
 
@@ -110,12 +109,12 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
 
     this.despesaItemSelecionada = despesa;
 
-    await this.popularForm(despesa);
+    await this.populateForm(despesa);
 
     this._changeDetectorRef.markForCheck();
   }
 
-  async popularForm(despesaItem: DespesaItem)
+  async populateForm(despesaItem: DespesaItem)
   {
     var despesa = Enumerable.from(this.despesas)
       .firstOrDefault(i => Enumerable.from(i.despesaItens)
@@ -149,10 +148,10 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
       .setValue(despesaItem.obs ?? "Não consta");
 
     this.despesaSelecionadaForm.controls['destino']
-      .setValue(this.comporEndereco(despesaItem.enderecoDestino, despesaItem.bairroDestino, despesaItem.numDestino, despesaItem.cidadeDestino));
+      .setValue(this.populateAddress(despesaItem.enderecoDestino, despesaItem.bairroDestino, despesaItem.numDestino, despesaItem.cidadeDestino));
 
     this.despesaSelecionadaForm.controls['origem']
-      .setValue(this.comporEndereco(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, despesaItem.numOrigem, despesaItem.cidadeOrigem));
+      .setValue(this.populateAddress(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, despesaItem.numOrigem, despesaItem.cidadeOrigem));
 
     this.despesaSelecionadaForm.controls['indReprovado']
       .setValue(despesaItem.indReprovado == 1 ? true : false);
@@ -163,7 +162,7 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
     this.despesaItemSelecionada = null;
   }
 
-  private comporEndereco(endereco: string, bairro: string, numero: string, cidade: Cidade): string
+  private populateAddress(endereco: string, bairro: string, numero: string, cidade: Cidade): string
   {
     var enderecoFormatado = "";
 
@@ -185,7 +184,12 @@ export class DespesaAtendimentoReprovacaoDialogComponent implements OnInit
     return enderecoFormatado.toUpperCase();
   }
 
-  compararNoMapa()
+  showInMap()
+  {
+
+  }
+
+  paginar()
   {
 
   }

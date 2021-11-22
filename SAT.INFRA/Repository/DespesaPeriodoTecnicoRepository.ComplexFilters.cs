@@ -19,8 +19,8 @@ namespace SAT.INFRA.Repository
             query = from dpt in query
                     where dpt.CodDespesaPeriodoTecnicoStatus == aprovado
                        && !(from dpp in despesaProtocoloPeriodoTecnico
-                            select dpp.CodDespesaPeriodoTecnico)
-                            .Contains(dpt.CodDespesaPeriodoTecnico)
+                            select dpp.CodDespesaPeriodoTecnico).ToString()
+                            .Contains(dpt.CodDespesaPeriodoTecnico.ToString())
                     orderby dpt.Tecnico.Nome, dpt.DespesaPeriodo.DataInicio
                     select dpt;
 

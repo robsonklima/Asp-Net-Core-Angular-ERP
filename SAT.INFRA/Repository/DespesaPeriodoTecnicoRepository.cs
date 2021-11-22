@@ -11,19 +11,39 @@ namespace SAT.INFRA.Repository
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
         private readonly AppDbContext _context;
-        public DespesaPeriodoTecnicoRepository(AppDbContext context, IDespesaProtocoloPeriodoTecnicoRepository despesaProtocoloPeriodoTecnicoRepo)
+
+        public DespesaPeriodoTecnicoRepository(
+            AppDbContext context,
+            IDespesaProtocoloPeriodoTecnicoRepository despesaProtocoloPeriodoTecnicoRepo)
         {
             _context = context;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesaTecnico)
         {
-            throw new NotImplementedException();
+            DespesaPeriodoTecnico d =
+            _context.DespesaPeriodoTecnico
+            .SingleOrDefault(l => l.CodDespesaPeriodoTecnico == despesaTecnico.CodDespesaPeriodoTecnico);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaPeriodoTecnico despesa)
         {
-            throw new NotImplementedException();
+            _context.Add(despesa);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)

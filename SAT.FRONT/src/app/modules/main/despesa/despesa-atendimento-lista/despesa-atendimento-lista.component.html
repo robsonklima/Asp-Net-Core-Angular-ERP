@@ -1,4 +1,4 @@
-<mat-drawer-container class="flex-auto h-full">
+<mat-drawer-container class="flex-auto h-full" *transloco="let t">
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-despesa-atendimento-filtro [sidenav]="sidenav"></app-despesa-atendimento-filtro>
     </mat-drawer>
@@ -11,7 +11,7 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                    <div class="text-4xl font-extrabold tracking-tight">
                         {{ t('atendimentos') }}
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <ng-container>
                             <div class="grid">
                                 <div class="list-grid-despesa-atendimento z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                    matSort matSortDisableClear *transloco="let t">
+                                    matSort matSortDisableClear>
                                     <div>
                                         {{ t('data inicial') }}
                                     </div>
@@ -50,53 +50,72 @@
                                         {{ t('status') }}
                                     </div>
                                     <div>
-                                        Adiant.
-                                    </div>
-                                    <div>
-                                        {{ t('liberar') }}
-                                    </div>
-                                    <div>
                                         {{ t('ativo') }}
+                                    </div>
+                                    <div>
+                                        {{ t('acoes') }}
                                     </div>
                                 </div>
                                 <ng-container *ngIf="atendimentos?.items?.length">
                                     <ng-container *ngFor="let dp of atendimentos?.items">
-                                        <a [ngClass]="{'bg-red-100': dp.status?.codDespesaPeriodoTecnicoStatus == 3, 'bg-green-100': dp.status?.codDespesaPeriodoTecnicoStatus == 2, 'bg-yellow-100': dp.status?.codDespesaPeriodoTecnicoStatus == 1}"
-                                            [routerLink]="'relatorios/'+dp.codDespesaPeriodo">
-                                            <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                                *transloco="let t">
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.dataInicio | date:'dd/MM/yyyy' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.dataFim | date:'dd/MM/yyyy' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.totalDespesa | currency:'BRL':'symbol-narrow' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.totalAdiantamento | currency:'BRL':'symbol-narrow' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.restituirAEmpresa | currency:'BRL':'symbol-narrow' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.gastosExcedentes | currency:'BRL':'symbol-narrow' }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ (dp.status?.nomeDespesaPeriodoTecnicoStatus || "em edição") | uppercase }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    ---
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    ---
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ dp.indAtivo ? "SIM" : "NÃO" }}
-                                                </div>
+                                        <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                            [ngClass]="{'bg-red-100': dp.status?.codDespesaPeriodoTecnicoStatus ==
+                                                3, 'bg-green-100': dp.status?.codDespesaPeriodoTecnicoStatus == 2,
+                                                'bg-yellow-100': dp.status?.codDespesaPeriodoTecnicoStatus == 1}">
+                                            <div class="pointer-events-none">
+                                                {{ dp.dataInicio | date:'dd/MM/yyyy' }}
                                             </div>
-                                        </a>
+                                            <div class="pointer-events-none">
+                                                {{ dp.dataFim | date:'dd/MM/yyyy' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ dp.totalDespesa | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ dp.totalAdiantamento | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ dp.restituirAEmpresa | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ dp.gastosExcedentes | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ (dp.status?.nomeDespesaPeriodoTecnicoStatus || "em edição") | uppercase }}
+                                            </div>
+                                            <div class="pointer-events-none">
+                                                {{ dp.indAtivo ? "SIM" : "NÃO" }}
+                                            </div>
+                                            <div class="hidden md:block truncate">
+                                                <button class="cursor-pointer"
+                                                    [routerLink]="'relatorios/'+dp.codDespesaPeriodo">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('relatorios')"
+                                                        [svgIcon]="'heroicons_outline:view-list'">
+                                                    </mat-icon>
+                                                </button>
+                                                <button class="cursor-pointer" (click)="imprimir(dp)">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('imprimir')"
+                                                        [svgIcon]="'heroicons_outline:printer'">
+                                                    </mat-icon>
+                                                </button>
+                                                <button class="cursor-pointer" (click)="listarAdiantamentos(dp)">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('adiantamentos')"
+                                                        [svgIcon]="'heroicons_outline:credit-card'">
+                                                    </mat-icon>
+                                                </button>
+                                                <button class="cursor-pointer"
+                                                    [disabled]="userSession.usuario?.codPerfil != 35 || dp.status != null"
+                                                    (click)="liberar(dp)">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('liberar')"
+                                                        [svgIcon]="'heroicons_outline:switch-horizontal'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </ng-container>
                                 </ng-container>
                                 <div *ngIf="!atendimentos?.items?.length && !isLoading"

@@ -27,12 +27,13 @@ namespace SAT.SERVICES.Services
 
         public void Atualizar(DespesaPeriodoTecnico despesa)
         {
-            throw new System.NotImplementedException();
+            _despesaPeriodoTecnicoRepo.Atualizar(despesa);
         }
 
         public DespesaPeriodoTecnico Criar(DespesaPeriodoTecnico despesa)
         {
-            throw new System.NotImplementedException();
+            _despesaPeriodoTecnicoRepo.Criar(despesa);
+            return despesa;
         }
 
         public void Deletar(int codigo)

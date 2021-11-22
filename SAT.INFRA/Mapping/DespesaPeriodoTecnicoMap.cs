@@ -12,6 +12,10 @@ namespace SAT.INFRA.Mapping
                 .ToTable("DespesaPeriodoTecnico");
 
             builder
+                .Property(i => i.CodDespesaPeriodoTecnico)
+                .ValueGeneratedOnAdd();
+
+            builder
                 .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
 
             builder
@@ -22,7 +26,8 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(i => i.DespesaPeriodoTecnicoStatus)
                 .WithOne()
-                .HasForeignKey<DespesaPeriodoTecnico>(i => i.CodDespesaPeriodoTecnicoStatus);
+                .HasForeignKey<DespesaPeriodoTecnico>(i => i.CodDespesaPeriodoTecnicoStatus)
+                .HasPrincipalKey<DespesaPeriodoTecnicoStatus>(i => i.CodDespesaPeriodoTecnicoStatus);
 
             builder
                 .HasOne(i => i.Tecnico)

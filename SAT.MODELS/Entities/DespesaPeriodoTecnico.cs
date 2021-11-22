@@ -5,7 +5,7 @@ namespace SAT.MODELS.Entities
 {
     public class DespesaPeriodoTecnico
     {
-        public int CodDespesaPeriodoTecnico { get; set; }
+        public int? CodDespesaPeriodoTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
         public int CodTecnico { get; set; }
         public int CodDespesaPeriodoTecnicoStatus { get; set; }

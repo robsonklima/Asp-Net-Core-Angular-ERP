@@ -46,8 +46,7 @@ namespace SAT.SERVICES.Services
                 new DespesaPeriodoTecnicoParameters
                 {
                     CodTecnico = codTecnico.ToString(),
-                    CodDespesaPeriodo = codPeriodo,
-                    IndAtivoPeriodo = 1
+                    CodDespesaPeriodo = codPeriodo
                 }).SingleOrDefault();
 
         private List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(string codTecnico, int? codPeriodo = null) =>
@@ -81,6 +80,7 @@ namespace SAT.SERVICES.Services
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {
                     CodDespesaPeriodo = despesa.CodDespesaPeriodo,
+                    CodTecnico = codTecnico,
                     DataInicio = despesa.DataInicio,
                     DataFim = despesa.DataFim,
                     TotalDespesa = this.TotalDespesa(despesaPeriodoTecnico),

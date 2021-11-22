@@ -1,3 +1,4 @@
+import { DespesaAdiantamentoPeriodoConsultaTecnicoItem } from "./despesa-adiantamento.types";
 import { DespesaProtocoloPeriodoTecnico } from "./despesa-protocolo.types";
 import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
@@ -32,36 +33,36 @@ export interface DespesaPeriodoParameters extends QueryStringParameters
 export class DespesaPeriodoTecnicoStatus
 {
     codDespesaPeriodoTecnicoStatus: string;
-    nomeDespesaPeriodoTecnicoStatus: string;
+    nomeDespesaPeriodoTecnicoStatus?: string;
 }
 
 export class DespesaPeriodoTecnico
 {
-    codDespesaPeriodoTecnico: number;
+    codDespesaPeriodoTecnico?: number;
     codDespesaPeriodo: number;
-    despesaPeriodo: DespesaPeriodo;
-    despesas: Despesa[];
+    despesaPeriodo?: DespesaPeriodo;
+    despesas?: Despesa[];
     codTecnico: number;
-    tecnico: Tecnico;
-    despesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatus;
+    tecnico?: Tecnico;
+    despesaPeriodoTecnicoStatus?: DespesaPeriodoTecnicoStatus;
     codDespesaPeriodoTecnicoStatus: number;
     codUsuarioCad: string;
     dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-    codUsuarioCredito: string;
-    dataHoraCredito: string;
-    codUsuarioCreditoCancelado: string;
-    dataHoraCreditoCancelado: string;
-    indCredito: number;
-    codUsuarioVerificacao: string;
-    dataHoraVerificacao: string;
-    indVerificacao: number;
-    codUsuarioVerificacaoCancelado: string;
-    dataHoraVerificacaoCancelado: string;
-    indCompensacao: number;
-    dataHoraCompensacao: string;
-    codUsuarioCompensacao: string;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
+    codUsuarioCredito?: string;
+    dataHoraCredito?: string;
+    codUsuarioCreditoCancelado?: string;
+    dataHoraCreditoCancelado?: string;
+    indCredito?: number;
+    codUsuarioVerificacao?: string;
+    dataHoraVerificacao?: string;
+    indVerificacao?: number;
+    codUsuarioVerificacaoCancelado?: string;
+    dataHoraVerificacaoCancelado?: string;
+    indCompensacao?: number;
+    dataHoraCompensacao?: string;
+    codUsuarioCompensacao?: string;
     despesaProtocoloPeriodoTecnico?: DespesaProtocoloPeriodoTecnico;
     ticketLogPedidoCredito?: TicketLogPedidoCredito;
 }
@@ -99,6 +100,26 @@ export interface DespesaCreditosCartaoListView
     combustivel: number;
     indCreditado: boolean;
 }
+
+export interface DespesaPeriodoTecnicoAtendimentoItem
+{
+    codDespesaPeriodo: number;
+    codTecnico: string;
+    dataInicio: string;
+    dataFim: string;
+    totalDespesa: number;
+    totalAdiantamento: number;
+    restituirAEmpresa: number;
+    gastosExcedentes: number;
+    status: DespesaPeriodoTecnicoStatus;
+    indAtivo: boolean;
+};
+
+
+export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
+{
+    items: DespesaPeriodoTecnicoAtendimentoItem[];
+};
 
 export enum DespesaPeriodoTecnicoStatusEnum
 {

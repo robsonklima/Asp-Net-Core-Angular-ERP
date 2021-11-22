@@ -30,6 +30,11 @@ export interface DespesaAdiantamentoPeriodoData extends Meta
     items: DespesaAdiantamentoPeriodo[]
 };
 
+export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta
+{
+    items: DespesaAdiantamentoPeriodoConsultaTecnicoItem[];
+};
+
 export interface DespesaAdiantamento
 {
     codDespesaAdiantamento?: number;
@@ -62,29 +67,6 @@ export interface DespesaAdiantamentoParameters extends QueryStringParameters
     indAtivo?: number;
     codDespesaAdiantamentoTipo?: string;
     codTecnicos?: string;
-};
-
-export interface DespesaPeriodoTecnicoAtendimentoItem
-{
-    codDespesaPeriodo: number;
-    dataInicio: string;
-    dataFim: string;
-    totalDespesa: number;
-    totalAdiantamento: number;
-    restituirAEmpresa: number;
-    gastosExcedentes: number;
-    status: DespesaPeriodoTecnicoStatus;
-    indAtivo: boolean;
-};
-
-export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta
-{
-    items: DespesaAdiantamentoPeriodoConsultaTecnicoItem[];
-};
-
-export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
-{
-    items: DespesaPeriodoTecnicoAtendimentoItem[];
 };
 
 export interface DespesaAdiantamentoPeriodoConsultaTecnicoItem

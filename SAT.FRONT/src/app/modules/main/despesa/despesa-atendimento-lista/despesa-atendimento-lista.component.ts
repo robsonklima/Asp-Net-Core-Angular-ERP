@@ -7,22 +7,25 @@ import { UserService } from 'app/core/user/user.service';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ActivatedRoute } from '@angular/router';
+import { DespesaPeriodo, DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
 registerLocaleData(localePt);
 
 @Component({
   selector: 'app-despesa-atendimento-lista',
   templateUrl: './despesa-atendimento-lista.component.html',
-  styles: [`
-        .list-grid-despesa-atendimento {
-            grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px;
-            @screen sm { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
-            @screen md { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
-            @screen lg { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 50px 50px; }
+  styles: [`.list-grid-despesa-atendimento {
+            grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px;
+            @screen sm { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
+            @screen md { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
+            @screen lg { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -44,7 +47,9 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _snack: CustomSnackbarService,
+    private _dialog: MatDialog)
   {
     super(_userService, "despesa-atendimento");
     this.codTecnico = this._route.snapshot.paramMap.get('codTecnico');
@@ -110,5 +115,67 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   {
     this.onPaginationChanged();
     this.obterDados();
+  }
+
+
+  criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico
+  {
+
+    var dp: DespesaPeriodoTecnico =
+    {
+      codDespesaPeriodo: dpi.codDespesaPeriodo,
+      codTecnico: parseInt(dpi.codTecnico),
+      codDespesaPeriodoTecnicoStatus: parseInt(dpi.status.codDespesaPeriodoTecnicoStatus),
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      codUsuarioCad: this.userSession.usuario.codUsuario
+    }
+
+    return dp;
+  }
+
+  listarAtendimentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+
+  }
+
+  liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja liberar este período?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        dpi.status = { codDespesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'] };
+        var dp = this.criaDespesaPeriodoTecnico(dpi);
+
+        this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() =>
+        {
+          this._snack.exibirToast('Período liberado com sucesso!', 'success');
+          this.obterDados();
+        }, e =>
+        {
+          this._snack.exibirToast('Erro ao liberar período.', 'error');
+        })
+      }
+    });
+  }
+
+  listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+  }
+
+  imprimir(dp: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+
   }
 }

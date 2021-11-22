@@ -1,11 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { TurnoService } from 'app/core/services/turno.service';
 import { TurnoData, TurnoParameters } from 'app/core/types/turno.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -34,7 +38,10 @@ export class PontoTurnoListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _turnoSvc: TurnoService,
-    private _userSvc: UserService
+    private _userSvc: UserService,
+    private _dialog: MatDialog,
+    private _snack: CustomSnackbarService,
+    private _router: Router
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -91,7 +98,28 @@ export class PontoTurnoListaComponent implements AfterViewInit {
     this.obterDados();
   }
 
-  async remover() {
+  async remover(codTurno: number) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja excluir este turno?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        this._turnoSvc.deletar(codTurno).subscribe(() => {
+          this.obterDados();
+          this._snack.exibirToast('Turno removido com sucesso!', 'success');
+          this._router.navigate(['/ponto/turnos']);
+        }, e => {
+          this._snack.exibirToast('Erro ao remover turno', 'error');
+        })
+      }
+    });
   }
 }

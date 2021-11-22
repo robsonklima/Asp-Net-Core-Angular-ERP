@@ -28,8 +28,16 @@ import localeBr from '@angular/common/locales/pt';
 import { PontoRelatoriosAtendimentoComponent } from './ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
 import { MatTableModule } from '@angular/material/table';
 import { PontoInconsistenciaFormComponent } from './ponto-inconsistencia-form/ponto-inconsistencia-form.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
-registerLocaleData(localeBr, 'pt')
+registerLocaleData(localeBr, 'pt');
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+  return {
+      validation: false,
+  };
+};
 
 @NgModule({
   declarations: [
@@ -45,6 +53,7 @@ registerLocaleData(localeBr, 'pt')
   imports: [
     CommonModule,
     RouterModule.forChild(pontoRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     SharedModule,
     MatIconModule,
@@ -60,7 +69,8 @@ registerLocaleData(localeBr, 'pt')
     MatDatepickerModule,
     MatOptionModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })

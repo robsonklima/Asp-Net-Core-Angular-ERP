@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="flex flex-auto overflow-hidden">
-                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <div class="flex flex-col flex-auto overflow-hidden sm:overflow-y-auto">
                     <ng-container>
                         <ng-container>
                             <div class="grid">
@@ -31,6 +31,15 @@
                                     </div>
                                     <div>
                                         {{ t('valor') }}
+                                    </div>
+                                    <div>
+                                        {{ t('acoes') }}
+                                    </div>
+                                    <div>
+                                        {{ t('reprovar') }}
+                                    </div>
+                                    <div>
+                                        {{ t('detalhes') }}
                                     </div>
                                 </div>
                                 <ng-container *ngIf="despesas?.length">
@@ -51,10 +60,22 @@
                                                     {{ i?.despesaValor | currency:'BRL':'symbol-narrow' }}
                                                 </div>
                                                 <div>
-                                                    <button class="min-w-10 min-h-7 h-7 px-2" mat-stroked-button
-                                                        (click)="toggleDetails(i?.codDespesaItem)">
-                                                        <mat-icon class="icon-size-5" [svgIcon]="despesaItemSelecionada?.codDespesaItem === i.codDespesaItem ?
-                                        'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                    <button class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                                        mat-stroked-button [disabled]="i.codDespesaTipo != 1"
+                                                        [matTooltip]="t('comparar no mapa')" (click)="showInMap()">
+                                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:map'">
+                                                        </mat-icon>
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    <mat-slide-toggle [color]="'primary'">
+                                                    </mat-slide-toggle>
+                                                </div>
+                                                <div>
+                                                    <button class="min-w-10 min-h-7 h-7 px-2 justify-right"
+                                                        mat-stroked-button (click)="toggleDetails(i?.codDespesaItem)">
+                                                        <mat-icon class="icon-size-5"
+                                                            [svgIcon]="despesaItemSelecionada?.codDespesaItem === i.codDespesaItem ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                                         </mat-icon>
                                                     </button>
                                                 </div>
@@ -70,12 +91,6 @@
                                         </ng-container>
                                     </ng-container>
                                 </ng-container>
-                                <mat-paginator [hidden]="!despesas?.length"
-                                    class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                                    [ngClass]="{'pointer-events-none': isLoading}" [length]="despesas?.length"
-                                    [pageSize]="10" [pageSizeOptions]="[5, 10, 25,
-                                50]" [showFirstLastButtons]="true" (page)="paginar()">
-                                </mat-paginator>
                             </div>
                         </ng-container>
                     </ng-container>
@@ -86,11 +101,11 @@
 </mat-drawer-container>
 
 <ng-template #rowDetailsTemplate let-despesa>
-    <div class="shadow-lg mb-2" *transloco="let t">
+    <div class=" shadow-lg mb-2" *transloco="let t">
         <div class="border-b">
 
             <form [formGroup]="despesaSelecionadaForm">
-                <div class="flex flex-col p-2 text-sm mr-5">
+                <div class="flex flex-col p-8 text-sm mr-5">
                     <div class="flex flex-wrap min-w-full">
                         <mat-form-field class="fuse-mat-dense text-sm mr-5 pointer-events-none">
                             <mat-label>{{t('inicio')}}</mat-label>
@@ -155,25 +170,6 @@
                             <mat-label>{{t('endereco de destino')}}</mat-label>
                             <input matInput formControlName="destino" [readonly]="true">
                         </mat-form-field>
-                    </div>
-
-                    <div class="flex flex-col-2 justify-center">
-                        <div class="fuse-mat-dense flex flex-col text-sm mr-5"
-                            *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
-                            <span class="font-semibold mb-2">{{ t('comparar no mapa') }}</span>
-                            <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
-                                (click)="showInMap()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:map'">
-                                </mat-icon>
-                            </button>
-                        </div>
-
-                        <div class="fuse-mat-dense flex flex-col text-sm mr-5">
-                            <span class="font-semibold mb-2">{{ t('reprovar') }}</span>
-                            <mat-slide-toggle [formControlName]="'indReprovado'" [color]="'primary'">
-                                {{despesaSelecionadaForm.get('indReprovado').value === true ? t('reprovado') : t('aprovado') }}
-                            </mat-slide-toggle>
-                        </div>
                     </div>
                 </div>
             </form>

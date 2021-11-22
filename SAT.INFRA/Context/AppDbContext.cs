@@ -68,6 +68,7 @@ namespace SAT.INFRA.Context
         public DbSet<PontoUsuarioData> PontoUsuarioData { get; set; }
         public DbSet<PontoUsuarioDataTipoAdvertencia> PontoUsuarioDataTipoAdvertencia { get; set; }
         public DbSet<PontoUsuarioDataMotivoDivergencia> PontoUsuarioDataMotivoDivergencia { get; set; }
+        public DbSet<Turno> Turno { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -47,5 +47,8 @@
         public static int POS_VELOH_3 = 289;
         public static int POS_290_20_000 = 400;
         public static int POS_2020_290_20_012 = 401;
+
+        // Permissoes
+        public static string PERFIL_PONTO = "3";
     }
 }

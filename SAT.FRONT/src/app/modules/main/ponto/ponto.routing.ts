@@ -37,6 +37,10 @@ export const pontoRoutes: Route[] = [
         component: PontoTurnoFormComponent
     },
     {
+        path: 'ponto-turno-form/:codTurno',
+        component: PontoTurnoFormComponent
+    },
+    {
         path: 'ponto-horarios/:codPontoPeriodo/:codUsuario',
         component: PontoHorariosListaComponent
     }

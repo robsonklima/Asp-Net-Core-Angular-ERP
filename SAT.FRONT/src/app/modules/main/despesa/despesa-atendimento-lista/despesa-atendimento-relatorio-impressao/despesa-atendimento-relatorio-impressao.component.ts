@@ -2,9 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { DespesaProtocolo, DespesaProtocoloImpressaoListView } from 'app/core/types/despesa-protocolo.types';
+import { Despesa, DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import Enumerable from 'linq';
 
 @Component({
@@ -15,16 +18,15 @@ import Enumerable from 'linq';
 export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 {
   isLoading: boolean;
-  protocolo: DespesaProtocolo;
-  adiantamentos: DespesaAdiantamentoPeriodo[] = [];
-  listView: DespesaProtocoloImpressaoListView[] = [];
   codDespesaPeriodoTecnico: number;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
   centroDeCusto: string = appConfig.rd_centro_de_custo;
+  ordensServico: OrdemServico[] = [];
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _ordemServicoSvc: OrdemServicoService)
   {
 
     if (data)
@@ -37,6 +39,10 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 
     this.despesaPeriodoTecnico =
       (await this._despesaPeriodoTecnicoSvc.obterPorCodigo(this.codDespesaPeriodoTecnico).toPromise());
+
+    await this.obterOS();
+
+    console.log(this.despesaPeriodoTecnico.despesas)
 
     this.isLoading = false;
   }
@@ -57,5 +63,39 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
     return Enumerable.from(this.despesaPeriodoTecnico.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault().despesaCartaoCombustivel;
+  }
+
+  async obterOS()
+  {
+    var codigos = Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .select(i => i.relatorioAtendimento.codOS)
+      .distinct();
+
+    for (const c of codigos)
+    {
+      var os = (await this._ordemServicoSvc.obterPorCodigo(c).toPromise());
+      this.ordensServico.push(os);
+    };
+  }
+
+  obterCliente(dp: Despesa)
+  {
+    return Enumerable.from(this.ordensServico)
+      .firstOrDefault(i => i.codOS == dp.relatorioAtendimento.codOS).cliente.nomeFantasia;
+  }
+
+  obterTotalDespesa()
+  {
+    return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .selectMany(i => i.despesaItens)
+      .sum(i => i.despesaValor);
+  }
+
+  obterTotalQuilometragem()
+  {
+    return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .selectMany(i => i.despesaItens)
+      .where(i => i.codDespesaTipo == DespesaTipoEnum.KM)
+      .sum(i => i.kmPercorrido);
   }
 }

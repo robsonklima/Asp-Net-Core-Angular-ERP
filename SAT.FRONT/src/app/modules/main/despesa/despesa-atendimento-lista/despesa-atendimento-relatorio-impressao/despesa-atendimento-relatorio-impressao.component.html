@@ -11,7 +11,7 @@
 
                     <div class="flex items-start justify-between">
                         <div class="grid grid-cols-1 gap-x-4">
-                            <div class="text-4xl tracking-tight">
+                            <div class="text-3xl tracking-tight">
                                 {{ "Relatório de Despesas" | uppercase }}</div>
                             <div class="font-medium tracking-tight text-secondary">
                                 {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
@@ -20,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div style="font-size: 8px !important;" class="mt-10">
+                    <div style="font-size: 8px !important;" class="mt-5">
                         <div class="text-center">
                             <div class="inline-block mr-2 border-b border-t border-r">
                                 <div class="flex border-l text-left font-mono p-1">
@@ -126,6 +126,131 @@
                                     <p>
                                         &nbsp;
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="text-center mt-5" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                            <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                <div class="border-l text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('data') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('dia') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('os') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('rat') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('cliente') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('local origem') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('local destino') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    H.I.
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    H.F.
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    KM
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    &nbsp;
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    NF
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('tipo') | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                    {{  t('valor') | uppercase }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngFor="let d of despesaPeriodoTecnico.despesas">
+                            <ng-container *ngFor="let e of d.despesaItens">
+                                <div class="text-center" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                                    <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                        <div class="border-l text-left font-mono p-1 border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  (d?.relatorioAtendimento?.dataHoraInicio | date : 'full' : '' : 'pt-BR').split(',')[0] | uppercase }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codOS }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codRAT }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  obterCliente(d) | uppercase }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "" | uppercase }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "" | uppercase }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraInicio | date:'HH:mm' }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraSolucao | date:'HH:mm' }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{ e?.kmPercorrido }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            &nbsp;
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{ e?.numNF }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  e?.despesaTipo.nomeTipo | uppercase }}
+                                        </div>
+                                        <div class="text-left font-mono p-1 border-b border-r">
+                                            {{  e?.despesaValor | currency:'BRL':'symbol-narrow' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <div class="text-center" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                            <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div class="text-center font-semibold font-mono p-1 border-l border-b border-r">
+                                    {{ "total km" | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-b border-r">
+                                    {{  obterTotalQuilometragem() }}
+                                </div>
+                                <div class="border-b">&nbsp;</div>
+                                <div class="border-b">&nbsp;</div>
+                                <div class="text-center font-semibold font-mono p-1 border-l border-b border-r">
+                                    {{ "total despesa" | uppercase }}
+                                </div>
+                                <div class="text-left font-semibold font-mono p-1 border-b border-r">
+                                    {{  obterTotalDespesa() | currency:'BRL':'symbol-narrow' }}
                                 </div>
                             </div>
                         </div>

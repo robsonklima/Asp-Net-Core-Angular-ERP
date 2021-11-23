@@ -17,6 +17,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
+import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -178,6 +179,30 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   imprimir(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
+    const printDialog = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja imprimir o RD?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        },
+      }
+    });
+
+    printDialog.afterClosed().subscribe(async (confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this._dialog.open(DespesaAtendimentoRelatorioImpressaoComponent, {
+          panelClass: 'no-padding-dialog-container',
+          data:
+          {
+            codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+          }
+        });
+      }
+    });
 
   }
 }

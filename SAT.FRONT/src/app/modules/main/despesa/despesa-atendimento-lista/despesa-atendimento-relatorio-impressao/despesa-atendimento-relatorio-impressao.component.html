@@ -1,0 +1,192 @@
+        <div class="flex-auto h-200 min-w-screen text-center" *transloco="let t">
+            <button class="add-button" (click)="print()" [disabled]="isLoading">
+                <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+            </button>
+            <div class="inline-block text-left print:p-0">
+                <div class="loading-shade" *ngIf="isLoading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                </div>
+                <div id="print-area" class="h-200 min-w-screen overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto
+                    print:rounded-none print:shadow-none print:bg-transparent" *ngIf="!isLoading">
+
+                    <div class="flex items-start justify-between">
+                        <div class="grid grid-cols-1 gap-x-4">
+                            <div class="text-4xl tracking-tight">
+                                {{ "Relatório de Despesas" | uppercase }}</div>
+                            <div class="font-medium tracking-tight text-secondary">
+                                {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
+                        + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
+                        date:'dd/MM/yyyy') }}</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 8px !important;" class="mt-10">
+                        <div class="text-center">
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  t('nome') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.nome | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "CPF:"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.cpf | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('endereco') + ":"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.endereco + ", " + despesaPeriodoTecnico?.tecnico?.cidade?.nomeCidade + " - " + despesaPeriodoTecnico?.tecnico?.cidade?.unidadeFederativa?.siglaUF | uppercase }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('veiculo') + ":"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().carro }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  t('placa') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().placa }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('ano') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().ano }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('cartao combustivel') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().numero }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  t('filial') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.filial?.nomeFilial | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  t('centro de custo') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ centroDeCusto }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block mr-2 border-r border-b border-t">
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('banco') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('agencia') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('conta') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 text-sm">
+                            <div class="text-center">
+                                Revisei as despesas deste relatório e estou de pleno acordo com as mesmas.
+                            </div>
+
+                            <div class="mt-10 text-center">
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Data</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Funcionário</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Data</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Administrativo</div>
+                                </div>
+
+                                <div class="inline-block text-center">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Data</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Coordenador/Líder</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Aprovação da Gerência</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Controladoria</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <div class="flex items-start mt-4">
+                                <img class="flex-0 w-8 mt-2" src="assets/images/logo/logo.png">
+                                <div class="ml-6 text-sm text-secondary">
+                                    <div class="font-medium">Perto S.A.</div>
+                                    <div>Tecnologia para Bancos e Varejo</div>
+                                    <div class="font-medium">SAT - Sistema de Assistência Técnica</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

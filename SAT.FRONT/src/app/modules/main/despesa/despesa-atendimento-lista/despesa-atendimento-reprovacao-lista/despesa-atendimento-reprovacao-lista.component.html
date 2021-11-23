@@ -89,7 +89,7 @@
                                                 <div>
                                                     <button class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                                         mat-stroked-button [disabled]="i.codDespesaTipo != 1"
-                                                        [matTooltip]="t('comparar no mapa')" (click)="showInMap()">
+                                                        [matTooltip]="t('comparar no mapa')" (click)="showInMap(i)">
                                                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:map'">
                                                         </mat-icon>
                                                     </button>
@@ -183,6 +183,13 @@
                             <mat-label>{{t('km previsto')}}</mat-label>
                             <input matInput mask="separator.2" thousandSeparator="." decimalMarker=","
                                 formControlName="kmPrevisto" [readonly]="true">
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
+                        <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
+                            <mat-label>{{t('endereco de origem')}}</mat-label>
+                            <input matInput formControlName="origem" [readonly]="true">
                         </mat-form-field>
                     </div>
 

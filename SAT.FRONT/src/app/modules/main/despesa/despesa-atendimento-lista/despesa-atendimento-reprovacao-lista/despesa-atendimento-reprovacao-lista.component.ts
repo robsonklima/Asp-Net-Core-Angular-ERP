@@ -305,13 +305,19 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     });
   }
 
+  async showInMap(despesaItem: DespesaItem)
+  {
+    var destino = this.populateAddress(despesaItem.enderecoDestino, despesaItem.bairroDestino, despesaItem.numDestino, despesaItem.cidadeDestino)
+    var origem = this.populateAddress(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, despesaItem.numOrigem, despesaItem.cidadeOrigem);
+
+    var windowPopup = 
+      window.open(`https://www.google.com.br/maps/dir/${origem}/${destino}`, '_blank', 'width=800,height=800');
+
+    windowPopup.open();
+  }
+
   private temReprovacoes(): boolean
   {
     return Enumerable.from(this.despesaItens).any(i => i.indReprovado == 1);
-  }
-
-  showInMap()
-  {
-
   }
 }

@@ -87,15 +87,118 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   obterTotalDespesa()
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .where(i => i.indAtivo == 1)
       .selectMany(i => i.despesaItens)
+      .where(i => i.indAtivo == 1)
       .sum(i => i.despesaValor);
   }
 
   obterTotalQuilometragem()
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .where(i => i.indAtivo == 1)
       .selectMany(i => i.despesaItens)
-      .where(i => i.codDespesaTipo == DespesaTipoEnum.KM)
+      .where(i => i.indAtivo == 1 && i.codDespesaTipo == DespesaTipoEnum.KM)
       .sum(i => i.kmPercorrido);
+  }
+
+  obterTipoDespesa(tipo: DespesaTipoEnum)
+  {
+    return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .where(i => i.indAtivo == 1)
+      .selectMany(i => i.despesaItens)
+      .where(i => i.indAtivo == 1 && i.codDespesaTipo == tipo)
+      .sum(i => i.despesaValor);
+  }
+
+
+  obterTotalAluguelCarro()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.ALUGUEL_CARRO);
+  }
+
+  obterTotalCorreio()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.CORREIO);
+  }
+
+  obterTotalFrete()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.FRETE);
+  }
+
+  obterTotalOutros()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.OUTROS);
+  }
+
+  obterTotalPedagio()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.PEDAGIO);
+  }
+
+  obterTotalTaxi()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.TAXI);
+  }
+
+  obterTotalCartaoTelefonico()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.CARTAO_TEL);
+  }
+
+  obterTotalEstacionamento()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.ESTACIONAMENTO);
+  }
+
+  obterTotalHotel()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.HOTEL);
+  }
+
+  obterTotalPassagemAerea()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.PA);
+  }
+
+  obterTotalCartaoCombustivel()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.KM);
+  }
+
+  obterTotalTelefone()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.TELEFONE);
+  }
+
+  obterTotalCombustivel()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.COMBUSTIVEL);
+  }
+
+  obterTotalFerramenta()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.FERRAMENTAS);
+  }
+
+  obterTotalOnibus()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.ONIBUS);
+  }
+
+  obterTotalPecas()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.PECAS);
+  }
+
+  obterTotalRefeicao()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.REFEICAO);
+  }
+
+  obterTotalInternet()
+  {
+    return this.obterTipoDespesa(DespesaTipoEnum.INTERNET);
   }
 }

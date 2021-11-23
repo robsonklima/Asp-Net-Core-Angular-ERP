@@ -255,6 +255,164 @@
                             </div>
                         </div>
 
+                        <div class="text-center mt-5 font-semibold">
+                            TOTALIZAÇÃO DE DESPESAS
+                        </div>
+                        <div class="text-center">
+                            <div class="inline-block border-b border-t border-r">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "aluguel de carro:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalAluguelCarro() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "correio:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCorreio() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('frete') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalFrete() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('outros') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalOutros() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('pedagio') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPedagio() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('taxi') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalTaxi() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  "cartão telefônico:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCartaoTelefonico() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "estacionamento:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalEstacionamento() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ 'hotel:' | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalHotel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ 'passagem aérea:' | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPassagemAerea() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('cartao combustivel:')| uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ t('telefone') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalTelefone() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{  t('combustivel') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCombustivel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "ferramenta/instrumento:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalFerramenta() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "ônibus/metrô:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalOnibus() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "peça/componente:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPecas() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "refeição:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalRefeicao() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <p class="font-bold mr-1">
+                                        {{ "internet:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalInternet() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mt-10 text-sm">
                             <div class="text-center">
                                 Revisei as despesas deste relatório e estou de pleno acordo com as mesmas.

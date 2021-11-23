@@ -259,7 +259,8 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
         this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() =>
         {
           this._snack.exibirToast('Período aprovado com sucesso!', 'success');
-        }, e =>
+        }, 
+        e =>
         {
           this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE']);
           this._snack.exibirToast('Erro ao aprovar período.', 'error');
@@ -307,8 +308,13 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
 
   async showInMap(despesaItem: DespesaItem)
   {
-    var destino = this.populateAddress(despesaItem.enderecoDestino, despesaItem.bairroDestino, despesaItem.numDestino, despesaItem.cidadeDestino)
-    var origem = this.populateAddress(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, despesaItem.numOrigem, despesaItem.cidadeOrigem);
+    var destino = 
+      this.populateAddress(despesaItem.enderecoDestino, despesaItem.bairroDestino, 
+                           despesaItem.numDestino, despesaItem.cidadeDestino);
+
+    var origem = 
+      this.populateAddress(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, 
+                           despesaItem.numOrigem, despesaItem.cidadeOrigem);
 
     var windowPopup = 
       window.open(`https://www.google.com.br/maps/dir/${origem}/${destino}`, '_blank', 'width=800,height=800');

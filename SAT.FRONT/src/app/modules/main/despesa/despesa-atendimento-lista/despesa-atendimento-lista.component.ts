@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
+import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -53,7 +54,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     private _dialog: MatDialog)
   {
     super(_userService, "despesa-atendimento");
-    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico');
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
   }
 
   ngAfterViewInit()
@@ -78,11 +79,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   private async obterDespesasPeriodoTecnico()
   {
-    var codTecnico: string =
-      this.userSession.usuario?.codTecnico || this.codTecnico;
-
     this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
-      codTecnico: codTecnico,
+      codTecnico: this.codTecnico,
       indAtivoPeriodo: this.filter?.parametros?.indAtivo,
       codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
       inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
@@ -169,6 +167,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
 
+    this._dialog.open(DespesaAtendimentoAdiantamentoDialogComponent, {
+      data:
+      {
+        codTecnico: this.codTecnico,
+        codPeriodo: dpi.codDespesaPeriodo
+      }
+    });
   }
 
   imprimir(dpi: DespesaPeriodoTecnicoAtendimentoItem)

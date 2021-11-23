@@ -39,6 +39,10 @@ export const despesaRoutes: Route[] = [
         component: DespesaAtendimentoRelatorioListaComponent
     },
     {
+        path: 'atendimentos/:codTecnico/relatorios/:codDespesaPeriodo',
+        component: DespesaAtendimentoRelatorioListaComponent
+    },
+    {
         path: 'atendimentos/relatorios/:codDespesaPeriodo/despesa/:codRAT',
         component: DespesaManutencaoComponent
     },

@@ -88,7 +88,9 @@
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 <button class="cursor-pointer"
-                                                    [routerLink]="'relatorios/'+dp.codDespesaPeriodo">
+                                                    [routerLink]="userSession.usuario?.codPerfil ==
+                                                    35 ? '/despesa/atendimentos/relatorios/'+dp.codDespesaPeriodo :
+                                                    '/despesa/atendimentos/'+codTecnico+'/relatorios/'+dp.codDespesaPeriodo">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('relatorios')"
                                                         [svgIcon]="'heroicons_outline:view-list'">

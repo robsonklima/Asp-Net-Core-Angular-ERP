@@ -45,6 +45,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
   despesas: DespesaData;
   rats: RelatorioAtendimentoData;
   ordemServico: OrdemServicoData;
+  codTecnico: string;
 
   constructor (
     protected _userService: UserService,
@@ -56,6 +57,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     private _ordemServicoSvc: OrdemServicoService)
   {
     super(_userService, "despesa-atendimento-relatorio");
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico');
   }
 
   async ngAfterViewInit()
@@ -89,10 +91,11 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterRATs()
   {
-    this.rats = this.userSession.usuario?.codTecnico != null ?
+    var codTecnico = this.userSession.usuario?.codTecnico || this.codTecnico;
+    this.rats = codTecnico != null ?
       (await this._relatorioAtendimentoSvc.obterPorParametros
         ({
-          codTecnicos: this.userSession.usuario.codTecnico,
+          codTecnicos: codTecnico,
           dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
           dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
         }).toPromise()) : null;
@@ -100,17 +103,19 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterDespesas()
   {
+    var codTecnico = this.userSession.usuario?.codTecnico || this.codTecnico;
+
     var codigos: string =
       Enumerable.from(this.rats.items)
         .select(i => i.codRAT)
         .distinct()
         .toJoinedString(',');
 
-    this.despesas = this.userSession.usuario?.codTecnico != null && codigos?.length > 0 ?
+    this.despesas = codTecnico != null && codigos?.length > 0 ?
       (await this._despesaSvc.obterPorParametros
         ({
           codRATs: codigos,
-          codTecnico: this.userSession.usuario?.codTecnico
+          codTecnico: codTecnico
         }).toPromise()) : null;
   }
 

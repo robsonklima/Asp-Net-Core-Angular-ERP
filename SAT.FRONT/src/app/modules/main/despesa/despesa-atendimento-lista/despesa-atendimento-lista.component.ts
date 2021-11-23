@@ -121,7 +121,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico
   {
-
     var dp: DespesaPeriodoTecnico =
     {
       codDespesaPeriodo: dpi.codDespesaPeriodo,
@@ -132,11 +131,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     }
 
     return dp;
-  }
-
-  listarAtendimentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
-  {
-
   }
 
   liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
@@ -163,19 +157,21 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
         {
           this._snack.exibirToast('Período liberado com sucesso!', 'success');
           this.obterDados();
-        }, e =>
-        {
-          this._snack.exibirToast('Erro ao liberar período.', 'error');
-        })
+        },
+          e =>
+          {
+            this._snack.exibirToast('Erro ao liberar período.', 'error');
+          })
       }
     });
   }
 
   listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
+
   }
 
-  imprimir(dp: DespesaPeriodoTecnicoAtendimentoItem)
+  imprimir(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
 
   }

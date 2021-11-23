@@ -7,9 +7,39 @@
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
-                <div>
-                    <div class="text-4xl font-extrabold tracking-tight">
-                        {{ "Manutenção de Reprovação das Despesas" }}
+                <div class="flex-1 min-w-0">
+                    <div class="flex flex-wrap items-center font-medium">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500"
+                                routerLink="/despesa/atendimentos/{{despesaPeriodoTecnico?.codTecnico}}">
+                                {{ t('atendimentos') }}
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span
+                                class="ml-1 text-secondary">{{ despesaPeriodoTecnico?.tecnico?.nome | titlecase }}</span>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span class="ml-1 text-secondary">{{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
+                        + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
+                        date:'dd/MM/yyyy') }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight">
+                            {{ t('analise de despesas') }}
+                        </div>
+                        <div class="flex flex-row flex-wrap">
+                            <div class="text-2x1 text-secondary font-semibold" [ngClass]="{'text-red-500': despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 3, 
+                        'text-green-500': despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 2}">
+                                {{ despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 2 ? "APROVADO" :
+                            despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 3 ? "REPROVADO" : "LIBERADO PARA ANÁLISE" }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -18,7 +48,7 @@
                     <ng-container>
                         <ng-container>
                             <div class="grid">
-                                <div class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                <div class="list-grid-despesa-atendimento-reprovacao z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                     matSort matSortDisableClear>
                                     <div>
                                         {{ t('data inicial') }}
@@ -36,17 +66,14 @@
                                         {{ t('acoes') }}
                                     </div>
                                     <div>
-                                        {{ t('reprovar') }}
-                                    </div>
-                                    <div>
                                         {{ t('detalhes') }}
                                     </div>
                                 </div>
                                 <ng-container *ngIf="despesas?.length">
                                     <ng-container *ngFor="let d of despesas">
                                         <ng-container *ngFor="let i of d.despesaItens">
-                                            <div
-                                                class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                            <div class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                [ngClass]="{'bg-red-100': i.indReprovado == 1}">
                                                 <div class="pointer-events-none">
                                                     {{ d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
                                                 </div>
@@ -68,10 +95,6 @@
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <mat-slide-toggle [color]="'primary'">
-                                                    </mat-slide-toggle>
-                                                </div>
-                                                <div>
                                                     <button class="min-w-10 min-h-7 h-7 px-2 justify-right"
                                                         mat-stroked-button (click)="toggleDetails(i?.codDespesaItem)">
                                                         <mat-icon class="icon-size-5"
@@ -91,6 +114,25 @@
                                         </ng-container>
                                     </ng-container>
                                 </ng-container>
+                            </div>
+                            <div class="text-center">
+                                <button class='ml-2 mt-2' mat-icon-button
+                                    [disabled]="despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != 1"
+                                    (click)="aprovarPeriodoTecnico()" matTooltipPosition="after"
+                                    [matTooltip]="t('aprovar')">
+                                    <mat-icon
+                                        style="height:35px !important; width:35px !important; font-size:35px !important;"
+                                        class="text-green-500" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
+                                </button>
+
+                                <button class='m-2' mat-icon-button
+                                    [disabled]="despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != 1"
+                                    (click)="reprovarPeriodoTecnico()" matTooltipPosition="after"
+                                    [matTooltip]="t('reprovar')">
+                                    <mat-icon
+                                        style="height:35px !important; width:35px !important; font-size:35px !important;"
+                                        class="text-red-500" [svgIcon]="'heroicons_outline:minus-circle'"></mat-icon>
+                                </button>
                             </div>
                         </ng-container>
                     </ng-container>
@@ -144,31 +186,26 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="flex flex-auto flex-wrap" *ngIf="despesaItemSelecionada.obsReprovacao">
-                        <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
-                            <mat-label>{{t('motivo')}}</mat-label>
-                            <input matInput formControlName="motivo" [readonly]="true">
-                        </mat-form-field>
-                    </div>
-
-                    <div *ngIf="despesaItemSelecionada.obs">
-                        <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
-                            <mat-label>{{t('observacao')}}</mat-label>
-                            <input matInput formControlName="observacao" [readonly]="true">
-                        </mat-form-field>
-                    </div>
-
-                    <div *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
-                        <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
-                            <mat-label>{{t('endereco de origem')}}</mat-label>
-                            <input matInput formControlName="origem" [readonly]="true">
-                        </mat-form-field>
-                    </div>
-
                     <div *ngIf="despesaItemSelecionada.codDespesaTipo == 1">
                         <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
                             <mat-label>{{t('endereco de destino')}}</mat-label>
                             <input matInput formControlName="destino" [readonly]="true">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="fuse-mat-dense flex flex-col text-sm mr-5 mb-5">
+                        <span class="font-semibold mb-2">{{ t('reprovar') }}</span>
+                        <mat-slide-toggle [formControlName]="'indReprovado'" [color]="'warn'">
+                            {{despesaSelecionadaForm.get('indReprovado').value === true ? t('reprovado') : t('aprovado') }}
+                        </mat-slide-toggle>
+                    </div>
+
+                    <div *ngIf="showObservacao">
+                        <mat-form-field class="fuse-mat-dense text-sm min-w-full">
+                            <mat-label>{{t('obs reprovacao')}}</mat-label>
+                            <textarea matInput autocomplete="off" cdkTextareaAutosize cdkAutosizeMinRows="3"
+                                formControlName="obsReprovacao">
+                            </textarea>
                         </mat-form-field>
                     </div>
                 </div>

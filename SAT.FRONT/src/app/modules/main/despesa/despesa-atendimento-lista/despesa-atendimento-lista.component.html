@@ -108,9 +108,7 @@
                                                 </button>
                                                 <button class="cursor-pointer"
                                                     [routerLink]="'/despesa/atendimentos/'+codTecnico+'/reprovacao/'+dp.codDespesaPeriodoTecnico"
-                                                    [disabled]="dp.status?.codDespesaPeriodoTecnicoStatus
-                                                !=
-                                                    periodoLiberado">
+                                                    [disabled]="dp.status == null">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('analisar')"
                                                         [svgIcon]="'heroicons_outline:check-circle'">

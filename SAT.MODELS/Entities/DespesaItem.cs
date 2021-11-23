@@ -45,7 +45,7 @@ namespace SAT.MODELS.Entities
         public string TentativaKM { get; set; }
         public string Obs { get; set; }
         public string ObsReprovacao { get; set; }
-        public int CodDespesaItemAlerta { get; set; }
+        public int? CodDespesaItemAlerta { get; set; }
         public byte IndWebrascaIndisponivel { get; set; }
         public byte IndReprovado { get; set; }
         public byte IndAtivo { get; set; }

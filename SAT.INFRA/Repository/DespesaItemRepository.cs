@@ -21,7 +21,23 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaItem despesaItem)
         {
-            throw new NotImplementedException();
+            DespesaItem d =
+             _context.DespesaItem
+             .FirstOrDefault(l => l.CodDespesaItem == despesaItem.CodDespesaItem);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesaItem);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaItem despesaItem)

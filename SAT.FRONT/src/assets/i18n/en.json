@@ -363,5 +363,8 @@
     "motivo": "Reason",
     "endereco de origem":"Origin Address",
     "endereco de destino":"Destination Address",
-    "comparar no mapa": "Compare on Map"
+    "comparar no mapa": "Compare on Map",
+    "obs reprovacao": "Fail Note",
+    "analise de despesas": "Expense Analysis",
+    "aprovar": "Approve"
 }

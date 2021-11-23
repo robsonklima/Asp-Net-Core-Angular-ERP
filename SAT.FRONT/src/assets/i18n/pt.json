@@ -366,5 +366,8 @@
     "motivo": "Motivo",
     "endereco de origem":"Endereço de Origem",
     "endereco de destino":"Endereço de Destino",
-    "comparar no mapa": "Comparar no Mapa"
+    "comparar no mapa": "Comparar no Mapa",
+    "obs reprovacao": "Observação Reprovação",
+    "analise de despesas": "Análise de Despesas",
+    "aprovar": "Aprovar"
 }

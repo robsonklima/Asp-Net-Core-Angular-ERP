@@ -6,21 +6,21 @@
                 <div class="loading-shade" *ngIf="isLoading">
                     <mat-spinner diameter="50"></mat-spinner>
                 </div>
-                <div id="print-area" class="h-200 min-w-screen overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto
+                <div id="print-area" class="h-200 min-w-screen overflow-auto p-10 rounded-2xl shadow bg-card print:w-auto
                     print:rounded-none print:shadow-none print:bg-transparent" *ngIf="!isLoading">
 
                     <div class="flex items-start justify-between">
                         <div class="grid grid-cols-1 gap-x-4">
                             <div class="text-lg tracking-tight">
                                 {{ "Relatório de Despesas" | uppercase }}</div>
-                            <div class="font-medium tracking-tight text-secondary">
+                            <div class="text-lg tracking-tight">
                                 {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
                         + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
                         date:'dd/MM/yyyy') }}</div>
                         </div>
                     </div>
 
-                    <div style="font-size: 8px !important;" class="mt-3">
+                    <div style=" font-size: 8px !important;" class="mt-3">
                         <div class="text-center">
                             <div class="inline-block mr-2 border-b border-t border-r">
                                 <div class="flex border-l text-left font-mono">
@@ -132,46 +132,46 @@
 
                         <div class="text-center mt-3" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
                             <div class="grid grid-flow-col auto-cols-fr text-center justify">
-                                <div class="border-l text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="border-l text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('data') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('dia') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('os') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('rat') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('cliente') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('local origem') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('local destino') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     H.I.
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     H.F.
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     KM
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     &nbsp;
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     NF
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('tipo') | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-r border-b border-t">
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
                                     {{  t('valor') | uppercase }}
                                 </div>
                             </div>
@@ -181,46 +181,46 @@
                             <ng-container *ngFor="let e of d.despesaItens">
                                 <div class="text-center" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
                                     <div class="grid grid-flow-col auto-cols-fr text-center justify">
-                                        <div class="border-l text-left font-mono p-1 border-b border-r">
+                                        <div class="border-l text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  (d?.relatorioAtendimento?.dataHoraInicio | date : 'full' : '' : 'pt-BR').split(',')[0] | uppercase }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.codOS }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.codRAT }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  obterCliente(d) | uppercase }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "" | uppercase }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "" | uppercase }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.dataHoraInicio | date:'HH:mm' }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.dataHoraSolucao | date:'HH:mm' }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{ e?.kmPercorrido }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             &nbsp;
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{ e?.numNF }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  e?.despesaTipo.nomeTipo | uppercase }}
                                         </div>
-                                        <div class="text-left font-mono p-1 border-b border-r">
+                                        <div class="text-center font-mono border-b border-r">
                                             {{  e?.despesaValor | currency:'BRL':'symbol-narrow' }}
                                         </div>
                                     </div>
@@ -237,18 +237,18 @@
                                 <div>&nbsp;</div>
                                 <div>&nbsp;</div>
                                 <div>&nbsp;</div>
-                                <div class="text-center font-semibold font-mono p-1 border-l border-b border-r">
+                                <div class="text-center font-semibold font-mono border-l border-b border-r">
                                     {{ "total km" | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-b border-r">
+                                <div class="text-center font-semibold font-mono border-b border-r">
                                     {{  obterTotalQuilometragem() }}
                                 </div>
                                 <div class="border-b">&nbsp;</div>
                                 <div class="border-b">&nbsp;</div>
-                                <div class="text-center font-semibold font-mono p-1 border-l border-b border-r">
+                                <div class="text-center font-semibold font-mono border-l border-b border-r">
                                     {{ "total despesa" | uppercase }}
                                 </div>
-                                <div class="text-left font-semibold font-mono p-1 border-b border-r">
+                                <div class="text-center font-semibold font-mono border-b border-r">
                                     {{  obterTotalDespesa() | currency:'BRL':'symbol-narrow' }}
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                         </div>
                         <div class="text-center">
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold mr-1">
                                         {{ "aluguel de carro:" | uppercase }}
                                     </p>
@@ -267,7 +267,7 @@
                                         {{ obterTotalAluguelCarro() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold mr-1">
                                         {{ "correio:" | uppercase }}
                                     </p>
@@ -275,7 +275,7 @@
                                         {{ obterTotalCorreio() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold mr-1">
                                         {{ t('frete') + ":" | uppercase }}
                                     </p>
@@ -286,7 +286,7 @@
                             </div>
 
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ t('outros') + ":" | uppercase }}
                                     </p>
@@ -294,7 +294,7 @@
                                         {{ obterTotalOutros() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ t('pedagio') + ":" | uppercase }}
                                     </p>
@@ -302,7 +302,7 @@
                                         {{ obterTotalPedagio() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ t('taxi') + ":" | uppercase }}
                                     </p>
@@ -313,7 +313,7 @@
                             </div>
 
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{  "cartão telefônico:" | uppercase }}
                                     </p>
@@ -321,7 +321,7 @@
                                         {{ obterTotalCartaoTelefonico() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ "estacionamento:" | uppercase }}
                                     </p>
@@ -329,7 +329,7 @@
                                         {{ obterTotalEstacionamento() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ 'hotel:' | uppercase }}
                                     </p>
@@ -340,7 +340,7 @@
                             </div>
 
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ 'passagem aérea:' | uppercase }}
                                     </p>
@@ -348,7 +348,7 @@
                                         {{ obterTotalPassagemAerea() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ t('cartao combustivel:')| uppercase }}
                                     </p>
@@ -356,7 +356,7 @@
                                         {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
                                     <p class="font-bold">
                                         {{ t('telefone') + ":" | uppercase }}
                                     </p>
@@ -368,7 +368,7 @@
 
 
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{  t('combustivel') + ":" | uppercase }}
                                     </p>
@@ -376,7 +376,7 @@
                                         {{ obterTotalCombustivel() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ "ferramenta/instrumento:" | uppercase }}
                                     </p>
@@ -384,7 +384,7 @@
                                         {{ obterTotalFerramenta() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ "ônibus/metrô:" | uppercase }}
                                     </p>
@@ -395,7 +395,7 @@
                             </div>
 
                             <div class="inline-block border-b border-t border-r max-w-21">
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{  "peça/componente:" | uppercase }}
                                     </p>
@@ -403,7 +403,7 @@
                                         {{ obterTotalPecas() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ "refeição:" | uppercase }}
                                     </p>
@@ -411,7 +411,7 @@
                                         {{ obterTotalRefeicao() | currency:'BRL':'symbol-narrow' }}
                                     </p>
                                 </div>
-                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                     <p class="font-bold">
                                         {{ "internet:" | uppercase }}
                                     </p>
@@ -426,61 +426,55 @@
                             </div>
                             <div class="text-center">
                                 <div class="inline-block border-b border-t border-r">
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{ t('despesas') + ":" | uppercase }}
                                         </p>
-                                        <p class="text-right">
-                                            ---
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalDespesaSemKM() | currency:'BRL':'symbol-narrow' }}
                                         </p>
                                     </div>
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{ t('adiantamentos') + ":" | uppercase }}
                                         </p>
-                                        <p class="text-right">
-                                            ---
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalAdiantamentos() | currency:'BRL':'symbol-narrow' }}
                                         </p>
                                     </div>
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{ 'receber via depósito:' | uppercase }}
                                         </p>
-                                        <p class="text-right">
+                                        <p class="font-bold text-right">
                                             ---
                                         </p>
                                     </div>
                                 </div>
 
                                 <div class="inline-block border-b border-t border-r">
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{  "percentual outros:" | uppercase }}
                                         </p>
-                                        <p class="text-right">
-                                            ---
+                                        <p class="font-bold text-right">
+                                            {{ (obterTotalDespesaSemKM() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
                                         </p>
                                     </div>
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{ "percentual CB:" | uppercase }}
                                         </p>
-                                        <p class="text-right">
-                                            ---
+                                        <p class="font-bold text-right">
+                                            {{ (obterTotalCartaoCombustivel() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
                                         </p>
                                     </div>
-                                    <div
-                                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono p-1">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                                         <p class="font-bold">
                                             {{ 'Crédito via CB:' | uppercase }}
                                         </p>
-                                        <p class="text-right">
-                                            ---
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
                                         </p>
                                     </div>
                                 </div>

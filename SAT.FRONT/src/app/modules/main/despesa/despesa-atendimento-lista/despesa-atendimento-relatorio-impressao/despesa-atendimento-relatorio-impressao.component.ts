@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
-import { DespesaProtocolo, DespesaProtocoloImpressaoListView } from 'app/core/types/despesa-protocolo.types';
 import { Despesa, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import Enumerable from 'linq';
@@ -22,10 +22,12 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
   centroDeCusto: string = appConfig.rd_centro_de_custo;
   ordensServico: OrdemServico[] = [];
+  adiantamentos: DespesaAdiantamentoPeriodo[] = [];
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
     private _ordemServicoSvc: OrdemServicoService)
   {
 
@@ -41,8 +43,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
       (await this._despesaPeriodoTecnicoSvc.obterPorCodigo(this.codDespesaPeriodoTecnico).toPromise());
 
     await this.obterOS();
-
-    console.log(this.despesaPeriodoTecnico.despesas)
+    await this.obterAdiantamentos();
 
     this.isLoading = false;
   }
@@ -58,11 +59,13 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
     windowPopup.document.close();
   }
 
-  obterCartaoCombustivel()
+  async obterAdiantamentos()
   {
-    return Enumerable.from(this.despesaPeriodoTecnico.tecnico.despesaCartaoCombustivelTecnico)
-      .orderByDescending(i => i.dataHoraInicio)
-      .firstOrDefault().despesaCartaoCombustivel;
+    this.adiantamentos = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros(
+      {
+        codTecnico: this.despesaPeriodoTecnico.codTecnico,
+        codDespesaPeriodo: this.despesaPeriodoTecnico.codDespesaPeriodo
+      }).toPromise()).items;
   }
 
   async obterOS()
@@ -76,6 +79,14 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
       var os = (await this._ordemServicoSvc.obterPorCodigo(c).toPromise());
       this.ordensServico.push(os);
     };
+  }
+
+
+  obterCartaoCombustivel()
+  {
+    return Enumerable.from(this.despesaPeriodoTecnico.tecnico.despesaCartaoCombustivelTecnico)
+      .orderByDescending(i => i.dataHoraInicio)
+      .firstOrDefault().despesaCartaoCombustivel;
   }
 
   obterCliente(dp: Despesa)
@@ -110,7 +121,6 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
       .where(i => i.indAtivo == 1 && i.codDespesaTipo == tipo)
       .sum(i => i.despesaValor);
   }
-
 
   obterTotalAluguelCarro()
   {
@@ -200,5 +210,21 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   obterTotalInternet()
   {
     return this.obterTipoDespesa(DespesaTipoEnum.INTERNET);
+  }
+
+  obterTotalDespesaSemKM()
+  {
+    return Enumerable.from(this.despesaPeriodoTecnico.despesas)
+      .where(i => i.indAtivo == 1)
+      .selectMany(i => i.despesaItens)
+      .where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM)
+      .sum(i => i.despesaValor);
+  }
+
+  obterTotalAdiantamentos()
+  {
+    return Enumerable.from(this.adiantamentos)
+      .where(i => i.despesaAdiantamento.indAtivo == 1)
+      .sum(i => i.despesaAdiantamento.valorAdiantamento);
   }
 }

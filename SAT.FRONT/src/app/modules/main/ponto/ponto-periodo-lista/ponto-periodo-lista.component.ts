@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-ge {
-          grid-template-columns: 72px 136px 136px 136px auto 154px 164px;
+          grid-template-columns: 72px 136px 136px 136px auto 154px 200px;
       }
     `
   ],

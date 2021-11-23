@@ -116,8 +116,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Horários'"
                                             matTooltipPosition="above"
-                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario"
-                                            [disabled]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'">
+                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:clock'"></mat-icon>

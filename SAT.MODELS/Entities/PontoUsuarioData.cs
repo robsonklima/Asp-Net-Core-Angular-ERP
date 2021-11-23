@@ -18,6 +18,9 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
         public int CodPontoUsuarioDataStatusAcesso { get; set; }
+        
+        [NotMapped]
+        public DateTime? HorasExtras { get; set; }
 
         [ForeignKey("CodPontoUsuarioDataStatus")]
         public PontoUsuarioDataStatus PontoUsuarioDataStatus { get; set; }

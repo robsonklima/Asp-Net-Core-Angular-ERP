@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { PontoUsuario, PontoUsuarioData, PontoUsuarioParameters } from '../types/ponto-usuario.types';
+import { PontoUsuario, PontoUsuarioDt, PontoUsuarioParameters } from '../types/ponto-usuario.types';
 import { appConfig as c } from 'app/core/config/app.config'
 
 @Injectable({
@@ -11,7 +11,7 @@ import { appConfig as c } from 'app/core/config/app.config'
 export class PontoUsuarioService {
   constructor(private http: HttpClient) {}
 
-  obterPorParametros(parameters: PontoUsuarioParameters): Observable<PontoUsuarioData> {
+  obterPorParametros(parameters: PontoUsuarioParameters): Observable<PontoUsuarioDt> {
     let params = new HttpParams();
     
     Object.keys(parameters).forEach(key => {
@@ -19,7 +19,7 @@ export class PontoUsuarioService {
     });
 
     return this.http.get(`${c.api}/PontoUsuario`, { params: params }).pipe(
-      map((data: PontoUsuarioData) => data)
+      map((data: PontoUsuarioDt) => data)
     )
   }
 

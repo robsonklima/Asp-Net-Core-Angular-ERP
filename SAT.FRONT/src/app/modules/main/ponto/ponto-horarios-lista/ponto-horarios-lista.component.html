@@ -7,9 +7,14 @@
         <div class="flex flex-auto items-center min-w-0" *transloco="let t">
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center font-medium">
-                    <div>
+                    <div *ngIf="userSession.usuario.codPerfil !== 35">
                         <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ponto/colaboradores/' + codPontoPeriodo">
                             {{ t('ponto colaboradores') }}
+                        </a>
+                    </div>
+                    <div *ngIf="userSession.usuario.codPerfil === 35">
+                        <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ponto/periodos'">
+                            {{ t('periodos') }}
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
@@ -22,7 +27,7 @@
                 <div class="mt-2">
                     <h2
                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        {{ dataSourceData?.items[0].usuario.nomeUsuario | titlecase }}
+                        {{ usuario?.nomeUsuario | titlecase }}
                     </h2>
                 </div>
             </div>
@@ -96,7 +101,7 @@
                                     </div>
 
                                     <div class="truncate">
-
+                                        {{ data.horasExtras || '--:--' }}
                                     </div>
 
                                     <div class="truncate">
@@ -133,9 +138,8 @@
                                             mat-stroked-button
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
-                                            (click)="informarInconsistencia()"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente' ||
-                                                        data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'">
+                                            (click)="informarInconsistencia(data)"
+                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente'">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>

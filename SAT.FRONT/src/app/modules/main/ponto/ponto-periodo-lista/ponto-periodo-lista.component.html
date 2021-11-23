@@ -78,34 +78,51 @@
                                             class="min-w-10 min-h-7 h-7 px-2"
                                             color="primary"
                                             mat-stroked-button
+                                            [matTooltip]="'Colaborador'"
+                                            matTooltipPosition="above"
+                                            [routerLink]="'/ponto/ponto-horarios/' + data.codPontoPeriodo + '/' + userSession?.usuario?.codUsuario"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus !== 'Aberto'"
+                                            *ngIf="userSession.usuario.codPerfil === 35">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-1"
+                                            color="primary"
+                                            mat-stroked-button
                                             [matTooltip]="'Colaboradores'"
                                             matTooltipPosition="above"
                                             [routerLink]="'/ponto/colaboradores/' + data.codPontoPeriodo"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus !== 'Aberto'">
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus !== 'Aberto'"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:users'"></mat-icon>
                                         </button>
 
                                         <button
-                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-1"
                                             color="primary"
                                             mat-stroked-button
                                             [matTooltip]="'Exportar'"
                                             matTooltipPosition="above"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto'">
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto'"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:cloud-download'"></mat-icon>
                                         </button>
 
                                         <button
-                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-1"
                                             mat-stroked-button
                                             [matTooltip]="'Editar'"
                                             color="primary"
                                             [routerLink]="'/ponto/ponto-periodo-form/' + data.codPontoPeriodo"
-                                            matTooltipPosition="above">
+                                            matTooltipPosition="above"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>

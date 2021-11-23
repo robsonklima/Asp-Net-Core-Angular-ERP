@@ -2,10 +2,16 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
+import { pontoPeriodoModoAprovacaoConst } from 'app/core/types/ponto-periodo-modo-aprovacao.types';
+import { pontoPeriodoStatusConst } from 'app/core/types/ponto-periodo-status.types';
+import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
+import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
 import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
 import { PontoUsuario } from 'app/core/types/ponto-usuario.types';
+import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
@@ -29,7 +35,9 @@ import { PontoRelatoriosAtendimentoComponent } from '../ponto-relatorios-atendim
 })
 export class PontoHorariosListaComponent implements AfterViewInit {
   codPontoPeriodo: number;
+  pontoPeriodo: PontoPeriodo;
   codUsuario: string;
+  usuario: Usuario;
   dataSourceData: PontoUsuarioDataData;
   isLoading: boolean = false;
   userSession: UserSession;
@@ -37,6 +45,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   constructor(
     private _pontoUsuarioDataSvc: PontoUsuarioDataService,
     private _pontoUsuarioSvc: PontoUsuarioService,
+    private _pontoPeriodoSvc: PontoPeriodoService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _userSvc: UserService,
@@ -48,12 +57,17 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.codPontoPeriodo = +this._route.snapshot.paramMap.get('codPontoPeriodo');
     this.codUsuario = this._route.snapshot.paramMap.get('codUsuario');
-    this.obterDados();
+    this.obterHorarios();
   }
 
-  async obterDados() {
+  async obterHorarios() {
     this.isLoading = true;
+    this.usuario = await this._userSvc.obterPorCodigo(this.codUsuario).toPromise(); 
     this._cdr.detectChanges();
+
+    this.pontoPeriodo = await this._pontoPeriodoSvc
+      .obterPorCodigo(this.codPontoPeriodo)
+      .toPromise();
 
     const datas = await this._pontoUsuarioDataSvc
       .obterPorParametros({
@@ -73,7 +87,10 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     
     for (let i = 0; i < datas.items.length; i++) {
       const pontoUsuarioData = datas.items[i];
+
       datas.items[i].pontosUsuario = this.obterPontosPorData(pontoUsuarioData, pontos.items);
+      datas.items[i].horasExtras = this.calculaHorasExtras(datas.items[i]);
+      this.permiteInconsistirAutomaticamente(pontoUsuarioData, this.pontoPeriodo);
     }
 
     this.dataSourceData = datas;
@@ -81,24 +98,62 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   }
 
   private obterPontosPorData(pontoUsuarioData: PontoUsuarioData, pontos: PontoUsuario[]): PontoUsuario[] {
-    return pontos.filter(
-      p => moment(p.dataHoraRegistro).format('yyyy-MM-DD') == moment(pontoUsuarioData.dataRegistro).format('yyyy-MM-DD')
-    );
+    return pontos.filter(p => 
+      moment(p.dataHoraRegistro).format('yyyy-MM-DD') == moment(pontoUsuarioData.dataRegistro).format('yyyy-MM-DD')
+    ).sort((a, b) => {
+      return moment(a.dataHoraRegistro) < moment(b.dataHoraRegistro) ? -1 : 1
+    })
   }
 
-  visualizarRelatoriosAtendimento(dataRegistro: string, codUsuario: string): void {
-    const dialogRef = this._dialog.open(PontoRelatoriosAtendimentoComponent, {
-      data: {
-        dataRegistro: dataRegistro,
-        codUsuario: codUsuario
-      },
-      width: '1040px',
-    });
+  private calculaHorasExtras(data: PontoUsuarioData): string {
+    if (data.pontosUsuario.length == 2 || data.pontosUsuario.length == 4) {
+      const horarioJornadaDiaria = moment().set({ hour: 8, minute: 48 });
+      const minutosTolerancia = 5;
+      const somaHorasRegistradas = moment().set({ hour: 0, minute: 0 });
 
-    dialogRef.afterClosed().subscribe((data: any) =>
-    {
+      for (let i = 0; i < data.pontosUsuario.length; i=i+2) { 
+        const horarioInicio = moment(data.pontosUsuario[i].dataHoraRegistro);
+        const horarioFim = moment(data.pontosUsuario[i + 1].dataHoraRegistro);
+
+        const totalRealizado = horarioFim.subtract(horarioInicio.format('HH:mm')).format('HH:mm')
+        somaHorasRegistradas.add(totalRealizado);
+      }
+
+      const horasExtrasEmMinutos = moment.duration(somaHorasRegistradas.diff(horarioJornadaDiaria)).asMinutes();
+
+      if (horasExtrasEmMinutos > minutosTolerancia) {
+        return moment().startOf('day').add(horasExtrasEmMinutos, 'minutes').format('HH:mm');
+      } else {
+        return '';
+      }
+    }
+  }
+
+  private permiteInconsistirAutomaticamente(pontoData: PontoUsuarioData, pontoPeriodo: PontoPeriodo): boolean {
+    if (
+      pontoPeriodo.codPontoPeriodoStatus != pontoPeriodoStatusConst.CONSOLIDADO && 
+      pontoPeriodo.pontoPeriodoModoAprovacao.codPontoPeriodoModoAprovacao == pontoPeriodoModoAprovacaoConst.DIARIO ||
+      pontoPeriodo.codPontoPeriodoStatus == pontoPeriodoStatusConst.EM_ANALISE
+    ) {
+      const data = moment(pontoData.dataRegistro);
+
+      if (
+				pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.INCONSISTENTE ||
+				pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.CONFERIDO ||
+				data.weekday() == 7 || data.weekday() == 1 || data >= moment()
+      )
+      {
+        return false;
+      }
       
-    });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private inconsistirAutomaticamente(): boolean {
+    return false;
   }
 
   conferir() {
@@ -125,18 +180,33 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     });
   }
 
-  informarInconsistencia() {
+  informarInconsistencia(pontoUsuarioData: PontoUsuarioData) {
     const dialogRef = this._dialog.open(PontoInconsistenciaFormComponent, {
       data: {
-
+        pontoUsuarioData: pontoUsuarioData
       }
     });
 
     dialogRef.afterClosed().subscribe(() => {});
   }
 
+  visualizarRelatoriosAtendimento(dataRegistro: string, codUsuario: string): void {
+    const dialogRef = this._dialog.open(PontoRelatoriosAtendimentoComponent, {
+      data: {
+        dataRegistro: dataRegistro,
+        codUsuario: codUsuario
+      },
+      width: '1040px',
+    });
+
+    dialogRef.afterClosed().subscribe((data: any) =>
+    {
+      
+    });
+  }
+
   paginar() {
-    this.obterDados();
+    this.obterHorarios();
   }
 }
 

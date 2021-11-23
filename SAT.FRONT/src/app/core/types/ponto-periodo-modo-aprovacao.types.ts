@@ -14,3 +14,8 @@ export interface PontoPeriodoModoAprovacaoData extends Meta {
 export interface PontoPeriodoModoAprovacaoParameters extends QueryStringParameters {
 
 };
+
+export const pontoPeriodoModoAprovacaoConst = {
+    DIARIO: 1,
+    FINAL_DO_PERIODO: 2
+}

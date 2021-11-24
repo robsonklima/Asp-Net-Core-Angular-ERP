@@ -297,7 +297,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
           return;
         }
 
-        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO);
+        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum.REPROVADO);
 
         this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() =>
         {

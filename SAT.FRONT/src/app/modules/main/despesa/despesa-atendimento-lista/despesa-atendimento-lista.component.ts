@@ -18,6 +18,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import moment from 'moment';
 import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
 import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
+import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -180,6 +181,17 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   imprimirRD(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
     this._dialog.open(DespesaAtendimentoRelatorioImpressaoComponent, {
+      panelClass: 'no-padding-dialog-container',
+      data:
+      {
+        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+      }
+    });
+  }
+
+  imprimirObservacoes(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    this._dialog.open(DespesaAtendimentoObservacaoImpressaoComponent, {
       panelClass: 'no-padding-dialog-container',
       data:
       {

@@ -1,0 +1,120 @@
+        <div class="flex-auto h-200 min-w-screen text-center" *transloco="let t">
+            <button class="add-button" (click)="print()" [disabled]="isLoading">
+                <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+            </button>
+            <div class="inline-block text-left print:p-0">
+                <div class="loading-shade" *ngIf="isLoading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                </div>
+                <div id="print-area" class="h-200 min-w-screen overflow-auto p-10 rounded-2xl shadow bg-card print:w-auto
+                    print:rounded-none print:shadow-none print:bg-transparent" *ngIf="!isLoading">
+
+                    <div class="flex items-start justify-between">
+                        <div class="grid grid-cols-1 gap-x-4">
+                            <div class="text-lg tracking-tight">
+                                {{ "Observações de Despesas" | uppercase }}</div>
+                            <div class="text-lg tracking-tight">
+                                {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
+                        + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
+                        date:'dd/MM/yyyy') }}</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 8px !important;" class="mt-3">
+                        <div class="text-center mt-3" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                            <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                <div class="border-l text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('data') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('dia') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('os') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('rat') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('local origem') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('local destino') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  'KM Percorrido' | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  'KM Previsto' | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('tipo') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('obs') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('motivo') | uppercase }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngFor="let d of despesaPeriodoTecnico.despesas">
+                            <ng-container *ngFor="let e of d.despesaItens">
+                                <div class="text-center" *ngIf="e?.despesaItemAlerta != null">
+                                    <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                        <div class="border-l text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  (d?.relatorioAtendimento?.dataHoraInicio | date : 'full' : '' : 'pt-BR').split(',')[0] | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codOS }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codRAT }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e.despesaTipo?.codDespesaTipo == 1 ? (e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "" | uppercase) : "---" }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ e.despesaTipo?.codDespesaTipo == 1 ? (e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "" | uppercase) : "---" }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ e.despesaTipo?.codDespesaTipo == 1 ? e?.kmPercorrido : "---" }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ e.despesaTipo?.codDespesaTipo == 1 ? e?.kmPrevisto : "---" }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e?.despesaTipo.nomeTipo | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e?.obs | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e?.despesaItemAlerta?.descItemAlerta | uppercase }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <div style=" font-size: 8px !important;" class="mt-5">
+                            <div class="text-center">
+                                Revisei as despesas deste relatório e estou de pleno acordo com as mesmas.
+                            </div>
+                            <div style=" font-size: 8px !important;" class="mt-5 text-center">
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Data</div>
+                                </div>
+
+                                <div class="inline-block text-center mr-10">
+                                    <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                    <div>Coordenador</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

@@ -105,6 +105,12 @@
                                                         [svgIcon]="'heroicons_outline:printer'">
                                                     </mat-icon>
                                                 </button>
+                                                <button class="cursor-pointer" (click)="imprimirObservacoes(dp)">
+                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                        [matTooltip]="t('imprimir') + ' ' + t('observacoes')"
+                                                        [svgIcon]="'heroicons_outline:printer'">
+                                                    </mat-icon>
+                                                </button>
                                                 <button class="cursor-pointer" (click)="listarAdiantamentos(dp)">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('adiantamentos')"

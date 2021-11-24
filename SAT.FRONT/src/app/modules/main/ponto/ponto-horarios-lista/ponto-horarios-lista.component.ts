@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
@@ -49,7 +50,8 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _userSvc: UserService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _snack: CustomSnackbarService
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -156,7 +158,91 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     return false;
   }
 
-  conferir() {
+  public conferirPontoData(pontoData: PontoUsuarioData) {
+    debugger;
+
+    if (pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.CONFERIDO)
+    {
+        this._snack.exibirToast('Você já conferiu esta data');
+        return;
+    }
+    
+    pontoData.codPontoUsuarioDataStatus = pontoUsuarioDataStatusConst.CONFERIDO;
+    pontoData.codUsuarioManut = this.userSession.usuario.codUsuario;
+    pontoData.dataHoraManut = moment().format('yyyy-mm-dd HH:mm');
+
+    let validaInconsistencia: boolean;
+
+    if (pontoData.pontosUsuario.length % 2 == 1) {
+      validaInconsistencia = true; 
+    } else {
+      if (pontoData.pontosUsuario.length >= 2) {
+        const primeiroPonto = moment(pontoData.pontosUsuario[0].dataHoraRegistro);
+        const ultimoPonto = moment(pontoData.pontosUsuario[pontoData.pontosUsuario.length-1].dataHoraRegistro);
+
+        let intervaloEntrePontos = moment.duration(primeiroPonto.diff(ultimoPonto)).asHours();
+
+        switch (pontoData.pontosUsuario.length)
+        {
+          case 2:
+            if (intervaloEntrePontos > 6)
+            {
+              validaInconsistencia = true;
+            }
+            break;
+
+          case 4:
+            if (intervaloEntrePontos > 6) {
+              const saidaIntervalo = moment(pontoData.pontosUsuario[1].dataHoraRegistro);
+              const retornoIntervalo = moment(pontoData.pontosUsuario[2].dataHoraRegistro);
+
+              intervaloEntrePontos = moment.duration(saidaIntervalo.diff(retornoIntervalo)).asHours();
+
+              if (intervaloEntrePontos < 1)
+              {
+                  validaInconsistencia = true;
+              }
+              else if (intervaloEntrePontos > 2)
+              {
+                  validaInconsistencia = true;
+              }
+            }
+            break;
+        }
+      }
+    }
+
+    if (validaInconsistencia) {
+      //new clsPontoUsuarioData().ValidarInconsistencia(CodPontoUsuarioData, usuario, -1, -1);
+    }
+    
+    // TimeSpan he = TimeSpan.Zero;
+
+    // if (he > TimeSpan.FromMinutes(1))
+    // {
+    //     clsPontoUsuarioData pontoData = new clsPontoUsuarioData() { HoraExtra = he };
+
+    //     if (pontoData.IsHoraExtraMaisPermitida())
+    //     {
+    //       //ExibeMensagem("Data finalizada com sucesso. ATENÇÃO: DATA COM HORA EXTRA ULTRAPASSANDO A DIÁRIA TOTAL DE 1 HORA E 12 MINUTOS!");
+    //       //ExibeMensagem("Data conferida com sucesso. ATENÇÃO: DATA COM HORA EXTRA ULTRAPASSANDO A DIÁRIA TOTAL DE 1 HORA E 12 MINUTOS!");
+    //       this._snack.exibirToast("ATENÇÃO: JORNADA TRABALHO EXCEDIDA! HORA EXTRA SUPERIOR À 1hr e 12min. Data conferida com sucesso.");
+    //     }
+    //     else
+    //     {
+    //       //ExibeMensagem("Data finalizada com sucesso. ATENÇÃO: DATA COM HORA EXTRA!");
+    //       //ExibeMensagem("Data conferida com sucesso. ATENÇÃO: DATA COM HORA EXTRA!");
+    //       this._snack.exibirToast("ATENÇÃO: DATA COM HORA EXTRA! Data conferida com sucesso.");
+    //     }
+    // }
+    // else
+    // {
+    //   //ExibeMensagem("Data finalizada com sucesso.");
+    //   this._snack.exibirToast("Data conferida com sucesso.");
+    // }
+  }
+
+  conferir(pontoData: PontoUsuarioData) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -172,10 +258,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     {
       if (confirmacao)
       {
-        // this._pontoPeriodoSvc.deletar(this.codPontoPeriodo).subscribe(() => {
-        //   this._snack.exibirToast(`Período removido com sucesso!`, "success");
-        //   this._router.navigate(['ponto/periodos']);
-        // });
+        this.conferirPontoData(pontoData);
       }
     });
   }

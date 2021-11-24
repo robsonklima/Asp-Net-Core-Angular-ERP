@@ -126,8 +126,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Conferir'"
                                             matTooltipPosition="above"
-                                            (click)="conferir()"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao !== 'Aguardando Conferência'">
+                                            (click)="conferir(data)">
                                             <mat-icon
                                                 class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
@@ -138,8 +137,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
-                                            (click)="informarInconsistencia(data)"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente'">
+                                            (click)="informarInconsistencia(data)">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
@@ -150,8 +148,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Ver RATs'"
                                             matTooltipPosition="above"
-                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'">
+                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)">
                                             <mat-icon
                                                 class="icon-size-5 text-gray-600"
                                                 [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>

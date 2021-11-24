@@ -90,7 +90,7 @@ export class PontoTurnoFormComponent implements OnInit, OnDestroy {
     };
     
     this._turnoService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast(`Turno ${obj.nomeEquip} atualizado com sucesso!`, "success");
+      this._snack.exibirToast(`Turno ${obj.descTurno} atualizado com sucesso!`, "success");
       this._location.back();
     });
   }
@@ -113,7 +113,7 @@ export class PontoTurnoFormComponent implements OnInit, OnDestroy {
     };
 
     this._turnoService.criar(obj).subscribe(() => {
-      this._snack.exibirToast(`Turno ${obj.nomeEquip} adicionado com sucesso!`, "success");
+      this._snack.exibirToast(`Turno ${obj.descTurno} adicionado com sucesso!`, "success");
       this._location.back();
     });
   }

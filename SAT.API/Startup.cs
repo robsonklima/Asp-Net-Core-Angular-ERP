@@ -113,6 +113,8 @@ namespace SAT.API
             services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
             services.AddTransient<IDespesaProtocoloPeriodoTecnicoRepository, DespesaProtocoloPeriodoTecnicoRepository>();
             services.AddTransient<IDespesaCartaoCombustivelTecnicoRepository, DespesaCartaoCombustivelTecnicoRepository>();
+            services.AddTransient<IDespesaConfiguracaoRepository, DespesaConfiguracaoRepository>();
+            services.AddTransient<IDespesaItemAlertaRepository, DespesaItemAlertaRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -179,6 +181,8 @@ namespace SAT.API
             services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
             services.AddTransient<IDespesaProtocoloPeriodoTecnicoService, DespesaProtocoloPeriodoTecnicoService>();
             services.AddTransient<IDespesaCartaoCombustivelTecnicoService, DespesaCartaoCombustivelTecnicoService>();
+            services.AddTransient<IDespesaConfiguracaoService, DespesaConfiguracaoService>();
+            services.AddTransient<IDespesaItemAlertaService, DespesaItemAlertaService>();
 
             services.AddAuthentication(auth =>
             {

@@ -4,12 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
+import { DespesaConfiguracaoService } from 'app/core/services/despesa-configuracao.service';
+import { DespesaItemAlertaService } from 'app/core/services/despesa-item-alerta.service';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
-import { Despesa, DespesaItem } from 'app/core/types/despesa.types';
+import { Despesa, DespesaConfiguracaoData, DespesaItem, DespesaItemAlertaData } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -49,6 +51,8 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   displayedColumns: string[] = ['codDespesaItem', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal', 'acao'];
   userSession: UserSession;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel
+  despesaConfiguracao: DespesaConfiguracaoData;
+  despesaItemAlerta: DespesaItemAlertaData;
 
   constructor (
     private _userService: UserService,
@@ -59,6 +63,8 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     private _despesaItemSvc: DespesaItemService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
+    private _despesaConfiguracaoService: DespesaConfiguracaoService,
+    private _despesaItemAlertaService: DespesaItemAlertaService,
     private _despesaConfCombustivelSvc: DespesaConfiguracaoCombustivelService,
     private _dialog: MatDialog)
   {
@@ -143,7 +149,9 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
         ordemServico: this.ordemServico,
         rat: this.rat,
         despesa: this.despesa,
-        despesaConfiguracaoCombustivel: this.despesaConfiguracaoCombustivel
+        despesaConfiguracaoCombustivel: this.despesaConfiguracaoCombustivel,
+        despesaConfiguracao: this.despesaConfiguracao?.items[0],
+        despesaItemAlerta: this.despesaItemAlerta
       }
     });
 
@@ -162,6 +170,8 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     await this.obterOS();
     await this.obterDespesa();
     await this.obterConfiguracaoCombustivel();
+    await this.obterDespesaConfiguracao();
+    await this.obterDespesaItemAlertas();
 
     this.isLoading = false;
   }
@@ -208,5 +218,19 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
         codFilial: this.ordemServico.codFilial,
         codUf: this.ordemServico.localAtendimento.cidade?.codUF
       }).toPromise()).items[0];
+  }
+
+  async obterDespesaConfiguracao()
+  {
+    this.despesaConfiguracao =
+      (await this._despesaConfiguracaoService.obterPorParametros({
+        indAtivo: 1
+      }).toPromise());
+  }
+
+  async obterDespesaItemAlertas()
+  {
+    this.despesaItemAlerta =
+      (await this._despesaItemAlertaService.obterPorParametros({}).toPromise());
   }
 }

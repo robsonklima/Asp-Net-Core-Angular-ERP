@@ -6,7 +6,7 @@ import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
-import { Despesa, DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
@@ -36,10 +36,11 @@ export class DespesaItemDialogComponent implements OnInit
   rat: RelatorioAtendimento;
   despesa: Despesa;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel;
+  despesaConfiguracao: DespesaConfiguracao;
+  despesaItemAlerta: DespesaItemAlertaData;
   mapsPlaceholder: any = [];
   @ViewChild('map') private map: any;
   isResidencial: boolean;
-  kmInvalid: boolean = false;
   isValidating: boolean = false;
   kmPrevisto: number;
 
@@ -60,6 +61,8 @@ export class DespesaItemDialogComponent implements OnInit
       this.rat = data.rat;
       this.despesa = data.despesa;
       this.despesaConfiguracaoCombustivel = data.despesaConfiguracaoCombustivel;
+      this.despesaConfiguracao = data.despesaConfiguracao;
+      this.despesaItemAlerta = data.despesaItemAlerta;
     }
 
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -91,7 +94,7 @@ export class DespesaItemDialogComponent implements OnInit
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
-
+        codDespesaItemAlerta: [0],
         enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
         cepDestino: [this.ordemServico?.localAtendimento?.cep, Validators.required],
         bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
@@ -142,18 +145,24 @@ export class DespesaItemDialogComponent implements OnInit
     return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.KM;
   }
 
+  public isRefeicao()
+  {
+    return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.REFEICAO;
+  }
+
+
   async confirmar()
   {
     var despesaItem: DespesaItem =
-      this.isQuilometragem() ? await this.criaQuilometragem() : await this.criaDespesa();
+      this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
 
-    this._despesaItemSvc.criar(despesaItem)
-      .subscribe(
-        () => this.dialogRef.close(true),
-        () => this.dialogRef.close(false));
+    // this._despesaItemSvc.criar(despesaItem)
+    //   .subscribe(
+    //     () => this.dialogRef.close(true),
+    //     () => this.dialogRef.close(false));
   }
 
-  async criaQuilometragem(): Promise<DespesaItem>
+  async criaDespesaItemQuilometragem()
   {
     var codCidadeOrigem =
       await this.obterCidadePeloNome(this.despesaItemForm.value.step2.cidadeOrigem);
@@ -166,7 +175,7 @@ export class DespesaItemDialogComponent implements OnInit
       despesaValor: this.calculaConsumoCombustivel(),
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: 1,
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
       enderecoOrigem: this.despesaItemForm.value.step2.enderecoOrigem,
       numOrigem: this.despesaItemForm.value.step2.numeroOrigem,
       bairroOrigem: this.despesaItemForm.value.step2.bairroOrigem,
@@ -192,7 +201,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   }
 
-  async obterCidadePeloNome(nomeCidade: string): Promise<number>
+  async obterCidadePeloNome(nomeCidade: string)
   {
     return (await this._cidadeSvc.obterPorParametros
       ({
@@ -202,9 +211,8 @@ export class DespesaItemDialogComponent implements OnInit
       }).toPromise()).items[0]?.codCidade;
   }
 
-  criaDespesa(): DespesaItem
+  criaDespesaItemOutros(): DespesaItem
   {
-
     var despesaItem: DespesaItem =
     {
       codDespesa: this.codDespesa,
@@ -213,7 +221,8 @@ export class DespesaItemDialogComponent implements OnInit
       despesaValor: this.despesaItemForm.value.step2.valor,
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: 1
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      obs: this.despesaItemForm.value.step3.obs
     };
 
     return despesaItem;
@@ -311,59 +320,96 @@ export class DespesaItemDialogComponent implements OnInit
   {
     this.isValidating = true;
 
-    await this.validaQuilometragem();
+    await this.validaCalculoQuilometragem();
+    await this.validaDespesaRefeicao();
 
     this.isValidating = false;
   }
 
-  async validaQuilometragem()
+  private async validaCalculoQuilometragem()
   {
     if (!this.isQuilometragem()) return;
 
-    // this.kmPrevisto = await this.calculaQuilometragemLeaflet();
     this.kmPrevisto = await this.calculaQuilometragemGoogle();
 
     // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
     if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&
       Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
-      this.kmInvalid = true;
-      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
+      (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+        .setValue(DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista);
+      this.despesaInvalida();
     }
-    else
+    else if (1 == 1)
     {
-      this.kmInvalid = false;
-      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].reset();
-      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
+
     }
+    else this.despesaValida();
   }
 
-  async calculaQuilometragemLeaflet(): Promise<number>
+  private validaDespesaRefeicao()
   {
-    var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
-      (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
+    if (!this.isRefeicao()) return;
 
-    var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
-      (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
-
-    if (this.map == null)
-      this.map = L.map('map').setView(origem, destino, 1);
-
-    var routing = L.Routing.control({
-      waypoints: [origem, destino],
-      routeWhileDragging: true,
-      show: false,
-      createMarker: function (p1, p2) { }
-    })
-
-    return new Promise(resolve => routing.on('routesfound', (e) =>
+    // se o valor da refeicao informada for maior que o limite da configuracao
+    if (this.despesaItemForm.value.step2.valor > this.despesaConfiguracao.valorRefeicaoLimiteTecnico)
     {
-      var routes = e.routes;
-      var summary = routes[0].summary;
-      resolve(summary.totalDistance / 1000);
-    }).addTo(this.map));
+      (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+        .setValue(DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado);
+      this.despesaInvalida();
+    }
+    else if (1 == 1)
+    {
+
+    }
+    else this.despesaValida();
   }
 
+  private despesaInvalida()
+  {
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
+  }
+
+  private despesaValida()
+  {
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].reset();
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
+  }
+
+  obterMensagemAlerta()
+  {
+    var codDespesaItemAlerta =
+      this.despesaItemForm.value.step2.codDespesaItemAlerta;
+
+    if (codDespesaItemAlerta == DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado)
+      return "Valor da refeição maior que o limite especificado. Por favor, justifique abaixo."
+  }
+
+  //   async calculaQuilometragemLeaflet(): Promise<number>
+  //   {
+  //     var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
+  //       (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
+  // 
+  //     var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
+  //       (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
+  // 
+  //     if (this.map == null)
+  //       this.map = L.map('map').setView(origem, destino, 1);
+  // 
+  //     var routing = L.Routing.control({
+  //       waypoints: [origem, destino],
+  //       routeWhileDragging: true,
+  //       show: false,
+  //       createMarker: function (p1, p2) { }
+  //     })
+  // 
+  //     return new Promise(resolve => routing.on('routesfound', (e) =>
+  //     {
+  //       var routes = e.routes;
+  //       var summary = routes[0].summary;
+  //       resolve(summary.totalDistance / 1000);
+  //     }).addTo(this.map));
+  //   }
 
   async calculaQuilometragemGoogle(): Promise<number>
   {

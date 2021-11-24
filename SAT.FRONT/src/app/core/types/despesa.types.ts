@@ -125,3 +125,63 @@ export interface DespesaTipoParameters extends QueryStringParameters
 {
     indAtivo?: number;
 };
+
+export interface DespesaConfiguracao
+{
+    codDespesaConfiguracao: number;
+    percentualKmCidade: number;
+    percentualKmForaCidade: number;
+    valorRefeicaoLimiteTecnico: number;
+    valorRefeicaoLimiteOutros: number;
+    horaExtraInicioAlmoco: string;
+    horaExtraInicioJanta: string;
+    percentualNotaKM: number;
+    valorKM: number;
+    valorAluguelCarro: number;
+    dataVigencia: string;
+    indAtivo: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
+};
+
+export interface DespesaConfiguracaoData extends Meta
+{
+    items: DespesaConfiguracao[]
+};
+
+export interface DespesaConfiguracaoParameters extends QueryStringParameters 
+{
+    indAtivo?: number;
+};
+
+export interface DespesaItemAlerta
+{
+    codDespesaItemAlerta: number;
+    descItemAlerta: string;
+};
+
+export interface DespesaItemAlertaData extends Meta
+{
+    items: DespesaItemAlerta[]
+};
+
+export interface DespesaItemAlertaParameters extends QueryStringParameters { };
+
+export enum DespesaItemAlertaEnum
+{
+    Indefinido = 0,
+    TecnicoTeveRefeicaoEmHorarioNaoExtraEmDiaSemana = 1,
+    TecnicoTeveMaisDeDuasRefeicoesEmFinalSemana = 2,
+    TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado = 3,
+    TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista = 4,
+    SistemaIndisponivelTecnicoTeveQuilometragemNaoValidada = 5,
+    SistemaNaoEncontrouCoordenadaOrigem = 6,
+    SistemaNaoEncontrouCoordenadaDestino = 7,
+    SistemaNaoEncontrouCoordenadaOrigemNemCoordenadaDestino = 8,
+    SistemaNaoEncontrouRota = 9,
+    SistemaCalculouRotaCentroDasCidades = 10,
+    SabadoDomingoDespesaDeAlmocoDeveSerFeitaAposCatorzeHorasJantaAposVinteHoras = 11,
+    TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro = 12
+}

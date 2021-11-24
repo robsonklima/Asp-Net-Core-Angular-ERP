@@ -75,6 +75,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
       kmPercorrido: [undefined],
       kmPrevisto: [undefined],
       obs: [undefined],
+      motivo: [undefined],
       obsReprovacao: [undefined],
       origem: [undefined],
       destino: [undefined],

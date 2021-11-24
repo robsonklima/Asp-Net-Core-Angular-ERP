@@ -23,6 +23,8 @@ namespace SAT.INFRA.Context
         public DbSet<TipoServico> TipoServico { get; set; }
         public DbSet<LocalAtendimento> LocalAtendimento { get; set; }
         public DbSet<Equipamento> Equipamento { get; set; }
+        public DbSet<DespesaConfiguracao> DespesaConfiguracao { get; set; }
+        public DbSet<DespesaItemAlerta> DespesaItemAlerta { get; set; }
         public DbSet<GrupoEquipamento> GrupoEquipamento { get; set; }
         public DbSet<TipoEquipamento> TipoEquipamento { get; set; }
         public DbSet<EquipamentoContrato> EquipamentoContrato { get; set; }

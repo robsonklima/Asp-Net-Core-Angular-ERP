@@ -228,6 +228,15 @@
                 <p>Tipo de despesa: {{ obterTipoDespesa() }} </p>
                 <p>Nota fiscal: {{ this.despesaItemForm.value.step2.notaFiscal ?? "Não informada" }} </p>
                 <p>Valor da despesa: {{ this.despesaItemForm.value.step2.valor | currency:'BRL':'symbol-narrow' }} </p>
+
+                <div class="mt-4" *ngIf="this.despesaItemForm.value.step2.codDespesaItemAlerta != 0">
+                    <p class="font-semibold">Atenção!</p>
+                    <p class="font-medium mb-1">{{ obterMensagemAlerta() }}</p>
+                    <mat-form-field class="flex-auto fuse-mat-dense w-full">
+                        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            [formControlName]="'obs'"></textarea>
+                    </mat-form-field>
+                </div>
             </div>
 
             <div *ngIf="isQuilometragem() && !isValidating">
@@ -236,10 +245,9 @@
                 <p>Quilometragem informada: {{ this.despesaItemForm.value.step2.quilometragem + "km" }}</p>
                 <p>Valor da despesa: {{ calculaConsumoCombustivel() | currency:'BRL':'symbol-narrow' }}</p>
 
-                <div class="mt-4" *ngIf="kmInvalid">
+                <div class="mt-4" *ngIf="this.despesaItemForm.value.step2.codDespesaItemAlerta != 0">
                     <p class="font-semibold">Atenção!</p>
-                    <p class="font-medium">O quilometragem informada excedeu o limite calculado. Por
-                        favor, justifique o excesso.</p>
+                    <p class="font-medium mb-1">{{ obterMensagemAlerta() }}</p>
                     <mat-form-field class="flex-auto fuse-mat-dense w-full">
                         <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
                             [formControlName]="'obs'"></textarea>

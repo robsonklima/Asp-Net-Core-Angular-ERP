@@ -17,10 +17,10 @@ import moment from 'moment';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px;
-            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
-            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
-            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 60px 60px; }
+            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px;
+            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
+            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
+            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -113,7 +113,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
           filial: p.tecnico?.filial?.nomeFilial,
           cartao: this.obterCartaoAtual(p),
           saldo: this.obterSaldoAtual(p),
-          integrado: moment(p.ticketLogPedidoCredito.dataHoraProcessamento).format('DD/MM HH:mm'),
+          integrado: moment(p.ticketLogPedidoCredito?.dataHoraProcessamento).format('DD/MM HH:mm') || null,
           inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
           fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
           combustivel: this.obterDespesasCombustivel(p),

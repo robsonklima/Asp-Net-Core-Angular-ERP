@@ -63,10 +63,7 @@
                                         {{ t('combustivel') }}
                                     </div>
                                     <div>
-                                        {{ t('creditar') }}
-                                    </div>
-                                    <div>
-                                        {{ t('validar') }}
+                                        {{ t('acoes') }}
                                     </div>
                                 </div>
                                 <ng-container *ngIf="periodos?.items.length">
@@ -113,8 +110,6 @@
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                            </div>
-                                            <div>
                                                 <button class="cursor-pointer" (click)="validarRD()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'warn'"
                                                         [svgIcon]="'heroicons_outline:cursor-click'">

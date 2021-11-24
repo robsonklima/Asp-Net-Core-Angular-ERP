@@ -92,7 +92,6 @@ namespace SAT.INFRA.Repository
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
             return PagedList<DespesaPeriodoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
-
         }
     }
 }

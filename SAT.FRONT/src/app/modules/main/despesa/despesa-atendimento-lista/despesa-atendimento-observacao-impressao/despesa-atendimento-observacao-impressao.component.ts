@@ -41,7 +41,7 @@ export class DespesaAtendimentoObservacaoImpressaoComponent implements OnInit
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
     windowPopup.document.write(`<html><head><link rel="stylesheet" type="text/css" href="${appConfig.tailwind_css}"/></head><body onload = "window.print()"> ${contentToPrint} </body></html>`);
-    windowPopup.document.title = `RD_${this.codDespesaPeriodoTecnico}.pdf`;
+    windowPopup.document.title = `OBS_${this.codDespesaPeriodoTecnico}.pdf`;
     windowPopup.onafterprint = window.close;
     windowPopup.document.close();
   }

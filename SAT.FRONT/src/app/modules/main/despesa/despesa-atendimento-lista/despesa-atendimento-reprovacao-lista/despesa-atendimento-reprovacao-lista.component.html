@@ -73,7 +73,8 @@
                                     <ng-container *ngFor="let d of despesas">
                                         <ng-container *ngFor="let i of d.despesaItens">
                                             <div class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                                [ngClass]="{'bg-red-100': i.indReprovado == 1}">
+                                                [ngClass]="{'bg-red-100': i.indReprovado == 1,
+                                                'bg-yellow-100': i.obs != null}">
                                                 <div class="pointer-events-none">
                                                     {{ d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
                                                 </div>
@@ -197,6 +198,13 @@
                         <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
                             <mat-label>{{t('endereco de destino')}}</mat-label>
                             <input matInput formControlName="destino" [readonly]="true">
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="despesaItemSelecionada.obs">
+                        <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
+                            <mat-label>{{t('observacao')}}</mat-label>
+                            <input matInput formControlName="obs" [readonly]="true">
                         </mat-form-field>
                     </div>
 

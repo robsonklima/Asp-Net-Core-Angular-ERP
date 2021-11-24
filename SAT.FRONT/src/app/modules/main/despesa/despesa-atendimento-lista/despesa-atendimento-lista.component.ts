@@ -177,32 +177,14 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     });
   }
 
-  imprimir(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  imprimirRD(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
-    const printDialog = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja imprimir o RD?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        },
-      }
-    });
-
-    printDialog.afterClosed().subscribe(async (confirmacao: boolean) =>
-    {
-      if (confirmacao)
+    this._dialog.open(DespesaAtendimentoRelatorioImpressaoComponent, {
+      panelClass: 'no-padding-dialog-container',
+      data:
       {
-        this._dialog.open(DespesaAtendimentoRelatorioImpressaoComponent, {
-          panelClass: 'no-padding-dialog-container',
-          data:
-          {
-            codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
-          }
-        });
+        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
       }
     });
-
   }
 }

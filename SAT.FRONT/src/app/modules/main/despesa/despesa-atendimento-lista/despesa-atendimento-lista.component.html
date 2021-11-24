@@ -96,9 +96,9 @@
                                                         [svgIcon]="'heroicons_outline:view-list'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer" (click)="imprimir(dp)">
+                                                <button class="cursor-pointer" (click)="imprimirRD(dp)">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
-                                                        [matTooltip]="t('imprimir')"
+                                                        [matTooltip]="t('imprimir') + ' RD'"
                                                         [svgIcon]="'heroicons_outline:printer'">
                                                     </mat-icon>
                                                 </button>
@@ -110,7 +110,8 @@
                                                 </button>
                                                 <button class="cursor-pointer"
                                                     [routerLink]="'/despesa/atendimentos/'+codTecnico+'/reprovacao/'+dp.codDespesaPeriodoTecnico"
-                                                    [disabled]="dp.status == null">
+                                                    [disabled]="dp.status == null"
+                                                    *ngIf="userSession.usuario?.codPerfil != 35">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('analisar')"
                                                         [svgIcon]="'heroicons_outline:check-circle'">
@@ -118,7 +119,7 @@
                                                 </button>
                                                 <button class="cursor-pointer"
                                                     [disabled]="userSession.usuario?.codPerfil != 35 || dp.status != null"
-                                                    (click)="liberar(dp)">
+                                                    (click)="liberar(dp)" *ngIf="userSession.usuario?.codPerfil == 35">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('liberar')"
                                                         [svgIcon]="'heroicons_outline:switch-horizontal'">

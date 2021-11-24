@@ -43,6 +43,7 @@ export class DespesaItemDialogComponent implements OnInit
   isResidencial: boolean;
   isValidating: boolean = false;
   kmPrevisto: number;
+  tentativaKm: number = 0;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -94,7 +95,7 @@ export class DespesaItemDialogComponent implements OnInit
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
-        codDespesaItemAlerta: [0],
+        codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
         enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
         cepDestino: [this.ordemServico?.localAtendimento?.cep, Validators.required],
         bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
@@ -150,16 +151,15 @@ export class DespesaItemDialogComponent implements OnInit
     return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.REFEICAO;
   }
 
-
   async confirmar()
   {
     var despesaItem: DespesaItem =
       this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
 
-    // this._despesaItemSvc.criar(despesaItem)
-    //   .subscribe(
-    //     () => this.dialogRef.close(true),
-    //     () => this.dialogRef.close(false));
+    this._despesaItemSvc.criar(despesaItem)
+      .subscribe(
+        () => this.dialogRef.close(true),
+        () => this.dialogRef.close(false));
   }
 
   async criaDespesaItemQuilometragem()
@@ -186,19 +186,18 @@ export class DespesaItemDialogComponent implements OnInit
       numDestino: this.despesaItemForm.value.step2.numeroDestino,
       bairroDestino: this.despesaItemForm.value.step2.bairroDestino,
       codCidadeDestino: this.ordemServico?.localAtendimento?.cidade?.codCidade,
-      sequenciaDespesaKm: 1,
+      sequenciaDespesaKm: 0,
       indResidenciaDestino: +(codCidadeOrigem == this.rat.tecnico.codCidade),
       indHotelDestino: 0,
       kmPrevisto: this.kmPrevisto,
       kmPercorrido: this.despesaItemForm.value.step2.quilometragem,
-      tentativaKM: "",
+      tentativaKM: this.tentativaKm.toString(),
       obs: this.despesaItemForm.value.step3.obs,
       latitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeOrigem : null,
       longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null
     };
 
     return despesaItem;
-
   }
 
   async obterCidadePeloNome(nomeCidade: string)
@@ -243,12 +242,11 @@ export class DespesaItemDialogComponent implements OnInit
           this.isResidencial = true;
         }
         else
-        {
           this.isResidencial = false;
-        }
       });
 
-    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].setValue("residencial");
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['localInicoDeslocamento'].setValue("residencial");
   }
 
   private onEnderecoChanged(): void
@@ -271,7 +269,9 @@ export class DespesaItemDialogComponent implements OnInit
       .value === "residencial")
       return;
 
-    var cep: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].value?.toString();
+    var cep: string =
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['cepOrigem'].value?.toString();
 
     if (!cep) return;
 
@@ -286,29 +286,76 @@ export class DespesaItemDialogComponent implements OnInit
   {
     var lat = googleAddress.geometry.location.lng;
     var long = googleAddress.geometry.location.lat;
+
     if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
       long == (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].value) return;
 
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(googleAddress.geometry.location.lng);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(googleAddress.geometry.location.lat);
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['longitudeOrigem']
+      .setValue(googleAddress.geometry.location.lng);
 
-    var endereco = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("route")).firstOrDefault();
-    if (endereco) (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(endereco.short_name);
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['latitudeOrigem']
+      .setValue(googleAddress.geometry.location.lat);
 
-    var numero = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("street_number")).firstOrDefault();
-    if (numero) (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(numero.long_name);
+    var endereco = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("route"))
+      .firstOrDefault();
 
-    var bairro = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("sublocality_level_1")).firstOrDefault();
-    if (bairro) (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(bairro.long_name);
+    if (endereco)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['enderecoOrigem']
+        .setValue(endereco.short_name);
 
-    var cidade = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_2")).firstOrDefault();
-    if (cidade) (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(cidade.long_name);
+    var numero = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("street_number"))
+      .firstOrDefault();
 
-    var estado = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_1")).firstOrDefault();
-    if (estado) (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(estado.short_name);
+    if (numero)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['numeroOrigem']
+        .setValue(numero.long_name);
 
-    var pais = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("country")).firstOrDefault();
-    if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
+    var bairro = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("sublocality_level_1"))
+      .firstOrDefault();
+
+    if (bairro) (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['bairroOrigem']
+      .setValue(bairro.long_name);
+
+    var cidade = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("administrative_area_level_2"))
+      .firstOrDefault();
+
+    if (cidade)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['cidadeOrigem']
+        .setValue(cidade.long_name);
+
+    var estado = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("administrative_area_level_1"))
+      .firstOrDefault();
+
+    if (estado)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['ufOrigem']
+        .setValue(estado.short_name);
+
+    var pais = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("country"))
+      .firstOrDefault();
+
+    if (pais)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['paisOrigem']
+        .setValue(pais.short_name);
   }
 
   calculaConsumoCombustivel(): number
@@ -336,8 +383,19 @@ export class DespesaItemDialogComponent implements OnInit
     if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&
       Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
-      (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
-        .setValue(DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista);
+      // centro a centro
+      if (this.despesaItemForm.value.step2.bairroOrigem.toString().toLowerCase().contains("centro") &&
+        this.despesaItemForm.value.step2.bairroDestino.toString().toLowerCase().contains("centro"))
+      {
+        (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+          .setValue(DespesaItemAlertaEnum.TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro);
+      }
+      else 
+      {
+        (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+          .setValue(DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista);
+      }
+      this.tentativaKm++;
       this.despesaInvalida();
     }
     else if (1 == 1)

@@ -92,6 +92,7 @@ export interface DespesaCreditosCartaoListView
     tecnico: string;
     filial: string;
     cartao: string;
+    dataManutSaldo: string;
     saldo: number;
     integrado: string;
     obs?: string;

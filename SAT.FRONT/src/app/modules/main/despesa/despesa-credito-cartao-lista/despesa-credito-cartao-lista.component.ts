@@ -17,10 +17,10 @@ import moment from 'moment';
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px;
-            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
-            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
-            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 100px 85px 60px 60px 80px 120px; }
+            grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px;
+            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
+            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
+            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -106,20 +106,25 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     {
       this.listview.push(
         {
-          protocolo: "P" + p.despesaProtocoloPeriodoTecnico.codDespesaProtocolo,
+          protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
           rd: p.codDespesaPeriodoTecnico,
           cadastro: moment(p.dataHoraManut).format('DD/MM'),
           tecnico: p.tecnico?.nome,
           filial: p.tecnico?.filial?.nomeFilial,
           cartao: this.obterCartaoAtual(p),
           saldo: this.obterSaldoAtual(p),
-          integrado: moment(p.ticketLogPedidoCredito?.dataHoraProcessamento).format('DD/MM HH:mm') || null,
+          dataManutSaldo: moment(this.obterHorarioSaldoAtual(p)).format('DD/MM HH:mm'),
+          integrado: p.ticketLogPedidoCredito?.dataHoraProcessamento ? moment(p.ticketLogPedidoCredito?.dataHoraProcessamento).format('DD/MM HH:mm') : null,
           inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
           fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
           combustivel: this.obterDespesasCombustivel(p),
           indCreditado: p.indCredito == 1 ? true : false
-        })
-    })
+        });
+    });
+
+    this.listview = Enumerable.from(this.listview)
+      .orderByDescending(i => i.cadastro)
+      .toArray();
   }
 
   private obterCartaoAtual(p: DespesaPeriodoTecnico)
@@ -134,6 +139,13 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.saldo;
+  }
+
+  private obterHorarioSaldoAtual(p: DespesaPeriodoTecnico)
+  {
+    return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
+      .orderByDescending(i => i.dataHoraInicio)
+      .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.dataHoraManut;
   }
 
   private obterDespesasCombustivel(p: DespesaPeriodoTecnico)
@@ -155,8 +167,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     alert("creditar");
   }
 
-  validarRD()
+  verificarProtocolo()
   {
-    alert("validar");
+    alert("verificar");
   }
 }

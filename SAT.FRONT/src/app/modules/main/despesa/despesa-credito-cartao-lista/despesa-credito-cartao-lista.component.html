@@ -89,10 +89,10 @@
                                                 {{ a.cartao ?? "---" }}
                                             </div>
                                             <div>
-                                                {{ (a.saldo | currency:'BRL':'symbol-narrow') ?? "---" }}
+                                                {{ a.saldo ? (a.saldo | currency:'BRL':'symbol-narrow') + " às " + a.dataManutSaldo : "---" }}
                                             </div>
                                             <div>
-                                                {{ a.integrado }}
+                                                {{ a.integrado || "---" }}
                                             </div>
                                             <div>
                                                 {{ a.inicio }}
@@ -106,13 +106,15 @@
                                             <div>
                                                 <button [disabled]="a.indCreditado" class="cursor-pointer"
                                                     (click)="creditarRD()">
-                                                    <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
+                                                    <mat-icon class="max-w-5 max-h-5 text-green-500"
+                                                        [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer" (click)="validarRD()">
-                                                    <mat-icon class="max-w-5 max-h-5" [color]="'warn'"
-                                                        [svgIcon]="'heroicons_outline:cursor-click'">
+                                                <button class="cursor-pointer ml-2" (click)="verificarProtocolo()">
+                                                    <mat-icon class="max-w-5 max-h-5 text-blue-500"
+                                                        [matTooltip]="t('verificar')"
+                                                        [svgIcon]="'heroicons_outline:search'">
                                                     </mat-icon>
                                                 </button>
                                             </div>

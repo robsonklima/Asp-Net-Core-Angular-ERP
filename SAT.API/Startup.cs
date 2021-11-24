@@ -88,12 +88,12 @@ namespace SAT.API
             services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
+            services.AddTransient<IContratoEquipamentoDataRepository, ContratoEquipamentoDataRepository>();
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
             services.AddTransient<IContratoReajusteRepository, ContratoReajusteRepository>();
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
             services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
-
             services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
             services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
             services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
@@ -107,6 +107,7 @@ namespace SAT.API
             services.AddTransient<ICidadeService, CidadeService>();
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IContratoEquipamentoService, ContratoEquipamentoService>();
+            services.AddTransient<IContratoEquipamentoDataService, ContratoEquipamentoDataService>();
             services.AddTransient<IContratoService, ContratoService>();
             services.AddTransient<IContratoSLAService, ContratoSLAService>();
             services.AddTransient<IContratoReajusteService, ContratoReajusteService>();

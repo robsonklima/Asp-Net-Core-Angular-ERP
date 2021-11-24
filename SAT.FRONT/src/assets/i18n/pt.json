@@ -311,5 +311,10 @@
     "descricao": "Descrição",
     "novas pecas cadastradas": "NOVAS PEÇAS CADASTRADAS",
     "pecas liberadas": "PEÇAS LIBERADAS",
-    "dados peca mais faltante": "DADOS PEÇA MAIS FALTANTE"
+    "dados peca mais faltante": "DADOS PEÇA MAIS FALTANTE",
+    "tipo garantia": "Tipo Garantia",
+    "balcao": "Balcão",
+    "on site": "On-Site",
+    "cod logix": "Cód. Logix",
+    "valor instalacao": "Valor Instalação"    
 }

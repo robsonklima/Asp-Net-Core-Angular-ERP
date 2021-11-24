@@ -21,7 +21,8 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasMany(i => i.Despesas)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodTecnico, i.CodDespesaPeriodo });
+                .HasForeignKey(i => new { i.CodTecnico, i.CodDespesaPeriodo })
+                .HasPrincipalKey(i => new { i.CodTecnico, i.CodDespesaPeriodo });
 
             builder
                 .HasOne(i => i.DespesaPeriodoTecnicoStatus)

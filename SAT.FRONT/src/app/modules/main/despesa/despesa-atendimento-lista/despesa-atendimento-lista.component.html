@@ -59,9 +59,12 @@
                                 <ng-container *ngIf="atendimentos?.items?.length">
                                     <ng-container *ngFor="let dp of atendimentos?.items">
                                         <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                            [ngClass]="{'bg-red-100': dp.status?.codDespesaPeriodoTecnicoStatus ==
-                                                3, 'bg-green-100': dp.status?.codDespesaPeriodoTecnicoStatus == 2,
-                                                'bg-yellow-100': dp.status?.codDespesaPeriodoTecnicoStatus == 1}">
+                                            [ngClass]="{'bg-red-200 hover:bg-red-300':
+                                            dp.status?.codDespesaPeriodoTecnicoStatus ==
+                                                3, 'bg-green-100 hover:bg-green-200':
+                                                dp.status?.codDespesaPeriodoTecnicoStatus == 2,
+                                                'bg-yellow-100 hover:bg-yellow-200':
+                                                dp.status?.codDespesaPeriodoTecnicoStatus == 1}">
                                             <div class="pointer-events-none">
                                                 {{ dp.dataInicio | date:'dd/MM/yyyy' }}
                                             </div>

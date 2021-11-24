@@ -57,6 +57,7 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.DespesaPeriodo)
                 .Include(dpt => dpt.Despesas)
                     .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.DespesaItemAlerta)
                 .Include(dpt => dpt.Despesas)
                     .ThenInclude(dp => dp.DespesaItens)
                         .ThenInclude(dp => dp.CidadeOrigem)
@@ -80,7 +81,6 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.DespesaProtocoloPeriodoTecnico)
                 .Include(dpt => dpt.TicketLogPedidoCredito)
                 .FirstOrDefault(i => i.CodDespesaPeriodoTecnico == codigo);
-
         }
 
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)

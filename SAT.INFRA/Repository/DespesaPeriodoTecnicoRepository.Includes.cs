@@ -13,6 +13,7 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.DespesaPeriodo)
                 .Include(dpt => dpt.Despesas)
                     .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.DespesaItemAlerta)
                 .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
                 .Include(dpt => dpt.Tecnico)
                     .ThenInclude(dpt => dpt.Filial)

@@ -176,6 +176,7 @@ export class DespesaItemDialogComponent implements OnInit
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
       codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
       enderecoOrigem: this.despesaItemForm.value.step2.enderecoOrigem,
       numOrigem: this.despesaItemForm.value.step2.numeroOrigem,
       bairroOrigem: this.despesaItemForm.value.step2.bairroOrigem,
@@ -221,6 +222,7 @@ export class DespesaItemDialogComponent implements OnInit
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
       codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
       obs: this.despesaItemForm.value.step3.obs
     };
 

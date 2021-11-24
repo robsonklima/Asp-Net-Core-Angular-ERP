@@ -63,6 +63,7 @@ export interface DespesaItem
     obs?: string;
     obsReprovacao?: string;
     codDespesaItemAlerta?: number;
+    despesaItemAlerta?: DespesaItemAlerta;
     indReprovado?: number;
     indAtivo?: number;
     codUsuarioCad?: string;

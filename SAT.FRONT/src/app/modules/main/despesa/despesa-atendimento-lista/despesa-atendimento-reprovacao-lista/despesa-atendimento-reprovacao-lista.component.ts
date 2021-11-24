@@ -21,10 +21,10 @@ import { takeUntil, debounceTime, filter, map } from 'rxjs/operators';
   selector: 'app-despesa-atendimento-reprovacao-lista',
   templateUrl: './despesa-atendimento-reprovacao-lista.component.html',
   styles: [`.list-grid-despesa-atendimento-reprovacao {
-            grid-template-columns: 80px 80px auto 100px 75px 75px;
-            @screen sm { grid-template-columns: 80px 80px auto 100px 75px 75px; }
-            @screen md { grid-template-columns: 80px 80px auto 100px 75px 75px; }
-            @screen lg { grid-template-columns: 80px 80px auto 100px 75px 75px; }
+            grid-template-columns: 80px 80px 130px auto 100px 75px 75px;
+            @screen sm { grid-template-columns: 80px 80px 130px auto 100px 75px 75px; }
+            @screen md { grid-template-columns: 80px 80px 130px auto 100px 75px 75px; }
+            @screen lg { grid-template-columns: 80px 80px 130px auto 100px 75px 75px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -188,7 +188,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     this.despesaSelecionadaForm.controls['indReprovado']
       .setValue(despesaItem.indReprovado == 1 ? true : false);
 
-    this.despesaSelecionadaForm.controls['notaFiscal']
+    this.despesaSelecionadaForm.controls['obs']
       .setValue(despesaItem.obs);
 
     this.despesaSelecionadaForm.controls['obsReprovacao']

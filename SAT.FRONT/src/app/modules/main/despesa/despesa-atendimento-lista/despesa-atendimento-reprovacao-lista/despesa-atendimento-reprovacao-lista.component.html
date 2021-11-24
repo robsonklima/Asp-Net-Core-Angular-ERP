@@ -79,6 +79,9 @@
                                         {{ t('tipo') }}
                                     </div>
                                     <div>
+                                        {{ t('alerta') }}
+                                    </div>
+                                    <div>
                                         {{ t('valor') }}
                                     </div>
                                     <div>
@@ -92,8 +95,8 @@
                                     <ng-container *ngFor="let d of despesas">
                                         <ng-container *ngFor="let i of d.despesaItens">
                                             <div class="list-grid-despesa-atendimento-reprovacao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                                [ngClass]="{'bg-red-100': i.indReprovado == 1,
-                                                'bg-yellow-100': i.obs != null}">
+                                                [ngClass]="{'bg-red-200 hover:bg-red-300': i.indReprovado == 1,
+                                                'bg-yellow-100 hover:bg-yellow-200': i.obs != null}">
                                                 <div class="pointer-events-none">
                                                     {{ d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
                                                 </div>
@@ -102,6 +105,10 @@
                                                 </div>
                                                 <div class="pointer-events-none">
                                                     {{ i?.despesaTipo?.nomeTipo }}
+                                                </div>
+                                                <div class="cursor-help font-bold truncate"
+                                                    [matTooltip]="i?.despesaItemAlerta?.descItemAlerta">
+                                                    {{ i?.despesaItemAlerta?.descItemAlerta }}
                                                 </div>
                                                 <div class="pointer-events-none">
                                                     {{ i?.despesaValor | currency:'BRL':'symbol-narrow' }}
@@ -201,7 +208,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div *ngIf="despesaItemSelecionada.obs">
+                    <div *ngIf="despesaItemSelecionada.despesaItemAlerta">
                         <mat-form-field class="fuse-mat-dense text-sm min-w-full pointer-events-none">
                             <mat-label>{{t('observacao')}}</mat-label>
                             <input matInput formControlName="obs" [readonly]="true">

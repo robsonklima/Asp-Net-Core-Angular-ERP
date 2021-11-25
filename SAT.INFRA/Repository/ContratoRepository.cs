@@ -2,7 +2,9 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -21,10 +23,17 @@ namespace SAT.INFRA.Repository
         {
             Contrato c = _context.Contrato.FirstOrDefault(d => d.CodContrato == contrato.CodContrato);
 
-            if (c != null)
+            try
             {
-                _context.Entry(c).CurrentValues.SetValues(contrato);
-                _context.SaveChanges();
+                if (c != null)
+                {
+                    _context.Entry(c).CurrentValues.SetValues(contrato);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
             }
         }
 
@@ -51,7 +60,7 @@ namespace SAT.INFRA.Repository
                             .Include(c => c.Cliente)
                             .Include(c => c.TipoContrato)
                             .FirstOrDefault(c => c.CodContrato == codigo);
-    }
+        }
 
         public PagedList<Contrato> ObterPorParametros(ContratoParameters parameters)
         {

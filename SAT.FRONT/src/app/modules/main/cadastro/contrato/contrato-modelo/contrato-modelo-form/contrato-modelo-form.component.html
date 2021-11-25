@@ -12,7 +12,7 @@
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <a class="whitespace-nowrap text-primary" [routerLink]="'/contrato/' + codContrato">
-                        {{ codContrato }}
+                        {{ contrato.nroContrato }}
                     </a>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap">
@@ -31,22 +31,37 @@
         </div>
     </div>
 
-    <div class="flex-auto">
+    <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-5xl">
-            <form [formGroup]="form" class="flex flex-col bg-card rounded-2xl overflow-hidden">
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes') }}</p>
                 </div>
                 <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <!-- <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('modelo') }}</mat-label>
-                        <mat-select formControlName="codModelo">
+                        <mat-select formControlName="codEquip">
                             <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip">
                                 {{modelo.nomeEquip}}
                             </mat-option>
                         </mat-select>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                     -->
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('modelo') }}</mat-label>
+                        <mat-select formControlName="codEquip" #modeloSelect>
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="modelosFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip" matTooltip="{{modelo.nomeEquip }}" matTooltipPosition="right">
+                                <span>{{ modelo.nomeEquip }}</span>
+                                <!-- <span class="opacity-50">{{ tecnico.filial?.nomeFilial }}</span> -->
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -84,9 +99,11 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>Após a data de:</mat-label>
                         <mat-select formControlName="codContratoEquipDataEnt">
-                            <mat-option *ngFor="let data of contratoEquipData" [value]="data.codContratoEquipData">
-                                {{data.nomeData}}
-                            </mat-option>
+                            <div *ngFor="let data of contratoEquipData">
+                                <mat-option *ngIf="data.indEntrega" [value]="data.codContratoEquipData">
+                                    {{data.nomeData}}
+                                </mat-option>
+                            </div>
                         </mat-select>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
@@ -122,9 +139,11 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>Após a data de:</mat-label>
                         <mat-select formControlName="codContratoEquipDataIns">
-                            <mat-option *ngFor="let data of contratoEquipData" [value]="data.codContratoEquipData">
-                                {{data.nomeData}}
-                            </mat-option>
+                            <div *ngFor="let data of contratoEquipData">
+                                <mat-option *ngIf="data.indInstalacao" [value]="data.codContratoEquipData">
+                                    {{data.nomeData}}
+                                </mat-option>
+                            </div>
                         </mat-select>
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
@@ -156,9 +175,11 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>Após a data de:</mat-label>
                         <mat-select formControlName="codContratoEquipDataGar">
-                            <mat-option *ngFor="let data of contratoEquipData" [value]="data.codContratoEquipData">
-                                {{data.nomeData}}
-                            </mat-option>
+                            <div *ngFor="let data of contratoEquipData">
+                                <mat-option *ngIf="data.indGarantia" [value]="data.codContratoEquipData">
+                                    {{data.nomeData}}
+                                </mat-option>
+                            </div>
                         </mat-select>
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>

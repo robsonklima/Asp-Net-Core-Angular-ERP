@@ -1,7 +1,7 @@
 import { TipoIndiceReajusteService } from './../../../../../core/services/tipo-indice-reajuste.service';
 import { TipoContratoService } from './../../../../../core/services/tipo-contrato.service';
 import { Contrato } from './../../../../../core/types/contrato.types';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from 'app/core/services/cliente.service';
@@ -17,16 +17,22 @@ import { TipoIndiceReajuste } from 'app/core/types/tipo-indice-reajuste.types';
 import { ContratoReajuste } from 'app/core/types/contrato-reajuste.types';
 import { ContratoReajusteService } from 'app/core/services/contrato-reajuste.service';
 
+
+
 @Component({
 	selector: 'app-contrato-form',
 	templateUrl: './contrato-form.component.html',
 })
 export class ContratoFormComponent implements OnInit {
+
+	@Output() cod = new EventEmitter();
+	
 	codContrato: number;
 	contrato: Contrato;
 	contratoReajuste: ContratoReajuste;
 	form: FormGroup;
 	isAddMode: boolean;
+	isLoading: boolean;
 	userSession: UsuarioSessao;
 	clientes: Cliente[] = [];
 	searching: boolean;
@@ -50,13 +56,15 @@ export class ContratoFormComponent implements OnInit {
 	}
 
 	async ngOnInit() {
+		this.isLoading = true;
 		this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
 		this.isAddMode = !this.codContrato;
 		this.inicializarForm();
 
-		// Main Obj
 		await this.obterClientes();
 		await this.obterDados();
+
+		this.isLoading= false;
 	}
 
 
@@ -69,7 +77,7 @@ export class ContratoFormComponent implements OnInit {
 		if (!this.isAddMode) {
 			let data = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
 			this.contrato = data;
-
+			this.cod.emit(data.nroContrato);
 			this.form.patchValue(this.contrato);
 			this.form.patchValue(this.contratoReajuste);
 		}
@@ -107,9 +115,7 @@ export class ContratoFormComponent implements OnInit {
 		});
 		
 		this._contratoService.atualizar(obj).subscribe((ct) => {
-			console.log(form);
-			console.log(ct);
-			
+	
 			let ctReajs: ContratoReajuste = {
 				codContrato: ct.codContrato,
 				codTipoIndiceReajuste: form.codTipoIndiceReajuste,
@@ -121,6 +127,7 @@ export class ContratoFormComponent implements OnInit {
 
 			this._contratoReajusteService.atualizar(ctReajs).subscribe();
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+			this.cod.emit(ct.nroContrato);
 			this.form.enable();
 		});
 	}

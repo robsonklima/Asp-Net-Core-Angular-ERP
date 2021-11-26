@@ -79,7 +79,7 @@ namespace SAT.SERVICES.Services
         private decimal ObterTotalAdiantamentoProvisorio(string codTecnico, int codPeriodo) =>
             this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
             .Select(i => i.DespesaAdiantamento)
-            .Where(i => i.CodDespesaAdiantamento == 2)
+            .Where(i => i.CodDespesaAdiantamento == (int)DespesaAdiantamentoEnum.PROVISORIO)
             .Sum(i => i.ValorAdiantamento);
 
         private decimal TotalGastosExcedentes(decimal totalDespesa, decimal totalAdiantamento)

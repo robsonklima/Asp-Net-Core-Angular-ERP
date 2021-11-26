@@ -89,7 +89,7 @@
                                                 {{ a.cartao ?? "---" }}
                                             </div>
                                             <div>
-                                                {{ a.saldo ? (a.saldo | currency:'BRL':'symbol-narrow') + " às " + a.dataManutSaldo : "---" }}
+                                                {{ a.saldo ? (a.saldo | currency:'BRL':'symbol-narrow') + " em " + a.dataManutSaldo : "---" }}
                                             </div>
                                             <div>
                                                 {{ a.integrado || "---" }}
@@ -104,7 +104,7 @@
                                                 {{ a.combustivel | currency:'BRL':'symbol-narrow' }}
                                             </div>
                                             <div>
-                                                <button [disabled]="!a.indCreditado" class="cursor-pointer"
+                                                <button [disabled]="a.indCreditado" class="cursor-pointer"
                                                     (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"

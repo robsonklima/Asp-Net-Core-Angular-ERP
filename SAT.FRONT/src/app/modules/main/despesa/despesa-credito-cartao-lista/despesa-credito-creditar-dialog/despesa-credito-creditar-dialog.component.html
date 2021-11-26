@@ -8,8 +8,8 @@
             {{ "Crédito de combustível no valor de " + (despesaCreditosCartaoListView.combustivel | currency:'BRL':'symbol-narrow') + " para " + (despesaCreditosCartaoListView.tecnico  | uppercase) +"."}}
 
         </div>
-        <div class="flex overflow-hidden">
-            {{"(Categoria " + getCategoriaCredito(despesaCreditosCartaoListView.categoriaCredito.categoriaCredito) + ", " + (despesaCreditosCartaoListView.categoriaCredito.valor | currency:'BRL':'symbol-narrow') + ")"}}
+        <div class="flex overflow-hidden text-secondary">
+            {{"Categoria " + getCategoriaCredito(despesaCreditosCartaoListView.categoriaCredito.categoriaCredito) + ", " + (despesaCreditosCartaoListView.categoriaCredito.valor | currency:'BRL':'symbol-narrow') + "."}}
         </div>
     </div>
 </div>

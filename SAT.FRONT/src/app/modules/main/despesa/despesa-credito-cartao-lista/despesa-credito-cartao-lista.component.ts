@@ -19,10 +19,10 @@ import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-credita
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px;
-            @screen sm { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
-            @screen md { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
-            @screen lg { grid-template-columns: 60px 60px 70px auto 30px 150px 115px 85px 60px 60px 80px 105px; }
+            grid-template-columns: 50px 50px 70px auto 30px 115px 115px 85px 60px 60px 80px 105px;
+            @screen sm { grid-template-columns: 50px 50px 70px auto 30px 115px 115px 85px 60px 60px 80px 105px; }
+            @screen md { grid-template-columns: 50px 50px 70px auto 30px 115px 115px 85px 60px 60px 80px 105px; }
+            @screen lg { grid-template-columns: 50px 50px 70px auto 30px 115px 115px 85px 60px 60px 80px 105px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

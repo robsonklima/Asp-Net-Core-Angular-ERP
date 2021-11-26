@@ -104,14 +104,14 @@
                                                 {{ a.combustivel | currency:'BRL':'symbol-narrow' }}
                                             </div>
                                             <div>
-                                                <button [disabled]="a.indCreditado" class="cursor-pointer"
-                                                    (click)="creditarRD()">
+                                                <button [disabled]="!a.indCreditado" class="cursor-pointer"
+                                                    (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer ml-2" (click)="verificarProtocolo()">
+                                                <button class="cursor-pointer ml-2" (click)="verificarProtocolo(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"
                                                         [svgIcon]="'heroicons_outline:search'">

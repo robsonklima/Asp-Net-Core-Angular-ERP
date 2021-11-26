@@ -2,7 +2,7 @@ import { DespesaAdiantamentoPeriodoConsultaTecnicoItem } from "./despesa-adianta
 import { DespesaProtocoloPeriodoTecnico } from "./despesa-protocolo.types";
 import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
-import { Tecnico } from "./tecnico.types";
+import { Tecnico, TecnicoCategoriaCredito } from "./tecnico.types";
 import { TicketLogPedidoCredito } from "./ticketlog-types";
 
 export class DespesaPeriodo
@@ -90,6 +90,7 @@ export interface DespesaCreditosCartaoListView
     rd: number;
     cadastro: string;
     tecnico: string;
+    categoriaCredito: TecnicoCategoriaCredito;
     filial: string;
     cartao: string;
     dataManutSaldo: string;

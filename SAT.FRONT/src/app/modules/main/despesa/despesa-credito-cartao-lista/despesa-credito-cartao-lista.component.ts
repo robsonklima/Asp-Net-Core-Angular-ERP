@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
@@ -11,6 +12,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
 
 @Component({
   selector: 'app-despesa-credito-cartao-lista',
@@ -39,7 +41,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   constructor (
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _dialog: MatDialog)
   {
     super(_userService, 'despesa-credito-cartao');
   }
@@ -104,14 +107,13 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
     this.periodos.items.forEach(p =>
     {
-      console.log(p.tecnico.tecnicoCategoriaCredito);
-
       this.listview.push(
         {
           protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
           rd: p.codDespesaPeriodoTecnico,
           cadastro: moment(p.dataHoraManut).format('DD/MM'),
           tecnico: p.tecnico?.nome,
+          categoriaCredito: p.tecnico.tecnicoCategoriaCredito,
           filial: p.tecnico?.filial?.nomeFilial,
           cartao: this.obterCartaoAtual(p),
           saldo: this.obterSaldoAtual(p),
@@ -164,12 +166,22 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     this.obterDados();
   }
 
-  creditarRD()
+  creditarRD(a: DespesaCreditosCartaoListView)
   {
-    alert("creditar");
+    const dialogRef = this._dialog.open(DespesaCreditoCreditarDialogComponent, {
+      data: {
+        despesaCreditosCartaoListView: a
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+        this.obterDados();
+    });
   }
 
-  verificarProtocolo()
+  verificarProtocolo(a: DespesaCreditosCartaoListView)
   {
     alert("verificar");
   }

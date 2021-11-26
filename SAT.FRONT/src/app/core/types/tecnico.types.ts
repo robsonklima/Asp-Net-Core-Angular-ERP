@@ -150,10 +150,10 @@ export interface TecnicoConta
 
 export enum TecnicoCategoriaCreditoEnum
 {
-    A,
-    B,
-    C,
-    D
+    "A",
+    "B",
+    "C",
+    "D"
 }
 
 export interface TecnicoCategoriaCredito

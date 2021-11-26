@@ -104,6 +104,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
     this.periodos.items.forEach(p =>
     {
+      console.log(p.tecnico.tecnicoCategoriaCredito);
+
       this.listview.push(
         {
           protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,

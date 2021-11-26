@@ -11,12 +11,14 @@ namespace SAT.INFRA.Repository
     public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
         private readonly AppDbContext _context;
+        private readonly IDespesaRepository _despesaRepository;
 
         public DespesaPeriodoTecnicoRepository(
             AppDbContext context,
-            IDespesaProtocoloPeriodoTecnicoRepository despesaProtocoloPeriodoTecnicoRepo)
+            IDespesaRepository despesaRepository)
         {
             _context = context;
+            _despesaRepository = despesaRepository;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesaTecnico)

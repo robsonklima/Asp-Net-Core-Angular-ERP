@@ -71,7 +71,8 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey("CodTecnico");
 
             builder
-                .Ignore(i => i.MediaTempoAtendMin);
+                .Ignore(i => i.MediaTempoAtendMin)
+                .Ignore(i => i.TecnicoCategoriaCredito);
         }
     }
 }

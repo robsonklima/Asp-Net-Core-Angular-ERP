@@ -73,6 +73,7 @@ export class Tecnico
     mediaTempoAtendMin: number;
     despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
     tecnicoConta?: TecnicoConta[];
+    tecnicoCategoriaCredito?: TecnicoCategoriaCredito;
 }
 
 export interface TecnicoData extends Meta
@@ -145,4 +146,19 @@ export interface TecnicoConta
     dataHoraCad: string;
     codUsuarioManut: string;
     dataHoraManut: string;
+}
+
+export enum TecnicoCategoriaCreditoEnum
+{
+    A,
+    B,
+    C,
+    D
+}
+
+export interface TecnicoCategoriaCredito
+{
+    categoriaCredito: TecnicoCategoriaCreditoEnum;
+    media: number;
+    valor: number;
 }

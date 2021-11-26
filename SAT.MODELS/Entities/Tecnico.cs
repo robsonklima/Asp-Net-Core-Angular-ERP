@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities
 {
@@ -65,5 +66,6 @@ namespace SAT.MODELS.Entities
         public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public virtual List<TecnicoConta> TecnicoConta { get; set; }
         public int MediaTempoAtendMin { get; set; }
+        public TecnicoCategoriaCredito TecnicoCategoriaCredito { get; set; }
     }
 }

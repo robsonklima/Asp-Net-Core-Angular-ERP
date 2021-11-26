@@ -11,11 +11,13 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
         private readonly IDespesaAdiantamentoPeriodoService _despesaAdiantamentoPeriodoService;
+        private readonly IDespesaRepository _despesaRepository;
 
         public DespesaPeriodoTecnicoService(
             IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
             IDespesaPeriodoRepository despesaPeriodoRepo,
+            IDespesaRepository despesaRepository,
             IDespesaAdiantamentoPeriodoService despesaAdiantamentoPeriodoService
             )
         {
@@ -23,6 +25,7 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _despesaPeriodoRepo = despesaPeriodoRepo;
             _despesaAdiantamentoPeriodoService = despesaAdiantamentoPeriodoService;
+            _despesaRepository = despesaRepository;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesa)
@@ -49,6 +52,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
             var despesas = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
+            despesas = ComputarPropriedades(despesas, parameters);
 
             var lista = new ListViewModel
             {

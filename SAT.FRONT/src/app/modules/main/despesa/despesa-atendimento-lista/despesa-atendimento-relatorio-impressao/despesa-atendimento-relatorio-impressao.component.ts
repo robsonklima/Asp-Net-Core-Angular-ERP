@@ -231,4 +231,13 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 
     return recebido - utilizado;
   }
+
+  obterTotalViaDeposito()
+  {
+    // var despesas = this.obterTotalDespesaSemKM();
+    // var adiantamentos = this.obterTotalAdiantamentos();
+    // var deposito = despesas - adiantamentos;
+
+    return this.obterTotalDespesaSemKM();
+  }
 }

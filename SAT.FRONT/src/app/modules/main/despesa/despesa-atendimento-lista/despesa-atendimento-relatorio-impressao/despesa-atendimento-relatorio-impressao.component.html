@@ -447,7 +447,7 @@
                                             {{ 'receber via depósito:' | uppercase }}
                                         </p>
                                         <p class="font-bold text-right">
-                                            ---
+                                            {{ obterTotalViaDeposito() | currency:'BRL':'symbol-narrow' }}
                                         </p>
                                     </div>
                                 </div>
@@ -524,7 +524,7 @@
                                 <div style=" font-size: 8px !important;" class="mt-5 text-center">
                                     <div class="inline-block text-center mr-10">
                                         <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
-                                        <div>Aprovação da Gerência</div>
+                                        <div>Gerência</div>
                                     </div>
 
                                     <div class="inline-block text-center mr-10">

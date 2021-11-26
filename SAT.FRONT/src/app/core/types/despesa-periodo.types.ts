@@ -102,6 +102,16 @@ export interface DespesaCreditosCartaoListView
     fim: string;
     combustivel: number;
     indCreditado: boolean;
+    indCompensado: boolean;
+    indVerificado: boolean;
+}
+
+export enum DespesaCreditoCartaoStatusEnum 
+{
+    "AGUARDANDO VERIFICAÇÃO",
+    "VERIFICADO",
+    "CREDITADO",
+    "COMPENSADO"
 }
 
 export interface DespesaPeriodoTecnicoAtendimentoItem

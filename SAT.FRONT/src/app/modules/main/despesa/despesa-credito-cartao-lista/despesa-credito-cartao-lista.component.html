@@ -54,13 +54,13 @@
                                         {{ t('integrado') }}
                                     </div>
                                     <div>
-                                        {{ t('inicio') }}
-                                    </div>
-                                    <div>
-                                        {{ t('fim') }}
+                                        {{ t('periodo') }}
                                     </div>
                                     <div>
                                         {{ t('combustivel') }}
+                                    </div>
+                                    <div>
+                                        {{ t('status') }}
                                     </div>
                                     <div>
                                         {{ t('acoes') }}
@@ -92,26 +92,39 @@
                                                 {{ a.saldo ? (a.saldo | currency:'BRL':'symbol-narrow') + " em " + a.dataManutSaldo : "---" }}
                                             </div>
                                             <div>
-                                                {{ a.integrado || "---" }}
+                                                {{ a.indCompensado == 1 ? "N/A" : (a.integrado || "---") }}
                                             </div>
                                             <div>
-                                                {{ a.inicio }}
-                                            </div>
-                                            <div>
-                                                {{ a.fim }}
+                                                {{ a.inicio + " - " + a.fim }}
                                             </div>
                                             <div>
                                                 {{ a.combustivel | currency:'BRL':'symbol-narrow' }}
                                             </div>
+                                            <div class="cursor-help">
+                                                <span [matTooltip]="getStatus(a)" [matTooltipClass]="'os_lista_tooltip'"
+                                                    matTooltipPosition="above">
+                                                    <span class="py-1 px-1 rounded text-xs font-bold" [ngClass]="{
+                                                        'bg-blue-100': a.indCreditado,
+                                                        'bg-purple-100': a.indCompensado,
+                                                        'bg-green-100': a.indVerificado,
+                                                        'bg-yellow-100': 1 == 1}">
+                                                        {{ a.indCreditado ? "CR" :
+                                                         a.indCompensado ? "CO" :
+                                                        a.indVerificado ? "V" : "AV" }}
+                                                    </span>
+                                                </span>
+                                            </div>
                                             <div>
-                                                <button [disabled]="a.indCreditado" class="cursor-pointer"
-                                                    (click)="creditarRD(a)">
+                                                <button
+                                                    [disabled]="a.indCreditado || a.indCompensado || !a.indVerificado"
+                                                    class="cursor-pointer" (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer ml-2" (click)="verificarProtocolo(a)">
+                                                <button [disabled]="a.indVerificado" class="cursor-pointer ml-2"
+                                                    (click)="verificarProtocolo(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"
                                                         [svgIcon]="'heroicons_outline:search'">

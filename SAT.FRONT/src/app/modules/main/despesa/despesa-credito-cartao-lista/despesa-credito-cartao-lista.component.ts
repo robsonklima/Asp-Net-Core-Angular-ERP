@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
@@ -20,10 +20,10 @@ import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-credita
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 50px 50px 70px auto 30px 115px 80px 85px 60px 60px 80px 105px;
-            @screen sm { grid-template-columns: 50px 50px 70px auto 30px 115px 80px 85px 60px 60px 80px 105px; }
-            @screen md { grid-template-columns: 50px 50px 70px auto 30px 115px 80px 85px 60px 60px 80px 105px; }
-            @screen lg { grid-template-columns: 50px 50px 70px auto 30px 115px 80px 85px 60px 60px 80px 105px; }
+            grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px;
+            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
+            @screen md { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
+            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -123,7 +123,9 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
           inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
           fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
           combustivel: this.obterDespesasCombustivel(p),
-          indCreditado: p.indCredito == 1 ? true : false
+          indCreditado: p.indCredito == 1 ? true : false,
+          indCompensado: p.indCompensacao == 1 ? true : false,
+          indVerificado: p.indVerificacao == 1 ? true : false
         });
     });
 
@@ -201,5 +203,17 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       {
       }
     });
+  }
+
+  getStatus(a: DespesaCreditosCartaoListView)
+  {
+    if (a.indCreditado)
+      return "CREDITADO";
+    else if (a.indCompensado)
+      return "COMPENSADO";
+    else if (a.indVerificado)
+      return "VERIFICADO";
+
+    return "AGUARDANDO VERIFICAÇÃO";
   }
 }

@@ -71,11 +71,41 @@ namespace SAT.SERVICES.Services
             this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
                 .Sum(a => a.ValorAdiantamentoUtilizado);
 
+        private decimal ObterTotalAdiantamento(string codTecnico, int codPeriodo) =>
+            this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
+            .Select(i => i.DespesaAdiantamento)
+            .Sum(i => i.ValorAdiantamento);
+
+        private decimal TotalGastosExcedentes(decimal totalDespesa, decimal totalAdiantamento)
+        {
+            var saldo = totalAdiantamento - totalDespesa;
+
+            if (totalDespesa < totalAdiantamento)
+                return 0;
+            else if (saldo < 0)
+                return saldo * -1;
+            else return saldo;
+        }
+
+        private decimal TotalRestituicao(decimal totalDespesa, decimal totalAdiantamento)
+        {
+            var saldo = totalAdiantamento - totalDespesa;
+
+            if (totalDespesa > totalAdiantamento)
+                return 0;
+            else if (saldo < 0)
+                return saldo * -1;
+            else return saldo;
+        }
+
         private List<DespesaPeriodoTecnicoAtendimentoItem> CalculaDespesasPorPeriodo(List<DespesaPeriodo> periodos, string codTecnico) =>
             periodos.Select(despesa =>
             {
                 var despesaPeriodoTecnico =
                     this.ObterDespesaPeriodoTecnico(codTecnico, despesa.CodDespesaPeriodo);
+
+                var totalDespesa = this.TotalDespesa(despesaPeriodoTecnico);
+                var totalAdiantamento = this.ObterTotalAdiantamento(codTecnico, despesa.CodDespesaPeriodo);
 
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {
@@ -84,10 +114,10 @@ namespace SAT.SERVICES.Services
                     CodTecnico = codTecnico,
                     DataInicio = despesa.DataInicio,
                     DataFim = despesa.DataFim,
-                    TotalDespesa = this.TotalDespesa(despesaPeriodoTecnico),
+                    TotalDespesa = totalDespesa,
                     TotalAdiantamento = this.TotalAdiantamentoUtilizado(codTecnico, despesa.CodDespesaPeriodo),
-                    GastosExcedentes = 0, // TODO
-                    RestituirAEmpresa = 0, // TODO
+                    GastosExcedentes = this.TotalGastosExcedentes(totalDespesa, totalAdiantamento),
+                    RestituirAEmpresa = this.TotalRestituicao(totalDespesa, totalAdiantamento),
                     Status = despesaPeriodoTecnico?.DespesaPeriodoTecnicoStatus,
                     IndAtivo = Convert.ToBoolean(despesa.IndAtivo)
                 };

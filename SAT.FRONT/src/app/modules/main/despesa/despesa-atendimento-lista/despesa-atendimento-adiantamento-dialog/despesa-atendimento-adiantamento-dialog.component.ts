@@ -47,10 +47,12 @@ export class DespesaAtendimentoAdiantamentoDialogComponent implements OnInit
     this.userSession = JSON.parse(this._userSvc.userSession);
   };
 
-  ngOnInit(): void
+  async ngOnInit()
   {
     this.isLoading = true;
-    this.obterAdiantamentos();
+
+    await this.obterAdiantamentos();
+
     this.isLoading = false;
   }
 

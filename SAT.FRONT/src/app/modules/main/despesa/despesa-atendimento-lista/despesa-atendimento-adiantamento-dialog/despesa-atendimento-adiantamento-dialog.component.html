@@ -22,8 +22,11 @@
             {{ t('valor utilizado') }}
         </div>
     </div>
-    <ng-container *ngIf="adiantamentos?.items?.length">
+    <ng-container *ngIf="adiantamentos?.items?.length && !isLoading">
         <ng-container *ngFor="let a of adiantamentos?.items">
+            <div *ngIf="isLoading">
+                <mat-progress-spinner diameter="50" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
             <div class="list-grid-despesa-atendimento-adiantamento grid items-center h-11
                 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                 <div class="pointer-events-none">

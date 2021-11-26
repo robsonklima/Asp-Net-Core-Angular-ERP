@@ -11,8 +11,8 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight">
-                        {{ t('despesas') }}
+                    <div class="text-4xl font-extrabold tracking-tight" *ngIf="!isLoading">
+                        {{ userSession.usuario?.codPerfil == 35 ? t('atendimentos') : t('atendimentos') + " - " + tecnico?.nome }}
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">

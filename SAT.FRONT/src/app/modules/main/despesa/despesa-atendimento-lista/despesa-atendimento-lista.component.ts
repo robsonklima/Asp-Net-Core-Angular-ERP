@@ -19,6 +19,8 @@ import moment from 'moment';
 import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
 import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import { TecnicoService } from 'app/core/services/tecnico.service';
 registerLocaleData(localePt);
 
 @Component({
@@ -46,12 +48,14 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
   codTecnico: string;
   periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
+  tecnico: Tecnico;
 
   constructor (
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _tecnicoSvc: TecnicoService,
     private _snack: CustomSnackbarService,
     private _dialog: MatDialog)
   {
@@ -99,6 +103,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.isLoading = true;
 
     await this.obterDespesasPeriodoTecnico();
+    await this.obterTecnico();
 
     this.isLoading = false;
   }
@@ -131,6 +136,11 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     }
 
     return dp;
+  }
+
+  async obterTecnico()
+  {
+    this.tecnico = (await this._tecnicoSvc.obterPorCodigo(+this.codTecnico).toPromise());
   }
 
   liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)

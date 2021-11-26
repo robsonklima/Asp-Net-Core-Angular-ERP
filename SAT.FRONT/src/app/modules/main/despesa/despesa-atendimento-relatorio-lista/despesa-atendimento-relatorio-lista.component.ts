@@ -57,7 +57,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     private _ordemServicoSvc: OrdemServicoService)
   {
     super(_userService, "despesa-atendimento-relatorio");
-    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico');
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
   }
 
   async ngAfterViewInit()
@@ -91,11 +91,10 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterRATs()
   {
-    var codTecnico = this.userSession.usuario?.codTecnico || this.codTecnico;
-    this.rats = codTecnico != null ?
+    this.rats = this.codTecnico != null ?
       (await this._relatorioAtendimentoSvc.obterPorParametros
         ({
-          codTecnicos: codTecnico,
+          codTecnicos: this.codTecnico,
           dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
           dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
         }).toPromise()) : null;
@@ -103,19 +102,17 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterDespesas()
   {
-    var codTecnico = this.userSession.usuario?.codTecnico || this.codTecnico;
-
     var codigos: string =
       Enumerable.from(this.rats.items)
         .select(i => i.codRAT)
         .distinct()
         .toJoinedString(',');
 
-    this.despesas = codTecnico != null && codigos?.length > 0 ?
+    this.despesas = this.codTecnico != null && codigos?.length > 0 ?
       (await this._despesaSvc.obterPorParametros
         ({
           codRATs: codigos,
-          codTecnico: codTecnico
+          codTecnico: this.codTecnico
         }).toPromise()) : null;
   }
 

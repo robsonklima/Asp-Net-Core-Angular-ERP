@@ -103,7 +103,7 @@ namespace SAT.SERVICES.Services
                 return new DespesaAdiantamentoPeriodoConsultaTecnicoItem
                 {
                     Tecnico = tecnico,
-                    SaldoAdiantamento = this.SaldoAdiantamento(tecnico.CodTecnico),
+                    SaldoAdiantamento = this.SaldoAdiantamento(tecnico.CodTecnico.Value),
                     Liberado = Convert.ToBoolean(parameters.IndTecnicoLiberado.HasValue ?
                         parameters.IndTecnicoLiberado.Value : this.IsLiberado(tecnico.CodTecnico.ToString())),
                     IndAtivo = Convert.ToBoolean(tecnico.IndAtivo)

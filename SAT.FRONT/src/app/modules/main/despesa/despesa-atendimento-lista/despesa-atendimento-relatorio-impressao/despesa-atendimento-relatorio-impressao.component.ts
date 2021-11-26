@@ -8,6 +8,7 @@ import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { TecnicoConta } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
 
 @Component({
@@ -23,6 +24,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   centroDeCusto: string = appConfig.rd_centro_de_custo;
   ordensServico: OrdemServico[] = [];
   adiantamentos: DespesaAdiantamentoPeriodo[] = [];
+  tecnicoConta: TecnicoConta;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -44,6 +46,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 
     await this.obterOS();
     await this.obterAdiantamentos();
+    await this.obterContaTecnico();
 
     this.isLoading = false;
   }
@@ -72,15 +75,18 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   {
     var codigos = Enumerable.from(this.despesaPeriodoTecnico.despesas)
       .select(i => i.relatorioAtendimento.codOS)
-      .distinct();
+      .distinct()
+      .toJoinedString(",");
 
-    for (const c of codigos)
-    {
-      var os = (await this._ordemServicoSvc.obterPorCodigo(c).toPromise());
-      this.ordensServico.push(os);
-    };
+    this.ordensServico = (await this._ordemServicoSvc.obterPorParametros
+      ({ codOS: codigos, pageSize: codigos?.length > 0 ? codigos?.length : 1 }).toPromise()).items;
   }
 
+  obterContaTecnico()
+  {
+    this.tecnicoConta = Enumerable.from(this.despesaPeriodoTecnico.tecnico.tecnicoConta)
+      .firstOrDefault(i => i.indAtivo == 1);
+  }
 
   obterCartaoCombustivel()
   {

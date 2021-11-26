@@ -75,6 +75,8 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.Tecnico)
                     .ThenInclude(dpt => dpt.Filial)
                 .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.TecnicoConta)
+                .Include(dpt => dpt.Tecnico)
                     .ThenInclude(dpt => dpt.DespesaCartaoCombustivelTecnico)
                         .ThenInclude(dpt => dpt.DespesaCartaoCombustivel)
                             .ThenInclude(dpt => dpt.TicketLogUsuarioCartaoPlaca)

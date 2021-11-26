@@ -5,7 +5,7 @@ namespace SAT.MODELS.Entities
 {
     public class Tecnico
     {
-        public int CodTecnico { get; set; }
+        public int? CodTecnico { get; set; }
         public int? CodAutorizada { get; set; }
         public int? CodFilial { get; set; }
         public int CodTipoRota { get; set; }
@@ -63,6 +63,7 @@ namespace SAT.MODELS.Entities
         public Autorizada Autorizada { get; set; }
         public Cidade Cidade { get; set; }
         public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
+        public virtual List<TecnicoConta> TecnicoConta { get; set; }
         public int MediaTempoAtendMin { get; set; }
     }
 }

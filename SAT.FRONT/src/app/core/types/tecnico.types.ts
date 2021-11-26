@@ -72,6 +72,7 @@ export class Tecnico
     usuario: Usuario;
     mediaTempoAtendMin: number;
     despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
+    tecnicoConta?: TecnicoConta[];
 }
 
 export interface TecnicoData extends Meta
@@ -129,4 +130,19 @@ export class DashboardTecnicoDisponibilidadeTecnicoViewModel extends Tecnico
     mediaAtendimentosPorDiaInstalacoes: number;
     mediaAtendimentosPorDiaEngenharia: number;
     tecnicoSemChamadosTransferidos: boolean;
+}
+
+export interface TecnicoConta
+{
+    codTecnicoConta: number;
+    cdTecnico: number;
+    numBanco: string;
+    numAgencia: string;
+    numConta: string;
+    indPadrao: number;
+    indAtivo: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
 }

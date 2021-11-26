@@ -65,6 +65,12 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(i => i.CodTecnico);
 
             builder
+                .HasMany(i => i.TecnicoConta)
+                .WithOne()
+                .HasForeignKey("CodTecnico")
+                .HasPrincipalKey("CodTecnico");
+
+            builder
                 .Ignore(i => i.MediaTempoAtendMin);
         }
     }

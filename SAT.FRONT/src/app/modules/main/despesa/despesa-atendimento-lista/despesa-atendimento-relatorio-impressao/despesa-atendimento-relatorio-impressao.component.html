@@ -108,7 +108,7 @@
                                         {{ t('banco') + ":" | uppercase }}
                                     </p>
                                     <p>
-                                        &nbsp;
+                                        {{ tecnicoConta?.numBanco ?? "---" }}
                                     </p>
                                 </div>
                                 <div class="flex border-l text-left font-mono">
@@ -116,7 +116,7 @@
                                         {{ t('agencia') + ":" | uppercase }}
                                     </p>
                                     <p>
-                                        &nbsp;
+                                        {{ tecnicoConta?.numAgencia ?? "---" }}
                                     </p>
                                 </div>
                                 <div class="flex border-l text-left font-mono">
@@ -124,7 +124,7 @@
                                         {{ t('conta') + ":" | uppercase }}
                                     </p>
                                     <p>
-                                        &nbsp;
+                                        {{ tecnicoConta?.numConta ?? "---" }}
                                     </p>
                                 </div>
                             </div>
@@ -197,10 +197,10 @@
                                             {{  obterCliente(d) | uppercase }}
                                         </div>
                                         <div class="text-center font-mono border-b border-r">
-                                            {{  e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "" | uppercase }}
+                                            {{ (e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "") | uppercase }}
                                         </div>
                                         <div class="text-center font-mono border-b border-r">
-                                            {{  e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "" | uppercase }}
+                                            {{  (e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "") | uppercase }}
                                         </div>
                                         <div class="text-center font-mono border-b border-r">
                                             {{  d?.relatorioAtendimento?.dataHoraInicio | date:'HH:mm' }}

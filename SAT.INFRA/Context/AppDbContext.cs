@@ -100,6 +100,7 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
         public DbSet<TicketLogPedidoCredito> TicketLogPedidoCredito { get; set; }
+        public DbSet<TecnicoConta> TecnicoConta { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -114,6 +115,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DespesaCartaoCombustivel>(new DespesaCartaoCombustivelMap().Configure);
             modelBuilder.Entity<Tecnico>(new TecnicoMap().Configure);
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
+            modelBuilder.Entity<TecnicoConta>(new TecnicoContaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

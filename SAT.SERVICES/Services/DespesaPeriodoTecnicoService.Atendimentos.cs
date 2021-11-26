@@ -76,6 +76,12 @@ namespace SAT.SERVICES.Services
             .Select(i => i.DespesaAdiantamento)
             .Sum(i => i.ValorAdiantamento);
 
+        private decimal ObterTotalAdiantamentoProvisorio(string codTecnico, int codPeriodo) =>
+            this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
+            .Select(i => i.DespesaAdiantamento)
+            .Where(i => i.CodDespesaAdiantamento == 2)
+            .Sum(i => i.ValorAdiantamento);
+
         private decimal TotalGastosExcedentes(decimal totalDespesa, decimal totalAdiantamento)
         {
             var saldo = totalAdiantamento - totalDespesa;
@@ -87,11 +93,11 @@ namespace SAT.SERVICES.Services
             else return saldo;
         }
 
-        private decimal TotalRestituicao(decimal totalDespesa, decimal totalAdiantamento)
+        private decimal TotalRestituicao(decimal totalDespesa, decimal totalAdiantamentoProvisorio)
         {
-            var saldo = totalAdiantamento - totalDespesa;
+            var saldo = totalAdiantamentoProvisorio - totalDespesa;
 
-            if (totalDespesa > totalAdiantamento)
+            if (totalDespesa > totalAdiantamentoProvisorio)
                 return 0;
             else if (saldo < 0)
                 return saldo * -1;
@@ -106,6 +112,7 @@ namespace SAT.SERVICES.Services
 
                 var totalDespesa = this.TotalDespesa(despesaPeriodoTecnico);
                 var totalAdiantamento = this.ObterTotalAdiantamento(codTecnico, despesa.CodDespesaPeriodo);
+                var totalAdiantamentoProvisorio = this.ObterTotalAdiantamentoProvisorio(codTecnico, despesa.CodDespesaPeriodo);
 
                 return new DespesaPeriodoTecnicoAtendimentoItem
                 {
@@ -117,7 +124,7 @@ namespace SAT.SERVICES.Services
                     TotalDespesa = totalDespesa,
                     TotalAdiantamento = this.TotalAdiantamentoUtilizado(codTecnico, despesa.CodDespesaPeriodo),
                     GastosExcedentes = this.TotalGastosExcedentes(totalDespesa, totalAdiantamento),
-                    RestituirAEmpresa = this.TotalRestituicao(totalDespesa, totalAdiantamento),
+                    RestituirAEmpresa = this.TotalRestituicao(totalDespesa, totalAdiantamentoProvisorio),
                     Status = despesaPeriodoTecnico?.DespesaPeriodoTecnicoStatus,
                     IndAtivo = Convert.ToBoolean(despesa.IndAtivo)
                 };

@@ -10,6 +10,7 @@ import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTec
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
@@ -183,6 +184,22 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   verificarProtocolo(a: DespesaCreditosCartaoListView)
   {
-    alert("verificar");
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Verificação',
+        message: `Deseja verificar o relatório de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+      }
+    });
   }
 }

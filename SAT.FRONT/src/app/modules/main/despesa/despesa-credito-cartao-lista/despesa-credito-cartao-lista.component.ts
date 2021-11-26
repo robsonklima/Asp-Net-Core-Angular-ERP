@@ -6,7 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
+import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
@@ -43,6 +44,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _despesaProtocoloSvc: DespesaProtocoloService,
     private _dialog: MatDialog)
   {
     super(_userService, 'despesa-credito-cartao');
@@ -173,7 +175,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   {
     const dialogRef = this._dialog.open(DespesaCreditoCreditarDialogComponent, {
       data: {
-        despesaCreditosCartaoListView: a
+        despesaCreditosCartaoListView: a,
+        despesaPeriodoTecnico: Enumerable.from(this.periodos.items).firstOrDefault(i => i.codDespesaPeriodo == a.rd)
       }
     });
 
@@ -199,9 +202,33 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
+      var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
+        .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
+
       if (confirmacao)
       {
+        despesaPeriodoTecnico.indVerificacao = 1;
+        despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
+        despesaPeriodoTecnico.dataHoraVerificacao = moment().format('DD/MM/YY HH:mm:ss');
+
+        this._despesaProtocoloSvc
+          .obterPorCodigo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo)
+          .subscribe(i =>
+          {
+            i.indFechamento = 1;
+            i.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
+
+            this._despesaProtocoloSvc.atualizar(i).toPromise()
+          });
       }
+      else
+      {
+        despesaPeriodoTecnico.indVerificacao = 0;
+        despesaPeriodoTecnico.codUsuarioVerificacaoCancelado = this.userSession.usuario.codUsuario;
+        despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
+      }
+
+      this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
     });
   }
 

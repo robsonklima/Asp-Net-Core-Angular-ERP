@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { DespesaCreditosCartaoListView } from 'app/core/types/despesa-periodo.types';
+import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 
 @Component({
@@ -14,6 +14,7 @@ import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 export class DespesaCreditoCreditarDialogComponent
 {
   despesaCreditosCartaoListView: DespesaCreditosCartaoListView;
+  despesaPeriodoTecnico: DespesaPeriodoTecnico;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,

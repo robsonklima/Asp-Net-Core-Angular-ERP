@@ -76,6 +76,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 {
     codTecnico?: string;
     codFilial?: string;
+    codDespesaPeriodo?: number;
     indAtivoPeriodo?: number;
     codDespesaPeriodoStatus?: string;
     inicioPeriodo?: string;

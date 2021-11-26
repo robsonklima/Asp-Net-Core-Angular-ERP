@@ -7,10 +7,12 @@ import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa
 import { DespesaConfiguracaoService } from 'app/core/services/despesa-configuracao.service';
 import { DespesaItemAlertaService } from 'app/core/services/despesa-item-alerta.service';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
+import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaConfiguracaoData, DespesaItem, DespesaItemAlertaData } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
@@ -53,6 +55,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel
   despesaConfiguracao: DespesaConfiguracaoData;
   despesaItemAlerta: DespesaItemAlertaData;
+  despesaPeriodoTecnico: DespesaPeriodoTecnico;
 
   constructor (
     private _userService: UserService,
@@ -63,6 +66,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     private _despesaItemSvc: DespesaItemService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _ordemServicoSvc: OrdemServicoService,
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaConfiguracaoService: DespesaConfiguracaoService,
     private _despesaItemAlertaService: DespesaItemAlertaService,
     private _despesaConfCombustivelSvc: DespesaConfiguracaoCombustivelService,
@@ -95,6 +99,14 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     }
 
     this._cdr.detectChanges();
+  }
+
+  private async obterDespesaPeriodoTecnico()
+  {
+    this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
+      codTecnico: this.rat.codTecnico.toString(),
+      codDespesaPeriodo: this.codDespesaPeriodo
+    }).toPromise()).items[0];
   }
 
   private async obterRAT()
@@ -168,6 +180,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
 
     await this.obterRAT();
     await this.obterOS();
+    await this.obterDespesaPeriodoTecnico();
     await this.obterDespesa();
     await this.obterConfiguracaoCombustivel();
     await this.obterDespesaConfiguracao();
@@ -214,10 +227,10 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   public async obterConfiguracaoCombustivel()
   {
     this.despesaConfiguracaoCombustivel =
-      (await this._despesaConfCombustivelSvc.obterPorParametros({
+      Enumerable.from((await this._despesaConfCombustivelSvc.obterPorParametros({
         codFilial: this.ordemServico.codFilial,
         codUf: this.ordemServico.localAtendimento.cidade?.codUF
-      }).toPromise()).items[0];
+      }).toPromise())?.items).firstOrDefault();
   }
 
   async obterDespesaConfiguracao()

@@ -23,10 +23,10 @@ import moment from 'moment';
   templateUrl: './despesa-atendimento-relatorio-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento-relatorio {
-            grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px 50px;
-            @screen sm { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px 50px; }
-            @screen md { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px 50px; }
-            @screen lg { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px 50px; }
+            grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px;
+            @screen sm { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
+            @screen md { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
+            @screen lg { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

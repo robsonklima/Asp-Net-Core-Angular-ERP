@@ -56,7 +56,9 @@
             <div class="flex flex-col flex-auto p-6 bg-card rounded-2xl overflow-auto">
                 <div class="flex items-center justify-between" *ngIf="!isLoading">
                     <div class="text-2xl font-extrabold tracking-tight"> {{ t('despesas') | uppercase }}</div>
-                    <button class="ml-4" mat-icon-button (click)="lancarDespesaItem()">
+                    <button class="ml-4" mat-icon-button
+                        [disabled]="despesaPeriodoTecnico != null || (rat != null && rat?.codTecnico != userSession.usuario?.codTecnico)"
+                        (click)="lancarDespesaItem()">
                         <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>

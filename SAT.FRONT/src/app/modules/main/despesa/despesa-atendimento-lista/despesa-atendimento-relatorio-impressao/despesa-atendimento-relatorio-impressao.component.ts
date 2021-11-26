@@ -223,8 +223,12 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 
   obterTotalAdiantamentos()
   {
-    return Enumerable.from(this.adiantamentos)
-      .where(i => i.despesaAdiantamento.indAtivo == 1)
-      .sum(i => i.despesaAdiantamento.valorAdiantamento);
+    var adiantamentos = Enumerable.from(this.adiantamentos)
+      .where(i => i.despesaAdiantamento.indAtivo == 1);
+
+    var recebido = adiantamentos.sum(i => i.despesaAdiantamento.valorAdiantamento);
+    var utilizado = adiantamentos.sum(i => i.valorAdiantamentoUtilizado);
+
+    return recebido - utilizado;
   }
 }

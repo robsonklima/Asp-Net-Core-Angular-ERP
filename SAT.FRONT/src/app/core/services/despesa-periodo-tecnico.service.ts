@@ -4,21 +4,31 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoParameters } from '../types/despesa-periodo.types';
+import { RoleEnum, UserSession } from '../user/user.types';
+import { UserService } from '../user/user.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DespesaPeriodoTecnicoService
 {
-    constructor (private http: HttpClient) { }
+    userSession: UserSession;
+
+    constructor (private http: HttpClient, private _userService: UserService) 
+    {
+        this.userSession = JSON.parse(this._userService.userSession);
+    }
 
     obterAtendimentos(parameters: DespesaPeriodoTecnicoParameters): Observable<DespesaPeriodoTecnicoAtendimentoData>
     {
-        let params = new HttpParams();
+        if (this.userSession.usuario.codPerfil == RoleEnum.FILIAL_TECNICO_DE_CAMPO)
+            parameters.codTecnico = this.userSession.usuario.codTecnico;
 
+        let params = new HttpParams();
         Object.keys(parameters).forEach(key =>
         {
-            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+            if (parameters[key] !== undefined && parameters[key] !== null)
+                params = params.append(key, String(parameters[key]));
         });
 
         return this.http.get(

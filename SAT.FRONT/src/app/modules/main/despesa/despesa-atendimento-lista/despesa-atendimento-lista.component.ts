@@ -85,17 +85,19 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   private async obterDespesasPeriodoTecnico()
   {
-    this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
-      codTecnico: this.codTecnico,
-      indAtivoPeriodo: this.filter?.parametros?.indAtivo,
-      codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
-      inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
-      fimPeriodo: this.filter?.parametros?.fimPeriodo,
-      pageNumber: this.paginator?.pageIndex + 1,
-      pageSize: this.paginator?.pageSize,
-      sortActive: 'dataInicio',
-      sortDirection: 'desc'
-    }).toPromise());
+    this.atendimentos = (await this._despesaPeriodoTecnicoSvc
+      .obterAtendimentos(
+        {
+          codTecnico: this.codTecnico,
+          indAtivoPeriodo: this.filter?.parametros?.indAtivo,
+          codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
+          inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
+          fimPeriodo: this.filter?.parametros?.fimPeriodo,
+          pageNumber: this.paginator?.pageIndex + 1,
+          pageSize: this.paginator?.pageSize,
+          sortActive: 'dataInicio',
+          sortDirection: 'desc'
+        }).toPromise());
   }
 
   public async obterDados()

@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
+import { PontoUsuarioDataDivergenciaService } from 'app/core/services/ponto-usuario-data-divergencia.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
 import { pontoPeriodoModoAprovacaoConst } from 'app/core/types/ponto-periodo-modo-aprovacao.types';
 import { pontoPeriodoStatusConst } from 'app/core/types/ponto-periodo-status.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
+import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
 import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
 import { PontoUsuario } from 'app/core/types/ponto-usuario.types';
@@ -47,6 +49,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     private _pontoUsuarioDataSvc: PontoUsuarioDataService,
     private _pontoUsuarioSvc: PontoUsuarioService,
     private _pontoPeriodoSvc: PontoPeriodoService,
+    private _pontoUsuarioDataDivergenciaSvc: PontoUsuarioDataDivergenciaService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _userSvc: UserService,
@@ -161,16 +164,13 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   public conferirPontoData(pontoData: PontoUsuarioData) {
     debugger;
 
-    if (pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.CONFERIDO)
-    {
-        this._snack.exibirToast('Você já conferiu esta data');
-        return;
+    if (pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.CONFERIDO) {
+      return this._snack.exibirToast('Você já conferiu esta data');
     }
     
     pontoData.codPontoUsuarioDataStatus = pontoUsuarioDataStatusConst.CONFERIDO;
     pontoData.codUsuarioManut = this.userSession.usuario.codUsuario;
     pontoData.dataHoraManut = moment().format('yyyy-mm-dd HH:mm');
-
     let validaInconsistencia: boolean;
 
     if (pontoData.pontosUsuario.length % 2 == 1) {
@@ -182,11 +182,9 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
         let intervaloEntrePontos = moment.duration(primeiroPonto.diff(ultimoPonto)).asHours();
 
-        switch (pontoData.pontosUsuario.length)
-        {
+        switch (pontoData.pontosUsuario.length) {
           case 2:
-            if (intervaloEntrePontos > 6)
-            {
+            if (intervaloEntrePontos > 6) {
               validaInconsistencia = true;
             }
             break;
@@ -195,16 +193,13 @@ export class PontoHorariosListaComponent implements AfterViewInit {
             if (intervaloEntrePontos > 6) {
               const saidaIntervalo = moment(pontoData.pontosUsuario[1].dataHoraRegistro);
               const retornoIntervalo = moment(pontoData.pontosUsuario[2].dataHoraRegistro);
-
               intervaloEntrePontos = moment.duration(saidaIntervalo.diff(retornoIntervalo)).asHours();
 
-              if (intervaloEntrePontos < 1)
-              {
-                  validaInconsistencia = true;
+              if (intervaloEntrePontos < 1) {
+                validaInconsistencia = true;
               }
-              else if (intervaloEntrePontos > 2)
-              {
-                  validaInconsistencia = true;
+              else if (intervaloEntrePontos > 2) {
+                validaInconsistencia = true;
               }
             }
             break;
@@ -213,10 +208,10 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     }
 
     if (validaInconsistencia) {
-      //new clsPontoUsuarioData().ValidarInconsistencia(CodPontoUsuarioData, usuario, -1, -1);
+      this.validarInconsistencia(pontoData);
     }
     
-    // TimeSpan he = TimeSpan.Zero;
+    const horasExtras = moment(pontoData.horasExtras);
 
     // if (he > TimeSpan.FromMinutes(1))
     // {
@@ -240,6 +235,30 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     //   //ExibeMensagem("Data finalizada com sucesso.");
     //   this._snack.exibirToast("Data conferida com sucesso.");
     // }
+  }
+
+  private async validarInconsistencia(pontoData: PontoUsuarioData) {
+    let divergencia: PontoUsuarioDataDivergencia;
+    const divergencias = (
+      await this._pontoUsuarioDataDivergenciaSvc
+        .obterPorParametros({
+          codPontoUsuarioData: pontoData.codPontoUsuarioData,
+          sortActive: "DataHoraCad",
+          sortDirection: "ASC",
+        })
+        .toPromise()
+    ).items;
+
+    if (divergencias.length)
+    {
+        divergencia.codPontoUsuarioDataDivergencia = divergencias.shift().codPontoUsuarioDataDivergencia;
+        divergencia.codUsuarioCad = this.userSession.usuario.codUsuario;
+        divergencia.dataHoraCad = moment().format('yyyy-MM-DD HH:mm');
+        divergencia.codPontoUsuarioData = pontoData.codPontoUsuarioData;
+        divergencia.divergenciaValidada = 1;
+
+        this._pontoUsuarioDataDivergenciaSvc.atualizar(divergencia).subscribe();
+    }
   }
 
   conferir(pontoData: PontoUsuarioData) {

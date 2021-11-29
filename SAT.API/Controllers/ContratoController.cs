@@ -47,7 +47,7 @@ namespace SAT.API.Controllers
         [HttpDelete("{codContrato}")]
         public void Delete(int codContrato)
         {
-
+            throw new System.NotImplementedException("DELETAR NÃO IMPLEMENTADO");
         }
     }
 }

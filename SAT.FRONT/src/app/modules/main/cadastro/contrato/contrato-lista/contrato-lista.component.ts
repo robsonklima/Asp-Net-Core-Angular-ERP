@@ -16,7 +16,7 @@ import { FileService } from 'app/core/services/file.service';
     templateUrl: './contrato-lista.component.html',
     styles: [`
         .list-grid-contrato {
-            grid-template-columns: 48px 250px 150px auto 120px 30px;
+            grid-template-columns: 48px 250px 150px auto 160px 30px;
             
             /* @screen sm {
                grid-template-columns: 48px 250px 150px auto 120px 30px;

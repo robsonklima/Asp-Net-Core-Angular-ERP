@@ -112,6 +112,9 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);
+
+            modelBuilder.Entity<ContratoEquipamento>()
+                        .HasKey(e => new {e.CodContrato,e.CodEquip});
         }
     }
 }

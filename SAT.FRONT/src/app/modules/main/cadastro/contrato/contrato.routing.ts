@@ -20,7 +20,11 @@ export const contratoRoutes: Route[] = [
         component: ContratoFormComponent,
     },
     {
-        path: 'modelo-form/:codContrato',
+        path: ':codContrato/modelo-form',
+        component: ContratoModeloFormComponent,
+    },
+    {
+        path: ':codContrato/modelo-form/:codEquip',
         component: ContratoModeloFormComponent,
     },
     {

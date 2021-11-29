@@ -1,3 +1,4 @@
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ContratoParameters } from '../../../../../../core/types/contrato.types';
 import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, AfterViewInit } from '@angular/core';
@@ -10,6 +11,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoEquipamentoData } from 'app/core/types/contrato-equipamento.types';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -51,6 +53,8 @@ export class ContratoModeloListaComponent implements AfterViewInit {
         private _contratoEquipService: ContratoEquipamentoService,
         private _userService: UserService,
         private _route: ActivatedRoute,
+		public _dialog: MatDialog
+
     ) {
 
         this.userSession = JSON.parse(this._userService.userSession);
@@ -81,10 +85,29 @@ export class ContratoModeloListaComponent implements AfterViewInit {
             .toPromise();
 
         this.dataSourceData = data;
-        console.log(data);
         
         this.isLoading = false;
     }
+    
+    excluir() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir este modelo?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				console.log('deleted');
+				
+			}
+		});
+	}
 
     ngOnDestroy() {
         this._onDestroy.next();

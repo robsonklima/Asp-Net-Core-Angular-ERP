@@ -7,7 +7,7 @@
 			<button 
 				mat-icon-button	
 				[matTooltip]="t('novo')"
-				[routerLink]="'/contrato/modelo-form/' + codContrato">
+				[routerLink]="'/contrato/' + codContrato + '/modelo-form'">
 				<mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
 				</mat-icon>
 			</button>
@@ -51,13 +51,12 @@
 						  <div class="text-center">
 							{{ t("quantidade") }}
 						  </div>					
-						  <div class="text-right pr-4">
+						  <div class="text-right pr-2">
 							{{ t("acao") }}
 						  </div>
 						</div>
 		  
 						<ng-container *ngFor="let contratoEquip of dataSourceData?.items">
-						  <a>
 							<div
 							  class="
 								list-grid-contrato-modelo
@@ -87,14 +86,20 @@
 								{{ contratoEquip.qtdEquip }}
 							  </div>		  
 
-							  <div class="hidden text-right md:block truncate">
-								<button mat-flat-button class="fuse-mat-button bg-transparent text-red-600" [matTooltip]="t('deletar')">
-									<mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:trash'">
+							  <div class="hidden text-right md:block truncate" >
+								<button class="bg-transparent " [matTooltip]="t('deletar')" (click)="excluir()">
+									<mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_outline:trash'">
+									</mat-icon>
+								</button>
+								<button 
+								class=" fuse-mat-button bg-transparent text-red-600" 
+								[routerLink]="'/contrato/'+ codContrato + '/modelo-form/' + contratoEquip.codEquip"
+								[matTooltip]="t('editar')">
+									<mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil-alt'">
 									</mat-icon>
 								</button>
 							  </div>
 							</div>
-						  </a>
 						</ng-container>
 					  </div>
 					</ng-container>

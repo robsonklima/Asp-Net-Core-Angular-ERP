@@ -6,5 +6,9 @@ namespace SAT.INFRA.Interfaces
     public interface IContratoEquipamentoRepository
     {
         PagedList<ContratoEquipamento> ObterPorParametros(ContratoEquipamentoParameters parameters);
+        ContratoEquipamento ObterPorCodigo(int codContrato,int codEquip);
+        void Criar(ContratoEquipamento contratoEquipamento);
+        void Deletar(int codigo);
+        void Atualizar(ContratoEquipamento contratoEquipamento);
     }
 }

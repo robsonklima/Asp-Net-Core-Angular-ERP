@@ -41,7 +41,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
-                        <mat-select formControlName="codCliente" [disabled]="!clientes?.length">
+                        <mat-select formControlName="codCliente">
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                 {{cliente.nomeFantasia}}
                             </mat-option>

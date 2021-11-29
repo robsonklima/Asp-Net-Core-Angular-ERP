@@ -23,6 +23,13 @@ export class ContratoEquipamentoService {
     )
   }
 
+  obterPorCodigo(codContratoEquip: number, codEquip: number): Observable<ContratoEquipamento> {
+    const url = `${c.api}/ContratoEquipamento/${codContratoEquip}/${codEquip}`;
+    return this.http.get<ContratoEquipamento>(url).pipe(
+      map((obj) => obj)
+    );
+  }
+
   
   criar(contratoEquipamento: ContratoEquipamento): Observable<ContratoEquipamento> {
     return this.http.post<ContratoEquipamento>(`${c.api}/ContratoEquipamento`, contratoEquipamento).pipe(

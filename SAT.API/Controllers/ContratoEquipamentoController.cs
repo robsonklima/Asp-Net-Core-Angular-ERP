@@ -25,5 +25,30 @@ namespace SAT.API.Controllers
         {
             return _contratoEquipamentoInterface.ObterPorParametros(parameters);
         }
+
+
+        [HttpGet("{codContratoEquipamento}/{codEquip}")]
+        public ContratoEquipamento Get(int codContratoEquipamento, int codEquip)
+        {
+            return _contratoEquipamentoInterface.ObterPorCodigo(codContratoEquipamento, codEquip);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] ContratoEquipamento contratoEquipamento)
+        {
+            _contratoEquipamentoInterface.Criar(contratoEquipamento);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] ContratoEquipamento contratoEquipamento)
+        {
+            _contratoEquipamentoInterface.Atualizar(contratoEquipamento);
+        }
+
+        [HttpDelete("{codContratoEquipamento}")]
+        public void Delete(int codContratoEquipamento)
+        {
+            throw new System.NotImplementedException("DELETAR NÃO IMPLEMENTADO");
+        }
     }
 }

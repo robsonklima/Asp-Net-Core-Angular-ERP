@@ -71,7 +71,7 @@
                                                 {{ contrato.cliente.razaoSocial}}
                                             </div>
 
-                                            <div>
+                                            <div class="md:block truncate">
                                                 {{ contrato.nroContrato}}
                                             </div>
 
@@ -80,8 +80,7 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{contrato.codTipoContrato}}
-                                                <!-- {{ (contrato.tipoContrato.nomeTipoContrato) }} -->
+                                                {{ (contrato.tipoContrato.nomeTipoContrato) }}
                                             </div>
                                             <div
                                             class="font-semibold" 

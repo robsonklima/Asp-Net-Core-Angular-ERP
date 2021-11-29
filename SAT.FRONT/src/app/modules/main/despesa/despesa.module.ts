@@ -62,6 +62,8 @@ import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendim
 import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-cartao-lista/despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
+import { DespesaAdiantamentoConsultaComponent } from './despesa-adiantamento-consulta/despesa-adiantamento-consulta.component';
+import { DespesaConfiguracaoComponent } from './despesa-configuracao/despesa-configuracao.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -98,7 +100,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaAtendimentoAdiantamentoDialogComponent,
       DespesaAtendimentoRelatorioImpressaoComponent,
       DespesaAtendimentoObservacaoImpressaoComponent,
-      DespesaCreditoCreditarDialogComponent
+      DespesaCreditoCreditarDialogComponent,
+      DespesaAdiantamentoConsultaComponent,
+      DespesaConfiguracaoComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

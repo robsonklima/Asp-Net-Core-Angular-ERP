@@ -30,16 +30,19 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
            {
                options.AddPolicy(name: "CorsApi",
                 builder =>
                     {
-                        builder.WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
+                        builder
+                            .WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .SetIsOriginAllowed(origin => true)
+                            .AllowCredentials();
                     }
                 );
            });
@@ -116,6 +119,7 @@ namespace SAT.API
             services.AddTransient<IDespesaConfiguracaoRepository, DespesaConfiguracaoRepository>();
             services.AddTransient<IDespesaItemAlertaRepository, DespesaItemAlertaRepository>();
             services.AddTransient<ITicketLogPedidoCreditoRepository, TicketLogPedidoCreditoRepository>();
+            services.AddTransient<ITurnoRepository, TurnoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -169,6 +173,7 @@ namespace SAT.API
             services.AddTransient<IPontoUsuarioDataMotivoDivergenciaService, PontoUsuarioDataMotivoDivergenciaService>();
             services.AddTransient<IPontoUsuarioDataTipoAdvertenciaService, PontoUsuarioDataTipoAdvertenciaService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
+            services.AddTransient<ITurnoService, TurnoService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();

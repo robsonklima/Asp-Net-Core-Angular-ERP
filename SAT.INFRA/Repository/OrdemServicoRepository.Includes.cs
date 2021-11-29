@@ -79,6 +79,10 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
                                 .ThenInclude(ratd => ratd.RelatorioAtendimentoDetalhePecas)
                                     .ThenInclude(ratdp => ratdp.Peca)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(a => a.StatusServico)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(a => a.Tecnico)
                         .Include(os => os.EquipamentoContrato.Contrato)
                         .Include(os => os.PrazosAtendimento);
                     break;

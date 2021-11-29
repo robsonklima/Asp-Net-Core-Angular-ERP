@@ -120,6 +120,11 @@ export class AgendaTecnicoFiltroComponent implements OnInit
         ...oldFilter.parametros
       };
 
+    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
+    if (this.sessionData?.usuario?.codFilial && newFilter)
+      newFilter.parametros.codFiliais = this.sessionData.usuario.codFilial
+
+    this.form.patchValue(newFilter.parametros);
     this._userSvc.registrarFiltro(newFilter);
     this.sidenavFiltro.close();
   }

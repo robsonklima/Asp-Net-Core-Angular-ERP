@@ -26,9 +26,7 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
-import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
-import { TipoCausaService } from 'app/core/services/tipo-causa.service';
 
 
 @Component({
@@ -306,7 +304,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
         }, [Validators.required]
       ],
       horaInicio: [undefined, [TimeValidator(), Validators.required]],
-      horaFim: [undefined, [TimeValidator(), Validators.required]],
+      horaFim: [undefined, [TimeValidator(), Validators.required,]],
       obsRAT: [undefined],
     });
   }
@@ -466,12 +464,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
   private async atualizar()
   {
     this.form.disable();
-
     const form: any = this.form.getRawValue();
+
+    var horaInicio = form.horaInicio.toString().split(":");
+
     let ra: RelatorioAtendimento = {
       ...this.relatorioAtendimento,
       ...form,
       ...{
+        dataHoraInicio: moment(form.data).set({ 'hour': horaInicio[0], 'minute': horaInicio[1] }).format('YYYY-MM-DD HH:mm:ss'),
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.sessionData.usuario.codUsuario
       }
@@ -491,9 +492,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       if (detalhe.removido && detalhe.codRATDetalhe)
       {
         for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas)
-        {
           await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
-        }
 
         await this._raDetalheService.deletar(detalhe.codRATDetalhe).toPromise();
       }
@@ -541,7 +540,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     };
     await this._ordemServicoService.atualizar(os).toPromise();
 
-    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    this._snack.exibirToast('Relatório de atendimento atualizado com sucesso!', 'success');
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 

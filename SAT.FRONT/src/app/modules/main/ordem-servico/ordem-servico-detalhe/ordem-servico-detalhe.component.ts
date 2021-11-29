@@ -175,7 +175,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
           typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
         });
 
-        if (this.os.relatoriosAtendimento.length === 0)
+        if (this.os?.relatoriosAtendimento.length === 0)
         {
           this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) =>
           {
@@ -211,7 +211,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
       {
         var ultimoStatus = statusServicoConst.ABERTO;
 
-        if (this.os.relatoriosAtendimento.length != 0)
+        if (this.os?.relatoriosAtendimento.length != 0)
           ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
             .orderByDescending(i => i.codRAT)
             .firstOrDefault()

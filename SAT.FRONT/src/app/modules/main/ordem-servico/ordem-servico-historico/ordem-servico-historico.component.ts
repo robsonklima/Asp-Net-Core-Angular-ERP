@@ -6,25 +6,26 @@ import { OrdemServico, OrdemServicoParameters } from 'app/core/types/ordem-servi
   selector: 'app-ordem-servico-historico',
   templateUrl: './ordem-servico-historico.component.html'
 })
-export class OrdemServicoHistoricoComponent implements OnInit {
+export class OrdemServicoHistoricoComponent implements OnInit
+{
   ordensServico: OrdemServico[] = [];
   ordemServico: OrdemServico;
   @Input() codEquipContrato: number;
   @Input() codOS: number;
 
-  constructor(
+  constructor (
     private _ordemServicoService: OrdemServicoService
-  ) {
-    console.log(this.codOS);
-    
-  }
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.obterDados();
   }
 
-  private async obterDados() {
-    const params: OrdemServicoParameters = {
+  private async obterDados()
+  {
+    const params: OrdemServicoParameters =
+    {
       codEquipContrato: this.codEquipContrato,
       sortActive: "codOS",
       sortDirection: "desc",

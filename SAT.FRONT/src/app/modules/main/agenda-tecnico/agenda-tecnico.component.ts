@@ -200,7 +200,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     {
       return {
         id: tecnico.codTecnico,
-        name: tecnico.nome,
+        name: tecnico.nome.toUpperCase(),
         img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
       }
     });
@@ -667,38 +667,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     dialogRef.afterClosed().subscribe(() => { });
   }
 
-  aplicar(): void
-  {
-    const form: any = this.form.getRawValue();
-
-    const filtro: any = {
-      nome: 'agenda-tecnico',
-      parametros: form
-    }
-
-    this._userSvc.registrarFiltro(filtro);
-
-    const newFilter: any = { nome: 'agenda-tecnico', parametros: this.form.getRawValue() }
-    const oldFilter = this._userSvc.obterFiltro('agenda-tecnico');
-
-    if (oldFilter != null)
-      newFilter.parametros =
-      {
-        ...newFilter.parametros,
-        ...oldFilter.parametros
-      };
-
-    this._userSvc.registrarFiltro(newFilter);
-    this.sidenavFiltro.close();
-  }
-
-  limpar(): void
-  {
-    this.form.reset();
-    this.aplicar();
-    this.sidenavFiltro.close();
-  }
-
   selectAll(select: AbstractControl, values, propertyName)
   {
     if (select.value[0] == 0 && propertyName != '')
@@ -712,17 +680,12 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   private carregarFiltro(): void
   {
     this.filtro = this._userSvc.obterFiltro('agenda-tecnico');
-    if (!this.filtro)
-    {
-      return;
-    }
+    if (!this.filtro) return;
 
     Object.keys(this.filtro?.parametros).forEach((key) =>
     {
       if (this.filtro?.parametros[key] instanceof Array)
-      {
         this.filtro.parametros[key] = this.filtro.parametros[key].join()
-      };
     });
   }
 

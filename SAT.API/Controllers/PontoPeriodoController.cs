@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -20,6 +21,7 @@ namespace SAT.API.Controllers
             _pontoPeriodoService = pontoPeriodoService;
         }
 
+        [Authorize(Roles = "3")]
         [HttpGet]
         public ListViewModel Get([FromQuery] PontoPeriodoParameters parameters)
         {

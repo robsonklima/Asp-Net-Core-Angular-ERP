@@ -1,15 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
-import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
-import { PontoUsuarioData, PontoUsuarioDataData, PontoUsuarioDataParameters } from 'app/core/types/ponto-usuario-data.types';
-import { PontoUsuario, PontoUsuarioParameters } from 'app/core/types/ponto-usuario.types';
-import { UsuarioData } from 'app/core/types/usuario.types';
+import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
+import { PontoUsuario } from 'app/core/types/ponto-usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
@@ -23,20 +19,8 @@ import { PontoRelatoriosAtendimentoComponent } from '../ponto-relatorios-atendim
   styles: [
     /* language=SCSS */
     `
-      .list-grid-pud {
-          grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
-          
-          @screen sm {
-              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
-          }
-      
-          @screen md {
-              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
-          }
-      
-          @screen lg {
-              grid-template-columns: 80px 186px 112px 250px 64px auto 196px;
-          }
+      .list-grid-relatorios {
+          grid-template-columns: 80px 186px 112px 250px 72px auto 196px;
       }
     `
   ],
@@ -108,7 +92,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
         dataRegistro: dataRegistro,
         codUsuario: codUsuario
       },
-      width: '960px',
+      width: '1040px',
     });
 
     dialogRef.afterClosed().subscribe((data: any) =>

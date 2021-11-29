@@ -53,7 +53,9 @@ namespace SAT.INFRA.Repository
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            return PagedList<OrdemServico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+            return PagedList<OrdemServico>
+                .ToPagedList(query, parameters.PageNumber, parameters.PageSize,
+                    new OrdemServicoComparer());
         }
 
         public OrdemServico ObterPorCodigo(int codigo)

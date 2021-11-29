@@ -101,6 +101,7 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
         public DbSet<TicketLogPedidoCredito> TicketLogPedidoCredito { get; set; }
         public DbSet<TecnicoConta> TecnicoConta { get; set; }
+        public DbSet<Turno> Turno { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -31,6 +31,7 @@ namespace SAT.API.Controllers
         public ListViewModel GetAtendimentos([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
             _despesaPeriodoTecnico.ObterAtendimentos(parameters);
 
+        [CustomAuthorize(RoleGroup.FINANCEIRO)]
         public DespesaPeriodoTecnico GetClassificacaoCreditoTecnico([FromBody] DespesaPeriodoTecnico despesaPeriodoTecnico) =>
             _despesaPeriodoTecnico.ObterClassificacaoCreditoTecnico(despesaPeriodoTecnico);
 

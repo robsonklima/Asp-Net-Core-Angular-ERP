@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SAT.API.Authorization;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -18,6 +20,7 @@ namespace SAT.API.Controllers
         public DespesaPeriodoController(IDespesaPeriodoService despesaPeriodo) =>
             _despesaPeriodo = despesaPeriodo;
 
+        [CustomAuthorize(RoleGroup.FINANCEIRO)]
         [HttpGet]
         public ListViewModel Get([FromQuery] DespesaPeriodoParameters parameters) =>
             _despesaPeriodo.ObterPorParametros(parameters);

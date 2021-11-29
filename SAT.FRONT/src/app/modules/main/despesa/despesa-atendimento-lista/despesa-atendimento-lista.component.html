@@ -12,7 +12,7 @@
                 </div>
                 <div>
                     <div class="text-4xl font-extrabold tracking-tight" *ngIf="!isLoading">
-                        {{ userSession.usuario?.codPerfil == 35 ? t('atendimentos') : tecnico?.nome != null ? t('atendimentos') + " - " + tecnico?.nome : t('atendimentos') }}
+                        {{ isTecnico() ? t('atendimentos') : tecnico?.nome != null ? t('atendimentos') + " - " + tecnico?.nome : t('atendimentos') }}
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
@@ -91,8 +91,8 @@
                                             </div>
                                             <div class="hidden md:block truncate">
                                                 <button class="cursor-pointer"
-                                                    [routerLink]="userSession.usuario?.codPerfil ==
-                                                    35 ? '/despesa/atendimentos/relatorios/'+dp.codDespesaPeriodo :
+                                                    [routerLink]="isTecnico() ?
+                                                    '/despesa/atendimentos/relatorios/'+dp.codDespesaPeriodo :
                                                     '/despesa/atendimentos/'+codTecnico+'/relatorios/'+dp.codDespesaPeriodo">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('relatorios')"
@@ -106,7 +106,7 @@
                                                     </mat-icon>
                                                 </button>
                                                 <button class="cursor-pointer" (click)="imprimirObservacoes(dp)"
-                                                    *ngIf="userSession.usuario?.codPerfil != 35">
+                                                    *ngIf="!isTecnico()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('imprimir') + ' ' + t('observacoes')"
                                                         [svgIcon]="'heroicons_outline:printer'">
@@ -120,16 +120,14 @@
                                                 </button>
                                                 <button class="cursor-pointer"
                                                     [routerLink]="'/despesa/atendimentos/'+codTecnico+'/reprovacao/'+dp.codDespesaPeriodoTecnico"
-                                                    [disabled]="dp.status == null"
-                                                    *ngIf="userSession.usuario?.codPerfil != 35">
+                                                    [disabled]="!isLiberado(dp)" *ngIf="!isTecnico()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('analisar')"
                                                         [svgIcon]="'heroicons_outline:check-circle'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer"
-                                                    [disabled]="userSession.usuario?.codPerfil != 35 || dp.status != null"
-                                                    (click)="liberar(dp)" *ngIf="userSession.usuario?.codPerfil == 35">
+                                                <button class="cursor-pointer" [disabled]="isLiberado(dp)"
+                                                    (click)="liberar(dp)" *ngIf="isTecnico()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('liberar')"
                                                         [svgIcon]="'heroicons_outline:switch-horizontal'">

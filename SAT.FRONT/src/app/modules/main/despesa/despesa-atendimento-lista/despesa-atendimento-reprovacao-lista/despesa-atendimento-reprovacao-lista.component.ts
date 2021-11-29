@@ -10,7 +10,7 @@ import { Cidade } from 'app/core/types/cidade.types';
 import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaItem, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
+import { RoleEnum, UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
@@ -331,4 +331,10 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
   {
     return Enumerable.from(this.despesaItens).any(i => i.indReprovado == 1);
   }
+
+  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isEmAnalise()
+  {
+    return this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])
+  };
 }

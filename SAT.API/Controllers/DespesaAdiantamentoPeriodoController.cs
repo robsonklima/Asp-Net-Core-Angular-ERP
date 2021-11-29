@@ -24,7 +24,7 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaAdiantamentoPeriodoParameters parameters) =>
             _despesaAdiantamentoPeriodoService.ObterPorParametros(parameters);
 
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_LIDER)]
         [HttpGet("Tecnicos")]
         public ListViewModel GetConsultaTecnico([FromQuery] DespesaAdiantamentoPeriodoParameters parameters) =>
             _despesaAdiantamentoPeriodoService.ObterConsultaTecnicos(parameters);

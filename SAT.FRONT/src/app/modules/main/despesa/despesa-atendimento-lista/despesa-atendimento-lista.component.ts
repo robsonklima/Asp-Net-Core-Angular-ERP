@@ -21,6 +21,7 @@ import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendim
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { RoleEnum } from 'app/core/user/user.types';
 registerLocaleData(localePt);
 
 @Component({
@@ -210,4 +211,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
       }
     });
   }
+
+  isTecnico() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO };
+  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
 }

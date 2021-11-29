@@ -39,9 +39,8 @@
                                 {{ despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 2 ? "APROVADO" :
                             despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == 3 ? "REPROVADO" : "LIBERADO PARA ANÁLISE" }}
                             </div>
-                            <div class="text-right">
-                                <button class='mt-2 text-right' mat-icon-button
-                                    [disabled]="despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != 1"
+                            <div class="text-right" *ngIf="isLider()">
+                                <button class='mt-2 text-right' mat-icon-button [disabled]="!isEmAnalise()"
                                     (click)="aprovarPeriodoTecnico()" matTooltipPosition="below"
                                     [matTooltip]="t('aprovar')">
                                     <mat-icon
@@ -49,8 +48,7 @@
                                         class="text-green-500" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
                                 </button>
 
-                                <button class='mr-5 m-2 text-right' mat-icon-button
-                                    [disabled]="despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != 1"
+                                <button class='mr-5 m-2 text-right' mat-icon-button [disabled]="!isEmAnalise()"
                                     (click)="reprovarPeriodoTecnico()" matTooltipPosition="below"
                                     [matTooltip]="t('reprovar')">
                                     <mat-icon

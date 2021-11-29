@@ -18,5 +18,13 @@ namespace SAT.API.Authorization
         {
             Roles = allowedProfiles;
         }
+
+        public CustomAuthorize(string allowedProfiles, params RoleEnum[] allowedProfilesEnum)
+        {
+            allowedProfilesEnum.Append(RoleEnum.ADMIN);
+
+            Roles = string.Join(",", allowedProfiles, string.Join(",", allowedProfilesEnum
+                .Select(r => ((int)r).ToString())));
+        }
     }
 }

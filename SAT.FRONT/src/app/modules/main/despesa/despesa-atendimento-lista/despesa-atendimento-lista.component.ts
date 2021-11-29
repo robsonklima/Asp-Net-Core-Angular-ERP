@@ -166,12 +166,11 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
         this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() =>
         {
           this._snack.exibirToast('Período liberado com sucesso!', 'success');
-          this.obterDados();
         },
           e =>
           {
             this._snack.exibirToast('Erro ao liberar período.', 'error');
-          })
+          });
       }
     });
   }

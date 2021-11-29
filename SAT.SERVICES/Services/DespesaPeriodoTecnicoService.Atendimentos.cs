@@ -58,14 +58,18 @@ namespace SAT.SERVICES.Services
                     IndAdiantamentoAtivo = 1
                 });
 
-        private decimal TotalDespesa(DespesaPeriodoTecnico despesaPeriodo) =>
-            despesaPeriodo != null ?
-                despesaPeriodo.Despesas?.Sum(d =>
-                    d.DespesaItens.Where(di =>
+        private decimal TotalDespesa(string codTecnico, int codPeriodo) =>
+            _despesaRepository.ObterPorParametros(
+                new DespesaParameters
+                {
+                    CodTecnico = codTecnico,
+                    CodDespesaPeriodo = codPeriodo
+                }).Sum(d =>
+                    d.DespesaItens?.Where(di =>
                         di.IndAtivo == 1 &&
                         di.CodDespesaTipo != (int)DespesaTipoEnum.KM &&
                         di.CodDespesaTipo != (int)DespesaTipoEnum.COMBUSTIVEL)
-                    .Sum(di => di.DespesaValor)) ?? 0 : 0;
+                    .Sum(di => di.DespesaValor)) ?? 0;
 
         private decimal TotalAdiantamentoUtilizado(string codTecnico, int codPeriodo) =>
             this.ObterDespesasPeriodoAdiantamentos(codTecnico, codPeriodo)
@@ -110,7 +114,7 @@ namespace SAT.SERVICES.Services
                 var despesaPeriodoTecnico =
                     this.ObterDespesaPeriodoTecnico(codTecnico, despesa.CodDespesaPeriodo);
 
-                var totalDespesa = this.TotalDespesa(despesaPeriodoTecnico);
+                var totalDespesa = this.TotalDespesa(codTecnico, despesa.CodDespesaPeriodo);
                 var totalAdiantamento = this.ObterTotalAdiantamento(codTecnico, despesa.CodDespesaPeriodo);
                 var totalAdiantamentoProvisorio = this.ObterTotalAdiantamentoProvisorio(codTecnico, despesa.CodDespesaPeriodo);
 

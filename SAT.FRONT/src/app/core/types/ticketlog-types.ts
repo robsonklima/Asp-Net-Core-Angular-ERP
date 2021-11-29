@@ -1,14 +1,14 @@
 export interface TicketLogPedidoCredito
 {
-    codTicketLogPedidoCredito: number,
+    codTicketLogPedidoCredito?: number,
     codDespesaPeriodoTecnico: number,
-    valor: number,
-    numeroCartao: string,
-    indProcessado: number,
-    dataHoraProcessamento: string,
-    observacao: string,
-    codUsuarioCad: string,
-    dataHoraCad: string
+    valor?: number,
+    numeroCartao?: string,
+    indProcessado?: number,
+    dataHoraProcessamento?: string,
+    observacao?: string,
+    codUsuarioCad?: string,
+    dataHoraCad?: string
 }
 
 export interface TicketLogUsuarioCartaoPlaca

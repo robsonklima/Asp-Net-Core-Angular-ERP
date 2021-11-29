@@ -104,6 +104,7 @@ export interface DespesaCreditosCartaoListView
     indCreditado: boolean;
     indCompensado: boolean;
     indVerificado: boolean;
+    indErroAoCreditar: boolean;
 }
 
 export enum DespesaCreditoCartaoStatusEnum 

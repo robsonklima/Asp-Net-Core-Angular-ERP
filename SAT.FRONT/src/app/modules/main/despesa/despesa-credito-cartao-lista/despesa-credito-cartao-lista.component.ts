@@ -21,10 +21,10 @@ import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-credita
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px;
-            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
-            @screen md { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
-            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 115px 80px 85px 60px 75px 40px 60px; }
+            grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px;
+            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
+            @screen md { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
+            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -127,7 +127,9 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
           combustivel: this.obterDespesasCombustivel(p),
           indCreditado: p.indCredito == 1 ? true : false,
           indCompensado: p.indCompensacao == 1 ? true : false,
-          indVerificado: p.indVerificacao == 1 ? true : false
+          indVerificado: p.indVerificacao == 1 ? true : false,
+          obs: p.ticketLogPedidoCredito?.observacao,
+          indErroAoCreditar: p.ticketLogPedidoCredito?.observacao != null && p.ticketLogPedidoCredito?.observacao != '' && p.indCredito == 1 ? true : false
         });
     });
 
@@ -221,7 +223,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
             i.indFechamento = 1;
             i.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
 
-            this._despesaProtocoloSvc.atualizar(i).toPromise()
+            /* this._despesaProtocoloSvc.atualizar(i).toPromise() */
           });
       }
       else
@@ -231,13 +233,15 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
       }
 
-      this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
+      /* this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise(); */
     });
   }
 
   getStatus(a: DespesaCreditosCartaoListView)
   {
-    if (a.indCreditado)
+    if (a.indErroAoCreditar)
+      return "ERRO AO CREDITAR";
+    else if (a.indCreditado)
       return "CREDITADO";
     else if (a.indCompensado)
       return "COMPENSADO";

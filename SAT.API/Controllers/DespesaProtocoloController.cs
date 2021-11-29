@@ -25,6 +25,7 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaProtocoloParameters parameters) =>
             _protocoloService.ObterPorParametros(parameters);
 
+        [CustomAuthorize(RoleGroup.FINANCEIRO)]
         [HttpGet("{codDespesaProtocolo}")]
         public DespesaProtocolo Get(int codDespesaProtocolo) =>
              _protocoloService.ObterPorCodigo(codDespesaProtocolo);

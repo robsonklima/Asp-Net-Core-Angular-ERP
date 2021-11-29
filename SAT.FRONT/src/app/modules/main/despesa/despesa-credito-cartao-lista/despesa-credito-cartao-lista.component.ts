@@ -173,10 +173,13 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   creditarRD(a: DespesaCreditosCartaoListView)
   {
+    var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
+      .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
+
     const dialogRef = this._dialog.open(DespesaCreditoCreditarDialogComponent, {
       data: {
         despesaCreditosCartaoListView: a,
-        despesaPeriodoTecnico: Enumerable.from(this.periodos.items).firstOrDefault(i => i.codDespesaPeriodo == a.rd)
+        despesaPeriodoTecnico: despesaPeriodoTecnico
       }
     });
 

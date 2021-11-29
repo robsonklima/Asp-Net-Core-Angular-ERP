@@ -52,7 +52,6 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
             var despesas = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
-            despesas = ComputarPropriedades(despesas, parameters);
 
             var lista = new ListViewModel
             {

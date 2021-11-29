@@ -1,6 +1,7 @@
 import { Component, Inject, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 
@@ -15,13 +16,36 @@ export class DespesaCreditoCreditarDialogComponent
 {
   despesaCreditosCartaoListView: DespesaCreditosCartaoListView;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
+  isLoading: boolean = false;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<DespesaCreditoCreditarDialogComponent>)
+    private _despesaPeriodioTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _dialogRef: MatDialogRef<DespesaCreditoCreditarDialogComponent>)
   {
     if (data)
+    {
       this.despesaCreditosCartaoListView = data.despesaCreditosCartaoListView;
+      this.despesaPeriodoTecnico = data.despesaPeriodoTecnico;
+    }
+    this.obterDados();
+  }
+
+  async obterDados()
+  {
+    this.isLoading = true;
+
+    await this.calcularCategoriaCredito();
+
+    this.isLoading = false;
+  }
+
+  async calcularCategoriaCredito()
+  {
+    this.despesaPeriodoTecnico =
+      (await this._despesaPeriodioTecnicoSvc
+        .obterClassificacaoCreditoTecnico(this.despesaPeriodoTecnico)
+        .toPromise());
   }
 
   getCategoriaCredito(c: TecnicoCategoriaCreditoEnum)
@@ -31,16 +55,16 @@ export class DespesaCreditoCreditarDialogComponent
 
   creditar(): void
   {
-    this.dialogRef.close(true);
+    this._dialogRef.close(true);
   }
 
   compensar(): void
   {
-    this.dialogRef.close(true);
+    this._dialogRef.close(true);
   }
 
   cancelar(): void
   {
-    this.dialogRef.close(false);
+    this._dialogRef.close(false);
   }
 }

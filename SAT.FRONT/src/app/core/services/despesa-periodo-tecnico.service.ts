@@ -26,6 +26,13 @@ export class DespesaPeriodoTecnicoService
             .pipe(map((data: DespesaPeriodoTecnicoAtendimentoData) => data));
     }
 
+    obterClassificacaoCreditoTecnico(despesaPeriodoTecnico: DespesaPeriodoTecnico): Observable<DespesaPeriodoTecnico>
+    {
+        return this.http.post<DespesaPeriodoTecnico>(
+            `${c.api}/DespesaPeriodoTecnico/ClassificacaoCreditoTecnico`, despesaPeriodoTecnico)
+            .pipe(map((obj) => obj));
+    }
+
     obterPorParametros(parameters: DespesaPeriodoTecnicoParameters): Observable<DespesaPeriodoTecnicoData>
     {
         let params = new HttpParams();

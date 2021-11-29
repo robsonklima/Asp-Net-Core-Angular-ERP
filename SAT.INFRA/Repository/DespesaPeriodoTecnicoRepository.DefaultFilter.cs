@@ -9,6 +9,13 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPadrao(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
+
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                query = query.Where(
+                    t =>
+                    t.DespesaProtocoloPeriodoTecnico.CodDespesaPeriodoTecnico.ToString().Contains(parameters.Filter) ||
+                    t.CodDespesaPeriodoTecnico.ToString().Contains(parameters.Filter));
+
             if (parameters.CodDespesaPeriodo.HasValue)
                 query = query.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
@@ -22,6 +29,12 @@ namespace SAT.INFRA.Repository
             {
                 var codigos = parameters.CodFilial.Split(',').Select(f => f.Trim());
                 query = query.Where(e => codigos.Any(p => p == e.Tecnico.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodDespesaProtocolo))
+            {
+                var codigos = parameters.CodDespesaProtocolo.Split(',').Select(f => f.Trim());
+                query = query.Where(e => codigos.Any(p => p == e.DespesaProtocoloPeriodoTecnico.CodDespesaProtocolo.ToString()));
             }
 
             if (parameters.IndAtivoPeriodo.HasValue)

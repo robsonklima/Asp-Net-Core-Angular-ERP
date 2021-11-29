@@ -8,6 +8,7 @@ import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
+import { RoleEnum } from 'app/core/user/user.types';
 
 @Component({
   selector: 'app-despesa-credito-cartao-filtro',
@@ -33,7 +34,8 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
   {
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
-      codFiliais: [undefined]
+      codFiliais: [undefined],
+      codDespesaProtocolo: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -45,14 +47,23 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
     this.obterFiliais();
   }
 
-  async obterTecnicos()
+  configurarFiltro(): void
+  {
+    this.form.controls['codFiliais'].valueChanges.subscribe(async codFilial =>
+    {
+      this.obterTecnicos(codFilial);
+    });
+  }
+
+  async obterTecnicos(codFilial: string = null)
   {
     const data = await this._tecnicoService
       .obterPorParametros({
         indAtivo: 1,
         sortActive: 'nome',
         sortDirection: 'asc',
-        codPerfil: 35,
+        codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
+        codFiliais: codFilial,
         pageSize: 1000
       })
       .toPromise();

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -14,6 +14,8 @@ import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
 
 @Component({
@@ -36,6 +38,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   isLoading: boolean = false;
   periodos: DespesaPeriodoTecnicoData;
   listview: DespesaCreditosCartaoListView[] = [];
@@ -70,11 +73,11 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     this._cdr.detectChanges();
   }
 
-  public async obterDados()
+  public async obterDados(filter: string = null)
   {
     this.isLoading = true;
 
-    await this.obterPeriodosTecnico();
+    await this.obterPeriodosTecnico(filter);
     await this.criarListView();
 
     this.isLoading = false;
@@ -82,6 +85,20 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   registerEmitters(): void
   {
+
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) =>
+      {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()
+    ).subscribe((filter: string) =>
+    {
+      this.paginator.pageIndex = 0;
+      this.obterDados(filter);
+    });
+
     this.sidenav.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
@@ -89,7 +106,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     })
   }
 
-  private async obterPeriodosTecnico()
+  private async obterPeriodosTecnico(filter: string = null)
   {
     this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
       {
@@ -97,7 +114,9 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         pageNumber: this.paginator.pageIndex + 1,
         pageSize: this.paginator.pageSize,
         codTecnico: this.filter?.parametros.codTecnicos,
-        codFilial: this.filter?.parametros.codFiliais
+        codFilial: this.filter?.parametros.codFiliais,
+        codDespesaProtocolo: this.filter?.parametros.codDespesaProtocolo,
+        filter: filter
       }
     ).toPromise());
   }

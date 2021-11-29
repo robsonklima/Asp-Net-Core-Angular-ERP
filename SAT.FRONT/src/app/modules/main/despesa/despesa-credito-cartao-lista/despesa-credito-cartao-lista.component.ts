@@ -97,9 +97,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         pageNumber: this.paginator.pageIndex + 1,
         pageSize: this.paginator.pageSize,
         codTecnico: this.filter?.parametros.codTecnicos,
-        codFilial: this.filter?.parametros.codFiliais,
-        sortActive: 'codDespesaPeriodoTecnico',
-        sortDirection: 'desc'
+        codFilial: this.filter?.parametros.codFiliais
       }
     ).toPromise());
   }
@@ -108,34 +106,31 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   {
     this.listview = [];
 
-    this.periodos.items.forEach(p =>
-    {
-      this.listview.push(
-        {
-          protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
-          rd: p.codDespesaPeriodoTecnico,
-          cadastro: moment(p.dataHoraManut).format('DD/MM'),
-          tecnico: p.tecnico?.nome,
-          categoriaCredito: p.tecnico.tecnicoCategoriaCredito,
-          filial: p.tecnico?.filial?.nomeFilial,
-          cartao: this.obterCartaoAtual(p),
-          saldo: this.obterSaldoAtual(p),
-          dataManutSaldo: moment(this.obterHorarioSaldoAtual(p)).format('DD/MM HH:mm'),
-          integrado: p.ticketLogPedidoCredito?.dataHoraProcessamento ? moment(p.ticketLogPedidoCredito?.dataHoraProcessamento).format('DD/MM HH:mm') : null,
-          inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
-          fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
-          combustivel: this.obterDespesasCombustivel(p),
-          indCreditado: p.indCredito == 1 ? true : false,
-          indCompensado: p.indCompensacao == 1 ? true : false,
-          indVerificado: p.indVerificacao == 1 ? true : false,
-          obs: p.ticketLogPedidoCredito?.observacao,
-          indErroAoCreditar: p.ticketLogPedidoCredito?.observacao != null && p.ticketLogPedidoCredito?.observacao != '' && p.indCredito == 1 ? true : false
-        });
-    });
-
-    this.listview = Enumerable.from(this.listview)
-      .orderByDescending(i => i.cadastro)
-      .toArray();
+    this.periodos.items
+      .forEach(p =>
+      {
+        this.listview.push(
+          {
+            protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
+            rd: p.codDespesaPeriodoTecnico,
+            cadastro: p.despesaProtocoloPeriodoTecnico.dataHoraCad,
+            tecnico: p.tecnico?.nome,
+            categoriaCredito: p.tecnico.tecnicoCategoriaCredito,
+            filial: p.tecnico?.filial?.nomeFilial,
+            cartao: this.obterCartaoAtual(p),
+            saldo: this.obterSaldoAtual(p),
+            dataManutSaldo: moment(this.obterHorarioSaldoAtual(p)).format('DD/MM HH:mm'),
+            integrado: p.ticketLogPedidoCredito?.dataHoraProcessamento ? moment(p.ticketLogPedidoCredito?.dataHoraProcessamento).format('DD/MM HH:mm') : null,
+            inicio: moment(p.despesaPeriodo.dataInicio).format('DD/MM/YY'),
+            fim: moment(p.despesaPeriodo.dataFim).format('DD/MM/YY'),
+            combustivel: this.obterDespesasCombustivel(p),
+            indCreditado: p.indCredito == 1 ? true : false,
+            indCompensado: p.indCompensacao == 1 ? true : false,
+            indVerificado: p.indVerificacao == 1 ? true : false,
+            obs: p.ticketLogPedidoCredito?.observacao,
+            indErroAoCreditar: p.ticketLogPedidoCredito?.observacao != null && p.ticketLogPedidoCredito?.observacao != '' && p.indCredito == 1 ? true : false
+          });
+      });
   }
 
   private obterCartaoAtual(p: DespesaPeriodoTecnico)

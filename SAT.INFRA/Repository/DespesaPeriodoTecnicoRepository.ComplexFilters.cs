@@ -33,7 +33,8 @@ namespace SAT.INFRA.Repository
 
             return query.Where(i =>
                 i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
-                && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null);
+                && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null)
+                .OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
         }
     }
 }

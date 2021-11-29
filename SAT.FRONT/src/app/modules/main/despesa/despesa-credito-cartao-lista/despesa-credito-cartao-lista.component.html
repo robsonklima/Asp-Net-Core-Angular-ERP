@@ -81,7 +81,7 @@
                                                 {{ a.rd }}
                                             </div>
                                             <div class="pointer-events-none">
-                                                {{ a.cadastro }}
+                                                {{ a.cadastro | date:'dd/MM' }}
                                             </div>
                                             <div class="truncate cursor-help" [matTooltip]="a.tecnico | uppercase">
                                                 {{ a.tecnico | uppercase }}

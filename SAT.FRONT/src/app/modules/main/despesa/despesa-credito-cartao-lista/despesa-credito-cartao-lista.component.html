@@ -98,7 +98,8 @@
                                             <div class="pointer-events-none">
                                                 {{ a.indCompensado == 1 ? "N/A" : (a.integrado || "PENDENTE") }}
                                             </div>
-                                            <div class="truncate cursor-help" [matTooltip]="a.obs | uppercase">
+                                            <div class="truncate font-bold cursor-help"
+                                                [matTooltip]="a.obs | uppercase">
                                                 {{ a.obs }}
                                             </div>
                                             <div class="pointer-events-none">
@@ -123,9 +124,8 @@
                                                 </span>
                                             </div>
                                             <div>
-                                                <button
-                                                    [disabled]="a.indCreditado || a.indCompensado || !a.indVerificado"
-                                                    class="cursor-pointer" (click)="creditarRD(a)">
+                                                <!-- [disabled]="a.indCreditado || a.indCompensado || !a.indVerificado" -->
+                                                <button class="cursor-pointer" (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">

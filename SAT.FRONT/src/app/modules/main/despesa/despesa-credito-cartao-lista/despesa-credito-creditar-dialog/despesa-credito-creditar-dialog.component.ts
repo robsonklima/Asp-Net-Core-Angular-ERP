@@ -95,10 +95,9 @@ export class DespesaCreditoCreditarDialogComponent
         }
 
         // this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();
+        this._dialogRef.close(true);
       }
     });
-
-    this._dialogRef.close(true);
   }
 
   compensar(): void
@@ -123,10 +122,9 @@ export class DespesaCreditoCreditarDialogComponent
         this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('DD/MM/YY HH:mm');
 
         // this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
+        this._dialogRef.close(true);
       }
     });
-
-    this._dialogRef.close(true);
   }
 
   cancelar(): void

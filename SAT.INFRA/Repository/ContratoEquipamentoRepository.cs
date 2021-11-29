@@ -23,18 +23,18 @@ namespace SAT.INFRA.Repository
             ContratoEquipamento ce = _context.ContratoEquipamento
                                                 .FirstOrDefault(ce => ce.CodContrato == contratoEquipamento.CodContrato
                                                                         && ce.CodEquip == contratoEquipamento.CodEquip);
-            // try
-            // {
-            //     if (ce != null)
-            //     {
+            try
+            {
+                if (ce != null)
+                {
                     _context.Entry(ce).CurrentValues.SetValues(contratoEquipamento);
                     _context.SaveChanges();
-            //     }
-            // }
-            // catch (System.Exception)
-            // {
-            //     throw ;//new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-            // }
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public void Criar(ContratoEquipamento contratoEquipamento)
@@ -50,9 +50,16 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codContrato, int codEquip)
         {
-            throw new System.NotImplementedException();
+            ContratoEquipamento ce = _context.ContratoEquipamento
+                                            .FirstOrDefault(d => d.CodContrato == codContrato && d.CodEquip == codEquip);
+
+            if (ce != null)
+            {
+                _context.ContratoEquipamento.Remove(ce);
+                _context.SaveChanges();
+            }
         }
 
         public ContratoEquipamento ObterPorCodigo(int codContrato, int codEquip)

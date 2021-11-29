@@ -41,9 +41,9 @@ namespace SAT.SERVICES.Services
             _contratoEquipamentoRepo.Criar(ContratoEquipamento);
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codContrato, int codEquip)
         {
-            _contratoEquipamentoRepo.Deletar(codigo);
+            _contratoEquipamentoRepo.Deletar(codContrato,codEquip);
         }
 
         public void Atualizar(ContratoEquipamento contratoEquipamento)

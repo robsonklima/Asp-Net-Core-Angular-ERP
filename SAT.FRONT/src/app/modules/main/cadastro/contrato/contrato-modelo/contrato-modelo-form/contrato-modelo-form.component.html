@@ -61,19 +61,21 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('valor unitario') }}</mat-label>
-                        <input matInput formControlName="vlrUnitario">
+                        <input matInput formControlName="vlrUnitario" mask="separator.2" thousandSeparator="."
+                        decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true" maxlength="10">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('valor instalacao') }}</mat-label>
-                        <input matInput formControlName="vlrInstalacao">
+                        <input matInput formControlName="vlrInstalacao" mask="separator.2" thousandSeparator="."
+                        decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true" maxlength="10">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('quantidade') }}</mat-label>
-                        <input matInput formControlName="qtdEquip">
+                        <input matInput formControlName="qtdEquip" maxlength="3"> 
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>                    
                     
@@ -98,14 +100,16 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
-                        <mat-label>Valor Entrega (%)</mat-label>
-                        <input matInput formControlName="percValorEnt" maxlength="3">
+                        <mat-label>Valor Entrega</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
+                        <input matInput formControlName="percValorEnt" maxlength="3" mask="percent" suffix="%" placeholder="%" [showTemplate]="true">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
-                        <mat-label>Valor Instalação (%)</mat-label>
-                        <input matInput formControlName="percValorIns" maxlength="3">
+                        <mat-label>Valor Instalação</mat-label>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
+                        <input matInput formControlName="percValorIns" maxlength="3"mask="percent" suffix="%" placeholder="%" [showTemplate]="true">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 

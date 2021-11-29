@@ -45,10 +45,10 @@ namespace SAT.API.Controllers
             _contratoEquipamentoInterface.Atualizar(contratoEquipamento);
         }
 
-        [HttpDelete("{codContratoEquipamento}")]
-        public void Delete(int codContratoEquipamento)
+        [HttpDelete("{codContrato}/{codEquip}")]
+        public void Delete(int codContrato, int codEquip)
         {
-            throw new System.NotImplementedException("DELETAR NÃO IMPLEMENTADO");
+            _contratoEquipamentoInterface.Deletar(codContrato,codEquip);
         }
     }
 }

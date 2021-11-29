@@ -87,10 +87,6 @@
 							  </div>		  
 
 							  <div class="hidden text-right md:block truncate" >
-								<button class="bg-transparent " [matTooltip]="t('deletar')" (click)="excluir()">
-									<mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_outline:trash'">
-									</mat-icon>
-								</button>
 								<button 
 								class=" fuse-mat-button bg-transparent text-red-600" 
 								[routerLink]="'/contrato/'+ codContrato + '/modelo-form/' + contratoEquip.codEquip"
@@ -98,12 +94,22 @@
 									<mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil-alt'">
 									</mat-icon>
 								</button>
+								
+								<button class="bg-transparent " [matTooltip]="t('deletar')" (click)="excluir(contratoEquip)">
+									<mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_outline:trash'">
+									</mat-icon>
+								</button>
 							  </div>
 							</div>
 						</ng-container>
-					  </div>
+						</div>
+						<div *ngIf="!dataSourceData?.items.length && !isLoading"
+							class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+							Nenhum modelo encontrado!
+						</div>
 					</ng-container>
 				</div>
+				
 			  </div>
         </div>
     </div>

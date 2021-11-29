@@ -90,6 +90,7 @@ namespace SAT.INFRA.Context
         public DbSet<PontoUsuarioDataValidacao> PontoUsuarioDataValidacao { get; set; }
         public DbSet<PontoUsuarioRejeicao> PontoUsuarioRejeicao { get; set; }
         public DbSet<PlantaoTecnico> PlantaoTecnico { get; set; }       
+        public DbSet<SLA> SLA { get; set; }       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

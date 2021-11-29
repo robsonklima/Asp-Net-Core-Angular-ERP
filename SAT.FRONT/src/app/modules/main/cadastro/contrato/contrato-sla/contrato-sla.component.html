@@ -1,0 +1,81 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">    
+    <div class="flex-auto">
+        <div class="max-w-5xl" *ngIf="!isLoading">
+            <form [formGroup]="form" class="flex flex-col bg-card rounded-2xl overflow-hidden">
+                <div class="grid grid-cols-2 bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Sla's Gerais</p>
+                    <div class="flex place-content-end">
+                        <button
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                            mat-stroked-button
+                            (click)="toggleDetails(1)">
+                            <mat-icon class="icon-size-5"
+                            [svgIcon]="selectedSla == 1 ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid">
+                    <ng-container *ngIf="selectedSla === 1">
+                        <ng-container *ngTemplateOutlet="detalhesSlas24; context: {$implicit: selectedSla}"></ng-container>
+                    </ng-container>
+                </div>
+
+                <ng-template
+                    #detalhesSlas24
+                    let-selectedSla>
+                    <div class="shadow-lg overflow-hidden p-8">
+                        <div class="grid grid-cols-8">
+                            <div *ngFor="let sla of slaGeral">
+                                <mat-checkbox
+                                    formControlName="tags"
+                                    class="flex items-center h-10 min-h-10 px-4"
+                                    [color]="'primary'"
+                                    [matTooltip]="sla.descSLA">
+                                    {{sla.nomeSLA}}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                 </ng-template>
+
+
+                <div class="grid grid-cols-2 bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Sla's Sicoob</p>
+                    <div class="flex place-content-end">
+                        <button
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                            mat-stroked-button
+                            (click)="toggleDetails(2)">
+                            <mat-icon class="icon-size-5"
+                            [svgIcon]="selectedSla == 2 ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid">
+                    <ng-container *ngIf="selectedSla === 2">
+                        <ng-container *ngTemplateOutlet="detalhesSlas48;"></ng-container>
+                    </ng-container>
+                </div>
+
+                <ng-template
+                    #detalhesSlas48>
+                    <div class="shadow-lg overflow-hidden p-8">
+                        <div class="grid grid-cols-5">
+                            <div *ngFor="let sla of slaSicoob">
+                                <mat-checkbox
+                                    formControlName="tags"
+                                    class="flex items-center h-10 min-h-10 px-4"
+                                    [color]="'primary'"
+                                    [matTooltip]="sla.descSLA">
+                                    {{sla.nomeSLA}}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                 </ng-template>
+            </form>
+        </div>
+    </div>
+</div>

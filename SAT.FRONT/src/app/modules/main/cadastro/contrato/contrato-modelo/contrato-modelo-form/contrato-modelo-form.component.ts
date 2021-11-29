@@ -129,12 +129,12 @@ export class ContratoModeloFormComponent implements OnInit {
 
 		this._contratoEquipamentoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-			this._router.navigate(['contrato/' + this.codContrato]);
+			//this._router.navigate(['contrato/' + this.codContrato]);
 		});
 
 	}
 
-	private criar(): void {
+	private criar(): void {		
 		this.form.disable();
 		const form: any = this.form.getRawValue();
 		let equip = this.modelos.find(m => m.codEquip == form.codEquip)
@@ -177,11 +177,15 @@ export class ContratoModeloFormComponent implements OnInit {
 			codContratoEquipDataEnt: new FormControl(undefined, Validators.required),
 			codContratoEquipDataIns: new FormControl(undefined, Validators.required),
 			codContratoEquipDataGar: new FormControl(undefined),
-			dataRecDM: new FormControl(undefined),
-			dataInicioMTBF: new FormControl(undefined),
-			dataFimMTBF: new FormControl(undefined),
+			dataRecDM: new FormControl({value: undefined, disabled: true}),
+			dataInicioMTBF: new FormControl({value: undefined, disabled: true}),
+			dataFimMTBF: new FormControl({value: undefined, disabled: true}),
 			dataGar: new FormControl(undefined),
 		});
+
+		if (!this.isAddMode) {
+			this.form.controls['codEquip'].disable();
+		}
 	}
 
 	ngOnDestroy() {

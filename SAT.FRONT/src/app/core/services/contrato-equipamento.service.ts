@@ -45,8 +45,8 @@ export class ContratoEquipamentoService {
     );
   }
 
-  deletar(codContratoEquipamento: number): Observable<ContratoEquipamento> {
-    const url = `${c.api}/ContratoEquipamento/${codContratoEquipamento}`;
+  deletar(codContrato: number, codEquip: number): Observable<ContratoEquipamento> {
+    const url = `${c.api}/ContratoEquipamento/${codContrato}/${codEquip}`;
 
     return this.http.delete<ContratoEquipamento>(url).pipe(
       map((obj) => obj)

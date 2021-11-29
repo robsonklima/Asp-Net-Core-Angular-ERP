@@ -1,3 +1,4 @@
+import { ContratoEquipamento } from './../../../../../../core/types/contrato-equipamento.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ContratoParameters } from '../../../../../../core/types/contrato.types';
@@ -53,7 +54,7 @@ export class ContratoModeloListaComponent implements AfterViewInit {
         private _contratoEquipService: ContratoEquipamentoService,
         private _userService: UserService,
         private _route: ActivatedRoute,
-		public _dialog: MatDialog
+        public _dialog: MatDialog
 
     ) {
 
@@ -75,7 +76,7 @@ export class ContratoModeloListaComponent implements AfterViewInit {
         this.isLoading = true;
 
         const params: ContratoParameters = {
-            codContrato: this.codContrato,           
+            codContrato: this.codContrato,
         };
 
         const data: ContratoEquipamentoData = await this._contratoEquipService
@@ -85,29 +86,30 @@ export class ContratoModeloListaComponent implements AfterViewInit {
             .toPromise();
 
         this.dataSourceData = data;
-        
+
         this.isLoading = false;
     }
-    
-    excluir() {
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja excluir este modelo?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-			if (confirmacao) {
-				console.log('deleted');
-				
-			}
-		});
-	}
+    excluir(ce: ContratoEquipamento) {
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data: {
+                titulo: 'Confirmação',
+                message: 'Deseja excluir este modelo?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                this._contratoEquipService.deletar(ce.codContrato, ce.codEquip).subscribe();
+            }
+            
+            this.obterContratos();
+        });
+    }
 
     ngOnDestroy() {
         this._onDestroy.next();

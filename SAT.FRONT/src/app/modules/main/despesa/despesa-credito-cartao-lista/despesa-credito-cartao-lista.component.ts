@@ -7,7 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
-import { DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
@@ -116,6 +116,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         codTecnico: this.filter?.parametros.codTecnicos,
         codFilial: this.filter?.parametros.codFiliais,
         codDespesaProtocolo: this.filter?.parametros.codDespesaProtocolo,
+        codCreditoCartaoStatus: this.filter?.parametros.codCreditoCartaoStatus,
         filter: filter
       }
     ).toPromise());
@@ -254,14 +255,12 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   getStatus(a: DespesaCreditosCartaoListView)
   {
     if (a.indErroAoCreditar)
-      return "ERRO AO CREDITAR";
+      return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum['ERRO AO CREDITAR']];
     else if (a.indCreditado)
-      return "CREDITADO";
+      return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.CREDITADO];
     else if (a.indCompensado)
-      return "COMPENSADO";
-    else if (a.indVerificado)
-      return "VERIFICADO";
+      return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.COMPENSADO];
 
-    return "AGUARDANDO VERIFICAÇÃO";
+    return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.PENDENTE];
   }
 }

@@ -4,6 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { FilialService } from 'app/core/services/filial.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { DespesaCreditoCartaoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
@@ -19,6 +20,7 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
   @Input() sidenav: MatSidenav;
   tecnicos: Tecnico[] = [];
   filiais: Filial[] = [];
+  creditoCartaoStatus: any = [];
 
 
   constructor (
@@ -35,7 +37,8 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
       codFiliais: [undefined],
-      codDespesaProtocolo: [undefined]
+      codDespesaProtocolo: [undefined],
+      codCreditoCartaoStatus: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -45,6 +48,7 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
   {
     this.obterTecnicos();
     this.obterFiliais();
+    this.obterStatus();
   }
 
   configurarFiltro(): void
@@ -84,6 +88,18 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
       .toPromise();
 
     this.filiais = data.items;
+  }
+
+  private obterStatus()
+  {
+    Object.keys(DespesaCreditoCartaoStatusEnum).map(key => parseInt(key)).forEach(key =>
+    {
+      if (!(Number.isNaN(key)))
+        this.creditoCartaoStatus.push({
+          codigo: key,
+          nome: DespesaCreditoCartaoStatusEnum[key]
+        })
+    });
   }
 
   ngOnInit(): void

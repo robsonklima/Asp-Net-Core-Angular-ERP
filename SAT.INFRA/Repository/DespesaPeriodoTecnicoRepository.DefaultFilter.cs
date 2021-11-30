@@ -33,8 +33,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodDespesaProtocolo))
             {
-                var codigos = parameters.CodDespesaProtocolo.Split(',').Select(f => f.Trim());
-                query = query.Where(e => codigos.Any(p => p == e.DespesaProtocoloPeriodoTecnico.CodDespesaProtocolo.ToString()));
+                query = query.Where(e => e.DespesaProtocoloPeriodoTecnico.CodDespesaProtocolo.ToString()
+                             .Contains(parameters.CodDespesaProtocolo));
             }
 
             if (parameters.IndAtivoPeriodo.HasValue)

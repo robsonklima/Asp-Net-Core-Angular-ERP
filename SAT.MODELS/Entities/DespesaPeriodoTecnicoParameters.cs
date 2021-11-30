@@ -15,6 +15,6 @@ namespace SAT.MODELS.Entities
         public DateTime? InicioPeriodo { get; set; }
         public DateTime? FimPeriodo { get; set; }
         public DespesaPeriodoTecnicoFilterEnum FilterType { get; set; }
-        public Boolean ValidRequest { get; set; }
+        public DespesaCreditoCartaoStatusEnum? CodCreditoCartaoStatus { get; set; }
     }
 }

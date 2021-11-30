@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -31,10 +32,33 @@ namespace SAT.INFRA.Repository
         {
             query = AplicarFiltroPadrao(query, parameters);
 
-            return query.Where(i =>
+            query = query.Where(i =>
                 i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
                 && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null)
                 .OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
+
+            if (parameters.CodCreditoCartaoStatus.HasValue)
+            {
+                switch (parameters.CodCreditoCartaoStatus)
+                {
+                    case DespesaCreditoCartaoStatusEnum.COMPENSADO:
+                        query = query.Where(i => i.IndCompensacao == 1);
+                        break;
+                    case DespesaCreditoCartaoStatusEnum.CREDITADO:
+                        query = query.Where(i => i.IndCredito == 1 && string.IsNullOrEmpty(i.TicketLogPedidoCredito.Observacao));
+                        break;
+                    case DespesaCreditoCartaoStatusEnum.ERRO:
+                        query = query.Where(i => i.IndCredito == 1 && !string.IsNullOrEmpty(i.TicketLogPedidoCredito.Observacao));
+                        break;
+                    case DespesaCreditoCartaoStatusEnum.PENDENTE:
+                        query = query.Where(i => (i.IndCredito == 0 || !i.IndCredito.HasValue) && (i.IndCompensacao == 0 || !i.IndCompensacao.HasValue));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return query;
         }
     }
 }

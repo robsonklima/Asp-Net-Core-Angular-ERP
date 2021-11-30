@@ -43,6 +43,16 @@
                     <input matInput autocomplete="off" formControlName="codDespesaProtocolo" maxlength="25">
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('status') }}</mat-label>
+                    <mat-select formControlName="codCreditoCartaoStatus">
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let status of creditoCartaoStatus" [value]="status.codigo">
+                            {{ status.nome }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
             </div>
 
             <div class="mt-6 border-t"></div>

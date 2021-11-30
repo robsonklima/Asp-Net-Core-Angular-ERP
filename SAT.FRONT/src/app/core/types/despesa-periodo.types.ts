@@ -83,6 +83,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
     inicioPeriodo?: string;
     fimPeriodo?: string;
     filterType?: DespesaPeriodoTecnicoFilterEnum;
+    codCreditoCartaoStatus?: string;
 };
 
 
@@ -110,10 +111,10 @@ export interface DespesaCreditosCartaoListView
 
 export enum DespesaCreditoCartaoStatusEnum 
 {
-    "AGUARDANDO VERIFICAÇÃO",
-    "VERIFICADO",
-    "CREDITADO",
-    "COMPENSADO"
+    "ERRO AO CREDITAR" = 1,
+    "PENDENTE" = 2,
+    "CREDITADO" = 3,
+    "COMPENSADO" = 4
 }
 
 export interface DespesaPeriodoTecnicoAtendimentoItem
@@ -130,7 +131,6 @@ export interface DespesaPeriodoTecnicoAtendimentoItem
     status: DespesaPeriodoTecnicoStatus;
     indAtivo: boolean;
 };
-
 
 export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
 {

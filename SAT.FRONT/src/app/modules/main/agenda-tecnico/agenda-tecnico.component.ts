@@ -201,6 +201,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       return {
         id: tecnico.codTecnico,
         name: tecnico.nome.toUpperCase(),
+        indFerias: this.isOnVacation(tecnico),
         img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
       }
     });
@@ -220,6 +221,17 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     }).toPromise();
 
     this.carregaDados(this.chamados, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+  }
+
+  private isOnVacation(t: Tecnico): boolean
+  {
+    if (!t.indFerias)
+      return false;
+
+    // if (moment(t.dtFeriasInicio) >= moment() && moment(t.dtFeriasFim) <= moment())
+    //   return true;
+
+    return true;
   }
 
   private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])

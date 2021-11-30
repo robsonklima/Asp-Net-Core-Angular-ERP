@@ -64,9 +64,12 @@
 
             <ng-template #resourceTemplate let-resource>
                 <a (click)="abrirMapa(resource.id)">
-                    <div class="md-resource-details-cont cursor-pointer">
+                    <div class="md-resource-details-cont cursor-pointer"
+                        [ngClass]="{'text-gray-400': resource.indFerias}"
+                        [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
                         <img class="md-meeting-participant-avatar" [src]="resource.img"
-                            onError="this.src='./assets/images/avatars/profile.jpg';" />
+                            onError="this.src='./assets/images/avatars/profile.jpg';"
+                            [ngClass]="{'opacity-10': resource.indFerias}" />
 
                         <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
                     </div>

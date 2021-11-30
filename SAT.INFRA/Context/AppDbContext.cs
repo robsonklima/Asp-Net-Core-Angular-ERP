@@ -103,6 +103,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Sequencia>(new SequenciaMap().Configure);
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
+            modelBuilder.Entity<AgendaTecnico>(new AgendaTecnicoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -114,6 +115,12 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasOne<Navegacao>(nc => nc.Navegacao)
                         .WithMany(nc => nc.NavegacoesConfiguracao);
+
+            modelBuilder.Entity<OrdemServico>()
+                        .HasOne(ra => ra.AgendaTecnico)
+                        .WithOne(ra => ra.OrdemServico)
+                        .HasForeignKey<AgendaTecnico>(p => new { p.CodTecnico, p.CodOS })
+                        .HasPrincipalKey<OrdemServico>(p => new { p.CodTecnico, p.CodOS });
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);

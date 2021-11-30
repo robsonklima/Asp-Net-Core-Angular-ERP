@@ -178,7 +178,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
   {
     return Enumerable.from(p.despesas).sum(i =>
       Enumerable.from(i.despesaItens)
-        .where(i => i.codDespesaTipo == DespesaTipoEnum.KM)
+        .where(i => i.indAtivo
+          && i.codDespesaTipo == DespesaTipoEnum.KM || i.codDespesaTipo == DespesaTipoEnum.COMBUSTIVEL)
         .sum(i => i.despesaValor));
   }
 

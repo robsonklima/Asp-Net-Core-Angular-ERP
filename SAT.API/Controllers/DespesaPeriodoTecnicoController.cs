@@ -30,6 +30,7 @@ namespace SAT.API.Controllers
             _despesaPeriodoTecnico.ObterAtendimentos(parameters);
 
         [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        [HttpPost("ClassificacaoCreditoTecnico")]
         public DespesaPeriodoTecnico GetClassificacaoCreditoTecnico([FromBody] DespesaPeriodoTecnico despesaPeriodoTecnico) =>
             _despesaPeriodoTecnico.ObterClassificacaoCreditoTecnico(despesaPeriodoTecnico);
 

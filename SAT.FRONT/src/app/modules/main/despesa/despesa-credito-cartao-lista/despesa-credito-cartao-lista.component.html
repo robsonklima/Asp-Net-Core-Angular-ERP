@@ -128,15 +128,16 @@
                                             </div>
                                             <div>
                                                 <button class="cursor-pointer"
-                                                    [disabled]="a.indCreditado || a.indCompensado || !a.indVerificado"
+                                                    [disabled]="a.indCreditado || a.indCompensado"
                                                     (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                                <button [disabled]="a.indVerificado" class="cursor-pointer ml-2"
-                                                    (click)="verificarProtocolo(a)">
+                                                <button
+                                                    [disabled]="!(a.indCreditado || a.indCompensado) && !a.IndVerificado"
+                                                    class="cursor-pointer ml-2" (click)="verificarProtocolo(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"
                                                         [svgIcon]="'heroicons_outline:search'">

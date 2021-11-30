@@ -121,7 +121,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       .orderBy(e => e.dataInicio)
       .firstOrDefault()?.dataInicio;
 
-    return dataInicial != null ? dataInicial : "---";
+    return dataInicial != null ? dataInicial : "";
   }
 
   obterDataFinal(dp: DespesaProtocolo)
@@ -131,7 +131,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       .orderByDescending(e => e.dataFim)
       .firstOrDefault()?.dataFim;
 
-    return dataFinal != null ? dataFinal : "---";
+    return dataFinal != null ? dataFinal : "";
   }
 
   obterTecnicos(dp: DespesaProtocolo)

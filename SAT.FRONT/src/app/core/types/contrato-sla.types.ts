@@ -4,12 +4,12 @@ import { Meta, QueryStringParameters } from "./generic.types";
 
 export class ContratoSLA {
     codContrato: number;
-    contrato: Contrato;
+    contrato?: Contrato;
     codSLA: number;
-    sla: AcordoNivelServico;
+    sla?: AcordoNivelServico;
     indAgendamento?: any;
     codUsuarioCad: string;
-    dataHoraCad: Date;
+    dataHoraCad: string;
 }
 
 export interface ContratoSLAData extends Meta {

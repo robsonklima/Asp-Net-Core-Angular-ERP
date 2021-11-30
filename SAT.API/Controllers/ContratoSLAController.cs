@@ -25,5 +25,29 @@ namespace SAT.API.Controllers
         {
             return _contratoSLAService.ObterPorParametros(parameters);
         }
+        
+        [HttpGet("{codContrato}/{codSLA}")]
+        public ContratoSLA Get(int codContrato, int codSLA)
+        {
+            return _contratoSLAService.ObterPorCodigo(codContrato,codSLA);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] ContratoSLA contratoSLA)
+        {
+            _contratoSLAService.Criar(contratoSLA);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] ContratoSLA contratoSLA)
+        {
+            _contratoSLAService.Atualizar(contratoSLA);
+        }
+
+        [HttpDelete("{codContrato}/{codSLA}")]
+        public void Delete(int codContrato,int codSLA)
+        {
+            _contratoSLAService.Deletar(codContrato, codSLA);
+        }
     }
 }

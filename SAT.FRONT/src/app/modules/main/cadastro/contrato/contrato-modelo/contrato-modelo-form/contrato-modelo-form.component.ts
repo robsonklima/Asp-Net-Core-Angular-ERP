@@ -129,7 +129,6 @@ export class ContratoModeloFormComponent implements OnInit {
 
 		this._contratoEquipamentoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-			//this._router.navigate(['contrato/' + this.codContrato]);
 		});
 
 	}

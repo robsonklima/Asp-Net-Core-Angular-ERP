@@ -65,7 +65,7 @@ export class Filterable implements IFilterableCore
 
     onSidenavClosed(): void
     {
-        this.paginator.pageIndex = 0;
+        if (this.paginator) this.paginator.pageIndex = 0;
         this.loadFilter();
     }
 }

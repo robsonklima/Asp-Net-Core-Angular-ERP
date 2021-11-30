@@ -1,51 +1,60 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { FilterBase } from 'app/core/filters/filter-base';
 import { FilialService } from 'app/core/services/filial.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filial } from 'app/core/types/filial.types';
+import { IFilterBase } from 'app/core/types/filtro.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agenda-tecnico-filtro',
   templateUrl: './agenda-tecnico-filtro.component.html'
 })
-export class AgendaTecnicoFiltroComponent implements OnInit
+export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, IFilterBase
 {
-  form: FormGroup;
-  filtro: any;
   tecnicos: Tecnico[] = [];
   filiais: Filial[] = [];
-  sessionData: UsuarioSessao;
-  @Input() sidenavFiltro: MatSidenav;
+  @Input() sidenav: MatSidenav;
+  protected _onDestroy = new Subject<void>();
 
   constructor (
-    private _formBuilder: FormBuilder,
-    private _userSvc: UserService,
     private _tecnicoSvc: TecnicoService,
-    private _filialSvc: FilialService
-
+    private _filialSvc: FilialService,
+    protected _userService: UserService,
+    protected _formBuilder: FormBuilder
   )
   {
-    this.sessionData = JSON.parse(this._userSvc.userSession);
-    this.filtro = this._userSvc.obterFiltro('agenda-tecnico');
+    super(_userService, _formBuilder, 'agenda-tecnico');
   }
 
-  ngOnInit(): void
+  createForm(): void
   {
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
       codFiliais: [undefined]
     });
 
-    this.form.patchValue(this.filtro?.parametros);
+    this.form.patchValue(this.filter?.parametros);
 
+    console.log(this.filter);
+  }
+
+  loadData(): void
+  {
     this.obterTecnicosAoEscolherFilial();
     this.obterFiliais();
     this.configurarFiltro();
+  }
+
+  ngOnInit(): void
+  {
+    this.createForm();
+    this.loadData();
   }
 
   configurarFiltro()
@@ -79,7 +88,7 @@ export class AgendaTecnicoFiltroComponent implements OnInit
 
   private async obterFiliais()
   {
-    var codFilial = this.sessionData.usuario?.filial?.codFilial;
+    var codFilial = this.userSession.usuario?.filial?.codFilial;
 
     if (codFilial)
     {
@@ -98,51 +107,9 @@ export class AgendaTecnicoFiltroComponent implements OnInit
 
     this.filiais = data.items;
   }
-
-  aplicar(): void
+  ngOnDestroy()
   {
-    const form: any = this.form.getRawValue();
-
-    const filtro: any = {
-      nome: 'agenda-tecnico',
-      parametros: form
-    }
-
-    this._userSvc.registrarFiltro(filtro);
-
-    const newFilter: any = { nome: 'agenda-tecnico', parametros: this.form.getRawValue() }
-    const oldFilter = this._userSvc.obterFiltro('agenda-tecnico');
-
-    if (oldFilter != null)
-      newFilter.parametros =
-      {
-        ...newFilter.parametros,
-        ...oldFilter.parametros
-      };
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.sessionData?.usuario?.codFilial && newFilter)
-      newFilter.parametros.codFiliais = this.sessionData.usuario.codFilial
-
-    this.form.patchValue(newFilter.parametros);
-    this._userSvc.registrarFiltro(newFilter);
-    this.sidenavFiltro.close();
-  }
-
-  limpar(): void
-  {
-    this.form.reset();
-    this.aplicar();
-    this.sidenavFiltro.close();
-  }
-
-  selectAll(select: AbstractControl, values, propertyName)
-  {
-    if (select.value[0] == 0 && propertyName != '')
-      select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
-    else if (select.value[0] == 0 && propertyName == '')
-      select.patchValue([...values.map(item => item), 0]);
-    else
-      select.patchValue([]);
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

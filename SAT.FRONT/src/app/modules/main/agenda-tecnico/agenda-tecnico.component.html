@@ -38,8 +38,8 @@
         </div>
 
     </mat-drawer>
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavFiltro>
-        <app-agenda-tecnico-filtro [sidenavFiltro]="sidenavFiltro"></app-agenda-tecnico-filtro>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
 
     <mat-drawer-content>
@@ -51,7 +51,7 @@
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
         </button>
 
-        <button class="filter-button bg-gray-800" (click)="sidenavFiltro.toggle()" [disabled]="loading">
+        <button class="filter-button bg-gray-800" (click)="sidenav.toggle()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 

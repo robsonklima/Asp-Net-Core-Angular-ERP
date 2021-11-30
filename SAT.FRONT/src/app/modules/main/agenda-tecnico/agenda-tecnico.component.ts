@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, MbscEventcalendar } from '@mobiscroll/angular';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -14,9 +14,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
 
 setOptions({
   locale: localePtBR,
@@ -34,15 +36,13 @@ setOptions({
   styleUrls: ['./agenda-tecnico.component.scss'],
 })
 
-export class AgendaTecnicoComponent implements AfterViewInit, OnInit
+export class AgendaTecnicoComponent extends Filterable implements AfterViewInit, IFilterable
 {
   loading: boolean;
-  filtro: any;
   userSession: UserSession;
   tecnicos: Tecnico[] = [];
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   chamados: OrdemServico[] = [];
-  form: FormGroup;
   resources = [];
   externalEvents: MbscAgendaTecnicoCalendarEvent = [];
   externalEventsFiltered: MbscAgendaTecnicoCalendarEvent = [];
@@ -110,7 +110,7 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   };
 
   @ViewChild('sidenavChamados') sidenavChamados: MatSidenav;
-  @ViewChild('sidenavFiltro') sidenavFiltro: MatSidenav;
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   protected _onDestroy = new Subject<void>();
 
@@ -121,21 +121,19 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     private _haversineSvc: HaversineService,
     private _cdr: ChangeDetectorRef,
     private _agendaTecnicoSvc: AgendaTecnicoService,
-    private _userSvc: UserService,
+    protected _userSvc: UserService,
     public _dialog: MatDialog
   )
   {
-    this.userSession = JSON.parse(this._userSvc.userSession);
+    super(_userSvc, 'agenda-tecnico')
   }
 
-  ngAfterViewInit(): void
+  registerEmitters(): void
   {
-    this.carregarFiltro();
-
-    this.sidenavFiltro.closedStart.subscribe(() =>
+    this.sidenav.closedStart.subscribe(() =>
     {
-      this.carregarFiltro();
-      this.carregaTecnicosEChamadosTransferidos();
+      this.onSidenavClosed();
+      this.carregaTecnicosEChamadosTransferidos(true);
     });
 
     interval(10 * 60 * 1000)
@@ -165,7 +163,19 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
     });
   }
 
-  ngOnInit(): void { }
+  ngAfterViewInit(): void 
+  {
+    this.registerEmitters();
+  }
+
+  loadFilter(): void
+  {
+    super.loadFilter();
+
+    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
+    if (this.userSession?.usuario?.codFilial && this.filter)
+      this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
+  }
 
   private validateEvents(): void
   {
@@ -182,18 +192,13 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
   {
     if (prompt) this.loading = true;
 
-    const params = {
-      indAtivo: 1,
-      codFiliais: this.getFiliais(),
-      codPerfil: 35,
-      periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
-      periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
-      sortActive: 'nome',
-      sortDirection: 'asc'
-    };
-
     const tecnicos = await this._tecnicoSvc.obterPorParametros({
-      ...params, ...this.filtro?.parametros
+      indAtivo: 1,
+      codPerfil: 35,
+      codFiliais: this.getFiliais(),
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codTecnicos: this.filter?.parametros?.codTecnicos
     }).toPromise();
 
     this.resources = tecnicos.items.map(tecnico =>
@@ -689,18 +694,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
       select.patchValue([]);
   }
 
-  private carregarFiltro(): void
-  {
-    this.filtro = this._userSvc.obterFiltro('agenda-tecnico');
-    if (!this.filtro) return;
-
-    Object.keys(this.filtro?.parametros).forEach((key) =>
-    {
-      if (this.filtro?.parametros[key] instanceof Array)
-        this.filtro.parametros[key] = this.filtro.parametros[key].join()
-    });
-  }
-
   private inicioIntervalo(reference: Moment = moment())
   {
     return moment(reference).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
@@ -723,6 +716,6 @@ export class AgendaTecnicoComponent implements AfterViewInit, OnInit
 
   private getFiliais(): string
   {
-    return this.filtro?.parametros?.codFiliais;
+    return this.filter?.parametros?.codFiliais;
   }
 }

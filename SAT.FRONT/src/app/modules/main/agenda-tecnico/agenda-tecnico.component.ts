@@ -133,6 +133,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.sidenav.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
+      this.carregaChamadosAbertos();
       this.carregaTecnicosEChamadosTransferidos(true);
     });
 

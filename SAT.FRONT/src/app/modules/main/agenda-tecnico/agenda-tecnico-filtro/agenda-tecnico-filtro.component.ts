@@ -40,8 +40,6 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     });
 
     this.form.patchValue(this.filter?.parametros);
-
-    console.log(this.filter);
   }
 
   loadData(): void

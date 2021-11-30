@@ -91,7 +91,7 @@ export interface DespesaCreditosCartaoListView
 {
     protocolo: string;
     rd: number;
-    cadastro: string;
+    liberacao: string;
     tecnico: string;
     categoriaCredito: TecnicoCategoriaCredito;
     filial: string;
@@ -114,7 +114,8 @@ export enum DespesaCreditoCartaoStatusEnum
     "ERRO AO CREDITAR" = 1,
     "PENDENTE" = 2,
     "CREDITADO" = 3,
-    "COMPENSADO" = 4
+    "COMPENSADO" = 4,
+    "VERIFICADO" = 4
 }
 
 export interface DespesaPeriodoTecnicoAtendimentoItem

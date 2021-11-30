@@ -34,8 +34,8 @@ namespace SAT.INFRA.Repository
 
             query = query.Where(i =>
                 i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
-                && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null)
-                .OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
+                && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null &&
+                i.DataHoraCad.Year >= 2020).OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
 
             if (parameters.CodCreditoCartaoStatus.HasValue)
             {
@@ -52,6 +52,9 @@ namespace SAT.INFRA.Repository
                         break;
                     case DespesaCreditoCartaoStatusEnum.PENDENTE:
                         query = query.Where(i => (i.IndCredito == 0 || !i.IndCredito.HasValue) && (i.IndCompensacao == 0 || !i.IndCompensacao.HasValue));
+                        break;
+                    case DespesaCreditoCartaoStatusEnum.VERIFICADO:
+                        query = query.Where(i => i.IndVerificacao == 1);
                         break;
                     default:
                         break;

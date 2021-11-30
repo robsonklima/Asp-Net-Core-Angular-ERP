@@ -41,7 +41,7 @@
                                         {{ "RD" }}
                                     </div>
                                     <div>
-                                        {{ t('cadastro') }}
+                                        {{ t('liberacao') }}
                                     </div>
                                     <div>
                                         {{ t('tecnico') }}
@@ -86,7 +86,7 @@
                                                 {{ a.rd }}
                                             </div>
                                             <div class="pointer-events-none">
-                                                {{ a.cadastro | date:'dd/MM' }}
+                                                {{ a.liberacao | date:'dd/MM' }}
                                             </div>
                                             <div class="truncate cursor-help" [matTooltip]="a.tecnico | uppercase">
                                                 {{ a.tecnico | uppercase }}
@@ -118,7 +118,7 @@
                                                     matTooltipPosition="below">
                                                     <span class="py-1 px-1 rounded text-xs font-bold" [ngClass]="{
                                                         'bg-red-500': a.indErroAoCreditar,
-                                                        'bg-blue-200': a.indCreditado,
+                                                        'bg-green-500': a.indCreditado,
                                                         'bg-purple-200': a.indCompensado}">
                                                         {{ a.indErroAoCreditar ? 'ER' :
                                                         a.indCreditado ? "CR" :
@@ -137,10 +137,10 @@
                                                 </button>
                                                 <button
                                                     [disabled]="!(a.indCreditado || a.indCompensado) && !a.IndVerificado"
-                                                    class="cursor-pointer ml-2" (click)="verificarProtocolo(a)">
+                                                    class="cursor-pointer ml-2" (click)="verificarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"
-                                                        [svgIcon]="'heroicons_outline:search'">
+                                                        [svgIcon]="'heroicons_outline:badge-check'">
                                                     </mat-icon>
                                                 </button>
                                             </div>

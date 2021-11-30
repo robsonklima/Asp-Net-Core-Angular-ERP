@@ -11,7 +11,7 @@
 </div>
 
 <div mat-dialog-actions class="mt-4" align="end">
-    <button mat-button mat-dialog-close>{{ botaoCancelarTexto }}</button>
+    <button mat-button mat-dialog-close *ngIf="!hideCancel">{{ botaoCancelarTexto }}</button>
 
     <button mat-button [color]="'primary'" (click)="confirmar()">
         {{ botaoConfirmarTexto }}

@@ -133,7 +133,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
           {
             protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
             rd: p.codDespesaPeriodoTecnico,
-            cadastro: p.despesaProtocoloPeriodoTecnico.dataHoraCad,
+            liberacao: p.despesaProtocoloPeriodoTecnico.dataHoraCad,
             tecnico: p.tecnico?.nome,
             categoriaCredito: p.tecnico.tecnicoCategoriaCredito,
             filial: p.tecnico?.filial?.nomeFilial,
@@ -208,12 +208,12 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     });
   }
 
-  verificarProtocolo(a: DespesaCreditosCartaoListView)
+  verificarRD(a: DespesaCreditosCartaoListView)
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Verificação',
-        message: `Deseja verificar o relatório de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
+        message: `Deseja verificar o RD no valor de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
@@ -231,25 +231,39 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         despesaPeriodoTecnico.indVerificacao = 1;
         despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
         despesaPeriodoTecnico.dataHoraVerificacao = moment().format('DD/MM/YY HH:mm:ss');
-
-        this._despesaProtocoloSvc
-          .obterPorCodigo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo)
-          .subscribe(i =>
-          {
-            i.indFechamento = 1;
-            i.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
-
-            /* this._despesaProtocoloSvc.atualizar(i).toPromise() */
-          });
+        // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
+        // {
+          this.fecharProtocolo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo);
+        // });
       }
-      else
+    });
+  }
+
+  cancelarVerificacaoRD(a: DespesaCreditosCartaoListView)
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Cancelar Verificação',
+        message: `Deseja cancelar o RD no valor de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
+        .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
+
+      if (confirmacao)
       {
         despesaPeriodoTecnico.indVerificacao = 0;
         despesaPeriodoTecnico.codUsuarioVerificacaoCancelado = this.userSession.usuario.codUsuario;
         despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
+        // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
       }
-
-      /* this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise(); */
     });
   }
 
@@ -263,5 +277,50 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.COMPENSADO];
 
     return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.PENDENTE];
+  }
+
+  async fecharProtocolo(codDespesaProtocolo: number)
+  {
+    var protocolo = (await this._despesaProtocoloSvc
+      .obterPorCodigo(codDespesaProtocolo)
+      .toPromise());
+
+    var rdsAbertos = Enumerable.from(protocolo.despesaProtocoloPeriodoTecnico)
+      .select(i => i.despesaPeriodoTecnico)
+      .where(i => i.indVerificacao != 1)
+      .toArray();
+
+    var message: string = 'O protocolo foi fechado com sucesso!';
+
+    if (rdsAbertos?.length > 0)
+    {
+      message = `O protocolo ainda possui ${rdsAbertos.length} RD(s) em aberto.`;
+      
+      var rdsSemCombustivel = 
+        Enumerable.from(rdsAbertos)
+        .where(i => !Enumerable.from(i.tecnico.despesaCartaoCombustivelTecnico).any())
+        .toArray();
+
+        if (rdsSemCombustivel?.length > 0)
+          message += ` ${rdsSemCombustivel?.length} não possuem cartão combustível vinculado.`;
+    }
+    else
+    {
+       protocolo.indFechamento = 1;
+       protocolo.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
+      /* await this._despesaProtocoloSvc.atualizar(protocolo).toPromise(); */
+    }
+
+    this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: `Protocolo ${codDespesaProtocolo}`,
+        message: message,
+        hideCancel: true,
+        buttonText: { ok: 'Ok' }
+      }});
+  }
+
+  async reabrirProtocolo(codDespesaProtocolo: number)
+  {
   }
 }

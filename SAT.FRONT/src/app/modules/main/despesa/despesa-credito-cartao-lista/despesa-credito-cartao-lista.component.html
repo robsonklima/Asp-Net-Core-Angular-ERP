@@ -136,7 +136,7 @@
                                                     </mat-icon>
                                                 </button>
                                                 <button
-                                                    [disabled]="!(a.indCreditado || a.indCompensado) && !a.IndVerificado"
+                                                    [disabled]="(!(a.indCreditado || a.indCompensado) || a.combustivel <= 0) && !a.IndVerificado"
                                                     class="cursor-pointer ml-2" (click)="verificarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"

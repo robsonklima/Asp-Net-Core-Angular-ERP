@@ -183,9 +183,9 @@ export class ContratoModeloFormComponent implements OnInit {
 			dataGar: new FormControl(undefined),
 		});
 
-		if (!this.isAddMode) {
-			this.form.controls['codEquip'].disable();
-		}
+		// if (!this.isAddMode) {
+		// 	this.form.controls['codEquip'].disable();
+		// }
 	}
 
 	ngOnDestroy() {

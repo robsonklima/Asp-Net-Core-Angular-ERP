@@ -95,6 +95,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		MatStepperModule,
 		FuseAlertModule,
 		MatProgressSpinnerModule
-	]
+	]	
 })
 export class ContratoModule { }

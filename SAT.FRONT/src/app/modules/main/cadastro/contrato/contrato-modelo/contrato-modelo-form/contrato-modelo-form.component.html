@@ -38,7 +38,7 @@
                 </div>
                 <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
                         <mat-label>{{ t('modelo') }}</mat-label>
                         <mat-select formControlName="codEquip" #modeloSelect>
                             <mat-option>
@@ -48,12 +48,11 @@
                             </mat-option>
                             <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip" matTooltip="{{modelo.nomeEquip }}" matTooltipPosition="right">
                                 <span>{{ modelo.nomeEquip }}</span>
-                                <!-- <span class="opacity-50">{{ tecnico.filial?.nomeFilial }}</span> -->
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('cod logix') }}</mat-label>
                         <input matInput formControlName="codMagnus" mask="000.000.000" [dropSpecialCharacters]="false">
                         <mat-error>{{t('preencher campo')}}</mat-error>
@@ -73,7 +72,7 @@
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
                         <mat-label>{{ t('quantidade') }}</mat-label>
                         <input matInput formControlName="qtdEquip" maxlength="3"> 
                         <mat-error>{{t('preencher campo')}}</mat-error>

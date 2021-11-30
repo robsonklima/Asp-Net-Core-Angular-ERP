@@ -46,18 +46,7 @@ export class DespesaCreditoCreditarDialogComponent
   async obterDados()
   {
     this.isLoading = true;
-
-    await this.calcularCategoriaCredito();
-
     this.isLoading = false;
-  }
-
-  async calcularCategoriaCredito()
-  {
-    this.despesaPeriodoTecnico =
-      (await this._despesaPeriodoTecnicoSvc
-        .obterClassificacaoCreditoTecnico(this.despesaPeriodoTecnico)
-        .toPromise());
   }
 
   getCategoriaCredito(c: TecnicoCategoriaCreditoEnum)

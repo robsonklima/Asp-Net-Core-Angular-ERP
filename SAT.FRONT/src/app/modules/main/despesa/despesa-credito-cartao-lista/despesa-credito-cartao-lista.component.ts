@@ -10,6 +10,7 @@ import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.ser
 import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
@@ -23,10 +24,10 @@ import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-credita
   templateUrl: './despesa-credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px;
-            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
-            @screen md { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
-            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 100px 80px 60px 85px 60px 75px 40px 60px; }
+            grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px;
+            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
+            @screen md { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
+            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -183,6 +184,11 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         .sum(i => i.despesaValor));
   }
 
+  getCategoriaCredito(c: TecnicoCategoriaCreditoEnum)
+  {
+    return TecnicoCategoriaCreditoEnum[c];
+  }
+
   paginar()
   {
     this.onPaginationChanged();
@@ -231,17 +237,17 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         despesaPeriodoTecnico.indVerificacao = 1;
         despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
         despesaPeriodoTecnico.dataHoraVerificacao = moment().format('DD/MM/YY HH:mm:ss');
-        // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
-        // {
+        /* this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
+        {
           this.fecharProtocolo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo);
-        // });
+        }); */
       }
     });
   }
 
   cancelarVerificacaoRD(a: DespesaCreditosCartaoListView)
   {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+    /* const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Cancelar Verificação',
         message: `Deseja cancelar o RD no valor de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
@@ -264,7 +270,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
         // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
       }
-    });
+    }); */
   }
 
   getStatus(a: DespesaCreditosCartaoListView)
@@ -295,19 +301,19 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     if (rdsAbertos?.length > 0)
     {
       message = `O protocolo ainda possui ${rdsAbertos.length} RD(s) em aberto.`;
-      
-      var rdsSemCombustivel = 
-        Enumerable.from(rdsAbertos)
-        .where(i => !Enumerable.from(i.tecnico.despesaCartaoCombustivelTecnico).any())
-        .toArray();
 
-        if (rdsSemCombustivel?.length > 0)
-          message += ` ${rdsSemCombustivel?.length} não possuem cartão combustível vinculado.`;
+      var rdsSemCombustivel =
+        Enumerable.from(rdsAbertos)
+          .where(i => !Enumerable.from(i.tecnico.despesaCartaoCombustivelTecnico).any())
+          .toArray();
+
+      if (rdsSemCombustivel?.length > 0)
+        message += ` ${rdsSemCombustivel?.length} não possuem cartão combustível vinculado.`;
     }
     else
     {
-       protocolo.indFechamento = 1;
-       protocolo.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
+      protocolo.indFechamento = 1;
+      protocolo.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
       /* await this._despesaProtocoloSvc.atualizar(protocolo).toPromise(); */
     }
 
@@ -317,7 +323,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         message: message,
         hideCancel: true,
         buttonText: { ok: 'Ok' }
-      }});
+      }
+    });
   }
 
   async reabrirProtocolo(codDespesaProtocolo: number)

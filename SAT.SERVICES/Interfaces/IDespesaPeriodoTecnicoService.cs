@@ -7,7 +7,6 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters);
         ListViewModel ObterAtendimentos(DespesaPeriodoTecnicoParameters parameters);
-        DespesaPeriodoTecnico ObterClassificacaoCreditoTecnico(DespesaPeriodoTecnico despesaPeriodoTecnico);
         DespesaPeriodoTecnico Criar(DespesaPeriodoTecnico despesa);
         void Deletar(int codigo);
         void Atualizar(DespesaPeriodoTecnico despesa);

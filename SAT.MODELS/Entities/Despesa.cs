@@ -10,13 +10,13 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodDespesa { get; set; }
         public int CodDespesaPeriodo { get; set; }
-        public int CodRAT { get; set; }
+        public int? CodRAT { get; set; }
         [ForeignKey("CodRAT")]
         public RelatorioAtendimento RelatorioAtendimento { get; set; }
         public int CodTecnico { get; set; }
         [ForeignKey("CodDespesa")]
         public List<DespesaItem> DespesaItens { get; set; }
-        public int CodFilial { get; set; }
+        public int? CodFilial { get; set; }
         [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
         public string CentroCusto { get; set; }

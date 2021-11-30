@@ -54,7 +54,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (parameters.DataHoraInicioRAT.HasValue)
-                despesas = despesas.Where(e =>
+                despesas = despesas.Where(e => e.RelatorioAtendimento != null &&
                     e.RelatorioAtendimento.DataHoraInicio >= parameters.DataHoraInicioRAT);
 
             if (parameters.CodDespesaPeriodo.HasValue)

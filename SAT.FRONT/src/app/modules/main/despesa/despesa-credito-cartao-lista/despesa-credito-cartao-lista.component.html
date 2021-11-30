@@ -47,6 +47,9 @@
                                         {{ t('tecnico') }}
                                     </div>
                                     <div>
+                                        {{ "Categ." }}
+                                    </div>
+                                    <div>
                                         {{ t('filial') }}
                                     </div>
                                     <div>
@@ -91,6 +94,9 @@
                                             <div class="truncate cursor-help" [matTooltip]="a.tecnico | uppercase">
                                                 {{ a.tecnico | uppercase }}
                                             </div>
+                                            <div class="truncate cursor-help">
+                                                {{ getCategoriaCredito(a.categoriaCredito?.categoriaCredito) }}
+                                            </div>
                                             <div class="pointer-events-none">
                                                 {{ a.filial }}
                                             </div>
@@ -117,26 +123,26 @@
                                                 <span [matTooltip]="getStatus(a)" [matTooltipClass]="'os_lista_tooltip'"
                                                     matTooltipPosition="below">
                                                     <span class="py-1 px-1 rounded text-xs font-bold" [ngClass]="{
-                                                        'bg-red-500': a.indErroAoCreditar,
-                                                        'bg-green-500': a.indCreditado,
-                                                        'bg-purple-200': a.indCompensado}">
-                                                        {{ a.indErroAoCreditar ? 'ER' :
-                                                        a.indCreditado ? "CR" :
+                                                        'bg-red-500': a.indCreditado && a.indErroAoCreditar,
+                                                        'bg-purple-200': a.indCompensado,
+                                                        'bg-green-500': a.indCreditado && !a.indErroAoCreditar}">
+                                                        {{ a.indCreditado && a.indErroAoCreditar ? 'ER' :
+                                                        a.indCreditado && !a.indErroAoCreditar ? "CR" :
                                                         a.indCompensado ? "CO" : "PN" }}
                                                     </span>
                                                 </span>
                                             </div>
                                             <div>
                                                 <button class="cursor-pointer"
-                                                    [disabled]="a.indCreditado || a.indCompensado"
+                                                    [disabled]="a.indCreditado || a.indCompensado || a.combustivel <= 0"
                                                     (click)="creditarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-green-500"
                                                         [matTooltip]="t('creditar')"
                                                         [svgIcon]="'heroicons_outline:credit-card'">
                                                     </mat-icon>
                                                 </button>
-                                                <button
-                                                    [disabled]="(!(a.indCreditado || a.indCompensado) || a.combustivel <= 0) && !a.IndVerificado"
+                                                <button [disabled]="(a.combustivel <= 0 ? false : a.combustivel > 0 ? 
+                                                    !(a.indCreditado || a.indCompensado) : true) || a.indVerificado"
                                                     class="cursor-pointer ml-2" (click)="verificarRD(a)">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-500"
                                                         [matTooltip]="t('verificar')"

@@ -34,8 +34,7 @@ namespace SAT.SERVICES.Services
             var despesas = _despesaRepository.ObterPorParametros(new DespesaParameters
             {
                 CodTecnico = string.Join(",", tecnicos),
-                DataHoraInicioRAT = DateTime.Today.AddDays(-30),
-                PageSize = 1000
+                DataHoraInicioRAT = DateTime.Today.AddDays(-30)
             }).ToArray();
 
             List<TecnicoCategoriaCredito> categorias =

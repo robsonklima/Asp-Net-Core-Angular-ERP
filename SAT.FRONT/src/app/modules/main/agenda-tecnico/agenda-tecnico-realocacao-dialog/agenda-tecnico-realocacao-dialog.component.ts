@@ -71,6 +71,13 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
 
-    await this._agendaTecnicoSvc.atualizar(agendamento).toPromise();
+    await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
+    {
+      this._notify.toast({ message: 'Atendimento realocado com sucesso.' });
+    })
+      .catch(() =>
+      {
+        this._notify.toast({ message: 'Erro ao realocar atendimento.' });
+      });
   }
 }

@@ -617,16 +617,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
 
-    if (ag)
+    if (ag != null)
     {
-      ev.ordemServico.codTecnico = ag.codTecnico;
-      ev.ordemServico.dataHoraTransf = ag.ultimaAtualizacao;
-      ev.ordemServico.codAgendaTecnico = ag.codAgendaTecnico;
-      ev.ordemServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
-      ev.ordemServico.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
-      ev.ordemServico.agendaTecnico = ag;
+      var os = (await this._osSvc.obterPorCodigo(ev.ordemServico.codOS).toPromise());
 
-      await this._osSvc.atualizar(ev.ordemServico).toPromise().then(() =>
+      os.codTecnico = ag.codTecnico;
+      os.dataHoraTransf = ag.ultimaAtualizacao;
+      os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
+      os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
+      ev.codAgendaTecnico = ag.codAgendaTecnico;
+
+      await this._osSvc.atualizar(os).toPromise().then(() =>
       {
         this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
         return true;
@@ -637,10 +638,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         return false;
       })
     }
-
-    this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
-    this.deleteEvent(args, inst);
-    return false;
+    else
+    {
+      this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+      this.deleteEvent(args, inst);
+      return false;
+    }
   }
 
   private showOSInfo(args)
@@ -726,6 +729,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var atendimentosTecnico = Enumerable.from(this.events)
       .where(i => i.resource == codTecnico && i.ordemServico != null && i.ordemServico?.codStatusServico != StatusServicoEnum.FECHADO)
+      .orderBy(i => i.title)
       .toArray();
 
     if (!atendimentosTecnico.length) return;

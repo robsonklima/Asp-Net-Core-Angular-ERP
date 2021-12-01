@@ -18,229 +18,222 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 import Enumerable from 'linq';
 
 @Component({
-  selector: 'app-ordem-servico-detalhe',
-  templateUrl: './ordem-servico-detalhe.component.html',
-  styleUrls: ['./ordem-servico-detalhe.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+	selector: 'app-ordem-servico-detalhe',
+	templateUrl: './ordem-servico-detalhe.component.html',
+	styleUrls: ['./ordem-servico-detalhe.component.scss'],
+	encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements AfterViewInit
-{
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  codOS: number;
-  os: OrdemServico;
-  statusServico: StatusServico;
-  perfis: any;
-  userSession: UsuarioSessao;
-  fotos: Foto[] = [];
-  map: L.Map;
-  ultimoAgendamento: string;
-  public get perfilEnum(): typeof PerfilEnum
-  {
-    return PerfilEnum;
-  }
+export class OrdemServicoDetalheComponent implements AfterViewInit {
+	@ViewChild('sidenav') sidenav: MatSidenav;
+	codOS: number;
+	os: OrdemServico;
+	statusServico: StatusServico;
+	perfis: any;
+	userSession: UsuarioSessao;
+	fotos: Foto[] = [];
+	map: L.Map;
+	ultimoAgendamento: string;
+	histAgendamento: string = 'Agendamentos: \n';
 
-  constructor (
-    private _route: ActivatedRoute,
-    private _ordemServicoService: OrdemServicoService,
-    private _agendamentoService: AgendamentoService,
-    private _userService: UserService,
-    private _snack: CustomSnackbarService,
-    private _cdr: ChangeDetectorRef,
-    private _dialog: MatDialog
-  )
-  {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+	public get perfilEnum(): typeof PerfilEnum {
+		return PerfilEnum;
+	}
 
-  ngAfterViewInit(): void
-  {
-    this.codOS = +this._route.snapshot.paramMap.get('codOS');
-    this.obterDadosOrdemServico();
+	constructor(
+		private _route: ActivatedRoute,
+		private _ordemServicoService: OrdemServicoService,
+		private _agendamentoService: AgendamentoService,
+		private _userService: UserService,
+		private _snack: CustomSnackbarService,
+		private _cdr: ChangeDetectorRef,
+		private _dialog: MatDialog
+	) {
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-    this.perfis = PerfilEnum;
+	ngAfterViewInit(): void {
+		this.codOS = +this._route.snapshot.paramMap.get('codOS');
+		this.obterDadosOrdemServico();
 
-    this.sidenav.closedStart.subscribe(() =>
-    {
-      this.obterDadosOrdemServico();
-    })
+		this.perfis = PerfilEnum;
 
-    this._cdr.detectChanges();
-  }
+		this.sidenav.closedStart.subscribe(() => {
+			this.obterDadosOrdemServico();
+		})
 
-  trocarTab(tab: any)
-  {
-    if (tab.index !== 4 || !this.os)
-    {
-      return;
-    }
+		this._cdr.detectChanges();
+	}
 
-    this.map = L.map('map', {
-      scrollWheelZoom: false,
-    }).setView([
-      +this.os.localAtendimento.latitude,
-      +this.os.localAtendimento.longitude
-    ], 14);
+	trocarTab(tab: any) {
+		if (tab.index !== 4 || !this.os) {
+			return;
+		}
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'SAT 2.0'
-    }).addTo(this.map);
+		this.map = L.map('map', {
+			scrollWheelZoom: false,
+		}).setView([
+			+this.os.localAtendimento.latitude,
+			+this.os.localAtendimento.longitude
+		], 14);
 
-    var icon = new L.Icon.Default();
-    icon.options.shadowSize = [0, 0];
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: 'SAT 2.0'
+		}).addTo(this.map);
 
-    L.marker([
-      +this.os.localAtendimento.latitude,
-      +this.os.localAtendimento.longitude
-    ])
-      .addTo(this.map)
-      .setIcon(icon)
-      .bindPopup(this.os.localAtendimento.nomeLocal);
+		var icon = new L.Icon.Default();
+		icon.options.shadowSize = [0, 0];
 
-    this.map.invalidateSize();
-  }
+		L.marker([
+			+this.os.localAtendimento.latitude,
+			+this.os.localAtendimento.longitude
+		])
+			.addTo(this.map)
+			.setIcon(icon)
+			.bindPopup(this.os.localAtendimento.nomeLocal);
 
-  private async obterDadosOrdemServico()
-  {
-    this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-    if (this.os.agendamentos.length)
-    {
-      this.ultimoAgendamento = this.os.agendamentos
-        .reduce((max, p) => p.dataAgendamento > max ? p.dataAgendamento : max, this.os.agendamentos[0].dataAgendamento);
-    }
-  }
+		this.map.invalidateSize();
+	}
 
-  async agendar()
-  {
-    const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
-      data: {
-        codOS: this.os.codOS
-      }
-    });
+	private async obterDadosOrdemServico() {
 
-    dialogRef.afterClosed().subscribe((data: any) =>
-    {
-      if (data)
-      {
-        this._agendamentoService.criar(data.agendamento).subscribe(
-          result =>
-          {
-            this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
-            this._ordemServicoService.atualizar(this.os).subscribe(
-              result =>
-              {
-                this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-                this.obterDadosOrdemServico();
-              },
-              error =>
-              {
-                this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-              });
-          },
-          error =>
-          {
-            this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-          });
-      }
-    });
-  }
+		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
 
-  cancelar()
-  {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja cancelar este chamado?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
+		if (this.os.agendamentos.length) {
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
-      if (confirmacao)
-      {
-        let obj = {
-          ...this.os,
-          ...{
-            dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-            codUsuarioManut: this.userSession.usuario.codUsuario,
-            codStatusServico: statusServicoConst.CANCELADO
-          }
-        };
+			var agendamentos = Enumerable.from(this.os.agendamentos)
+			.orderByDescending(a => a.codAgendamento);
 
-        Object.keys(obj).forEach((key) =>
-        {
-          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });
+			this.histAgendamento += agendamentos
+				.select(e => moment(e.dataAgendamento)
+					.format('DD/MM HH:mm'))
+				.toJoinedString(", \n");
 
-        if (this.os?.relatoriosAtendimento.length === 0)
-        {
-          this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) =>
-          {
-            this.obterDadosOrdemServico();
+			this.ultimoAgendamento = agendamentos
+				.select(a => a.dataAgendamento)
+				.first();
+		}
+	}
 
-            this._snack.exibirToast("Chamado cancelado com sucesso!", "success");
-          });
-        } else
-        {
-          this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error");
-        }
+	async agendar() {
+		const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
+			data: {
+				codOS: this.os.codOS
+			}
+		});
 
-      }
-    });
-  }
+		dialogRef.afterClosed().subscribe((data: any) => {
+			if (data) {
 
-  cancelarTransferencia()
-  {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja cancelar a transferência deste chamado?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
+				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss')) {
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
-      if (confirmacao)
-      {
-        var ultimoStatus = statusServicoConst.ABERTO;
+					this._snack.exibirToast('O Chamado não deve ser agendado em datas retroativas', 'error');
+					return;
+				}
 
-        if (this.os?.relatoriosAtendimento.length != 0)
-          ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
-            .orderByDescending(i => i.codRAT)
-            .firstOrDefault()
-            .statusServico
-            .codStatusServico;
+				this._agendamentoService.criar(data.agendamento).subscribe(
+					result => {
+						this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+						this._ordemServicoService.atualizar(this.os).subscribe(
+							result => {
+								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+								this.obterDadosOrdemServico();
+							},
+							error => {
+								this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+							});
+					},
+					error => {
+						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+					});
+			}
+		});
+	}
 
-        let obj = {
-          ...this.os,
-          ...{
-            dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-            codUsuarioManut: this.userSession.usuario.codUsuario,
-            codStatusServico: ultimoStatus,
-            codTecnico: null
-          }
-        };
+	cancelar() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja cancelar este chamado?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-        Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				let obj = {
+					...this.os,
+					...{
+						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+						codUsuarioManut: this.userSession.usuario.codUsuario,
+						codStatusServico: statusServicoConst.CANCELADO
+					}
+				};
 
-        this._ordemServicoService.atualizar(obj).subscribe(
-          result =>
-          {
-            this.obterDadosOrdemServico();
-            this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-          },
-          error => 
-          {
-            this._snack.exibirToast("Erro ao cancelar transferência!", "error");
-          });
-      }
-    });
-  }
+				Object.keys(obj).forEach((key) => {
+					typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+				});
+
+				if (this.os?.relatoriosAtendimento.length === 0) {
+					this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
+						this.obterDadosOrdemServico();
+
+						this._snack.exibirToast("Chamado cancelado com sucesso!", "success");
+					});
+				} else {
+					this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error");
+				}
+
+			}
+		});
+	}
+
+	cancelarTransferencia() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja cancelar a transferência deste chamado?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				var ultimoStatus = statusServicoConst.ABERTO;
+
+				if (this.os?.relatoriosAtendimento.length != 0)
+					ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
+						.orderByDescending(i => i.codRAT)
+						.firstOrDefault()
+						.statusServico
+						.codStatusServico;
+
+				let obj = {
+					...this.os,
+					...{
+						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+						codUsuarioManut: this.userSession.usuario.codUsuario,
+						codStatusServico: ultimoStatus,
+						codTecnico: null
+					}
+				};
+
+				Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+
+				this._ordemServicoService.atualizar(obj).subscribe(
+					result => {
+						this.obterDadosOrdemServico();
+						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+					},
+					error => {
+						this._snack.exibirToast("Erro ao cancelar transferência!", "error");
+					});
+			}
+		});
+	}
 }

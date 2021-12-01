@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
+import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
+import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
@@ -12,6 +14,7 @@ import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-agenda-tecnico-chamados-filtro',
@@ -25,6 +28,7 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
   tiposIntervencao: TipoIntervencao[] = [];
   filiais: Filial[] = [];
   pas: number[] = [];
+  clientes: Cliente[] = [];
 
   protected _onDestroy = new Subject<void>();
 
@@ -33,6 +37,7 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
     protected _userService: UserService,
     protected _formBuilder: FormBuilder,
     private _filialSvc: FilialService,
+    private _clienteSvc: ClienteService,
     private _regiaoAutorizadaSvc: RegiaoAutorizadaService
   )
   {
@@ -49,6 +54,7 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
   {
     this.obterTiposIntervencao();
     this.obterFiliais();
+    this.obterClientes();
 
     this.configurarFiliais();
   }
@@ -58,9 +64,8 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       pas: [undefined],
-      codTiposIntervencao: [undefined],
-      numOSCliente: [undefined],
-      numOSQuarteirizada: [undefined]
+      codClientes: [undefined],
+      codTiposIntervencao: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -128,6 +133,34 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
     }
 
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+  }
+
+  async obterClientes(filter: string = '')
+  {
+    let params: ClienteParameters = {
+      filter: filter,
+      indAtivo: 1,
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
+
+    const data = await this._clienteSvc
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.clientes = data.items;
+  }
+
+  clean()
+  {
+    super.clean();
+
+    if (this.userSession?.usuario?.codFilial)
+    {
+      this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
+      this.form.controls['codFiliais'].disable();
+    }
   }
 
   ngOnDestroy()

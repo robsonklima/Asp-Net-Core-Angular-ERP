@@ -1,45 +1,10 @@
 <mat-drawer-container class="flex-auto h-full" [hasBackdrop]="false">
-
-    <mat-drawer class="lg:w-80 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
-        <div class="flex flex-col flex-auto p-6 bg-card">
-            <div class="flex items-start justify-between">
-                <div class="flex-auto">
-                    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between pt-6 px-3">
-                        <div class="flex justify-between">
-                            <div class="text-4xl font-extrabold tracking-tight leading-none">Agendar</div>
-
-                            <button mat-icon-button color="primary" [matTooltip]="'Fechar'"
-                                (click)="sidenavChamados.toggle()" class="-mt-1">
-                                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                            </button>
-                        </div>
-
-                        <div class="flex w-full pt-6">
-                            <mat-form-field class="w-full">
-                                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                                <input matInput #searchInputControl [autocomplete]="'off'"
-                                    [placeholder]="'Pesquisar...'">
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <div *ngFor="let event of externalEventsFiltered" mbsc-draggable [dragData]="event"
-                        class="external-drop-task" [ngStyle]="{background: event.color}">
-                        <div>{{ event.title }}</div>
-                        <div>{{ event.nomeLocal }} - {{ event.cliente }}</div>
-                        <div>{{ event.regiao }} - {{ event.autorizada }}</div>
-                    </div>
-
-                    <div *ngIf="!externalEventsFiltered.length" class="flex w-full pt-6">
-                        <p>Nenhum registro encontrado.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </mat-drawer>
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
+    </mat-drawer>
+
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
+        <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
     <mat-drawer-content>

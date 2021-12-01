@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -8,8 +8,7 @@ import { Tecnico } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { fromEvent, interval, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,8 +43,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   chamados: OrdemServico[] = [];
   resources = [];
-  externalEvents: MbscAgendaTecnicoCalendarEvent = [];
-  externalEventsFiltered: MbscAgendaTecnicoCalendarEvent = [];
 
   calendarOptions: MbscEventcalendarOptions = {
     view: {
@@ -114,8 +111,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   };
 
   @ViewChild('sidenavChamados') sidenavChamados: MatSidenav;
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('sidenav') sidenavAgenda: MatSidenav;
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -130,41 +126,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   )
   {
     super(_userSvc, 'agenda-tecnico')
+    this.carregaTecnicosEChamadosTransferidos(true);
   }
 
   registerEmitters(): void
   {
-    this.sidenav.closedStart.subscribe(() =>
+    this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
-      this.carregaChamadosAbertos();
       this.carregaTecnicosEChamadosTransferidos(true);
-    });
-
-    interval(10 * 60 * 1000)
-      .pipe(
-        startWith(0),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe((x) =>
-      {
-        if (!this.sidenavChamados.opened)
-        {
-          this.carregaTecnicosEChamadosTransferidos(!x);
-          this.carregaChamadosAbertos();
-        }
-      });
-
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
-        return event.target.value;
-      })
-      , debounceTime(700)
-      , distinctUntilChanged()
-    ).subscribe((text: string) =>
-    {
-      this.filtrarChamadosAbertos(text);
     });
   }
 
@@ -413,31 +383,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private async carregaChamadosAbertos()
-  {
-    const data = await this._osSvc.obterPorParametros({
-      codStatusServicos: StatusServicoEnum.ABERTO.toString(),
-      codFiliais: this.getFiliais()
-    }).toPromise();
-
-    this.externalEvents = data.items.map(os =>
-    {
-      return {
-        title: os.codOS.toString(),
-        nomeLocal: os.localAtendimento?.nomeLocal,
-        cliente: os.cliente?.razaoSocial,
-        regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
-        autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-        color: '#1064b0',
-        start: moment(),
-        end: moment().add(60, 'minutes'),
-        ordemServico: os
-      }
-    });
-
-    this.externalEventsFiltered = this.externalEvents;
-  }
-
   private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
   {
     var origem: Coordenada = new Coordenada();
@@ -480,26 +425,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         return "#ff4c4c";
       case 3: //fechado
         return "#7f7fff";
-    }
-  }
-
-  public filtrarChamadosAbertos(query: string)
-  {
-    if (query && query.trim() != '')
-    {
-      this.externalEventsFiltered = this.externalEvents.filter((ev) =>
-      {
-        return (
-          ev.title?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.nomeLocal?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.cliente?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.regiao?.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
-          ev.autorizada?.toLowerCase().indexOf(query.toLowerCase()) > -1
-        );
-      })
-    } else
-    {
-      this.externalEventsFiltered = this.externalEvents;
     }
   }
 
@@ -600,9 +525,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async createNewEvent(args, inst)
   {
+    console.log(args);
     var ev = args.event;
-    const eventIndex = this.externalEventsFiltered.map(function (e) { return e.title; }).indexOf(args.event.title);
-    this.externalEventsFiltered.splice(eventIndex, 1);
     ev.color = this.getEventColor(args);
 
     var agendaTecnico: AgendaTecnico =

@@ -19,12 +19,18 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 import { AgendaTecnicoFiltroComponent } from './agenda-tecnico-filtro/agenda-tecnico-filtro.component';
 import { MatSelectModule } from '@angular/material/select';
+import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
+import { AgendaTecnicoChamadosFiltroComponent } from './agenda-tecnico-chamados-filtro/agenda-tecnico-chamados-filtro.component';
+import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda-tecnico-chamados.component';
 
 @NgModule({
     declarations: [
         AgendaTecnicoComponent,
         RoteiroMapaComponent,
         AgendaTecnicoFiltroComponent,
+        AgendaTecnicoRealocacaoDialogComponent,
+        AgendaTecnicoChamadosFiltroComponent,
+        AgendaTecnicoChamadosComponent,
     ],
     imports: [
         RouterModule.forChild(agendaTecnicoRoutes),

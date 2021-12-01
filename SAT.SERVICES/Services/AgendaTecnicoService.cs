@@ -38,6 +38,11 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
+        public AgendaTecnico ObterPorCodigo(int codigo)
+        {
+            return _agendaRepo.ObterPorCodigo(codigo);
+        }
+
         private string ObterCor()
         {
             string[] cores = {

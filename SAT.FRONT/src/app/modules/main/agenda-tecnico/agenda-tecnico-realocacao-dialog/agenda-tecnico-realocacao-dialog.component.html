@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>
+    Realocar Atendimento
+</h1>
+
+<div>
+    <div class="flex-auto w-full">
+        <div class="flex overflow-hidden">
+            {{ "Escolha o atendimento do técnico " + (tecnico?.nome | uppercase) + " a ser realocado para " + (initialTime | date:'dd/MM/yy') + " às " + (initialTime | date:'HH:mm') + ":" }}
+        </div>
+
+        <form [formGroup]="form" *transloco="let t">
+            <div class="flex-auto w-full mt-5">
+                <mat-form-field class="fuse-mat-dense flex-auto w-full">
+                    <mat-select formControlName="codAgendaTecnico">
+                        <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
+                            {{ a.ordemServico?.codOS + " - " + a.title }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="mt-4" align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+
+        <button mat-button [disabled]="!form?.valid" [color]="'primary'" (click)="confirmar()">
+            Realocar </button>
+    </div>
+</div>

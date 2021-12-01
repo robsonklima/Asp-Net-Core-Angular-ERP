@@ -7,7 +7,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -24,6 +24,12 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterPorParametros(parameters);
+        }
+
+        [HttpGet("{codAgendaTecnico}")]
+        public AgendaTecnico Get(int codAgendaTecnico)
+        {
+            return _agendaServ.ObterPorCodigo(codAgendaTecnico);
         }
 
         [HttpPost]

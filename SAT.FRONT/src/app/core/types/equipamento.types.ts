@@ -15,5 +15,7 @@ export interface EquipamentoData {
 };
 
 export interface EquipamentoParameters extends QueryStringParameters {
+    codGrupo?: number; 
+    codTipo?: number;
     filter?: any;
 };

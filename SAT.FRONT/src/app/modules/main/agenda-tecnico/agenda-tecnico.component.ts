@@ -718,8 +718,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private realocarAgendamento(args)
   {
+    var now = moment();
     var initialTime = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
     var codTecnico = args.resource;
+
+    if (moment(args.date) < now) return;
 
     var atendimentosTecnico = Enumerable.from(this.events)
       .where(i => i.resource == codTecnico && i.ordemServico != null && i.ordemServico?.codStatusServico != StatusServicoEnum.FECHADO)

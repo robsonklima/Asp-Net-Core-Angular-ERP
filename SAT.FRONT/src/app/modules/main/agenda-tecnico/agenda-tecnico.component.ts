@@ -525,10 +525,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async createNewEvent(args, inst)
   {
-    console.log(args);
     var ev = args.event;
     ev.color = this.getEventColor(args);
-
     var agendaTecnico: AgendaTecnico =
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
@@ -540,6 +538,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
+
+    this.sidenavChamados.close();
 
     if (ag != null)
     {

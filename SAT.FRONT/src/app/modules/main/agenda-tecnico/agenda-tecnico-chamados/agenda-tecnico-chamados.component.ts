@@ -1,11 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSort } from '@angular/material/sort';
 import { Filterable } from 'app/core/filters/filterable';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OrdemServicoData, OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
@@ -23,10 +22,8 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
   externalEvents: MbscAgendaTecnicoCalendarEvent = [];
-  @ViewChild(MatSort) sort: MatSort;
 
   dataSourceData: OrdemServicoData;
-  selectedItem: OrdemServico | null = null;
   isLoading: boolean = false;
   protected _onDestroy = new Subject<void>();
 
@@ -58,7 +55,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
       })
       .toPromise();
 
-    this.externalEvents = this.dataSourceData.items.map(os =>
+    this.externalEvents = Enumerable.from(this.dataSourceData.items).where(i => !i.agendaTecnico.length).select(os =>
     {
       return {
         title: os.codOS.toString(),
@@ -71,7 +68,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
         end: moment().add(60, 'minutes'),
         ordemServico: os
       }
-    });
+    }).toArray();
 
     this.isLoading = false;
   }
@@ -103,6 +100,11 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
     this.sidenav.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
+      this.obterOrdensServico();
+    });
+
+    this.sidenavOut.openedStart.subscribe(() =>
+    {
       this.obterOrdensServico();
     });
 

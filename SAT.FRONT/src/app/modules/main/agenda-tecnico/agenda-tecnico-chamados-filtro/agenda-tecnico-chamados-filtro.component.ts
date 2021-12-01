@@ -11,7 +11,6 @@ import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.typ
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Component({

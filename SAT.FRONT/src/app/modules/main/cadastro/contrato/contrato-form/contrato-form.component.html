@@ -1,5 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div
+    <div *ngIf=isAddMode
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 md:min-w-0">
             <div class="flex flex-wrap items-center font-medium">
@@ -18,9 +18,9 @@
                 <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
-                    <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codContrato">
+                    <span class="whitespace-nowrap text-secondary">
                         {{ codContrato }}
-                    </a>
+                    </span>
                 </div>
             </div>
             <div class="mt-2">
@@ -31,9 +31,9 @@
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-5xl">
-            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+    <div class="flex-auto">
+        <div class="max-w-5xl" *ngIf="!isLoading">
+            <form [formGroup]="form" class="flex flex-col bg-card rounded-2xl overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes') }}</p>
                 </div>
@@ -41,7 +41,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
-                        <mat-select formControlName="codCliente" [disabled]="!clientes?.length">
+                        <mat-select formControlName="codCliente">
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                                 {{cliente.nomeFantasia}}
                             </mat-option>
@@ -51,7 +51,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('nome-contrato') }}</mat-label>
-                        <input matInput formControlName="nomeContrato" maxlength="50">
+                        <input matInput formControlName="nomeContrato">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
@@ -115,9 +115,9 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('tipo-reajuste') }}</mat-label>
-                        <mat-select formControlName="codTipoReajuste">
-                            <mat-option *ngFor="let tipo of tipoReajuste" [value]="tipo.codTipoReajuste" >
-                                {{tipo.nomeTipoReajuste}}
+                        <mat-select formControlName="codTipoIndiceReajuste">
+                            <mat-option *ngFor="let tipo of tipoReajuste" [value]="tipo.codTipoIndiceReajuste" >
+                                {{tipo.nomeTipoIndiceReajuste}}
                             </mat-option>
                         </mat-select>
                         <mat-error>{{t('preencher campo')}}</mat-error>
@@ -178,7 +178,7 @@
                         <mat-label>{{ t('gerar orcamento para') }}</mat-label>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                         <textarea matInput formControlName="semCobertura" [rows]="6"
-                            maxlength="1000"></textarea>                        
+                            maxlength="2000"></textarea>                        
                     </mat-form-field>
                 </div>
 
@@ -202,7 +202,7 @@
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        <mat-progress-spinner *ngIf="isLoading" [diameter]="24" [mode]="'indeterminate'">
                         </mat-progress-spinner>
                     </button>
                 </div>

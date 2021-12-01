@@ -9,7 +9,7 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(ContratoParameters parameters);
         Contrato Criar(Contrato contrato);
         void Deletar(int codigo);
-        void Atualizar(Contrato contrato);
+        Contrato Atualizar(Contrato contrato);
         IActionResult ExportToExcel(ContratoParameters parameters);
         Contrato ObterPorCodigo(int codigo);
     }

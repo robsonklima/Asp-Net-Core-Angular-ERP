@@ -27,6 +27,8 @@ namespace SAT.INFRA.Context
         public DbSet<TipoEquipamento> TipoEquipamento { get; set; }
         public DbSet<EquipamentoContrato> EquipamentoContrato { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
+        public DbSet<ContratoEquipamentoData> ContratoEquipamentoData { get; set; }
+        public DbSet<ContratoReajuste> ContratoReajuste { get; set; }
         public DbSet<Filial> Filial { get; set; }
         public DbSet<Defeito> Defeito { get; set; }
         public DbSet<Acao> Acao { get; set; }
@@ -47,6 +49,8 @@ namespace SAT.INFRA.Context
         public DbSet<Causa> Causa { get; set; }
         public DbSet<GrupoCausa> GrupoCausa { get; set; }
         public DbSet<TipoCausa> TipoCausa { get; set; }
+        public DbSet<TipoContrato> TipoContrato { get; set; }
+        public DbSet<TipoIndiceReajuste> TipoIndiceReajuste { get; set; }
         public DbSet<RegiaoAutorizada> RegiaoAutorizada { get; set; }
         public DbSet<Localizacao> Localizacao { get; set; }
         public DbSet<ContratoEquipamento> ContratoEquipamento { get; set; }
@@ -120,6 +124,9 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
+                        
+            modelBuilder.Entity<ContratoEquipamento>()
+                        .HasKey(e => new {e.CodContrato,e.CodEquip});
         }
     }
 }

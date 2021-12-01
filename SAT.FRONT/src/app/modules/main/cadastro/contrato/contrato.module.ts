@@ -38,55 +38,63 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { ContratoFormLayoutComponent } from './contrato-form-layout/contrato-form-layout.component';
+import { ContratoModeloListaComponent } from './contrato-modelo/contrato-modelo-lista/contrato-modelo-lista.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
+import { ContratoSlaComponent } from './contrato-sla/contrato-sla.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
-  return {
-      validation: false,
-  };
+	return {
+		validation: false,
+	};
 };
 
 @NgModule({
-  declarations: [
-    ContratoListaComponent,
-    ContratoFormComponent,
-    ContratoFormLayoutComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(contratoRoutes),
-    NgxMaskModule.forRoot(maskConfigFunction),
-    MatButtonToggleModule,
-        MatChipsModule,
-        MatDatepickerModule,
-        MatDividerModule,
-        MatMomentDateModule,
-        FuseHighlightModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatDialogModule,
-        MatRippleModule,
-        MatSortModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        SharedModule,
-        MatTableModule,
-        MatTabsModule,
-        TranslocoModule,
-        NgxMatSelectSearchModule,
-        FuseCardModule,
-        MatBadgeModule,
-        MatTooltipModule,
-        MatSidenavModule,
-        MatListModule,
-        MatStepperModule,
-        FuseAlertModule,
-        MatProgressSpinnerModule
-  ]
+	declarations: [
+		ContratoListaComponent,
+		ContratoFormComponent,
+		ContratoFormLayoutComponent,
+		ContratoModeloListaComponent,
+  		ContratoModeloFormComponent,
+    	ContratoSlaComponent,
+	],
+	imports: [
+		CommonModule,
+		RouterModule.forChild(contratoRoutes),
+		NgxMaskModule.forRoot(maskConfigFunction),
+		MatButtonToggleModule,
+		MatChipsModule,
+		MatRadioModule,
+		MatDatepickerModule,
+		MatDividerModule,
+		MatMomentDateModule,
+		FuseHighlightModule,
+		MatButtonModule,
+		MatCheckboxModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatInputModule,
+		MatMenuModule,
+		MatPaginatorModule,
+		MatProgressBarModule,
+		MatDialogModule,
+		MatRippleModule,
+		MatSortModule,
+		MatSelectModule,
+		MatSlideToggleModule,
+		SharedModule,
+		MatTableModule,
+		MatTabsModule,
+		TranslocoModule,
+		NgxMatSelectSearchModule,
+		FuseCardModule,
+		MatBadgeModule,
+		MatTooltipModule,
+		MatSidenavModule,
+		MatListModule,
+		MatStepperModule,
+		FuseAlertModule,
+		MatProgressSpinnerModule
+	]	
 })
 export class ContratoModule { }

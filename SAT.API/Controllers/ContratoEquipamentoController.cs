@@ -7,7 +7,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -24,6 +24,31 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] ContratoEquipamentoParameters parameters)
         {
             return _contratoEquipamentoInterface.ObterPorParametros(parameters);
+        }
+
+
+        [HttpGet("{codContratoEquipamento}/{codEquip}")]
+        public ContratoEquipamento Get(int codContratoEquipamento, int codEquip)
+        {
+            return _contratoEquipamentoInterface.ObterPorCodigo(codContratoEquipamento, codEquip);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] ContratoEquipamento contratoEquipamento)
+        {
+            _contratoEquipamentoInterface.Criar(contratoEquipamento);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] ContratoEquipamento contratoEquipamento)
+        {
+            _contratoEquipamentoInterface.Atualizar(contratoEquipamento);
+        }
+
+        [HttpDelete("{codContrato}/{codEquip}")]
+        public void Delete(int codContrato, int codEquip)
+        {
+            _contratoEquipamentoInterface.Deletar(codContrato,codEquip);
         }
     }
 }

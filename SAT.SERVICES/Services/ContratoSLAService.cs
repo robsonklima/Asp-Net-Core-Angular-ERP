@@ -14,6 +14,26 @@ namespace SAT.SERVICES.Services
             _contratoSLARepo = contratoSLARepo;
         }
 
+        public void Atualizar(ContratoSLA contratoSLA)
+        {
+            _contratoSLARepo.Atualizar(contratoSLA);
+        }
+
+        public void Criar(ContratoSLA contratoSLA)
+        {
+            _contratoSLARepo.Criar(contratoSLA);
+        }
+
+        public void Deletar(int codContrato, int codSLA)
+        {
+            _contratoSLARepo.Deletar(codContrato,codSLA);
+        }
+
+        public ContratoSLA ObterPorCodigo(int codContrato, int codSLA)
+        {
+            return _contratoSLARepo.ObterPorCodigo(codContrato, codSLA);
+        }
+
         public ListViewModel ObterPorParametros(ContratoSLAParameters parameters)
         {
             var contratoSLAs = _contratoSLARepo.ObterPorParametros(parameters);

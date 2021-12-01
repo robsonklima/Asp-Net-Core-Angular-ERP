@@ -2,7 +2,9 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 
 namespace SAT.INFRA.Repository
@@ -14,6 +16,64 @@ namespace SAT.INFRA.Repository
         public ContratoEquipamentoRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public void Atualizar(ContratoEquipamento contratoEquipamento)
+        {
+            ContratoEquipamento ce = _context.ContratoEquipamento
+                                                .FirstOrDefault(ce => ce.CodContrato == contratoEquipamento.CodContrato
+                                                                        && ce.CodEquip == contratoEquipamento.CodEquip);
+            try
+            {
+                if (ce != null)
+                {
+                    _context.Entry(ce).CurrentValues.SetValues(contratoEquipamento);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Criar(ContratoEquipamento contratoEquipamento)
+        {
+            try
+            {
+                _context.Add(contratoEquipamento);
+                _context.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Deletar(int codContrato, int codEquip)
+        {
+            ContratoEquipamento ce = _context.ContratoEquipamento
+                                            .FirstOrDefault(d => d.CodContrato == codContrato && d.CodEquip == codEquip);
+
+            if (ce != null)
+            {
+                _context.ContratoEquipamento.Remove(ce);
+                _context.SaveChanges();
+            }
+        }
+
+        public ContratoEquipamento ObterPorCodigo(int codContrato, int codEquip)
+        {
+            try
+            {
+                return _context.ContratoEquipamento
+                                    .SingleOrDefault(ce => ce.CodContrato == codContrato
+                                                        && ce.CodEquip == codEquip);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public PagedList<ContratoEquipamento> ObterPorParametros(ContratoEquipamentoParameters parameters)
@@ -39,7 +99,7 @@ namespace SAT.INFRA.Repository
             {
                 contratoEquipamentos = contratoEquipamentos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);
             }
-            
+
             if (parameters.CodEquip != null)
             {
                 contratoEquipamentos = contratoEquipamentos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);

@@ -298,6 +298,16 @@
     "alteracao corretiva invalida": "Sem permissão para alterar a intervenção, contatar a área RPV",
     "chamados abertos": "Chamados Abertos",
     "pendencia": "Pendência",
+    "relatorio instalacao": "Relatório de Instalação",
+    "relatorio nao conformidade": "Relatório de Não Conformidade",
+    "ok": "OK",
+    "irregular": "IRREGULAR",
+    "funcionais eletronicos": "Funcionais (Eletrônicos)",
+    "nao funcionais mecanicos": "Não Funcionais (Mecânicos)",
+    "lista de modelos": "Lista de Modelos",
+    "multa": "Multa",
+    "valor unitario": "Valor Unitário",
+    "deletar": "Deletar",
     "nro-chamado": "Nº OS",
     "descricao": "Descrição",
     "novas pecas cadastradas": "NOVAS PEÇAS CADASTRADAS",
@@ -325,5 +335,10 @@
     "consulta de periodo": "Consulta de Período",
     "hora inicial": "Hora Inicial",
     "hora final": "Hora Final",
-    "rat": "RAT"
+    "rat": "RAT",
+    "tipo garantia": "Tipo Garantia",
+    "balcao": "Balcão",
+    "on site": "On-Site",
+    "cod logix": "Cód. Logix",
+    "valor instalacao": "Valor Instalação"    
 }

@@ -5,16 +5,15 @@ export class Equipamento
     codEquip: number;
     codEEquip: string;
     nomeEquip: string;
+    codGrupoEquip: number;
+    codTipoEquip: number;
 }
 
-export interface EquipamentoData
-{
+export interface EquipamentoData {
     items: Equipamento[],
     totalCount: number
 };
 
-export interface EquipamentoParameters extends QueryStringParameters 
-{
-    codGrupo?: string;
-    codTipo?: string;
+export interface EquipamentoParameters extends QueryStringParameters {
+    filter?: any;
 };

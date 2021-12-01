@@ -2,7 +2,9 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -19,28 +21,51 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Contrato contrato)
         {
-            throw new System.NotImplementedException();
+            Contrato c = _context.Contrato.FirstOrDefault(d => d.CodContrato == contrato.CodContrato);
+
+            try
+            {
+                if (c != null)
+                {
+                    _context.Entry(c).CurrentValues.SetValues(contrato);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+            }
         }
 
         public void Criar(Contrato contrato)
         {
-            throw new System.NotImplementedException();
+            _context.Add(contrato);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
         {
-            throw new System.NotImplementedException();
+            Contrato c = _context.Contrato.FirstOrDefault(d => d.CodContrato == codigo);
+
+            if (c != null)
+            {
+                _context.Contrato.Remove(c);
+                _context.SaveChanges();
+            }
         }
 
         public Contrato ObterPorCodigo(int codigo)
         {
-            return _context.Contrato.FirstOrDefault(c => c.CodContrato == codigo);
+            return _context.Contrato
+                            .Include(c => c.Cliente)
+                            .Include(c => c.TipoContrato)
+                            .FirstOrDefault(c => c.CodContrato == codigo);
         }
 
         public PagedList<Contrato> ObterPorParametros(ContratoParameters parameters)
         {
             var contratos = _context.Contrato
-                .Include(c => c.Cliente)            
+                .Include(c => c.Cliente)
                 .Include(c => c.TipoContrato)
                 .AsQueryable();
 
@@ -50,7 +75,8 @@ namespace SAT.INFRA.Repository
                     s =>
                     s.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.NroContrato.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.NomeContrato.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    s.NomeContrato.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

@@ -31,26 +31,25 @@ namespace SAT.SERVICES.Services
 
             return lista;
         }
-
-        public ContratoEquipamento Criar(ContratoEquipamento ContratoEquipamento)
+        public ContratoEquipamento ObterPorCodigo(int codContrato, int codEquip)
         {
-            //_contratoEquipamentoRepo.Criar(ContratoEquipamento);
-            return ContratoEquipamento;
+            return _contratoEquipamentoRepo.ObterPorCodigo(codContrato,codEquip);
         }
 
-        public void Deletar(int codigo)
+        public void Criar(ContratoEquipamento ContratoEquipamento)
         {
-            //_contratoEquipamentoRepo.Deletar(codigo);
+            _contratoEquipamentoRepo.Criar(ContratoEquipamento);
         }
 
-        public void Atualizar(ContratoEquipamento ContratoEquipamento)
+        public void Deletar(int codContrato, int codEquip)
         {
-            //_contratoEquipamentoRepo.Atualizar(ContratoEquipamento);
+            _contratoEquipamentoRepo.Deletar(codContrato,codEquip);
         }
 
-        public ContratoEquipamento ObterPorCodigo(int codigo)
+        public void Atualizar(ContratoEquipamento contratoEquipamento)
         {
-            return null; //_contratoEquipamentoRepo.ObterPorCodigo(codigo);
+            _contratoEquipamentoRepo.Atualizar(contratoEquipamento);
         }
+
     }
 }

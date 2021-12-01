@@ -12,21 +12,22 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
-                        {{ t('contratos') }}
+                    <div class="text-4xl font-extrabold tracking-tight">
+                        Contratos
                     </div>
                 </div>
-                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
-                    <button mat-icon-button [matTooltip]="t('novo')" [routerLink]="['/contrato/form']">
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" >
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 mr-4">
+                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                    </mat-form-field>
+
+                    <button *transloco="let t" mat-icon-button [matTooltip]="t('novo')" [routerLink]="['/contrato/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
-                    <button class="ml-2" mat-icon-button [matTooltip]="t('exportar')" (click)="exportar()">
+                    <button *transloco="let t" class="ml-2" mat-icon-button [matTooltip]="t('exportar')" (click)="exportar()">
                         <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
-                    </button>
-
-                    <button class="ml-2" mat-icon-button [matTooltip]="t('filtros')" (click)="sidenav.toggle()">
-                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -60,7 +61,7 @@
 
                                 <ng-container>
                                     <ng-container *ngFor="let contrato of dataSourceData?.items">
-                                        <a [routerLink]="'/contrato/form/'+ contrato.codContrato">
+                                        <a [routerLink]="'/contrato/'+ contrato.codContrato">
                                             <div class="list-grid-contrato grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
                                             <div class="flex items-center">
                                                 {{ contrato.codContrato }}
@@ -70,7 +71,7 @@
                                                 {{ contrato.cliente.razaoSocial}}
                                             </div>
 
-                                            <div>
+                                            <div class="md:block truncate">
                                                 {{ contrato.nroContrato}}
                                             </div>
 
@@ -79,8 +80,7 @@
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{contrato.codTipoContrato}}
-                                                <!-- {{ (contrato.tipoContrato.nomeTipoContrato) }} -->
+                                                {{ (contrato.tipoContrato.nomeTipoContrato) }}
                                             </div>
                                             <div
                                             class="font-semibold" 

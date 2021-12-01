@@ -76,6 +76,8 @@ namespace SAT.API
             services.AddTransient<IPecaRepository, PecaRepository>();
             services.AddTransient<IGrupoCausaRepository, GrupoCausaRepository>();
             services.AddTransient<ITipoCausaRepository, TipoCausaRepository>();
+            services.AddTransient<ITipoContratoRepository, TipoContratoRepository>();
+            services.AddTransient<ITipoIndiceReajusteRepository, TipoIndiceReajusteRepository>();
             services.AddTransient<IGrupoEquipamentoRepository, GrupoEquipamentoRepository>();
             services.AddTransient<IAcordoNivelServicoRepository, AcordoNivelServicoRepository>();
             services.AddTransient<IRelatorioAtendimentoDetalheRepository, RelatorioAtendimentoDetalheRepository>();
@@ -89,7 +91,10 @@ namespace SAT.API
             services.AddTransient<IAgendamentoRepository, AgendamentoRepository>();
             services.AddTransient<IMotivoAgendamentoRepository, MotivoAgendamentoRepository>();
             services.AddTransient<IContratoEquipamentoRepository, ContratoEquipamentoRepository>();
+            services.AddTransient<IContratoEquipamentoDataRepository, ContratoEquipamentoDataRepository>();
             services.AddTransient<IContratoSLARepository, ContratoSLARepository>();
+            services.AddTransient<IContratoReajusteRepository, ContratoReajusteRepository>();
+            services.AddTransient<IContratoReajusteRepository, ContratoReajusteRepository>();
             services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
             services.AddTransient<IGeolocalizacaoRepository, GeolocalizacaoRepository>();
             services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
@@ -123,8 +128,10 @@ namespace SAT.API
             services.AddTransient<ICidadeService, CidadeService>();
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IContratoEquipamentoService, ContratoEquipamentoService>();
+            services.AddTransient<IContratoEquipamentoDataService, ContratoEquipamentoDataService>();
             services.AddTransient<IContratoService, ContratoService>();
             services.AddTransient<IContratoSLAService, ContratoSLAService>();
+            services.AddTransient<IContratoReajusteService, ContratoReajusteService>();
             services.AddTransient<IDefeitoService, DefeitoService>();
             services.AddTransient<IDespesaCartaoCombustivelService, DespesaCartaoCombustivelService>();
             services.AddTransient<IEquipamentoContratoService, EquipamentoContratoService>();
@@ -149,6 +156,8 @@ namespace SAT.API
             services.AddTransient<ITipoEquipamentoService, TipoEquipamentoService>();
             services.AddTransient<ITipoIntervencaoService, TipoIntervencaoService>();
             services.AddTransient<ITipoServicoService, TipoServicoService>();
+            services.AddTransient<ITipoContratoService, TipoContratoService>();
+            services.AddTransient<ITipoIndiceReajusteService, TipoIndiceReajusteService>();
             services.AddTransient<ITransportadoraService, TransportadoraService>();
             services.AddTransient<IUnidadeFederativaService, UnidadeFederativaService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
@@ -178,6 +187,7 @@ namespace SAT.API
             services.AddTransient<IDespesaPeriodoService, DespesaPeriodoService>();
             services.AddTransient<IDespesaTipoService, DespesaTipoService>();
             services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
+
 
             services.AddAuthentication(auth =>
             {

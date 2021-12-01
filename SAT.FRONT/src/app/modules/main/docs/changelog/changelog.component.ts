@@ -170,6 +170,27 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.0',
+            releaseDate: '01 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Agendamento da OS',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Filtro de chamados na Agenda Técnico',
+                        'Realocação de chamados',
+                        'Validação de horário retroativo no agendamento da OS',
+                        'Histórico de agendamentos da OS'
+                    ],
+                }
+            ]
         }
     ];
 

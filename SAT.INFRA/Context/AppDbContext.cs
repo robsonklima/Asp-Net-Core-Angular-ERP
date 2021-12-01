@@ -117,10 +117,13 @@ namespace SAT.INFRA.Context
                         .WithMany(nc => nc.NavegacoesConfiguracao);
 
             modelBuilder.Entity<OrdemServico>()
-                        .HasOne(ra => ra.AgendaTecnico)
+                        .HasMany(ra => ra.AgendaTecnico)
                         .WithOne(ra => ra.OrdemServico)
-                        .HasForeignKey<AgendaTecnico>(p => new { p.CodTecnico, p.CodOS })
-                        .HasPrincipalKey<OrdemServico>(p => new { p.CodTecnico, p.CodOS });
+                        .HasForeignKey("CodOS")
+                        .HasPrincipalKey("CodOS");
+
+            modelBuilder.Entity<OrdemServico>()
+                .HasKey(p => p.CodOS);
 
             modelBuilder.Entity<Tecnico>()
                         .HasMany<OrdemServico>(os => os.OrdensServico);

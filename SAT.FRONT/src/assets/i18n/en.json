@@ -300,11 +300,11 @@
     "descricao": "Description",
     "novas pecas cadastradas": "NEW REGISTERED PIECES",
     "pecas liberadas": "RELEASED PARTS",
-
     "data inicial": "Initial Date",
     "data final": "Final Date",
     "despesas": "Expenses",
     "atendimentos": "Services",
+    "atendimento": "Service",
     "nf": "Invoice",
     "quilometragem": "Mileage",
     "total despesa": "Total Expense",

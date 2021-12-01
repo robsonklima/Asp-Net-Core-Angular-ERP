@@ -26,6 +26,12 @@ namespace SAT.API.Controllers
             return _agendaServ.ObterPorParametros(parameters);
         }
 
+        [HttpGet("{codAgendaTecnico}")]
+        public AgendaTecnico Get(int codAgendaTecnico)
+        {
+            return _agendaServ.ObterPorCodigo(codAgendaTecnico);
+        }
+
         [HttpPost]
         public AgendaTecnico Post([FromBody] AgendaTecnico evento)
         {

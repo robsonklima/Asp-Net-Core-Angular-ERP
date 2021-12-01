@@ -39,7 +39,7 @@
                     <p class="text-secondary">{{ t('informacoes') }}</p>
                 </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tipo de intervencao') }}</mat-label>
@@ -58,12 +58,12 @@
 
                             <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteAlterarOrcamento')">
                                 {{ t('alteracao orcamento invalida') }}
-                            </div>       
-                            
+                            </div>
+
                             <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteAlterarCorretiva')">
                                 {{ t('alteracao corretiva invalida') }}
-                            </div>                                                        
-                        </mat-error>               
+                            </div>
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -229,17 +229,16 @@
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
                         <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
                     </div>
-                    <div 
-                        class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <div
+                        class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                         <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                             <mat-label>{{ t('marcacao especial') }}</mat-label>
                             <textarea matInput formControlName="descMotivoMarcaEspecial"
-                                [placeholder]="t('marcacao especial')" [rows]="4" maxlength="1000"
-                                ></textarea>
+                                [placeholder]="t('marcacao especial')" [rows]="4" maxlength="1000"></textarea>
                             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                             <mat-error>{{ t('preencher campo') }}</mat-error>
                         </mat-form-field>
-                    
+
                         <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                             <mat-label>{{ t('observacao') }}</mat-label>
                             <textarea matInput formControlName="observacaoCliente" [placeholder]="t('observacao')"

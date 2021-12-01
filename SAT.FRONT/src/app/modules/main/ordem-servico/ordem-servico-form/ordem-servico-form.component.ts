@@ -26,6 +26,7 @@ import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -33,7 +34,8 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoFormComponent implements OnInit, OnDestroy {
+export class OrdemServicoFormComponent implements OnInit, OnDestroy
+{
   codOS: number;
   ordemServico: OrdemServico;
   form: FormGroup;
@@ -52,7 +54,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   searching: boolean;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
@@ -66,17 +68,19 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     private _filialService: FilialService,
     private _autorizadaService: AutorizadaService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService
-  ) {
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.isAddMode = !this.codOS;
     this.inicializarForm();
 
     this.perfis = PerfilEnum;
-    
+
     // Init
     this.obterTiposIntervencao();
     this.obterClientes();
@@ -87,19 +91,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     this.obterRegioesAoTrocarAutorizada();
     this.obterAutorizadasAoTrocarFilial();
     this.obterEquipamentosAoTrocarLocal();
-    
+    this.obterPATRegiaoAoSelecionarEquipamento();
+
     // Main Obj
     await this.obterOrdemServico();
 
     // Filter Observables
     this.obterLocaisAoFiltrar();
 
-    this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() => {
+    this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() =>
+    {
       this.validaIntervencao();
     })
   }
 
-  private inicializarForm(): void {
+  private inicializarForm(): void
+  {
     this.form = this._formBuilder.group({
       codOS: [
         {
@@ -128,20 +135,23 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       agenciaPosto: [undefined]
     });
   }
- 
-  private async obterOrdemServico() {
-    if (!this.isAddMode) {
+
+  private async obterOrdemServico()
+  {
+    if (!this.isAddMode)
+    {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
       this.form.controls['agenciaPosto'].setValue(
         `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`
       );
-    } 
+    }
 
     const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
 
-    if (this.userSession.usuario?.filial?.codFilial) {
+    if (this.userSession.usuario?.filial?.codFilial)
+    {
       this.form.controls['codFilial'].setValue(codFilial);
       this.form.controls['codFilial'].disable();
 
@@ -149,7 +159,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async obterTiposIntervencao() {
+  private async obterTiposIntervencao()
+  {
     this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
       indAtivo: 1,
       pageSize: 100,
@@ -158,7 +169,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterClientes() {
+  private async obterClientes()
+  {
     this.clientes = (await this._clienteService.obterPorParametros({
       indAtivo: 1,
       pageSize: 500,
@@ -167,7 +179,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
     this.filiais = (await this._filialService.obterPorParametros({
       indAtivo: 1,
       pageSize: 500,
@@ -176,7 +189,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterAutorizadas() {
+  private async obterAutorizadas()
+  {
     this.autorizadas = (await this._autorizadaService
       .obterPorParametros({
         indAtivo: 1,
@@ -187,8 +201,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }).toPromise()).items;
   }
 
-  private async obterLocaisAoTrocarCliente() {
-    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente => {
+  private async obterLocaisAoTrocarCliente()
+  {
+    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente =>
+    {
       const data = await this._localAtendimentoService.obterPorParametros({
         indAtivo: 1,
         sortActive: 'nomeLocal',
@@ -202,8 +218,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterEquipamentosAoTrocarLocal() {
-    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
+  private async obterEquipamentosAoTrocarLocal()
+  {
+    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto =>
+    {
       const data = await this._equipamentoContratoService.obterPorParametros({
         sortActive: 'numSerie',
         sortDirection: 'asc',
@@ -215,15 +233,18 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterLocaisAoFiltrar() {
+  private async obterLocaisAoFiltrar()
+  {
     this.locaisFiltro.valueChanges.pipe(
       filter(query => !!query),
       tap(() => this.searching = true),
       debounceTime(700),
-      map(async query => {
+      map(async query =>
+      {
         const codCliente = this.form.controls['codCliente'].value;
 
-        if (!codCliente) {
+        if (!codCliente)
+        {
           return [];
         }
 
@@ -241,18 +262,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       delay(500),
       takeUntil(this._onDestroy)
     )
-    .subscribe(async locaisFiltrados => {
-      this.searching = false;
-      this.locais = await locaisFiltrados;
-    },
-      () => {
+      .subscribe(async locaisFiltrados =>
+      {
         this.searching = false;
-      }
-    );
+        this.locais = await locaisFiltrados;
+      },
+        () =>
+        {
+          this.searching = false;
+        }
+      );
   }
 
-  private async obterRegioesAoTrocarAutorizada() {
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada => {
+  private async obterRegioesAoTrocarAutorizada()
+  {
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada =>
+    {
       const data = await this._regiaoAutorizadaService.obterPorParametros({
         indAtivo: 1,
         codAutorizada: codAutorizada,
@@ -265,8 +290,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterAutorizadasAoTrocarFilial() {
-    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
+  private obterPATRegiaoAoSelecionarEquipamento()
+  {
+    this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato =>
+    {
+      var equipContrato = Enumerable.from(this.equipamentosContrato)
+        .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
+
+      this.form.controls['codRegiao'].setValue(equipContrato.codRegiao);
+      this.form.controls['codAutorizada'].setValue(equipContrato.codAutorizada);
+    });
+  }
+
+  private async obterAutorizadasAoTrocarFilial()
+  {
+    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial =>
+    {
       const data = await this._autorizadaService.obterPorParametros({
         indAtivo: 1,
         sortActive: 'nomeFantasia',
@@ -279,11 +318,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private validaInformacoesAdicionais(): void{
+  private validaInformacoesAdicionais(): void
+  {
     let perfil = this.userSession.usuario.perfil?.codPerfil;
 
     let colecaoPerfil = [
@@ -291,35 +332,38 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       PerfilEnum.CLIENTE_BASICO_C_RESTRICOES
     ];
 
-    if (colecaoPerfil.includes(perfil)) {      
-      
-    } else{
-          
-        }
+    if (colecaoPerfil.includes(perfil))
+    {
+
+    } else
+    {
+
+    }
   }
 
-  private validaIntervencao(): void{    
+  private validaIntervencao(): void
+  {
     let perfil = this.userSession.usuario.perfil?.codPerfil;
-    let intervencao = this.form.controls['codTipoIntervencao'].value;   
-    let intervencaoOriginal = this.ordemServico.codTipoIntervencao;                     
+    let intervencao = this.form.controls['codTipoIntervencao'].value;
+    let intervencaoOriginal = this.ordemServico?.codTipoIntervencao;
 
     let colecaoPerfil = [
-                    //PerfilEnum.ADMINISTRADOR, 
-                    PerfilEnum.FINANCEIRO_COORDENADOR, 
-                    PerfilEnum.FINANCEIRO_ADMINISTRATIVO,
-                    PerfilEnum.PONTO_FINANCEIRO, 
-                    PerfilEnum.FINANCEIRO_COORDENADOR_PONTO, 
-                    PerfilEnum.FILIAIS_SUPERVISOR, 
-                    PerfilEnum.FILIAL_COORDENADOR,
-                    PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORD
+      //PerfilEnum.ADMINISTRADOR, 
+      PerfilEnum.FINANCEIRO_COORDENADOR,
+      PerfilEnum.FINANCEIRO_ADMINISTRATIVO,
+      PerfilEnum.PONTO_FINANCEIRO,
+      PerfilEnum.FINANCEIRO_COORDENADOR_PONTO,
+      PerfilEnum.FILIAIS_SUPERVISOR,
+      PerfilEnum.FILIAL_COORDENADOR,
+      PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORD
     ];
 
     let colecaoIntervencao = [
-                    tipoIntervencaoConst.ORC_APROVADO,
-                    tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
-                    tipoIntervencaoConst.ORC_REPROVADO
-    ];        
-    
+      tipoIntervencaoConst.ORC_APROVADO,
+      tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
+      tipoIntervencaoConst.ORC_REPROVADO
+    ];
+
     let colecaoIntervencaoPerfilFilial = [
       tipoIntervencaoConst.ORCAMENTO,
       tipoIntervencaoConst.ORC_APROVADO,
@@ -327,35 +371,40 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
       tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO,
       tipoIntervencaoConst.CORRETIVA
-    ];  
-
-    if (!colecaoPerfil.includes(perfil)) {
-      if (colecaoIntervencao.includes(intervencao))  
-          this.form.controls['codTipoIntervencao'].setErrors({
-          'naoPermiteAlterarOrcamento': true        
-    })      
-    } else{
-          this.form.controls['codTipoIntervencao'].setErrors(null)
-        }
-
-    let colecaoPerfilAlteraCorretiva = [
-          PerfilEnum.PV_COORDENADOR_DE_CONTRATO
     ];
 
-    let intervencaoCorretiva = [tipoIntervencaoConst.CORRETIVA];                 
-
-    if (colecaoPerfilAlteraCorretiva.includes(perfil)) {
-      if (intervencaoCorretiva.includes(intervencaoOriginal)) {
-        if (!colecaoIntervencaoPerfilFilial.includes(intervencao))
+    if (!colecaoPerfil.includes(perfil))
+    {
+      if (colecaoIntervencao.includes(intervencao))
         this.form.controls['codTipoIntervencao'].setErrors({
-        'naoPermiteAlterarCorretiva': true            
+          'naoPermiteAlterarOrcamento': true
         })
-      }      
+    } else
+    {
+      this.form.controls['codTipoIntervencao'].setErrors(null)
     }
-    
+
+    let colecaoPerfilAlteraCorretiva = [
+      PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+    ];
+
+    let intervencaoCorretiva = [tipoIntervencaoConst.CORRETIVA];
+
+    if (colecaoPerfilAlteraCorretiva.includes(perfil))
+    {
+      if (intervencaoCorretiva.includes(intervencaoOriginal))
+      {
+        if (!colecaoIntervencaoPerfilFilial.includes(intervencao))
+          this.form.controls['codTipoIntervencao'].setErrors({
+            'naoPermiteAlterarCorretiva': true
+          })
+      }
+    }
+
   }
 
-  private atualizar(): void {
+  private atualizar(): void
+  {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
@@ -368,17 +417,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach((key) =>
+    {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._ordemServicoService.atualizar(obj).subscribe(() => {
+    this._ordemServicoService.atualizar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
-      this._router.navigate(['ordem-servico/detalhe/'+this.codOS]);
+      this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
     });
   }
 
-  private criar(): void {
+  private criar(): void
+  {
     const form: any = this.form.getRawValue();
     let obj = {
       ...this.ordemServico,
@@ -394,17 +446,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach((key) =>
+    {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._ordemServicoService.criar(obj).subscribe((os) => {
+    this._ordemServicoService.criar(obj).subscribe((os) =>
+    {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

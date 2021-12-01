@@ -121,9 +121,9 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
           this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
         });
 
-    if (this.userSession.usuario.codFilial)
+    if (this.userSession?.usuario?.codFilial)
     {
-      this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
+      this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
       this.form.controls['codFiliais'].disable();
     }
 

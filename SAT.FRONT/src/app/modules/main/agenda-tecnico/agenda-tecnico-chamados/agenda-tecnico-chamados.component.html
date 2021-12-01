@@ -32,9 +32,9 @@
             </mat-progress-spinner>
             <ng-container *ngIf="!isLoading">
                 <div class="flex pt-3 mb-2" *ngFor="let event of externalEvents" mbsc-draggable [dragData]="event">
-                    <div class="rounded-full bg-gray-200 w-full text-center">
-                        <div class="font-bold">{{ event.title }}</div>
-                        <div>{{ event.nomeLocal }} - {{ event.cliente }}</div>
+                    <div class="rounded-full p-2 bg-gray-200 w-full text-center">
+                        <div class="font-bold">{{ event.title | uppercase }}</div>
+                        <div>{{ "OS " + event.ordemServico?.codOS }} - {{ event.cliente }}</div>
                         <div>{{ event.regiao }} - {{ event.autorizada }}</div>
                     </div>
                 </div>

@@ -531,7 +531,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
       fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
-      codOS: ev.title,
+      codOS: ev.ordemServico.codOS,
       codTecnico: ev.resource,
       ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
       tipo: "OS"

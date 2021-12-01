@@ -58,7 +58,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
     this.externalEvents = Enumerable.from(this.dataSourceData.items).where(i => !i.agendaTecnico.length).select(os =>
     {
       return {
-        title: os.codOS.toString(),
+        title: os.localAtendimento?.nomeLocal,
         nomeLocal: os.localAtendimento?.nomeLocal,
         cliente: os.cliente?.razaoSocial,
         regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,

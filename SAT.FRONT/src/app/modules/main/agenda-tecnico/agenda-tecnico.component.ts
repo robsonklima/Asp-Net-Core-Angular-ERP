@@ -730,8 +730,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!atendimentosTecnico.length) return;
 
-    console.log(atendimentosTecnico);
-
     var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
       data:
       {

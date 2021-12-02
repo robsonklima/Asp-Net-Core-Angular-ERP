@@ -298,6 +298,12 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       var equipContrato = Enumerable.from(this.equipamentosContrato)
         .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
 
+      if (!this.userSession?.usuario?.filial?.codFilial)
+      {
+        var filial = (await this._filialService.obterPorCodigo(equipContrato.codFilial).toPromise());
+        this.form.controls['codFilial'].setValue(filial.codFilial);
+      }
+
       this.form.controls['codRegiao'].setValue(equipContrato?.codRegiao);
       this.form.controls['codAutorizada'].setValue(equipContrato?.codAutorizada);
     });
@@ -324,22 +330,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private validaInformacoesAdicionais(): void
+  escondeCamposClientes(): boolean
   {
-    let perfil = this.userSession.usuario.perfil?.codPerfil;
+    var perfilUsuarioLogado: RoleEnum = this.userSession.usuario.perfil?.codPerfil;
 
-    let colecaoPerfil = [
-      RoleEnum.CLIENTE_BASICO_BIOMETRIA,
-      RoleEnum.CLIENTE_BASICO_C_RESTRICOES
-    ];
+    var perfisClientes =
+      [
+        RoleEnum.CLIENTE_BASICO_BIOMETRIA,
+        RoleEnum.CLIENTE_BASICO_C_RESTRICOES
+      ];
 
-    if (colecaoPerfil.includes(perfil))
-    {
+    if (perfisClientes.includes(perfilUsuarioLogado))
+      return true;
 
-    } else
-    {
-
-    }
+    return false;
   }
 
   private validaIntervencao(): void

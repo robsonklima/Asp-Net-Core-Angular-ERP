@@ -32,4 +32,18 @@ export class DespesaAdiantamentoService
             `${c.api}/DespesaAdiantamento/${codDespesaAdiantamento}`)
             .pipe(map((obj) => obj));
     }
+
+    criar(despesaAdiantamento: DespesaAdiantamento): Observable<DespesaAdiantamento>
+    {
+        return this.http.post<DespesaAdiantamento>(
+            `${c.api}/DespesaAdiantamento`, despesaAdiantamento)
+            .pipe(map((obj) => obj));
+    }
+
+    atualizar(despesaAdiantamento: DespesaAdiantamento): Observable<DespesaAdiantamento>
+    {
+        return this.http.put<DespesaAdiantamento>(
+            `${c.api}/DespesaAdiantamento`, despesaAdiantamento)
+            .pipe(map((obj) => obj));
+    }
 }

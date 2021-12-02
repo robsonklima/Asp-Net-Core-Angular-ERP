@@ -5,7 +5,7 @@
             <div class="flex flex-wrap items-center font-medium">
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/despesa/periodos">
-                        {{ t('periodos') }}
+                        {{ t('adiantamentos') }}
                     </a>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap">
@@ -19,13 +19,13 @@
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <a class="whitespace-nowrap text-secondary">
-                        {{ codDespesaPeriodo }}
+                        {{ codDespesaAdiantamento }}
                     </a>
                 </div>
             </div>
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    {{ !isAddMode ? t('periodo') + " " + codDespesaPeriodo :  t('periodo') }}
+                    {{ !isAddMode ? t('adiantamento') + " " + codDespesaAdiantamento :  t('adiantamento') }}
                 </h2>
             </div>
         </div>
@@ -40,11 +40,11 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                        <mat-label>{{ t('despesa configuracao')}}</mat-label>
-                        <mat-select formControlName="codDespesaConfiguracao">
-                            <mat-option *ngFor="let d of despesaConfiguracao" [value]="d.codDespesaConfiguracao">
-                                {{ d.codDespesaConfiguracao }}
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <mat-label>{{ t('tecnico')}}</mat-label>
+                        <mat-select formControlName="codTecnico">
+                            <mat-option *ngFor="let t of tecnico" [value]="t.codTecnico">
+                                {{ t.nome }}
                             </mat-option>
                         </mat-select>
                         <mat-error>
@@ -52,39 +52,49 @@
                         </mat-error>
                     </mat-form-field>
 
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                        <mat-label>{{ t('data inicial')}}</mat-label>
-                        <input matInput [autocomplete]="'off'" formControlName="dataInicio"
-                            [matDatepicker]="pickerInicio">
-                        <mat-datepicker-toggle matSuffix [for]="pickerInicio">
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #pickerInicio></mat-datepicker>
+                        <mat-label>{{ t('tipo')}}</mat-label>
+                        <mat-select formControlName="codDespesaAdiantamentoTipo">
+                            <mat-option *ngFor="let d of despesaAdiantamentoTipo"
+                                [value]="d.codDespesaAdiantamentoTipo">
+                                {{ d.nomeAdiantamentoTipo }}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                        <mat-label>{{ t('data final')}}</mat-label>
-                        <input matInput [autocomplete]="'off'" formControlName="dataFim" [matDatepicker]="pickerFim">
-                        <mat-datepicker-toggle matSuffix [for]="pickerFim">
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #pickerFim></mat-datepicker>
+                        <mat-label>{{ t('valor') }}</mat-label>
+                        <input matInput formControlName="valorAdiantamento" mask="separator.2" prefix="R$"
+                            thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
 
-                    <div class="flex flex-col">
-                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'" #indAtivo>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('data')}}</mat-label>
+                        <input matInput [autocomplete]="'off'" formControlName="dataAdiantamento"
+                            [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="fuse-mat-dense sm:col-span-6">
+                        <mat-checkbox [color]="'primary'" [formControlName]="'indAtivo'" #indAtivo>
                             {{ t('ativo') }}
                         </mat-checkbox>
                     </div>
-
                 </div>
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button class="px-6" mat-button [color]="'warn'" routerLink="/despesa/periodos">
+                    <button class="px-6" mat-button [color]="'warn'" routerLink="/despesa/adiantamentos">
                         {{ t('cancelar') }}
                     </button>
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">

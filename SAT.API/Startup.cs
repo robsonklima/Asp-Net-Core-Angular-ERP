@@ -111,6 +111,7 @@ namespace SAT.API
             services.AddTransient<IDespesaConfiguracaoCombustivelRepository, DespesaConfiguracaoCombustivelRepository>();
             services.AddTransient<IDespesaAdiantamentoPeriodoRepository, DespesaAdiantamentoPeriodoRepository>();
             services.AddTransient<IDespesaAdiantamentoRepository, DespesaAdiantamentoRepository>();
+            services.AddTransient<IDespesaAdiantamentoTipoRepository, DespesaAdiantamentoTipoRepository>();
             services.AddTransient<IDespesaTipoRepository, DespesaTipoRepository>();
             services.AddTransient<IDespesaProtocoloRepository, DespesaProtocoloRepository>();
             services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
@@ -177,6 +178,7 @@ namespace SAT.API
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
+            services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
             services.AddTransient<IDespesaConfiguracaoCombustivelService, DespesaConfiguracaoCombustivelService>();
             services.AddTransient<IDespesaService, DespesaService>();

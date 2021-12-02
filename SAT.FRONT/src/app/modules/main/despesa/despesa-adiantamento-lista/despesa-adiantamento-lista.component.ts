@@ -18,10 +18,10 @@ registerLocaleData(localePt);
   templateUrl: './despesa-adiantamento-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento {
-            grid-template-columns: 120px 120px 120px auto 90px 90px;
-            @screen sm { grid-template-columns: 120px 120px 120px auto 90px 90px; }
-            @screen md { grid-template-columns: 120px 120px 120px auto 90px 90px; }
-            @screen lg { grid-template-columns: 120px 120px 120px auto 90px 90px; }
+            grid-template-columns: 120px 120px 120px auto 90px;
+            @screen sm { grid-template-columns: 120px 120px 120px auto 90px; }
+            @screen md { grid-template-columns: 120px 120px 120px auto 90px; }
+            @screen lg { grid-template-columns: 120px 120px 120px auto 90px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

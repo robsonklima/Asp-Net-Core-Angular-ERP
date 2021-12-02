@@ -17,6 +17,11 @@
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+
+                    <button class="ml-4" mat-icon-button [routerLink]="['/despesa/adiantamentos/form']">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
+
                     <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
@@ -44,13 +49,10 @@
                                     <div>
                                         {{ t('ativo') }}
                                     </div>
-                                    <div>
-                                        {{ t('acao') }}
-                                    </div>
                                 </div>
                                 <ng-container *ngIf="adiantamentos?.items.length">
                                     <ng-container *ngFor="let a of adiantamentos?.items">
-                                        <a>
+                                        <a [routerLink]="'/despesa/adiantamentos/form/'+a.codDespesaAdiantamento">
                                             <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">
@@ -67,9 +69,6 @@
                                                 </div>
                                                 <div class="hidden md:block truncate">
                                                     {{ a.indAtivo ? "SIM" : "NÃO" }}
-                                                </div>
-                                                <div class="hidden md:block truncate">
-                                                    {{ "---" }}
                                                 </div>
                                             </div>
                                         </a>

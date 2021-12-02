@@ -20,12 +20,29 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaAdiantamento despesa)
         {
-            throw new NotImplementedException();
+            DespesaAdiantamento d =
+            _context.DespesaAdiantamento
+            .FirstOrDefault(l => l.CodDespesaAdiantamento == despesa.CodDespesaAdiantamento);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesa);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaAdiantamento despesa)
         {
-            throw new NotImplementedException();
+            _context.Add(despesa);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
@@ -33,10 +50,9 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
-        public DespesaAdiantamento ObterPorCodigo(int codigo)
-        {
-            throw new NotImplementedException();
-        }
+        public DespesaAdiantamento ObterPorCodigo(int codigo) =>
+            _context.DespesaAdiantamento
+                .FirstOrDefault(d => d.CodDespesaAdiantamento == codigo);
 
         public PagedList<DespesaAdiantamento> ObterPorParametros(DespesaAdiantamentoParameters parameters)
         {

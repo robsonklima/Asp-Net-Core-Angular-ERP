@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { DespesaAdiantamentoFormComponent } from './despesa-adiantamento-form/despesa-adiantamento-form.component';
 import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/despesa-adiantamento-lista.component';
 import { DespesaAtendimentoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-lista.component';
 import { DespesaAtendimentoReprovacaoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component';
@@ -62,6 +63,14 @@ export const despesaRoutes: Route[] = [
     {
         path: 'adiantamentos',
         component: DespesaAdiantamentoListaComponent
+    },
+    {
+        path: 'adiantamentos/form',
+        component: DespesaAdiantamentoFormComponent
+    },
+    {
+        path: 'adiantamentos/form/:codDespesaAdiantamento',
+        component: DespesaAdiantamentoFormComponent
     },
     {
         path: 'protocolos',

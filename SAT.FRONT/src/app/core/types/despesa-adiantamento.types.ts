@@ -83,3 +83,12 @@ export interface DespesaAdiantamentoTipo
     codDespesaAdiantamentoTipo?: number;
     nomeAdiantamentoTipo?: string;
 };
+
+export interface DespesaAdiantamentoTipoParameters extends QueryStringParameters
+{
+};
+
+export interface DespesaAdiantamentoTipoData extends Meta
+{
+    items: DespesaAdiantamentoTipo[]
+};

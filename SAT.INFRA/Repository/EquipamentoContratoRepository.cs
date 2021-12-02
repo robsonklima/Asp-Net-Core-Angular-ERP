@@ -162,6 +162,8 @@ namespace SAT.INFRA.Repository
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                equips = equips.OrderByDescending(e => e.IndAtivo.Equals(1));
+
             }
 
             var a = equips.ToQueryString();

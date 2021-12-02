@@ -91,7 +91,10 @@
                                     placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option *ngFor="let local of locais" [value]="local.codPosto">
+                            <mat-option 
+                                *ngFor="let local of locais" 
+                                [matTooltip]="local.endereco + ', ' + local.bairro + ' - ' + local.cidade.nomeCidade" 
+                                [value]="local.codPosto">
                                 <span class="opacity-60 text-md">
                                     {{ local.numAgencia }}/{{ local.dcPosto }}
                                 </span>

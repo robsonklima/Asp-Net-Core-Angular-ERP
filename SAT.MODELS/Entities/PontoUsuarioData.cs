@@ -25,6 +25,9 @@ namespace SAT.MODELS.Entities
         [ForeignKey("CodPontoUsuarioDataStatus")]
         public PontoUsuarioDataStatus PontoUsuarioDataStatus { get; set; }
 
+        [ForeignKey("CodPontoPeriodo")]
+        public PontoPeriodo PontoPeriodo { get; set; }
+
         [ForeignKey("CodPontoUsuarioDataStatusAcesso")]
         public PontoUsuarioDataStatusAcesso PontoUsuarioDataStatusAcesso { get; set; }
 

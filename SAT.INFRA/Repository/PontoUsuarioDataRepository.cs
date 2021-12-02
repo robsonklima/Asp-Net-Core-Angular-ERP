@@ -73,6 +73,14 @@ namespace SAT.INFRA.Repository
         public PontoUsuarioData ObterPorCodigo(int codigo)
         {
             return _context.PontoUsuarioData
+                .Include(pd => pd.PontoUsuarioDataStatusAcesso)
+                .Include(pd => pd.PontoUsuarioDataStatus)
+                .Include(pd => pd.Divergencias)
+                    .ThenInclude(d => d.PontoUsuarioDataMotivoDivergencia)
+                .Include(pd => pd.Divergencias)
+                    .ThenInclude(d => d.PontoUsuarioDataModoDivergencia)
+                .Include(pd => pd.Usuario)
+                .Include(pd => pd.PontoPeriodo)
                 .SingleOrDefault(p => p.CodPontoUsuarioData == codigo);
         }
 
@@ -86,6 +94,7 @@ namespace SAT.INFRA.Repository
                 .Include(pd => pd.Divergencias)
                     .ThenInclude(d => d.PontoUsuarioDataModoDivergencia)
                 .Include(pd => pd.Usuario)
+                .Include(pd => pd.PontoPeriodo)
                 .AsQueryable();
 
             if (parameters.Filter != null)

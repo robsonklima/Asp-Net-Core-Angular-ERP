@@ -68,7 +68,7 @@ namespace SAT.SERVICES.Services
         public IActionResult ExportToExcel(ContratoParameters parameters)
         {
             var os = _contratoRepo.ObterPorParametros(parameters);
-            return new BaseExcelService<Contrato>().CreateWorkbook(os.Cast<Contrato>().ToList());
+            return null; // new BaseExcelService<Contrato>().CreateWorkbook(os.Cast<Contrato>().ToList());
         }
     }
 }

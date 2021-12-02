@@ -55,7 +55,7 @@ namespace SAT.SERVICES.Services
         public IActionResult ExportToExcel(PecaParameters parameters)
         {
             var os = _pecaRepo.ObterPorParametros(parameters);
-            return new BaseExcelService<Peca>().CreateWorkbook(os.Cast<Peca>().ToList());
+            return null; //new BaseExcelService<Peca>().CreateWorkbook(os.Cast<Peca>().ToList());
         }
     }
 }

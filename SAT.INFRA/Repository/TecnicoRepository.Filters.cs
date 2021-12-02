@@ -12,14 +12,10 @@ namespace SAT.INFRA.Repository
             switch (parameters.FilterType)
             {
                 case TecnicoFilterEnum.FILTER_TECNICO_OS:
-                    query = AplicarFiltroDashboardTecnicoDisponibilidade(query, parameters);
-                    break;
+                    return PeriodoAtendimentoFilter(query, parameters);
                 default:
-                    query = AplicarFiltroPadrao(query, parameters);
-                    break;
+                    return AplicarFiltroPadrao(query, parameters);
             }
-
-            return query;
         }
     }
 }

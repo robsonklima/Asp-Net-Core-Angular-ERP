@@ -5,6 +5,9 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using SAT.MODELS.ViewModels;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -57,14 +60,20 @@ namespace SAT.INFRA.Repository
                 .FirstOrDefault(t => t.CodTecnico == codigo);
         }
 
-        public PagedList<Tecnico> ObterPorParametros(TecnicoParameters parameters)
+        public IQueryable<Tecnico> ObterQuery(TecnicoParameters parameters)
         {
-            var query = _context.Tecnico.AsNoTracking().AsQueryable();
+            IQueryable<Tecnico> query = _context.Tecnico.AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
+            return query.AsNoTracking();
+        }
+
+        public PagedList<Tecnico> ObterPorParametros(TecnicoParameters parameters)
+        {
+            IQueryable<Tecnico> query = this.ObterQuery(parameters);
             return PagedList<Tecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

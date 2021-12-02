@@ -9,7 +9,7 @@ using System;
 
 namespace SAT.INFRA.Repository
 {
-    public class PecaRepository : IPecaRepository
+    public partial class PecaRepository : IPecaRepository
     {
         private readonly AppDbContext _context;
 
@@ -60,37 +60,13 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Peca> ObterPorParametros(PecaParameters parameters)
         {
-            var pecas = _context.Peca
-                .Include(p => p.PecaStatus)
-                .Include(p => p.PecaFamilia)
-                .AsQueryable();
+            var query = _context.Peca.AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(parameters.Filter))
-            {
-                pecas = pecas.Where(p =>
-                    p.CodPeca.ToString().Contains(parameters.Filter) ||
-                    p.CodMagnus.Contains(parameters.Filter) ||
-                    p.NomePeca.Contains(parameters.Filter)
-                );
-            }
-      
-            if (!string.IsNullOrEmpty(parameters.CodPeca))
-            {
-                var split = parameters.CodPeca.Split(",").Select(int.Parse).ToArray();
-                pecas = pecas.Where(p => split.Any(s => s.Equals(p.CodPeca)));
-            }
+            query = AplicarIncludes(query, parameters.Include);
+            query = AplicarFiltros(query, parameters);
+            query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            if (!string.IsNullOrEmpty(parameters.CodMagnus))
-            {
-                pecas = pecas.Where(p => p.CodPeca == Convert.ToInt32(parameters.CodPeca));
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                pecas = pecas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
-
-            return PagedList<Peca>.ToPagedList(pecas, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Peca>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

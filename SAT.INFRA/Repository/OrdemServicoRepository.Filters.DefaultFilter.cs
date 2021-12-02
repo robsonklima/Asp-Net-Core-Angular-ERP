@@ -19,6 +19,22 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodContrato.HasValue)
+            {
+                query = query.Where(os => os.CodContrato == parameters.CodContrato.Value);
+            }
+
+            if (parameters.IndServico.HasValue)
+            {
+                query = query.Where(os => os.IndServico == parameters.IndServico.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NotIn_CodStatusServicos))
+            {
+                var cods = parameters.NotIn_CodStatusServicos.Split(",").Select(a => int.Parse(a.Trim()));
+                query = query.Where(os => !cods.Contains(os.CodStatusServico));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodOS))
             {
                 var cods = parameters.CodOS.Split(",").Select(a => a.Trim());
@@ -55,6 +71,10 @@ namespace SAT.INFRA.Repository
             if (parameters.DataTransfInicio != DateTime.MinValue && parameters.DataTransfFim != DateTime.MinValue)
                 query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
                     && os.DataHoraTransf <= parameters.DataTransfFim);
+
+            if (parameters.DataInicioDispBB != DateTime.MinValue && parameters.DataFimDispBB != DateTime.MinValue)
+                query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataInicioDispBB
+                    && os.DataHoraAberturaOS <= parameters.DataFimDispBB);
 
             if (!string.IsNullOrEmpty(parameters.Filter))
             {

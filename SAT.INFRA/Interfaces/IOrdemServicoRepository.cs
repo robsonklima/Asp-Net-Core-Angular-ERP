@@ -8,6 +8,7 @@ namespace SAT.INFRA.Interfaces
     public interface IOrdemServicoRepository
     {
         PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters);
+        IQueryable<OrdemServico> ObterQuery(OrdemServicoParameters parameters);
         void Criar(OrdemServico ordemServico);
         void Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);

@@ -9,7 +9,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]
@@ -30,10 +30,12 @@ namespace SAT.API.Controllers
              _despesaPeriodo.ObterPorCodigo(codDespesaPeriodo);
 
         [HttpPost]
+        [CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Post([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Criar(despesa);
 
         [HttpPut]
+        [CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Put([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Atualizar(despesa);
 

@@ -8,10 +8,8 @@ namespace SAT.API.Authorization
     {
         public CustomAuthorize(params RoleEnum[] allowedProfiles)
         {
-            allowedProfiles.Append(RoleEnum.ADMIN);
-
-            Roles = string.Join(",", allowedProfiles
-                .Select(r => ((int)r).ToString()));
+            AddAdmin(allowedProfiles);
+            Roles = JoinEnum(allowedProfiles);
         }
 
         public CustomAuthorize(string allowedProfiles)
@@ -21,10 +19,14 @@ namespace SAT.API.Authorization
 
         public CustomAuthorize(string allowedProfiles, params RoleEnum[] allowedProfilesEnum)
         {
-            allowedProfilesEnum.Append(RoleEnum.ADMIN);
-
-            Roles = string.Join(",", allowedProfiles, string.Join(",", allowedProfilesEnum
-                .Select(r => ((int)r).ToString())));
+            AddAdmin(allowedProfilesEnum);
+            Roles = string.Join(",", allowedProfiles, JoinEnum(allowedProfilesEnum));
         }
+
+        private string JoinEnum(params RoleEnum[] allowedProfiles) =>
+            string.Join(",", allowedProfiles.Select(r => ((int)r).ToString()));
+
+        private RoleEnum[] AddAdmin(RoleEnum[] allowedProfiles) =>
+            allowedProfiles.Append(RoleEnum.ADMIN).ToArray();
     }
 }

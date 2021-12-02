@@ -1,13 +1,12 @@
-import { DespesaAdiantamentoPeriodoConsultaTecnicoItem } from "./despesa-adiantamento.types";
 import { DespesaProtocoloPeriodoTecnico } from "./despesa-protocolo.types";
 import { Despesa } from "./despesa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico, TecnicoCategoriaCredito } from "./tecnico.types";
 import { TicketLogPedidoCredito } from "./ticketlog-types";
 
-export class DespesaPeriodo
+export interface DespesaPeriodo
 {
-    codDespesaPeriodo: number;
+    codDespesaPeriodo?: number;
     codDespesaConfiguracao: number;
     dataInicio: string;
     dataFim: string;

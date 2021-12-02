@@ -30,5 +30,22 @@ namespace SAT.SERVICES.Services
                 HasPrevious = despesas.HasPrevious
             };
         }
+
+        public void Atualizar(DespesaConfiguracao configuracao)
+        {
+            _despesaRepo.Atualizar(configuracao);
+        }
+
+        public DespesaConfiguracao Criar(DespesaConfiguracao configuracao)
+        {
+            _despesaRepo.Criar(configuracao);
+
+            return configuracao;
+        }
+
+        public DespesaConfiguracao ObterPorCodigo(int codigo)
+        {
+            return _despesaRepo.ObterPorCodigo(codigo);
+        }
     }
 }

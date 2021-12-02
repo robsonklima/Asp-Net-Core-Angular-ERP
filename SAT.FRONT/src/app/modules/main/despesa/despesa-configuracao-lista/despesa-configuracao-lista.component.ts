@@ -47,7 +47,7 @@ export class DespesaConfiguracaoListaComponent implements AfterViewInit
     this.configuracoes = (await this._despesaConfiguracaoSvc.obterPorParametros({
       pageNumber: this.paginator?.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
-      sortActive: 'indAtivo',
+      sortActive: 'codDespesaConfiguracao',
       sortDirection: 'desc'
     }).toPromise());
   }

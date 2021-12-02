@@ -25,5 +25,17 @@ namespace SAT.API.Controllers
         {
             return _despesaService.ObterPorParametros(parameters);
         }
+
+        [HttpGet("{codDespesaConfiguracao}")]
+        public DespesaConfiguracao Get(int codDespesaConfiguracao) =>
+             _despesaService.ObterPorCodigo(codDespesaConfiguracao);
+
+        [HttpPost]
+        public void Post([FromBody] DespesaConfiguracao despesa) =>
+            _despesaService.Criar(despesa);
+
+        [HttpPut]
+        public void Put([FromBody] DespesaConfiguracao despesa) =>
+            _despesaService.Atualizar(despesa);
     }
 }

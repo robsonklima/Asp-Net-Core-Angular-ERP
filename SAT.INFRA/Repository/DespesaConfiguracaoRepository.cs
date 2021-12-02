@@ -1,7 +1,9 @@
-﻿using SAT.INFRA.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -15,6 +17,38 @@ namespace SAT.INFRA.Repository
         {
             _context = context;
         }
+
+        public void Atualizar(DespesaConfiguracao config)
+        {
+            DespesaConfiguracao d =
+             _context.DespesaConfiguracao
+             .FirstOrDefault(l => l.CodDespesaConfiguracao == config.CodDespesaConfiguracao);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(config);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        public void Criar(DespesaConfiguracao config)
+        {
+            _context.Add(config);
+            _context.SaveChanges();
+        }
+
+        public DespesaConfiguracao ObterPorCodigo(int codigo) =>
+            _context.DespesaConfiguracao
+                .AsQueryable()
+                .FirstOrDefault(i => i.CodDespesaConfiguracao == codigo);
 
         public PagedList<DespesaConfiguracao> ObterPorParametros(DespesaConfiguracaoParameters parameters)
         {

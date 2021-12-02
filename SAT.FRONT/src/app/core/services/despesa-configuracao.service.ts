@@ -33,4 +33,18 @@ export class DespesaConfiguracaoService
             `${c.api}/DespesaConfiguracao/${codDespesaConfiguracao}`)
             .pipe(map((obj) => obj));
     }
+
+    criar(item: DespesaConfiguracao): Observable<DespesaConfiguracao>
+    {
+        return this.http.post<DespesaConfiguracao>(
+            `${c.api}/DespesaConfiguracao`, item)
+            .pipe(map((obj) => obj));
+    }
+
+    atualizar(item: DespesaConfiguracao): Observable<DespesaConfiguracao>
+    {
+        return this.http.put<DespesaConfiguracao>(
+            `${c.api}/DespesaConfiguracao`, item)
+            .pipe(map((obj) => obj));
+    }
 }

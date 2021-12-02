@@ -56,17 +56,17 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
           disabled: true,
         }, [Validators.required]
       ],
-      PercentualKmForaCidade: [undefined, Validators.required],
-      PercentualKmCidade: [undefined, Validators.required],
-      ValorRefeicaoLimiteTecnico: [undefined, Validators.required],
-      ValorRefeicaoLimiteOutros: [undefined, Validators.required],
-      HoraExtraInicioAlmoco: [undefined, Validators.required],
-      HoraExtraInicioJanta: [undefined, Validators.required],
-      PercentualNotaKM: [undefined, Validators.required],
-      ValorKM: [undefined, Validators.required],
-      ValorAluguelCarro: [undefined],
-      DataVigencia: [undefined, Validators.required],
-      IndAtivo: [true, Validators.required],
+      percentualKmForaCidade: [undefined, Validators.required],
+      percentualKmCidade: [undefined, Validators.required],
+      valorRefeicaoLimiteTecnico: [undefined, Validators.required],
+      valorRefeicaoLimiteOutros: [undefined, Validators.required],
+      horaExtraInicioAlmoco: [undefined, Validators.required],
+      horaExtraInicioJanta: [undefined, Validators.required],
+      percentualNotaKM: [undefined, Validators.required],
+      valorKM: [undefined, Validators.required],
+      valorAluguelCarro: [undefined],
+      dataVigencia: [undefined, Validators.required],
+      indAtivo: [true, Validators.required],
     });
   }
 
@@ -82,6 +82,14 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
     this.despesaConfiguracao =
       (await this._despesaConfiguracaoSvc.obterPorCodigo(this.codDespesaConfiguracao).toPromise());
 
+    this.despesaConfiguracao.horaExtraInicioAlmoco =
+      moment(this.despesaConfiguracao.horaExtraInicioAlmoco)
+        .format("HH:mm");
+
+    this.despesaConfiguracao.horaExtraInicioJanta =
+      moment(this.despesaConfiguracao.horaExtraInicioJanta)
+        .format("HH:mm");
+
     this.form.patchValue(this.despesaConfiguracao);
   }
 
@@ -92,48 +100,51 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
 
   private atualizar()
   {
-    //     let cartao: DespesaCartaoCombustivel = {
-    //       ...this.despesaCartaoCombustivel,
-    //       ...this.form.getRawValue(),
-    //       ...{
-    //         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-    //         codUsuarioManut: this.userSession.usuario?.codUsuario
-    //       }
-    //     };
-    // 
-    //     this._despesaCartaoCombustivelSvc.atualizar(cartao).toPromise()
-    //       .then(() =>
-    //       {
-    //         this._snack.exibirToast("Cartão atualizado com sucesso!", "success");
-    //         this._router.navigate(['/despesa/cartoes-combustivel/detalhe/' + this.codDespesaCartaoCombustivel]);
-    //       }).catch(() =>
-    //       {
-    //         this._snack.exibirToast("Erro ao atualizar cartão.", "error");
-    //         this._router.navigate(['/despesa/cartoes-combustivel/detalhe/' + this.codDespesaCartaoCombustivel]);
-    //       });
+    let configuracao: DespesaConfiguracao = {
+      ...this.despesaConfiguracao,
+      ...this.form.getRawValue(),
+      ...{
+        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        dataVigencia: moment(this.form.controls.dataVigencia.value).format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario?.codUsuario,
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss')
+      }
+    };
+
+    this._despesaConfiguracaoSvc.atualizar(configuracao).toPromise()
+      .then(() =>
+      {
+        this._snack.exibirToast("Configuração atualizada com sucesso!", "success");
+        this._router.navigate(['/despesa/configuracoes']);
+      }).catch(() =>
+      {
+        this._snack.exibirToast("Erro ao atualizar configuração.", "error");
+        this._router.navigate(['/despesa/configuracoes']);
+      });
   }
 
   private async criar()
   {
-    //     let cartao: DespesaCartaoCombustivel = {
-    //       ...this.form.getRawValue(),
-    //       ...{
-    //         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-    //         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-    //         codUsuarioCad: this.userSession.usuario?.codUsuario
-    //       }
-    //     };
-    // 
-    //     this._despesaCartaoCombustivelSvc.criar(cartao).toPromise()
-    //       .then(() =>
-    //       {
-    //         this._snack.exibirToast("Cartão criado com sucesso!", "success");
-    //         this._router.navigate(['/despesa/cartoes-combustivel']);
-    //       }).catch(() =>
-    //       {
-    //         this._snack.exibirToast("Erro ao criar cartão.", "error");
-    //         this._router.navigate(['/despesa/cartoes-combustivel']);
-    //       });
+    let configuracao: DespesaConfiguracao = {
+      ...this.form.getRawValue(),
+      ...{
+        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        dataVigencia: moment(this.form.controls.dataVigencia.value).format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.userSession.usuario?.codUsuario
+      }
+    };
+
+    this._despesaConfiguracaoSvc.criar(configuracao).toPromise()
+      .then(() =>
+      {
+        this._snack.exibirToast("Configuração criado com sucesso!", "success");
+        this._router.navigate(['/despesa/configuracoes']);
+      }).catch(() =>
+      {
+        this._snack.exibirToast("Erro ao criar configuração.", "error");
+        this._router.navigate(['/despesa/configuracoes']);
+      });
   }
 
   ngOnDestroy()

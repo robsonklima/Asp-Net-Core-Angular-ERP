@@ -64,47 +64,47 @@
                                 </div>
                                 <ng-container *ngIf="configuracoes?.items.length">
                                     <ng-container *ngFor="let c of configuracoes?.items">
-                                        <!-- <a [routerLink]="'/despesa/adiantamentos/form/'+a.codDespesaAdiantamento"> -->
-                                        <div class="list-grid-despesa-configuracao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                            *transloco="let t">
-                                            <div class="hidden md:block truncate">
-                                                {{ c.codDespesaConfiguracao }}
+                                        <a [routerLink]="'/despesa/configuracoes/form/'+c.codDespesaConfiguracao">
+                                            <div class="list-grid-despesa-configuracao grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                *transloco="let t">
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.codDespesaConfiguracao }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.dataHoraCad | date:'dd/MM/yy' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.dataVigencia | date:'dd/MM/yy' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (c.percentualKmCidade/100) | percent:'1.2' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (c.percentualKmForaCidade/100) | percent:'1.2' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (c.percentualNotaKM/100) | percent:'1.2' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.valorKM | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.valorRefeicaoLimiteTecnico | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.valorRefeicaoLimiteOutros | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.horaExtraInicioAlmoco | date:'HH:mm' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.horaExtraInicioJanta | date:'HH:mm' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ c.indAtivo }}
+                                                </div>
                                             </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.dataHoraCad | date:'dd/MM/yy' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.dataVigencia | date:'dd/MM/yy' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ (c.percentualKmCidade/100) | percent:'1.2' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ (c.percentualKmForaCidade/100) | percent:'1.2' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ (c.percentualNotaKM/100) | percent:'1.2' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.valorKM | currency:'BRL':'symbol-narrow' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.valorRefeicaoLimiteTecnico | currency:'BRL':'symbol-narrow' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.valorRefeicaoLimiteOutros | currency:'BRL':'symbol-narrow' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.horaExtraInicioAlmoco | date:'HH:mm' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.horaExtraInicioJanta | date:'HH:mm' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ c.indAtivo }}
-                                            </div>
-                                        </div>
-                                        <!-- </a> -->
+                                        </a>
                                     </ng-container>
                                 </ng-container>
                             </div>

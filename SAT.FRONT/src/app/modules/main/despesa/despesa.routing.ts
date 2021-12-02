@@ -115,5 +115,9 @@ export const despesaRoutes: Route[] = [
     {
         path: 'configuracoes/form',
         component: DespesaConfiguracaoFormComponent
+    },
+    {
+        path: 'configuracoes/form/:codDespesaConfiguracao',
+        component: DespesaConfiguracaoFormComponent
     }
 ];

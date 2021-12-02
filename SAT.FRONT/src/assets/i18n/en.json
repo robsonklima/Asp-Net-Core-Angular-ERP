@@ -354,6 +354,7 @@
     "nro-chamado": "SO Number",
     "descricao": "Description",
     "novas pecas cadastradas": "NEW REGISTERED PIECES",
-    "pecas liberadas": "RELEASED PARTS"
-
+    "pecas liberadas": "RELEASED PARTS",
+    "contratos de venda": "Sell Contracts",
+    "instalacao": "Installation"
 }

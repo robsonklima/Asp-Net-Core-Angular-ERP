@@ -72,7 +72,8 @@ namespace SAT.INFRA.Repository
 
         public PontoUsuarioData ObterPorCodigo(int codigo)
         {
-            return _context.PontoUsuarioData.SingleOrDefault(p => p.CodPontoUsuarioData == codigo);
+            return _context.PontoUsuarioData
+                .SingleOrDefault(p => p.CodPontoUsuarioData == codigo);
         }
 
         public PagedList<PontoUsuarioData> ObterPorParametros(PontoUsuarioDataParameters parameters)
@@ -109,6 +110,8 @@ namespace SAT.INFRA.Repository
             {
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
+
+            var a = query.ToQueryString();
 
             return PagedList<PontoUsuarioData>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

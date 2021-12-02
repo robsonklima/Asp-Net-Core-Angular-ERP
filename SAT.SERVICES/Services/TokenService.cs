@@ -32,7 +32,6 @@ namespace SAT.SERVICES.Services
         {
             var mySecret = Encoding.UTF8.GetBytes(key);
             var mySecurityKey = new SymmetricSecurityKey(mySecret);
-
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {

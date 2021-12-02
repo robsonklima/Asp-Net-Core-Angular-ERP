@@ -1,7 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export interface PontoUsuarioDataDivergencia {
-    codPontoUsuarioDataDivergencia: number;
+    codPontoUsuarioDataDivergencia?: number;
     codPontoUsuarioData: number;
     codPontoUsuarioDataModoDivergencia: number;
     dataHoraCad: string;

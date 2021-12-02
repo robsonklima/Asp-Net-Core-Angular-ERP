@@ -82,11 +82,11 @@
                                     <div class="truncate">
                                         <span
                                             class="py-1 px-2 rounded text-white"
-                                            [class.bg-green-600]="data.pontoUsuarioDataStatus.descricao === 'Conferido'"
-                                            [class.bg-black]="data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'"
-                                            [class.bg-red-600]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente'"
-                                            [class.bg-blue-600]="data.pontoUsuarioDataStatus.descricao === 'Aguardando Conferência'">
-                                            {{ data.pontoUsuarioDataStatus.descricao }}
+                                            [class.bg-green-600]="data.pontoUsuarioDataStatus?.descricao === 'Conferido'"
+                                            [class.bg-black]="data.pontoUsuarioDataStatus?.descricao === 'Nenhum horário registrado'"
+                                            [class.bg-red-600]="data.pontoUsuarioDataStatus?.descricao === 'Inconsistente'"
+                                            [class.bg-blue-600]="data.pontoUsuarioDataStatus?.descricao === 'Aguardando Conferência'">
+                                            {{ data.pontoUsuarioDataStatus?.descricao }}
                                         </span>
                                     </div>
 

@@ -14,3 +14,8 @@ export interface PontoUsuarioDataTipoAdvertenciaData extends Meta {
 export interface PontoUsuarioDataTipoAdvertenciaParameters extends QueryStringParameters {
     
 };
+
+export const pontoUsuarioDataTipoAdvertenciConst = {
+    MANUAL: 1,
+    AUTOMATICA: 2
+}

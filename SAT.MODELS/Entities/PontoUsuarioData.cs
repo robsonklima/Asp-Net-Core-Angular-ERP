@@ -33,5 +33,8 @@ namespace SAT.MODELS.Entities
 
         [ForeignKey("CodPontoUsuarioData")]
         public List<PontoUsuarioDataDivergencia> Divergencias { get; set; }
+
+        [NotMapped]        
+        public List<PontoUsuario> PontosUsuario { get; set; }
     }
 }

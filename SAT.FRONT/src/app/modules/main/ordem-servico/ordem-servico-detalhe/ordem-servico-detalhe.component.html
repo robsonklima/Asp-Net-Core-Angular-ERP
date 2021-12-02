@@ -56,7 +56,7 @@
 
                             <button class="fuse-mat-button-rounded bg-indigo-700" mat-flat-button
                                 *ngIf="os?.codStatusServico != 8"
-                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || os?.codStatusServico === 7"
                                 [matTooltip]="t('transferir')" matTooltipPosition="above" (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>

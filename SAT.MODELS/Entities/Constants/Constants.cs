@@ -49,5 +49,6 @@
 
         // Permissoes
         public static string PERFIL_PONTO = "3";
+        public static string SEM_NADA = "S/N";
     }
 }

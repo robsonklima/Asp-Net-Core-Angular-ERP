@@ -3,7 +3,7 @@
         <app-ordem-servico-filtro [sidenav]="sidenav"></app-ordem-servico-filtro>
     </mat-drawer>
 
-    <mat-drawer-content>
+    <mat-drawer-content *transloco="let t">
         <div
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
             <div
@@ -12,7 +12,7 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                    <div class="text-4xl font-extrabold tracking-tight" >
                         {{ t('chamados') }}
                     </div>
                 </div>
@@ -23,15 +23,15 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-icon-button [routerLink]="['/ordem-servico/form']">
+                    <button class="ml-4" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/ordem-servico/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
-                    <button class="ml-2" mat-icon-button (click)="exportar()">
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
+                    <button class="ml-2" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
+                        <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                     </button>
 
-                    <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
+                    <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>

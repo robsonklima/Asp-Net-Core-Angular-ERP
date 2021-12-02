@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SAT.MODELS.Entities {
+namespace SAT.MODELS.Entities
+{
     public class PontoUsuario
     {
         [Key]
@@ -24,11 +25,5 @@ namespace SAT.MODELS.Entities {
 
         [ForeignKey("CodPontoPeriodo")]
         public PontoPeriodo PontoPeriodo { get; set; }
-        
-        [ForeignKey("CodUsuario")]
-        public Usuario Usuario { get; set; }
-
-        [NotMapped]
-        public List<PontoUsuario> PontosUsuario { get; set; }
     }
 }

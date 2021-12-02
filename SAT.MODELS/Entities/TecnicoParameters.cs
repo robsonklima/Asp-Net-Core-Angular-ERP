@@ -18,6 +18,7 @@ namespace SAT.MODELS.Entities
         public int? PA { get; set; }
         public DateTime PeriodoMediaAtendInicio { get; set; }
         public DateTime PeriodoMediaAtendFim { get; set; }
+        public TecnicoTipoEnum Tipo { get; set; }
         public TecnicoIncludeEnum Include { get; set; }
         public TecnicoFilterEnum FilterType { get; set; }
     }

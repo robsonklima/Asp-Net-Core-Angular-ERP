@@ -17,6 +17,7 @@
         TOP_PECAS_FALTANTES,
         NOVAS_CADASTRADAS,
         NOVAS_LIBERADAS,
-        REGIAO
+        REGIAO,
+        TOP_PECAS_MAIS_FALTANTES
     }
 }

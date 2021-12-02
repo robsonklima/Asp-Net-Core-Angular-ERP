@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,5 +39,7 @@ namespace SAT.MODELS.Entities
         public int? NfStatus { get; set; }
         public string NumSerie { get; set; }
         public string MotivoSubstituicao { get; set; }
+        [ForeignKey("CodRATDetalhesPecas")]
+        public List<RelatorioAtendimentoDetalhePecaStatus> RelatorioAtendimentoDetalhePecaStatus { get; set; }
     }
 }

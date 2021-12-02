@@ -3,18 +3,25 @@ using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
-using System.Linq.Dynamic.Core;
 using System.Linq;
+using System;
 
 namespace SAT.INFRA.Repository
 {
     public partial class OrdemServicoRepository : IOrdemServicoRepository
     {
         private readonly AppDbContext _context;
+        private readonly IFeriadoRepository _feriadoRepository;
 
-        public OrdemServicoRepository(AppDbContext context)
+        public OrdemServicoRepository(AppDbContext context, IFeriadoRepository feriadoRepository)
         {
             _context = context;
+            _feriadoRepository = feriadoRepository;
+        }
+
+        private int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
+        {
+            return this._feriadoRepository.CalculaDiasNaoUteis(dataInicio, dataFim, contabilizarSabado, contabilizarDomingo, contabilizarFeriados, codCidade);
         }
 
         public void Criar(OrdemServico ordemServico)
@@ -47,15 +54,22 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServico> ObterPorParametros(OrdemServicoParameters parameters)
         {
-            var query = _context.OrdemServico.AsNoTracking().AsQueryable();
+            IQueryable<OrdemServico> query = this.ObterQuery(parameters);
+
+            return PagedList<OrdemServico>
+                .ToPagedList(query, parameters.PageNumber, parameters.PageSize,
+                    new OrdemServicoComparer());
+        }
+
+        public IQueryable<OrdemServico> ObterQuery(OrdemServicoParameters parameters)
+        {
+            IQueryable<OrdemServico> query = _context.OrdemServico.AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            return PagedList<OrdemServico>
-                .ToPagedList(query, parameters.PageNumber, parameters.PageSize,
-                    new OrdemServicoComparer());
+            return query.AsNoTracking();
         }
 
         public OrdemServico ObterPorCodigo(int codigo)

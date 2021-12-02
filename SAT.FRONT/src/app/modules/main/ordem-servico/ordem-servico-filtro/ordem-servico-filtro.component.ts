@@ -248,6 +248,10 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
+    else
+    {
+      this.form.controls['codFiliais'].enable();
+    }
 
     this.obterTecnicos(this.form.controls['codFiliais'].value);
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
@@ -358,6 +362,17 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       {
         this.obterClientes(this.clienteFilterCtrl.value);
       });
+  }
+
+  clean()
+  {
+    super.clean();
+
+    if (this.userSession?.usuario?.codFilial)
+    {
+      this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
+      this.form.controls['codFiliais'].disable();
+    }
   }
 
   ngOnDestroy()

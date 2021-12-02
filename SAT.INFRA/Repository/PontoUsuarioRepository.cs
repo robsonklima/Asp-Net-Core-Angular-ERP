@@ -78,7 +78,6 @@ namespace SAT.INFRA.Repository
         public PagedList<PontoUsuario> ObterPorParametros(PontoUsuarioParameters parameters)
         {
             var query = _context.PontoUsuario
-                .Include(p => p.Usuario)
                 .Include(p => p.PontoPeriodo)
                 .AsQueryable();
 

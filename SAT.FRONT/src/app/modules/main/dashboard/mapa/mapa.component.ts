@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
@@ -12,6 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { UserService } from 'app/core/user/user.service';
+import { Filterable } from 'app/core/filters/filterable';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-mapa',
@@ -20,14 +23,15 @@ import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/
   ]
 })
 
-export class MapaComponent implements AfterViewInit {
-
+export class MapaComponent extends Filterable implements AfterViewInit {
   private map: Map;
   private filiais: Filial[] = [];
 
   public markerClusterGroup: L.MarkerClusterGroup;
   public markerClusterData = [];
   public loading: boolean = true;
+
+  @Input() sidenav: MatSidenav;
 
   public options = {
     layers: [
@@ -40,16 +44,35 @@ export class MapaComponent implements AfterViewInit {
   };
 
   constructor(
+    protected _userService: UserService,
     private _sharedService: SharedService,
     private _filialService: FilialService,
     private _indicadorService: IndicadorService,
     private _googleGeolocationService: GoogleGeolocationService,
     private _nominatimService: NominatimService,
-    private _http: HttpClient) { }
+    private _http: HttpClient) {
+    super(_userService, 'dashboard-filtro')
+  }
+
 
   ngAfterViewInit(): void {
     this._sharedService.clearListEvents();
     this.obterFiliais();
+
+    this.registerEmitters();
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.filiais = [];
+      this.loading = true;
+      this.obterFiliais();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   onMapReady(map: Map): void {
@@ -98,21 +121,18 @@ export class MapaComponent implements AfterViewInit {
     });
 
     // Indicadores
-    var params: IndicadorParameters =
+    let params: IndicadorParameters =
     {
       tipo: IndicadorTipoEnum.SLA,
       codFiliais: this.filiais.map((f) => f.codFilial).join(','),
       agrupador: IndicadorAgrupadorEnum.FILIAL,
       include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
       filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
-      codAutorizadas: "",
-      codTiposGrupo: "",
-      codTiposIntervencao: "",
-      dataInicio: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataFim: moment().endOf('month').format('YYYY-MM-DD hh:mm')
+      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
     };
 
-    var indicadores = await this._indicadorService.obterPorParametros(params).toPromise();
+    let indicadores = await this._indicadorService.obterPorParametros(params).toPromise();
 
     let markers: any[] = [];
 
@@ -125,8 +145,9 @@ export class MapaComponent implements AfterViewInit {
 
       // Se não encontra pelo cep, tenta pelo endereço
       if (!mapService) {
+        let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
         mapService = (await this._googleGeolocationService.obterPorParametros
-          ({ enderecoCep: filial.endereco }).toPromise()).results.shift();
+          ({ enderecoCep: endereco }).toPromise()).results.shift();
       }
 
       // Nominatim
@@ -134,7 +155,8 @@ export class MapaComponent implements AfterViewInit {
       // let mapService = (await this._nominatimService.buscarEndereco(filial.cep).toPromise()).results.shift();
       // // Se não encontra pelo cep, tenta pelo endereço
       // if (!mapService) {
-      //   mapService = (await this._nominatimService.buscarEndereco(filial.endereco).toPromise()).results.shift();
+      //    let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
+      //   mapService = (await this._nominatimService.buscarEndereco(endereco).toPromise()).results.shift();
       // }
 
       if (mapService) {

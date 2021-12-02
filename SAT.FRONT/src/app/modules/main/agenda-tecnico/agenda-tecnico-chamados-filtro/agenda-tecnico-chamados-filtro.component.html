@@ -38,7 +38,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
+                    <mat-label>Tipo Interv.</mat-label>
                     <mat-select formControlName="codTiposIntervencao" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTiposIntervencao, tiposIntervencao,
                             'codTipoIntervencao')" [value]="0">
@@ -52,19 +52,16 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('os cliente') }}</mat-label>
-                    <input matInput formControlName="numOSCliente" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
-                    </mat-icon>
+                    <mat-label>{{ t('cliente') }}</mat-label>
+                    <mat-select formControlName="codClientes" multiple="true">
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                            {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('os quarteirizada') }}</mat-label>
-                    <input matInput formControlName="numOSQuarteirizada" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
-                    </mat-icon>
-                </mat-form-field>
             </div>
+
 
             <div class="mt-6 border-t"></div>
 

@@ -1,35 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Extensions;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class TecnicoService : ITecnicoService
+    public partial class TecnicoService : ITecnicoService
     {
         private readonly ITecnicoRepository _tecnicosRepo;
-        private readonly IOrdemServicoRepository _osRepo;
         private readonly ISequenciaRepository _seqRepo;
+        private readonly IDashboardService _dashboardService;
 
         public TecnicoService(
             ITecnicoRepository tecnicosRepo,
             ISequenciaRepository seqRepo,
-            IOrdemServicoRepository osRepo
+            IDashboardService dashboardService
         )
         {
             _tecnicosRepo = tecnicosRepo;
-            _osRepo = osRepo;
             _seqRepo = seqRepo;
+            _dashboardService = dashboardService;
         }
 
         public ListViewModel ObterPorParametros(TecnicoParameters parameters)
         {
-            var tecnicos = _tecnicosRepo.ObterPorParametros(parameters);
+            PagedList<Tecnico> tecnicos = _tecnicosRepo.ObterPorParametros(parameters);
 
-           return new ListViewModel
+            return new ListViewModel
             {
                 Items = tecnicos,
                 TotalCount = tecnicos.TotalCount,

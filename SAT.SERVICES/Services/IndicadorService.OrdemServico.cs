@@ -4,7 +4,6 @@ using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace SAT.SERVICES.Services
 {
@@ -12,7 +11,7 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorOrdemServico(IndicadorParameters parameters)
         {
-            var chamados = ObterOrdensServico(parameters);
+            IEnumerable<OrdemServico> chamados = ObterOrdensServico(parameters).AsEnumerable();
 
             switch (parameters.Agrupador)
             {

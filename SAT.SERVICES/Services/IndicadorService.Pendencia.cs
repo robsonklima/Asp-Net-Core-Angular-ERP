@@ -1,11 +1,11 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace SAT.SERVICES.Services
 {
@@ -13,34 +13,24 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorPendencia(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
-            var chamados = ObterOrdensServico(parameters);
-
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    Indicadores = ObterIndicadorPendenciaCliente(chamados);
-                    break;
-
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    Indicadores = ObterIndicadorPendenciaFilial(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES:
-                    Indicadores = ObterIndicadorPendenciaTecnicoPercent(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES:
-                    Indicadores = ObterIndicadorPendenciaTecnicoQnt(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_TECNICO_QNT_CHAMADOS.Description(), parameters.DataInicio, parameters.DataFim);
                 default:
-                    break;
+                    return new List<Indicador>();
             }
-
-            return Indicadores;
         }
 
-        private List<Indicador> ObterIndicadorPendenciaFilial(IEnumerable<OrdemServico> chamados)
+        private static List<Indicador> ObterIndicadorPendenciaFilial(List<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var filiais = chamados
                 .Where(os => os.Filial != null)
@@ -69,7 +59,8 @@ namespace SAT.SERVICES.Services
                 Indicadores.Add(new Indicador()
                 {
                     Label = f.filial.NomeFilial,
-                    Valor = valor
+                    Valor = valor,
+                    Filho = new List<Indicador>() { new Indicador() { Label = "Pendencia" } }
                 });
             }
 
@@ -78,7 +69,7 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorPendenciaCliente(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var clientes = chamados
                 .Where(os => os.Cliente != null)
@@ -116,18 +107,18 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorPendenciaTecnicoPercent(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var ratsTecnicos = chamados.Where(ch => ch.RelatoriosAtendimento != null)
                                     .SelectMany(ch => ch.RelatoriosAtendimento)
                                     .Where(ch => ch.Tecnico != null && Convert.ToBoolean(ch.Tecnico.IndAtivo))
                                     .GroupBy(ch => ch.CodTecnico).ToList();
-           
-            ratsTecnicos.ForEach(r => 
+
+            ratsTecnicos.ForEach(r =>
             {
                 var ratsPecasPendentes = r.ToList().Where(rt => rt.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES).Count();
                 var ratsTotais = r.ToList().Count();
-                
+
                 decimal valor = 0;
 
                 if (ratsTotais > 0)
@@ -147,18 +138,18 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorPendenciaTecnicoQnt(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> batata =  chamados.Where(ch => ch.RelatoriosAtendimento != null)
+            List<Indicador> batata = chamados.Where(ch => ch.RelatoriosAtendimento != null)
                             .SelectMany(ch => ch.RelatoriosAtendimento)
                             //.Where(rat => rat.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES)
                             .Where(rat => rat.Tecnico != null && Convert.ToBoolean(rat.Tecnico.IndAtivo))
                             .GroupBy(rat => rat.CodTecnico)
-                            .Select(ratsPorTecnico => new Indicador 
+                            .Select(ratsPorTecnico => new Indicador
                             {
                                 Label = ratsPorTecnico.Key.ToString(),
-                                Valor = ratsPorTecnico.Count() 
-                            }).ToList(); 
+                                Valor = ratsPorTecnico.Count()
+                            }).ToList();
 
-                            return batata;
+            return batata;
         }
     }
 }

@@ -1,0 +1,43 @@
+
+<p>
+    * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas
+    negativas.
+</p>
+
+<table class="w-full h-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl"
+					*ngIf="!loading">
+					<thead>
+						<tr>
+							<th>Região</th>
+							<th>DISP 11</th>
+							<th>DISP 12</th>
+							<th>DISP 13</th>
+							<th>DISP 14</th>
+							<th>DISP 15</th>
+							<th>TOTAL</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center" *ngFor="let data of multaDisponibilidade">
+							<td>{{data.regiao}}</td>
+							<td>{{data.disp11}}</td>
+							<td>{{data.disp12}}</td>
+							<td>{{data.disp13}}</td>
+							<td>{{data.disp14}}</td>
+							<td>{{data.disp15}}</td>
+							<td>{{data.total}}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="text-center pointer-events-none font-bold">
+							<th>TOTAL</th>
+							<td>{{totalDisp11}}</td>
+							<td>{{totalDisp12}}</td>
+							<td>{{totalDisp13}}</td>
+							<td>{{totalDisp14}}</td>
+							<td>{{totalDisp15}}</td>
+							<td>{{totalDispTotal}}</td>
+							<!-- <td>{{totalDispTotal| number:'1.1-1'}}</td> -->
+						</tr>
+					</tfoot>
+				</table>

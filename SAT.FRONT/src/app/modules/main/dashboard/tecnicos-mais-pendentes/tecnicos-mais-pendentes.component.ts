@@ -1,28 +1,47 @@
-import { Filial } from './../../../../core/types/filial.types';
 import { Component, Input, OnInit } from '@angular/core';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import moment from 'moment';
 import Enumerable from 'linq';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-tecnicos-mais-pendentes',
   templateUrl: './tecnicos-mais-pendentes.component.html',
   styleUrls: ['./tecnicos-mais-pendentes.component.css']
 })
-export class TecnicosMaisPendentesComponent implements OnInit {
+export class TecnicosMaisPendentesComponent extends Filterable implements OnInit, IFilterable {
+  @Input() sidenav: MatSidenav;
   @Input() ordem: string;
   public pendenciaTecnicosModel: PendenciaTecnicosModel[] = [];
   public loading: boolean = true;
 
   constructor(
     private _tecnicoService: TecnicoService,
-    private _indicadorService: IndicadorService
-  ) { }
+    private _indicadorService: IndicadorService,
+    protected _userService: UserService
+  ) {
+    super(_userService, 'dashboard-filtro')
+  }
 
   ngOnInit(): void {
     this.obterDados();
+    this.registerEmitters();
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   private async obterDados() {
@@ -54,11 +73,8 @@ export class TecnicosMaisPendentesComponent implements OnInit {
     let indicadorParams = {
       tipo: IndicadorTipoEnum.PENDENCIA,
       agrupador: indicadorAgrupadorEnum,
-      codAutorizadas: "",
-      codTiposGrupo: "",
-      codTiposIntervencao: "",
-      dataInicio: '2021-09-01', //moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataFim: '2021-10-01'//moment().endOf('month').format('YYYY-MM-DD hh:mm')
+      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
     }
     return await this._indicadorService.obterPorParametros(indicadorParams).toPromise();
   }

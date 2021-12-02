@@ -1,10 +1,10 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace SAT.SERVICES.Services
 {
@@ -12,81 +12,136 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorPecaFaltante(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
-            var chamados = ObterOrdensServico(parameters);
-
             switch (parameters.Agrupador)
             {
+                case IndicadorAgrupadorEnum.FILIAL:
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
+                case IndicadorAgrupadorEnum.TOP_PECAS_MAIS_FALTANTES:
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_TOP_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES:
-                    Indicadores = ObterIndicadorTopPecaFaltante(chamados, IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.NOVAS_CADASTRADAS:
-                    Indicadores = ObterIndicadorTopPecaFaltante(chamados,IndicadorAgrupadorEnum.NOVAS_CADASTRADAS);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_NOVAS_CADASTRADAS.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.NOVAS_LIBERADAS:
-                    Indicadores = ObterIndicadorTopPecaFaltante(chamados,IndicadorAgrupadorEnum.NOVAS_LIBERADAS);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_NOVAS_LIBERADAS.Description(), parameters.DataInicio, parameters.DataFim);
                 default:
-                    break;
+                    return new List<Indicador>();
             }
-
-            return Indicadores;
         }
 
-        private List<Indicador> ObterIndicadorTopPecaFaltante(IEnumerable<OrdemServico> chamados,IndicadorAgrupadorEnum indicador)
+        private List<Indicador> ObterIndicadorPecasFaltantesFiliais(List<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> indicadores = new();
+            DateTime hoje = DateTime.Now;
 
-            var pecasPendentes = chamados
-                                .Where(os => os.RelatoriosAtendimento != null && os.CodStatusServico != 2 && os.CodStatusServico != 3)
-                                .SelectMany(rt => rt.RelatoriosAtendimento)
-                                .Where(rt => rt.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES)
-                                .ToList();
-            
-            var detalhePeca = pecasPendentes.Where(pc => pc.RelatorioAtendimentoDetalhes != null)
-                                .SelectMany(pc => pc.RelatorioAtendimentoDetalhes
-                                                      .SelectMany(rdp => rdp.RelatorioAtendimentoDetalhePecas))
-                                .ToList();
+            return (from os in chamados
+                    from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad < hoje)
+                    from ratD in rat.RelatorioAtendimentoDetalhes.SelectMany(s => s.RelatorioAtendimentoDetalhePecas)
+                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEÇA FALTANTE")
 
-            detalhePeca
-                    .GroupBy(dp => dp.Peca)
-                    .OrderByDescending(p => p.Count())
-                    .Take(10)
-                    .ToList()
-                    .ForEach(pc =>
+                    &&
+                    ratD.RelatorioAtendimentoDetalhePecaStatus
+                    .Where(w => w.CodRatPecasStatus == (int)RelatorioAtendimentoPecaStatusEnum.ENCAMINHADA ||
+                                w.CodRatPecasStatus == (int)RelatorioAtendimentoPecaStatusEnum.ENTREGUE)
+                    .OrderByDescending(o => o.CodRATDetalhesPecasStatus).FirstOrDefault() == null
+
+                    group new { os.Filial, DataFaltante = rat.DataHoraCad.Value.Date }
+                    by new { os, DataFaltante = rat.DataHoraCad.Value.Date } into grupo
+                    orderby grupo.Key.DataFaltante
+
+                    select new Indicador()
                     {
-                        Indicadores.Add(new Indicador()
-                        {
-                            Label = pc.Key.CodPeca.ToString(),
-                            Valor = pc.Count(),
-                            Filho = ObterChamadosPecaFaltante(pc.Key.CodPeca, pecasPendentes,indicador)
-                        });
-                    });
-
-            return Indicadores;
+                        Label = grupo.Key.DataFaltante.ToString("dd/MM/yyyy"),
+                        Filho = new List<Indicador>() { new Indicador()
+                                                  {
+                                                   Label = grupo.Key.os.Filial.NomeFilial,
+                                                   Valor = grupo.Count(),
+                                                  }
+                                     }
+                    }).ToList();
         }
-        private List<Indicador> ObterChamadosPecaFaltante(int codPeca, List<RelatorioAtendimento> pecasPendentes, IndicadorAgrupadorEnum indicador)
+
+        private List<Indicador> ObterIndicadorPecasMaisFaltantesFiliais(List<OrdemServico> chamados)
         {
-            var Indicadores = new List<Indicador>();
-            
-            var rats = pecasPendentes.Where(r => r.RelatorioAtendimentoDetalhes
+            List<Indicador> indicadores = new();
+            DateTime hoje = DateTime.Now;
+
+            return (from os in chamados
+                    from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad < hoje)
+                    from ratD in rat.RelatorioAtendimentoDetalhes.SelectMany(s => s.RelatorioAtendimentoDetalhePecas)
+                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEÇA FALTANTE")
+                    &&
+                    ratD.RelatorioAtendimentoDetalhePecaStatus
+                    .Where(w => w.CodRatPecasStatus == (int)RelatorioAtendimentoPecaStatusEnum.ENCAMINHADA ||
+                                w.CodRatPecasStatus == (int)RelatorioAtendimentoPecaStatusEnum.ENTREGUE)
+                    .OrderByDescending(o => o.CodRATDetalhesPecasStatus).FirstOrDefault() == null
+
+                    group new { ratD.Peca.CodMagnus, ratD.Peca.NomePeca }
+                    by new { ratD.Peca.CodMagnus, ratD.Peca.NomePeca } into grupo
+                    orderby grupo.Count() descending
+
+                    select new Indicador()
+                    {
+                        Label = grupo.Key.CodMagnus,
+                        Filho = new List<Indicador>() { new Indicador()
+                                                  {
+                                                   Label =grupo.Key.NomePeca,
+                                                   Valor = grupo.Count(),
+                                                  }
+                                     }
+                    }).Take(5).ToList();
+        }
+
+        private List<Indicador> ObterIndicadorTopPecaFaltante(List<OrdemServico> chamados, IndicadorAgrupadorEnum indicador)
+        {
+            List<Indicador> indicadores = new();
+
+            IEnumerable<RelatorioAtendimento> pecasPendentes = chamados
+                                 .Where(os => os.RelatoriosAtendimento != null && os.CodStatusServico != (int)StatusServicoEnum.CANCELADO && os.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                                 .SelectMany(rt => rt.RelatoriosAtendimento)
+                                 .Where(rt => rt.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES);
+
+            IEnumerable<RelatorioAtendimentoDetalhePeca> detalhePeca = pecasPendentes
+                .Where(pc => pc.RelatorioAtendimentoDetalhes != null)
+                                .SelectMany(pc => pc.RelatorioAtendimentoDetalhes
+                                                      .SelectMany(rdp => rdp.RelatorioAtendimentoDetalhePecas.Where(p => p.Peca != null)));
+
+            detalhePeca.GroupBy(dp => dp.Peca).OrderByDescending(p => p.Count()).Take(10).ToList()
+            .ForEach(pc =>
+            {
+                indicadores.Add(new Indicador()
+                {
+                    Label = pc.Key.CodPeca.ToString(),
+                    Valor = pc.Count(),
+                    Filho = ObterChamadosPecaFaltante(pc.Key.CodPeca, pecasPendentes, indicador)
+                });
+            });
+
+            return indicadores;
+        }
+
+        private List<Indicador> ObterChamadosPecaFaltante(int codPeca, IEnumerable<RelatorioAtendimento> pecasPendentes, IndicadorAgrupadorEnum indicador)
+        {
+            List<Indicador> indicadores = new();
+
+            List<RelatorioAtendimento> rats = pecasPendentes.Where(r => r.RelatorioAtendimentoDetalhes
             .Select(rd => rd.RelatorioAtendimentoDetalhePecas
             .Select(rdp => rdp.CodPeca))
             .Any(p => p.Any(pp => pp == codPeca)))
             .Distinct().ToList();
 
-            rats.ForEach(r => 
+            rats.ForEach(r =>
             {
-                Indicadores.Add(new Indicador()
-                {   
+                indicadores.Add(new Indicador()
+                {
                     Label = indicador == IndicadorAgrupadorEnum.NOVAS_CADASTRADAS ?
-                                                    r.DataCadastro.ToString() : 
-                                                 r.DataHoraSolucao.ToString() ,
+                                                    r.DataCadastro.ToString() :
+                                                 r.DataHoraSolucao.ToString(),
                     Valor = r.CodOS
                 });
             });
 
-            return Indicadores;
+            return indicadores;
         }
     }
 }

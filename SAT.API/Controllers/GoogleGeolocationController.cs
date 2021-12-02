@@ -48,10 +48,10 @@ namespace SAT.API.Controllers
             }
             else
             {
-                var client = new HttpClient();
+                HttpClient client = new();
 
-                var response = await client.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                    parameters.EnderecoCEP + "&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
+                var response = await client.GetAsync
+                    ($"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

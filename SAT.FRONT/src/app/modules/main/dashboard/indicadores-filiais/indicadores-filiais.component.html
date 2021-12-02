@@ -11,7 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of element_data" class="leading-none text-xs"
+        <tr *ngFor="let data of indicadoresFiliais" class="leading-none text-xs"
             [class.bg-blue-300]="selecionaLinhas &&  ufSelecionada == data.siglaUF">
             <td class="text-center">
                 <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
@@ -30,10 +30,10 @@
     <tfoot>
         <tr>
             <th class="text-center pointer-events-none m-auto" colspan="2">RESULTADO GERAL DO DSS</th>
-            <td class="text-right pointer-events-none font-bold">{{ resultado_geral_dss.sla }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ resultado_geral_dss.pendencia }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ resultado_geral_dss.reincidencia }}%</td>
-            <td class="text-right pointer-events-none font-bold pr-8">{{ resultado_geral_dss.spa }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.sla }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.pendencia }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.reincidencia }}%</td>
+            <td class="text-right pointer-events-none font-bold pr-8">{{ resultadoGeralDSS.spa }}%</td>
         </tr>
     </tfoot>
 </table>

@@ -99,6 +99,7 @@ namespace SAT.INFRA.Context
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
         public DbSet<Turno> Turno { get; set; }
+        public DbSet<DashboardIndicadores> DashboardIndicadores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -134,9 +135,13 @@ namespace SAT.INFRA.Context
 
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
-                        
+
             modelBuilder.Entity<ContratoEquipamento>()
-                        .HasKey(e => new {e.CodContrato,e.CodEquip});
+                        .HasKey(e => new { e.CodContrato, e.CodEquip });
+
+            modelBuilder.Entity<DispBBEquipamentoContrato>()
+                .HasKey(e => e.CodDispBBEquipamentoContrato);
+
         }
     }
 }

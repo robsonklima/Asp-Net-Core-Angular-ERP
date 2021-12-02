@@ -1,3 +1,5 @@
+import { QueryStringParameters } from "./generic.types";
+
 export enum DashboardEnum {
 	PERFORMANCE_FILIAIS_RESULTADO_GERAL = 'Performance das Filiais e Resultado Geral',
 	DISPONIBILIDADE_BBTS = 'Disponibilidade BBTS',
@@ -11,4 +13,35 @@ export enum DashboardEnum {
 	TOP_PECAS_FALTANTES = 'Peças Faltantes Mais Críticas',
 	MONITORAMENTO_SAT = 'Monitoramento SAT',
 	DENSIDADE = 'Dashboard Densidade'
+}
+
+export interface DashboardParameters extends QueryStringParameters {
+	include?: DashboardIncludeEnum;
+	filterType?: DashboardFilterEnum;
+	agrupador?: DashboardAgrupadorEnum;
+	tipo?: DashboardTipoEnum;
+};
+
+export enum DashboardAgrupadorEnum {
+
+}
+
+export enum DashboardIncludeEnum {
+
+}
+
+export enum DashboardFilterEnum {
+
+}
+
+export enum DashboardTipoEnum {
+	DISPONIBILIDADE_BBTS = 1
+}
+
+export class DashboardDisponibilidade {
+	public Regiao: string;
+	public Criticidade?: number;
+	public Filial: string;
+	public PrcTotalFilial?: number;
+	public CodFilial?: number;
 }

@@ -31,8 +31,6 @@ import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
 import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
 import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
 import { PendenciaFiliaisComponent } from './pendencia-filiais/pendencia-filiais.component';
-import { TecnicosMenosPendentesComponent } from './tecnicos-menos-pendentes/tecnicos-menos-pendentes.component';
-import { TecnicosMaisPendentesComponent } from './tecnicos-mais-pendentes/tecnicos-mais-pendentes.component';
 import { EquipamentosMaisReincidentesComponent } from './equipamentos-mais-reincidentes/equipamentos-mais-reincidentes.component';
 import { ReincidenciaClientesComponent } from './reincidencia-clientes/reincidencia-clientes.component';
 import { PecasFaltantesFiliaisComponent } from './pecas-faltantes-filiais/pecas-faltantes-filiais.component';
@@ -45,6 +43,8 @@ import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.co
 import { TecnicosReincidentesComponent } from './tecnicos-reincidentes/tecnicos-reincidentes.component';
 import { TecnicosDesempenhoSpaComponent } from './tecnicos-desempenho-spa/tecnicos-desempenho-spa.component';
 import ptBR from '@angular/common/locales/pt'
+import { TecnicosPendentesComponent } from './tecnicos-pendentes/tecnicos-pendentes.component';
+import { DisponibilidadeBbtsMultaComponent } from './disponibilidade-bbts-multa/disponibilidade-bbts-multa.component';
 registerLocaleData(ptBR);
 
 
@@ -60,13 +60,13 @@ registerLocaleData(ptBR);
     MediaGlobalAtendimentoTecnicoComponent,
     DisponibilidadeBbtsRegioesComponent,
     DisponibilidadeBbtsFiliaisComponent,
+    DisponibilidadeBbtsMultaComponent,
     DashboardSpaComponent,
     SlaClientesComponent,
     ReincidenciaFiliaisComponent,
     TecnicosReincidentesComponent,
     PendenciaFiliaisComponent,
-    TecnicosMenosPendentesComponent,
-    TecnicosMaisPendentesComponent,
+    TecnicosPendentesComponent,
     EquipamentosMaisReincidentesComponent,
     ReincidenciaClientesComponent,
     PecasFaltantesFiliaisComponent,

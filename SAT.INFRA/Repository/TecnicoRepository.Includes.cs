@@ -19,6 +19,7 @@ namespace SAT.INFRA.Repository
                     query = query
                          .Include(t => t.Filial)
                             .Include(t => t.Usuario)
+                                .ThenInclude(t => t.PontosUsuario)
                             .Include(t => t.OrdensServico)
                                 .ThenInclude(t => t.RelatoriosAtendimento);
                     break;

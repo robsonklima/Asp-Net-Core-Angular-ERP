@@ -19,6 +19,22 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodContrato.HasValue)
+            {
+                query = query.Where(os => os.CodContrato == parameters.CodContrato.Value);
+            }
+
+            if (parameters.IndServico.HasValue)
+            {
+                query = query.Where(os => os.IndServico == parameters.IndServico.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NotIn_CodStatusServicos))
+            {
+                var cods = parameters.NotIn_CodStatusServicos.Split(",").Select(a => int.Parse(a.Trim()));
+                query = query.Where(os => !cods.Contains(os.CodStatusServico));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodOS))
             {
                 var cods = parameters.CodOS.Split(",").Select(a => a.Trim());
@@ -56,15 +72,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
                     && os.DataHoraTransf <= parameters.DataTransfFim);
 
-            if (!string.IsNullOrEmpty(parameters.Filter))
-            {
-                query = query.Where(
-                    t =>
-                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            if (parameters.DataInicioDispBB.HasValue && parameters.DataFimDispBB.HasValue)
+                query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataInicioDispBB
+                    && os.DataHoraAberturaOS <= parameters.DataFimDispBB);
 
             if (!string.IsNullOrEmpty(parameters.PAS))
             {

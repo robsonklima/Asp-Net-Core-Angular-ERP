@@ -117,5 +117,10 @@ namespace SAT.SERVICES.Services
              Mes = data,
              PageSize = Int32.MaxValue
          }).Where(f => f.Data.HasValue);
+
+        public int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
+        {
+            return this._feriadoRepo.CalculaDiasNaoUteis(dataInicio, dataFim, contabilizarSabado, contabilizarDomingo, contabilizarFeriados, codCidade);
+        }
     }
 }

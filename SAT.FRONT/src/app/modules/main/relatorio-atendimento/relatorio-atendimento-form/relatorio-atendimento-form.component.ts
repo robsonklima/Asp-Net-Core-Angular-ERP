@@ -328,7 +328,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['horaInicio'].setErrors(null)
     }
 
-
     if (duracaoEmMinutos < 20)
     {
       this.form.controls['horaFim'].setErrors({

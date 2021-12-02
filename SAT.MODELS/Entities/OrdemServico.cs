@@ -160,5 +160,11 @@ namespace SAT.MODELS.Entities
         [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
         public virtual List<AgendaTecnico> AgendaTecnico { get; set; }
+
+        [ForeignKey("CodEquipContrato")]
+        public DispBBEquipamentoContrato DispBBEquipamentoContrato { get; set; }
+
+        [ForeignKey("CodContrato")]
+        public Contrato Contrato { get; set; }
     }
 }

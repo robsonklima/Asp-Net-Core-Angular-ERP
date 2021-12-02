@@ -6,6 +6,7 @@ using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Linq;
+using System;
 using SAT.MODELS.Entities.Constants;
 
 namespace SAT.SERVICES.Services
@@ -14,13 +15,10 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
-        private readonly IAgendaTecnicoRepository _agendaTecnicoRepo;
-
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, IAgendaTecnicoRepository agendaTecnicoRepo, ISequenciaRepository sequenciaRepo)
+        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo)
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
-            _agendaTecnicoRepo = agendaTecnicoRepo;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
@@ -150,7 +148,7 @@ namespace SAT.SERVICES.Services
 
             return false;
         }
-        public IActionResult ExportToExcel(OrdemServicoParameters parameters)
+     public IActionResult ExportToExcel(OrdemServicoParameters parameters)
         {
             var os = _ordemServicoRepo
                         .ObterPorParametros(parameters);
@@ -190,7 +188,7 @@ namespace SAT.SERVICES.Services
                                 Data = r.DataHoraSolucao.Date.ToString() ?? Constants.SEM_NADA,
                                 Hora = r.DataHoraSolucao.ToString("HH:mm"),
                                 TipoServico = r.TipoServico?.NomeServico ?? Constants.SEM_NADA,
-                                Observacao = r.ObsRAT ?? Constants.SEM_NADA,
+                                Observacao = r.ObsRAT ?? Constants.SEM_NADA
                             };
                         })).ToList<object>());
 

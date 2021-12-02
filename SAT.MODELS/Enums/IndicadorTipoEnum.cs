@@ -8,6 +8,7 @@
         PENDENCIA,
         REINCIDENCIA,
         PECA_FALTANTE,
-        DISPONIBILIDADE
+        DISPONIBILIDADE,
+        PERFORMANCE_FILIAIS        
     }
 }

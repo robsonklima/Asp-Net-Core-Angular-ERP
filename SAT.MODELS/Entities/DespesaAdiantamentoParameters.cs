@@ -4,7 +4,8 @@ namespace SAT.MODELS.Entities
 {
     public class DespesaAdiantamentoParameters : QueryStringParameters
     {
-        public int? CodTecnico { get; set; }
+        public string CodTecnicos { get; set; }
         public int? IndAtivo { get; set; }
+        public string CodDespesaAdiantamentoTipo { get; set; }
     }
 }

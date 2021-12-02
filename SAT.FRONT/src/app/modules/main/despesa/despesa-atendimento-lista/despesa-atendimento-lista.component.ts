@@ -7,21 +7,31 @@ import { UserService } from 'app/core/user/user.service';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { DespesaPeriodoTecnicoAtendimentoData } from 'app/core/types/despesa-adiantamento.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { ActivatedRoute } from '@angular/router';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
+import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
+import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
+import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { RoleEnum } from 'app/core/user/user.types';
 registerLocaleData(localePt);
 
 @Component({
   selector: 'app-despesa-atendimento-lista',
   templateUrl: './despesa-atendimento-lista.component.html',
-  styles: [`
-        .list-grid-despesa-atendimento {
-            grid-template-columns: 80px 80px 130px 130px 150px 130px  50px 50px auto 50px;
-            @screen sm { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
-            @screen md { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
-            @screen lg { grid-template-columns: 80px 80px 130px 130px 150px  130px  50px 50px auto 50px; }
+  styles: [`.list-grid-despesa-atendimento {
+            grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px;
+            @screen sm { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
+            @screen md { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
+            @screen lg { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -37,13 +47,21 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   isLoading: boolean = false;
   atendimentos: DespesaPeriodoTecnicoAtendimentoData;
+  codTecnico: string;
+  periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
+  tecnico: Tecnico;
 
   constructor (
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService)
+    private _route: ActivatedRoute,
+    private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
+    private _tecnicoSvc: TecnicoService,
+    private _snack: CustomSnackbarService,
+    private _dialog: MatDialog)
   {
     super(_userService, "despesa-atendimento");
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
   }
 
   ngAfterViewInit()
@@ -68,17 +86,19 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   private async obterDespesasPeriodoTecnico()
   {
-    this.atendimentos = (await this._despesaPeriodoTecnicoSvc.obterAtendimentos({
-      codTecnico: this.userSession.usuario?.codTecnico,
-      indAtivoPeriodo: this.filter?.parametros?.indAtivo,
-      codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
-      inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
-      fimPeriodo: this.filter?.parametros?.fimPeriodo,
-      pageNumber: this.paginator?.pageIndex + 1,
-      pageSize: this.paginator?.pageSize,
-      sortActive: 'dataInicio',
-      sortDirection: 'desc'
-    }).toPromise());
+    this.atendimentos = (await this._despesaPeriodoTecnicoSvc
+      .obterAtendimentos(
+        {
+          codTecnico: this.codTecnico,
+          indAtivoPeriodo: this.filter?.parametros?.indAtivo,
+          codDespesaPeriodoStatus: this.filter?.parametros?.codDespesaPeriodoStatus,
+          inicioPeriodo: this.filter?.parametros?.inicioPeriodo,
+          fimPeriodo: this.filter?.parametros?.fimPeriodo,
+          pageNumber: this.paginator?.pageIndex + 1,
+          pageSize: this.paginator?.pageSize,
+          sortActive: 'dataInicio',
+          sortDirection: 'desc'
+        }).toPromise());
   }
 
   public async obterDados()
@@ -86,6 +106,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.isLoading = true;
 
     await this.obterDespesasPeriodoTecnico();
+    await this.obterTecnico();
 
     this.isLoading = false;
   }
@@ -104,4 +125,94 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.onPaginationChanged();
     this.obterDados();
   }
+
+
+  criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico
+  {
+    var dp: DespesaPeriodoTecnico =
+    {
+      codDespesaPeriodo: dpi.codDespesaPeriodo,
+      codTecnico: parseInt(dpi.codTecnico),
+      codDespesaPeriodoTecnicoStatus: parseInt(dpi.status.codDespesaPeriodoTecnicoStatus),
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      codUsuarioCad: this.userSession.usuario.codUsuario
+    }
+
+    return dp;
+  }
+
+  async obterTecnico()
+  {
+    this.tecnico = (await this._tecnicoSvc.obterPorCodigo(+this.codTecnico).toPromise());
+  }
+
+  liberar(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja liberar este período?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };
+        var dp = this.criaDespesaPeriodoTecnico(dpi);
+
+        this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() =>
+        {
+          this._snack.exibirToast('Período liberado com sucesso!', 'success');
+        },
+          e =>
+          {
+            this._snack.exibirToast('Erro ao liberar período.', 'error');
+          });
+      }
+    });
+  }
+
+  listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+
+    this._dialog.open(DespesaAtendimentoAdiantamentoDialogComponent, {
+      data:
+      {
+        codTecnico: this.codTecnico,
+        codPeriodo: dpi.codDespesaPeriodo
+      }
+    });
+  }
+
+  imprimirRD(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    this._dialog.open(DespesaAtendimentoRelatorioImpressaoComponent, {
+      panelClass: 'no-padding-dialog-container',
+      data:
+      {
+        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+      }
+    });
+  }
+
+  imprimirObservacoes(dpi: DespesaPeriodoTecnicoAtendimentoItem)
+  {
+    this._dialog.open(DespesaAtendimentoObservacaoImpressaoComponent, {
+      panelClass: 'no-padding-dialog-container',
+      data:
+      {
+        codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+      }
+    });
+  }
+
+  isTecnico() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO };
+  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
 }

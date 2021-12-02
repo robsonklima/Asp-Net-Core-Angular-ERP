@@ -45,10 +45,10 @@ namespace SAT.SERVICES.Services
 
                 retorno.Add(new DashboardTecnicoDisponibilidadeTecnicoViewModel()
                 {
-                   // Usuario = tecnico.Usuario,
+                    // Usuario = tecnico.Usuario,
                     IndFerias = tecnico.IndFerias,
                     IndAtivo = tecnico.IndAtivo,
-                    CodTecnico = tecnico.CodTecnico,
+                    CodTecnico = tecnico.CodTecnico.Value,
                     CodFilial = tecnico.Filial.CodFilial,
                     NomeFilial = tecnico.Filial.NomeFilial,
 

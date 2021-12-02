@@ -28,7 +28,7 @@ namespace SAT.SERVICES.Services
         {
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
 
-            for (int i = 0; i < usuarioLogado.Perfil.NavegacoesConfiguracao.Count; i++)
+            for (int i = 0; i < usuarioLogado.Perfil?.NavegacoesConfiguracao?.Count; i++)
             {
                 usuarioLogado.Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuarioLogado
                     .Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Title.ToLower();
@@ -36,7 +36,7 @@ namespace SAT.SERVICES.Services
 
             var navegacoes = usuarioLogado.Perfil?.NavegacoesConfiguracao
                 .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
-            usuarioLogado.Perfil.NavegacoesConfiguracao = null;
+            if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
 
             return new UsuarioLoginViewModel()

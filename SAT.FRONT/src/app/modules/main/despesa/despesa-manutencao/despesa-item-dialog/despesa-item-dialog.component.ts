@@ -6,7 +6,7 @@ import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
-import { Despesa, DespesaItem, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
@@ -17,6 +17,7 @@ import moment from 'moment';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'leaflet';
 import 'leaflet-routing-machine';
+import { CidadeService } from 'app/core/services/cidade.service';
 declare var L: any;
 
 
@@ -35,8 +36,14 @@ export class DespesaItemDialogComponent implements OnInit
   rat: RelatorioAtendimento;
   despesa: Despesa;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel;
+  despesaConfiguracao: DespesaConfiguracao;
+  despesaItemAlerta: DespesaItemAlertaData;
   mapsPlaceholder: any = [];
   @ViewChild('map') private map: any;
+  isResidencial: boolean;
+  isValidating: boolean = false;
+  kmPrevisto: number;
+  tentativaKm: number = 0;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -44,6 +51,7 @@ export class DespesaItemDialogComponent implements OnInit
     private _despesaTipoSvc: DespesaTipoService,
     private _despesaItemSvc: DespesaItemService,
     private _userSvc: UserService,
+    private _cidadeSvc: CidadeService,
     private _geolocationService: GoogleGeolocationService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>)
   {
@@ -54,6 +62,8 @@ export class DespesaItemDialogComponent implements OnInit
       this.rat = data.rat;
       this.despesa = data.despesa;
       this.despesaConfiguracaoCombustivel = data.despesaConfiguracaoCombustivel;
+      this.despesaConfiguracao = data.despesaConfiguracao;
+      this.despesaItemAlerta = data.despesaItemAlerta;
     }
 
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -85,23 +95,23 @@ export class DespesaItemDialogComponent implements OnInit
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicoDeslocamento: [undefined, Validators.required],
-
-        enderecoDestino: { value: this.ordemServico?.localAtendimento.endereco ?? "Não consta", disabled: true },
-        cepDestino: { value: this.ordemServico?.localAtendimento.cep ?? "Não consta", disabled: true },
-        bairroDestino: { value: this.ordemServico?.localAtendimento.bairro ?? "Não consta", disabled: true },
-        complementoDestino: { value: this.ordemServico?.localAtendimento.enderecoComplemento ?? "Não consta", disabled: true },
-        numeroDestino: { value: this.ordemServico?.localAtendimento.numeroEnd ?? "Não consta", disabled: true },
-        cidadeDestino: { value: this.ordemServico?.localAtendimento.cidade?.nomeCidade ?? "Não consta", disabled: true },
-        ufDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa?.siglaUF ?? "Não consta", disabled: true },
-        paisDestino: { value: this.ordemServico?.localAtendimento.cidade?.unidadeFederativa.pais?.siglaPais ?? "Não consta", disabled: true },
-        latitudeDestino: { value: this.ordemServico?.localAtendimento.latitude ?? "Não consta", disabled: true },
-        longitudeDestino: { value: this.ordemServico?.localAtendimento.longitude ?? "Não consta", disabled: true },
+        codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
+        enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
+        cepDestino: [this.ordemServico?.localAtendimento?.cep, Validators.required],
+        bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
+        complementoDestino: [this.ordemServico?.localAtendimento?.enderecoComplemento],
+        numeroDestino: [this.ordemServico?.localAtendimento?.numeroEnd],
+        cidadeDestino: [this.ordemServico?.localAtendimento?.cidade?.nomeCidade, Validators.required],
+        ufDestino: [this.ordemServico?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF, Validators.required],
+        paisDestino: [this.ordemServico?.localAtendimento?.cidade?.unidadeFederativa?.pais?.siglaPais, Validators.required],
+        latitudeDestino: [this.ordemServico?.localAtendimento?.latitude, Validators.required],
+        longitudeDestino: [this.ordemServico?.localAtendimento?.longitude, Validators.required],
 
         enderecoOrigem: [undefined, Validators.required],
         cepOrigem: [undefined, Validators.required],
         bairroOrigem: [undefined, Validators.required],
         complementoOrigem: [undefined],
-        numeroOrigem: [undefined, Validators.required],
+        numeroOrigem: [undefined],
         cidadeOrigem: [undefined, Validators.required],
         ufOrigem: [undefined, Validators.required],
         paisOrigem: [undefined, Validators.required],
@@ -111,7 +121,8 @@ export class DespesaItemDialogComponent implements OnInit
         quilometragem: [undefined, Validators.required],
       }),
       step3: this._formBuilder.group({
-        revision: [undefined]
+        revision: [undefined],
+        obs: [undefined, Validators.required],
       }),
     });
 
@@ -135,7 +146,72 @@ export class DespesaItemDialogComponent implements OnInit
     return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.KM;
   }
 
-  confirmar(): void
+  public isRefeicao()
+  {
+    return this.despesaItemForm.value.step1.codDespesaTipo == DespesaTipoEnum.REFEICAO;
+  }
+
+  async confirmar()
+  {
+    var despesaItem: DespesaItem =
+      this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
+
+    this._despesaItemSvc.criar(despesaItem)
+      .subscribe(
+        () => this.dialogRef.close(true),
+        () => this.dialogRef.close(false));
+  }
+
+  async criaDespesaItemQuilometragem()
+  {
+    var codCidadeOrigem =
+      await this.obterCidadePeloNome(this.despesaItemForm.value.step2.cidadeOrigem);
+
+    var despesaItem: DespesaItem =
+    {
+      codDespesa: this.codDespesa,
+      numNF: this.despesaItemForm.value.step2.notaFiscal,
+      codDespesaTipo: this.despesaItemForm.value.step1.codDespesaTipo,
+      despesaValor: this.calculaConsumoCombustivel(),
+      codUsuarioCad: this.userSession.usuario.codUsuario,
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
+      enderecoOrigem: this.despesaItemForm.value.step2.enderecoOrigem,
+      numOrigem: this.despesaItemForm.value.step2.numeroOrigem,
+      bairroOrigem: this.despesaItemForm.value.step2.bairroOrigem,
+      codCidadeOrigem: codCidadeOrigem,
+      indResidenciaOrigem: +this.isResidencial,
+      indHotelOrigem: 0,
+      enderecoDestino: this.despesaItemForm.value.step2.enderecoDestino,
+      numDestino: this.despesaItemForm.value.step2.numeroDestino,
+      bairroDestino: this.despesaItemForm.value.step2.bairroDestino,
+      codCidadeDestino: this.ordemServico?.localAtendimento?.cidade?.codCidade,
+      sequenciaDespesaKm: 0,
+      indResidenciaDestino: +(codCidadeOrigem == this.rat.tecnico.codCidade),
+      indHotelDestino: 0,
+      kmPrevisto: this.kmPrevisto,
+      kmPercorrido: this.despesaItemForm.value.step2.quilometragem,
+      tentativaKM: this.tentativaKm.toString(),
+      obs: this.despesaItemForm.value.step3.obs,
+      latitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeOrigem : null,
+      longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null
+    };
+
+    return despesaItem;
+  }
+
+  async obterCidadePeloNome(nomeCidade: string)
+  {
+    return (await this._cidadeSvc.obterPorParametros
+      ({
+        filter: nomeCidade,
+        indAtivo: 1,
+        pageSize: 5
+      }).toPromise()).items[0]?.codCidade;
+  }
+
+  criaDespesaItemOutros(): DespesaItem
   {
     var despesaItem: DespesaItem =
     {
@@ -145,13 +221,12 @@ export class DespesaItemDialogComponent implements OnInit
       despesaValor: this.despesaItemForm.value.step2.valor,
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: 1
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
+      obs: this.despesaItemForm.value.step3.obs
     };
 
-    this._despesaItemSvc.criar(despesaItem)
-      .subscribe(
-        () => this.dialogRef.close(true),
-        () => this.dialogRef.close(false));
+    return despesaItem;
   }
 
   private onLocalInicoDeslocamentoChanged(): void
@@ -166,15 +241,14 @@ export class DespesaItemDialogComponent implements OnInit
           .controls['localInicoDeslocamento'].value === "residencial")
         {
           this.setOrigemResidencial();
-          this.disableOrigin();
+          this.isResidencial = true;
         }
         else
-        {
-          this.enableOrigin();
-        }
+          this.isResidencial = false;
       });
 
-    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].setValue("residencial");
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['localInicoDeslocamento'].setValue("residencial");
   }
 
   private onEnderecoChanged(): void
@@ -197,7 +271,9 @@ export class DespesaItemDialogComponent implements OnInit
       .value === "residencial")
       return;
 
-    var cep: string = (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].value?.toString();
+    var cep: string =
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['cepOrigem'].value?.toString();
 
     if (!cep) return;
 
@@ -212,30 +288,76 @@ export class DespesaItemDialogComponent implements OnInit
   {
     var lat = googleAddress.geometry.location.lng;
     var long = googleAddress.geometry.location.lat;
+
     if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
       long == (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].value) return;
 
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(googleAddress.geometry.location.lng);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(googleAddress.geometry.location.lat);
-    this.disableLatLgnOrigin();
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['longitudeOrigem']
+      .setValue(googleAddress.geometry.location.lng);
 
-    var endereco = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("route")).firstOrDefault();
-    if (endereco) (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(endereco.short_name);
+    (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['latitudeOrigem']
+      .setValue(googleAddress.geometry.location.lat);
 
-    var numero = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("street_number")).firstOrDefault();
-    if (numero) (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].setValue(numero.long_name);
+    var endereco = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("route"))
+      .firstOrDefault();
 
-    var bairro = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("sublocality_level_1")).firstOrDefault();
-    if (bairro) (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(bairro.long_name);
+    if (endereco)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['enderecoOrigem']
+        .setValue(endereco.short_name);
 
-    var cidade = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_2")).firstOrDefault();
-    if (cidade) (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(cidade.long_name);
+    var numero = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("street_number"))
+      .firstOrDefault();
 
-    var estado = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("administrative_area_level_1")).firstOrDefault();
-    if (estado) (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(estado.short_name);
+    if (numero)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['numeroOrigem']
+        .setValue(numero.long_name);
 
-    var pais = Enumerable.from(googleAddress.address_components).where(i => Enumerable.from(i.types).contains("country")).firstOrDefault();
-    if (pais) (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(pais.short_name);
+    var bairro = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("sublocality_level_1"))
+      .firstOrDefault();
+
+    if (bairro) (this.despesaItemForm.get('step2') as FormGroup)
+      .controls['bairroOrigem']
+      .setValue(bairro.long_name);
+
+    var cidade = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("administrative_area_level_2"))
+      .firstOrDefault();
+
+    if (cidade)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['cidadeOrigem']
+        .setValue(cidade.long_name);
+
+    var estado = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("administrative_area_level_1"))
+      .firstOrDefault();
+
+    if (estado)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['ufOrigem']
+        .setValue(estado.short_name);
+
+    var pais = Enumerable.from(googleAddress.address_components)
+      .where(i => Enumerable.from(i.types)
+        .contains("country"))
+      .firstOrDefault();
+
+    if (pais)
+      (this.despesaItemForm.get('step2') as FormGroup)
+        .controls['paisOrigem']
+        .setValue(pais.short_name);
   }
 
   calculaConsumoCombustivel(): number
@@ -243,49 +365,113 @@ export class DespesaItemDialogComponent implements OnInit
     return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 
-  revisar(): void
+  async revisar()
   {
-    this.validaQuilometragem();
+    this.isValidating = true;
+
+    await this.validaCalculoQuilometragem();
+    await this.validaDespesaRefeicao();
+
+    this.isValidating = false;
   }
 
-  async validaQuilometragem()
+  private async validaCalculoQuilometragem()
   {
-    var quilometragemLeaflet = await this.calculaQuilometragemLeaflet();
-    // var quilometragemGoogle = await this.calculaQuilometragemGoogle();
-    console.log(quilometragemLeaflet);
-    // console.log(quilometragemGoogle);
-  }
+    if (!this.isQuilometragem()) return;
 
-  async calculaQuilometragemLeaflet()
-  {
-    var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
-      (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
+    this.kmPrevisto = await this.calculaQuilometragemGoogle();
 
-    var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
-      (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
-
-    if (this.map == null)
-      this.map = L.map('map').setView(origem, destino, 1);
-
-    var routing = L.Routing.control({
-      waypoints: [origem, destino],
-      routeWhileDragging: true,
-      show: false,
-      createMarker: function (p1, p2) { }
-    })
-
-    return new Promise(resolve => routing.on('routesfound', function (e)
+    // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
+    if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&
+      Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
-      var routes = e.routes;
-      var summary = routes[0].summary;
-      // alert('A distância é de ' + summary.totalDistance / 1000 + 'km e o tempo é ' + 
-      // Math.round(summary.totalTime % 3600 / 60) + ' minutos');
-      resolve(summary.totalDistance / 1000);
-    }).addTo(this.map));
+      // centro a centro
+      if (this.despesaItemForm.value.step2.bairroOrigem.toString().toLowerCase().contains("centro") &&
+        this.despesaItemForm.value.step2.bairroDestino.toString().toLowerCase().contains("centro"))
+      {
+        (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+          .setValue(DespesaItemAlertaEnum.TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro);
+      }
+      else 
+      {
+        (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+          .setValue(DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista);
+      }
+      this.tentativaKm++;
+      this.despesaInvalida();
+    }
+    else if (1 == 1)
+    {
+
+    }
+    else this.despesaValida();
   }
 
+  private validaDespesaRefeicao()
+  {
+    if (!this.isRefeicao()) return;
 
-  async calculaQuilometragemGoogle()
+    // se o valor da refeicao informada for maior que o limite da configuracao
+    if (this.despesaItemForm.value.step2.valor > this.despesaConfiguracao.valorRefeicaoLimiteTecnico)
+    {
+      (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
+        .setValue(DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado);
+      this.despesaInvalida();
+    }
+    else if (1 == 1)
+    {
+
+    }
+    else this.despesaValida();
+  }
+
+  private despesaInvalida()
+  {
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
+  }
+
+  private despesaValida()
+  {
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].reset();
+    (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
+  }
+
+  obterMensagemAlerta()
+  {
+    var codDespesaItemAlerta =
+      this.despesaItemForm.value.step2.codDespesaItemAlerta;
+
+    if (codDespesaItemAlerta == DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado)
+      return "Valor da refeição maior que o limite especificado. Por favor, justifique abaixo."
+  }
+
+  //   async calculaQuilometragemLeaflet(): Promise<number>
+  //   {
+  //     var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
+  //       (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
+  // 
+  //     var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
+  //       (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
+  // 
+  //     if (this.map == null)
+  //       this.map = L.map('map').setView(origem, destino, 1);
+  // 
+  //     var routing = L.Routing.control({
+  //       waypoints: [origem, destino],
+  //       routeWhileDragging: true,
+  //       show: false,
+  //       createMarker: function (p1, p2) { }
+  //     })
+  // 
+  //     return new Promise(resolve => routing.on('routesfound', (e) =>
+  //     {
+  //       var routes = e.routes;
+  //       var summary = routes[0].summary;
+  //       resolve(summary.totalDistance / 1000);
+  //     }).addTo(this.map));
+  //   }
+
+  async calculaQuilometragemGoogle(): Promise<number>
   {
     var oLat = (this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value;
     var oLong = (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value;
@@ -293,10 +479,14 @@ export class DespesaItemDialogComponent implements OnInit
     var dLat = (this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value;
     var dLong = (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value;
 
-    return new Promise(resolve => this._geolocationService.calcularDistancia(oLat, oLong, dLat, dLong).subscribe(result =>
+    return new Promise(resolve => this._geolocationService.obterDistancia({
+      latitudeDestino: dLat,
+      longitudeDestino: dLong,
+      latitudeOrigem: oLat,
+      longitudeOrigem: oLong
+    }).subscribe(result =>
     {
-      resolve(result);
-
+      resolve(result.rows[0]?.elements[0]?.distance?.value / 1000);
     }));
   }
 
@@ -304,14 +494,14 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isQuilometragem())
     {
-      this.disableOrigin();
-      this.disableDestination();
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].disable();
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].disable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].enable();
     }
     else
     {
       (this.despesaItemForm.get('step2') as FormGroup).controls['quilometragem'].enable();
+      (this.despesaItemForm.get('step3') as FormGroup).controls['obs'].enable();
       (this.despesaItemForm.get('step2') as FormGroup).controls['valor'].disable();
     }
   }
@@ -343,54 +533,5 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.pais.siglaPais);
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.rat.tecnico.latitude);
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
-  }
-
-  private disableOrigin()
-  {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
-  }
-
-  private enableOrigin()
-  {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].enable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].enable();
-  }
-
-  private disableLatLgnOrigin()
-  {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
-  }
-
-  private disableDestination()
-  {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['complementoDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['numeroDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['paisDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].disable();
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].disable();
   }
 }

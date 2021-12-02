@@ -11,11 +11,13 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
         private readonly IDespesaAdiantamentoPeriodoService _despesaAdiantamentoPeriodoService;
+        private readonly IDespesaRepository _despesaRepository;
 
         public DespesaPeriodoTecnicoService(
             IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
             IDespesaPeriodoRepository despesaPeriodoRepo,
+            IDespesaRepository despesaRepository,
             IDespesaAdiantamentoPeriodoService despesaAdiantamentoPeriodoService
             )
         {
@@ -23,16 +25,18 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _despesaPeriodoRepo = despesaPeriodoRepo;
             _despesaAdiantamentoPeriodoService = despesaAdiantamentoPeriodoService;
+            _despesaRepository = despesaRepository;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesa)
         {
-            throw new System.NotImplementedException();
+            _despesaPeriodoTecnicoRepo.Atualizar(despesa);
         }
 
         public DespesaPeriodoTecnico Criar(DespesaPeriodoTecnico despesa)
         {
-            throw new System.NotImplementedException();
+            _despesaPeriodoTecnicoRepo.Criar(despesa);
+            return despesa;
         }
 
         public void Deletar(int codigo)
@@ -42,12 +46,26 @@ namespace SAT.SERVICES.Services
 
         public DespesaPeriodoTecnico ObterPorCodigo(int codigo)
         {
-            throw new System.NotImplementedException();
+            return _despesaPeriodoTecnicoRepo.ObterPorCodigo(codigo);
         }
 
         public ListViewModel ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            throw new System.NotImplementedException();
+            var despesas = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
+            despesas = ObterPropriedadesCalculadas(despesas, parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = despesas,
+                TotalCount = despesas.TotalCount,
+                CurrentPage = despesas.CurrentPage,
+                PageSize = despesas.PageSize,
+                TotalPages = despesas.TotalPages,
+                HasNext = despesas.HasNext,
+                HasPrevious = despesas.HasPrevious
+            };
+
+            return lista;
         }
     }
 }

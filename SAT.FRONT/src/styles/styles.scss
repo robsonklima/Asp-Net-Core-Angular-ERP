@@ -48,3 +48,7 @@
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+.no-padding-dialog-container .mat-dialog-container {
+    padding: 0;
+}

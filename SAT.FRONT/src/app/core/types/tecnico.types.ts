@@ -1,5 +1,6 @@
 import { Autorizada } from "./autorizada.types";
 import { Cidade } from "./cidade.types";
+import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from "./despesa-cartao-combustivel.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
@@ -70,6 +71,9 @@ export class Tecnico
     tempoResidenciaLocalAtendimento: string;
     usuario: Usuario;
     mediaTempoAtendMin: number;
+    despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
+    tecnicoConta?: TecnicoConta[];
+    tecnicoCategoriaCredito?: TecnicoCategoriaCredito;
 }
 
 export interface TecnicoData extends Meta
@@ -119,7 +123,8 @@ export enum FrotaCobrancaGaragemEnum
     "Pelo Técnico Sem Cobrança" = 3
 }
 
-export class DashboardTecnicoDisponibilidadeTecnicoViewModel{
+export class DashboardTecnicoDisponibilidadeTecnicoViewModel
+{
     codFilial: number;
     nomeFilial: string;
     indFerias: number;
@@ -129,4 +134,34 @@ export class DashboardTecnicoDisponibilidadeTecnicoViewModel{
     mediaAtendimentosPorDiaInstalacoes: number;
     mediaAtendimentosPorDiaEngenharia: number;
     tecnicoSemChamadosTransferidos: boolean;
+}
+
+export interface TecnicoConta
+{
+    codTecnicoConta: number;
+    cdTecnico: number;
+    numBanco: string;
+    numAgencia: string;
+    numConta: string;
+    indPadrao: number;
+    indAtivo: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
+}
+
+export enum TecnicoCategoriaCreditoEnum
+{
+    "A",
+    "B",
+    "C",
+    "D"
+}
+
+export interface TecnicoCategoriaCredito
+{
+    categoriaCredito: TecnicoCategoriaCreditoEnum;
+    media: number;
+    valor: number;
 }

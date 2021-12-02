@@ -1,11 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities
 {
     public class DespesaCartaoCombustivel
     {
-        [Key]
         public int CodDespesaCartaoCombustivel { get; set; }
         public string Numero { get; set; }
         public string Carro { get; set; }
@@ -17,5 +15,6 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public int? IndAtivo { get; set; }
+        public TicketLogUsuarioCartaoPlaca TicketLogUsuarioCartaoPlaca { get; set; }
     }
 }

@@ -1,0 +1,537 @@
+        <div class="flex-auto h-200 min-w-screen text-center" *transloco="let t">
+            <button class="add-button" (click)="print()" [disabled]="isLoading">
+                <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+            </button>
+            <div class="inline-block text-left print:p-0">
+                <div class="loading-shade" *ngIf="isLoading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                </div>
+                <div id="print-area" class="h-200 min-w-screen overflow-auto p-10 rounded-2xl shadow bg-card print:w-auto
+                    print:rounded-none print:shadow-none print:bg-transparent" *ngIf="!isLoading">
+
+                    <div class="flex items-start justify-between">
+                        <div class="grid grid-cols-1 gap-x-4">
+                            <div class="text-lg tracking-tight">
+                                {{ "Relatório de Despesas" | uppercase }}</div>
+                            <div class="text-lg tracking-tight">
+                                {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
+                        + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
+                        date:'dd/MM/yyyy') }}</div>
+                        </div>
+                    </div>
+
+                    <div style=" font-size: 8px !important;" class="mt-3">
+                        <div class="text-center">
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{  t('nome') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.nome | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ "CPF:"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.cpf | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('endereco') + ":"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.endereco + ", " + despesaPeriodoTecnico?.tecnico?.cidade?.nomeCidade + " - " + despesaPeriodoTecnico?.tecnico?.cidade?.unidadeFederativa?.siglaUF | uppercase }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('veiculo') + ":"| uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().carro }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{  t('placa') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().placa }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('ano') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().ano }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="inline-block mr-2 border-b border-t border-r">
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('cartao combustivel') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ obterCartaoCombustivel().numero }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{  t('filial') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ despesaPeriodoTecnico?.tecnico?.filial?.nomeFilial | uppercase }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{  t('centro de custo') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ centroDeCusto }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block mr-2 border-r border-b border-t">
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('banco') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ tecnicoConta?.numBanco ?? "---" }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('agencia') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ tecnicoConta?.numAgencia ?? "---" }}
+                                    </p>
+                                </div>
+                                <div class="flex border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('conta') + ":" | uppercase }}
+                                    </p>
+                                    <p>
+                                        {{ tecnicoConta?.numConta ?? "---" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                            <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                <div class="border-l text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('data') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('dia') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('os') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('rat') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('cliente') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('local origem') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('local destino') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    H.I.
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    H.F.
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    KM
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    &nbsp;
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    NF
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('tipo') | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-r border-b border-t">
+                                    {{  t('valor') | uppercase }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngFor="let d of despesaPeriodoTecnico.despesas">
+                            <ng-container *ngFor="let e of d.despesaItens">
+                                <div class="text-center" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                                    <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                        <div class="border-l text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraInicio | date:'dd/MM/yyyy' }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  (d?.relatorioAtendimento?.dataHoraInicio | date : 'full' : '' : 'pt-BR').split(',')[0] | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codOS }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.codRAT }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  obterCliente(d) | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ (e?.enderecoOrigem ? e?.enderecoOrigem + (e?.numOrigem ? ", " + e?.numOrigem : "") : "") | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  (e?.enderecoDestino ? e?.enderecoDestino + (e?.numDestino ? ", " + e?.numDestino : "") : "") | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraInicio | date:'HH:mm' }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  d?.relatorioAtendimento?.dataHoraSolucao | date:'HH:mm' }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ e?.kmPercorrido }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            &nbsp;
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{ e?.numNF }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e?.despesaTipo.nomeTipo | uppercase }}
+                                        </div>
+                                        <div class="text-center font-mono border-b border-r">
+                                            {{  e?.despesaValor | currency:'BRL':'symbol-narrow' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <div class="text-center" *ngIf="despesaPeriodoTecnico?.despesas?.length > 0">
+                            <div class="grid grid-flow-col auto-cols-fr text-center justify">
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <div class="text-center font-semibold font-mono border-l border-b border-r">
+                                    {{ "total km" | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-b border-r">
+                                    {{  obterTotalQuilometragem() }}
+                                </div>
+                                <div class="border-b">&nbsp;</div>
+                                <div class="border-b">&nbsp;</div>
+                                <div class="text-center font-semibold font-mono border-l border-b border-r">
+                                    {{ "total despesa" | uppercase }}
+                                </div>
+                                <div class="text-center font-semibold font-mono border-b border-r">
+                                    {{  obterTotalDespesa() | currency:'BRL':'symbol-narrow' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3 mb-1 font-semibold">
+                            TOTALIZAÇÃO DE DESPESAS
+                        </div>
+                        <div class="text-center">
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ "aluguel de carro:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalAluguelCarro() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ "correio:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCorreio() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold mr-1">
+                                        {{ t('frete') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalFrete() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ t('outros') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalOutros() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ t('pedagio') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPedagio() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ t('taxi') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalTaxi() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{  "cartão telefônico:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCartaoTelefonico() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ "estacionamento:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalEstacionamento() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ 'hotel:' | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalHotel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ 'passagem aérea:' | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPassagemAerea() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ t('cartao combustivel:')| uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ t('telefone') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalTelefone() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{  t('combustivel') + ":" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalCombustivel() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ "ferramenta/instrumento:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalFerramenta() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ "ônibus/metrô:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalOnibus() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="inline-block border-b border-t border-r max-w-21">
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{  "peça/componente:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalPecas() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ "refeição:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalRefeicao() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                                <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                    <p class="font-bold">
+                                        {{ "internet:" | uppercase }}
+                                    </p>
+                                    <p class="text-right">
+                                        {{ obterTotalInternet() | currency:'BRL':'symbol-narrow' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3 mb-1 font-semibold">
+                                TOTAIS
+                            </div>
+                            <div class="text-center">
+                                <div class="inline-block border-b border-t border-r">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                        <p class="font-bold">
+                                            {{ t('despesas') + ":" | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalDespesaSemKM() | currency:'BRL':'symbol-narrow' }}
+                                        </p>
+                                    </div>
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                        <p class="font-bold">
+                                            {{ t('adiantamentos') + ":" | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalAdiantamentos() | currency:'BRL':'symbol-narrow' }}
+                                        </p>
+                                    </div>
+                                    <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                        <p class="font-bold">
+                                            {{ 'receber via depósito:' | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalViaDeposito() | currency:'BRL':'symbol-narrow' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="inline-block border-b border-t border-r">
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                        <p class="font-bold">
+                                            {{  "percentual outros:" | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ (obterTotalDespesaSemKM() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
+                                        </p>
+                                    </div>
+                                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                                        <p class="font-bold">
+                                            {{ "percentual CB:" | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ (obterTotalCartaoCombustivel() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
+                                        </p>
+                                    </div>
+                                    <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                                        <p class="font-bold">
+                                            {{ 'Crédito via CB:' | uppercase }}
+                                        </p>
+                                        <p class="font-bold text-right">
+                                            {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style=" font-size: 8px !important;" class="mt-5">
+                                <div class="text-center">
+                                    Revisei as despesas deste relatório e estou de pleno acordo com as mesmas.
+                                </div>
+
+                                <div style=" font-size: 8px !important;" class="mt-5 text-center">
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Data</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Funcionário</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Data</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Administrativo</div>
+                                    </div>
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Data</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Coordenador</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Líder</div>
+                                    </div>
+                                </div>
+
+                                <div style=" font-size: 8px !important;" class="mt-5 text-center">
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Gerência</div>
+                                    </div>
+
+                                    <div class="inline-block text-center mr-10">
+                                        <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                        <div>Controladoria</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>

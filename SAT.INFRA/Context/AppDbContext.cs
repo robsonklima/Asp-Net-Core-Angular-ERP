@@ -23,6 +23,8 @@ namespace SAT.INFRA.Context
         public DbSet<TipoServico> TipoServico { get; set; }
         public DbSet<LocalAtendimento> LocalAtendimento { get; set; }
         public DbSet<Equipamento> Equipamento { get; set; }
+        public DbSet<DespesaConfiguracao> DespesaConfiguracao { get; set; }
+        public DbSet<DespesaItemAlerta> DespesaItemAlerta { get; set; }
         public DbSet<GrupoEquipamento> GrupoEquipamento { get; set; }
         public DbSet<TipoEquipamento> TipoEquipamento { get; set; }
         public DbSet<EquipamentoContrato> EquipamentoContrato { get; set; }
@@ -95,9 +97,15 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaConfiguracaoCombustivel> DespesaConfiguracaoCombustivel { get; set; }
         public DbSet<DespesaItem> DespesaItem { get; set; }
         public DbSet<DespesaPeriodo> DespesaPeriodo { get; set; }
+        public DbSet<DespesaProtocolo> DespesaProtocolo { get; set; }
         public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
+        public DbSet<DespesaAdiantamentoTipo> DespesaAdiantamentoTipo { get; set; }
+        public DbSet<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
+        public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
+        public DbSet<TicketLogPedidoCredito> TicketLogPedidoCredito { get; set; }
+        public DbSet<TecnicoConta> TecnicoConta { get; set; }
         public DbSet<Turno> Turno { get; set; }
         public DbSet<DashboardIndicadores> DashboardIndicadores { get; set; }
 
@@ -109,6 +117,13 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
             modelBuilder.Entity<AgendaTecnico>(new AgendaTecnicoMap().Configure);
+            modelBuilder.Entity<DespesaPeriodoTecnico>(new DespesaPeriodoTecnicoMap().Configure);
+            modelBuilder.Entity<TicketLogPedidoCredito>(new TicketLogPedidoCreditoMap().Configure);
+            modelBuilder.Entity<TicketLogUsuarioCartaoPlaca>(new TicketLogUsuarioCartaoPlacaMap().Configure);
+            modelBuilder.Entity<DespesaCartaoCombustivel>(new DespesaCartaoCombustivelMap().Configure);
+            modelBuilder.Entity<Tecnico>(new TecnicoMap().Configure);
+            modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
+            modelBuilder.Entity<TecnicoConta>(new TecnicoContaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -142,6 +157,14 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DispBBEquipamentoContrato>()
                 .HasKey(e => e.CodDispBBEquipamentoContrato);
 
+            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
+                        .HasKey(ra => new { ra.CodDespesaProtocolo, ra.CodDespesaPeriodoTecnico });
+
+            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
+                        .HasOne(p => p.DespesaPeriodoTecnico)
+                        .WithOne(p => p.DespesaProtocoloPeriodoTecnico)
+                        .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
+                        .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
         }
     }
 }

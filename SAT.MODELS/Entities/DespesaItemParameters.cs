@@ -1,9 +1,10 @@
 using SAT.MODELS.Entities.Helpers;
+using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities
 {
     public class DespesaItemParameters : QueryStringParameters
     {
-        public int? CodDespesa { get; set; }
+        public string CodDespesa { get; set; }
     }
 }

@@ -1,0 +1,24 @@
+<ng-container *transloco="let t">
+    <div class="text-2xl font-semibold leading-tight mb-4">{{t('periodos aprovados')}}</div>
+    <div class="flex justify-center align-middle items-center" *ngIf="isLoading">
+        <mat-progress-spinner diameter="30" [mode]="'indeterminate'">
+        </mat-progress-spinner>
+    </div>
+    <div *ngIf="!isLoading">
+        <mat-selection-list [(ngModel)]="selectedOptions" class="overflow-auto min-h-64 max-h-64">
+            <mat-list-option class="text-sm" *ngFor="let a of aprovadas.items" [value]="a.codDespesaPeriodoTecnico">
+                {{ a.tecnico?.nome +', ' + (t('de') | uppercase) + " " + (a.despesaPeriodo.dataInicio  | date:'dd/MM/yyyy') + " " + (t('ate') | uppercase) + " " + (a.despesaPeriodo.dataFim  | date:'dd/MM/yyyy')}}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+
+    <div class="grid sm:grid-cols-10 gap-x-6 flex-col flex-auto p-2 pb-0 overflow-hidden">
+        <button side (click)="cancelar()" class="fuse-mat-dense sm:col-span-5" color="warn" mat-button>
+            {{ t('cancelar') }}
+        </button>
+        <button side (click)="confirmar()" [disabled]="selectedOptions.length < 1" class="fuse-mat-dense sm:col-span-5"
+            [color]="'primary'" e mat-button>
+            {{ t('salvar') }}
+        </button>
+    </div>
+</ng-container>

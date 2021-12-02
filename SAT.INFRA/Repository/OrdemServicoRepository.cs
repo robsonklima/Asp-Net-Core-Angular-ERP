@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -80,6 +80,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.LocalAtendimento)
                 .Include(os => os.LocalAtendimento.Cidade)
                 .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
+                .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa.Pais)
                 .Include(os => os.Equipamento)
                 .Include(os => os.EquipamentoContrato)
                 .Include(os => os.EquipamentoContrato.AcordoNivelServico)

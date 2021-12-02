@@ -5,27 +5,47 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace SAT.INFRA.Repository
 {
-    public class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
+    public partial class DespesaPeriodoTecnicoRepository : IDespesaPeriodoTecnicoRepository
     {
         private readonly AppDbContext _context;
+        private readonly IDespesaRepository _despesaRepository;
 
-        public DespesaPeriodoTecnicoRepository(AppDbContext context)
+        public DespesaPeriodoTecnicoRepository(
+            AppDbContext context,
+            IDespesaRepository despesaRepository)
         {
             _context = context;
+            _despesaRepository = despesaRepository;
         }
 
         public void Atualizar(DespesaPeriodoTecnico despesaTecnico)
         {
-            throw new NotImplementedException();
+            DespesaPeriodoTecnico d =
+            _context.DespesaPeriodoTecnico
+            .SingleOrDefault(l => l.CodDespesaPeriodoTecnico == despesaTecnico.CodDespesaPeriodoTecnico);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaPeriodoTecnico despesa)
         {
-            throw new NotImplementedException();
+            _context.Add(despesa);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
@@ -35,35 +55,47 @@ namespace SAT.INFRA.Repository
 
         public DespesaPeriodoTecnico ObterPorCodigo(int codigo)
         {
-            throw new NotImplementedException();
+            return _context.DespesaPeriodoTecnico
+                .Include(dpt => dpt.DespesaPeriodo)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.DespesaItemAlerta)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.CidadeOrigem)
+                            .ThenInclude(dpt => dpt.UnidadeFederativa)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dp => dp.CidadeDestino)
+                            .ThenInclude(dpt => dpt.UnidadeFederativa)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.DespesaItens)
+                        .ThenInclude(dpi => dpi.DespesaTipo)
+                .Include(dpt => dpt.Despesas)
+                    .ThenInclude(dp => dp.RelatorioAtendimento)
+                .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
+                .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.Filial)
+                .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.TecnicoConta)
+                .Include(dpt => dpt.Tecnico)
+                    .ThenInclude(dpt => dpt.DespesaCartaoCombustivelTecnico)
+                        .ThenInclude(dpt => dpt.DespesaCartaoCombustivel)
+                            .ThenInclude(dpt => dpt.TicketLogUsuarioCartaoPlaca)
+                .Include(dpt => dpt.DespesaProtocoloPeriodoTecnico)
+                .Include(dpt => dpt.TicketLogPedidoCredito)
+                .FirstOrDefault(i => i.CodDespesaPeriodoTecnico == codigo);
         }
 
         public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesasPeriodoTecnico = _context.DespesaPeriodoTecnico
-                .Include(dpt => dpt.DespesaPeriodo)
-                .Include(dpt => dpt.Despesas)
-                    .ThenInclude(dp => dp.DespesaItens)
-                .Include(dpt => dpt.DespesaPeriodoTecnicoStatus)
-                .AsQueryable();
+            var query = _context.DespesaPeriodoTecnico.AsQueryable();
 
-            if (parameters.CodDespesaPeriodo.HasValue)
-                despesasPeriodoTecnico =
-                    despesasPeriodoTecnico.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
+            query = AplicarIncludes(query);
+            query = AplicarFiltros(query, parameters);
+            query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            if (parameters.CodTecnico.HasValue)
-                despesasPeriodoTecnico =
-                    despesasPeriodoTecnico.Where(e => e.CodTecnico == parameters.CodTecnico);
-
-            if (parameters.IndAtivoPeriodo.HasValue)
-                despesasPeriodoTecnico =
-                    despesasPeriodoTecnico.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
-
-            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesasPeriodoTecnico =
-                    despesasPeriodoTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-
-            return PagedList<DespesaPeriodoTecnico>.ToPagedList(despesasPeriodoTecnico, parameters.PageNumber, parameters.PageSize);
+            return PagedList<DespesaPeriodoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

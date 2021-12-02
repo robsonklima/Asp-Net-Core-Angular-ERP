@@ -19,14 +19,14 @@ import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { TipoIntervencao, tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
+import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
-import { PerfilEnum } from 'app/core/types/perfil.types';
 import Enumerable from 'linq';
+import { RoleEnum } from 'app/core/user/user.types';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -79,7 +79,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.isAddMode = !this.codOS;
     this.inicializarForm();
 
-    this.perfis = PerfilEnum;
+    this.perfis = RoleEnum;
 
     // Init
     this.obterTiposIntervencao();
@@ -298,8 +298,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       var equipContrato = Enumerable.from(this.equipamentosContrato)
         .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
 
-      this.form.controls['codRegiao'].setValue(equipContrato.codRegiao);
-      this.form.controls['codAutorizada'].setValue(equipContrato.codAutorizada);
+      this.form.controls['codRegiao'].setValue(equipContrato?.codRegiao);
+      this.form.controls['codAutorizada'].setValue(equipContrato?.codAutorizada);
     });
   }
 
@@ -329,8 +329,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     let perfil = this.userSession.usuario.perfil?.codPerfil;
 
     let colecaoPerfil = [
-      PerfilEnum.CLIENTE_BASICO_BIOMETRIA,
-      PerfilEnum.CLIENTE_BASICO_C_RESTRICOES
+      RoleEnum.CLIENTE_BASICO_BIOMETRIA,
+      RoleEnum.CLIENTE_BASICO_C_RESTRICOES
     ];
 
     if (colecaoPerfil.includes(perfil))
@@ -344,64 +344,80 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
 
   private validaIntervencao(): void
   {
-    let perfil = this.userSession.usuario.perfil?.codPerfil;
-    let intervencao = this.form.controls['codTipoIntervencao'].value;
-    let intervencaoOriginal = this.ordemServico?.codTipoIntervencao;
+    let perfilUsuarioLogado = this.userSession.usuario?.perfil?.codPerfil;
+    let novoTipoIntervencao = this.form.controls['codTipoIntervencao'].value;
 
-    let colecaoPerfil = [
-      //PerfilEnum.ADMINISTRADOR, 
-      PerfilEnum.FINANCEIRO_COORDENADOR,
-      PerfilEnum.FINANCEIRO_ADMINISTRATIVO,
-      PerfilEnum.PONTO_FINANCEIRO,
-      PerfilEnum.FINANCEIRO_COORDENADOR_PONTO,
-      PerfilEnum.FILIAIS_SUPERVISOR,
-      PerfilEnum.FILIAL_COORDENADOR,
-      PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORD
+    var podemAlterarOrcamento = [
+      RoleEnum.ADMIN,
+      RoleEnum.FINANCEIRO_COORDENADOR,
+      RoleEnum.FINANCEIRO_ADMINISTRATIVO,
+      RoleEnum.PONTO_FINANCEIRO,
+      RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
+      RoleEnum.FILIAIS_SUPERVISOR,
+      RoleEnum.FILIAL_COORDENADOR,
+      RoleEnum.FILIAL_LIDER
     ];
 
-    let colecaoIntervencao = [
-      tipoIntervencaoConst.ORC_APROVADO,
-      tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
-      tipoIntervencaoConst.ORC_REPROVADO
+    var podemAlterarOrcamentoFilial = [
+      RoleEnum.ADMIN,
+      RoleEnum.FINANCEIRO_COORDENADOR,
+      RoleEnum.FINANCEIRO_ADMINISTRATIVO,
+      RoleEnum.PONTO_FINANCEIRO,
+      RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
+      RoleEnum.FILIAIS_SUPERVISOR,
+      RoleEnum.FILIAL_COORDENADOR,
+      RoleEnum.FILIAL_LIDER
     ];
 
-    let colecaoIntervencaoPerfilFilial = [
-      tipoIntervencaoConst.ORCAMENTO,
-      tipoIntervencaoConst.ORC_APROVADO,
-      tipoIntervencaoConst.ORC_REPROVADO,
-      tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE,
-      tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO,
-      tipoIntervencaoConst.CORRETIVA
+    var perfisPodemAlterarCorretiva = [
+      RoleEnum.ADMIN,
+      RoleEnum.PV_COORDENADOR_DE_CONTRATO
     ];
 
-    if (!colecaoPerfil.includes(perfil))
+    var perfisPodemApenasCriarAutorizacaoDeslocamento = [
+      RoleEnum.FILIAL_LIDER
+    ];
+
+    var intervencoesDeOrcamento = [
+      TipoIntervencaoEnum.ORC_APROVADO,
+      TipoIntervencaoEnum.ORC_REPROVADO,
+      TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE
+    ];
+
+    var intervencoesDeOrcamentoFilial = [
+      TipoIntervencaoEnum.ORCAMENTO,
+      TipoIntervencaoEnum.ORC_APROVADO,
+      TipoIntervencaoEnum.ORC_REPROVADO,
+      TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE,
+      TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+    ];
+
+    // lider só pode criar autorização deslocamento
+    if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) && novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
     {
-      if (colecaoIntervencao.includes(intervencao))
-        this.form.controls['codTipoIntervencao'].setErrors({
-          'naoPermiteAlterarOrcamento': true
-        })
-    } else
+      this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
+      return;
+    }
+    // só RPV pode alterar para corretiva
+    else if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado))
     {
-      this.form.controls['codTipoIntervencao'].setErrors(null)
+      this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarCorretiva': true });
+      return;
+    }
+    else if (intervencoesDeOrcamento.includes(novoTipoIntervencao))
+    {
+      if (!podemAlterarOrcamento.includes(perfilUsuarioLogado))
+        this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
+      return;
+    }
+    else if (intervencoesDeOrcamentoFilial.includes(novoTipoIntervencao))
+    {
+      if (!podemAlterarOrcamentoFilial.includes(perfilUsuarioLogado))
+        this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
+      return;
     }
 
-    let colecaoPerfilAlteraCorretiva = [
-      PerfilEnum.PV_COORDENADOR_DE_CONTRATO
-    ];
-
-    let intervencaoCorretiva = [tipoIntervencaoConst.CORRETIVA];
-
-    if (colecaoPerfilAlteraCorretiva.includes(perfil))
-    {
-      if (intervencaoCorretiva.includes(intervencaoOriginal))
-      {
-        if (!colecaoIntervencaoPerfilFilial.includes(intervencao))
-          this.form.controls['codTipoIntervencao'].setErrors({
-            'naoPermiteAlterarCorretiva': true
-          })
-      }
-    }
-
+    this.form.controls['codTipoIntervencao'].setErrors(null);
   }
 
   private atualizar(): void

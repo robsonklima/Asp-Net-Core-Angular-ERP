@@ -50,33 +50,35 @@
                                         {{ t('filial') }}
                                     </div>
                                 </div>
-                                <ng-container *ngIf="tecnicos?.items.length">
+                                <ng-container *ngIf="tecnicos?.items?.length">
                                     <ng-container *ngFor="let tec of tecnicos?.items">
-                                        <div class="list-grid-tecnico-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                                            *transloco="let t">
-                                            <div class="hidden md:block truncate">
-                                                {{ tec.tecnico.nome | uppercase }}
+                                        <a [routerLink]="'/despesa/atendimentos/'+tec.tecnico.codTecnico">
+                                            <div class="list-grid-tecnico-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                *transloco="let t">
+                                                <div class="hidden md:block truncate">
+                                                    {{ tec.tecnico.nome | uppercase }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ tec.saldoAdiantamento | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (tec.indAtivo ? t('sim') : t('nao')) | uppercase }}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ (tec.liberado ? t('sim') : t('nao')) | uppercase}}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ tec.tecnico.filial?.nomeFilial | uppercase }}
+                                                </div>
                                             </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ tec.saldoAdiantamento | currency:'BRL':'symbol-narrow' }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ (tec.indAtivo ? t('sim') : t('nao')) | uppercase }}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ (tec.liberado ? t('sim') : t('nao')) | uppercase}}
-                                            </div>
-                                            <div class="hidden md:block truncate">
-                                                {{ tec.tecnico.filial?.nomeFilial | uppercase }}
-                                            </div>
-                                        </div>
+                                        </a>
                                     </ng-container>
                                 </ng-container>
                             </div>
                             <mat-paginator [hidden]="!tecnicos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="tecnicos?.totalCount"
-                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" [showFirstLastButtons]="true"
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" [showFirstLastButtons]="true"
                                 (page)="paginar()">
                             </mat-paginator>
                         </ng-container>

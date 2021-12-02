@@ -43,6 +43,31 @@ import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manuten
 import { MatRadioModule } from '@angular/material/radio';
 import { DespesaItemDialogComponent } from './despesa-manutencao/despesa-item-dialog/despesa-item-dialog.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
+import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
+import { DespesaCartaoCombustivelDialogComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-dialog/despesa-cartao-combustivel-dialog.component';
+import { DespesaAdiantamentoListaComponent } from './despesa-adiantamento-lista/despesa-adiantamento-lista.component';
+import { DespesaAdiantamentoFiltroComponent } from './despesa-adiantamento-filtro/despesa-adiantamento-filtro.component';
+import { DespesaProtocoloListaComponent } from './despesa-protocolo-lista/despesa-protocolo-lista.component';
+import { DespesaProtocoloFiltroComponent } from './despesa-protocolo-filtro/despesa-protocolo-filtro.component';
+import { DespesaProtocoloDetalheComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe.component';
+import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
+import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
+import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
+import { DespesaCreditoCartaoFiltroComponent } from './despesa-credito-cartao-filtro/despesa-credito-cartao-filtro.component';
+import { DespesaPeriodoListaComponent } from './despesa-periodo-lista/despesa-periodo-lista.component';
+import { DespesaPeriodoFiltroComponent } from './despesa-periodo-filtro/despesa-periodo-filtro.component';
+import { DespesaAtendimentoReprovacaoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component';
+import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-lista/despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
+import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
+import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
+import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-cartao-lista/despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
+import { DespesaAdiantamentoConsultaComponent } from './despesa-adiantamento-consulta/despesa-adiantamento-consulta.component';
+import { DespesaPeriodoFormComponent } from './despesa-periodo-form/despesa-periodo-form.component';
+import { DespesaAdiantamentoFormComponent } from './despesa-adiantamento-form/despesa-adiantamento-form.component';
+import { DespesaCartaoCombustivelFormComponent } from './despesa-cartao-combustivel-form/despesa-cartao-combustivel-form.component';
+import { DespesaConfiguracaoListaComponent } from './despesa-configuracao-lista/despesa-configuracao-lista.component';
+import { DespesaConfiguracaoFormComponent } from './despesa-configuracao-form/despesa-configuracao-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -60,7 +85,32 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaTecnicoFiltroComponent,
       DespesaAtendimentoRelatorioListaComponent,
       DespesaManutencaoComponent,
-      DespesaItemDialogComponent
+      DespesaItemDialogComponent,
+      DespesaCartaoCombustivelListaComponent,
+      DespesaCartaoCombustivelDetalheComponent,
+      DespesaCartaoCombustivelDialogComponent,
+      DespesaAdiantamentoListaComponent,
+      DespesaAdiantamentoFiltroComponent,
+      DespesaProtocoloListaComponent,
+      DespesaProtocoloFiltroComponent,
+      DespesaProtocoloDetalheComponent,
+      DespesaProtocoloDetalhePeriodosDialogComponent,
+      DespesaProtocoloDetalheImpressaoComponent,
+      DespesaCreditoCartaoListaComponent,
+      DespesaCreditoCartaoFiltroComponent,
+      DespesaPeriodoListaComponent,
+      DespesaPeriodoFiltroComponent,
+      DespesaAtendimentoReprovacaoListaComponent,
+      DespesaAtendimentoAdiantamentoDialogComponent,
+      DespesaAtendimentoRelatorioImpressaoComponent,
+      DespesaAtendimentoObservacaoImpressaoComponent,
+      DespesaCreditoCreditarDialogComponent,
+      DespesaAdiantamentoConsultaComponent,
+      DespesaPeriodoFormComponent,
+      DespesaAdiantamentoFormComponent,
+      DespesaCartaoCombustivelFormComponent,
+      DespesaConfiguracaoListaComponent,
+      DespesaConfiguracaoFormComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

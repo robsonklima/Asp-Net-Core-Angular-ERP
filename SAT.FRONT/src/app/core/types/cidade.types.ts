@@ -3,7 +3,8 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Regiao } from "./regiao.types";
 import { UnidadeFederativa } from "./unidade-federativa.types";
 
-export class Cidade {
+export class Cidade
+{
     codCidade: number;
     nomeCidade: string;
     latitude: string;
@@ -27,11 +28,13 @@ export class Cidade {
     codRegiaoPOS: number;
 }
 
-export interface CidadeData extends Meta {
+export interface CidadeData extends Meta
+{
     items: Cidade[];
 };
 
-export interface CidadeParameters extends QueryStringParameters {
+export interface CidadeParameters extends QueryStringParameters
+{
     codCidade?: number;
     indAtivo?: number;
     codUF?: number;

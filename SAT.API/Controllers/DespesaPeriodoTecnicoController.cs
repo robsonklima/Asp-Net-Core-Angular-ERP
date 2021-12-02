@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SAT.API.Authorization;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -22,8 +24,9 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
             _despesaPeriodoTecnico.ObterPorParametros(parameters);
 
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_TECNICO_DE_CAMPO, RoleEnum.FILIAL_LIDER)]
         [HttpGet("Atendimentos")]
-        public ListViewModel GetAtendimento([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
+        public ListViewModel GetAtendimentos([FromQuery] DespesaPeriodoTecnicoParameters parameters) =>
             _despesaPeriodoTecnico.ObterAtendimentos(parameters);
 
         [HttpGet("{codDespesaPeriodoTecnico}")]

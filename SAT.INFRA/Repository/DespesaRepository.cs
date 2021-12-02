@@ -47,8 +47,15 @@ namespace SAT.INFRA.Repository
             .Include(d => d.RelatorioAtendimento)
             .AsQueryable();
 
-            if (parameters.CodTecnico.HasValue)
-                despesas = despesas.Where(e => e.CodTecnico == parameters.CodTecnico);
+            if (!string.IsNullOrEmpty(parameters.CodTecnico))
+            {
+                var codigos = parameters.CodTecnico.Split(",").Select(a => a.Trim()).Distinct();
+                despesas = despesas.Where(d => codigos.Any(p => p == d.CodTecnico.ToString()));
+            }
+
+            if (parameters.DataHoraInicioRAT.HasValue)
+                despesas = despesas.Where(e => e.RelatorioAtendimento != null &&
+                    e.RelatorioAtendimento.DataHoraInicio >= parameters.DataHoraInicioRAT);
 
             if (parameters.CodDespesaPeriodo.HasValue)
                 despesas = despesas.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);

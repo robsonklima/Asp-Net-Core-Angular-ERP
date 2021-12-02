@@ -5,6 +5,8 @@ using SAT.MODELS.Helpers;
 using System;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using SAT.MODELS.Entities.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -19,7 +21,23 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaItem despesaItem)
         {
-            throw new NotImplementedException();
+            DespesaItem d =
+             _context.DespesaItem
+             .FirstOrDefault(l => l.CodDespesaItem == despesaItem.CodDespesaItem);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesaItem);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaItem despesaItem)
@@ -30,7 +48,21 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            throw new NotImplementedException();
+            DespesaItem di = _context.DespesaItem.SingleOrDefault(p => p.CodDespesaItem == codigo);
+
+            if (di != null)
+            {
+                _context.DespesaItem.Remove(di);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
+                }
+            }
         }
 
         public DespesaItem ObterPorCodigo(int codigo)
@@ -42,8 +74,11 @@ namespace SAT.INFRA.Repository
         {
             var despesaItens = _context.DespesaItem.AsQueryable();
 
-            if (parameters.CodDespesa.HasValue)
-                despesaItens = despesaItens.Where(e => e.CodDespesa == parameters.CodDespesa);
+            if (!string.IsNullOrEmpty(parameters.CodDespesa))
+            {
+                var codigos = parameters.CodDespesa.Split(",").Select(i => i.Trim()).Distinct();
+                despesaItens = despesaItens.Where(t => codigos.Any(a => a == t.CodDespesa.ToString()));
+            }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesaItens = despesaItens.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

@@ -1,0 +1,70 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer-content>
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+                </div>
+                <div>
+                    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                        {{ t('cartoes combustivel') }}
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                    </mat-form-field>
+
+                    <button class="ml-4" mat-icon-button [routerLink]="['/despesa/cartoes-combustivel/form']">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-auto overflow-hidden">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid-despesa-cartao-combustivel z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+                                    <div>
+                                        {{ t('numero do cartao') }}
+                                    </div>
+                                    <div>
+                                        {{ t('ativo') }}
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="cartoes?.items.length">
+                                    <ng-container *ngFor="let cc of cartoes?.items">
+                                        <a
+                                            [routerLink]="'/despesa/cartoes-combustivel/detalhe/' + cc.codDespesaCartaoCombustivel">
+                                            <div class="list-grid-despesa-cartao-combustivel grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                                *transloco="let t">
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.numero | mask: '0000 0000 0000 0000'}}
+                                                </div>
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.indAtivo ? "SIM" : "NÃO" }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <mat-paginator [hidden]="!cartoes?.items?.length"
+                                class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="cartoes?.totalCount"
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

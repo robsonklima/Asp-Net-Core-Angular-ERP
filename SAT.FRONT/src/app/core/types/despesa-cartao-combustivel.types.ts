@@ -1,6 +1,9 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Tecnico } from "./tecnico.types";
+import { TicketLogUsuarioCartaoPlaca } from "./ticketlog-types";
 
-export class DespesaCartaoCombustivel {
+export class DespesaCartaoCombustivel
+{
     codDespesaCartaoCombustivel: number;
     numero: string;
     carro: string;
@@ -12,13 +15,38 @@ export class DespesaCartaoCombustivel {
     codUsuarioManut?: string;
     dataHoraCad: Date;
     indAtivo: number;
+    ticketLogUsuarioCartaoPlaca: TicketLogUsuarioCartaoPlaca;
 }
 
-export interface DespesaCartaoCombustivelData extends Meta {
+export interface DespesaCartaoCombustivelData extends Meta
+{
     items: DespesaCartaoCombustivel[]
 };
 
-export interface DespesaCartaoCombustivelParameters extends QueryStringParameters {
+export interface DespesaCartaoCombustivelParameters extends QueryStringParameters
+{
     codDespesaCartaoCombustivel?: number;
     indAtivo?: number;
+};
+
+export class DespesaCartaoCombustivelTecnico
+{
+    codDespesaCartaoCombustivelTecnico?: number;
+    codDespesaCartaoCombustivel: number;
+    codTecnico: number;
+    tecnico?: Tecnico;
+    dataHoraInicio?: string;
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
+    despesaCartaoCombustivel?: DespesaCartaoCombustivel;
+}
+
+export interface DespesaCartaoCombustivelTecnicoData extends Meta
+{
+    items: DespesaCartaoCombustivelTecnico[]
+};
+
+export interface DespesaCartaoCombustivelTecnicoParameters extends QueryStringParameters
+{
+    codDespesaCartaoCombustivel?: number;
 };

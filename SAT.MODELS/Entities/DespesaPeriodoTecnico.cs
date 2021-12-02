@@ -1,23 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class DespesaPeriodoTecnico
     {
-        [Key]
-        public int CodDespesaPeriodoTecnico { get; set; }
+        public int? CodDespesaPeriodoTecnico { get; set; }
         public int CodDespesaPeriodo { get; set; }
-        [ForeignKey("CodDespesaPeriodo")]
-        public DespesaPeriodo DespesaPeriodo { get; set; }
         public int CodTecnico { get; set; }
-        [ForeignKey("CodTecnico, CodDespesaPeriodo")]
-        public List<Despesa> Despesas { get; set; }
         public int CodDespesaPeriodoTecnicoStatus { get; set; }
-        [ForeignKey("CodDespesaPeriodoTecnicoStatus")]
-        public DespesaPeriodoTecnicoStatus DespesaPeriodoTecnicoStatus { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
@@ -35,5 +26,11 @@ namespace SAT.MODELS.Entities
         public byte? IndCompensacao { get; set; }
         public DateTime? DataHoraCompensacao { get; set; }
         public string CodUsuarioCompensacao { get; set; }
+        public virtual DespesaProtocoloPeriodoTecnico DespesaProtocoloPeriodoTecnico { get; set; }
+        public List<Despesa> Despesas { get; set; }
+        public DespesaPeriodoTecnicoStatus DespesaPeriodoTecnicoStatus { get; set; }
+        public Tecnico Tecnico { get; set; }
+        public virtual DespesaPeriodo DespesaPeriodo { get; set; }
+        public virtual TicketLogPedidoCredito TicketLogPedidoCredito { get; set; }
     }
 }

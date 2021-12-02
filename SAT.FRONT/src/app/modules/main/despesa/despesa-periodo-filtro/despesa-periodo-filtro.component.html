@@ -1,0 +1,50 @@
+<div class="flex-auto" *transloco="let t">
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
+        <div class="flex justify-between">
+            <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
+                {{ t('filtros') }}
+            </div>
+
+            <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <ng-container>
+        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('periodo') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerPeriodo">
+                        <input formControlName="inicioPeriodo" matStartDate placeholder="Início">
+                        <input formControlName="fimPeriodo" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerPeriodo"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerPeriodo></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('ativo') }}</mat-label>
+                    <mat-select formControlName="indAtivo">
+                        <mat-option [value]="1">{{ t('sim') }}</mat-option>
+                        <mat-option [value]="0">{{ t('nao') }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="mt-6 border-t"></div>
+            <div class="flex items-center justify-start px-8 py-5">
+                <button (click)="apply()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('aplicar') }}
+                </button>
+
+                <button side (click)="clean()" color="warn" mat-button>
+                    {{ t('limpar') }}
+                </button>
+            </div>
+        </form>
+    </ng-container>
+</div>

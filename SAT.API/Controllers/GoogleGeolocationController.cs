@@ -75,5 +75,21 @@ namespace SAT.API.Controllers
 
             return model;
         }
+
+        [HttpGet("DistanceMatrix")]
+        public async Task<DistanceMatrixResponse> GetDistance([FromQuery] GoogleGeolocationParameters parameters)
+        {
+            DistanceMatrixResponse model = new DistanceMatrixResponse();
+
+            var response = await new HttpClient().GetAsync("https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" + parameters.LatitudeDestino + "%2C" + parameters.LongitudeDestino + "&origins=" + parameters.LatitudeOrigem + "%2C" + parameters.LongitudeOrigem + "&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var conteudo = await response.Content.ReadAsStringAsync();
+                model = Newtonsoft.Json.JsonConvert.DeserializeObject<DistanceMatrixResponse>(conteudo);
+            }
+
+            return model;
+        }
     }
 }

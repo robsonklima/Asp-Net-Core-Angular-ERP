@@ -1,0 +1,47 @@
+<div class="flex flex-row mb-2" *transloco="let t">
+    <div class="min-w-1/2 text-2xl pointer-events-none font-extrabold text-secondary">
+        {{ t('adiantamentos') }}
+    </div>
+    <div class="min-w-1/2 text-right">
+        <button class="cursor-pointer" (click)="fechar()">
+            <mat-icon [color]="'warn'" [matTooltip]="t('fechar')" [svgIcon]="'heroicons_outline:x'">
+            </mat-icon>
+        </button>
+    </div>
+</div>
+<div class="grid" *transloco="let t">
+    <div class="list-grid-despesa-atendimento-adiantamento z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 pointer-events-none"
+        matSort matSortDisableClear>
+        <div>
+            {{ t('data') }}
+        </div>
+        <div>
+            {{ t('valor') }}
+        </div>
+        <div>
+            {{ t('valor utilizado') }}
+        </div>
+    </div>
+    <ng-container *ngIf="adiantamentos?.items?.length && !isLoading">
+        <ng-container *ngFor="let a of adiantamentos?.items">
+            <div *ngIf="isLoading">
+                <mat-progress-spinner diameter="50" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+            <div class="list-grid-despesa-atendimento-adiantamento grid items-center h-11
+                pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                <div class="pointer-events-none">
+                    {{ a.dataAdiantamento | date:'dd/MM/yyyy' }}
+                </div>
+                <div class="pointer-events-none">
+                    {{ a.valorAdiantamento | currency:'BRL':'symbol-narrow' }}
+                </div>
+                <div class="pointer-events-none">
+                    {{ obterValorUtilizado(a) | currency:'BRL':'symbol-narrow' }}
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <div *ngIf="!adiantamentos?.items?.length && !isLoading"
+        class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+        Nenhum adiantamento encontrado.</div>
+</div>

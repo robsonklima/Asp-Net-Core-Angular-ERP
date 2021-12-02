@@ -23,10 +23,10 @@ import moment from 'moment';
   templateUrl: './despesa-atendimento-relatorio-lista.component.html',
   styles: [`
         .list-grid-despesa-atendimento-relatorio {
-            grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 50px 100px;
-            @screen sm { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
-            @screen md { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
-            @screen lg { grid-template-columns: 50px 60px 70px 70px 75px auto 100px 75px 100px 75px 100px; }
+            grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px;
+            @screen sm { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
+            @screen md { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
+            @screen lg { grid-template-columns: 60px 60px 70px 70px auto 75px 80px 75px 80px 100px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -45,6 +45,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
   despesas: DespesaData;
   rats: RelatorioAtendimentoData;
   ordemServico: OrdemServicoData;
+  codTecnico: string;
 
   constructor (
     protected _userService: UserService,
@@ -56,6 +57,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
     private _ordemServicoSvc: OrdemServicoService)
   {
     super(_userService, "despesa-atendimento-relatorio");
+    this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
   }
 
   async ngAfterViewInit()
@@ -89,10 +91,10 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   private async obterRATs()
   {
-    this.rats = this.userSession.usuario?.codTecnico != null ?
+    this.rats = this.codTecnico != null ?
       (await this._relatorioAtendimentoSvc.obterPorParametros
         ({
-          codTecnicos: this.userSession.usuario.codTecnico,
+          codTecnicos: this.codTecnico,
           dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
           dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
         }).toPromise()) : null;
@@ -106,11 +108,11 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
         .distinct()
         .toJoinedString(',');
 
-    this.despesas = this.userSession.usuario?.codTecnico != null && codigos?.length > 0 ?
+    this.despesas = this.codTecnico != null && codigos?.length > 0 ?
       (await this._despesaSvc.obterPorParametros
         ({
           codRATs: codigos,
-          codTecnico: this.userSession.usuario?.codTecnico
+          codTecnico: this.codTecnico
         }).toPromise()) : null;
   }
 

@@ -2,7 +2,7 @@ import { DespesaPeriodo, DespesaPeriodoTecnicoStatus } from "./despesa-periodo.t
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico } from "./tecnico.types";
 
-export class DespesaAdiantamentoPeriodo
+export interface DespesaAdiantamentoPeriodo
 {
     codDespesaAdiantamentoPeriodo: number;
     codDespesaAdiantamento: number;
@@ -16,8 +16,8 @@ export class DespesaAdiantamentoPeriodo
 
 export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 
 {
-    codDespesaPeriodos?: string;
-    codTecnicos?: string;
+    codDespesaPeriodo?: number;
+    codTecnico?: number;
     indAtivoPeriodo?: number;
     indAtivoAdiantamento?: number;
     indTecnicoLiberado?: number;
@@ -30,11 +30,18 @@ export interface DespesaAdiantamentoPeriodoData extends Meta
     items: DespesaAdiantamentoPeriodo[]
 };
 
-export class DespesaAdiantamento
+export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta
 {
-    codDespesaAdiantamento: number;
+    items: DespesaAdiantamentoPeriodoConsultaTecnicoItem[];
+};
+
+export interface DespesaAdiantamento
+{
+    codDespesaAdiantamento?: number;
+    tecnico?: Tecnico;
     codTecnico: number;
     codDespesaAdiantamentoTipo: number;
+    despesaAdiantamentoTipo: DespesaAdiantamentoTipo;
     dataAdiantamento: string;
     valorAdiantamento: number;
     indAtivo: number;
@@ -44,27 +51,22 @@ export class DespesaAdiantamento
     dataHoraManut: string;
 }
 
-export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
+export interface DespesaAdiantamentoData extends Meta
 {
-    items: DespesaPeriodoTecnicoAtendimentoItem[];
+    items: DespesaAdiantamento[]
 };
 
-export interface DespesaPeriodoTecnicoAtendimentoItem
+export enum DespesaAdiantamentoTipoEnum
 {
-    codDespesaPeriodo: number;
-    dataInicio: string;
-    dataFim: string;
-    totalDespesa: number;
-    totalAdiantamento: number;
-    restituirAEmpresa: number;
-    gastosExcedentes: number;
-    status: DespesaPeriodoTecnicoStatus;
-    indAtivo: boolean;
+    "FIXO" = "1",
+    "PROVISÓRIO" = "2"
 };
 
-export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta
+export interface DespesaAdiantamentoParameters extends QueryStringParameters
 {
-    items: DespesaAdiantamentoPeriodoConsultaTecnicoItem[];
+    indAtivo?: number;
+    codDespesaAdiantamentoTipo?: string;
+    codTecnicos?: string;
 };
 
 export interface DespesaAdiantamentoPeriodoConsultaTecnicoItem
@@ -74,4 +76,19 @@ export interface DespesaAdiantamentoPeriodoConsultaTecnicoItem
     status: DespesaPeriodoTecnicoStatus;
     indAtivo: boolean;
     liberado: boolean;
+};
+
+export interface DespesaAdiantamentoTipo
+{
+    codDespesaAdiantamentoTipo?: number;
+    nomeAdiantamentoTipo?: string;
+};
+
+export interface DespesaAdiantamentoTipoParameters extends QueryStringParameters
+{
+};
+
+export interface DespesaAdiantamentoTipoData extends Meta
+{
+    items: DespesaAdiantamentoTipo[]
 };

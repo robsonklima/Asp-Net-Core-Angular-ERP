@@ -104,7 +104,7 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(os => os.AcordoNivelServico)
                         .Include(os => os.Contrato)
                         .Include(os => os.EquipamentoContrato)
-                           // .ThenInclude(os => os.AcordoNivelServico)
+                        // .ThenInclude(os => os.AcordoNivelServico)
                         .Include(os => os.Equipamento)
                         .Include(os => os.LocalAtendimento)
                             .ThenInclude(os => os.Cidade)
@@ -119,6 +119,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.LocalAtendimento)
                         .Include(os => os.LocalAtendimento.Cidade)
                         .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
+                        .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa.Pais)
                         .Include(os => os.Equipamento)
                         .Include(os => os.EquipamentoContrato)
                         .Include(os => os.EquipamentoContrato.AcordoNivelServico)
@@ -141,6 +142,7 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(a => a.Tecnico)
                         .Include(os => os.EquipamentoContrato.Contrato)
                         .Include(os => os.PrazosAtendimento);
+
                     break;
             }
 

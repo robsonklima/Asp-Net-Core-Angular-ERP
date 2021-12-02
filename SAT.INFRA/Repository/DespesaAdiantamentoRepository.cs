@@ -20,12 +20,29 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaAdiantamento despesa)
         {
-            throw new NotImplementedException();
+            DespesaAdiantamento d =
+            _context.DespesaAdiantamento
+            .FirstOrDefault(l => l.CodDespesaAdiantamento == despesa.CodDespesaAdiantamento);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesa);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
         public void Criar(DespesaAdiantamento despesa)
         {
-            throw new NotImplementedException();
+            _context.Add(despesa);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
@@ -33,10 +50,9 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
-        public DespesaAdiantamento ObterPorCodigo(int codigo)
-        {
-            throw new NotImplementedException();
-        }
+        public DespesaAdiantamento ObterPorCodigo(int codigo) =>
+            _context.DespesaAdiantamento
+                .FirstOrDefault(d => d.CodDespesaAdiantamento == codigo);
 
         public PagedList<DespesaAdiantamento> ObterPorParametros(DespesaAdiantamentoParameters parameters)
         {
@@ -45,13 +61,26 @@ namespace SAT.INFRA.Repository
             .Include(da => da.Tecnico)
             .AsQueryable();
 
-            if (parameters.CodTecnico.HasValue)
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var codigos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
                 despesaAdiantamento =
-                    despesaAdiantamento.Where(e => e.CodTecnico == parameters.CodTecnico);
+                    despesaAdiantamento.Where(e => codigos.Any(p => p == e.CodTecnico.ToString()));
+            }
 
             if (parameters.IndAtivo.HasValue)
                 despesaAdiantamento =
                     despesaAdiantamento.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+            if (!string.IsNullOrEmpty(parameters.CodDespesaAdiantamentoTipo))
+            {
+                var tipos = parameters.CodDespesaAdiantamentoTipo.Split(",").Select(a => a.Trim());
+                despesaAdiantamento =
+                    despesaAdiantamento.Where(e => tipos.Any(p => p == e.CodDespesaAdiantamentoTipo.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
+                despesaAdiantamento = despesaAdiantamento.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
             return PagedList<DespesaAdiantamento>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
         }

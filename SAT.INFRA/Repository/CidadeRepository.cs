@@ -60,34 +60,24 @@ namespace SAT.INFRA.Repository
                 .Include(c => c.UnidadeFederativa)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
+            if (!string.IsNullOrEmpty(parameters.Filter))
                 cidades = cidades.Where(
                     s =>
                     s.CodCidade.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
-            }
 
-            if (parameters.CodCidade != null)
-            {
+            if (parameters.CodCidade.HasValue)
                 cidades = cidades.Where(c => c.CodCidade == parameters.CodCidade);
-            }
 
-            if (parameters.IndAtivo != null)
-            {
+            if (parameters.IndAtivo.HasValue)
                 cidades = cidades.Where(c => c.IndAtivo == parameters.IndAtivo);
-            }
 
-            if (parameters.CodUF != null)
-            {
+            if (parameters.CodUF.HasValue)
                 cidades = cidades.Where(c => c.CodUF == parameters.CodUF);
-            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
                 cidades = cidades.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<Cidade>.ToPagedList(cidades, parameters.PageNumber, parameters.PageSize);
         }

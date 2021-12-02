@@ -1,0 +1,378 @@
+        <div class="flex-auto h-200 min-w-screen text-center" *transloco="let t">
+            <button class="add-button" (click)="print()" [disabled]="isLoading">
+                <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+            </button>
+            <div class="inline-block text-left print:p-0">
+                <div class="loading-shade" *ngIf="isLoading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                </div>
+                <div id="print-area" class="h-200 min-w-screen overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto
+                    print:rounded-none print:shadow-none print:bg-transparent" *ngIf="!isLoading">
+
+                    <div class="flex items-start justify-between">
+                        <div class="grid grid-cols-1 gap-x-4">
+                            <div class="text-4xl tracking-tight">
+                                {{ protocolo?.nomeProtocolo | uppercase }}</div>
+                            <div class="font-medium tracking-tight text-secondary">
+                                {{ "Protocolo de Despesas" | uppercase }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <div style="font-size: 8px;" class="border-t border-b flex flex-1 text-xs font-semibold text-secondary bg-gray-50 dark:bg-black
+                            dark:bg-opacity-5" matSort matSortDisableClear *transloco="let t">
+                            <div class="border-l flex-1 w-11 max-w-11 min-w-11 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ t('filial') | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-36 max-w-36 w-36 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ t('tecnico') | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-40 max-w-40 w-40 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ t('periodo') | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Alug. Carro" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "CB" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Cartão Tel." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Comb." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Corr." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Estac." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Ferr. /Instr." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Frete" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Hotel" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Onib. /Metro" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Outr." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "PA" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Peças" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Ped." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Km" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Táxi" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Tel." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Net." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Total" | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Adiant." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                {{ "Saldo" | uppercase }}
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let e of listView">
+                            <div style="font-size: 8px;" class="flex flex-1 border-b
+                                    hover:bg-gray-100">
+
+                                <div class="border-l flex-1 min-w-11 w-11 max-w-11 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.filial }}
+                                </div>
+
+                                <div class="flex-1 min-w-36 w-36 max-w-36 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.tecnico }}
+                                </div>
+
+                                <div class="flex-1 min-w-40 w-40 max-w-40 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.periodo }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.aluguelCarro }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.cartaoCombustivel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.cartaoTel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.combustivel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.correios }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.estacionamento }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.ferramentas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.frete }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.hotel }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.onibus }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.outros }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pa }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pecas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.pedagio }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.km }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.taxi }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.telefone }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.internet }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.despesas }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.adiantamentos }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
+                                    {{ e.saldo }}
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container>
+                            <div style="font-size: 8px;" class="flex flex-1 border-b
+                                    hover:bg-gray-100">
+                                <div class="border-l flex-1 min-w-11 w-11 max-w-11 text-left font-mono p-1">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+
+                                <div class="flex-1 min-w-36 w-36 max-w-36 text-left font-mono font-semibold p-1">
+                                    {{ "TOTAL" }}
+                                </div>
+
+                                <div class="flex-1 min-w-40 w-40 max-w-40 text-left font-mono border-r p-1">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalAluguelCarro) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCartaoCombustivel) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCartaoTel) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ valorDescontinuado() }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalCorreios) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalEstacionamento) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalFerramentas) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalFrete) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalHotel) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalOnibus) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalOutros) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPA) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPecas) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalPedagio) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ valorDescontinuado() }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalTaxi) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalTelefone) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalInternet) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalDespesas) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalAdiantamentos) }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalSaldos) }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="mt-10 text-sm">
+                        <div class="text-center">
+                            Conferi os lançamentos constantes neste protocolo e informo que estão em igualdade com os
+                            Relatórios de Despesas em anexo.
+                        </div>
+
+                        <div class="mt-10 text-center">
+                            <div class="inline-block text-center mr-10">
+                                <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                <div>Data</div>
+                            </div>
+
+                            <div class="inline-block text-center mr-10">
+                                <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                <div>Coordenador</div>
+                            </div>
+
+                            <div class="inline-block text-center mr-10">
+                                <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                <div>Data</div>
+                            </div>
+
+                            <div class="inline-block text-center mr-10">
+                                <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                <div>Controladoria</div>
+                            </div>
+
+                            <div class="inline-block text-center">
+                                <div>&#11835;&#11835;&#11835;&#11835;<br /></div>
+                                <div>Pagadoria</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-10 text-xs">
+                            <div>(Fechado Financeiramente em &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                                às &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; horas)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <div class="flex items-start mt-4">
+                            <img class="flex-0 w-8 mt-2" src="assets/images/logo/logo.png">
+                            <div class="ml-6 text-sm text-secondary">
+                                <div class="font-medium">Perto S.A.</div>
+                                <div>Tecnologia para Bancos e Varejo</div>
+                                <div class="font-medium">SAT - Sistema de Assistência Técnica</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

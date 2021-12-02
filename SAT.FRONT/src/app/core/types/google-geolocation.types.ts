@@ -1,54 +1,64 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export interface AddressComponent {
+export interface AddressComponent
+{
     long_name: string;
     short_name: string;
     types: string[];
 }
 
-export interface Northeast {
+export interface Northeast
+{
     lat: number;
     lng: number;
 }
 
-export interface Southwest {
+export interface Southwest
+{
     lat: number;
     lng: number;
 }
 
-export interface Bounds {
+export interface Bounds
+{
     northeast: Northeast;
     southwest: Southwest;
 }
 
-export interface Location {
+export interface Location
+{
     lat: number;
     lng: number;
 }
 
-export interface Northeast2 {
+export interface Northeast2
+{
     lat: number;
     lng: number;
 }
 
-export interface Southwest2 {
+export interface Southwest2
+{
     lat: number;
     lng: number;
 }
 
-export interface Viewport {
+export interface Viewport
+{
     northeast: Northeast2;
     southwest: Southwest2;
 }
 
-export interface Geometry {
+export interface Geometry
+{
     bounds: Bounds;
     location: Location;
     location_type: string;
     viewport: Viewport;
 }
 
-export interface Result {
+export interface Result
+{
     address_components: AddressComponent[];
     formatted_address: string;
     geometry: Geometry;
@@ -56,11 +66,17 @@ export interface Result {
     types: string[];
 }
 
-export interface GoogleGeolocation {
+export interface GoogleGeolocation
+{
     results: Result[];
     status: string;
 }
 
-export interface GoogleGeolocationParameters extends QueryStringParameters {
-    enderecoCep: string;
+export interface GoogleGeolocationParameters extends QueryStringParameters
+{
+    enderecoCep?: string;
+    latitudeOrigem?: string;
+    longitudeOrigem?: string;
+    latitudeDestino?: string;
+    longitudeDestino?: string;
 };

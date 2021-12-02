@@ -116,9 +116,16 @@ namespace SAT.API
             services.AddTransient<IDespesaConfiguracaoCombustivelRepository, DespesaConfiguracaoCombustivelRepository>();
             services.AddTransient<IDespesaAdiantamentoPeriodoRepository, DespesaAdiantamentoPeriodoRepository>();
             services.AddTransient<IDespesaAdiantamentoRepository, DespesaAdiantamentoRepository>();
+            services.AddTransient<IDespesaAdiantamentoTipoRepository, DespesaAdiantamentoTipoRepository>();
             services.AddTransient<IDespesaTipoRepository, DespesaTipoRepository>();
+            services.AddTransient<IDespesaProtocoloRepository, DespesaProtocoloRepository>();
             services.AddTransient<IDespesaPeriodoTecnicoRepository, DespesaPeriodoTecnicoRepository>();
             services.AddTransient<IDashboardRepository, DashboardRepository>();
+            services.AddTransient<IDespesaProtocoloPeriodoTecnicoRepository, DespesaProtocoloPeriodoTecnicoRepository>();
+            services.AddTransient<IDespesaCartaoCombustivelTecnicoRepository, DespesaCartaoCombustivelTecnicoRepository>();
+            services.AddTransient<IDespesaConfiguracaoRepository, DespesaConfiguracaoRepository>();
+            services.AddTransient<IDespesaItemAlertaRepository, DespesaItemAlertaRepository>();
+            services.AddTransient<ITicketLogPedidoCreditoRepository, TicketLogPedidoCreditoRepository>();
             services.AddTransient<ITurnoRepository, TurnoRepository>();
 
             // Services
@@ -181,15 +188,21 @@ namespace SAT.API
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
+            services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
             services.AddTransient<IDespesaConfiguracaoCombustivelService, DespesaConfiguracaoCombustivelService>();
             services.AddTransient<IDespesaService, DespesaService>();
             services.AddTransient<IDespesaItemService, DespesaItemService>();
             services.AddTransient<IDespesaPeriodoService, DespesaPeriodoService>();
+            services.AddTransient<IDespesaProtocoloService, DespesaProtocoloService>();
             services.AddTransient<IDespesaTipoService, DespesaTipoService>();
             services.AddTransient<IDespesaPeriodoTecnicoService, DespesaPeriodoTecnicoService>();
             services.AddTransient<IDashboardService, DashboardService>();
-
+            services.AddTransient<IDespesaProtocoloPeriodoTecnicoService, DespesaProtocoloPeriodoTecnicoService>();
+            services.AddTransient<IDespesaCartaoCombustivelTecnicoService, DespesaCartaoCombustivelTecnicoService>();
+            services.AddTransient<IDespesaConfiguracaoService, DespesaConfiguracaoService>();
+            services.AddTransient<IDespesaItemAlertaService, DespesaItemAlertaService>();
+            services.AddTransient<ITicketLogPedidoCreditoService, TicketLogPedidoCreditoService>();
 
             services.AddAuthentication(auth =>
             {

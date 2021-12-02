@@ -1,0 +1,155 @@
+<mat-drawer-container class="flex-auto h-full" *transloco="let t">
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="bg-card border-b">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-4 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-2 sm:my-12">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/despesa/protocolos">
+                                            {{ t('protocolos') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('protocolo') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <h2
+                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                        {{ codDespesaProtocolo }}
+                                    </h2>
+                                </div>
+
+                                <div class="flex">
+                                    <div class="flex-1">
+
+
+                                        <div class="my-2">
+                                            <div>{{ t('nome') }}</div>
+                                            <div class="text-secondary text-md">
+                                                {{ protocolo?.nomeProtocolo }}
+                                            </div>
+                                        </div>
+                                        <div class="my-2">
+                                            <div>{{ t('ativo') }}</div>
+                                            <div class="text-secondary text-md">
+                                                {{ (protocolo?.indAtivo ? t('sim') : t('nao')) | uppercase }}
+                                            </div>
+                                        </div>
+                                        <div class="my-2" *ngIf="protocolo?.indFechamento == 1">
+                                            <div>{{ t('data de fechamento') }}</div>
+                                            <div class="text-secondary text-md">
+                                                {{ protocolo?.dataHoraFechamento | date:'dd/MM/yyyy'  }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="my-2">
+                                            <div>{{ t('observacao') }}</div>
+                                            <div class="text-secondary text-md">
+                                                {{ protocolo?.obsProtocolo }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="!isLoading">
+                            <button class="fuse-mat-button-rounded bg-red-100" mat-flat-button
+                                [matTooltip]="t('fechar')" [disabled]="protocolo?.indFechamento == 1"
+                                matTooltipPosition="above" (click)="fecharProtocolo()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-closed'"></mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="!isLoading">
+                            <button class="fuse-mat-button-rounded bg-green-100" mat-flat-button
+                                [matTooltip]="t('imprimir')" matTooltipPosition="above" (click)="imprimirProtocolo()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center align-middle items-center mb-5"
+                    *ngIf="!isLoading && protocolo?.indImpresso == 1">
+                    <p class="text-red-400 uppercase font-semibold">O protocolo já foi impresso, devido a isto não serão
+                        permitidas alterações.</p>
+                </div>
+            </div>
+
+            <div class="flex-auto mt-2 sm:mt-6">
+                <div class="w-full max-w-screen-xl mx-auto">
+                    <div>
+                        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
+
+                            <div class="p-6">
+
+                                <div class="flex items-center justify-between">
+                                    <div class="text-2xl font-semibold leading-tight">
+                                        {{ t('periodos') }}</div>
+                                </div>
+
+                                <div class="flex flex-col my-2">
+                                    <div class="flex justify-center align-middle items-center mt-10" *ngIf="isLoading">
+                                        <mat-progress-spinner diameter="40" [mode]="'indeterminate'">
+                                        </mat-progress-spinner>
+                                    </div>
+                                    <table mat-table [dataSource]="listView" [tHead]="" class="mat-elevation-z2"
+                                        *ngIf="!isLoading">
+                                        <ng-container matColumnDef="data inicial">
+                                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                {{ t('data inicial') }} </th>
+                                            <td mat-cell *matCellDef="let di" class="text-sm">
+                                                {{ di?.dataInicial | date:'dd/MM/yyyy' }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="data final">
+                                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                {{ t('data final') }} </th>
+                                            <td mat-cell *matCellDef="let di" class="text-sm">
+                                                {{ di?.dataFinal | date:'dd/MM/yyyy' }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="tecnico">
+                                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                {{ t('tecnico') }} </th>
+                                            <td mat-cell *matCellDef="let di" class="text-sm">
+                                                {{ di?.tecnico | uppercase }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="valor">
+                                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
+                                                {{ t('valor') }} </th>
+                                            <td mat-cell *matCellDef="let di" class="text-sm">
+                                                {{ di?.valor | currency:'BRL':'symbol-narrow' }} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>
+                                <div class="flex justify-center align-middle items-center"
+                                    *ngIf="!isLoading && (protocolo?.indImpresso == 0 && protocolo?.indAtivo == 1)">
+                                    <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
+                                        [matTooltip]="t('adicionar')" [disabled]="protocolo?.indImpresso == 1 ||
+                                        protocolo?.indFechamento == 1" matTooltipPosition="above"
+                                        (click)="adicionarPeriodo()">
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'">
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

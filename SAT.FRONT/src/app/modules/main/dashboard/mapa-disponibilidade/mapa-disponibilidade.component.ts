@@ -1,5 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { DashboardService } from 'app/core/services/dashboard.service';
 import { IndicadorService } from 'app/core/services/indicador.service';
+import { DashboardDisponibilidade, DashboardTipoEnum } from 'app/core/types/dashboard.types';
+import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 
 export enum Region {
   NORTE = 1,
@@ -35,7 +38,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 
   public loading: boolean = false;
 
-  constructor(private _indicadorService: IndicadorService) { }
+  constructor(private _dashboardService: DashboardService,
+    private _indicadorService: IndicadorService) { }
 
   ngAfterViewInit(): void {
     this.initializeMap();
@@ -69,7 +73,7 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     t.setAttribute("pointer-events", "none");
     t.setAttribute("text-anchor", "middle");
     t.setAttribute("font-weight", "bold");
-    t.setAttribute("font-size", "18");
+    t.setAttribute("font-size", "12");
     st.state.setAttribute("fill", this.getRegionColor(st.region));
     st.state.parentNode.insertBefore(t, st.state.nextSibling);
   }
@@ -80,32 +84,101 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
         .querySelectorAll("path"))
         .filter(r => r.id.startsWith("regiao"));
 
+    this._indicadorService.obterPorParametros({
+      tipo: IndicadorTipoEnum.DISPONIBILIDADE,
+      agrupador: IndicadorAgrupadorEnum.REGIAO
+    }).subscribe((data: Indicador[]) => {
+      debugger;
+    });
+
+
+
+    // let dados = this._dashboardService.obterPorParametros({
+    //    tipo: DashboardTipoEnum.DISPONIBILIDADE_BBTS
+    //   // agrupador: IndicadorAgrupadorEnum.TOP_PECAS_MAIS_FALTANTES,
+    //   // filterType: OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES,
+    //   // include: OrdemServicoIncludeEnum.OS_PECAS
+    // }).toPromise();
+
+
+
     rects.forEach(r => {
+
       const rbr: RectByRegion =
       {
         region: parseInt(r.id.split("-").pop()),
         rect: r
       };
 
+
+      // DaDOS
+
+      let d: MapaDisponibilidadeModel = new MapaDisponibilidadeModel();
+
+      if (rbr.region == Region.NORTE) {
+        d.mediaDisponibilidade = 'NORTE';
+        d.SaldoHoras = 'R$100.00';
+        d.BacklogOS = 'R$100.00';
+        d.OSAbertas = 'R$100.00';
+        d.OSFechadas = 'R$100.00';
+      }
+
+      if (rbr.region == Region.NORDESTE) {
+        d.mediaDisponibilidade = 'NORDESTE';
+        d.SaldoHoras = 'R$100.00';
+        d.BacklogOS = 'R$100.00';
+        d.OSAbertas = 'R$100.00';
+        d.OSFechadas = 'R$100.00';
+      }
+
+      if (rbr.region == Region.CENTROESTE) {
+        d.mediaDisponibilidade = 'CENTROESTE';
+        d.SaldoHoras = 'R$100.00';
+        d.BacklogOS = 'R$100.00';
+        d.OSAbertas = 'R$100.00';
+        d.OSFechadas = 'R$100.00';
+      }
+
+      if (rbr.region == Region.SUDESTE) {
+        d.mediaDisponibilidade = 'SUDESTE';
+        d.SaldoHoras = 'R$100.00';
+        d.BacklogOS = 'R$100.00';
+        d.OSAbertas = 'R$100.00';
+        d.OSFechadas = 'R$100.00';
+      }
+
+      if (rbr.region == Region.SUL) {
+        d.mediaDisponibilidade = 'SUL';
+        d.SaldoHoras = 'R$100.00';
+        d.BacklogOS = 'R$100.00';
+        d.OSAbertas = 'R$100.00';
+        d.OSFechadas = 'R$100.00';
+      }
+
+
       this.regionRects.push(rbr);
-      this.getRectTemplate(rbr);
+      this.getRectTemplate(rbr, d);
     })
   }
 
-  private getRectTemplate(rbr: RectByRegion) {
+  private getRectTemplate(rbr: RectByRegion, d: MapaDisponibilidadeModel) {
     var metricTitles: string[] = ["Média Disp.", "OS Abertas", "OS Fechadas", "Backlog OS", "Saldo Horas"];
     var b = rbr.rect.getBBox();
 
-    var xLeft: number = (b.x + b.width / 5);
+    var xLeft: number = (b.x + b.width / 2);
     var yLeft: number = b.y + 4000;
 
     metricTitles.forEach(metric => {
-      this.createInnerRect(rbr.rect, metric, "sdfd0.00", xLeft, yLeft);
-      
+
+      let value = metric == "Média Disp." ? d.mediaDisponibilidade : metric == "OS Abertas" ? d.OSAbertas : metric == "OS Fechadas" ?
+        d.OSFechadas : metric == "Backlog OS" ? d.BacklogOS : d.SaldoHoras;
+
+      this.createInnerRect(rbr.rect, metric, value, xLeft, yLeft);
+
       rbr.rect.setAttribute("fill", this.getRegionColor(rbr.region));
       yLeft += 6000;
     })
-    }
+  }
 
   private getInitials(id: string): string {
     return id.toUpperCase().split("-").shift();
@@ -128,16 +201,15 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 
   private createInnerRect(rect: SVGPathElement, title: string, value: string, xLeft: number, yLeft: number): void {
     // elipse
-  //   var c = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-  //   c.rx.baseVal.value = 16000;
-  //   c.ry.baseVal.value = 3000;
-  //   c.style.fill = "none";
-  //   c.setAttribute("pointer-events", "none");
-  //  // forma.setAttributeNS(null, "width",  50);
-  //   c.setAttribute("opacity", "0.5");
-  //   c.setAttribute("stroke-width", "250");
-  //   c.setAttribute("text-anchor", "center");
-  //   c.setAttribute("transform", "translate(" + xLeft + " " + yLeft + ")");
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    c.rx.baseVal.value = 16000;
+    c.ry.baseVal.value = 3000;
+    c.style.fill = "none";
+    c.setAttribute("pointer-events", "none");
+    c.setAttribute("opacity", "0.5");
+    c.setAttribute("stroke-width", "250");
+    c.setAttribute("text-anchor", "center");
+    c.setAttribute("transform", "translate(" + xLeft + " " + yLeft + ")");
 
     // titulo
     var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -160,6 +232,15 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 
     rect.parentNode.insertBefore(t, rect.nextSibling);
     rect.parentNode.insertBefore(v, rect.nextSibling);
-   // rect.parentNode.insertBefore(c, rect.nextSibling);
+    rect.parentNode.insertBefore(c, rect.nextSibling);
   }
+}
+
+
+export class MapaDisponibilidadeModel {
+  public mediaDisponibilidade: string;
+  public OSAbertas: string;
+  public OSFechadas: string;
+  public BacklogOS: string;
+  public SaldoHoras: string;
 }

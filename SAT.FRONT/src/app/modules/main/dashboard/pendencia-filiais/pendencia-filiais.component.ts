@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Filterable } from 'app/core/filters/filterable';
 import { IndicadorService } from 'app/core/services/indicador.service';
+import { Filtro, IFilterable } from 'app/core/types/filtro.types';
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import moment from 'moment';
 import {
   ApexChart,
@@ -39,8 +44,8 @@ export type ChartOptions =
   selector: 'app-pendencia-filiais',
   templateUrl: './pendencia-filiais.component.html'
 })
-export class PendenciaFiliaisComponent implements OnInit {
-
+export class PendenciaFiliaisComponent extends Filterable implements OnInit, IFilterable {
+  @Input() sidenav: MatSidenav;
   @ViewChild("chart") chart: ChartComponent;
 
   public loading: boolean;
@@ -54,14 +59,25 @@ export class PendenciaFiliaisComponent implements OnInit {
   private greenColor: string = "#009900";
 
   constructor(private _indicadorService: IndicadorService,
-    private _userService: UserService
-  ) {
+    protected _userService: UserService) {
+    super(_userService, 'dashboard-filtro');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
-
   ngOnInit(): void {
     this.carregarGrafico();
+    this.registerEmitters();
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.carregarGrafico();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   public async carregarGrafico() {
@@ -71,14 +87,16 @@ export class PendenciaFiliaisComponent implements OnInit {
     {
       agrupador: IndicadorAgrupadorEnum.FILIAL,
       tipo: IndicadorTipoEnum.PENDENCIA,
-      dataInicio: moment().startOf('month').toISOString(),
-      dataFim: moment().endOf('month').toISOString(),
+      include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
+      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
+      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
     }
 
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
-    
+
     if (data?.length) {
-      data = data.sort((a, b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
+      data = Enumerable.from(data).orderByDescending(ord => ord.valor).toArray();
       let labels = data.map(d => d.label);
       let valoresColuna = data.map(d => (this.chartMax / 100) * d.valor);
       let valoresLinha: number[] = [];

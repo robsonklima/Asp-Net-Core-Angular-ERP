@@ -7,19 +7,21 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { takeUntil } from 'rxjs/operators';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { Filterable } from 'app/core/filters/filterable';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent extends Filterable implements AfterViewInit, IFilterable {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;
 
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;// this.dashboardEnum.DISPONIBILIDADE_BBTS;
   slideSelecionado: number = 0;
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
@@ -28,12 +30,14 @@ export class DashboardComponent implements AfterViewInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _userSvc: UserService
-  ) { }
+    protected _userService: UserService
+  ) {
+    super(_userService, 'ordem-servico')
+  }
 
   async ngAfterViewInit() {
     interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
-      .pipe(      
+      .pipe(
         takeUntil(this._onDestroy)
       )
       .subscribe(() => {
@@ -42,8 +46,11 @@ export class DashboardComponent implements AfterViewInit {
 
     this.configurarFiltro();
     this._cdr.detectChanges();
+  }
 
+  registerEmitters(): void {
     this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
       this.configurarFiltro();
     })
   }
@@ -70,21 +77,19 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private configurarFiltro(): void {
-    this.filtro = this._userSvc.obterFiltro('dashboard');
-
     if (!this.filtro) {
-        return;
+      return;
     }
 
     // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
     if (this.usuarioSessao?.usuario?.codFilial) {
-        this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
+      this.filtro.parametros.codFiliais = [this.usuarioSessao.usuario.codFilial]
     }
 
     Object.keys(this.filtro?.parametros).forEach((key) => {
-        if (this.filtro.parametros[key] instanceof Array) {
-            this.filtro.parametros[key] = this.filtro.parametros[key].join()
-        };
+      if (this.filtro.parametros[key] instanceof Array) {
+        this.filtro.parametros[key] = this.filtro.parametros[key].join()
+      };
     });
   }
 
@@ -92,4 +97,13 @@ export class DashboardComponent implements AfterViewInit {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
+
+  public abrirLinkRelatorioPecas() {
+    window.open('http://satdbprod/Reports/report/Reports/Relat%C3%B3rio%20DSS%20-%20SAT%20-%20Logistica%20-%20Chamado%20Faltante%20sem%20Status%20a%20mais%20de%2024%20horas%20-%20Analistas')
+  }
+
+  public abrirLinkRelatorioReincidenciaClientes() {
+    window.open('http://satdbprod/Reports/report/Reports/INDICADORES%20DI%C3%81RIOS-%C3%8DNDICE%20DE%20REINCID%C3%8ANCIA-CLIENTE')
+  }
+
 }

@@ -36,10 +36,9 @@ export type ChartOptions =
 @Component({
   selector: 'app-monitoramento-sat',
   templateUrl: './monitoramento-sat.component.html',
-  styleUrls: ['./monitoramento-sat.component.scss']
+  styleUrls: ['./monitoramento-sat.component.css']
 })
 export class MonitoramentoSatComponent implements OnInit {
-
   @ViewChild("chart") chart: ChartComponent;
   public usuarioSessao: UsuarioSessao;
   public chartOptionsAPL: Partial<ChartOptions>;
@@ -68,7 +67,6 @@ export class MonitoramentoSatComponent implements OnInit {
     this.listaMonitoramento = (await this._monitoramentoService.obterListaMonitoramento().toPromise());
     if (this.listaMonitoramento != null) {
       this.haveData = true;
-      console.log(this.listaMonitoramento.integracaoServidor);
       let aplMeta: number[] = [];
       let intMeta: number[] = [];
       this.listaMonitoramento.storageAPL1.forEach(e => { aplMeta.push(this.meta); })

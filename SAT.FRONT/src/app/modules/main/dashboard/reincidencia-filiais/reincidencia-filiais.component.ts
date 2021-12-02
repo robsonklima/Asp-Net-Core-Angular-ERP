@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Filterable } from 'app/core/filters/filterable';
 import { IndicadorService } from 'app/core/services/indicador.service';
+import { Filtro, IFilterable } from 'app/core/types/filtro.types';
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import moment from 'moment';
 import {
   ApexChart,
@@ -39,8 +44,8 @@ export type ChartOptions =
   selector: 'app-reincidencia-filiais',
   templateUrl: './reincidencia-filiais.component.html'
 })
-export class ReincidenciaFiliaisComponent implements OnInit {
-
+export class ReincidenciaFiliaisComponent extends Filterable implements OnInit, IFilterable {
+  @Input() sidenav: MatSidenav;
   @ViewChild("chart") chart: ChartComponent;
 
   public loading: boolean;
@@ -53,14 +58,27 @@ export class ReincidenciaFiliaisComponent implements OnInit {
   private redColor: string = "#cc0000";
   private greenColor: string = "#009900";
 
-  constructor(private _indicadorService: IndicadorService,
-    private _userService: UserService
-  ) {
+  constructor(
+    private _indicadorService: IndicadorService,
+    protected _userService: UserService) {
+    super(_userService, 'dashboard-filtro');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
     this.carregarGrafico();
+    this.registerEmitters();
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.carregarGrafico();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   public async carregarGrafico() {
@@ -70,19 +88,16 @@ export class ReincidenciaFiliaisComponent implements OnInit {
     {
       agrupador: IndicadorAgrupadorEnum.FILIAL,
       tipo: IndicadorTipoEnum.REINCIDENCIA,
-      codTiposIntervencao: "1,2,3,4,6,7",
-      codAutorizadas: "8, 10, 13, 40, 48, 102, 108, 119, 130, 132, 141, 169, 172, 177, 178, 182, 183, 189, 190, 191, 192, 202",
-      codTiposGrupo: "1,3,5,7,8,9,10,11",
-      //dataInicio: moment().startOf('month').toISOString(),
-      //dataFim: moment().endOf('month').toISOString()
-      dataInicio: moment().subtract(1, 'year').startOf('month').toISOString(),
-      dataFim: moment().subtract(1, 'year').endOf('month').toISOString(),
+      include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
+      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
+      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
     }
 
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
 
     if (data?.length) {
-      data = data.sort((a, b) => (a.valor > b.valor) ? 1 : ((b.valor > a.valor) ? -1 : 0));
+      data = Enumerable.from(data).orderByDescending(ord => ord.valor).toArray();
       let labels = data.map(d => d.label);
       let valoresColuna = data.map(d => (this.chartMax / 100) * d.valor);
       let valoresLinha: number[] = [];

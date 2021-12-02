@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { MatSidenav } from "@angular/material/sidenav";
+import { Filterable } from "app/core/filters/filterable";
 import { IndicadorService } from "app/core/services/indicador.service";
+import { Filtro, IFilterable } from "app/core/types/filtro.types";
 import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from "app/core/types/indicador.types";
+import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from "app/core/types/ordem-servico.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
 import { UserService } from "app/core/user/user.service";
 import moment from "moment";
@@ -37,7 +41,8 @@ export type ChartOptions =
   selector: 'app-sla-clientes',
   templateUrl: './sla-clientes.component.html'
 })
-export class SlaClientesComponent implements OnInit {
+export class SlaClientesComponent extends Filterable implements OnInit, IFilterable {
+  @Input() sidenav: MatSidenav;
   @ViewChild("chart") chart: ChartComponent;
   public usuarioSessao: UsuarioSessao;
   public chartOptions: Partial<ChartOptions>;
@@ -51,12 +56,23 @@ export class SlaClientesComponent implements OnInit {
 
   constructor(
     private _indicadorService: IndicadorService,
-    private _userService: UserService
-  ) {
-    this.usuarioSessao = JSON.parse(this._userService.userSession);
+    protected _userService: UserService) {
+    super(_userService, 'dashboard-filtro')
   }
   ngOnInit(): void {
     this.carregarGrafico();
+    this.registerEmitters();
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.carregarGrafico();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   public async carregarGrafico() {
@@ -66,13 +82,10 @@ export class SlaClientesComponent implements OnInit {
     {
       agrupador: IndicadorAgrupadorEnum.CLIENTE,
       tipo: IndicadorTipoEnum.SLA,
-      codTiposIntervencao: "1,2,3,4,6,7",
-      codAutorizadas: "8, 10, 13, 40, 48, 102, 108, 119, 130, 132, 141, 169, 172, 177, 178, 182, 183, 189, 190, 191, 192, 202",
-      codTiposGrupo: "1,3,5,7,8,9,10,11",
-      //dataInicio: moment().startOf('month').toISOString(),
-      //dataFim: moment().endOf('month').toISOString()
-      dataInicio: moment().startOf('month').toISOString(),
-      dataFim: moment().endOf('month').toISOString(),
+      include: OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO,
+      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
+      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
     }
 
     let data = await this._indicadorService.obterPorParametros(params).toPromise();
@@ -96,7 +109,7 @@ export class SlaClientesComponent implements OnInit {
         {
           name: "Percentual",
           type: "bar",
-          data: valoresColuna,      
+          data: valoresColuna,
         },
         {
           name: "Meta de SLA",
@@ -118,7 +131,7 @@ export class SlaClientesComponent implements OnInit {
           }
         }
       ],
-        chart: {
+      chart: {
         height: 350,
         type: "line",
         toolbar: {
@@ -132,7 +145,7 @@ export class SlaClientesComponent implements OnInit {
             reset: false
           }
         }
-      },  
+      },
       stroke: {
         width: [0, 2]
       },
@@ -152,17 +165,17 @@ export class SlaClientesComponent implements OnInit {
       },
       title: {
         text: '* Meta de SLA deve ser maior ou igual a ' + meta + '%'
-      },      
+      },
       xaxis:
       {
-        categories: labels,    
+        categories: labels,
         labels:
         {
           rotate: -45,
           rotateAlways: true,
-          trim:true,
+          trim: true,
           style:
-          {            
+          {
             fontSize: "8px"
           }
         }

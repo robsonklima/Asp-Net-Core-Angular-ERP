@@ -49,6 +49,7 @@ export interface PecaData extends Meta
 export interface PecaParameters extends QueryStringParameters 
 {
     codPeca?: string;
+    include? : PecaIncludeEnum;
 };
 
 export enum PecaStatus
@@ -58,3 +59,8 @@ export enum PecaStatus
     "Substituída" = 3,
     "Descontinuada" = 4
 };
+
+export enum PecaIncludeEnum
+{
+    OS_PECAS = 1
+}

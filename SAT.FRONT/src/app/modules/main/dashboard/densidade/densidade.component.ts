@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
-
 import 'leaflet.heat/dist/leaflet-heat.js'
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
@@ -12,14 +11,16 @@ import { Regiao } from 'app/core/types/regiao.types';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { Filtro } from 'app/core/types/filtro.types';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-densidade',
   templateUrl: './densidade.component.html'
 })
-export class DensidadeComponent implements OnInit {
-  @Input() filtro: Filtro;
+export class DensidadeComponent extends Filterable implements OnInit, IFilterable {
+  @Input() sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
   filiais: Filial[] = [];
   map: Map;
@@ -28,7 +29,7 @@ export class DensidadeComponent implements OnInit {
   codFilial: number = 4;
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
-  
+
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,21 +44,27 @@ export class DensidadeComponent implements OnInit {
     private _equipamentoContratoSvc: EquipamentoContratoService,
     private _tecnicoSvc: TecnicoService,
     private _regiaoAutorizadaSvc: RegiaoAutorizadaService,
-    private _userSvc: UserService
+    protected _userService: UserService
   ) {
-    this.usuarioSessao = JSON.parse(this._userSvc.userSession);
+    super(_userService, 'dashboard-filtro');
+    this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
-    
+  ngOnInit(): void {
+    this.registerEmitters();
   }
 
-  ngOnChanges() {
-    if (this.filtro) {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
       this.obterRegioesAutorizadas();
       this.obterTecnicos();
       this.obterEquipamentosContrato();
-    }
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
   }
 
   onMapReady(map: Map): void {
@@ -65,8 +72,8 @@ export class DensidadeComponent implements OnInit {
   }
 
   private async obterRegioesAutorizadas() {
-    const data = await this._regiaoAutorizadaSvc.obterPorParametros({ 
-      ...{ indAtivo: 1 }, ...this.filtro?.parametros
+    const data = await this._regiaoAutorizadaSvc.obterPorParametros({
+      ...{ indAtivo: 1 }, ...this.filter?.parametros
     }).toPromise();
 
     this.regioes = data.items.map(ra => ra.regiao);
@@ -87,13 +94,13 @@ export class DensidadeComponent implements OnInit {
       iconAnchor: [15, 32],
       popupAnchor: [1, -32]
     });
-    
+
     this.addMarkersOnMap(markers, icon);
   }
 
   private async obterTecnicos() {
-    const data = await this._tecnicoSvc.obterPorParametros({ 
-      ...{ indAtivo: 1 }, ...this.filtro?.parametros
+    const data = await this._tecnicoSvc.obterPorParametros({
+      ...{ indAtivo: 1 }, ...this.filter?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
@@ -110,13 +117,13 @@ export class DensidadeComponent implements OnInit {
       iconAnchor: [15, 32],
       popupAnchor: [1, -32]
     });
-    
+
     this.addMarkersOnMap(markers, icon);
   }
 
   private async obterEquipamentosContrato() {
-    const data = await this._equipamentoContratoSvc.obterPorParametros({ 
-      ...{ indAtivo: 1 }, ...this.filtro?.parametros
+    const data = await this._equipamentoContratoSvc.obterPorParametros({
+      ...{ indAtivo: 1 }, ...this.filter?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(e => this.isFloat(+e.localAtendimento.latitude) && this.isFloat(+e.localAtendimento.longitude)).map((equip) => {
@@ -133,13 +140,13 @@ export class DensidadeComponent implements OnInit {
       iconAnchor: [15, 32],
       popupAnchor: [1, -32]
     });
-    
+
     this.addLayer(markers, icon);
   }
 
   private addMarkersOnMap(markers: any[], icon: L.Icon): void {
     markers.forEach((m, i) => {
-      let marker = new L.Marker([ +m.lat, +m.lng ], {icon : icon}).bindPopup(m.toolTip);
+      let marker = new L.Marker([+m.lat, +m.lng], { icon: icon }).bindPopup(m.toolTip);
       marker.addTo(this.map);
     });
 
@@ -151,12 +158,12 @@ export class DensidadeComponent implements OnInit {
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
     markers.forEach((m, i) => {
-      let layer = L.marker(L.latLng([m.lat, m.lng]), {icon : icon}).bindPopup(m.toolTip);
+      let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
       this.markerClusterGroup.addLayer(layer).addTo(this.map);
     });
   }
 
   private isFloat(n) {
-    return n === +n && n !== (n|0);
+    return n === +n && n !== (n | 0);
   }
 }

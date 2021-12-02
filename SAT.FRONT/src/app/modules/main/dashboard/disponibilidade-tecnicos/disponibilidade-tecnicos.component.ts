@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
+import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { Cidade } from 'app/core/types/cidade.types';
 import { DashboardTecnicoDisponibilidadeFilialViewModel, Filial, FilialFilterEnum, FilialIncludeEnum } from 'app/core/types/filial.types';
 import { Filtro } from 'app/core/types/filtro.types';
-import { DashboardTecnicoDisponibilidadeTecnicoViewModel, Tecnico, TecnicoFilterEnum, TecnicoIncludeEnum } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
 import moment from 'moment';
 
@@ -31,6 +30,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
 
   constructor(private _cdr: ChangeDetectorRef,
     private _tecnicoService: TecnicoService,
+    private _indicadorService: IndicadorService,
     private _filialService: FilialService) { }
 
   ngOnInit(): void {
@@ -40,30 +40,33 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
   private async obterTecnicos() {
 
     this.loading = true;
-    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss');
+    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
     let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    let dadosTecnicosDashboard = (await this._tecnicoService
-      .obterPorParametros({
-        filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
-        include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-        periodoMediaAtendInicio: dataInicio,
-        periodoMediaAtendFim: dataFim
-      }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
+    // let dadosTecnicosDashboard = (await this._tecnicoService
+    //   .obterPorParametros({
+    //     tipo: TecnicoTipoEnum.DISPONIBILIDADE_TECNICOS,
+    //     filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
+    //     include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
+    //     periodoMediaAtendInicio: dataInicio,
+    //     periodoMediaAtendFim: dataFim
+    //   }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
+
+    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos().toPromise());
 
     for (let tecnico of dadosTecnicosDashboard) {
 
-      let dadosDashboard = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == tecnico.filial.codFilial);
+      let dadosDashboard = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.codFilial == tecnico.codFilial);
 
       /** DADOS DOS TÉCNICOS **/
       if (!dadosDashboard) {
         dadosDashboard = new DisponibilidadeTecnicosModel();
         // Nome Filial
-        dadosDashboard.filial = tecnico.filial;
+        dadosDashboard.nomeFilial = tecnico.nomeFilial;
         // Quantidade de técnicos ativos da filial
-        dadosDashboard.qntTecnicosAtivosChamados = Enumerable.from(dadosTecnicosDashboard).count(c => c.filial.codFilial == tecnico.filial.codFilial && c.indFerias == 0);
+        dadosDashboard.qntTecnicosAtivosChamados = Enumerable.from(dadosTecnicosDashboard).count(c => c.codFilial == tecnico.codFilial && c.indFerias == 0);
         // Quantidade de técnicos inativos da filial
-        dadosDashboard.qntTecnicosInativos = Enumerable.from(dadosTecnicosDashboard).count(c => c.filial.codFilial == tecnico.filial.codFilial && c.indFerias == 1);
+        dadosDashboard.qntTecnicosInativos = Enumerable.from(dadosTecnicosDashboard).count(c => c.codFilial == tecnico.codFilial && c.indFerias == 1);
         // Quantidade de técnicos total da filial
         dadosDashboard.qntTotalTecnicos = dadosDashboard.qntTecnicosAtivosChamados + dadosDashboard.qntTecnicosInativos;
 
@@ -84,7 +87,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     /** DADOS DAS FILIAIS **/
     let filialTecnico = (await this._filialService.obterPorParametros({
       indAtivo: 1,
-      codFiliais: Enumerable.from(dadosTecnicosDashboard).select(t => t.filial.codFilial).distinct().toArray().join(','),
+      codFiliais: Enumerable.from(dadosTecnicosDashboard).select(t => t.codFilial).distinct().toArray().join(','),
       include: FilialIncludeEnum.FILIAL_ORDENS_SERVICO,
       filterType: FilialFilterEnum.FILTER_DASHBOARD_DISPONIBILIDADE_TECNICOS,
       periodoInicioAtendendimento: dataInicio,
@@ -92,14 +95,14 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     }).toPromise()).items as DashboardTecnicoDisponibilidadeFilialViewModel[];
 
     for (let filial of filialTecnico) {
-      let dadosFilial = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.filial.codFilial == filial.codFilial);
+      let dadosFilial = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.codFilial == filial.codFilial);
       dadosFilial.qtdOSNaoTransferidasCorretivas = filial.qtdOSNaoTransferidasCorretivas;
       dadosFilial.mediaAtendimentoTodos = dadosFilial.mediaAtendimentoTodos / dadosFilial.qntTotalTecnicos;
       dadosFilial.mediaAtendimentoCorretivo = dadosFilial.mediaAtendimentoCorretivo / dadosFilial.qntTotalTecnicos;
       dadosFilial.mediaAtendimentoPreventivo = dadosFilial.mediaAtendimentoPreventivo / dadosFilial.qntTotalTecnicos;
     }
 
-    this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderByDescending(o => o.filial.nomeFilial).toArray();
+    this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderByDescending(o => o.nomeFilial).toArray();
 
     this.totalTecnicosAtivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTecnicosAtivosChamados);
     this.totalTecnicosSemChamadosTransf = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qntTecnicosAtivosSemChamadosTransferidos);
@@ -110,14 +113,15 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     this.totalMediaAtendimentoCorretivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoCorretivo / this.disponibilidadeTecnicosModel.length);
     this.totalMediaAtendimentoPreventivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoPreventivo / this.disponibilidadeTecnicosModel.length);
 
-    this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderBy(o => o.filial).toArray();
+    this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderBy(o => o.nomeFilial).toArray();
     this.loading = false;
     this._cdr.detectChanges();
   }
 }
 
 export class DisponibilidadeTecnicosModel {
-  filial: Filial;
+  codFilial: number;
+  nomeFilial: string;
   qntTecnicosAtivosChamados: number = 0;
   qntTecnicosAtivosSemChamadosTransferidos: number = 0;
   qntTecnicosInativos: number = 0;

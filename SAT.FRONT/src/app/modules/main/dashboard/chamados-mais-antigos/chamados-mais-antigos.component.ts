@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import Enumerable from 'linq';
-import moment from 'moment';
 
 @Component({
   selector: 'app-chamados-mais-antigos',
@@ -10,7 +9,6 @@ import moment from 'moment';
   styleUrls: ['./chamados-mais-antigos.component.css']
 })
 export class ChamadosMaisAntigosComponent implements OnInit {
-
   element_data_corretivas: OrdemServico[] = [];
   element_data_orcamentos: OrdemServico[] = [];
   loading_corretivas: boolean = true;

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { Indicador, IndicadorParameters } from '../types/indicador.types';
+import { DashboardTecnicoDisponibilidadeTecnicoViewModel } from '../types/tecnico.types';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,13 @@ export class IndicadorService {
   obterIndicadoresFiliais(): Observable<Indicador[]> {
     const url = `${c.api}/Indicador/IndicadoresFiliais`;
     return this.http.get<Indicador[]>(url).pipe(
+      map((obj) => obj)
+    );
+  }
+
+  obterIndicadoresDisponibilidadeTecnicos(): Observable<DashboardTecnicoDisponibilidadeTecnicoViewModel[]> {
+    const url = `${c.api}/Indicador/DisponibilidadeTecnicos`;
+    return this.http.get<DashboardTecnicoDisponibilidadeTecnicoViewModel[]>(url).pipe(
       map((obj) => obj)
     );
   }

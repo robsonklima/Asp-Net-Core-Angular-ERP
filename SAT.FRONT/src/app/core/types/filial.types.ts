@@ -8,6 +8,7 @@ export interface Filial {
     cidade: Cidade;
     endereco: string;
     cep: string;
+    bairro: string;
 }
 
 export interface FilialData extends Meta {
@@ -41,4 +42,5 @@ export class DashboardTecnicoDisponibilidadeFilialViewModel implements Filial {
     endereco: string;
     cep: string;
     qtdOSNaoTransferidasCorretivas: number;
+    bairro: string;
 }

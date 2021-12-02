@@ -11,14 +11,14 @@ import Enumerable from 'linq';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-tecnicos-desempenho-spa',
-  templateUrl: './tecnicos-desempenho-spa.component.html',
-  styleUrls: ['./tecnicos-desempenho-spa.component.css']
+  selector: 'app-tecnicos-pendentes',
+  templateUrl: './tecnicos-pendentes.component.html',
+  styleUrls: ['./tecnicos-pendentes.component.css']
 })
-export class TecnicosDesempenhoSpaComponent extends Filterable implements OnInit, IFilterable {
+export class TecnicosPendentesComponent extends Filterable implements OnInit, IFilterable {
   @Input() sidenav: MatSidenav;
   @Input() ordem: string;
-  public desempenhoTecnicosModel: DesempenhoTecnicosModel[] = [];
+  public pendenciaTecnicosModel: PendenciaTecnicosModel[] = [];
   public loading: boolean = true;
 
   constructor(private _tecnicoService: TecnicoService,
@@ -46,36 +46,38 @@ export class TecnicosDesempenhoSpaComponent extends Filterable implements OnInit
   private async obterDados() {
     this.loading = true;
 
-    let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA);
-    let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA);
+    let dadosIndicadoresPercent = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES);
+    let dadosIndicadoresQnt = await this.buscaIndicadores(IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES);
     let listaTecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
 
     for (let indicador of dadosIndicadoresPercent) {
+
       let tecnico = Enumerable.from(listaTecnicos).firstOrDefault(t => t.codTecnico == +indicador.label);
 
       // Existem tecnicos de teste ou help desk que não queremos na tabela
       if (tecnico == undefined) continue;
 
-      let model: DesempenhoTecnicosModel = new DesempenhoTecnicosModel();
+      let model: PendenciaTecnicosModel = new PendenciaTecnicosModel();
       model.filial = tecnico.filial.nomeFilial;
       model.nomeTecnico = tecnico.nome;
-      model.spa = indicador.valor;
+      model.pendencia = indicador.valor;
       model.qntAtendimentos = dadosIndicadoresQnt.find(f => f.label == indicador.label).valor;
 
-      this.desempenhoTecnicosModel.push(model);
+      this.pendenciaTecnicosModel.push(model);
     }
 
-    this.desempenhoTecnicosModel =
+    this.pendenciaTecnicosModel =
       this.ordem == 'asc' ?
-        Enumerable.from(this.desempenhoTecnicosModel).orderBy(ord => ord.spa).thenBy(ord => ord.qntAtendimentos).take(5).toArray() :
-        Enumerable.from(this.desempenhoTecnicosModel).orderByDescending(ord => ord.spa).thenByDescending(ord => ord.qntAtendimentos).take(5).toArray();
+        Enumerable.from(this.pendenciaTecnicosModel).orderBy(ord => ord.pendencia).thenBy(ord => ord.qntAtendimentos).take(5).toArray() :
+        Enumerable.from(this.pendenciaTecnicosModel).orderByDescending(ord => ord.pendencia).thenByDescending(ord => ord.qntAtendimentos).take(5).toArray();
+
 
     this.loading = false;
   }
 
   private async buscaIndicadores(indicadorAgrupadorEnum: IndicadorAgrupadorEnum): Promise<Indicador[]> {
     let indicadorParams = {
-      tipo: IndicadorTipoEnum.SPA,
+      tipo: IndicadorTipoEnum.PENDENCIA,
       agrupador: indicadorAgrupadorEnum,
       include: OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO,
       filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
@@ -84,12 +86,11 @@ export class TecnicosDesempenhoSpaComponent extends Filterable implements OnInit
     }
     return await this._indicadorService.obterPorParametros(indicadorParams).toPromise();
   }
-
 }
 
-export class DesempenhoTecnicosModel {
+export class PendenciaTecnicosModel {
   nomeTecnico: string;
   filial: string;
-  spa: number = 0;
+  pendencia: number = 0;
   qntAtendimentos: number = 0;
 }

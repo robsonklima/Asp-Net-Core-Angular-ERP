@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
 
@@ -26,10 +27,11 @@ namespace SAT.API.Controllers
             return _indicadorService.ObterIndicadores(parameters);
         }
 
-        //[HttpGet("IndicadoresFiliais")]
-        //public List<Indicador> ObterIndicadorDisponibilidade()
-        //{
-        //    return _indicadorService.ObterIndicadorDisponibilidade();
-        //}
+        [HttpGet]
+        [Route("DisponibilidadeTecnicos")]
+        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterDadosDisponibilidadeTecnicos([FromQuery] IndicadorParameters parameters)
+        {
+            return _indicadorService.ObterIndicadorDisponibilidadeTecnicos(parameters);
+        }
     }
 }

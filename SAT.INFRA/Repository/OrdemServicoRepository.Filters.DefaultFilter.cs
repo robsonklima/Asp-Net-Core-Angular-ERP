@@ -72,19 +72,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
                     && os.DataHoraTransf <= parameters.DataTransfFim);
 
-            if (parameters.DataInicioDispBB != DateTime.MinValue && parameters.DataFimDispBB != DateTime.MinValue)
+            if (parameters.DataInicioDispBB.HasValue && parameters.DataFimDispBB.HasValue)
                 query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataInicioDispBB
                     && os.DataHoraAberturaOS <= parameters.DataFimDispBB);
-
-            if (!string.IsNullOrEmpty(parameters.Filter))
-            {
-                query = query.Where(
-                    t =>
-                    t.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NumBanco.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    t.Cliente.NomeFantasia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
 
             if (!string.IsNullOrEmpty(parameters.PAS))
             {

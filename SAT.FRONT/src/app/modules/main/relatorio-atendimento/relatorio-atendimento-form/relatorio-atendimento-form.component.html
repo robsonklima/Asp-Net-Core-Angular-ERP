@@ -107,7 +107,7 @@
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data') }}</mat-label>
-                        <input matInput [matDatepicker]="pickerData" formControlName="data" disabled required>
+                        <input matInput [matDatepicker]="pickerData" formControlName="data" required>
                         <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
                         <mat-datepicker #pickerData disabled="false"></mat-datepicker>
                     </mat-form-field>
@@ -122,7 +122,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('hora da solucao') }}</mat-label>
-                        <input matInput formControlName="horaFim" mask="00:00" [dropSpecialCharacters]="false" required>
+                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
                     </mat-form-field>
@@ -285,17 +286,17 @@
 
                     <div class="flex justify-end p-8"
                         *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
-                        <button class="px-4 mr-2" mat-button (click)="inserirDetalhe()"
+                        <button class="px-4 mr-2" type="button" mat-button (click)="inserirDetalhe()"
                             [matTooltip]="t('adicionar detalhe')">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" mat-button [color]="'primary'"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'primary'"
                             [disabled]="detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 && detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26"
                             [matTooltip]="t('adicionar peca')"
                             (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" mat-button [color]="'warn'"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
                             [disabled]="!detalhesList.selectedOptions.selected.length"
                             [matTooltip]="t('remover detalhe')"
                             (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">

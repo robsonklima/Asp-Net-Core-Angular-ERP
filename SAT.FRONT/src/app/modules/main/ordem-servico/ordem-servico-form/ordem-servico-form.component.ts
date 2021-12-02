@@ -298,6 +298,12 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       var equipContrato = Enumerable.from(this.equipamentosContrato)
         .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
 
+      if (!this.userSession?.usuario?.filial?.codFilial)
+      {
+        var filial = (await this._filialService.obterPorCodigo(equipContrato.codFilial).toPromise());
+        this.form.controls['codFilial'].setValue(filial.codFilial);
+      }
+
       this.form.controls['codRegiao'].setValue(equipContrato?.codRegiao);
       this.form.controls['codAutorizada'].setValue(equipContrato?.codAutorizada);
     });

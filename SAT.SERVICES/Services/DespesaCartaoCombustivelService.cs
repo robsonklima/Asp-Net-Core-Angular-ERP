@@ -16,12 +16,14 @@ namespace SAT.SERVICES.Services
 
         public void Atualizar(DespesaCartaoCombustivel despesaCartaoCombustivel)
         {
-            throw new System.NotImplementedException();
+            _cartaoRepo.Atualizar(despesaCartaoCombustivel);
         }
 
         public DespesaCartaoCombustivel Criar(DespesaCartaoCombustivel despesaCartaoCombustivel)
         {
-            throw new System.NotImplementedException();
+            _cartaoRepo.Criar(despesaCartaoCombustivel);
+
+            return despesaCartaoCombustivel;
         }
 
         public void Deletar(int codigo)

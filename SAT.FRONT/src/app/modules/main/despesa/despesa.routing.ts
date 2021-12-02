@@ -5,6 +5,7 @@ import { DespesaAtendimentoListaComponent } from './despesa-atendimento-lista/de
 import { DespesaAtendimentoReprovacaoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component';
 import { DespesaAtendimentoRelatorioListaComponent } from './despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component';
 import { DespesaCartaoCombustivelDetalheComponent } from './despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
+import { DespesaCartaoCombustivelFormComponent } from './despesa-cartao-combustivel-form/despesa-cartao-combustivel-form.component';
 import { DespesaCartaoCombustivelListaComponent } from './despesa-cartao-combustivel-lista/despesa-cartao-combustivel-lista.component';
 import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
 import { DespesaManutencaoComponent } from './despesa-manutencao/despesa-manutencao.component';
@@ -55,6 +56,14 @@ export const despesaRoutes: Route[] = [
     {
         path: 'cartoes-combustivel',
         component: DespesaCartaoCombustivelListaComponent
+    },
+    {
+        path: 'cartoes-combustivel/form',
+        component: DespesaCartaoCombustivelFormComponent
+    },
+    {
+        path: 'cartoes-combustivel/form/:codDespesaCartaoCombustivel',
+        component: DespesaCartaoCombustivelFormComponent
     },
     {
         path: 'cartoes-combustivel/detalhe/:codDespesaCartaoCombustivel',

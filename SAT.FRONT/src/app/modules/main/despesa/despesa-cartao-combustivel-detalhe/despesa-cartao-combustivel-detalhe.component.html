@@ -31,6 +31,14 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+
+                            <button [matTooltip]="t('editar')" matTooltipPosition="above"
+                                class="fuse-mat-button-rounded bg-gray-200" mat-icon-button
+                                [routerLink]="['/despesa/cartoes-combustivel/form/'+codDespesaCartaoCombustivel]">
+                                <mat-icon class="text-black-500" [svgIcon]="'heroicons_outline:document-add'">
+                                </mat-icon>
+                            </button>
+
                             <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
                                 [matTooltip]="t('vincular tecnico')" matTooltipPosition="above"
                                 (click)="vincularNovoTecnico()">

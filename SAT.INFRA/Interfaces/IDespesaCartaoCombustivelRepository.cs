@@ -7,6 +7,8 @@ namespace SAT.INFRA.Interfaces
     {
         PagedList<DespesaCartaoCombustivel> ObterPorParametros(DespesaCartaoCombustivelParameters parameters);
         DespesaCartaoCombustivel ObterPorCodigo(int codigo);
+        void Criar(DespesaCartaoCombustivel cartao);
+        void Atualizar(DespesaCartaoCombustivel cartoa);
 
     }
 }

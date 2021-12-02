@@ -32,4 +32,18 @@ export class DespesaCartaoCombustivelService
       `${c.api}/DespesaCartaoCombustivel/${codDespesaCartaoCombustivel}`)
       .pipe(map((obj) => obj));
   }
+
+  criar(despesaCartaoCombustivel: DespesaCartaoCombustivel): Observable<DespesaCartaoCombustivel>
+  {
+    return this.http.post<DespesaCartaoCombustivel>(
+      `${c.api}/DespesaCartaoCombustivel`, despesaCartaoCombustivel)
+      .pipe(map((obj) => obj));
+  }
+
+  atualizar(despesaCartaoCombustivel: DespesaCartaoCombustivel): Observable<DespesaCartaoCombustivel>
+  {
+    return this.http.put<DespesaCartaoCombustivel>(
+      `${c.api}/DespesaCartaoCombustivel`, despesaCartaoCombustivel)
+      .pipe(map((obj) => obj));
+  }
 }

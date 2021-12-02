@@ -15,6 +15,10 @@ namespace SAT.INFRA.Mapping
                 .HasKey(prop => prop.CodDespesaCartaoCombustivel);
 
             builder
+                .Property(i => i.CodDespesaCartaoCombustivel)
+                .ValueGeneratedOnAdd();
+
+            builder
                 .HasOne(i => i.TicketLogUsuarioCartaoPlaca)
                 .WithOne()
                 .HasForeignKey<DespesaCartaoCombustivel>(i => i.Numero)

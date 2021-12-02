@@ -1,7 +1,9 @@
-﻿using SAT.INFRA.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -14,6 +16,33 @@ namespace SAT.INFRA.Repository
         public DespesaCartaoCombustivelRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public void Atualizar(DespesaCartaoCombustivel cartao)
+        {
+            DespesaCartaoCombustivel d =
+            _context.DespesaCartaoCombustivel
+            .FirstOrDefault(l => l.CodDespesaCartaoCombustivel == cartao.CodDespesaCartaoCombustivel);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(cartao);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        public void Criar(DespesaCartaoCombustivel cartao)
+        {
+            _context.Add(cartao);
+            _context.SaveChanges();
         }
 
         public DespesaCartaoCombustivel ObterPorCodigo(int codigo) =>

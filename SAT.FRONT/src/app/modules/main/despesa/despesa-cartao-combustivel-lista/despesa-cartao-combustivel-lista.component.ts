@@ -56,6 +56,8 @@ export class DespesaCartaoCombustivelListaComponent implements AfterViewInit
     this.cartoes = (await this._cartaoCombustivelSvc.obterPorParametros({
       pageNumber: this.paginator.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
+      sortActive: 'codDespesaCartaoCombustivel',
+      sortDirection: 'desc',
       filter: filter
     }).toPromise());
   }

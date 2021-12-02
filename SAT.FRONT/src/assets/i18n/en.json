@@ -372,5 +372,11 @@
     "alerta": "Warning",
     "verificar": "Verify",
     "liberacao": "Release",
-    "despesa configuracao": "Expense Configuration"
+    "configuracao": "Configuration",
+    "vigencia": "Term",
+    "km cidade": "KM in Town",
+    "km fora cidade": "KM out Town",
+    "km notas": "KM Notes",
+    "refeicao": "Meal"
+    
 }

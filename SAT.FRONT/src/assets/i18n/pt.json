@@ -375,5 +375,13 @@
     "alerta": "Alerta",
     "verificar": "Verificar",
     "liberacao": "Liberação",
-    "despesa configuracao": "Despesa Configuração"
+    "configuracao": "Configuração",
+    "vigencia": "Vigência",
+    "km cidade": "KM Cidade",
+    "km fora cidade": "KM Fora Cidade",
+    "km notas": "KM Notas",
+    "refeicao": "Refeição"
+
+
+    
 }

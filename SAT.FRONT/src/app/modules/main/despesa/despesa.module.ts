@@ -63,10 +63,11 @@ import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendim
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-cartao-lista/despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
 import { DespesaAdiantamentoConsultaComponent } from './despesa-adiantamento-consulta/despesa-adiantamento-consulta.component';
-import { DespesaConfiguracaoComponent } from './despesa-configuracao/despesa-configuracao.component';
 import { DespesaPeriodoFormComponent } from './despesa-periodo-form/despesa-periodo-form.component';
 import { DespesaAdiantamentoFormComponent } from './despesa-adiantamento-form/despesa-adiantamento-form.component';
 import { DespesaCartaoCombustivelFormComponent } from './despesa-cartao-combustivel-form/despesa-cartao-combustivel-form.component';
+import { DespesaConfiguracaoListaComponent } from './despesa-configuracao-lista/despesa-configuracao-lista.component';
+import { DespesaConfiguracaoFormComponent } from './despesa-configuracao-form/despesa-configuracao-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -105,10 +106,11 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaAtendimentoObservacaoImpressaoComponent,
       DespesaCreditoCreditarDialogComponent,
       DespesaAdiantamentoConsultaComponent,
-      DespesaConfiguracaoComponent,
       DespesaPeriodoFormComponent,
       DespesaAdiantamentoFormComponent,
-      DespesaCartaoCombustivelFormComponent
+      DespesaCartaoCombustivelFormComponent,
+      DespesaConfiguracaoListaComponent,
+      DespesaConfiguracaoFormComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

@@ -324,22 +324,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private validaInformacoesAdicionais(): void
+  escondeCamposClientes(): boolean
   {
-    let perfil = this.userSession.usuario.perfil?.codPerfil;
+    var perfilUsuarioLogado: RoleEnum = this.userSession.usuario.perfil?.codPerfil;
 
-    let colecaoPerfil = [
-      RoleEnum.CLIENTE_BASICO_BIOMETRIA,
-      RoleEnum.CLIENTE_BASICO_C_RESTRICOES
-    ];
+    var perfisClientes =
+      [
+        RoleEnum.CLIENTE_BASICO_BIOMETRIA,
+        RoleEnum.CLIENTE_BASICO_C_RESTRICOES
+      ];
 
-    if (colecaoPerfil.includes(perfil))
-    {
+    if (perfisClientes.includes(perfilUsuarioLogado))
+      return true;
 
-    } else
-    {
-
-    }
+    return false;
   }
 
   private validaIntervencao(): void

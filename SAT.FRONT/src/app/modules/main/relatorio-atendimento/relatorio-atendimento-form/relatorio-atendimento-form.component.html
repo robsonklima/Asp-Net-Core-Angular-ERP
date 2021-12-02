@@ -122,8 +122,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3 pointer-events-none">
                         <mat-label>{{ t('hora da solucao') }}</mat-label>
-                        <input matInput formControlName="horaFim" mask="00:00" [readonly]="true"
-                            [dropSpecialCharacters]="false" required>
+                        <input matInput formControlName="horaFim" mask="00:00" [dropSpecialCharacters]="false" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
                     </mat-form-field>

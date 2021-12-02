@@ -109,14 +109,10 @@
                                                 </div>
                                             </div>
 
-                                            <div class="my-2" *ngIf="ultimoAgendamento" >
+                                            <div class="my-2" *ngIf="ultimoAgendamento">
                                                 <div>{{ t('agendamento') }}</div>
-                                                <div 
-                                                class="text-secondary text-md w-2/5" 
-                                                matTooltipPosition="right"
-                                                matTooltipClass="tool-tip"
-                                                [matTooltip]="histAgendamento"
-                                                >
+                                                <div class="text-secondary text-md w-2/5" matTooltipPosition="right"
+                                                    matTooltipClass="tool-tip" [matTooltip]="histAgendamento">
                                                     {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                 </div>
                                             </div>

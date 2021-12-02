@@ -60,6 +60,10 @@
                                 {{ t('alteracao orcamento invalida') }}
                             </div>
 
+                            <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteCriar')">
+                                {{ t('tipo intervencao invalido') }}
+                            </div>
+
                             <div *ngIf="form.get('codTipoIntervencao').hasError('naoPermiteAlterarCorretiva')">
                                 {{ t('alteracao corretiva invalida') }}
                             </div>

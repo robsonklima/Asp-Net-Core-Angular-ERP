@@ -26,7 +26,7 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
-import { tipoIntervencaoConst } from 'app/core/types/tipo-intervencao.types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 
 
 @Component({
@@ -379,9 +379,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
     if (
       (
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORCAMENTO ||
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_APROVACAO_CLIENTE ||
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === tipoIntervencaoConst.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
+        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
       )
       && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
     )

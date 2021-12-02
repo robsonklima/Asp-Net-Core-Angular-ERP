@@ -13,7 +13,8 @@ namespace SAT.SERVICES.Services
     {
         public List<Indicador> ObterIndicadorDisponibilidade(IndicadorParameters parameters)
         {
-            var chamados = ObterOrdensServicoDispBB(parameters);
+            // var chamados = ObterOrdensServicoDispBB(parameters);
+            var chamados = ObterOrdensServicoBB(parameters);
             var equipamentosContratoAtivos = ObterEquipamentosContratoAtivosDispBB();
 
             switch (parameters.Agrupador)
@@ -24,6 +25,25 @@ namespace SAT.SERVICES.Services
                     throw new NotImplementedException("Não Implementado");
             }
         }
+
+        private IEnumerable<OrdemServico> ObterOrdensServicoBB(IndicadorParameters parameters)
+        {
+            return _osRepository.ObterPorParametros(new OrdemServicoParameters
+            {
+                //DataFimDispBB = parameters.DataFim,
+                //CodClientes = ((int)ClienteEnum.BB).ToString(),
+                //CodContrato = (int)ContratoEnum.BB_TECNO_0125_2017,
+                //odTiposIntervencao = "2,5,17,18,19,20",
+                //CodUsuarioCadastro = "SERVIÇO",
+                // CodEquipamentos = "408, 409, 387, 404, 402, 411, 403, 412, 443",
+                //  NotIn_CodStatusServicos = "2, 3",
+                // IndServico = 1,
+                //PageSize = Int32.MaxValue,
+                Include = OrdemServicoIncludeEnum.OS_DISPONIBILIDADE_BB,
+                FilterType = OrdemServicoFilterEnum.FILTER_DISPONIBILIDADE_BB_CALCULA_OS
+            });
+        }
+
 
         private List<Indicador> ObterIndicadorDisponibilidadeRegiao(IndicadorParameters parameters,
                             IEnumerable<OrdemServico> chamados, IEnumerable<EquipamentoContrato> equipamentosContratoAtivos)
@@ -208,8 +228,14 @@ namespace SAT.SERVICES.Services
 
         private IEnumerable<OrdemServico> ObterOrdensServicoDispBB(IndicadorParameters parameters)
         {
-            var mesAtual = ObterOrdensServicoMesAtualDispBB(parameters);
-            var anterioresAbertas = ObterOrdensServicoAntigasAbertasDispBB(parameters);
+            IEnumerable<OrdemServico> anterioresAbertas = ObterOrdensServicoAntigasAbertasDispBB(parameters);
+
+            DateTime primeiroDiaMes = new(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime ultimoDiaMes = primeiroDiaMes.AddMonths(1).AddDays(-1);
+            parameters.DataInicio = primeiroDiaMes;
+            parameters.DataFim = ultimoDiaMes;
+
+            IEnumerable<OrdemServico> mesAtual = ObterOrdensServicoMesAtualDispBB(parameters);
 
             return mesAtual.Union(anterioresAbertas);
         }

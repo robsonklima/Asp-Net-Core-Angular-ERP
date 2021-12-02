@@ -1,12 +1,11 @@
-using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace SAT.SERVICES.Services
 {
@@ -14,33 +13,24 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorSPA(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
-            var chamados = ObterOrdensServico(parameters);
-
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    Indicadores = ObterIndicadorSPACliente(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    Indicadores = ObterIndicadorSPAFilial(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA:
-                    Indicadores = ObterIndicadorSPATecnicoPercent(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA:
-                    Indicadores = ObterIndicadorSPATecnicoQnt(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_TECNICO_QNT_CHAMADOS.Description(), parameters.DataInicio, parameters.DataFim);
                 default:
-                    break;
+                    return new List<Indicador>();
             }
-
-            return Indicadores;
         }
 
         private List<Indicador> ObterIndicadorSPACliente(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var clientes = chamados
                 .GroupBy(os => new { os.CodCliente, os.Cliente.NomeFantasia })
@@ -93,9 +83,9 @@ namespace SAT.SERVICES.Services
             return Indicadores;
         }
 
-        private List<Indicador> ObterIndicadorSPAFilial(IEnumerable<OrdemServico> chamados)
+        private static List<Indicador> ObterIndicadorSPAFilial(List<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var filiais = chamados
                 .Where(os => os.Filial != null)
@@ -111,7 +101,7 @@ namespace SAT.SERVICES.Services
                 int spaForaQtd = 0;
                 foreach (var os in chamadosFilial)
                 {
-                    if (os.RelatoriosAtendimento.Count() > 1)
+                    if (os.RelatoriosAtendimento.Count > 1)
                     {
                         spaForaQtd++;
                     }
@@ -135,14 +125,15 @@ namespace SAT.SERVICES.Services
                 decimal valor = 100;
                 try
                 {
-                    valor = valor - decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosFilial.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                    valor -= decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosFilial.Count()) * 100, 2, MidpointRounding.AwayFromZero);
                 }
                 catch (DivideByZeroException) { }
 
                 Indicadores.Add(new Indicador()
                 {
                     Label = filial.filial.NomeFilial,
-                    Valor = valor
+                    Valor = valor,
+                    Filho = new List<Indicador>() { new Indicador() { Label = "SPA" } }
                 });
             }
 
@@ -151,7 +142,7 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorSPATecnicoPercent(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var tecnicos = chamados
                 .Where(os => os.Tecnico != null)
@@ -191,7 +182,7 @@ namespace SAT.SERVICES.Services
                 decimal valor = 100;
                 try
                 {
-                    valor = valor - decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosTecnico.Count()) * 100, 2, MidpointRounding.AwayFromZero);
+                    valor -= decimal.Round((Convert.ToDecimal(spaForaQtd) / chamadosTecnico.Count()) * 100, 2, MidpointRounding.AwayFromZero);
                 }
                 catch (DivideByZeroException) { }
 

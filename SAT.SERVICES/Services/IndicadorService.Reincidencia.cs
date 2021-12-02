@@ -1,5 +1,6 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,36 +13,26 @@ namespace SAT.SERVICES.Services
     {
         private List<Indicador> ObterIndicadorReincidencia(IndicadorParameters parameters)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
-            IEnumerable<OrdemServico> chamados = ObterOrdensServico(parameters);
-
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    Indicadores = ObterIndicadorReincidenciaCliente(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    Indicadores = ObterIndicadorReincidenciaFilial(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES:
-                    Indicadores = ObterIndicadorReincidenciaTecnicoPercent(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES:
-                    Indicadores = ObterIndicadorReincidenciaTecnicoQnt(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_TECNICO_QNT_CHAMADOS.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES:
-                    Indicadores = ObterIndicadorEquipReincidentes(chamados);
-                    break;
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_EQUIPAMENTO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 default:
-                    break;
+                    return new List<Indicador>();
             }
-
-            return Indicadores;
         }
 
-        private List<Indicador> ObterIndicadorReincidenciaFilial(IEnumerable<OrdemServico> chamados)
+        private static List<Indicador> ObterIndicadorReincidenciaFilial(List<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var filiais = chamados
                 .Where(os => os.Filial != null)
@@ -74,7 +65,8 @@ namespace SAT.SERVICES.Services
                 Indicadores.Add(new Indicador()
                 {
                     Label = f.filial.NomeFilial,
-                    Valor = valor
+                    Valor = valor,
+                    Filho = new List<Indicador>() { new Indicador() { Label = "Reincidencia" } }
                 });
             }
 
@@ -83,7 +75,7 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorReincidenciaCliente(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var clientes = chamados
                 .Where(os => os.Cliente != null)
@@ -190,10 +182,10 @@ namespace SAT.SERVICES.Services
 
         private List<Indicador> ObterIndicadorEquipReincidentes(IEnumerable<OrdemServico> chamados)
         {
-            List<Indicador> Indicadores = new List<Indicador>();
+            List<Indicador> Indicadores = new();
 
             var equipChamados = chamados
-                                    .Where(os =>(os.EquipamentoContrato != null))
+                                    .Where(os => (os.EquipamentoContrato != null))
                                     .GroupBy(os => os.EquipamentoContrato.CodEquipContrato)
                                     .Select(os => new { CodEquipContrato = os.Key, Count = os.Count(), Inicios = os.ToList().Select(c => c.DataHoraSolicitacao) });
 
@@ -205,11 +197,11 @@ namespace SAT.SERVICES.Services
                 {
                     reinc += item.Count - 1;
                 }
-            
-                var equip = equipChamados.FirstOrDefault( e => e.CodEquipContrato == item.CodEquipContrato);
-                
-                var calc = decimal.Round((Convert.ToDecimal(reinc) / equip.Count ) * 100, 2, MidpointRounding.AwayFromZero);
-            
+
+                var equip = equipChamados.FirstOrDefault(e => e.CodEquipContrato == item.CodEquipContrato);
+
+                var calc = decimal.Round((Convert.ToDecimal(reinc) / equip.Count) * 100, 2, MidpointRounding.AwayFromZero);
+
 
                 Indicadores.Add(new Indicador()
                 {

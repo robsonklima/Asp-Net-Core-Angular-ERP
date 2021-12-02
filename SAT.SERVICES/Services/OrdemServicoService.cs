@@ -6,6 +6,7 @@ using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Linq;
+using System;
 
 namespace SAT.SERVICES.Services
 {
@@ -13,13 +14,10 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
-        private readonly IAgendaTecnicoRepository _agendaTecnicoRepo;
-
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, IAgendaTecnicoRepository agendaTecnicoRepo, ISequenciaRepository sequenciaRepo)
+        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo)
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
-            _agendaTecnicoRepo = agendaTecnicoRepo;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)

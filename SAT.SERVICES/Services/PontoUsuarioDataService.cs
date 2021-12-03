@@ -17,13 +17,15 @@ namespace SAT.SERVICES.Services
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly IPontoUsuarioDataDivergenciaRepository _pontoUsuarioDataDivergenciaRepo;
+        private readonly IUsuarioRepository _usuarioRepo;
 
         public PontoUsuarioDataService(
             IPontoUsuarioDataRepository pontoUsuarioDataRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
             ISequenciaRepository seqRepo,
             IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
-            IPontoUsuarioDataDivergenciaRepository pontoUsuarioDataDivergenciaRepo
+            IPontoUsuarioDataDivergenciaRepository pontoUsuarioDataDivergenciaRepo,
+            IUsuarioRepository usuarioRepo
         )
         {
             _pontoUsuarioDataRepo = pontoUsuarioDataRepo;
@@ -31,6 +33,7 @@ namespace SAT.SERVICES.Services
             _pontoUsuarioRepo = pontoUsuarioRepo;
             _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
             _pontoUsuarioDataDivergenciaRepo = pontoUsuarioDataDivergenciaRepo;
+            _usuarioRepo = usuarioRepo;
         }
 
         public PontoUsuarioData ObterPorCodigo(int codigo)
@@ -42,8 +45,8 @@ namespace SAT.SERVICES.Services
         {
             var datas = _pontoUsuarioDataRepo.ObterPorParametros(parameters);
 
-            datas = ObterPontoDatas(datas);
-            InconsisteAutomaticamente(datas);
+            datas = ObterRegistrosPontos(datas);
+            //InconsisteAutomaticamente(datas);
 
             var lista = new ListViewModel
             {
@@ -76,7 +79,7 @@ namespace SAT.SERVICES.Services
             _pontoUsuarioDataRepo.Atualizar(pontoUsuarioData);
         }
 
-        private PagedList<PontoUsuarioData> ObterPontoDatas(PagedList<PontoUsuarioData> datas)
+        private PagedList<PontoUsuarioData> ObterRegistrosPontos(PagedList<PontoUsuarioData> datas)
         {
             for (int i = 0; i < datas.Count; i++)
             {
@@ -108,10 +111,13 @@ namespace SAT.SERVICES.Services
 
                 var motivoDivergencia = -1;
 
+                var usuario = _usuarioRepo.ObterPorCodigo(pontoData.CodUsuario);
+
                 var relatorios = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters()
                 {
-                    DataInicio = DateTime.Parse(pontoData.DataRegistro.ToString("yyyy-MM-dd 00:00:00")),
-                    DataSolucao = DateTime.Parse(pontoData.DataRegistro.ToString("yyyy-MM-dd 23:59:59")),
+                    DataInicio = pontoData.DataRegistro,
+                    DataSolucao = pontoData.DataRegistro.AddHours(23).AddMinutes(59).AddSeconds(59),
+                    CodTecnicos = usuario.CodTecnico.ToString()
                 });
 
                 if (pontoData.PontosUsuario.Count % 2 == 1)
@@ -231,10 +237,7 @@ namespace SAT.SERVICES.Services
                         CodPontoUsuarioDataStatus = (int)PontoUsuarioDataStatusEnum.INCONSISTENTE
                     };
 
-                    PontoUsuarioData pontoUsuarioData = new PontoUsuarioData()
-                    {
-
-                    };
+                    PontoUsuarioData pontoUsuarioData = new PontoUsuarioData() { };
 
                     AlteraStatus(pontoData, status, motivoDivergencia, (int)PontoUsuarioDataModoDivergenciaEnum.DIVERGENCIA_AUTOMATICA);
 
@@ -247,13 +250,13 @@ namespace SAT.SERVICES.Services
         {
             if (
                     (pontoData.PontoPeriodo.CodPontoPeriodoStatus != (int)PontoPeriodoStatusEnum.CONSOLIDADO &&
-                     pontoData.PontoPeriodo.PontoPeriodoModoAprovacao.CodPontoPeriodoModoAprovacao == (int)PontoPeriodoModoAprovacaoEnum.DIARIO) ||
+                     pontoData.PontoPeriodo.CodPontoPeriodoModoAprovacao == (int)PontoPeriodoModoAprovacaoEnum.DIARIO) ||
                     (pontoData.PontoPeriodo.CodPontoPeriodoStatus == (int)PontoPeriodoStatusEnum.EM_ANALISE)
                )
             {
                 if (
-                        (pontoData.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.INCONSISTENTE) ||
-                        (pontoData.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.CONFERIDO) ||
+                        (pontoData.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.INCONSISTENTE) ||
+                        (pontoData.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.CONFERIDO) ||
                         (pontoData.DataRegistro.DayOfWeek == DayOfWeek.Saturday || pontoData.DataRegistro.DayOfWeek == DayOfWeek.Sunday) ||
                         (pontoData.DataRegistro.Date >= DateTime.Now.Date)
                     )

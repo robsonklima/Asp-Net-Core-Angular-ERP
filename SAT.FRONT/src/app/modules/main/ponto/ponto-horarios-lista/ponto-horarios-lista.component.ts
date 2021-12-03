@@ -3,17 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoUsuarioDataDivergenciaService } from 'app/core/services/ponto-usuario-data-divergencia.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
-import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
-import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { pontoPeriodoModoAprovacaoConst } from 'app/core/types/ponto-periodo-modo-aprovacao.types';
-import { pontoPeriodoStatusConst } from 'app/core/types/ponto-periodo-status.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
-import { pontoUsuarioDataMotivoDivergenciaConst } from 'app/core/types/ponto-usuario-data-motivo-divergencia.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
 import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
 import { PontoUsuario } from 'app/core/types/ponto-usuario.types';
@@ -50,9 +44,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
   constructor(
     private _pontoUsuarioDataSvc: PontoUsuarioDataService,
-    private _pontoUsuarioSvc: PontoUsuarioService,
     private _pontoPeriodoSvc: PontoPeriodoService,
-    private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _pontoUsuarioDataDivergenciaSvc: PontoUsuarioDataDivergenciaService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
@@ -88,21 +80,11 @@ export class PontoHorariosListaComponent implements AfterViewInit {
       .toPromise();
 
     for (var [i, pontoData] of datas.items.entries()) {
-      //datas.items[i].pontosUsuario = await this.obterPontosPorData(pontoData, pontos.items);
-      //datas.items[i].horasExtras = await this.calculaHorasExtras(datas.items[i]);
-      //await this.inconsistirAutomaticamente(pontoData, this.pontoPeriodo);
+      datas.items[i].horasExtras = this.calculaHorasExtras(pontoData);
     }
 
     this.dataSourceData = datas;
     this.isLoading = false;
-  }
-
-  private obterPontosPorData(pontoUsuarioData: PontoUsuarioData, pontos: PontoUsuario[]): PontoUsuario[] {
-    return pontos.filter(p =>
-      moment(p.dataHoraRegistro).format('yyyy-MM-DD') == moment(pontoUsuarioData.dataRegistro).format('yyyy-MM-DD')
-    ).sort((a, b) => {
-      return moment(a.dataHoraRegistro) < moment(b.dataHoraRegistro) ? -1 : 1
-    });
   }
 
   private calculaHorasExtras(data: PontoUsuarioData): string {
@@ -127,87 +109,6 @@ export class PontoHorariosListaComponent implements AfterViewInit {
         return '';
       }
     }
-  }
-
-  private permiteInconsistirAutomaticamente(pontoData: PontoUsuarioData, pontoPeriodo: PontoPeriodo): boolean {
-    if (
-      pontoPeriodo.codPontoPeriodoStatus != pontoPeriodoStatusConst.CONSOLIDADO &&
-      pontoPeriodo.pontoPeriodoModoAprovacao.codPontoPeriodoModoAprovacao == pontoPeriodoModoAprovacaoConst.DIARIO ||
-      pontoPeriodo.codPontoPeriodoStatus == pontoPeriodoStatusConst.EM_ANALISE
-    ) {
-      const data = moment(pontoData.dataRegistro);
-
-      if (
-        pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.INCONSISTENTE ||
-        pontoData.codPontoUsuarioDataStatus == pontoUsuarioDataStatusConst.CONFERIDO ||
-        data.weekday() == 7 || data.weekday() == 1 || data >= moment()
-      ) {
-        return false;
-      }
-
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private async inconsistirAutomaticamente(pontoData: PontoUsuarioData, periodo: PontoPeriodo) {
-    if (!this.permiteInconsistirAutomaticamente(pontoData, periodo)) {
-      return false;
-    }
-            
-    let motivoDivergencia: number = -1;
-
-    if (pontoData.pontosUsuario.length % 2 == 1) {
-      motivoDivergencia = pontoUsuarioDataMotivoDivergenciaConst.FALTA_MARCACAO;
-    } else {
-      if (pontoData.pontosUsuario.length >= 2) {
-        const primeiroPonto = moment(pontoData.pontosUsuario[0].dataHoraRegistro);
-        const ultimoPonto = moment(pontoData.pontosUsuario[pontoData.pontosUsuario.length - 1].dataHoraRegistro);
-        let intervaloEntrePontosEmHoras = moment.duration(primeiroPonto.diff(ultimoPonto)).asHours();
-
-        switch (pontoData.pontosUsuario.length) {
-          case 2:
-            if (intervaloEntrePontosEmHoras > 6) {
-              motivoDivergencia = pontoUsuarioDataMotivoDivergenciaConst.AUSENCIA_DE_INTERVALO;
-            }
-            break;
-
-          case 4:
-            if (intervaloEntrePontosEmHoras > 6) {
-              intervaloEntrePontosEmHoras = moment
-                .duration(moment(pontoData.pontosUsuario[1].dataHoraRegistro)
-                .diff(moment(pontoData.pontosUsuario[2].dataHoraRegistro)))
-                .asHours();
-
-              if (intervaloEntrePontosEmHoras < 1) {
-                motivoDivergencia = pontoUsuarioDataMotivoDivergenciaConst.INTERVALO_MIN_1_HORA_NAO_REALIZADO;
-              }
-              else if (intervaloEntrePontosEmHoras > 2) {
-                motivoDivergencia = pontoUsuarioDataMotivoDivergenciaConst.INTERVALO_MAX_2_HORAS_EXCEDIDO;
-              }
-            }
-            break;
-
-          default:
-            break;
-        }
-      }
-    }
-
-    const usuarioTecnico = await this._userSvc
-      .obterPorCodigo(pontoData.codUsuario)
-      .toPromise();
-
-    const relatorios = await this._relatorioAtendimentoSvc.obterPorParametros({
-      codTecnicos: String(usuarioTecnico.codTecnico),
-      dataInicio: moment(pontoData.dataRegistro).format('yyyy-MM-DD 00:00:00')
-    }).toPromise();
-
-
-    console.log(motivoDivergencia);
-    
-    return motivoDivergencia != -1;
   }
 
   private async conferirPontoData(pontoData: PontoUsuarioData) {
@@ -357,4 +258,3 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     this.obterHorarios();
   }
 }
-

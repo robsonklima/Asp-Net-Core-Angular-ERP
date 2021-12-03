@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -104,6 +105,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
                 var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
+                
                 relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 
@@ -111,6 +113,8 @@ namespace SAT.INFRA.Repository
             {
                 relatorios = relatorios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
+
+            var a = relatorios.ToQueryString();
 
             return PagedList<RelatorioAtendimento>.ToPagedList(relatorios, parameters.PageNumber, parameters.PageSize);
         }

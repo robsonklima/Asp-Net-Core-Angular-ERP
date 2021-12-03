@@ -180,12 +180,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
   {
     const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
 
-    dialogRef.afterClosed().subscribe(detalhe =>
+    dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) =>
     {
       if (detalhe)
-      {
         this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
-      }
     });
   }
 
@@ -432,6 +430,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     for (let d of ra.relatorioAtendimentoDetalhes)
     {
       d.codRAT = raRes.codRAT;
+      d.codOS = this.codOS;
       const detalheRes = await this._raDetalheService.criar(d).toPromise();
 
       for (let dp of d.relatorioAtendimentoDetalhePecas)

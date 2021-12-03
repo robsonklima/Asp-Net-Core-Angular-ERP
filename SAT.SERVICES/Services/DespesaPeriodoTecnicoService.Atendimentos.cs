@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services
     {
         private PagedList<DespesaPeriodo> ObterPeriodos(DespesaPeriodoTecnicoParameters parameters)
         {
-            var periodos = _despesaPeriodoRepo.ObterPorParametros(
+            var periodos = _despesaPeriodoRepo.ObterQuery(
                 new DespesaPeriodoParameters
                 {
                     IndAtivo = parameters.IndAtivoPeriodo,
@@ -23,18 +23,17 @@ namespace SAT.SERVICES.Services
                     SortDirection = parameters.SortDirection
                 });
 
-            // TO REFACTOR
             if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus) && !parameters.CodDespesaPeriodoStatus.Contains("0"))
             {
-                var status = parameters.CodDespesaPeriodoStatus
-                    .Split(',')
-                    .Select(f => f.Trim());
+                var periodosTecnico = _despesaPeriodoTecnicoRepo.ObterPorParametros(
+                        new DespesaPeriodoTecnicoParameters
+                        {
+                            CodTecnico = parameters.CodTecnico.ToString(),
+                            CodDespesaPeriodoStatus = parameters.CodDespesaPeriodoStatus
+                        }).Select(p => p.CodDespesaPeriodo);
 
-                periodos = PagedList<DespesaPeriodo>
-                    .ToPagedList(periodos.Where(p => status.Any(s =>
-                    this.ObterDespesaPeriodoTecnico(parameters.CodTecnico, p.CodDespesaPeriodo)?.CodDespesaPeriodoTecnicoStatus.ToString() == s)).ToList(), parameters.PageNumber, parameters.PageSize);
-
-                return periodos;
+                periodos =
+                    periodos.Where(p => periodosTecnico.Any(s => p.CodDespesaPeriodo == s));
             }
 
             return PagedList<DespesaPeriodo>
@@ -47,7 +46,18 @@ namespace SAT.SERVICES.Services
                 {
                     CodTecnico = codTecnico.ToString(),
                     CodDespesaPeriodo = codPeriodo
-                }).SingleOrDefault();
+                }).FirstOrDefault();
+
+        private string ObterDespesaPeriodoTecnicoStatus(string codTecnico, int codPeriodo)
+        {
+            var despesa = ObterDespesaPeriodoTecnico(codTecnico, codPeriodo);
+
+            if (despesa != null)
+                return despesa.CodDespesaPeriodoTecnicoStatus.ToString();
+
+            return string.Empty;
+        }
+
 
         private List<DespesaAdiantamentoPeriodo> ObterDespesasPeriodoAdiantamentos(string codTecnico, int? codPeriodo = null) =>
             _despesaAdiantamentoPeriodoService.ObterDespesasPeriodoAdiantamentos(

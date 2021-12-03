@@ -12,7 +12,7 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight" >
+                    <div class="text-4xl font-extrabold tracking-tight">
                         {{ t('chamados') }}
                     </div>
                 </div>
@@ -23,7 +23,8 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/ordem-servico/form']">
+                    <button class="ml-4" mat-icon-button matTooltip="{{ t('novo') }}"
+                        [routerLink]="['/ordem-servico/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
@@ -113,7 +114,7 @@
                                                 </div>
 
                                                 <div>
-                                                    {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') : '--' }}
+                                                    {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
                                                 </div>
                                                 <div>
                                                     <span [matTooltip]="statusServicoDescricao(os)"

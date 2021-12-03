@@ -43,7 +43,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 {
     @ViewChild('sidenav') sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+    @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
     @ViewChild(MatSort) sort: MatSort;
 
@@ -243,6 +243,12 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
                 this.isLoading = false;
                 this._cdr.markForCheck();
             });
+    }
+
+    obterUltimoPrazoAtendimento(os: OrdemServico)
+    {
+        return Enumerable.from(os.prazosAtendimento)
+            .orderByDescending(i => i.codOSPrazoAtendimento).firstOrDefault();
     }
 
     fecharDetalhes(): void

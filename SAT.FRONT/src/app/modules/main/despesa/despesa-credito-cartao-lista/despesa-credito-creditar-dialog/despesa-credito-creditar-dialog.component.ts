@@ -73,17 +73,18 @@ export class DespesaCreditoCreditarDialogComponent
       {
         this.despesaPeriodoTecnico.indCredito = 1;
         this.despesaPeriodoTecnico.codUsuarioCredito = this.userSession.usuario.codUsuario;
-        this.despesaPeriodoTecnico.dataHoraCredito = moment().format('DD/MM/YY HH:mm');
+        this.despesaPeriodoTecnico.dataHoraCredito = moment().format('yyyy-MM-DD HH:mm:ss');
 
-        // this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
+        this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
 
         var pedidoCredito: TicketLogPedidoCredito =
         {
           codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
-          codUsuarioCad: this.despesaPeriodoTecnico.codUsuarioCredito
+          codUsuarioCad: this.userSession.usuario.codUsuario,
+          dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
-        // this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();
+        this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();
         this._dialogRef.close(true);
       }
     });
@@ -108,9 +109,9 @@ export class DespesaCreditoCreditarDialogComponent
       {
         this.despesaPeriodoTecnico.indCompensacao = 1;
         this.despesaPeriodoTecnico.codUsuarioCompensacao = this.userSession.usuario.codUsuario;
-        this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('DD/MM/YY HH:mm');
+        this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('yyyy-MM-DD HH:mm:ss');
 
-        // this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
+        this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
         this._dialogRef.close(true);
       }
     });

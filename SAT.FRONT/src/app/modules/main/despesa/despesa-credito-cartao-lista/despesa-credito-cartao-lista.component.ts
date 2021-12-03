@@ -236,18 +236,18 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       {
         despesaPeriodoTecnico.indVerificacao = 1;
         despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
-        despesaPeriodoTecnico.dataHoraVerificacao = moment().format('DD/MM/YY HH:mm:ss');
-        /* this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
+        despesaPeriodoTecnico.dataHoraVerificacao = moment().format('yyyy-MM-DD HH:mm:ss');
+        this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
         {
           this.fecharProtocolo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo);
-        }); */
+        });
       }
     });
   }
 
   cancelarVerificacaoRD(a: DespesaCreditosCartaoListView)
   {
-    /* const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Cancelar Verificação',
         message: `Deseja cancelar o RD no valor de ${a.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${a.tecnico}?`,
@@ -267,10 +267,10 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       {
         despesaPeriodoTecnico.indVerificacao = 0;
         despesaPeriodoTecnico.codUsuarioVerificacaoCancelado = this.userSession.usuario.codUsuario;
-        despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
-        // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
+        despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('yyyy-MM-DD HH:mm:ss');
+        this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
       }
-    }); */
+    });
   }
 
   getStatus(a: DespesaCreditosCartaoListView)
@@ -313,8 +313,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     else
     {
       protocolo.indFechamento = 1;
-      protocolo.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
-      /* await this._despesaProtocoloSvc.atualizar(protocolo).toPromise(); */
+      protocolo.dataHoraFechamento = moment().format('yyyy-MM-DD HH:mm:ss');
+      await this._despesaProtocoloSvc.atualizar(protocolo).toPromise();
     }
 
     this._dialog.open(ConfirmacaoDialogComponent, {

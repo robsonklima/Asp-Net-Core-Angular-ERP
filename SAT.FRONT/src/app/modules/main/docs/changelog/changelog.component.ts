@@ -191,6 +191,26 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        ,
+        {
+            version: 'v1.1.1',
+            releaseDate: '03 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes no filtro de chamados da agenda',
+                        'Ajustes na tela de contratos',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Módulo de despesas'
+                    ],
+                }
+            ]
         }
     ];
 

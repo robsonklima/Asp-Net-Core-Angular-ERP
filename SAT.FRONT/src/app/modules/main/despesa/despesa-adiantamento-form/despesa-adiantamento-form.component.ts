@@ -140,7 +140,7 @@ export class DespesaAdiantamentoFormComponent implements OnInit, OnDestroy
       ...{
         dataAdiantamento: moment(this.form.controls.dataAdiantamento.value).format('yyyy-MM-DD HH:mm:ss'),
         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario?.codUsuario
       }
     };
@@ -164,7 +164,7 @@ export class DespesaAdiantamentoFormComponent implements OnInit, OnDestroy
       ...{
         dataAdiantamento: moment(this.form.controls.dataAdiantamento.value).format('yyyy-MM-DD HH:mm:ss'),
         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario
       }
     };

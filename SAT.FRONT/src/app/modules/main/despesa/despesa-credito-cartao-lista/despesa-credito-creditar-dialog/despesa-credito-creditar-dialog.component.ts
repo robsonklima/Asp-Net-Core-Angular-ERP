@@ -80,7 +80,8 @@ export class DespesaCreditoCreditarDialogComponent
         var pedidoCredito: TicketLogPedidoCredito =
         {
           codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
-          codUsuarioCad: this.despesaPeriodoTecnico.codUsuarioCredito
+          codUsuarioCad: this.despesaPeriodoTecnico.codUsuarioCredito,
+          dataHoraCad: moment().format('DD/MM/YY HH:mm')
         }
 
         this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();

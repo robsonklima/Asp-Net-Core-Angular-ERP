@@ -4,7 +4,7 @@ import { Filterable } from 'app/core/filters/filterable';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { OrdemServicoData, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
@@ -51,6 +51,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
         sortDirection: 'desc',
         pageSize: 100,
         filter: filter,
+        codStatusServicos: StatusServicoEnum.ABERTO,
         ...this.filter?.parametros,
       })
       .toPromise();

@@ -5,9 +5,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using SAT.MODELS.ViewModels;
-using System;
 
 namespace SAT.INFRA.Repository
 {

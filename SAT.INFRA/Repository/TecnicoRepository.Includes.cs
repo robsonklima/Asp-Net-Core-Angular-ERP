@@ -1,8 +1,5 @@
-﻿using SAT.INFRA.Context;
-using SAT.INFRA.Interfaces;
-using System.Linq.Dynamic.Core;
+﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Enums;
@@ -18,10 +15,7 @@ namespace SAT.INFRA.Repository
                 case TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO:
                     query = query
                          .Include(t => t.Filial)
-                            .Include(t => t.Usuario)
-                                .ThenInclude(t => t.PontosUsuario)
-                            .Include(t => t.OrdensServico)
-                                .ThenInclude(t => t.RelatoriosAtendimento);
+                         .Include(t => t.Usuario);
                     break;
                 default:
                     query = query

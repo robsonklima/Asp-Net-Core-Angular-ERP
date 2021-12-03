@@ -85,6 +85,16 @@ namespace SAT.INFRA.Repository
             return PagedList<Feriado>.ToPagedList(feriados, parameters.PageNumber, parameters.PageSize);
         }
 
+        /// <summary>
+        /// Calcula os dias não uteis em um período
+        /// </summary>
+        /// <param name="dataInicio"></param>
+        /// <param name="dataFim"></param>
+        /// <param name="contabilizarSabado"></param>
+        /// <param name="contabilizarDomingo"></param>
+        /// <param name="contabilizarFeriados"></param>
+        /// <param name="codCidade"></param>
+        /// <returns></returns>
         public int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
         {
             List<DateTime> feriadosNoAno = new();

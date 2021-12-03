@@ -245,6 +245,12 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             });
     }
 
+    obterUltimoPrazoAtendimento(os: OrdemServico)
+    {
+        return Enumerable.from(os.prazosAtendimento)
+            .orderByDescending(i => i.codOSPrazoAtendimento).firstOrDefault();
+    }
+
     fecharDetalhes(): void
     {
         this.selectedItem = null;

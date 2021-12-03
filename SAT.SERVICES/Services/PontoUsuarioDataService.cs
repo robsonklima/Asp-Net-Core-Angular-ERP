@@ -64,7 +64,7 @@ namespace SAT.SERVICES.Services
             var datas = _pontoUsuarioDataRepo.ObterPorParametros(parameters);
 
             datas = ObterRegistrosPontos(datas);
-            InconsisteAutomaticamente(datas);
+            //InconsisteAutomaticamente(datas);
 
             var lista = new ListViewModel
             {

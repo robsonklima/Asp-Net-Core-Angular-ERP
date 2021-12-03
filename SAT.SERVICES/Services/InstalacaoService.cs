@@ -9,14 +9,39 @@ namespace SAT.SERVICES.Services
     {
         private readonly IInstalacaoRepository _instalacaoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
+        private readonly IContratoEquipamentoRepository _contratoEquipRepo;
 
         public InstalacaoService(
             IInstalacaoRepository instalacaoRepo,
-            ISequenciaRepository sequenciaRepo
+            ISequenciaRepository sequenciaRepo,
+            IContratoEquipamentoRepository ContratoEquipRepo
         )
         {
             _instalacaoRepo = instalacaoRepo;
             _sequenciaRepo = sequenciaRepo;
+            _contratoEquipRepo = ContratoEquipRepo;
+        }
+
+        public Instalacao ObterPorCodigo(int codigo)
+        {
+            Instalacao instalacao = _instalacaoRepo.ObterPorCodigo(codigo);
+
+            if (instalacao != null) {
+                if (instalacao.Contrato != null) {
+                    var contratosEquipamento = _contratoEquipRepo.ObterPorParametros(new ContratoEquipamentoParameters() {
+                        CodContrato = instalacao.Contrato.CodContrato,
+                        CodEquip = instalacao.CodEquip,
+                        CodGrupoEquip = instalacao.CodGrupoEquip,
+                        CodTipoEquip = instalacao.CodTipoEquip
+                    });
+
+                    if (contratosEquipamento.Count > 0) {
+                        instalacao.Contrato.ContratoEquipamento = contratosEquipamento[0];
+                    }
+                }
+            }
+
+            return instalacao;
         }
 
         public ListViewModel ObterPorParametros(InstalacaoParameters parameters)
@@ -50,11 +75,6 @@ namespace SAT.SERVICES.Services
         public void Atualizar(Instalacao instalacao)
         {
             _instalacaoRepo.Atualizar(instalacao);
-        }
-
-        public Instalacao ObterPorCodigo(int codigo)
-        {
-            return _instalacaoRepo.ObterPorCodigo(codigo);
         }
     }
 }

@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalGrupoAcesso
+    [Table("InstalGrupoAcesso") ]
+    public class InstalacaoGrupoAcesso
     {
         [Key]
         public int CodGrupoAcesso { get; set; }

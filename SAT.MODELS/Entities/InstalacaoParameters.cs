@@ -6,5 +6,7 @@ namespace SAT.MODELS.Entities
     {
         public int? CodContrato { get; set; }
         public int? CodInstalLote { get; set; }
+
+        public int? CodInstalacao { get; set; }
     }
 }

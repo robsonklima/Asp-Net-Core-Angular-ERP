@@ -96,6 +96,8 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
         public DbSet<Instalacao>  Instalacao { get; set; }
         public DbSet<InstalacaoLote>  InstalacaoLote { get; set; }
+        public DbSet<InstalacaoRessalva>  InstalacaoRessalva { get; set; }
+        public DbSet<InstalacaoMotivoRes>  InstalacaoMotivoRes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -104,6 +106,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Sequencia>(new SequenciaMap().Configure);
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
+            modelBuilder.Entity<Instalacao>(new InstalacaoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

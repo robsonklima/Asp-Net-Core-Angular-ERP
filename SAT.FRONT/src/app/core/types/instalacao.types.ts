@@ -7,9 +7,13 @@ import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { GrupoEquipamento } from "./grupo-equipamento.types";
 import { InstalacaoLote } from "./instalacao-lote.types";
+import { InstalacaoRessalva } from "./instalacao-ressalva.types";
+import { InstalacaoStatus } from "./instalacao-status.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { OrdemServico } from "./ordem-servico.types";
 import { Regiao } from "./regiao.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
+import { Transportadora } from "./transportadora.types";
 
 export interface Instalacao {
     codInstalacao: number;
@@ -42,8 +46,8 @@ export interface Instalacao {
     indBtok?: number;
     dataSugInstalacao?: string;
     dataConfInstalacao?: string;
-    codOs?: number;
-    codRat?: number;
+    codOS?: number;
+    codRAT?: number;
     codClienteIns?: number;
     codPostoIns?: number;
     dataBi?: string;
@@ -146,7 +150,14 @@ export interface Instalacao {
     filial?: Filial;
     equipamentoContrato?: EquipamentoContrato;
     cliente?: Cliente;
-    localAtendimento?: LocalAtendimento;    
+    localAtendimento?: LocalAtendimento;  
+    localAtendimentoIns?: LocalAtendimento;
+    localAtendimentoSol?: LocalAtendimento;
+    localAtendimentoEnt?: LocalAtendimento;
+    transportadoras?: Transportadora;
+    instalacoesRessalva?: InstalacaoRessalva[];
+    ordemServico?: OrdemServico;
+    instalacaoStatus?: InstalacaoStatus;
 }
 
 export interface InstalacaoData extends Meta {

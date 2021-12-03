@@ -1,3 +1,4 @@
+import { ContratoEquipamento } from "./contrato-equipamento.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { InstalacaoLote } from "./instalacao-lote.types";
 
@@ -56,6 +57,7 @@ export class Contrato {
     indPermitePecaEspecifica: number;
     semCobertura: string;
     lotes: InstalacaoLote[];
+    contratoEquipamento: ContratoEquipamento;
 }
 
 export interface ContratoData extends Meta {

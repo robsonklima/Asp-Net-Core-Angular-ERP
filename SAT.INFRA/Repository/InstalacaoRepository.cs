@@ -47,14 +47,25 @@ namespace SAT.INFRA.Repository
 
         public Instalacao ObterPorCodigo(int codigo)
         {
-            return _context.Instalacao
+            
+            var data = _context.Instalacao
                 .Include(i => i.Cliente)
                 .Include(i => i.Filial)
                 .Include(i => i.Equipamento)
                 .Include(i => i.EquipamentoContrato)
                 .Include(i => i.InstalacaoLote)
                 .Include(i => i.Contrato)
-                .FirstOrDefault(f => f.CodInstalacao == codigo);
+                .Include(i => i.LocalAtendimentoEnt)
+                .Include(i => i.LocalAtendimentoIns)
+                .Include(i => i.LocalAtendimentoSol)
+                .Include(i => i.OrdemServico)
+                .Include(i => i.OrdemServico.RelatoriosAtendimento)
+                .Include(i => i.InstalacaoStatus)
+                .Include(i => i.InstalacoesRessalva)
+                    .ThenInclude(i => i.InstalacaoMotivoRes)
+                .FirstOrDefault(i => i.CodInstalacao == codigo);
+
+            return data;
         }
 
         public PagedList<Instalacao> ObterPorParametros(InstalacaoParameters parameters)
@@ -66,6 +77,11 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.EquipamentoContrato)
                 .Include(i => i.InstalacaoLote)
                 .Include(i => i.Contrato)
+                .Include(i => i.LocalAtendimentoEnt)
+                .Include(i => i.LocalAtendimentoIns)
+                .Include(i => i.LocalAtendimentoSol)
+                .Include(i => i.OrdemServico)
+                .Include(i => i.InstalacaoStatus)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -89,6 +105,8 @@ namespace SAT.INFRA.Repository
             {
                 instalacoes = instalacoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
+
+            //var a = instalacoes.ToQueryString();
 
             return PagedList<Instalacao>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
         }

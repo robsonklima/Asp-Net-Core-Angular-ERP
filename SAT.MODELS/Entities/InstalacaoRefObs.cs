@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalRefObs
+    [Table("InstalRefObs")]
+    public class InstalacaoRefObs
     {
         [Key]
         public int CodInstalRefObs { get; set; }

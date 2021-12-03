@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalRessalva
+    [Table("InstalRessalva") ]
+    public class InstalacaoRessalva
     {
         [Key]
         public int CodInstalRessalva { get; set; }
@@ -17,6 +19,8 @@ namespace SAT.MODELS.Entities
         public byte IndJustificativa { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
-
+        
+        [ForeignKey("CodInstalMotivoRes")]
+        public InstalacaoMotivoRes InstalacaoMotivoRes { get; set; }
     }
 }

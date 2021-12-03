@@ -69,5 +69,8 @@ namespace SAT.MODELS.Entities
 
         [ForeignKey("CodContrato")]
         public List<InstalacaoLote> Lotes { get; set; }
+
+        [NotMapped]
+        public ContratoEquipamento ContratoEquipamento { get; set; }
     }
 }

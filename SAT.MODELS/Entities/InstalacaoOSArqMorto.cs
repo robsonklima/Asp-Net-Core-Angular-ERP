@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalOsArqMorto
+    public class InstalacaoOSArqMorto
     {
         [Key]
         public int CodInstalacao { get; set; }

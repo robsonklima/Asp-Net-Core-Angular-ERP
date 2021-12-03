@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalPleitoObs
+    [Table("InstalPleitoObs")]
+    public class InstalacaoPleitoObs
     {
         [Key]
         public int CodInstalPleitoObs { get; set; }

@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    public class InstalAnexo
+    [Table("InstalAnexo") ]
+    public class InstalacaoAnexo
     {
         [Key]
         public int CodInstalAnexo { get; set; }

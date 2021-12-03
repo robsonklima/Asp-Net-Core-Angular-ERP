@@ -4,16 +4,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Notifications } from '@mobiscroll/angular';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnico, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import Enumerable from 'linq';
 import moment from 'moment';
 
 @Component({
   selector: 'app-agenda-tecnico-realocacao-dialog',
-  templateUrl: './agenda-tecnico-realocacao-dialog.component.html',
-  styleUrls: ['./agenda-tecnico-realocacao-dialog.component.scss']
+  templateUrl: './agenda-tecnico-realocacao-dialog.component.html'
 })
+
 export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
 {
   agendamentos: MbscAgendaTecnicoCalendarEvent[];

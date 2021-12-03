@@ -236,7 +236,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       {
         despesaPeriodoTecnico.indVerificacao = 1;
         despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
-        despesaPeriodoTecnico.dataHoraVerificacao = moment().format('DD/MM/YY HH:mm:ss');
+        despesaPeriodoTecnico.dataHoraVerificacao = moment().format('yyyy-MM-DD HH:mm:ss');
         this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
         {
           this.fecharProtocolo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo);
@@ -267,8 +267,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       {
         despesaPeriodoTecnico.indVerificacao = 0;
         despesaPeriodoTecnico.codUsuarioVerificacaoCancelado = this.userSession.usuario.codUsuario;
-        despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('DD/MM/YY HH:mm');
-        // this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
+        despesaPeriodoTecnico.dataHoraVerificacaoCancelado = moment().format('yyyy-MM-DD HH:mm:ss');
+        this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).toPromise();
       }
     });
   }
@@ -313,7 +313,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     else
     {
       protocolo.indFechamento = 1;
-      protocolo.dataHoraFechamento = moment().format('DD/MM/YY HH:mm:ss');
+      protocolo.dataHoraFechamento = moment().format('yyyy-MM-DD HH:mm:ss');
       await this._despesaProtocoloSvc.atualizar(protocolo).toPromise();
     }
 

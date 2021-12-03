@@ -73,7 +73,7 @@ export class DespesaCreditoCreditarDialogComponent
       {
         this.despesaPeriodoTecnico.indCredito = 1;
         this.despesaPeriodoTecnico.codUsuarioCredito = this.userSession.usuario.codUsuario;
-        this.despesaPeriodoTecnico.dataHoraCredito = moment().format('DD/MM/YY HH:mm');
+        this.despesaPeriodoTecnico.dataHoraCredito = moment().format('yyyy-MM-DD HH:mm:ss');
 
         this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
 
@@ -81,7 +81,7 @@ export class DespesaCreditoCreditarDialogComponent
         {
           codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
           codUsuarioCad: this.userSession.usuario.codUsuario,
-          dataHoraCad: moment().format('DD/MM/YY HH:mm')
+          dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
         this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();
@@ -109,7 +109,7 @@ export class DespesaCreditoCreditarDialogComponent
       {
         this.despesaPeriodoTecnico.indCompensacao = 1;
         this.despesaPeriodoTecnico.codUsuarioCompensacao = this.userSession.usuario.codUsuario;
-        this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('DD/MM/YY HH:mm');
+        this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('yyyy-MM-DD HH:mm:ss');
 
         this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
         this._dialogRef.close(true);

@@ -105,9 +105,9 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
       ...this.form.getRawValue(),
       ...{
         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-        dataVigencia: moment(this.form.controls.dataVigencia.value).format('YYYY-MM-DD HH:mm:ss'),
+        dataVigencia: moment(this.form.controls.dataVigencia.value).format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario?.codUsuario,
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss')
+        dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss')
       }
     };
 
@@ -129,8 +129,8 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
       ...this.form.getRawValue(),
       ...{
         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-        dataVigencia: moment(this.form.controls.dataVigencia.value).format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataVigencia: moment(this.form.controls.dataVigencia.value).format('yyyy-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario
       }
     };

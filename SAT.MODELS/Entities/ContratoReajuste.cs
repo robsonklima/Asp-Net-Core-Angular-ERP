@@ -13,7 +13,7 @@ namespace SAT.MODELS.Entities
         
         [ForeignKey("CodTipoIndiceReajuste")]
         public TipoIndiceReajuste TipoIndiceReajuste { get; set; }
-        public decimal PercReajuste { get; set; }        
+        public decimal? PercReajuste { get; set; }        
         public byte? IndAtivo { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime? DataHoraCad { get; set; }    

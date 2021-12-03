@@ -114,7 +114,7 @@ export class DespesaCartaoCombustivelFormComponent implements OnInit, OnDestroy
       ...this.form.getRawValue(),
       ...{
         indAtivo: this._formIndAtivo.checked ? 1 : 0,
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario
       }
     };

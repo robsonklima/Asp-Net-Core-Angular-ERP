@@ -14,10 +14,12 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
+import { RoleEnum, UserSession } from 'app/core/user/user.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
+import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
+import { AgendaTecnicoValidatorDialogComponent } from './agenda-tecnico-validator-dialog/agenda-tecnico-validator-dialog.component';
 
 setOptions({
   locale: localePtBR,
@@ -122,7 +124,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     private _cdr: ChangeDetectorRef,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     protected _userSvc: UserService,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private _validator: AgendaTecnicoValidator
   )
   {
     super(_userSvc, 'agenda-tecnico')
@@ -169,7 +172,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     const tecnicos = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
-      codPerfil: 35,
+      codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
       codFiliais: this.getFiliais(),
       sortActive: 'nome',
       sortDirection: 'asc',
@@ -317,13 +320,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
 
-    if (ag)
-    {
-      evento.codAgendaTecnico = ag?.codAgendaTecnico;
-      return evento;
-    }
-
-    return null;
+    evento.codAgendaTecnico = ag?.codAgendaTecnico;
+    return evento;
   }
 
   private async carregaIntervalos(tecnicos: Tecnico[], intervalos: AgendaTecnico[])
@@ -523,10 +521,28 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
   }
 
+  private async checkForWarnings(ev)
+  {
+    var isFromSameRegion = (await this._validator.isRegiaoAtendimentoValida(ev.ordemServico, ev.resource));
+
+    if (!isFromSameRegion)
+    {
+      this._dialog.open(AgendaTecnicoValidatorDialogComponent, {
+        data: {
+          message: `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`,
+        }
+      });
+      return;
+    }
+  }
+
   private async createNewEvent(args, inst)
   {
     var ev = args.event;
     ev.color = this.getEventColor(args);
+
+    this.checkForWarnings(ev);
+
     var agendaTecnico: AgendaTecnico =
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),

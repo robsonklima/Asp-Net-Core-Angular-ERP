@@ -34,7 +34,7 @@ namespace SAT.MODELS.Entities
         public short? NumMinReincidencia { get; set; }
         public int? KmMinimoAdicional { get; set; }
         public int? KmAdicionalHora { get; set; }
-        public int Mtbfnominal { get; set; }
+        public int? Mtbfnominal { get; set; }
         public byte? IndAtivo { get; set; }
         public byte? IndPermitePecaGenerica { get; set; }
         public DateTime? DataCadastro { get; set; }

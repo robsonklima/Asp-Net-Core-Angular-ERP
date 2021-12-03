@@ -40,15 +40,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(PontoUsuario pontoUsuario)
         {
-            try
-            {
+            // try
+            // {
                 _context.Add(pontoUsuario);
                 _context.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
-            }
+            // }
+            // catch (DbUpdateException)
+            // {
+            //     throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+            // }
         }
 
         public void Deletar(int codigo)

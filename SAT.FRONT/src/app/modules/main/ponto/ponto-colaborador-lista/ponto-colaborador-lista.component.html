@@ -16,7 +16,9 @@
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                         <span class="ml-1 text-secondary">
-                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} até {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
+                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} 
+                            {{ pontoPeriodo ? 'até' : '' }}
+                            {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
                         </span>
                     </div>
                 </div>

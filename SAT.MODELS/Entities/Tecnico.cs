@@ -50,7 +50,7 @@ namespace SAT.MODELS.Entities
         public string FoneParticular { get; set; }
         public string FonePerto { get; set; }
         public string SimCardMobile { get; set; }
-        public int? IndPa { get; set; }
+        public int? IndPA { get; set; }
         public string TrackerId { get; set; }
         public int? CodSimCard { get; set; }
         public string Cpflogix { get; set; }

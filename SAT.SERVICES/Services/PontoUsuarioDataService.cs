@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
@@ -41,27 +42,6 @@ namespace SAT.SERVICES.Services
             return _pontoUsuarioDataRepo.ObterPorCodigo(codigo);
         }
 
-        public ListViewModel ObterPorParametros(PontoUsuarioDataParameters parameters)
-        {
-            var datas = _pontoUsuarioDataRepo.ObterPorParametros(parameters);
-
-            datas = ObterRegistrosPontos(datas);
-            //InconsisteAutomaticamente(datas);
-
-            var lista = new ListViewModel
-            {
-                Items = datas,
-                TotalCount = datas.TotalCount,
-                CurrentPage = datas.CurrentPage,
-                PageSize = datas.PageSize,
-                TotalPages = datas.TotalPages,
-                HasNext = datas.HasNext,
-                HasPrevious = datas.HasPrevious
-            };
-
-            return lista;
-        }
-
         public PontoUsuarioData Criar(PontoUsuarioData pontoUsuarioData)
         {
             pontoUsuarioData.CodPontoUsuarioData = _seqRepo.ObterContador("PontoUsuarioData");
@@ -77,6 +57,27 @@ namespace SAT.SERVICES.Services
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
             _pontoUsuarioDataRepo.Atualizar(pontoUsuarioData);
+        }
+
+        public ListViewModel ObterPorParametros(PontoUsuarioDataParameters parameters)
+        {
+            var datas = _pontoUsuarioDataRepo.ObterPorParametros(parameters);
+
+            datas = ObterRegistrosPontos(datas);
+            InconsisteAutomaticamente(datas);
+
+            var lista = new ListViewModel
+            {
+                Items = datas,
+                TotalCount = datas.TotalCount,
+                CurrentPage = datas.CurrentPage,
+                PageSize = datas.PageSize,
+                TotalPages = datas.TotalPages,
+                HasNext = datas.HasNext,
+                HasPrevious = datas.HasPrevious
+            };
+
+            return lista;
         }
 
         private PagedList<PontoUsuarioData> ObterRegistrosPontos(PagedList<PontoUsuarioData> datas)
@@ -102,12 +103,9 @@ namespace SAT.SERVICES.Services
 
         protected void InconsisteAutomaticamente(List<PontoUsuarioData> pontosData)
         {
-            foreach (var pontoData in pontosData)
+            foreach (var (pontoData, index) in pontosData.Select((v, i) => (v, i)))
             {
-                if (!PermiteInconsistirAutomaticamente(pontoData))
-                {
-                    continue;
-                }
+                if (!PermiteInconsistirAutomaticamente(pontoData)) continue;
 
                 var motivoDivergencia = -1;
 
@@ -118,7 +116,7 @@ namespace SAT.SERVICES.Services
                     DataInicio = pontoData.DataRegistro,
                     DataSolucao = pontoData.DataRegistro.AddHours(23).AddMinutes(59).AddSeconds(59),
                     CodTecnicos = usuario.CodTecnico.ToString()
-                });
+                }).ToList();
 
                 if (pontoData.PontosUsuario.Count % 2 == 1)
                 {
@@ -207,8 +205,8 @@ namespace SAT.SERVICES.Services
                                     }
                                     else
                                     {
-                                        TimeSpan horarioInicioIntervaloRat = rat.HorarioInicioIntervalo;
-                                        TimeSpan horarioFimIntervaloRat = rat.HorarioTerminoIntervalo;
+                                        TimeSpan horarioInicioIntervaloRat = rat.HorarioInicioIntervalo.Value;
+                                        TimeSpan horarioFimIntervaloRat = rat.HorarioTerminoIntervalo.Value;
                                         TimeSpan quantidadeIntervalo = horarioFimIntervalo.Subtract(horarioInicioIntervalo);
                                         TimeSpan quantidadeIntervaloRat = horarioFimIntervaloRat.Subtract(horarioInicioIntervaloRat);
 
@@ -299,65 +297,47 @@ namespace SAT.SERVICES.Services
 
         protected void AlteraStatus(PontoUsuarioData pontoData, PontoUsuarioDataStatus status, int motivo, int modoDivergencia)
         {
-            try
+            pontoData.CodUsuario = "sat";
+            pontoData.DataRegistro = pontoData.DataRegistro;
+
+            if (pontoData != null)
             {
-                PontoUsuarioData dataPontoUsuario = new PontoUsuarioData();
+                pontoData.CodPontoUsuarioData = pontoData.CodPontoUsuarioData;
+                pontoData.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
+                pontoData.DataHoraManut = DateTime.Now;
+                pontoData.CodUsuarioManut = Constants.SISTEMA_NOME;
 
-                dataPontoUsuario.CodUsuario = "sat";
-                dataPontoUsuario.DataRegistro = pontoData.DataRegistro;
-
-                if (pontoData != null)
-                {
-                    dataPontoUsuario = new PontoUsuarioData();
-                    dataPontoUsuario.CodPontoUsuarioData = pontoData.CodPontoUsuarioData;
-                    dataPontoUsuario.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
-                    dataPontoUsuario.DataHoraManut = DateTime.Now;
-
-                    if (modoDivergencia == (int)PontoUsuarioDataModoDivergenciaEnum.DIVERGENCIA_AUTOMATICA)
-                    {
-                        dataPontoUsuario.CodUsuarioManut = "sat";
-                    }
-                    else
-                    {
-                        dataPontoUsuario.CodUsuarioManut = "sat";
-                    }
-
-                    _pontoUsuarioDataRepo.Atualizar(dataPontoUsuario);
-                }
-                else
-                {
-                    dataPontoUsuario.CodUsuarioCad = "sat";
-                    dataPontoUsuario.DataHoraCad = DateTime.Now;
-                    dataPontoUsuario.CodPontoPeriodo = pontoData.PontoPeriodo.CodPontoPeriodo;
-                    dataPontoUsuario.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
-
-                    _pontoUsuarioDataRepo.Criar(dataPontoUsuario);
-                }
-
-                if (status.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.INCONSISTENTE)
-                {
-                    PontoUsuarioDataDivergencia divergencia = new PontoUsuarioDataDivergencia();
-
-                    if (motivo > -1)
-                    {
-                        divergencia.PontoUsuarioDataMotivoDivergencia.CodPontoUsuarioDataMotivoDivergencia = motivo;
-                    }
-
-                    if (modoDivergencia > -1)
-                    {
-                        divergencia.PontoUsuarioDataModoDivergencia.CodPontoUsuarioDataModoDivergencia = modoDivergencia;
-                    }
-
-                    divergencia.CodUsuarioCad = "sat";
-                    divergencia.DataHoraCad = DateTime.Now;
-                    divergencia.CodPontoUsuarioData = dataPontoUsuario.CodPontoUsuarioData;
-
-                    _pontoUsuarioDataDivergenciaRepo.Criar(divergencia);
-                }
+                _pontoUsuarioDataRepo.Atualizar(pontoData);
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                pontoData.CodUsuarioCad = Constants.SISTEMA_NOME;
+                pontoData.DataHoraCad = DateTime.Now;
+                pontoData.CodPontoPeriodo = pontoData.PontoPeriodo.CodPontoPeriodo;
+                pontoData.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
+
+                _pontoUsuarioDataRepo.Criar(pontoData);
+            }
+
+            if (status.CodPontoUsuarioDataStatus == (int)PontoUsuarioDataStatusEnum.INCONSISTENTE)
+            {
+                PontoUsuarioDataDivergencia divergencia = new PontoUsuarioDataDivergencia();
+
+                if (motivo > -1)
+                {
+                    divergencia.PontoUsuarioDataMotivoDivergencia.CodPontoUsuarioDataMotivoDivergencia = motivo;
+                }
+
+                if (modoDivergencia > -1)
+                {
+                    divergencia.PontoUsuarioDataModoDivergencia.CodPontoUsuarioDataModoDivergencia = modoDivergencia;
+                }
+
+                divergencia.CodUsuarioCad = Constants.SISTEMA_NOME;
+                divergencia.DataHoraCad = DateTime.Now;
+                divergencia.CodPontoUsuarioData = pontoData.CodPontoUsuarioData;
+
+                _pontoUsuarioDataDivergenciaRepo.Criar(divergencia);
             }
         }
     }

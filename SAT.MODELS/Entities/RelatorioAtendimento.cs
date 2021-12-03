@@ -78,14 +78,14 @@ namespace SAT.MODELS.Entities
         public int? IndCedulaVentilada { get; set; }
         public int? IndInfraEstruturaLogicaAdequada { get; set; }
         public string TensaoTerraNeutro { get; set; }
-        public TimeSpan HorarioInicioIntervalo { get; set; }
-        public TimeSpan HorarioTerminoIntervalo { get; set; }
+        public TimeSpan? HorarioInicioIntervalo { get; set; }
+        public TimeSpan? HorarioTerminoIntervalo { get; set; }
         public int? QtdPagamentos { get; set; }
         public int? QtdCedulasPagas { get; set; }
         public string NroSerieMecanismo { get; set; }
         public int CodOS { get; set; }
         public int CodTecnico { get; set; }
-        public int CodStatusServico { get; set; }
+        public int? CodStatusServico { get; set; }
         [ForeignKey("CodRAT")]
         public List<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhes { get; set; }
         [ForeignKey("CodRAT")]

@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodPontoUsuarioDataStatus { get; set; }
         public string Descricao { get; set; }
-        public DateTime DataHoraCad { get; set; }
+        public DateTime? DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
     }
 }

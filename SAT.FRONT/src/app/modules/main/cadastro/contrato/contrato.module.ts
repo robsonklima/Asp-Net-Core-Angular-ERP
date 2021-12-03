@@ -42,6 +42,7 @@ import { ContratoModeloListaComponent } from './contrato-modelo/contrato-modelo-
 import { MatRadioModule } from '@angular/material/radio';
 import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-form/contrato-modelo-form.component';
 import { ContratoSlaComponent } from './contrato-sla/contrato-sla.component';
+import { ContratoFiltroComponent } from './contrato-filtro/contrato-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -57,6 +58,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		ContratoModeloListaComponent,
   		ContratoModeloFormComponent,
     	ContratoSlaComponent,
+     ContratoFiltroComponent,
 	],
 	imports: [
 		CommonModule,

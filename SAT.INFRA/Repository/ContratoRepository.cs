@@ -84,6 +84,10 @@ namespace SAT.INFRA.Repository
             {
                 contratos = contratos.Where(c => c.CodContrato == parameters.CodContrato);
             }
+            if (parameters.CodTipoContrato != null)
+            {
+                contratos = contratos.Where(c => c.TipoContrato.CodTipoContrato == parameters.CodTipoContrato);
+            }
 
             if (parameters.IndAtivo != null)
             {

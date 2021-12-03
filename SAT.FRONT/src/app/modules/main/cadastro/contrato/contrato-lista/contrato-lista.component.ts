@@ -1,3 +1,6 @@
+import { IFilterable } from 'app/core/types/filtro.types';
+import { Filterable } from './../../../../../core/filters/filterable';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ContratoParameters } from './../../../../../core/types/contrato.types';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,33 +35,61 @@ import { FileService } from 'app/core/services/file.service';
         }
     `],
 })
-export class ContratoListaComponent implements AfterViewInit {
-    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-    userSession: UserSession;
+export class ContratoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+    @ViewChild('sidenav') sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) private sort: MatSort;
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild('searchInputControl') searchInputControl: ElementRef;
+
     dataSourceData: ContratoData;
     selectedItem: Contrato | null = null;
-    filtro: any;
     isLoading: boolean = false;
     protected _onDestroy = new Subject<void>();
 
     constructor(
         private _cdr: ChangeDetectorRef,
         private _contratoService: ContratoService,
-        private _userService: UserService,
+        protected _userService: UserService,
         private _fileService: FileService
     ) {
 
-        this.userSession = JSON.parse(this._userService.userSession);
+        super(_userService, 'contrato');
+    }
+
+    registerEmitters(): void {
+
+        this.sidenav.closedStart.subscribe(() =>
+        {
+            this.onSidenavClosed();
+            this.obterContratos();
+        })
+
+        if (this.sort && this.paginator) {
+
+            this.sort.disableClear = true;
+            this._cdr.markForCheck();
+
+            this.sort.sortChange.subscribe(() => {
+                this.paginator.pageIndex = 0;
+                this.onSortChanged();
+                this.obterContratos();
+            });
+        }
     }
 
     ngOnInit(): void {
     }
 
     ngAfterViewInit(): void {
-        this.obterContratos();        
 
+        this.obterContratos();        
+        this.registerEmitters();
+        this._cdr.detectChanges();
+    }
+
+    public async obterContratos(filter: string = '') {
+        this.isLoading = true;
+        
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
             map((event: any) => {
                 return event.target.value;
@@ -69,23 +100,6 @@ export class ContratoListaComponent implements AfterViewInit {
             this.paginator.pageIndex = 0;
             this.obterContratos(text);
         });
-
-        if (this.sort && this.paginator) {
-
-            this.sort.disableClear = true;
-            this._cdr.markForCheck();
-
-            this.sort.sortChange.subscribe(() => {
-                this.paginator.pageIndex = 0;
-                this.obterContratos();
-            });
-        }
-
-        this._cdr.detectChanges();
-    }
-
-    public async obterContratos(filter: string = '') {
-        this.isLoading = true;
 
         const params: ContratoParameters = {
             pageNumber: this.paginator.pageIndex + 1,
@@ -98,7 +112,8 @@ export class ContratoListaComponent implements AfterViewInit {
         const data: ContratoData = await this._contratoService
             .obterPorParametros({
                 ...params,
-                ...this.filtro?.parametros
+                codCliente: this.filter?.parametros.codClientes,
+                codTipoContrato: this.filter?.parametros.codTipoContrato
             })
             .toPromise();
 
@@ -115,13 +130,14 @@ export class ContratoListaComponent implements AfterViewInit {
         };
 
         window.open(await this._fileService.downloadLink("Contrato", FileMime.Excel, {
-            ...this.filtro?.parametros,
+            ...this.filter?.parametros,
             ...params
         }));
         this.isLoading = false;
     }
 
     paginar() {
+        this.onPaginationChanged()
         this.obterContratos();
     }
 

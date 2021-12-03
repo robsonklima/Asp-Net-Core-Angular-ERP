@@ -1,9 +1,9 @@
 <mat-drawer-container class="flex-auto h-full">
-    <!-- <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <app-ordem-servico-filtro [sidenav]="sidenav"></app-ordem-servico-filtro>
-    </mat-drawer> -->
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-contrato-filtro [sidenav]="sidenav"></app-contrato-filtro>
+    </mat-drawer>
 
-    <mat-drawer-content>
+    <mat-drawer-content *transloco="let t">
         <div
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
             <div
@@ -22,12 +22,16 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button *transloco="let t" mat-icon-button [matTooltip]="t('novo')" [routerLink]="['/contrato/form']">
+                    <button mat-icon-button [matTooltip]="t('novo')" [routerLink]="['/contrato/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
-                    <button *transloco="let t" class="ml-2" mat-icon-button [matTooltip]="t('exportar')" (click)="exportar()">
+                    <button class="ml-2" mat-icon-button [matTooltip]="t('exportar')" (click)="exportar()">
                         <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                    </button>
+
+                    <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -38,7 +42,7 @@
                         <ng-container>
                             <div class="grid">
                                 <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                    matSort matSortDisableClear *transloco="let t">
+                                    matSort matSortDisableClear >
                                     <div class="md:block" [mat-sort-header]="'codContrato'">
                                         {{ t('codigo') }}
                                     </div>
@@ -54,7 +58,7 @@
                                     <div class="hidden lg:block">
                                         {{ t('tipo') }}
                                     </div>
-                                    <div>
+                                    <div [mat-sort-header]="'indAtivo'">
                                         {{ t('ativo') }}
                                     </div>
                                 </div>
@@ -62,31 +66,31 @@
                                 <ng-container>
                                     <ng-container *ngFor="let contrato of dataSourceData?.items">
                                         <a [routerLink]="'/contrato/'+ contrato.codContrato">
-                                            <div class="list-grid-contrato grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
+                                            <div class="list-grid-contrato grid items-center h-11 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                             <div class="flex items-center">
-                                                {{ contrato.codContrato }}
+                                                {{ contrato?.codContrato }}
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{ contrato.cliente.razaoSocial}}
+                                                {{ contrato.cliente?.razaoSocial}}
                                             </div>
 
                                             <div class="md:block truncate">
-                                                {{ contrato.nroContrato}}
+                                                {{ contrato?.nroContrato}}
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{ contrato.nomeContrato}}
+                                                {{ contrato?.nomeContrato}}
                                             </div>
 
                                             <div class="hidden md:block truncate">
-                                                {{ (contrato.tipoContrato.nomeTipoContrato) }}
+                                                {{ (contrato?.tipoContrato?.nomeTipoContrato) }}
                                             </div>
                                             <div
                                             class="font-semibold" 
                                             [class.text-red-500]="!contrato.indAtivo"
                                             [class.text-green-500]="contrato.indAtivo">
-                                                {{ contrato.indAtivo? t("sim") : t("nao")  }}
+                                                {{ contrato?.indAtivo? t("sim") : t("nao")  }}
                                             </div>
                                         </div>
                                         </a>

@@ -229,7 +229,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
         codPosto: codPosto,
         pageSize: 100
       }).toPromise();
-
+      
       this.equipamentosContrato = data.items.slice();
     });
   }

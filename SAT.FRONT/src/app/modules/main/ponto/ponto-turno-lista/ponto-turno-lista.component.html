@@ -10,7 +10,7 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            <button class="ml-4" mat-button routerLink="/ponto/ponto-periodo-form">
+            <button class="ml-4" mat-button routerLink="/ponto/ponto-turno-form">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
         </div>
@@ -63,7 +63,7 @@
                                             [routerLink]="'/ponto/ponto-turno-form/' + data.codTurno"
                                             matTooltipPosition="above">
                                             <mat-icon
-                                                class="icon-size-5 text-orange-600"
+                                                class="icon-size-5 text-blue-600"
                                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>
 
@@ -72,7 +72,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Remover'"
                                             matTooltipPosition="above"
-                                            (click)="remover()">
+                                            (click)="remover(data.codTurno)">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:trash'"></mat-icon>

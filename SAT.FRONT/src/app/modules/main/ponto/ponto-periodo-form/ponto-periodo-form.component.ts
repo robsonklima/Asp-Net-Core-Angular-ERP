@@ -37,7 +37,6 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _location: Location,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
     private _router: Router,

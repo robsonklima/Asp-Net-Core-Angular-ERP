@@ -17,7 +17,7 @@ export class PontoUsuario {
     longitude: number;
 }
 
-export interface PontoUsuarioData extends Meta {
+export interface PontoUsuarioDt extends Meta {
     items: PontoUsuario[];
 };
 

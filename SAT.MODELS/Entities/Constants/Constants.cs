@@ -2,6 +2,8 @@
 {
     public class Constants
     {
+        public static string SISTEMA_NOME = "SAT";
+
         // Status de Serviço
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;

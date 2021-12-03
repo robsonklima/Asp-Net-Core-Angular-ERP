@@ -9,7 +9,7 @@ namespace SAT.MODELS.Entities
         public int CodCheckInCheckOut { get; set; }
         public string Tipo { get; set; }
         public string Modalidade { get; set; }
-        public int? CodOs { get; set; }
+        public int? CodOS { get; set; }
         public int? CodRat { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }

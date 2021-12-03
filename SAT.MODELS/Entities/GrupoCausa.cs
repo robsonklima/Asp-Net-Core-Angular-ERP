@@ -10,5 +10,6 @@ namespace SAT.MODELS.Entities
         public string CodEGrupoCausa { get; set; }
         public string NomeGrupoCausa { get; set; }
         public byte? IndAtivo { get; set; }
+        public int? CodTraducao { get; set; }
     }
 }

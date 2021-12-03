@@ -40,15 +40,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(PontoUsuario pontoUsuario)
         {
-            try
-            {
+            // try
+            // {
                 _context.Add(pontoUsuario);
                 _context.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
-            }
+            // }
+            // catch (DbUpdateException)
+            // {
+            //     throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+            // }
         }
 
         public void Deletar(int codigo)
@@ -98,6 +98,9 @@ namespace SAT.INFRA.Repository
             {
                 query = query.Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo);
             }
+
+            if (parameters.DataHoraRegistroInicio != DateTime.MinValue && parameters.DataHoraRegistroFim != DateTime.MinValue)
+                query = query.Where(p => p.DataHoraRegistro >= parameters.DataHoraRegistroInicio && p.DataHoraRegistro <= parameters.DataHoraRegistroFim);
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

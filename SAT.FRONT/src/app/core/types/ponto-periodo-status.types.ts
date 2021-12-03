@@ -13,3 +13,10 @@ export interface PontoPeriodoStatusData extends Meta {
 export interface PontoPeriodoStatusParameters extends QueryStringParameters {
 
 };
+
+export const pontoPeriodoStatusConst = {
+    INDISPONIVEL: 1,
+    ABERTO: 2,
+    EM_ANALISE: 3,
+    CONSOLIDADO: 4
+}

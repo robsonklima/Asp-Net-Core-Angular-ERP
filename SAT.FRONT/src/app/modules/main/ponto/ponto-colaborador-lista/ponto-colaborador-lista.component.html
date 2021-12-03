@@ -16,7 +16,9 @@
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                         <span class="ml-1 text-secondary">
-                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} até {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
+                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} 
+                            {{ pontoPeriodo ? 'até' : '' }}
+                            {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
                         </span>
                     </div>
                 </div>
@@ -116,8 +118,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Horários'"
                                             matTooltipPosition="above"
-                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario"
-                                            [disabled]="data.pontosPeriodoUsuario[0].pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'">
+                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:clock'"></mat-icon>

@@ -104,6 +104,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
                 var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
+                
                 relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 

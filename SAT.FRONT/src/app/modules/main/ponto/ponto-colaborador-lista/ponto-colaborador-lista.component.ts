@@ -19,18 +19,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     `
       .list-grid-pc {
           grid-template-columns: auto 116px 198px 218px 72px 218px 72px;
-          
-          @screen sm {
-              grid-template-columns: auto 116px 198px 218px 72px 218px 72px;
-          }
-      
-          @screen md {
-              grid-template-columns: auto 116px 198px 218px 72px 218px 72px;
-          }
-      
-          @screen lg {
-              grid-template-columns: auto 116px 198px 218px 72px 218px 72px;
-          }
       }
     `
   ],

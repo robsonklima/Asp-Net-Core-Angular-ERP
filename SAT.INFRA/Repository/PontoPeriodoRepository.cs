@@ -72,7 +72,11 @@ namespace SAT.INFRA.Repository
 
         public PontoPeriodo ObterPorCodigo(int codigo)
         {
-            return _context.PontoPeriodo.SingleOrDefault(p => p.CodPontoPeriodo == codigo);
+            return _context.PontoPeriodo
+                .Include(pp => pp.PontoPeriodoStatus)
+                .Include(pp => pp.PontoPeriodoModoAprovacao)
+                .Include(pp => pp.PontoPeriodoIntervaloAcessoData)
+                .SingleOrDefault(p => p.CodPontoPeriodo == codigo);
         }
 
         public PagedList<PontoPeriodo> ObterPorParametros(PontoPeriodoParameters parameters)

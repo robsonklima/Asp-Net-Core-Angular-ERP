@@ -14,8 +14,10 @@ namespace SAT.MODELS.Entities
         public int CodGrupoCausa { get; set; }
         public int CodDefeito { get; set; }
         public int CodCausa { get; set; }
+        public int? CodOrigemCausa { get; set; }
         public int CodAcao { get; set; }
-        public int CodServico { get; set; }
+        public int? CodServico { get; set; }
+        public int? IndDefeitoMaquina { get; set; }
         public string CodUsuarioCad { get; set; }
         public int CodOS { get; set; }
         public DateTime? DataHoraCad { get; set; }

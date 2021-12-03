@@ -15,6 +15,7 @@ export class PontoUsuarioData {
     codPontoUsuarioDataStatusAcesso: number;
     pontosUsuario: PontoUsuario[];
     divergencias: PontoUsuarioDataDivergencia[];
+    horasExtras: string;
 }
 
 export interface PontoUsuarioDataData extends Meta {

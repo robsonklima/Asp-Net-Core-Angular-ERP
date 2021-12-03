@@ -7,9 +7,14 @@
         <div class="flex flex-auto items-center min-w-0" *transloco="let t">
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center font-medium">
-                    <div>
+                    <div *ngIf="userSession.usuario.codPerfil !== 35">
                         <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ponto/colaboradores/' + codPontoPeriodo">
                             {{ t('ponto colaboradores') }}
+                        </a>
+                    </div>
+                    <div *ngIf="userSession.usuario.codPerfil === 35">
+                        <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ponto/periodos'">
+                            {{ t('periodos') }}
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
@@ -22,7 +27,7 @@
                 <div class="mt-2">
                     <h2
                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        {{ dataSourceData?.items[0].usuario.nomeUsuario | titlecase }}
+                        {{ usuario?.nomeUsuario | titlecase }}
                     </h2>
                 </div>
             </div>
@@ -77,11 +82,11 @@
                                     <div class="truncate">
                                         <span
                                             class="py-1 px-2 rounded text-white"
-                                            [class.bg-green-600]="data.pontoUsuarioDataStatus.descricao === 'Conferido'"
-                                            [class.bg-black]="data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'"
-                                            [class.bg-red-600]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente'"
-                                            [class.bg-blue-600]="data.pontoUsuarioDataStatus.descricao === 'Aguardando Conferência'">
-                                            {{ data.pontoUsuarioDataStatus.descricao }}
+                                            [class.bg-green-600]="data.pontoUsuarioDataStatus?.descricao === 'Conferido'"
+                                            [class.bg-black]="data.pontoUsuarioDataStatus?.descricao === 'Nenhum horário registrado'"
+                                            [class.bg-red-600]="data.pontoUsuarioDataStatus?.descricao === 'Inconsistente'"
+                                            [class.bg-blue-600]="data.pontoUsuarioDataStatus?.descricao === 'Aguardando Conferência'">
+                                            {{ data.pontoUsuarioDataStatus?.descricao }}
                                         </span>
                                     </div>
 
@@ -96,7 +101,7 @@
                                     </div>
 
                                     <div class="truncate">
-
+                                        {{ data.horasExtras || '--:--' }}
                                     </div>
 
                                     <div class="truncate">
@@ -121,8 +126,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Conferir'"
                                             matTooltipPosition="above"
-                                            (click)="conferir()"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao !== 'Aguardando Conferência'">
+                                            (click)="conferir(data)">
                                             <mat-icon
                                                 class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
@@ -133,9 +137,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
-                                            (click)="informarInconsistencia()"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Inconsistente' ||
-                                                        data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'">
+                                            (click)="informarInconsistencia(data)">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
@@ -146,8 +148,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Ver RATs'"
                                             matTooltipPosition="above"
-                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)"
-                                            [disabled]="data.pontoUsuarioDataStatus.descricao === 'Nenhum horário registrado'">
+                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)">
                                             <mat-icon
                                                 class="icon-size-5 text-gray-600"
                                                 [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>

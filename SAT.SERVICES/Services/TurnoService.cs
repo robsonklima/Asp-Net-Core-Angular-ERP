@@ -8,10 +8,15 @@ namespace SAT.SERVICES.Services
     public class TurnoService : ITurnoService
     {
         private readonly ITurnoRepository _turnoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public TurnoService(ITurnoRepository turnoRepo)
+        public TurnoService(
+            ITurnoRepository turnoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _turnoRepo = turnoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(TurnoParameters parameters)
@@ -34,6 +39,7 @@ namespace SAT.SERVICES.Services
 
         public Turno Criar(Turno turno)
         {
+            turno.CodTurno = _sequenciaRepo.ObterContador("Turno");
             _turnoRepo.Criar(turno);
             return turno;
         }

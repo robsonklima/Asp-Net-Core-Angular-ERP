@@ -5,7 +5,7 @@ namespace SAT.MODELS.Entities
     public class TipoServico
     {
         [Key]
-        public int? CodServico { get; set; }
+        public int CodServico { get; set; }
         public string NomeServico { get; set; }
         public string CodETipoServico { get; set; }
         public decimal? ValServico { get; set; }

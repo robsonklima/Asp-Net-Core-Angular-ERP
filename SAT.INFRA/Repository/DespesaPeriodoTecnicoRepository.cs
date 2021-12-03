@@ -87,13 +87,20 @@ namespace SAT.INFRA.Repository
                 .FirstOrDefault(i => i.CodDespesaPeriodoTecnico == codigo);
         }
 
-        public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
+        public IQueryable<DespesaPeriodoTecnico> ObterQuery(DespesaPeriodoTecnicoParameters parameters)
         {
             var query = _context.DespesaPeriodoTecnico.AsQueryable();
 
             query = AplicarIncludes(query);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
+
+            return query.AsNoTracking();
+        }
+
+        public PagedList<DespesaPeriodoTecnico> ObterPorParametros(DespesaPeriodoTecnicoParameters parameters)
+        {
+            var query = ObterQuery(parameters);
 
             return PagedList<DespesaPeriodoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

@@ -47,17 +47,25 @@ namespace SAT.SERVICES.Services
                     SortActive = parameters.SortActive,
                     SortDirection = parameters.SortDirection,
                     CodFiliais = parameters.CodFiliais,
-                    Filter = parameters.Filter,
-                    PageNumber = parameters.PageNumber,
-                    PageSize = parameters.PageSize
+                    Filter = parameters.Filter
                 });
 
             // TO REFACTOR
             if (parameters.IndTecnicoLiberado.HasValue)
-                tecnicos = PagedList<Tecnico>
-                    .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico.ToString()) == parameters.IndTecnicoLiberado.Value).ToList(), parameters.PageNumber, parameters.PageSize);
+            {
+                var despesas = _despesaPeriodoTecnicoRepo.ObterQuery(
+                    new DespesaPeriodoTecnicoParameters
+                    {
+                        SortActive = "CodDespesaPeriodo",
+                        SortDirection = "desc",
+                        IndAtivoPeriodo = 1
+                    })
+                    .GroupBy(i => i.CodTecnico)
+                    .ToList();
+            }
 
-            return tecnicos;
+            return PagedList<Tecnico>
+                    .ToPagedList(tecnicos, parameters.PageNumber, parameters.PageSize);
         }
 
         private decimal SaldoAdiantamento(int codTecnico)

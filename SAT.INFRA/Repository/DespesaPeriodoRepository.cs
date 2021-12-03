@@ -55,6 +55,13 @@ namespace SAT.INFRA.Repository
 
         public PagedList<DespesaPeriodo> ObterPorParametros(DespesaPeriodoParameters parameters)
         {
+            var despesasPeriodo = ObterQuery(parameters);
+
+            return PagedList<DespesaPeriodo>.ToPagedList(despesasPeriodo, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IQueryable<DespesaPeriodo> ObterQuery(DespesaPeriodoParameters parameters)
+        {
             var despesasPeriodo = _context.DespesaPeriodo.AsQueryable();
 
             if (parameters.IndAtivo.HasValue)
@@ -67,7 +74,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 despesasPeriodo = despesasPeriodo.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
-            return PagedList<DespesaPeriodo>.ToPagedList(despesasPeriodo, parameters.PageNumber, parameters.PageSize);
+            return despesasPeriodo.AsNoTracking();
         }
     }
 }

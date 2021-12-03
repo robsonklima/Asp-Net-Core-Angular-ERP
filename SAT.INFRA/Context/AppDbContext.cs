@@ -108,6 +108,10 @@ namespace SAT.INFRA.Context
         public DbSet<TecnicoConta> TecnicoConta { get; set; }
         public DbSet<Turno> Turno { get; set; }
         public DbSet<DashboardIndicadores> DashboardIndicadores { get; set; }
+        public DbSet<Instalacao>  Instalacao { get; set; }
+        public DbSet<InstalacaoLote>  InstalacaoLote { get; set; }
+        public DbSet<InstalacaoRessalva>  InstalacaoRessalva { get; set; }
+        public DbSet<InstalacaoMotivoRes>  InstalacaoMotivoRes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -124,6 +128,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Tecnico>(new TecnicoMap().Configure);
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
             modelBuilder.Entity<TecnicoConta>(new TecnicoContaMap().Configure);
+            modelBuilder.Entity<Instalacao>(new InstalacaoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

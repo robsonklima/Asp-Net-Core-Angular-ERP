@@ -1,11 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities{
     public class Instalacao
     {
-        [Key]
         public int CodInstalacao { get; set; }
         public int? CodInstalLote { get; set; }
         public int CodContrato { get; set; }
@@ -36,8 +35,8 @@ namespace SAT.MODELS.Entities{
         public byte? IndBtok { get; set; }
         public DateTime? DataSugInstalacao { get; set; }
         public DateTime? DataConfInstalacao { get; set; }
-        public int? CodOs { get; set; }
-        public int? CodRat { get; set; }
+        public int? CodOS { get; set; }
+        public int? CodRAT { get; set; }
         public int? CodClienteIns { get; set; }
         public int? CodPostoIns { get; set; }
         public DateTime? DataBi { get; set; }
@@ -130,41 +129,18 @@ namespace SAT.MODELS.Entities{
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
-
-        [ForeignKey("CodInstalLote")]
-        public InstalLote InstalLote { get; set; }
-
-        [ForeignKey("CodContrato")]
+        
+        public Cliente Cliente { get; set; }
+        public Filial Filial { get; set; }
+        public Equipamento Equipamento { get; set; }
+        public EquipamentoContrato EquipamentoContrato { get; set; }
+        public InstalacaoLote InstalacaoLote { get; set; }
         public Contrato Contrato { get; set; }
-
-        [ForeignKey("CodTipoEquip")]
-        public TipoEquipamento TipoEquipamento { get; set; }    
-
-        [ForeignKey("CodGrupoEquip")]
-        public GrupoEquipamento GrupoEquipamento { get; set; }         
-
-        [ForeignKey("CodEquip")]
-        public Equipamento Equipamento { get; set; }         
-
-        [ForeignKey("CodRegiao")]
-        public Regiao Regiao { get; set; }         
-
-        [ForeignKey("CodAutorizada")]
-        public Autorizada Autorizada { get; set; }           
-
-        [ForeignKey("CodFilial")]
-        public Filial Filial { get; set; }  
-
-        [ForeignKey("CodEquipContrato")]
-        public EquipamentoContrato EquipamentoContrato { get; set; }          
-
-        [ForeignKey("CodCliente")]
-        public Cliente Cliente { get; set; }       
-
-        [ForeignKey("CodPosto")]
-        public LocalAtendimento LocalAtendimento { get; set; }                       
-
-        //[ForeignKey("CodSla")]
-        //public SLA SLA { get; set; }                 
+        public LocalAtendimento LocalAtendimentoIns { get; set; }        
+        public LocalAtendimento LocalAtendimentoSol { get; set; }        
+        public LocalAtendimento LocalAtendimentoEnt { get; set; }     
+        public OrdemServico OrdemServico { get; set; }   
+        public InstalacaoStatus InstalacaoStatus { get; set; }
+        public List<InstalacaoRessalva> InstalacoesRessalva { get; set; }
     }    
 }

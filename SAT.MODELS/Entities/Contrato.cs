@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -67,5 +68,11 @@ namespace SAT.MODELS.Entities
         public decimal? PercReajuste { get; set; }
         public byte? IndPermitePecaEspecifica { get; set; }
         public string SemCobertura { get; set; }
+
+        [ForeignKey("CodContrato")]
+        public List<InstalacaoLote> Lotes { get; set; }
+
+        [NotMapped]
+        public ContratoEquipamento ContratoEquipamento { get; set; }
     }
 }

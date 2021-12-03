@@ -20,7 +20,7 @@ namespace SAT.MODELS.Entities
         public int CodPontoUsuarioDataStatusAcesso { get; set; }
         
         [NotMapped]
-        public DateTime? HorasExtras { get; set; }
+        public TimeSpan? HorasExtras { get; set; }
 
         [ForeignKey("CodPontoUsuarioDataStatus")]
         public PontoUsuarioDataStatus PontoUsuarioDataStatus { get; set; }

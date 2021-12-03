@@ -79,36 +79,8 @@ export class PontoHorariosListaComponent implements AfterViewInit {
       })
       .toPromise();
 
-    for (var [i, pontoData] of datas.items.entries()) {
-      datas.items[i].horasExtras = this.calculaHorasExtras(pontoData);
-    }
-
     this.dataSourceData = datas;
     this.isLoading = false;
-  }
-
-  private calculaHorasExtras(data: PontoUsuarioData): string {
-    if (data.pontosUsuario.length == 2 || data.pontosUsuario.length == 4) {
-      const horarioJornadaDiaria = moment().set({ hour: 8, minute: 48 });
-      const minutosTolerancia = 5;
-      const somaHorasRegistradas = moment().set({ hour: 0, minute: 0 });
-
-      for (let i = 0; i < data.pontosUsuario.length; i = i + 2) {
-        const horarioInicio = moment(data.pontosUsuario[i].dataHoraRegistro);
-        const horarioFim = moment(data.pontosUsuario[i + 1].dataHoraRegistro);
-
-        const totalRealizado = horarioFim.subtract(horarioInicio.format('HH:mm')).format('HH:mm')
-        somaHorasRegistradas.add(totalRealizado);
-      }
-
-      const horasExtrasEmMinutos = moment.duration(somaHorasRegistradas.diff(horarioJornadaDiaria)).asMinutes();
-
-      if (horasExtrasEmMinutos > minutosTolerancia) {
-        return moment().startOf('day').add(horasExtrasEmMinutos, 'minutes').format('HH:mm');
-      } else {
-        return '';
-      }
-    }
   }
 
   private async conferirPontoData(pontoData: PontoUsuarioData) {
@@ -187,6 +159,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
   private async validarInconsistencia(pontoData: PontoUsuarioData) {
     let divergencia: PontoUsuarioDataDivergencia;
+    
     const divergencias = (
       await this._pontoUsuarioDataDivergenciaSvc
         .obterPorParametros({

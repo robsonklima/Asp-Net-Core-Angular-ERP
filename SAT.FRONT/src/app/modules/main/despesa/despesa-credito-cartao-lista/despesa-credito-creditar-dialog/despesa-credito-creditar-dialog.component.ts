@@ -80,7 +80,7 @@ export class DespesaCreditoCreditarDialogComponent
         var pedidoCredito: TicketLogPedidoCredito =
         {
           codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
-          codUsuarioCad: this.despesaPeriodoTecnico.codUsuarioCredito,
+          codUsuarioCad: this.userSession.usuario.codUsuario,
           dataHoraCad: moment().format('DD/MM/YY HH:mm')
         }
 

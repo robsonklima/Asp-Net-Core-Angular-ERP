@@ -400,10 +400,6 @@ export class DespesaItemDialogComponent implements OnInit
       this.tentativaKm++;
       this.despesaInvalida();
     }
-    else if (1 == 1)
-    {
-
-    }
     else this.despesaValida();
   }
 
@@ -417,10 +413,6 @@ export class DespesaItemDialogComponent implements OnInit
       (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
         .setValue(DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado);
       this.despesaInvalida();
-    }
-    else if (1 == 1)
-    {
-
     }
     else this.despesaValida();
   }

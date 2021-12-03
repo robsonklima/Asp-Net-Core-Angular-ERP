@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
 
             services.AddCors(options =>
            {
@@ -127,7 +127,7 @@ namespace SAT.API
             services.AddTransient<IDespesaConfiguracaoRepository, DespesaConfiguracaoRepository>();
             services.AddTransient<IDespesaItemAlertaRepository, DespesaItemAlertaRepository>();
             services.AddTransient<ITicketLogPedidoCreditoRepository, TicketLogPedidoCreditoRepository>();
-            services.AddTransient<ITurnoRepository, TurnoRepository>();            
+            services.AddTransient<ITurnoRepository, TurnoRepository>();
             services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
             services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
 

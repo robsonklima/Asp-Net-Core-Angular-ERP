@@ -55,7 +55,7 @@ namespace SAT.MODELS.Enums
         [Description("PECAS FILIAL")]
         PECAS_FILIAL,
 
-        [Description("PECAS TOP MAIS FALTANTESS")]
+        [Description("PECAS TOP MAIS FALTANTES")]
         PECAS_TOP_MAIS_FALTANTES,
 
         [Description("PECAS MAIS FALTANTES")]

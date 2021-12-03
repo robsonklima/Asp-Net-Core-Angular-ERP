@@ -17,7 +17,7 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.FILIAL:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TOP_PECAS_MAIS_FALTANTES:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_TOP_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
+                    return _dashboardService.ObterDadosIndicadorMaisRecente(NomeIndicadorEnum.PECAS_TOP_MAIS_FALTANTES.Description());
                 case IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.NOVAS_CADASTRADAS:

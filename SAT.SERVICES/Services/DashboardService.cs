@@ -16,10 +16,12 @@ namespace SAT.SERVICES.Services
     public partial class DashboardService : IDashboardService
     {
         private readonly IDashboardRepository _dashboardRepository;
+        private readonly IFeriadoService _feriadoService;
 
-        public DashboardService(IDashboardRepository dashboardRepository)
+        public DashboardService(IDashboardRepository dashboardRepository, IFeriadoService feriadoService)
         {
             this._dashboardRepository = dashboardRepository;
+            this._feriadoService = feriadoService;
         }
 
         public List<DashboardDisponibilidade> ObterDadosDashboard(DashboardParameters parameters)
@@ -35,6 +37,10 @@ namespace SAT.SERVICES.Services
         {
             return this._dashboardRepository.ObterDadosIndicador(nomeIndicador, dataInicio, dataFim);
         }
+        public List<Indicador> ObterDadosIndicadorMaisRecente(string nomeIndicador)
+        {
+            return this._dashboardRepository.ObterDadosIndicadorMaisRecente(nomeIndicador);
+        }
 
         public void Criar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
         {
@@ -46,9 +52,24 @@ namespace SAT.SERVICES.Services
             this._dashboardRepository.Criar(nomeIndicador, indicadores, data);
         }
 
-        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(string nomeIndicador, DateTime? dataInicio, DateTime? dataFim)
+        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(string nomeIndicador, DateTime data)
         {
-            return this._dashboardRepository.ObterIndicadorDisponibilidadeTecnicos(nomeIndicador, dataInicio, dataFim);
+            return this._dashboardRepository.ObterIndicadorDisponibilidadeTecnicos(nomeIndicador, data);
+        }
+
+        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterDadosDashboardTecnicoDisponibilidade(IQueryable<Tecnico> query, TecnicoParameters parameters)
+        {
+            return this._dashboardRepository.ObterDadosDashboardTecnicoDisponibilidade(query, parameters, _feriadoService.GetDiasUteis);
+        }
+
+        public void Atualizar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
+        {
+            this._dashboardRepository.Atualizar(nomeIndicador, indicadores, data);
+        }
+
+        public void Atualizar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
+        {
+            this._dashboardRepository.Atualizar(nomeIndicador, indicadores, data);
         }
     }
 }

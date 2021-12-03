@@ -14,5 +14,6 @@ namespace SAT.SERVICES.Interfaces
         Feriado ObterPorCodigo(int codigo);
         IEnumerable<Feriado> ObterFeriadosDoPeriodo(DateTime data);
         int ObterNroFeriadosDoPeriodo(DateTime dataInicial, DateTime dataFinal, int? codCidade, int? codUF, IEnumerable<Feriado> feriado);
+        int GetDiasUteis(DateTime dataInicio, DateTime dataFim);
     }
 }

@@ -15,12 +15,23 @@ namespace SAT.SERVICES.Services
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SLA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
+                    return this.AgrupadorIndicadorCliente(parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SLA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 default:
                     return new List<Indicador>();
             }
+        }
+        private List<Indicador> AgrupadorIndicadorCliente(DateTime dataInicio, DateTime dataFim)
+        {
+            return (from ind in _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SLA_CLIENTE.Description(), dataInicio, dataFim)
+                    group ind by ind.Label into grupo
+                    select new Indicador
+                    {
+                        Label = grupo.Key,
+                        Valor = grupo.Sum(s => s.Valor) / grupo.Count(),
+                        Filho = grupo.FirstOrDefault().Filho
+                    }).ToList();
         }
 
         private List<Indicador> ObterIndicadorSLACliente(IEnumerable<OrdemServico> chamados)

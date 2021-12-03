@@ -18,7 +18,7 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.CLIENTE:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
+                    return AgrupadorIndicador(NomeIndicadorEnum.PENDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PENDENCIA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES:

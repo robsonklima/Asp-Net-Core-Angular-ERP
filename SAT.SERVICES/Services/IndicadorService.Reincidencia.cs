@@ -16,9 +16,9 @@ namespace SAT.SERVICES.Services
             switch (parameters.Agrupador)
             {
                 case IndicadorAgrupadorEnum.CLIENTE:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
+                    return AgrupadorIndicador(NomeIndicadorEnum.REINCIDENCIA_CLIENTE.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.FILIAL:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
+                    return AgrupadorIndicador(NomeIndicadorEnum.REINCIDENCIA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.REINCIDENCIA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES:

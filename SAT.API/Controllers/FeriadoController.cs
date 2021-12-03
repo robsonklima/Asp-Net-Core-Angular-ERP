@@ -49,5 +49,16 @@ namespace SAT.API.Controllers
         {
             _feriadoService.Deletar(codFeriado);
         }
+
+        /// <summary>
+        /// Calcula os dias úteis em um período
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        [Route("getDiasUteis")]
+        public int GetDiasUteis([FromQuery] FeriadoParameters parameters)
+        {
+            return _feriadoService.GetDiasUteis(parameters.dataInicio.Value, parameters.dataFim.Value);
+        }
     }
 }

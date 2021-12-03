@@ -21,12 +21,22 @@ namespace SAT.API.Controllers
             _indicadorService = indicadorService;
         }
 
+        /// <summary>
+        /// Busca os indicadores do dashboard
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet]
         public List<Indicador> ObterIndicadores([FromQuery] IndicadorParameters parameters)
         {
             return _indicadorService.ObterIndicadores(parameters);
         }
 
+        /// <summary>
+        /// Busca indicadores do dashboard dos técnicos - usa model diferente dos indicadores comuns
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("DisponibilidadeTecnicos")]
         public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterDadosDisponibilidadeTecnicos([FromQuery] IndicadorParameters parameters)

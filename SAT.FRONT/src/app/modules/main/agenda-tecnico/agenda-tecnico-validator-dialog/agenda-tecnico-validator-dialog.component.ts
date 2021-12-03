@@ -19,5 +19,4 @@ export class AgendaTecnicoValidatorDialogComponent implements OnInit
   }
 
   ngOnInit(): void { }
-
 }

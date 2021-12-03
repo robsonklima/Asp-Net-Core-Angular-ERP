@@ -529,7 +529,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     {
       this._dialog.open(AgendaTecnicoValidatorDialogComponent, {
         data: {
-          message: "Você transferiu um chamado para um técnico que não é da região do chamado.",
+          message: `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`,
         }
       });
       return;

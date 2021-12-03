@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FeriadoService } from 'app/core/services/feriado.service';
 import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filtro } from 'app/core/types/filtro.types';
@@ -22,7 +23,8 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
 
   constructor(private _cdr: ChangeDetectorRef,
     private _tecnicoService: TecnicoService,
-    private _indicadorService: IndicadorService,) { }
+    private _indicadorService: IndicadorService,
+    private _feriadoService: FeriadoService) { }
 
   ngOnInit(): void {
     this.obterDados();
@@ -31,16 +33,18 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
   async obterDados() {
     this.loading = true;
 
-    // let dadosTecnicosDashboard = (await this._tecnicoService
-    //   .obterPorParametros({
-    //     filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
-    //     include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-    //     periodoMediaAtendInicio: moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'), // Ultimos 30 dias
-    //     periodoMediaAtendFim: moment().format('yyyy-MM-DD HH:mm:ss')
-    //   }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
+    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
+    let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos().toPromise());
+    // let diasUteis = (await this._feriadoService.obterDiasUteis({
+    //   dataInicio: dataInicio,
+    //   dataFim: dataFim
+    // }).toPromise());
 
+    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos({
+      dataInicio: dataInicio,
+      dataFim: dataFim
+    }).toPromise());
 
     for (let tecnico of dadosTecnicosDashboard) {
 
@@ -74,11 +78,13 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
       dadosDashboard.mediaAtendimentoEngenharia += tecnico.mediaAtendimentosPorDiaEngenharia;
     }
 
-    this.mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoTodos / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntCorretivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoCorretivo / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntPreventivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoPreventivo / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntInstalacoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoInstalacao / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
-    this.mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => (s.mediaAtendimentoEngenharia / s.qntTotalTecnicos) / this.disponibilidadeTecnicosModel.length);
+    let totalTecnicos = this.disponibilidadeTecnicosModel.length;
+
+    this.mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTodos) / totalTecnicos;
+    this.mediaGlobalAtendimentoTecnicosModel.qntCorretivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoCorretivo) / totalTecnicos;
+    this.mediaGlobalAtendimentoTecnicosModel.qntPreventivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoPreventivo) / totalTecnicos;
+    this.mediaGlobalAtendimentoTecnicosModel.qntInstalacoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoInstalacao) / totalTecnicos;
+    this.mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoEngenharia) / totalTecnicos;
 
     this.loading = false;
     this._cdr.detectChanges();

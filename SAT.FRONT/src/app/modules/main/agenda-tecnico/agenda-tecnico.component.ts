@@ -4,7 +4,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
-import { Tecnico } from 'app/core/types/tecnico.types';
+import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
 import moment, { Moment } from 'moment';
 import Enumerable from 'linq';
 import { HaversineService } from 'app/core/services/haversine.service';
@@ -41,7 +41,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 {
   loading: boolean;
   userSession: UserSession;
-  tecnicos: Tecnico[] = [];
+  tecnicos: TecnicoData;
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   chamados: OrdemServico[] = [];
   resources = [];
@@ -170,7 +170,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     if (prompt) this.loading = true;
 
-    const tecnicos = await this._tecnicoSvc.obterPorParametros({
+    this.tecnicos = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
       codFiliais: this.getFiliais(),
@@ -179,7 +179,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codTecnicos: this.filter?.parametros?.codTecnicos
     }).toPromise();
 
-    this.resources = tecnicos.items.map(tecnico =>
+    this.resources = this.tecnicos.items.map(tecnico =>
     {
       return {
         id: tecnico.codTecnico,
@@ -203,7 +203,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       data: moment().toISOString()
     }).toPromise();
 
-    this.carregaDados(this.chamados, tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+    this.carregaDados(this.chamados, this.tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+  }
+
+  private carregaPontos()
+  {
+    this.tecnicos.items.map(tecnico =>
+    {
+      this.events = this.events.concat(this.carregaPonto(tecnico));
+    });
   }
 
   private isOnVacation(t: Tecnico): boolean
@@ -220,8 +228,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])
   {
     this.events = [];
-    await this.carregaIntervalos(tecnicos, intervalos);
+    // await this.carregaIntervalos(tecnicos, intervalos);
     await this.carregaOSs(chamados);
+    this.carregaPontos();
   }
 
   private carregaOSs(chamados: OrdemServico[])
@@ -363,6 +372,27 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
 
     return evento;
+  }
+
+  private carregaPonto(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent[]
+  {
+    var pontos: MbscAgendaTecnicoCalendarEvent[] = [];
+
+    Enumerable.from(tecnico.usuario.pontosUsuario)
+      .where(p => p.indAtivo == 1)
+      .forEach(p =>
+      {
+        pontos.push(
+          {
+            start: moment(p.dataHoraRegistro),
+            end: moment(p.dataHoraRegistro).add(1, 'minutes'),
+            title: "PONTO",
+            color: '#FFFF00',
+            editable: true,
+            resource: tecnico.codTecnico,
+          });
+      });
+    return pontos;
   }
 
   private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent

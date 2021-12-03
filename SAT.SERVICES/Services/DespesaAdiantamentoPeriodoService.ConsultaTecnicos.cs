@@ -41,31 +41,23 @@ namespace SAT.SERVICES.Services
         private PagedList<Tecnico> ObterTecnicos(DespesaAdiantamentoPeriodoParameters parameters)
         {
             var tecnicos = this._tecnicoRepo.ObterPorParametros(
-                new TecnicoParameters
-                {
-                    IndAtivo = parameters.IndAtivoTecnico,
-                    SortActive = parameters.SortActive,
-                    SortDirection = parameters.SortDirection,
-                    CodFiliais = parameters.CodFiliais,
-                    Filter = parameters.Filter
-                });
+                 new TecnicoParameters
+                 {
+                     IndAtivo = parameters.IndAtivoTecnico,
+                     SortActive = parameters.SortActive,
+                     SortDirection = parameters.SortDirection,
+                     CodFiliais = parameters.CodFiliais,
+                     Filter = parameters.Filter,
+                     PageNumber = parameters.PageNumber,
+                     PageSize = parameters.PageSize
+                 });
 
             // TO REFACTOR
             if (parameters.IndTecnicoLiberado.HasValue)
-            {
-                var despesas = _despesaPeriodoTecnicoRepo.ObterQuery(
-                    new DespesaPeriodoTecnicoParameters
-                    {
-                        SortActive = "CodDespesaPeriodo",
-                        SortDirection = "desc",
-                        IndAtivoPeriodo = 1
-                    })
-                    .GroupBy(i => i.CodTecnico)
-                    .ToList();
-            }
+                tecnicos = PagedList<Tecnico>
+                    .ToPagedList(tecnicos.Where(i => this.IsLiberado(i.CodTecnico.ToString()) == parameters.IndTecnicoLiberado.Value).ToList(), parameters.PageNumber, parameters.PageSize);
 
-            return PagedList<Tecnico>
-                    .ToPagedList(tecnicos, parameters.PageNumber, parameters.PageSize);
+            return tecnicos;
         }
 
         private decimal SaldoAdiantamento(int codTecnico)

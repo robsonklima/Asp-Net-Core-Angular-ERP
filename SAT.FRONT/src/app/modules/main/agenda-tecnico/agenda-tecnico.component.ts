@@ -203,7 +203,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       data: moment().toISOString()
     }).toPromise();
 
-    this.carregaDados(this.chamados, this.tecnicos.items, intervalos.items).then(() => { this.loading = false; });
+    this.carregaDados(this.chamados, intervalos.items).then(() => { this.loading = false; });
   }
 
   private carregaPontos()
@@ -225,10 +225,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return true;
   }
 
-  private async carregaDados(chamados: OrdemServico[], tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  private async carregaDados(chamados: OrdemServico[], intervalos: AgendaTecnico[])
   {
     this.events = [];
-    // await this.carregaIntervalos(tecnicos, intervalos);
+    // await this.carregaIntervalos(intervalos);
     await this.carregaOSs(chamados);
     this.carregaPontos();
   }
@@ -333,9 +333,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private async carregaIntervalos(tecnicos: Tecnico[], intervalos: AgendaTecnico[])
+  private async carregaIntervalos(intervalos: AgendaTecnico[])
   {
-    this.events = this.events.concat(Enumerable.from(tecnicos).select(tecnico =>
+    this.events = this.events.concat(Enumerable.from(this.tecnicos.items).select(tecnico =>
     {
       var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == tecnico.codTecnico);
       return intervalo == null ? this.criaNovoIntervalo(tecnico) : this.exibeIntervaloExistente(intervalo);

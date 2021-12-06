@@ -2,12 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnico, Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
-import { Tecnico, TecnicoData } from 'app/core/types/tecnico.types';
-import moment, { Moment } from 'moment';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import moment from 'moment';
 import Enumerable from 'linq';
-import { HaversineService } from 'app/core/services/haversine.service';
 import { Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
@@ -20,6 +19,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
 import { AgendaTecnicoValidatorDialogComponent } from './agenda-tecnico-validator-dialog/agenda-tecnico-validator-dialog.component';
+import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
 
 setOptions({
   locale: localePtBR,
@@ -41,8 +41,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 {
   loading: boolean;
   userSession: UserSession;
-  tecnicos: TecnicoData;
+  tecnicos: Tecnico[] = [];
   events: MbscAgendaTecnicoCalendarEvent[] = [];
+  intervalos: AgendaTecnico[] = [];
   chamados: OrdemServico[] = [];
   resources = [];
   weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
@@ -65,14 +66,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     clickToCreate: false,
     onEventCreate: (args, inst) =>
     {
-      if (this.hasOverlap(args, inst))
+      if (this._validator.hasOverlap(args, inst))
       {
         this._notify.toast({
           message: 'Os atendimentos não podem se sobrepor.'
         });
         return false;
       }
-      else if (this.invalidInsert(args))
+      else if (this._validator.invalidInsert(args))
       {
         this._notify.toast({
           message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
@@ -84,18 +85,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     },
     onEventUpdate: (args, inst) =>
     {
-      if (this.hasOverlap(args, inst))
+      if (this._validator.hasOverlap(args, inst))
       {
         this._notify.toast({
           message: 'Os atendimentos não podem se sobrepor.'
         });
         return false;
       }
-      else if (this.hasChangedResource(args))
+      else if (this._validator.hasChangedResource(args))
       {
         return this.updateResourceChange(args);
       }
-      else if (this.invalidMove(args))
+      else if (this._validator.invalidMove(args))
       {
         this._notify.toast({
           message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
@@ -126,12 +127,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     private _notify: Notifications,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
-    private _haversineSvc: HaversineService,
     private _cdr: ChangeDetectorRef,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     protected _userSvc: UserService,
     public _dialog: MatDialog,
-    private _validator: AgendaTecnicoValidator
+    private _validator: AgendaTecnicoValidator,
+    private _formatter: AgendaTecnicoFormatter
   )
   {
     super(_userSvc, 'agenda-tecnico')
@@ -161,87 +162,61 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
   }
 
-  private validateEvents(): void
-  {
-    var now = moment();
-    Enumerable.from(this.events).where(e => e.ordemServico != null).forEach(e =>
-    {
-      if (moment(e.end) < now)
-        e.color = this.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
-    });
-    this._cdr.detectChanges();
-  }
-
   private async carregaTecnicosEChamadosTransferidos(prompt: boolean = false)
   {
     if (prompt) this.loading = true;
 
-    this.tecnicos = await this._tecnicoSvc.obterPorParametros({
+    this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
-      codFiliais: this.getFiliais(),
+      codFiliais: this.filter?.parametros?.codFiliais,
       sortActive: 'nome',
       sortDirection: 'asc',
       codTecnicos: this.filter?.parametros?.codTecnicos
-    }).toPromise();
+    }).toPromise()).items;
 
-    this.resources = this.tecnicos.items.map(tecnico =>
+    this.resources = this.tecnicos.map(tecnico =>
     {
       return {
         id: tecnico.codTecnico,
         name: tecnico.nome.toUpperCase(),
-        indFerias: this.isOnVacation(tecnico),
+        indFerias: this._validator.isOnVacation(tecnico),
         img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
       }
     });
 
     this.chamados = (await this._osSvc.obterPorParametros({
-      codFiliais: this.getFiliais(),
+      codFiliais: this.filter?.parametros?.codFiliais,
       include: OrdemServicoIncludeEnum.OS_AGENDA,
       filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
       inicioPeriodoAgenda: this.weekStart,
       fimPeriodoAgenda: this.weekEnd
     }).toPromise()).items;
 
-    const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
+    this.intervalos = (await this._agendaTecnicoSvc.obterPorParametros({
       tipo: "INTERVALO",
-      codFiliais: this.getFiliais(),
+      codFiliais: this.filter?.parametros?.codFiliais,
       inicioPeriodoAgenda: this.weekStart,
       fimPeriodoAgenda: this.weekEnd
-    }).toPromise();
+    }).toPromise()).items;
 
-    this.carregaDados(this.chamados, intervalos.items).then(() => { this.loading = false; });
+    this.carregaCalendario()
+      .then(() => { this.loading = false; });
   }
 
-  private async changeWeek(args, inst)
-  {
-    this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
-    this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
-    await this.carregaTecnicosEChamadosTransferidos();
-  }
-
-  private isOnVacation(t: Tecnico): boolean
-  {
-    if (!t.indFerias)
-      return false;
-
-    // if (moment(t.dtFeriasInicio) >= moment() && moment(t.dtFeriasFim) <= moment())
-    //   return true;
-
-    return true;
-  }
-
-  private async carregaDados(chamados: OrdemServico[], intervalos: AgendaTecnico[])
+  private async carregaCalendario()
   {
     this.events = [];
     this.carregaPontos();
-    await this.carregaIntervalos(intervalos);
-    await this.carregaOSs(chamados);
+    await this.carregaIntervalos();
+    await this.carregaOSs();
   }
 
-  private carregaOSs(chamados: OrdemServico[])
+  /** Atendimentos */
+
+  private carregaOSs()
   {
-    Enumerable.from(chamados)
+    Enumerable.from(this.chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico)
       .forEach(async osPorTecnico =>
@@ -265,31 +240,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.validateEvents();
   }
 
-  private carregaPontos()
-  {
-    this.tecnicos.items.map(tecnico =>
-    {
-      this.events = this.events.concat(this.carregaPonto(tecnico));
-    });
-  }
-
-  private exibeEventoOSExistente(ag: AgendaTecnico, os: OrdemServico): MbscAgendaTecnicoCalendarEvent
-  {
-    var evento: MbscAgendaTecnicoCalendarEvent =
-    {
-      codAgendaTecnico: ag.codAgendaTecnico,
-      start: ag.inicio,
-      end: ag.fim,
-      ordemServico: os,
-      title: os.localAtendimento?.nomeLocal.toUpperCase(),
-      color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
-      editable: true,
-      resource: ag.codTecnico
-    }
-
-    return evento;
-  }
-
   private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, codTecnico: number)
   {
     var ultimoEvento = Enumerable.from(this.events)
@@ -297,24 +247,24 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       .orderByDescending(i => i.end)
       .firstOrDefault();
 
-    var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
-    var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente()).add(deslocamento, 'minutes');
+    var deslocamento = this._validator.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
+    var start = moment(ultimoEvento != null ? ultimoEvento.end : this._validator.inicioExpediente()).add(deslocamento, 'minutes');
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
-    if (start.isBetween(this.inicioIntervalo(start), this.fimIntervalo(start)))
-      start = moment(this.fimIntervalo(start)).add(deslocamento, 'minutes');
-    else if (start.hour() >= this.fimExpediente().hour())
+    if (start.isBetween(this._validator.inicioIntervalo(start), this._validator.fimIntervalo(start)))
+      start = moment(this._validator.fimIntervalo(start)).add(deslocamento, 'minutes');
+    else if (start.hour() >= this._validator.fimExpediente().hour())
     {
-      start = moment(this.inicioExpediente(start)).add(1, 'day').add(deslocamento, 'minutes');
-      if (start.isBetween(this.inicioIntervalo(start), this.fimIntervalo(start)))
-        start = moment(this.fimIntervalo(start)).add(deslocamento, 'minutes');
+      start = moment(this._validator.inicioExpediente(start)).add(1, 'day').add(deslocamento, 'minutes');
+      if (start.isBetween(this._validator.inicioIntervalo(start), this._validator.fimIntervalo(start)))
+        start = moment(this._validator.fimIntervalo(start)).add(deslocamento, 'minutes');
     }
 
     // se termina durante a sugestao de intervalo
     var end = moment(start).add(mediaTecnico, 'minutes');
-    if (end.isBetween(this.inicioIntervalo(end), this.fimIntervalo(end)))
+    if (end.isBetween(this._validator.inicioIntervalo(end), this._validator.fimIntervalo(end)))
     {
-      start = moment(this.fimIntervalo(end)).add(deslocamento, 'minutes');
+      start = moment(this._validator.fimIntervalo(end)).add(deslocamento, 'minutes');
       end = moment(start).add(mediaTecnico, 'minutes');
     }
 
@@ -324,7 +274,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       end: end,
       ordemServico: os,
       title: os.localAtendimento?.nomeLocal.toUpperCase(),
-      color: this.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+      color: this._formatter.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
       editable: true,
       resource: os.tecnico?.codTecnico,
     }
@@ -345,21 +295,74 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private async carregaIntervalos(intervalos: AgendaTecnico[])
+  private exibeEventoOSExistente(ag: AgendaTecnico, os: OrdemServico): MbscAgendaTecnicoCalendarEvent
   {
-    for (const t of this.tecnicos.items)
+    var evento: MbscAgendaTecnicoCalendarEvent =
     {
-      var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == t.codTecnico);
+      codAgendaTecnico: ag.codAgendaTecnico,
+      start: ag.inicio,
+      end: ag.fim,
+      ordemServico: os,
+      title: os.localAtendimento?.nomeLocal.toUpperCase(),
+      color: this._formatter.getInterventionColor(os.tipoIntervencao?.codTipoIntervencao),
+      editable: true,
+      resource: ag.codTecnico
+    }
+
+    return evento;
+  }
+
+  /**  */
+
+  /** Ponto */
+
+  private carregaPontos()
+  {
+    this.tecnicos.map(tecnico =>
+    {
+      this.events = this.events.concat(this.carregaPonto(tecnico));
+    });
+  }
+
+  private carregaPonto(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent[]
+  {
+    var pontos: MbscAgendaTecnicoCalendarEvent[] = [];
+
+    Enumerable.from(tecnico.usuario.pontosUsuario)
+      .where(p => p.indAtivo == 1)
+      .forEach(p =>
+      {
+        pontos.push(
+          {
+            start: moment(p.dataHoraRegistro),
+            end: moment(p.dataHoraRegistro).add(0, 'minutes'),
+            title: "PONTO",
+            color: '#C8C8C8',
+            editable: false,
+            resource: tecnico.codTecnico
+          });
+      });
+    return pontos;
+  }
+
+  /**  */
+
+  /** Intervalos */
+
+  private async carregaIntervalos()
+  {
+    for (const t of this.tecnicos)
+    {
+      var intervalo = Enumerable.from(this.intervalos).firstOrDefault(i => i.codTecnico == t.codTecnico);
       var evento = intervalo == null ? this.criaNovoIntervalo(t) : this.exibeIntervaloExistente(intervalo);
       this.events = this.events.concat(evento);
     }
   };
 
-
   private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
   {
-    var start = this.inicioIntervalo();
-    var end = this.fimIntervalo();
+    var start = this._validator.inicioIntervalo();
+    var end = this._validator.fimIntervalo();
 
     var evento: MbscAgendaTecnicoCalendarEvent =
     {
@@ -388,27 +391,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private carregaPonto(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent[]
-  {
-    var pontos: MbscAgendaTecnicoCalendarEvent[] = [];
-
-    Enumerable.from(tecnico.usuario.pontosUsuario)
-      .where(p => p.indAtivo == 1)
-      .forEach(p =>
-      {
-        pontos.push(
-          {
-            start: moment(p.dataHoraRegistro),
-            end: moment(p.dataHoraRegistro).add(0, 'minutes'),
-            title: "PONTO",
-            color: '#C8C8C8',
-            editable: false,
-            resource: tecnico.codTecnico
-          });
-      });
-    return pontos;
-  }
-
   private exibeIntervaloExistente(intervalo: AgendaTecnico): MbscAgendaTecnicoCalendarEvent
   {
     var evento: MbscAgendaTecnicoCalendarEvent =
@@ -425,144 +407,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number
+  /**  */
+
+  /** Validações */
+
+  private validateEvents(): void
   {
-    var origem: Coordenada = new Coordenada();
-    var destino: Coordenada = new Coordenada();
-
-    // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
-    if (osAnterior != null)
-      origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
-    // Se o técnico não possui nada agendado, parte do endereoç deste
-    else
-      origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
-
-    destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
-
-    return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
-  }
-
-  private getInterventionColor(tipoIntervencao: number): string
-  {
-    switch (tipoIntervencao)
-    {
-      case 1: //alteracao engenharia
-        return "#067A52";
-      case 2: //corretiva
-        return "#3FC283";
-      case 4: //preventiva
-        return "#87E9A9";
-      default:
-        return "#D7F4D2";
-    }
-  }
-
-  private getStatusColor(statusOS: number): string
-  {
-    switch (statusOS)
-    {
-      case 1: //aberto
-        return "#ff4c4c";
-      case 8: //transferido
-        return "#ff4c4c";
-      case 3: //fechado
-        return "#7f7fff";
-    }
-  }
-
-  private hasOverlap(args, inst)
-  {
-    var ev = args.event;
-    var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.ordemServico != null || ev.ordemServico != null));
-    return events.length > 0;
-  }
-
-  private hasChangedResource(args)
-  {
-    return args.event.resource != args.oldEvent.resource;
-  }
-
-  private async updateResourceChange(args): Promise<boolean>
-  {
-    var ev = args.event;
-
-    if (this.isTechnicianInterval(args))
-    {
-      this._notify.toast({ message: 'Não é possível transferir um intervalo.' });
-      return false;
-    }
-    else
-    {
-      ev.ordemServico.codTecnico = ev.resource;
-      await this._osSvc.atualizar(ev.ordemServico).toPromise().then(() =>
-      {
-        return this.updateEvent(args);
-      }).catch(() =>
-      {
-        return false;
-      })
-    }
-  }
-
-  private isTechnicianInterval(args)
-  {
-    return args.event.title === "INTERVALO";
-  }
-
-  private invalidMove(args)
-  {
-    //não pode mover evento posterior a linha do tempo para antes da linha do tempo
-    var now = moment();
-    return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
-  }
-
-  private invalidInsert(args)
-  {
-    //não pode inserir evento anterior à linha do tempo
-    var now = moment();
-    return moment(args.event.start) < now;
-  }
-
-  private async updateEvent(args)
-  {
-    var agenda: AgendaTecnico =
-    {
-      codAgendaTecnico: args.event.codAgendaTecnico,
-      inicio: moment(args.event.start).format('yyyy-MM-DD HH:mm:ss'),
-      fim: moment(args.event.end).format('yyyy-MM-DD HH:mm:ss'),
-      codTecnico: args.event.resource,
-      codOS: args.event.ordemServico?.codOS ?? 0,
-      tipo: args.event.ordemServico != null ? "OS" : "INTERVALO",
-      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
-    }
-
-    await this._agendaTecnicoSvc.atualizar(agenda).toPromise().then(() =>
-    {
-      this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
-      this.updateEventColor(args)
-      return true;
-    }).catch(() =>
-    {
-      this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
-      return false;
-    })
-  }
-
-  private updateEventColor(args)
-  {
-    if (args.event.ordemServico?.codOS > 0)
-    {
-      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
-      event.color = this.getEventColor(args);
-      this._cdr.detectChanges();
-    }
-  }
-
-  private getEventColor(args)
-  {
-    return moment(args.event.end) > moment() ?
-      this.getInterventionColor(args.event.ordemServico?.tipoIntervencao?.codTipoIntervencao)
-      : this.getStatusColor(args.event.ordemServico?.statusServico?.codStatusServico);
+    this._validator.validateEvents(this.events);
+    this._cdr.detectChanges();
   }
 
   private async checkForWarnings(ev)
@@ -580,10 +432,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
   }
 
+  /**  */
+
+  /** Mobiscroll */
+
+  private async changeWeek(args, inst)
+  {
+    this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
+    this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
+    await this.carregaTecnicosEChamadosTransferidos();
+  }
+
   private async createNewEvent(args, inst)
   {
     var ev = args.event;
-    ev.color = this.getEventColor(args);
+    ev.color = this._formatter.getEventColor(args);
 
     this.checkForWarnings(ev);
 
@@ -611,7 +474,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       ev.codAgendaTecnico = ag.codAgendaTecnico;
 
-      await this._osSvc.atualizar(os).toPromise().then(() =>
+      this._osSvc.atualizar(os).toPromise().then(() =>
       {
         this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
         return true;
@@ -628,6 +491,125 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.deleteEvent(args, inst);
       return false;
     }
+  }
+
+  private async updateResourceChange(args)
+  {
+    var ev = args.event;
+
+    if (this._validator.isTechnicianInterval(args))
+    {
+      this._notify.toast({ message: 'Não é possível transferir um intervalo.' });
+      return false;
+    }
+    else
+    {
+      ev.ordemServico.codTecnico = ev.resource;
+      this._osSvc.atualizar(ev.ordemServico).toPromise().then(() =>
+      {
+        return this.updateEvent(args);
+      }).catch(() =>
+      {
+        return false;
+      })
+    }
+  }
+
+  private async updateEvent(args)
+  {
+    var agenda: AgendaTecnico =
+    {
+      codAgendaTecnico: args.event.codAgendaTecnico,
+      inicio: moment(args.event.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(args.event.end).format('yyyy-MM-DD HH:mm:ss'),
+      codTecnico: args.event.resource,
+      codOS: args.event.ordemServico?.codOS ?? 0,
+      tipo: args.event.ordemServico != null ? "OS" : "INTERVALO",
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+    }
+
+    this._agendaTecnicoSvc.atualizar(agenda).toPromise().then(() =>
+    {
+      this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
+      this.updateEventColor(args)
+      return true;
+    }).catch(() =>
+    {
+      this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
+      return false;
+    })
+  }
+
+  private updateEventColor(args)
+  {
+    this._formatter.updateEventColor(this.events, args);
+    this._cdr.detectChanges();
+  }
+
+  public async deleteEvent(args, inst)
+  {
+    var os = args.event.ordemServico;
+    if (os?.codAgendaTecnico)
+    {
+      this._agendaTecnicoSvc.deletar(os?.codAgendaTecnico).toPromise().then(() =>
+      {
+        inst.removeEvent(args.event);
+        return;
+      })
+    }
+    inst.removeEvent(args.event);
+  }
+
+  private async realocarAgendamento(args)
+  {
+    var now = moment();
+    var initialTime = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
+    var codTecnico = args.resource;
+
+    if (moment(args.date) < now) return;
+
+    var agendamentosTecnico = (await this._osSvc.obterPorParametros({
+      codFiliais: this.filter?.parametros?.codFiliais,
+      include: OrdemServicoIncludeEnum.OS_AGENDA,
+      filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
+      codTecnico: codTecnico
+    }).toPromise()).items;
+
+    var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
+
+    Enumerable.from(agendamentosTecnico).forEach(i =>
+    {
+      var ag = Enumerable.from(i.agendaTecnico)
+        .firstOrDefault(i => i.codTecnico == codTecnico);
+      atendimentosTecnico.push(
+        {
+          codAgendaTecnico: ag.codAgendaTecnico,
+          start: ag.inicio,
+          end: ag.fim,
+          ordemServico: i,
+          title: i.localAtendimento?.nomeLocal.toUpperCase(),
+          color: this._formatter.getInterventionColor(i.tipoIntervencao?.codTipoIntervencao),
+          editable: true,
+          resource: ag.codTecnico
+        });
+    });
+
+    if (!atendimentosTecnico.length) return;
+
+    var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
+      data:
+      {
+        agendamentos: atendimentosTecnico,
+        initialTime: initialTime,
+        codTecnico: codTecnico
+      }
+    });
+
+    dialog.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+        this.carregaTecnicosEChamadosTransferidos();
+    });
   }
 
   private showOSInfo(args)
@@ -650,18 +632,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     );
   }
 
-  public async deleteEvent(args, inst)
-  {
-    if (args.event.ordemServico?.codAgendaTecnico)
-    {
-      await this._agendaTecnicoSvc.deletar(args.event.ordemServico?.codAgendaTecnico).toPromise().then(() =>
-      {
-        inst.removeEvent(args.event);
-        return;
-      })
-    }
-    inst.removeEvent(args.event);
-  }
+  /** */
+
+  /** Mapa */
 
   public abrirMapa(codTecnico: number): void
   {
@@ -678,81 +651,5 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
   }
 
-  private inicioIntervalo(reference: Moment = moment())
-  {
-    return moment(reference).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-  }
-
-  private fimIntervalo(reference: Moment = moment())
-  {
-    return moment(reference).set({ hour: 13, minute: 0, second: 0, millisecond: 0 });
-  }
-
-  private inicioExpediente(reference: Moment = moment())
-  {
-    return moment(reference).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
-  }
-
-  private fimExpediente(reference: Moment = moment())
-  {
-    return moment(reference).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
-  }
-
-  private getFiliais(): string
-  {
-    return this.filter?.parametros?.codFiliais;
-  }
-
-  private async realocarAgendamento(args)
-  {
-    var now = moment();
-    var initialTime = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
-    var codTecnico = args.resource;
-
-    if (moment(args.date) < now) return;
-
-    var agendamentosTecnico = (await this._osSvc.obterPorParametros({
-      codFiliais: this.getFiliais(),
-      include: OrdemServicoIncludeEnum.OS_AGENDA,
-      filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
-      codTecnico: codTecnico
-    }).toPromise()).items;
-
-    var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
-
-    Enumerable.from(agendamentosTecnico).forEach(i =>
-    {
-      var ag = Enumerable.from(i.agendaTecnico)
-        .firstOrDefault(i => i.codTecnico == codTecnico);
-      atendimentosTecnico.push(
-        {
-          codAgendaTecnico: ag.codAgendaTecnico,
-          start: ag.inicio,
-          end: ag.fim,
-          ordemServico: i,
-          title: i.localAtendimento?.nomeLocal.toUpperCase(),
-          color: this.getInterventionColor(i.tipoIntervencao?.codTipoIntervencao),
-          editable: true,
-          resource: ag.codTecnico
-        });
-
-    });
-
-    if (!atendimentosTecnico.length) return;
-
-    var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
-      data:
-      {
-        agendamentos: atendimentosTecnico,
-        initialTime: initialTime,
-        codTecnico: codTecnico
-      }
-    });
-
-    dialog.afterClosed().subscribe((confirmacao: boolean) =>
-    {
-      if (confirmacao)
-        this.carregaTecnicosEChamadosTransferidos();
-    });
-  }
+  /**  */
 }

@@ -3,6 +3,7 @@ using SAT.MODELS.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Enums;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -24,6 +25,8 @@ namespace SAT.INFRA.Repository
                             .Include(t => t.TipoRota)
                             .Include(t => t.Regiao)
                             .Include(t => t.Usuario)
+                                .ThenInclude(t => t.PontosUsuario
+                                .Where(i => i.DataHoraRegistro.Date == DateTime.Today.Date))
                             .Include(t => t.RegiaoAutorizada);
                     break;
             }

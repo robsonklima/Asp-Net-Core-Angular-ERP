@@ -3,9 +3,11 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Localizacao } from "./localizacao.types";
 import { Navegacao } from "./navegacao.types";
 import { Perfil } from "./perfil.types";
+import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
 
-export class Usuario {
+export class Usuario
+{
     codUsuario: string;
     codFilial?: any;
     filial?: Filial;
@@ -55,20 +57,24 @@ export class Usuario {
     navegacoes: Navegacao[];
     localizacoes: Localizacao[];
     tecnico: Tecnico;
+    pontosUsuario?: PontoUsuario[];
 }
 
-export interface UsuarioData extends Meta {
+export interface UsuarioData extends Meta
+{
     items: Usuario[];
 };
 
-export interface UsuarioSessao {
+export interface UsuarioSessao
+{
     usuario?: Usuario,
     navegacoes?: Navegacao[];
     filtros?: any[];
     token?: string;
 };
 
-export interface UsuarioParameters extends QueryStringParameters {
+export interface UsuarioParameters extends QueryStringParameters
+{
     codUsuario?: string;
     nomeUsuario?: string;
     codPerfil?: number;

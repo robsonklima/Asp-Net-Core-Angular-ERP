@@ -72,15 +72,18 @@ namespace SAT.INFRA.Repository
             .Include(ag => ag.OrdemServico)
             .AsQueryable();
 
-            if (parameters.CodOS != null)
-            {
-                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
-            }
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                agendas = agendas.Where(
+                    a =>
+                    a.CodAgendaTecnico.ToString().Contains(parameters.Filter) ||
+                    a.CodOS.ToString().Contains(parameters.Filter) ||
+                    a.CodTecnico.ToString().Contains(parameters.Filter));
 
-            if (parameters.CodTecnico != null)
-            {
+            if (parameters.CodOS.HasValue)
+                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
+
+            if (parameters.CodTecnico.HasValue)
                 agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
-            }
 
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
@@ -88,30 +91,11 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
             }
 
-            if (parameters.Inicio.HasValue && parameters.Fim.HasValue)
-            {
-                agendas = agendas.Where(ag => ag.Inicio >= parameters.Inicio && ag.Fim <= parameters.Fim);
-            }
+            if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
+                agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Fim.Date <= parameters.FimPeriodoAgenda.Value.Date);
 
             if (!string.IsNullOrEmpty(parameters.Tipo))
-            {
                 agendas = agendas.Where(ag => ag.Tipo.ToLower() == parameters.Tipo.ToLower());
-            }
-
-            if (parameters.Data.HasValue)
-            {
-                agendas = agendas.Where(ag => ag.Inicio.Date.Date == parameters.Data.Value.Date && ag.Fim.Date == parameters.Data.Value.Date);
-            }
-
-            if (parameters.Filter != null)
-            {
-                agendas = agendas.Where(
-                    a =>
-                    a.CodAgendaTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    a.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    a.CodTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
 
             return PagedList<AgendaTecnico>.ToPagedList(agendas, parameters.PageNumber, parameters.PageSize);
         }

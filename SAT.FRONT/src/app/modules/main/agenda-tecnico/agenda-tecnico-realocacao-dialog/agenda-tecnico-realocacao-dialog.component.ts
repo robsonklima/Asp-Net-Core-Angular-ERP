@@ -43,7 +43,6 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   async ngOnInit()
   {
     this.isLoading = true;
-    debugger;
     await this.obterTecnico();
     this.isLoading = false;
   }

@@ -33,6 +33,8 @@ export interface AgendaTecnicoParameters extends QueryStringParameters
     tipo?: string;
     fim?: string;
     data?: string;
+    inicioPeriodoAgenda?: string;
+    fimPeriodoAgenda?: string;
 }
 
 export interface AgendaTecnicoData extends Meta
@@ -63,4 +65,12 @@ export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
     ordemServico?: OrdemServico;
     agendaTecnico?: AgendaTecnico;
     codAgendaTecnico?: number;
+}
+
+export interface TecnicoOMaisProximo
+{
+    minDistancia: number;
+    codTecnicoMinDistancia: number
+    ultimoAtendimentoTecnico: MbscAgendaTecnicoCalendarEvent;
+    message: string;
 }

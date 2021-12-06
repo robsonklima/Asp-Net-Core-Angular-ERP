@@ -4,7 +4,8 @@ import { IndicadorService } from 'app/core/services/indicador.service';
 import { DashboardDisponibilidade, DashboardTipoEnum } from 'app/core/types/dashboard.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 
-export enum Region {
+export enum Region
+{
   NORTE = 1,
   CENTROESTE = 2,
   SUL = 3,
@@ -32,27 +33,32 @@ export type RectByRegion =
   ]
 })
 
-export class MapaDisponibilidadeComponent implements AfterViewInit {
+export class MapaDisponibilidadeComponent implements AfterViewInit
+{
   private statesByRegion: StateByRegion[] = [];
   private regionRects: RectByRegion[] = [];
 
   public loading: boolean = false;
 
-  constructor(private _dashboardService: DashboardService,
+  constructor (private _dashboardService: DashboardService,
     private _indicadorService: IndicadorService) { }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this.initializeMap();
   }
 
-  public initializeMap(): void {
+  public initializeMap(): void
+  {
     this.getStates();
     this.getRects();
   }
 
-  private getStates(): void {
+  private getStates(): void
+  {
     var states = Array.from(document.querySelector("#landmarks-brazil-disp").querySelectorAll("path")).filter(st => st.id.endsWith("disp"));
-    states.forEach(s => {
+    states.forEach(s =>
+    {
       const sbr: StateByRegion =
       {
         region: this.getRegion(this.getInitials(s.id)),
@@ -64,7 +70,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     })
   }
 
-  public formatPaths(st: StateByRegion): void {
+  public formatPaths(st: StateByRegion): void
+  {
     var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
     var b = st.state.getBBox();
     t.setAttribute("transform", "translate(" + (b.x + b.width / 1.6) + " " + (b.y + b.height / 1.7) + ")");
@@ -78,7 +85,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     st.state.parentNode.insertBefore(t, st.state.nextSibling);
   }
 
-  public getRects(): void {
+  public getRects(): void
+  {
     var rects =
       Array.from(document.querySelector("#landmarks-brazil-disp")
         .querySelectorAll("path"))
@@ -87,7 +95,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     this._indicadorService.obterPorParametros({
       tipo: IndicadorTipoEnum.DISPONIBILIDADE,
       agrupador: IndicadorAgrupadorEnum.REGIAO
-    }).subscribe((data: Indicador[]) => {
+    }).subscribe((data: Indicador[]) =>
+    {
       debugger;
     });
 
@@ -102,7 +111,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 
 
 
-    rects.forEach(r => {
+    rects.forEach(r =>
+    {
 
       const rbr: RectByRegion =
       {
@@ -115,7 +125,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 
       let d: MapaDisponibilidadeModel = new MapaDisponibilidadeModel();
 
-      if (rbr.region == Region.NORTE) {
+      if (rbr.region == Region.NORTE)
+      {
         d.mediaDisponibilidade = 'NORTE';
         d.SaldoHoras = 'R$100.00';
         d.BacklogOS = 'R$100.00';
@@ -123,7 +134,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
         d.OSFechadas = 'R$100.00';
       }
 
-      if (rbr.region == Region.NORDESTE) {
+      if (rbr.region == Region.NORDESTE)
+      {
         d.mediaDisponibilidade = 'NORDESTE';
         d.SaldoHoras = 'R$100.00';
         d.BacklogOS = 'R$100.00';
@@ -131,7 +143,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
         d.OSFechadas = 'R$100.00';
       }
 
-      if (rbr.region == Region.CENTROESTE) {
+      if (rbr.region == Region.CENTROESTE)
+      {
         d.mediaDisponibilidade = 'CENTROESTE';
         d.SaldoHoras = 'R$100.00';
         d.BacklogOS = 'R$100.00';
@@ -139,7 +152,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
         d.OSFechadas = 'R$100.00';
       }
 
-      if (rbr.region == Region.SUDESTE) {
+      if (rbr.region == Region.SUDESTE)
+      {
         d.mediaDisponibilidade = 'SUDESTE';
         d.SaldoHoras = 'R$100.00';
         d.BacklogOS = 'R$100.00';
@@ -147,7 +161,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
         d.OSFechadas = 'R$100.00';
       }
 
-      if (rbr.region == Region.SUL) {
+      if (rbr.region == Region.SUL)
+      {
         d.mediaDisponibilidade = 'SUL';
         d.SaldoHoras = 'R$100.00';
         d.BacklogOS = 'R$100.00';
@@ -161,14 +176,16 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     })
   }
 
-  private getRectTemplate(rbr: RectByRegion, d: MapaDisponibilidadeModel) {
+  private getRectTemplate(rbr: RectByRegion, d: MapaDisponibilidadeModel)
+  {
     var metricTitles: string[] = ["Média Disp.", "OS Abertas", "OS Fechadas", "Backlog OS", "Saldo Horas"];
     var b = rbr.rect.getBBox();
 
     var xLeft: number = (b.x + b.width / 2);
     var yLeft: number = b.y + 4000;
 
-    metricTitles.forEach(metric => {
+    metricTitles.forEach(metric =>
+    {
 
       let value = metric == "Média Disp." ? d.mediaDisponibilidade : metric == "OS Abertas" ? d.OSAbertas : metric == "OS Fechadas" ?
         d.OSFechadas : metric == "Backlog OS" ? d.BacklogOS : d.SaldoHoras;
@@ -180,11 +197,13 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     })
   }
 
-  private getInitials(id: string): string {
+  private getInitials(id: string): string
+  {
     return id.toUpperCase().split("-").shift();
   }
 
-  private getRegion(id: string): Region {
+  private getRegion(id: string): Region
+  {
     if ("AM, RR, AC, PA, TO, AP, RO".includes(id)) return Region.NORTE;
     if ("RS, SC, PR".includes(id)) return Region.SUL;
     if ("SP, RJ, MG, ES".includes(id)) return Region.SUDESTE;
@@ -192,14 +211,16 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
     if ("MA, PI, PE, PB, RN, BA, SE, AL, CE".includes(id)) return Region.NORDESTE;
   }
 
-  private getRegionColor(r: Region): string {
+  private getRegionColor(r: Region): string
+  {
     return r == Region.SUL ? "#E0BBE4" :
       r == Region.NORDESTE ? "#F9F0C1" :
         r == Region.NORTE ? "#F4CDA6" :
           r == Region.CENTROESTE ? "#F6A8A6" : "#A5C8E4";
   }
 
-  private createInnerRect(rect: SVGPathElement, title: string, value: string, xLeft: number, yLeft: number): void {
+  private createInnerRect(rect: SVGPathElement, title: string, value: string, xLeft: number, yLeft: number): void
+  {
     // elipse
     var c = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
     c.rx.baseVal.value = 16000;
@@ -237,7 +258,8 @@ export class MapaDisponibilidadeComponent implements AfterViewInit {
 }
 
 
-export class MapaDisponibilidadeModel {
+export class MapaDisponibilidadeModel
+{
   public mediaDisponibilidade: string;
   public OSAbertas: string;
   public OSFechadas: string;

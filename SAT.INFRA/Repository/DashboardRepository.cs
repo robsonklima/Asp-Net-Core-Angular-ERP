@@ -235,7 +235,7 @@ namespace SAT.INFRA.Repository
                 {
                     IndFerias = tecnico.IndFerias,
                     IndAtivo = tecnico.IndAtivo,
-                    CodTecnico = tecnico.CodTecnico,
+                    CodTecnico = tecnico.CodTecnico.Value,
                     CodFilial = tecnico.Filial.CodFilial,
                     NomeFilial = tecnico.Filial.NomeFilial,
 

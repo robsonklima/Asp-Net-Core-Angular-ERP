@@ -22,4 +22,6 @@ export interface FeriadoData extends Meta {
 
 export interface FeriadoParameters extends QueryStringParameters {
     codFeriado?: number;
+    dataInicio?: string;
+    dataFim?: string;
 };

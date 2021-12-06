@@ -18,7 +18,7 @@ export class IndicadorService {
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
-    
+
     return this.http.get(`${c.api}/Indicador`, { params: params }).pipe(
       map((data: Indicador[]) => data)
     )
@@ -31,10 +31,15 @@ export class IndicadorService {
     );
   }
 
-  obterIndicadoresDisponibilidadeTecnicos(): Observable<DashboardTecnicoDisponibilidadeTecnicoViewModel[]> {
-    const url = `${c.api}/Indicador/DisponibilidadeTecnicos`;
-    return this.http.get<DashboardTecnicoDisponibilidadeTecnicoViewModel[]>(url).pipe(
-      map((obj) => obj)
+  obterIndicadoresDisponibilidadeTecnicos(parameters: IndicadorParameters): Observable<DashboardTecnicoDisponibilidadeTecnicoViewModel[]> {
+    let params = new HttpParams();
+
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/Indicador/DisponibilidadeTecnicos`, { params: params }).pipe(
+      map((data: DashboardTecnicoDisponibilidadeTecnicoViewModel[]) => data)
     );
   }
 }

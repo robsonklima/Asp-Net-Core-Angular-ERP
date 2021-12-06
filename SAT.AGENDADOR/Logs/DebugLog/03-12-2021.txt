@@ -1,0 +1,8 @@
+ thread[1] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:11:20 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[1] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:12:28 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[1] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:12:43 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[1] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:14:01 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[11] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:34:27 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[4] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:44:27 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[7] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 10:54:27 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 
+ thread[9] SAT.SERVICES.Services.LoggerService (INFO): 03/12/2021 11:04:27 - Inicializando tarefa: Atualiza dados dos indicadores Dashboard. 

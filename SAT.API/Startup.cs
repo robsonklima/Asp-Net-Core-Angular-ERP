@@ -128,6 +128,8 @@ namespace SAT.API
             services.AddTransient<IDespesaItemAlertaRepository, DespesaItemAlertaRepository>();
             services.AddTransient<ITicketLogPedidoCreditoRepository, TicketLogPedidoCreditoRepository>();
             services.AddTransient<ITurnoRepository, TurnoRepository>();
+            services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
+            services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -207,6 +209,8 @@ namespace SAT.API
             services.AddTransient<IDespesaConfiguracaoService, DespesaConfiguracaoService>();
             services.AddTransient<IDespesaItemAlertaService, DespesaItemAlertaService>();
             services.AddTransient<ITicketLogPedidoCreditoService, TicketLogPedidoCreditoService>();
+            services.AddTransient<IInstalacaoService, InstalacaoService>();
+            services.AddTransient<IInstalacaoLoteService, InstalacaoLoteService>();
 
             services.AddAuthentication(auth =>
             {

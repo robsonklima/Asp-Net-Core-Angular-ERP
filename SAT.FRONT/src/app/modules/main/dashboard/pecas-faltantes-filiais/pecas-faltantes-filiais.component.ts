@@ -5,6 +5,7 @@ import { FilialData } from 'app/core/types/filial.types';
 import { Indicador, IndicadorAgrupadorEnum, IndicadorTipoEnum } from 'app/core/types/indicador.types';
 import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-pecas-faltantes-filiais',
@@ -29,19 +30,23 @@ export class PecasFaltantesFiliaisComponent implements OnInit {
   private async obterDados() {
     this.loading = true;
 
+    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
+    let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
+
     this.indicadoresPecas = await this._indicadorService
       .obterPorParametros({
         tipo: IndicadorTipoEnum.PECA_FALTANTE,
         agrupador: IndicadorAgrupadorEnum.FILIAL,
         filterType: OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES,
-        include: OrdemServicoIncludeEnum.OS_PECAS
+        include: OrdemServicoIncludeEnum.OS_PECAS,
+        dataInicio: dataInicio,
+        dataFim: dataFim
       }).toPromise() as Indicador[];
 
 
     // Filiais
     this._filialService.obterPorParametros({ indAtivo: 1, sortActive: 'nomeFilial', sortDirection: 'asc', }).subscribe((data: FilialData) => {
       let filiais = data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33); // Remover EXP,OUT,IND
-
 
       for (let f of filiais) {
         this.nomesFiliais.push(f.nomeFilial);

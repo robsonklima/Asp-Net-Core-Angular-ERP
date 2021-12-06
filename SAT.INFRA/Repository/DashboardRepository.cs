@@ -7,6 +7,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -19,14 +21,53 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(Defeito defeito)
+        public void Atualizar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
         {
-            Defeito d = _context.Defeito.FirstOrDefault(d => d.CodDefeito == defeito.CodDefeito);
+            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador);
 
-            if (d != null)
+            if (indicador != null)
             {
-                _context.Entry(d).CurrentValues.SetValues(defeito);
-                _context.SaveChanges();
+                DashboardIndicadores indicadorAtualizado = indicador;
+                indicadorAtualizado.DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores);
+                indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
+                _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            else
+            {
+                this.Criar(nomeIndicador, indicadores, data);
+            }
+        }
+
+        public void Atualizar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
+        {
+            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador);
+
+            if (indicador != null)
+            {
+                DashboardIndicadores indicadorAtualizado = indicador;
+                indicadorAtualizado.DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores);
+                indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
+                _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            else
+            {
+                this.Criar(nomeIndicador, indicadores, data);
             }
         }
 
@@ -120,14 +161,29 @@ namespace SAT.INFRA.Repository
             return retorno;
         }
 
-        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(string nomeIndicador, DateTime? dataInicio, DateTime? dataFim)
+        public List<Indicador> ObterDadosIndicadorMaisRecente(string nomeIndicador)
+        {
+            List<Indicador> retorno = new();
+
+            DashboardIndicadores indicador = this._context.DashboardIndicadores
+                .Where(f => f.NomeIndicador == nomeIndicador)
+                .OrderByDescending(ord => ord.Data).FirstOrDefault();
+
+            if (indicador != null)
+            {
+                retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Indicador>>(indicador.DadosJson));
+            }
+
+            return retorno;
+        }
+
+        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(string nomeIndicador, DateTime data)
         {
             List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
 
             List<DashboardIndicadores> indicador = this._context.DashboardIndicadores
                 .Where(f => f.NomeIndicador == nomeIndicador &&
-                f.Data >= dataInicio.Value.Date &&
-                f.Data <= dataFim.Value.Date).ToList();
+                f.Data == data.Date).ToList();
 
             if (indicador.Any())
             {
@@ -135,6 +191,88 @@ namespace SAT.INFRA.Repository
                 {
                     retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashboardTecnicoDisponibilidadeTecnicoViewModel>>(dash.DadosJson));
                 }
+            }
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// Faz o calculo do dashboard dos técnicos nesta camada pois usa o _context
+        /// </summary>
+        /// <param name="query">Lista dos técnicos</param>
+        /// <param name="parameters"></param>
+        /// <param name="FuncDiasUteis">Função dos Feriados - Calcular dias uteis: serve para ver os dias uteis na range de pontos</param>
+        /// <returns></returns>
+        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterDadosDashboardTecnicoDisponibilidade(IQueryable<Tecnico> query, TecnicoParameters parameters
+           , Func<DateTime, DateTime, int> FuncDiasUteis)
+        {
+            List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
+
+            Tecnico[] tecnicosAtivos = query.Where(q => q.IndAtivo == 1 && q.Usuario != null &&
+                                                     q.Usuario.IndAtivo == 1 && q.Filial != null).ToArray();
+
+            foreach (var tecnico in tecnicosAtivos)
+            {
+                IEnumerable<PontoUsuario> pontoUsuario = _context.PontoUsuario.Where(p =>
+                       p.DataHoraRegistro >= parameters.PeriodoMediaAtendInicio &&
+                       p.DataHoraRegistro <= parameters.PeriodoMediaAtendFim &&
+                   tecnico.Usuario.CodUsuario == p.CodUsuario && p.IndAtivo == 1);
+
+                // Se por algum motivo não tem ponto ou chamados, não tem porque contabilizar 
+                if (pontoUsuario.Count() == 0 || tecnico.OrdensServico.Count == 0) continue;
+
+                int diasTrabalhados = FuncDiasUteis(pontoUsuario.Min(s => s.DataHoraRegistro), pontoUsuario.Max(s => s.DataHoraRegistro));
+
+                // Não se consegue calcular médias com 0 - não tem porque considerar este dia
+                if (diasTrabalhados == 0) continue;
+
+                IEnumerable<OrdemServico> osTecnico = tecnico.OrdensServico.Where(os =>
+                                       os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                       os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
+                                       os.RelatoriosAtendimento != null && os.RelatoriosAtendimento.Count > 0);
+
+                retorno.Add(new DashboardTecnicoDisponibilidadeTecnicoViewModel()
+                {
+                    IndFerias = tecnico.IndFerias,
+                    IndAtivo = tecnico.IndAtivo,
+                    CodTecnico = tecnico.CodTecnico.Value,
+                    CodFilial = tecnico.Filial.CodFilial,
+                    NomeFilial = tecnico.Filial.NomeFilial,
+
+                    TecnicoSemChamadosTransferidos = !tecnico.OrdensServico.Any(w => w.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO),
+
+                    MediaAtendimentosPorDiaTodasIntervencoes = osTecnico.Where(os =>
+                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO &&
+                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELPDESK &&
+                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELP_DESK_DSS
+                                           ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                         rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                         rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+
+                    MediaAtendimentosPorDiaCorretivos = osTecnico.Where(os =>
+                                          os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA
+                                                    ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                                  rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                                  rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+
+                    MediaAtendimentosPorDiaPreventivos = osTecnico.Where(os =>
+                                         os.CodTipoIntervencao == (int)TipoIntervencaoEnum.PREVENTIVA
+                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+
+                    MediaAtendimentosPorDiaInstalacoes = osTecnico.Where(os =>
+                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO
+                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+
+                    MediaAtendimentosPorDiaEngenharia = osTecnico.Where(os =>
+                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA
+                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
+                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
+                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+                });
             }
 
             return retorno;

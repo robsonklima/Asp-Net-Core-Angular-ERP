@@ -39,5 +39,8 @@ namespace SAT.MODELS.Entities
         public DateTime? DataFimDispBB { get; set; }
         public DateTime DataHoraInicioInicio { get; set; }
         public DateTime DataHoraInicioFim { get; set; }
+
+        public DateTime? InicioPeriodoAgenda { get; set; }
+        public DateTime? FimPeriodoAgenda { get; set; }
     }
 }

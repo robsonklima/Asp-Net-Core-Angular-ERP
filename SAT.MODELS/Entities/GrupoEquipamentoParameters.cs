@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities
     public class GrupoEquipamentoParameters : QueryStringParameters
     {
         public int? CodGrupoEquip { get; set; }
+        public int? CodTipoEquip { get; set; }
     }
 }

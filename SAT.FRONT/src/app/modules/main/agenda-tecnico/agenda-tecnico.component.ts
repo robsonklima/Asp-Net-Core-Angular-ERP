@@ -45,6 +45,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   chamados: OrdemServico[] = [];
   resources = [];
+  weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
+  weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
 
   calendarOptions: MbscEventcalendarOptions = {
     view: {
@@ -109,6 +111,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     onCellDoubleClick: (args, inst) =>
     {
       this.realocarAgendamento(args);
+    },
+    onSelectedDateChange: (args, inst) =>
+    {
+      this.changeWeek(args, inst)
     }
   };
 
@@ -193,8 +199,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codFiliais: this.getFiliais(),
       include: OrdemServicoIncludeEnum.OS_AGENDA,
       filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
-      sortActive: 'dataHoraTransf',
-      sortDirection: 'asc'
+      inicioPeriodoAgenda: this.weekStart,
+      fimPeriodoAgenda: this.weekEnd
     }).toPromise()).items;
 
     const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
@@ -212,6 +218,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     {
       this.events = this.events.concat(this.carregaPonto(tecnico));
     });
+  }
+
+  private async changeWeek(args, inst)
+  {
+    this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
+    this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
+    await this.carregaTecnicosEChamadosTransferidos();
   }
 
   private isOnVacation(t: Tecnico): boolean
@@ -235,32 +248,26 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private carregaOSs(chamados: OrdemServico[])
   {
-    this.events = this.events.concat(Enumerable.from(chamados)
+    Enumerable.from(chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico)
-      .selectMany(osPorTecnico =>
+      .forEach(async osPorTecnico =>
       {
         var codTecnico: number = osPorTecnico.key();
         var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
         mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
-        var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
-        return (Enumerable.from(osPorTecnico)
-          .orderBy(os => os.dataHoraTransf)
-          .toArray()
-          .map(os =>
-          {
-            var agenda = Enumerable.from(os.agendaTecnico)
-              .firstOrDefault(i => i.codTecnico == codTecnico);
+        for (const os of osPorTecnico)
+        {
+          var agenda = Enumerable.from(os.agendaTecnico)
+            .firstOrDefault(i => i.codTecnico == codTecnico);
 
-            var evento = os.agendaTecnico && agenda != null ?
-              this.exibeEventoOSExistente(agenda, os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
+          var evento = os.agendaTecnico.length && agenda != null ?
+            this.exibeEventoOSExistente(agenda, os) : (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
 
-            ultimoEvento = evento;
-            return evento;
-          }))
-
-      }).toArray());
+          this.events = this.events.concat(evento);
+        }
+      });
 
     this.validateEvents();
   }
@@ -282,10 +289,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent): Promise<MbscAgendaTecnicoCalendarEvent>
+  private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, codTecnico: number)
   {
-    var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
+    var ultimoEvento = Enumerable.from(this.events)
+      .where(i => i.resource == codTecnico && i.title != 'INTERVALO')
+      .orderByDescending(i => i.end)
+      .firstOrDefault();
 
+    var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
     var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente()).add(deslocamento, 'minutes');
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
@@ -689,7 +700,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return this.filter?.parametros?.codFiliais;
   }
 
-  private realocarAgendamento(args)
+  private async realocarAgendamento(args)
   {
     var now = moment();
     var initialTime = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
@@ -697,10 +708,32 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (moment(args.date) < now) return;
 
-    var atendimentosTecnico = Enumerable.from(this.events)
-      .where(i => i.resource == codTecnico && i.ordemServico != null && i.ordemServico?.codStatusServico != StatusServicoEnum.FECHADO)
-      .orderBy(i => i.title)
-      .toArray();
+    var agendamentosTecnico = (await this._osSvc.obterPorParametros({
+      codFiliais: this.getFiliais(),
+      include: OrdemServicoIncludeEnum.OS_AGENDA,
+      filterType: OrdemServicoFilterEnum.FILTER_AGENDA,
+      codTecnico: codTecnico
+    }).toPromise()).items;
+
+    var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
+
+    Enumerable.from(agendamentosTecnico).forEach(i =>
+    {
+      var ag = Enumerable.from(i.agendaTecnico)
+        .firstOrDefault(i => i.codTecnico == codTecnico);
+      atendimentosTecnico.push(
+        {
+          codAgendaTecnico: ag.codAgendaTecnico,
+          start: ag.inicio,
+          end: ag.fim,
+          ordemServico: i,
+          title: i.localAtendimento?.nomeLocal.toUpperCase(),
+          color: this.getInterventionColor(i.tipoIntervencao?.codTipoIntervencao),
+          editable: true,
+          resource: ag.codTecnico
+        });
+
+    });
 
     if (!atendimentosTecnico.length) return;
 

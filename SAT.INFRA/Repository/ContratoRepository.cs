@@ -57,9 +57,10 @@ namespace SAT.INFRA.Repository
         public Contrato ObterPorCodigo(int codigo)
         {
             return _context.Contrato
-                            .Include(c => c.Cliente)
-                            .Include(c => c.TipoContrato)
-                            .FirstOrDefault(c => c.CodContrato == codigo);
+                .Include(c => c.Cliente)            
+                .Include(c => c.TipoContrato)
+                .Include(c => c.Lotes)
+                .FirstOrDefault(c => c.CodContrato == codigo);
         }
 
         public PagedList<Contrato> ObterPorParametros(ContratoParameters parameters)
@@ -67,6 +68,7 @@ namespace SAT.INFRA.Repository
             var contratos = _context.Contrato
                 .Include(c => c.Cliente)
                 .Include(c => c.TipoContrato)
+                .Include(c => c.Lotes)
                 .AsQueryable();
 
             if (parameters.Filter != null)

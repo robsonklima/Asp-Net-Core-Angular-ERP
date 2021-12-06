@@ -7,5 +7,7 @@ namespace SAT.MODELS.Entities
     {
         public int? CodFeriado { get; set; }
         public DateTime? Mes { get; set; }
+        public DateTime? dataInicio { get; set; }
+        public DateTime? dataFim { get; set; }
     }
 }

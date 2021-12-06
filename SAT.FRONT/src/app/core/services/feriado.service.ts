@@ -9,24 +9,36 @@ import { Feriado, FeriadoData, FeriadoParameters } from '../types/feriado.types'
     providedIn: 'root'
 })
 export class FeriadoService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: FeriadoParameters): Observable<FeriadoData> {
         let params = new HttpParams();
-        
+
         Object.keys(parameters).forEach(key => {
-          if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
         });
-    
+
         return this.http.get(`${c.api}/Feriado`, { params: params }).pipe(
-          map((data: FeriadoData) => data)
+            map((data: FeriadoData) => data)
+        )
+    }
+
+    obterDiasUteis(parameters: FeriadoParameters): Observable<number> {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key => {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(`${c.api}/Feriado/getDiasUteis`, { params: params }).pipe(
+            map((data: number) => data)
         )
     }
 
     obterPorCodigo(codFeriado: number): Observable<Feriado> {
         const url = `${c.api}/Feriado/${codFeriado}`;
         return this.http.get<Feriado>(url).pipe(
-          map((obj) => obj)
+            map((obj) => obj)
         );
     }
 

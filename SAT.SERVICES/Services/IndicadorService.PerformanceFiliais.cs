@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
-using SAT.MODELS.ViewModels;
 using SAT.MODELS.Enums;
 using SAT.MODELS.Extensions;
-using System.Linq;
-using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace SAT.SERVICES.Services
 {

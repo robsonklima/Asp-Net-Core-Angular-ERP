@@ -19,6 +19,7 @@ export interface AppConfig
     tailwind_css: string;
     autonomia_veiculo_frota: number;
     rd_centro_de_custo: string;
+    system_user: string;
 }
 
 export const appConfig: AppConfig = {
@@ -37,5 +38,6 @@ export const appConfig: AppConfig = {
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',
     autonomia_veiculo_frota: 13,
-    rd_centro_de_custo: "5001"
+    rd_centro_de_custo: "5001",
+    system_user: 'ADMIN'
 };

@@ -16,7 +16,7 @@ import moment from 'moment';
 
 export class DisponibilidadeTecnicosComponent implements OnInit {
   @Input() filtro: Filtro;
-  public loading: boolean = true;
+  public loading: boolean = true; ng
   public disponibilidadeTecnicosModel: DisponibilidadeTecnicosModel[] = [];
 
   public totalTecnicosAtivos: number = 0;
@@ -43,16 +43,10 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
     let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    // let dadosTecnicosDashboard = (await this._tecnicoService
-    //   .obterPorParametros({
-    //     tipo: TecnicoTipoEnum.DISPONIBILIDADE_TECNICOS,
-    //     filterType: TecnicoFilterEnum.FILTER_TECNICO_OS,
-    //     include: TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-    //     periodoMediaAtendInicio: dataInicio,
-    //     periodoMediaAtendFim: dataFim
-    //   }).toPromise()).items as DashboardTecnicoDisponibilidadeTecnicoViewModel[];
-
-    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos().toPromise());
+    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos({
+      dataInicio: dataInicio,
+      dataFim: dataFim
+    }).toPromise());
 
     for (let tecnico of dadosTecnicosDashboard) {
 
@@ -63,6 +57,8 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
         dadosDashboard = new DisponibilidadeTecnicosModel();
         // Nome Filial
         dadosDashboard.nomeFilial = tecnico.nomeFilial;
+        // Codigo Filial
+        dadosDashboard.codFilial = tecnico.codFilial;
         // Quantidade de técnicos ativos da filial
         dadosDashboard.qntTecnicosAtivosChamados = Enumerable.from(dadosTecnicosDashboard).count(c => c.codFilial == tecnico.codFilial && c.indFerias == 0);
         // Quantidade de técnicos inativos da filial

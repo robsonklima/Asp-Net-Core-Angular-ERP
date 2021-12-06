@@ -14,11 +14,11 @@ namespace SAT.INFRA.Repository
         public IQueryable<Tecnico> PeriodoAtendimentoFilter(IQueryable<Tecnico> query, TecnicoParameters parameters)
         {
             // Filtro nas OS
-            if (parameters.PeriodoMediaAtendInicio != DateTime.MinValue && parameters.PeriodoMediaAtendInicio != DateTime.MinValue)
+            if (parameters.PeriodoMediaAtendInicio != DateTime.MinValue && parameters.PeriodoMediaAtendFim != DateTime.MinValue)
             {
-                query = query
-                   .Include(t => t.OrdensServico.Where(os => os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
-                   os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim));
+                query = query.Include(t => t.OrdensServico.Where(os => os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
+                                                    os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim))
+                   .ThenInclude(r => r.RelatoriosAtendimento);
             }
 
             return query;

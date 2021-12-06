@@ -192,7 +192,6 @@ export class ChangelogComponent
                 }
             ]
         },
-        ,
         {
             version: 'v1.1.1',
             releaseDate: '03 de Dezembro de 2021',
@@ -208,6 +207,40 @@ export class ChangelogComponent
                     type: 'Adições',
                     list: [
                         'Módulo de despesas'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.1.2',
+            releaseDate: '04 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes na tela de contratos',
+                        'Ajustes na tela de créditos cartão',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Módulo de ponto',
+                        'Módulo de instalação'
+                    ],
+                }
+            ]
+        },
+        ,
+        {
+            version: 'v1.1.3',
+            releaseDate: '06 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Histórico Agenda Técnico',
+                        'Filtro Tipo Equipamento',
                     ],
                 }
             ]

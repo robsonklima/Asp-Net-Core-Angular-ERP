@@ -135,6 +135,20 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.filiais = data.items;
   }
 
+  async obterTipoEquipamentos()
+  {
+    let params = {
+      sortActive: 'nomeTipoEquip',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._tipoEquipService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.tipoEquip = data.items;
+  }
+
   async obterGrupoEquipamentos()
   {
     let params: GrupoEquipamentoParameters =
@@ -151,19 +165,6 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.gruposEquip = data.items;
   }
 
-  async obterTipoEquipamentos()
-  {
-    let params = {
-      sortActive: 'nomeTipoEquip',
-      sortDirection: 'asc'
-    }
-
-    const data = await this._tipoEquipService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.tipoEquip = data.items;
-  }
 
   async obterEquipamentos()
   {

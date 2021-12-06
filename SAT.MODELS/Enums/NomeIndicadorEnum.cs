@@ -55,11 +55,11 @@ namespace SAT.MODELS.Enums
         [Description("PECAS FILIAL")]
         PECAS_FILIAL,
 
-        [Description("PECAS TOP MAIS FALTANTES")]
-        PECAS_TOP_MAIS_FALTANTES,
+        [Description("PECAS TOP CINCO MAIS FALTANTES")]
+        PECAS_TOP_CINCO_MAIS_FALTANTES,
 
-        [Description("PECAS MAIS FALTANTES")]
-        PECAS_MAIS_FALTANTES,
+        [Description("PECAS CRITICAS MAIS FALTANTES")]
+        PECAS_CRITICAS_MAIS_FALTANTES,
 
         [Description("PECAS NOVAS CADASTRADAS")]
         PECAS_NOVAS_CADASTRADAS,

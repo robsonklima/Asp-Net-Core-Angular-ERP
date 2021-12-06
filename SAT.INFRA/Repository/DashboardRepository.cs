@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
         {
-            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador);
+            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
 
             if (indicador != null)
             {
@@ -48,7 +48,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
         {
-            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador);
+            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
 
             if (indicador != null)
             {
@@ -181,17 +181,18 @@ namespace SAT.INFRA.Repository
         {
             List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
 
-            List<DashboardIndicadores> indicador = this._context.DashboardIndicadores
-                .Where(f => f.NomeIndicador == nomeIndicador &&
-                f.Data == data.Date).ToList();
+            DashboardIndicadores indicador = this._context.DashboardIndicadores
+                .FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
 
-            if (indicador.Any())
+            if (indicador == null)
             {
-                foreach (DashboardIndicadores dash in indicador)
-                {
-                    retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashboardTecnicoDisponibilidadeTecnicoViewModel>>(dash.DadosJson));
-                }
+                indicador = this._context.DashboardIndicadores
+                   .Where(f => f.NomeIndicador == nomeIndicador)
+                   .OrderByDescending(ord => ord.Data)
+                   .FirstOrDefault();
             }
+
+            retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashboardTecnicoDisponibilidadeTecnicoViewModel>>(indicador.DadosJson));
 
             return retorno;
         }

@@ -58,13 +58,20 @@ namespace SAT.INFRA.Repository
             return _context.Peca.FirstOrDefault(p => p.CodPeca == codigo);
         }
 
-        public PagedList<Peca> ObterPorParametros(PecaParameters parameters)
+        public IQueryable<Peca> ObterQuery(PecaParameters parameters)
         {
             var query = _context.Peca.AsNoTracking().AsQueryable();
 
             query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
+
+            return query;
+        }
+
+        public PagedList<Peca> ObterPorParametros(PecaParameters parameters)
+        {
+            var query = this.ObterQuery(parameters);
 
             return PagedList<Peca>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

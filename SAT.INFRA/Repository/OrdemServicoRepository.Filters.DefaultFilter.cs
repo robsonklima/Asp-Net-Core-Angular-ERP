@@ -37,7 +37,7 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodOS))
             {
-                var cods = parameters.CodOS.Split(",").Select(a => a.Trim());
+                var cods = parameters.CodOS.Split(",").Select(a => a.Trim()).Distinct();
                 query = query.Where(os => cods.Any(p => p == os.CodOS.ToString()));
             }
 

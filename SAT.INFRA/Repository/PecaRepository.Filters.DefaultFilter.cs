@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodPeca))
             {
-                var split = parameters.CodPeca.Split(",").Select(int.Parse).ToArray();
+                var split = parameters.CodPeca.Split(",").Select(s => int.Parse(s)).ToArray();
                 query = query.Where(p => split.Any(s => s.Equals(p.CodPeca)));
             }
 

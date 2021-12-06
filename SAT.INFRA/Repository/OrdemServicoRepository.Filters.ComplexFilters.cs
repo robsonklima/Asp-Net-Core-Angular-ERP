@@ -43,7 +43,7 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
+                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim()).Distinct();
                 query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
             }
 

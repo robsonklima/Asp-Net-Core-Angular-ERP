@@ -20,7 +20,7 @@ namespace SAT.SERVICES.Services
                 case IndicadorAgrupadorEnum.FILIAL:
                     return AgrupadorIndicador(NomeIndicadorEnum.SPA_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_TECNICO_PERCENT.Description(), parameters.DataInicio, parameters.DataFim);
+                    return _dashboardService.ObterDadosIndicadorMaisRecente(NomeIndicadorEnum.SPA_TECNICO_PERCENT.Description());
                 case IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.SPA_TECNICO_QNT_CHAMADOS.Description(), parameters.DataInicio, parameters.DataFim);
                 default:

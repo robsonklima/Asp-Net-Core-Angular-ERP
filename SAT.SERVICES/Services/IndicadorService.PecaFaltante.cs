@@ -16,10 +16,10 @@ namespace SAT.SERVICES.Services
             {
                 case IndicadorAgrupadorEnum.FILIAL:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_FILIAL.Description(), parameters.DataInicio, parameters.DataFim);
-                case IndicadorAgrupadorEnum.TOP_PECAS_MAIS_FALTANTES:
-                    return _dashboardService.ObterDadosIndicadorMaisRecente(NomeIndicadorEnum.PECAS_TOP_MAIS_FALTANTES.Description());
+                case IndicadorAgrupadorEnum.TOP_CINCO_PECAS_MAIS_FALTANTES:
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_TOP_CINCO_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES:
-                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
+                    return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_CRITICAS_MAIS_FALTANTES.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.NOVAS_CADASTRADAS:
                     return _dashboardService.ObterDadosIndicador(NomeIndicadorEnum.PECAS_NOVAS_CADASTRADAS.Description(), parameters.DataInicio, parameters.DataFim);
                 case IndicadorAgrupadorEnum.NOVAS_LIBERADAS:
@@ -61,13 +61,13 @@ namespace SAT.SERVICES.Services
                     }).ToList();
         }
 
-        private List<Indicador> ObterIndicadorPecasMaisFaltantesFiliais(List<OrdemServico> chamados)
+        private List<Indicador> ObterIndicadorCincoPecasMaisFaltantes(List<OrdemServico> chamados)
         {
             List<Indicador> indicadores = new();
-            DateTime hoje = DateTime.Now;
+            DateTime dataMinima = DateTime.Now.AddMonths(-3);
 
             return (from os in chamados
-                    from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad < hoje)
+                    from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad > dataMinima)
                     from ratD in rat.RelatorioAtendimentoDetalhes.SelectMany(s => s.RelatorioAtendimentoDetalhePecas)
                     where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEÇA FALTANTE")
                     &&
@@ -85,14 +85,14 @@ namespace SAT.SERVICES.Services
                         Label = grupo.Key.CodMagnus,
                         Filho = new List<Indicador>() { new Indicador()
                                                   {
-                                                   Label =grupo.Key.NomePeca,
+                                                   Label = grupo.Key.NomePeca,
                                                    Valor = grupo.Count(),
                                                   }
                                      }
                     }).Take(5).ToList();
         }
 
-        private List<Indicador> ObterIndicadorTopPecaFaltante(List<OrdemServico> chamados, IndicadorAgrupadorEnum indicador)
+        private List<Indicador> ObterIndicadorPecasCriticasFaltantes(List<OrdemServico> chamados, IndicadorAgrupadorEnum indicador)
         {
             List<Indicador> indicadores = new();
 

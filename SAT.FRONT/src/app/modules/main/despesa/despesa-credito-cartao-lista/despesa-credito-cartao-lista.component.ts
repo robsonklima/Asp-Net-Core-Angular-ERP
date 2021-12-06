@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { appConfig } from 'app/core/config/app.config';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
@@ -80,6 +81,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
     await this.obterPeriodosTecnico(filter);
     await this.criarListView();
+    await this.compensaDespesasZeradas();
 
     this.isLoading = false;
   }
@@ -152,6 +154,26 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
             indErroAoCreditar: p.ticketLogPedidoCredito?.observacao != null && p.ticketLogPedidoCredito?.observacao != '' && p.indCredito == 1 ? true : false
           });
       });
+  }
+
+  compensaDespesasZeradas()
+  {
+    Enumerable.from(this.listview)
+      .where(d => d.combustivel <= 0 && !d.indCompensado)
+      .forEach(async d => 
+      {
+        var despesa = Enumerable.from(this.periodos.items).
+          firstOrDefault(i => i.codDespesaPeriodoTecnico == d.rd);
+
+        if (despesa != null)
+        {
+          despesa.indCompensacao = 1;
+          despesa.codUsuarioCompensacao = appConfig.system_user;
+          despesa.dataHoraCompensacao = moment().format('yyyy-MM-DD HH:mm:ss');
+          await this._despesaPeriodoTecnicoSvc.atualizar(despesa).toPromise();
+          d.indCompensado = true;
+        }
+      })
   }
 
   private obterCartaoAtual(p: DespesaPeriodoTecnico)

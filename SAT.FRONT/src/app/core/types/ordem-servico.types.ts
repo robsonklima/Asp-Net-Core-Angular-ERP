@@ -16,7 +16,8 @@ import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
 
-export class OrdemServico {
+export class OrdemServico
+{
     codOS: number;
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
@@ -152,11 +153,13 @@ export class OrdemServico {
     agendaTecnico?: AgendaTecnico[];
 }
 
-export interface OrdemServicoData extends Meta {
+export interface OrdemServicoData extends Meta
+{
     items: OrdemServico[];
 };
 
-export interface OrdemServicoParameters extends QueryStringParameters {
+export interface OrdemServicoParameters extends QueryStringParameters
+{
     codOS?: string;
     codEquipContrato?: number;
     codTecnico?: number;
@@ -177,9 +180,12 @@ export interface OrdemServicoParameters extends QueryStringParameters {
     filterType?: OrdemServicoFilterEnum;
     dataHoraInicioInicio?: string;
     dataHoraInicioFim?: string;
+    inicioPeriodoAgenda?: string;
+    fimPeriodoAgenda?: string;
 };
 
-export enum OrdemServicoIncludeEnum {
+export enum OrdemServicoIncludeEnum
+{
     OS_RAT = 1,
     OS_AGENDA = 2,
     OS_PECAS = 3,
@@ -192,7 +198,8 @@ export enum OrdemServicoIncludeEnum {
     OS_EQUIPAMENTOS_ATENDIMENTOS = 10
 }
 
-export enum OrdemServicoFilterEnum {
+export enum OrdemServicoFilterEnum
+{
     FILTER_AGENDA = 1,
     FILTER_INDICADOR = 2,
     FILTER_CORRETIVAS_ANTIGAS = 3,

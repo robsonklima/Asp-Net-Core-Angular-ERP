@@ -19,13 +19,14 @@ export interface AppConfig
     tailwind_css: string;
     autonomia_veiculo_frota: number;
     rd_centro_de_custo: string;
+    system_user: string;
 }
 
 export const appConfig: AppConfig = {
     layout: 'classic',
     scheme: 'light',
     theme: 'brand',
-    api: 'https://apisat-homologacao.perto.com.br/api',
+    api: 'https://localhost:5001/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',
@@ -37,5 +38,6 @@ export const appConfig: AppConfig = {
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',
     autonomia_veiculo_frota: 13,
-    rd_centro_de_custo: "5001"
+    rd_centro_de_custo: "5001",
+    system_user: 'ADMIN'
 };

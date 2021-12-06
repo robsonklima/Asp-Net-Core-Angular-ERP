@@ -239,32 +239,26 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private carregaOSs(chamados: OrdemServico[])
   {
-    this.events = this.events.concat(Enumerable.from(chamados)
+    Enumerable.from(chamados)
       .where(os => os.tecnico != null)
       .groupBy(os => os.codTecnico)
-      .selectMany(osPorTecnico =>
+      .forEach(async osPorTecnico =>
       {
         var codTecnico: number = osPorTecnico.key();
         var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
         mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
-        var ultimoEvento: MbscAgendaTecnicoCalendarEvent;
 
-        return (Enumerable.from(osPorTecnico)
-          .orderBy(os => os.dataHoraTransf)
-          .toArray()
-          .map(os =>
-          {
-            var agenda = Enumerable.from(os.agendaTecnico)
-              .firstOrDefault(i => i.codTecnico == codTecnico);
+        for (const os of osPorTecnico)
+        {
+          var agenda = Enumerable.from(os.agendaTecnico)
+            .firstOrDefault(i => i.codTecnico == codTecnico);
 
-            var evento = os.agendaTecnico && agenda != null ?
-              this.exibeEventoOSExistente(agenda, os) : this.criaNovoEventoOS(os, mediaTecnico, ultimoEvento);
+          var evento = os.agendaTecnico.length && agenda != null ?
+            this.exibeEventoOSExistente(agenda, os) : (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
 
-            ultimoEvento = evento;
-            return evento;
-          }))
-
-      }).toArray());
+          this.events = this.events.concat(evento);
+        }
+      });
 
     this.validateEvents();
   }
@@ -286,8 +280,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return evento;
   }
 
-  private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, ultimoEvento: MbscAgendaTecnicoCalendarEvent)
+  private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, codTecnico: number)
   {
+    var ultimoEvento = Enumerable.from(this.events)
+      .where(i => i.resource == codTecnico && i.title != 'INTERVALO')
+      .orderByDescending(i => i.end)
+      .firstOrDefault();
+
+    console.log(ultimoEvento)
+
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
 
     var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente()).add(deslocamento, 'minutes');
@@ -332,6 +333,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
+    console.log(ag);
 
     evento.codAgendaTecnico = ag?.codAgendaTecnico;
     return evento;

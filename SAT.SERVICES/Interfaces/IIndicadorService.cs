@@ -8,6 +8,7 @@ namespace SAT.SERVICES.Interfaces
     public interface IIndicadorService
     {
         List<Indicador> ObterIndicadores(IndicadorParameters parameters);
-        List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(IndicadorParameters parameters);        
+        List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(IndicadorParameters parameters);
+        void AtualizaDadosIndicadoresDashboard(DateTime periodoInicio, DateTime periodoFim);
     }
 }

@@ -16,10 +16,13 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
             }
 
+            if (parameters.CodTecnico.HasValue)
+                return query.Where(os => os.CodTecnico == parameters.CodTecnico
+                    && os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO);
+
             query = query.Where(os =>
-                // (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA || os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO) && 
                 (os.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO ||
-                ((os.CodStatusServico == (int)StatusServicoEnum.ABERTO || os.CodStatusServico == (int)StatusServicoEnum.FECHADO) && os.DataHoraTransf.Value.Date == DateTime.Now.Date)));
+                (os.CodStatusServico == (int)StatusServicoEnum.FECHADO && os.DataHoraFechamento.Value.Date >= parameters.InicioPeriodoAgenda.Value.Date && os.DataHoraFechamento.Value.Date <= parameters.FimPeriodoAgenda.Value.Date)));
 
             return query;
         }
@@ -85,7 +88,7 @@ namespace SAT.INFRA.Repository
 
             var po2 = query.Where(c => c.CodCliente == (int)ClienteEnum.BB &&
                                        c.IndServico == 1 &&
-                                       c.CodUsuarioCadastro == "SERVIÇO" &&
+                                       c.CodUsuarioCadastro == "SERVIï¿½O" &&
                                        c.DispBBEquipamentoContrato != null &&
                                        c.DispBBEquipamentoContrato.CodContrato == 3145 &&
                                        c.Equipamento != null &&
@@ -113,21 +116,21 @@ namespace SAT.INFRA.Repository
                             let ultimaRat = c.RelatoriosAtendimento.OrderByDescending(or => or.CodRAT).FirstOrDefault()
 
                             // &&
-                            // Considera chamados abertos no período.
+                            // Considera chamados abertos no perï¿½odo.
                             where (c.DataHoraAberturaOS >= primeiroDiaMes && c.DataHoraAberturaOS <= ultimoDiaMes)
                                    ||
 
-                                   //Considera data da próxima janela no período(Antiga regra de agendamento).
+                                   //Considera data da prï¿½xima janela no perï¿½odo(Antiga regra de agendamento).
                                    (proxDiaUtil >= primeiroDiaMes && proxDiaUtil <= ultimoDiaMes
                                     && (ultimaRat == null || (ultimaRat != null && ultimaRat.DataHoraSolucao > proxDiaUtil))
                                    )
                                    ||
 
-                                   //Considera chamados fechados no período.
+                                   //Considera chamados fechados no perï¿½odo.
                                    (c.RelatoriosAtendimento.Any(s => s.DataHoraSolucao >= primeiroDiaMes && s.DataHoraSolucao <= ultimoDiaMes))
                                     ||
 
-                                   //Considera chamados abertos em data anterior ao período e ainda não fechado.
+                                   //Considera chamados abertos em data anterior ao perï¿½odo e ainda nï¿½o fechado.
                                    (c.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
                                        c.CodStatusServico != (int)StatusServicoEnum.FECHADO &&
                                        c.DataHoraAberturaOS < primeiroDiaMes)
@@ -144,7 +147,7 @@ namespace SAT.INFRA.Repository
 
             //var c = (from q in query.Where(c => c.CodCliente == (int)ClienteEnum.BB && c.CodContrato == 3145 &&
             //                        c.IndServico == 1 &&
-            //                                    //c.CodUsuarioCadastro == "SERVIÇO" &&
+            //                                    //c.CodUsuarioCadastro == "SERVIï¿½O" &&
             //                                    c.DispBBEquipamentoContrato != null &&
             //                                    c.DispBBEquipamentoContrato.Equipamento != null
             //                             && c.DispBBEquipamentoContrato.AnoMes == "202111" &&

@@ -20,6 +20,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   codTecnico: number;
   form: FormGroup;
   initialTime: string;
+  isLoading: boolean = false;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -41,7 +42,10 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
 
   async ngOnInit()
   {
+    this.isLoading = true;
+    debugger;
     await this.obterTecnico();
+    this.isLoading = false;
   }
 
   criarForm()

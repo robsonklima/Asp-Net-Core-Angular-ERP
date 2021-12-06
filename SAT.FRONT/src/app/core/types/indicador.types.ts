@@ -55,7 +55,7 @@ export enum IndicadorAgrupadorEnum {
     NOVAS_CADASTRADAS,
     NOVAS_LIBERADAS,
     REGIAO,
-    TOP_PECAS_MAIS_FALTANTES
+    TOP_CINCO_PECAS_MAIS_FALTANTES
 }
 export enum IndicadorTipoEnum {
     ORDEM_SERVICO,

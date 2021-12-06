@@ -5,7 +5,7 @@ import { IndicadorAgrupadorEnum, Indicador, IndicadorTipoEnum, ChamadosPeca, Dad
 import { interval, Subject } from 'rxjs';
 import moment from 'moment';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { Peca } from 'app/core/types/peca.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import Enumerable from 'linq';
@@ -59,18 +59,16 @@ export class PecasFaltantesMaisCriticasComponent extends Filterable implements O
   private async obterDados() {
     this.loading = true;
 
-    let indicadorParams = {
-      agrupador: IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
-      tipo: IndicadorTipoEnum.PECA_FALTANTE,
-      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
-    }
-
-    const topPecas = await this._indicadorService
-      .obterPorParametros({
-        ...indicadorParams,
-        ...{ include: OrdemServicoIncludeEnum.OS_PECAS }
-      }).toPromise();
+    let topPecas = await this._indicadorService
+      .obterPorParametros(
+        {
+          agrupador: IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
+          tipo: IndicadorTipoEnum.PECA_FALTANTE,
+          include: OrdemServicoIncludeEnum.OS_PECAS,
+          dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+          dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
+        }
+      ).toPromise();
 
     let codOsPecas = topPecas.map(t => t.filho.map(f => f.valor).join(',')).toString();
     this.osTopPecas = (await this._osService.obterPorParametros({

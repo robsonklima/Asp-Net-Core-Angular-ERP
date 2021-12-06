@@ -440,9 +440,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       {
         if (confirmacao)
         {
+          var deslocamento = tecMaisProximo.minDistancia;
           ev.resource = tecMaisProximo.codTecnicoMinDistancia;
-          ev.start = moment(tecMaisProximo.ultimoAtendimentoTecnico.end).format('yyyy-MM-DD HH:mm:ss');
-          ev.end = moment(tecMaisProximo.ultimoAtendimentoTecnico.end).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+          ev.start = moment(tecMaisProximo.ultimoAtendimentoTecnico.end)
+            .add(deslocamento, 'minutes')
+            .format('yyyy-MM-DD HH:mm:ss');
+          ev.end = moment(tecMaisProximo.ultimoAtendimentoTecnico.end)
+            .add(deslocamento, 'minutes')
+            .add(1, 'hour')
+            .format('yyyy-MM-DD HH:mm:ss');
           this.createEvent(ev, args, inst).then(() => this.carregaTecnicosEChamadosTransferidos(true));
         }
         else

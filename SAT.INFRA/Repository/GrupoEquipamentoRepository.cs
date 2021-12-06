@@ -82,22 +82,19 @@ namespace SAT.INFRA.Repository
                 .Include(g => g.TipoEquipamento)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                grupos = grupos.Where(
-                            g =>
-                            g.CodGrupoEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                            g.CodEGrupoEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                            g.NomeGrupoEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                grupos = grupos.Where(g =>
+                    g.CodGrupoEquip.ToString().Contains(parameters.Filter) ||
+                    g.CodEGrupoEquip.Contains(parameters.Filter) ||
+                    g.NomeGrupoEquip.Contains(parameters.Filter));
 
-            if (parameters.CodGrupoEquip != null)
-            {
+            if (parameters.CodGrupoEquip.HasValue)
                 grupos = grupos.Where(g => g.CodGrupoEquip == parameters.CodGrupoEquip);
-            }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
+            if (parameters.CodTipoEquip.HasValue)
+                grupos = grupos.Where(g => g.CodTipoEquip == parameters.CodTipoEquip);
+
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
             {
                 grupos = grupos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }

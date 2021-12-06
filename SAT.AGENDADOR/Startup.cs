@@ -1,16 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SAT.INFRA.Context;
+using SAT.INFRA.Interfaces;
 using SAT.INFRA.Repository;
+using SAT.SERVICES.Interfaces;
 using SAT.SERVICES.Services;
+using System;
 using System.Configuration;
 
 namespace SAT.AGENDADOR
 {
     public class Startup
     {
-        private IndicadorService _indicadorService;
+        private IIndicadorService _indicadorService;
 
-        public IndicadorService IndicadorService { get { return this._indicadorService; } }
+        public IIndicadorService IndicadorService { get { return this._indicadorService; } }
 
         public Startup()
         {
@@ -19,31 +23,40 @@ namespace SAT.AGENDADOR
 
         public void ConfigureServices()
         {
-            AppDbContext __dbContext = new AppDbContext
-                             (new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(ConfigurationManager.AppSettings["Prod"]).Options);
+            try
+            {
+                IServiceCollection services = new ServiceCollection();
 
-            /** Inicializa os repositórios e serviços **/
+                // Configura o DB
+                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
 
-            // Repositórios
-            TecnicoRepository tecnicoRepository = new(__dbContext);
-            FeriadoRepository feriadoRepository = new(__dbContext);
-            DashboardRepository dashboardRepository = new(__dbContext);
-            DispBBDesvioRepository dispBBDesvioRepository = new(__dbContext);
-            DispBBRegiaoFilialRepository dispBBRegiaoFilialRepository = new(__dbContext);
-            DispBBPercRegiaoRepository dispBBPercRegiaoRepository = new(__dbContext);
-            OrdemServicoRepository osRepository = new(__dbContext, feriadoRepository);
-            DispBBCriticidadeRepository dispBBCriticidadeRepository = new(__dbContext);
-            EquipamentoContratoRepository equipamentoContratoRepository = new(__dbContext);
+                /** Inicializa os repositórios e serviços **/
 
-            // Serviços
-            FeriadoService feriadoService = new FeriadoService(feriadoRepository);
-            DashboardService dashboardService = new(dashboardRepository, feriadoService);
+                // Repositórios
+                services.AddTransient<ITecnicoRepository, TecnicoRepository>();
+                services.AddTransient<IFeriadoRepository, FeriadoRepository>();
+                services.AddTransient<IDashboardRepository, DashboardRepository>();
+                services.AddTransient<IOrdemServicoRepository, OrdemServicoRepository>();
+                services.AddTransient<IEquipamentoContratoRepository, EquipamentoContratoRepository>();
+                services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
+                services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
+                services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
+                services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
 
+                // Serviços
+                services.AddTransient<IFeriadoService, FeriadoService>();
+                services.AddTransient<IDashboardService, DashboardService>();
+                services.AddTransient<IIndicadorService, IndicadorService>();
 
-            // Inicializa os serviços que serão usados
-            _indicadorService = new IndicadorService(
-                osRepository, feriadoService, equipamentoContratoRepository, dispBBRegiaoFilialRepository, dispBBCriticidadeRepository,
-               dispBBPercRegiaoRepository, dispBBDesvioRepository, dashboardService, tecnicoRepository);
+                ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+                // Inicializa os serviços que serão usados
+                this._indicadorService = serviceProvider.GetService<IIndicadorService>();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

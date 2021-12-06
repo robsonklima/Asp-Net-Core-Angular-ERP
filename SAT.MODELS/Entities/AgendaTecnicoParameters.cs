@@ -10,8 +10,7 @@ namespace SAT.MODELS.Entities
         public int? CodOS { get; set; }
         public int? CodTecnico { get; set; }
         public string Tipo { get; set; }
-        public DateTime? Inicio { get; set; }
-        public DateTime? Fim { get; set; }
-        public DateTime? Data { get; set; }
+        public DateTime? InicioPeriodoAgenda { get; set; }
+        public DateTime? FimPeriodoAgenda { get; set; }
     }
 }

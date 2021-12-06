@@ -206,18 +206,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     const intervalos = await this._agendaTecnicoSvc.obterPorParametros({
       tipo: "INTERVALO",
       codFiliais: this.getFiliais(),
-      data: moment().toISOString()
+      inicioPeriodoAgenda: this.weekStart,
+      fimPeriodoAgenda: this.weekEnd
     }).toPromise();
 
     this.carregaDados(this.chamados, intervalos.items).then(() => { this.loading = false; });
-  }
-
-  private carregaPontos()
-  {
-    this.tecnicos.items.map(tecnico =>
-    {
-      this.events = this.events.concat(this.carregaPonto(tecnico));
-    });
   }
 
   private async changeWeek(args, inst)
@@ -241,9 +234,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async carregaDados(chamados: OrdemServico[], intervalos: AgendaTecnico[])
   {
     this.events = [];
-    // await this.carregaIntervalos(intervalos);
-    await this.carregaOSs(chamados);
     this.carregaPontos();
+    await this.carregaIntervalos(intervalos);
+    await this.carregaOSs(chamados);
   }
 
   private carregaOSs(chamados: OrdemServico[])
@@ -270,6 +263,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       });
 
     this.validateEvents();
+  }
+
+  private carregaPontos()
+  {
+    this.tecnicos.items.map(tecnico =>
+    {
+      this.events = this.events.concat(this.carregaPonto(tecnico));
+    });
   }
 
   private exibeEventoOSExistente(ag: AgendaTecnico, os: OrdemServico): MbscAgendaTecnicoCalendarEvent
@@ -346,12 +347,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async carregaIntervalos(intervalos: AgendaTecnico[])
   {
-    this.events = this.events.concat(Enumerable.from(this.tecnicos.items).select(tecnico =>
+    for (const t of this.tecnicos.items)
     {
-      var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == tecnico.codTecnico);
-      return intervalo == null ? this.criaNovoIntervalo(tecnico) : this.exibeIntervaloExistente(intervalo);
-    }).toArray());
-  }
+      var intervalo = Enumerable.from(intervalos).firstOrDefault(i => i.codTecnico == t.codTecnico);
+      var evento = intervalo == null ? this.criaNovoIntervalo(t) : this.exibeIntervaloExistente(intervalo);
+      this.events = this.events.concat(evento);
+    }
+  };
+
 
   private criaNovoIntervalo(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent
   {
@@ -396,11 +399,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         pontos.push(
           {
             start: moment(p.dataHoraRegistro),
-            end: moment(p.dataHoraRegistro).add(1, 'minutes'),
+            end: moment(p.dataHoraRegistro).add(0, 'minutes'),
             title: "PONTO",
-            color: '#FFFF00',
-            editable: true,
-            resource: tecnico.codTecnico,
+            color: '#C8C8C8',
+            editable: false,
+            resource: tecnico.codTecnico
           });
       });
     return pontos;
@@ -416,7 +419,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       title: intervalo.tipo,
       color: '#808080',
       editable: true,
-      resource: intervalo.codTecnico,
+      resource: intervalo.codTecnico
     }
 
     return evento;
@@ -470,7 +473,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private hasOverlap(args, inst)
   {
     var ev = args.event;
-    var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id);
+    var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.ordemServico != null || ev.ordemServico != null));
     return events.length > 0;
   }
 

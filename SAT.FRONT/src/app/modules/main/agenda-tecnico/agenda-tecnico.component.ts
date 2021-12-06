@@ -287,10 +287,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       .orderByDescending(i => i.end)
       .firstOrDefault();
 
-    console.log(ultimoEvento)
-
     var deslocamento = this.calculaDeslocamentoEmMinutos(os, ultimoEvento?.ordemServico);
-
     var start = moment(ultimoEvento != null ? ultimoEvento.end : this.inicioExpediente()).add(deslocamento, 'minutes');
 
     // se começa durante a sugestão de intervalo ou deopis das 18h
@@ -333,7 +330,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
-    console.log(ag);
 
     evento.codAgendaTecnico = ag?.codAgendaTecnico;
     return evento;

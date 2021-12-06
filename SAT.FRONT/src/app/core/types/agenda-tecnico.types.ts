@@ -66,3 +66,11 @@ export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
     agendaTecnico?: AgendaTecnico;
     codAgendaTecnico?: number;
 }
+
+export interface TecnicoOMaisProximo
+{
+    minDistancia: number;
+    codTecnicoMinDistancia: number
+    ultimoAtendimentoTecnico: MbscAgendaTecnicoCalendarEvent;
+    message: string;
+}

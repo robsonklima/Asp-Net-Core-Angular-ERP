@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { Coordenada, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoOMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -11,6 +11,7 @@ import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
 @Injectable({
     providedIn: 'root'
 })
+
 export class AgendaTecnicoValidator
 {
     constructor (private _tecnicoService: TecnicoService,
@@ -20,7 +21,7 @@ export class AgendaTecnicoValidator
     /**
      * valida se a região do chamado e a região do técnico são iguais
      */
-    public async isRegiaoAtendimentoValida(os: OrdemServico, codTecnico: number)
+    public async isTecnicoDaRegiaoDoChamado(os: OrdemServico, codTecnico: number)
     {
         var tecnico = (await this._tecnicoService.obterPorCodigo(codTecnico).toPromise());
 
@@ -30,9 +31,64 @@ export class AgendaTecnicoValidator
         return false;
     }
 
-    public async tecnicoMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
+    public isTecnicoOMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
     {
+        var codTecnicosFiilial = Enumerable.from(tecnicos).select(i => i.codTecnico);
 
+        var ultimoAtendimentoTecnico =
+            Enumerable.from(events)
+                .where(i => i.resource == codTecnico)
+                .orderByDescending(i => i.end)
+                .firstOrDefault();
+
+        var minDistancia: number =
+            this.calculaDeslocamentoEmMinutos(os, ultimoAtendimentoTecnico.ordemServico);
+
+        var codTecnicoMinDistancia: number = codTecnico;
+
+        var ultimosAtendimentosAgendados =
+            Enumerable.from(events)
+                .where(i => codTecnicosFiilial.contains(+i.resource) && i.ordemServico != null)
+                .groupBy(i => i.resource)
+                .select(i => i.maxBy(i => i.end))
+                .toArray();
+
+        ultimosAtendimentosAgendados.forEach(i => 
+        {
+            var distancia = this.calculaDeslocamentoEmMinutos(os, i.ordemServico);
+
+            if (distancia < minDistancia)
+            {
+                minDistancia = distancia;
+                codTecnicoMinDistancia = +i.resource;
+                ultimoAtendimentoTecnico = i;
+            }
+        });
+
+        if (codTecnicoMinDistancia != codTecnico)
+        {
+            var nomeTecnico = ultimoAtendimentoTecnico.ordemServico?.tecnico?.nome;
+            var tec: TecnicoOMaisProximo =
+            {
+                minDistancia: minDistancia,
+                codTecnicoMinDistancia: codTecnicoMinDistancia,
+                ultimoAtendimentoTecnico: ultimoAtendimentoTecnico,
+                message: this.getTecnicoOMaisProximoMessage(nomeTecnico, minDistancia, os)
+            }
+
+            return tec
+        }
+        else
+            return null;
+    }
+
+    private getTecnicoOMaisProximoMessage(nomeTecnico: string, minDistancia: number, os: OrdemServico)
+    {
+        if (minDistancia == 0)
+            return `O técnico ${nomeTecnico} encontra-se no local de atendimento do chamado ${os?.codOS}. Deseja transferir este chamado para ${nomeTecnico}?`;
+
+
+        return `O técnico ${nomeTecnico} encontra-se a ${minDistancia.toFixed(2)} minutos do local de atendimento do chamado ${os?.codOS}. Deseja transferir este chamado para ${nomeTecnico}?`;
     }
 
     public calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number

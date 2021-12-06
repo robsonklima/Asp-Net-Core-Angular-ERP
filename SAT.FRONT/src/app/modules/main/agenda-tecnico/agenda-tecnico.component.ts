@@ -20,6 +20,7 @@ import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realoca
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
 import { AgendaTecnicoValidatorDialogComponent } from './agenda-tecnico-validator-dialog/agenda-tecnico-validator-dialog.component';
 import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 setOptions({
   locale: localePtBR,
@@ -81,7 +82,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         return false;
       }
 
-      this.createNewEvent(args, inst);
+      this.validateNewEvent(args, inst);
     },
     onEventUpdate: (args, inst) =>
     {
@@ -417,18 +418,51 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this._cdr.detectChanges();
   }
 
-  private async checkForWarnings(ev)
+  private async checkForWarnings(ev, args, inst)
   {
-    var isFromSameRegion = (await this._validator.isRegiaoAtendimentoValida(ev.ordemServico, ev.resource));
+    var isFromSameRegion = (await this._validator.isTecnicoDaRegiaoDoChamado(ev.ordemServico, ev.resource));
+    var tecMaisProximo = this._validator.isTecnicoOMaisProximo(ev.ordemServico, this.tecnicos, this.events, ev.resource);
 
-    if (!isFromSameRegion)
+    if (tecMaisProximo != null)
+    {
+      const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+        data: {
+          titulo: 'Aviso',
+          message: tecMaisProximo.message,
+          buttonText: {
+            ok: 'Sim',
+            cancel: 'Não'
+          }
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+      {
+        if (confirmacao)
+        {
+          ev.resource = tecMaisProximo.codTecnicoMinDistancia;
+          ev.start = moment(tecMaisProximo.ultimoAtendimentoTecnico.end).format('yyyy-MM-DD HH:mm:ss');
+          ev.end = moment(tecMaisProximo.ultimoAtendimentoTecnico.end).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+          this.createEvent(ev, args, inst).then(() => this.carregaTecnicosEChamadosTransferidos(true));
+        }
+        else
+        {
+          this.createEvent(ev, args, inst);
+        }
+      });
+    }
+    else if (!isFromSameRegion)
     {
       this._dialog.open(AgendaTecnicoValidatorDialogComponent, {
         data: {
           message: `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`,
         }
       });
-      return;
+      this.createEvent(ev, args, inst);
+    }
+    else
+    {
+      this.createEvent(ev, args, inst);
     }
   }
 
@@ -443,18 +477,20 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     await this.carregaTecnicosEChamadosTransferidos();
   }
 
-  private async createNewEvent(args, inst)
+  private async validateNewEvent(args, inst)
   {
     var ev = args.event;
     ev.color = this._formatter.getEventColor(args);
+    this.checkForWarnings(ev, args, inst);
+  }
 
-    this.checkForWarnings(ev);
-
+  private async createEvent(ev, args, inst)
+  {
     var agendaTecnico: AgendaTecnico =
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
       fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
-      codOS: ev.ordemServico.codOS,
+      codOS: ev.ordemServico?.codOS,
       codTecnico: ev.resource,
       ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
       tipo: "OS"
@@ -474,16 +510,19 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       ev.codAgendaTecnico = ag.codAgendaTecnico;
 
-      this._osSvc.atualizar(os).toPromise().then(() =>
+      var os = (await this._osSvc.atualizar(os).toPromise());
+
+      if (os)
       {
         this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
         return true;
-      }).catch(() =>
+      }
+      else
       {
         this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
         this.deleteEvent(args, inst);
         return false;
-      })
+      }
     }
     else
     {

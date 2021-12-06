@@ -230,6 +230,20 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        ,
+        {
+            version: 'v1.1.3',
+            releaseDate: '06 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Histórico Agenda Técnico',
+                        'Filtro Tipo Equipamento',
+                    ],
+                }
+            ]
         }
     ];
 

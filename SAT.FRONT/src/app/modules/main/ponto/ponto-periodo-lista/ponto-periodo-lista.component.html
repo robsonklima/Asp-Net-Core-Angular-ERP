@@ -10,7 +10,7 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            <button class="ml-4" mat-button routerLink="/ponto/ponto-periodo-form">
+            <button class="ml-4" mat-button routerLink="/ponto/ponto-periodo-form" *ngIf="userSession.usuario.codPerfil !== 35">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
         </div>

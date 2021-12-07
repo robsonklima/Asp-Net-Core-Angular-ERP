@@ -9,6 +9,7 @@ using System;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Enums;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace SAT.INFRA.Repository
 {
@@ -154,7 +155,7 @@ namespace SAT.INFRA.Repository
             {
                 foreach (DashboardIndicadores dash in indicador)
                 {
-                    retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Indicador>>(dash.DadosJson));
+                    retorno.AddRange(JsonConvert.DeserializeObject<List<Indicador>>(dash.DadosJson));
                 }
             }
 
@@ -164,14 +165,21 @@ namespace SAT.INFRA.Repository
         public List<Indicador> ObterDadosIndicadorMaisRecente(string nomeIndicador)
         {
             List<Indicador> retorno = new();
-
-            DashboardIndicadores indicador = this._context.DashboardIndicadores
-                .Where(f => f.NomeIndicador == nomeIndicador)
-                .OrderByDescending(ord => ord.Data).FirstOrDefault();
-
-            if (indicador != null)
+            DateTime ultimoDia = DateTime.Now;
+            while (retorno.Count == 0)
             {
-                retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Indicador>>(indicador.DadosJson));
+                DashboardIndicadores indicador =
+                    this._context.DashboardIndicadores
+                    .Where(f => f.NomeIndicador == nomeIndicador && f.Data <= ultimoDia)
+                    .OrderByDescending(ord => ord.Data)
+                    .FirstOrDefault();
+
+                if (indicador != null)
+                {
+                    retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Indicador>>(indicador.DadosJson));
+                }
+
+                ultimoDia = ultimoDia.AddDays(-1);
             }
 
             return retorno;

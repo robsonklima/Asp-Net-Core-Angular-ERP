@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { PontoInconsistenciaFormComponent } from './ponto-inconsistencia-form/ponto-inconsistencia-form.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PontoCorrecaoFormComponent } from './ponto-correcao-form/ponto-correcao-form.component';
 
 registerLocaleData(localeBr, 'pt');
 
@@ -48,7 +49,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     PontoTurnoFormComponent,
     PontoHorariosListaComponent,
     PontoRelatoriosAtendimentoComponent,
-    PontoInconsistenciaFormComponent
+    PontoInconsistenciaFormComponent,
+    PontoCorrecaoFormComponent
   ],
   imports: [
     CommonModule,

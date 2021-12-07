@@ -18,9 +18,9 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
-import { AgendaTecnicoValidatorDialogComponent } from './agenda-tecnico-validator-dialog/agenda-tecnico-validator-dialog.component';
 import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 setOptions({
   locale: localePtBR,
@@ -49,6 +49,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   resources = [];
   weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
   weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
+  snackConfigInfo: MatSnackBarConfig = { duration: 2000, panelClass: 'info' };
 
   calendarOptions: MbscEventcalendarOptions = {
     view: {
@@ -133,7 +134,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     protected _userSvc: UserService,
     public _dialog: MatDialog,
     private _validator: AgendaTecnicoValidator,
-    private _formatter: AgendaTecnicoFormatter
+    private _formatter: AgendaTecnicoFormatter,
+    private _snack: MatSnackBar
   )
   {
     super(_userSvc, 'agenda-tecnico')
@@ -423,6 +425,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     var isFromSameRegion = (await this._validator.isTecnicoDaRegiaoDoChamado(ev.ordemServico, ev.resource));
     var tecMaisProximo = this._validator.isTecnicoOMaisProximo(ev.ordemServico, this.tecnicos, this.events, ev.resource);
 
+    if (!isFromSameRegion)
+    {
+      var message: string = `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`;
+      await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
+    }
+
     if (tecMaisProximo != null)
     {
       const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
@@ -457,19 +465,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         }
       });
     }
-    else if (!isFromSameRegion)
-    {
-      this._dialog.open(AgendaTecnicoValidatorDialogComponent, {
-        data: {
-          message: `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`,
-        }
-      });
-      this.createEvent(ev, args, inst);
-    }
-    else
-    {
-      this.createEvent(ev, args, inst);
-    }
+    else this.createEvent(ev, args, inst);
   }
 
   /**  */
@@ -520,19 +516,28 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
       if (os)
       {
-        this._notify.toast({ message: 'Atendimento agendado com sucesso.' });
+        this._notify.toast({
+          message: 'Atendimento agendado com sucesso.',
+          color: 'success'
+        });
         return true;
       }
       else
       {
-        this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+        this._notify.toast({
+          message: 'Não foi possível fazer o agendamento.',
+          color: 'danger'
+        });
         this.deleteEvent(args, inst);
         return false;
       }
     }
     else
     {
-      this._notify.toast({ message: 'Não foi possível fazer o agendamento.' });
+      this._notify.toast({
+        message: 'Não foi possível fazer o agendamento.',
+        color: 'danger'
+      });
       this.deleteEvent(args, inst);
       return false;
     }
@@ -544,7 +549,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (this._validator.isTechnicianInterval(args))
     {
-      this._notify.toast({ message: 'Não é possível transferir um intervalo.' });
+      this._notify.toast({
+        message: 'Não é possível transferir um intervalo.',
+        color: 'danger'
+      });
       return false;
     }
     else
@@ -575,12 +583,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     this._agendaTecnicoSvc.atualizar(agenda).toPromise().then(() =>
     {
-      this._notify.toast({ message: 'Agendamento atualizado com sucesso.' });
+      this._notify.toast({
+        message: 'Agendamento atualizado com sucesso.',
+        color: 'success'
+      });
       this.updateEventColor(args)
       return true;
     }).catch(() =>
     {
-      this._notify.toast({ message: 'Não foi possível atualizar o agendamento.' });
+      this._notify.toast({
+        message: 'Não foi possível atualizar o agendamento.',
+        color: 'danger'
+      });
       return false;
     })
   }

@@ -56,20 +56,22 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
       })
       .toPromise();
 
-    this.externalEvents = Enumerable.from(this.dataSourceData.items).where(i => !i.agendaTecnico.length).select(os =>
-    {
-      return {
-        title: os.localAtendimento?.nomeLocal,
-        nomeLocal: os.localAtendimento?.nomeLocal,
-        cliente: os.cliente?.razaoSocial,
-        regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
-        autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-        color: '#1064b0',
-        start: moment(),
-        end: moment().add(60, 'minutes'),
-        ordemServico: os
-      }
-    }).toArray();
+    this.externalEvents = Enumerable.from(this.dataSourceData.items)
+      .where(i => i.codTecnico == null)
+      .select(os =>
+      {
+        return {
+          title: os.localAtendimento?.nomeLocal,
+          nomeLocal: os.localAtendimento?.nomeLocal,
+          cliente: os.cliente?.razaoSocial,
+          regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
+          autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
+          color: '#1064b0',
+          start: moment(),
+          end: moment().add(60, 'minutes'),
+          ordemServico: os
+        }
+      }).toArray();
 
     this.isLoading = false;
   }

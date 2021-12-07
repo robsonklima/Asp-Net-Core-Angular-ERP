@@ -75,11 +75,11 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
 
     await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
     {
-      this._notify.toast({ message: 'Atendimento realocado com sucesso.' });
+      this._notify.toast({ message: 'Atendimento realocado com sucesso.', color: 'success' });
     })
       .catch(() =>
       {
-        this._notify.toast({ message: 'Erro ao realocar atendimento.' });
+        this._notify.toast({ message: 'Erro ao realocar atendimento.', color: 'danger' });
       });
   }
 }

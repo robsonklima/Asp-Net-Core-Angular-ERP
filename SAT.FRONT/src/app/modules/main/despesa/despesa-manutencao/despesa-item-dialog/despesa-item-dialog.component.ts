@@ -175,7 +175,7 @@ export class DespesaItemDialogComponent implements OnInit
       despesaValor: this.calculaConsumoCombustivel(),
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta != 0 ? this.despesaItemForm.value.step2.codDespesaItemAlerta : null,
       codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
       enderecoOrigem: this.despesaItemForm.value.step2.enderecoOrigem,
       numOrigem: this.despesaItemForm.value.step2.numeroOrigem,

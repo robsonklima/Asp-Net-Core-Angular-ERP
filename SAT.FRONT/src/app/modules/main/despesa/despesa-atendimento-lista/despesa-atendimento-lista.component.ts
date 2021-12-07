@@ -168,6 +168,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
         this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() =>
         {
           this._snack.exibirToast('Período liberado com sucesso!', 'success');
+          this.obterDados();
         },
           e =>
           {
@@ -179,7 +180,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem)
   {
-
     this._dialog.open(DespesaAtendimentoAdiantamentoDialogComponent, {
       data:
       {
@@ -211,7 +211,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     });
   }
 
-  isTecnico() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO; };
+  isTecnico() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_TECNICO_DE_CAMPO; };
   isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER || 
     this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN };
   isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };

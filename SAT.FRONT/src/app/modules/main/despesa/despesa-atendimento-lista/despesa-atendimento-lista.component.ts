@@ -62,6 +62,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   {
     super(_userService, "despesa-atendimento");
     this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
+    this.obterTecnico();
   }
 
   ngAfterViewInit()
@@ -106,7 +107,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.isLoading = true;
 
     await this.obterDespesasPeriodoTecnico();
-    await this.obterTecnico();
 
     this.isLoading = false;
   }
@@ -125,7 +125,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.onPaginationChanged();
     this.obterDados();
   }
-
 
   criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico
   {

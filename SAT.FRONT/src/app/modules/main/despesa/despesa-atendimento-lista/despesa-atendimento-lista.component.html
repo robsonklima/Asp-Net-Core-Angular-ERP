@@ -11,6 +11,29 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center font-medium">
+                            <div *ngIf="userSession.usuario?.codPerfil != 35">
+                                <a class="whitespace-nowrap text-primary-500" [routerLink]="'/despesa/tecnicos'">
+                                    {{ t('tecnicos') }}
+                                </a>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap"
+                                *ngIf="userSession.usuario?.codPerfil != 35">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'">
+                                </mat-icon>
+                                <span class="ml-1 text-secondary"> {{ tecnico?.nome || ""}} </span>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap"
+                                *ngIf="userSession.usuario?.codPerfil != 35">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'">
+                                </mat-icon>
+                                <span class="ml-1 text-secondary"> {{ t('atendimentos') }} </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="text-4xl font-extrabold tracking-tight">
                         {{ t('atendimentos') }}
                     </div>

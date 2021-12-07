@@ -393,5 +393,18 @@
     "refeicao": "Meal",
     "verificado": "Verified",
     "ponto": "Point",
-    "turnos": "Shifts"
+    "turnos": "Shifts",
+    "ponto periodos": "Time Shifts",
+    "dia inicio": "Start Day",
+    "dia fim": "End Day",
+    "data inicio": "Start Date",
+    "data fim": "End Date",
+    "numero cracha": "Badge Number",
+    "turno": "Shift",
+    "marcacoes": "Marks",
+    "semana": "Week",
+    "he": "EH",
+    "divergencias": "Divergencies",
+    "ponto colaboradores": "Collaborator Times",
+    "ponto horarios": "Time Registries"
 }

@@ -403,5 +403,18 @@
     "refeicao": "Refeição",
     "verificado": "Verificado",
     "ponto": "Ponto",
-    "turnos": "Turnos"
+    "turnos": "Turnos",
+    "ponto periodos": "Ponto Períodos",
+    "dia inicio": "Dia Início",
+    "dia fim": "Dia Fim",
+    "data inicio": "Data Início",
+    "data fim": "Data Fim",
+    "numero cracha": "Número Crachá",
+    "turno": "Turno",
+    "marcacoes": "Marcações",
+    "semana": "Semana",
+    "he": "HE",
+    "divergencias": "Divergências",
+    "ponto colaboradores": "Ponto Colaboradores",
+    "ponto horarios": "Ponto Horários"
 }

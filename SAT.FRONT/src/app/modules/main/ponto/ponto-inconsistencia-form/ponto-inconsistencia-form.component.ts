@@ -65,19 +65,19 @@ export class PontoInconsistenciaFormComponent implements OnInit {
     const divergencia: PontoUsuarioDataDivergencia = {
       codPontoUsuarioData: this.pontoUsuarioData.codPontoUsuarioData,
       codUsuarioCad: this.userSession.usuario.codUsuario,
-      dataHoraCad: moment().format('yyyy-MM-dd HH:mm:ss'),
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
       divergenciaValidada: 0,
       codPontoUsuarioDataModoDivergencia: pontoUsuarioDataTipoAdvertenciConst.MANUAL,
       codPontoUsuarioDataMotivoDivergencia: form.codPontoUsuarioDataMotivoDivergencia
     };
 
-    //await this._pontoUsuarioDataDivergenciaSvc.criar(divergencia).subscribe();
+    await this._pontoUsuarioDataDivergenciaSvc.criar(divergencia).subscribe();
 
     this.pontoUsuarioData.codPontoUsuarioDataStatus = pontoUsuarioDataStatusConst.INCONSISTENTE;
-    this.pontoUsuarioData.dataHoraManut = moment().format('yyyy-MM-dd HH:mm:ss');
+    this.pontoUsuarioData.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
     this.pontoUsuarioData.codUsuarioManut = this.userSession.usuario.codUsuario;
 
-    //await this._pontoUsuarioDataSvc.atualizar(this.pontoUsuarioData).subscribe();
+    await this._pontoUsuarioDataSvc.atualizar(this.pontoUsuarioData).subscribe();
 
     this.dialogRef.close();  
   }

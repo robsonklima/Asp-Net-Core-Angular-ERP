@@ -64,7 +64,8 @@ namespace SAT.SERVICES.Services
             var datas = _pontoUsuarioDataRepo.ObterPorParametros(parameters);
 
             datas = ObterRegistrosPontos(datas);
-            InconsisteAutomaticamente(datas);
+            datas = CalculaHorasExtras(datas);
+            //InconsisteAutomaticamente(datas);
 
             var lista = new ListViewModel
             {
@@ -339,6 +340,41 @@ namespace SAT.SERVICES.Services
 
                 _pontoUsuarioDataDivergenciaRepo.Criar(divergencia);
             }
+        }
+    
+        protected PagedList<PontoUsuarioData> CalculaHorasExtras(PagedList<PontoUsuarioData> pontosData)
+        {
+            foreach (var (pontoData, index) in pontosData.Select((v, i) => (v, i)))
+            {
+                TimeSpan horarioExtra = TimeSpan.Zero;
+
+                if (pontoData.PontosUsuario.Count == 2 || pontoData.PontosUsuario.Count == 4)
+                {
+                    TimeSpan horarioJornadaDiaria = new TimeSpan(8, 48, 0);
+                    TimeSpan horarioTolerancia = TimeSpan.FromMinutes(5);
+                    TimeSpan horarioDia = horarioJornadaDiaria;
+                    TimeSpan horarioRealizado = TimeSpan.Zero;
+
+                    for (int i = 0; i < pontoData.PontosUsuario.Count; i += 2)
+                    {
+                        TimeSpan horarioInicio = TimeSpan.Parse(pontoData.PontosUsuario[i].DataHoraRegistro.ToString("HH:mm"));
+                        TimeSpan horarioFim = TimeSpan.Parse(pontoData.PontosUsuario[i + 1].DataHoraRegistro.ToString("HH:mm"));
+                        horarioRealizado += horarioFim.Subtract(horarioInicio);
+                    }
+
+                    horarioExtra = horarioRealizado.Subtract(horarioJornadaDiaria);
+
+                    if (horarioExtra <= horarioTolerancia)
+                    {
+                        horarioExtra = TimeSpan.Zero;
+                    }
+
+                    horarioExtra = (horarioRealizado > horarioDia ? horarioRealizado.Subtract(horarioJornadaDiaria) : TimeSpan.Zero);
+                    pontosData[index].HorasExtras = horarioExtra;
+                }
+            }
+
+            return pontosData;
         }
     }
 }

@@ -245,6 +245,19 @@ export class ChangelogComponent
                 }
             ]
         }
+        ,
+        {
+            version: 'v1.1.4',
+            releaseDate: '07 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Adições',
+                    list: [
+                        'Ponto na Agenda'
+                    ],
+                }
+            ]
+        }
     ];
 
     constructor () { }

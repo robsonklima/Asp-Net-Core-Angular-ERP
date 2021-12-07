@@ -20,7 +20,7 @@ namespace SAT.API.Controllers
         public DespesaAdiantamentoController(IDespesaAdiantamentoService despesaAdiantamentoService) =>
             _despesaAdiantamentoService = despesaAdiantamentoService;
 
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_TECNICO_DE_CAMPO)]
         [HttpGet]
         public ListViewModel Get([FromQuery] DespesaAdiantamentoParameters parameters) =>
             _despesaAdiantamentoService.ObterPorParametros(parameters);

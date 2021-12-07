@@ -122,7 +122,7 @@
                                                         [svgIcon]="'heroicons_outline:view-list'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer" (click)="imprimirRD(dp)">
+                                                <button class="cursor-pointer" (click)="imprimirRD(dp)" *ngIf="isLiberado(dp)">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('imprimir') + ' RD'"
                                                         [svgIcon]="'heroicons_outline:printer'">

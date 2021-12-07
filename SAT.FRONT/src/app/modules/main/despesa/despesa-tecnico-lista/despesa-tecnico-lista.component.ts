@@ -69,7 +69,7 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
   {
     this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterConsultaTecnicos({
       codFiliais: this.filter?.parametros?.codFiliais,
-      indAtivoTecnico: this.filter?.parametros?.indAtivo,
+      indAtivoTecnico: this.filter?.parametros?.indAtivo || 1,
       indTecnicoLiberado: this.filter?.parametros?.indTecnicoLiberado,
       filter: filter,
       pageNumber: this.paginator?.pageIndex + 1,

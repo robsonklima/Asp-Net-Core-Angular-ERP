@@ -65,7 +65,7 @@ namespace SAT.SERVICES.Services
 
             datas = ObterRegistrosPontos(datas);
             datas = CalculaHorasExtras(datas);
-            InconsisteAutomaticamente(datas);
+            //InconsisteAutomaticamente(datas);
 
             var lista = new ListViewModel
             {

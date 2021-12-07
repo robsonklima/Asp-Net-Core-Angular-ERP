@@ -142,7 +142,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 
   registerEmitters(): void
   {
-    this.sidenav.closedStart.subscribe(() =>
+    this.sidenav?.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
       this.obterDados();

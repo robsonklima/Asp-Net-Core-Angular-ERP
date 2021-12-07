@@ -79,7 +79,7 @@ export class DespesaItemDialogComponent implements OnInit
     this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
 
     if (Enumerable.from(this.despesa.despesaItens)
-      .any(i => i.codDespesaTipo == DespesaTipoEnum.KM))
+      .where(i => i.codDespesaTipo == DespesaTipoEnum.KM).count() == 2)
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();
@@ -386,8 +386,8 @@ export class DespesaItemDialogComponent implements OnInit
       Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
     {
       // centro a centro
-      if (this.despesaItemForm.value.step2.bairroOrigem.toString().toLowerCase().contains("centro") &&
-        this.despesaItemForm.value.step2.bairroDestino.toString().toLowerCase().contains("centro"))
+      if (this.despesaItemForm.value.step2.bairroOrigem.toString()?.toLowerCase()?.includes("centro") &&
+        this.despesaItemForm.value.step2.bairroDestino.toString()?.toLowerCase()?.includes("centro"))
       {
         (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
           .setValue(DespesaItemAlertaEnum.TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro);
@@ -435,6 +435,10 @@ export class DespesaItemDialogComponent implements OnInit
 
     if (codDespesaItemAlerta == DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado)
       return "Valor da refeição maior que o limite especificado. Por favor, justifique abaixo."
+    else if (codDespesaItemAlerta == DespesaItemAlertaEnum.TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro)
+      return "Quilometragem maior que a prevista. Por favor, justifique abaixo."
+    else if (codDespesaItemAlerta == DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista)
+      return "Quilometragem maior que a prevista. Por favor, justifique abaixo."
   }
 
   //   async calculaQuilometragemLeaflet(): Promise<number>

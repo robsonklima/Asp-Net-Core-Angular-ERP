@@ -113,7 +113,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
   registerEmitters(): void
   {
-    this.sidenav.closedStart.subscribe(() =>
+    this.sidenav?.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
       this.obterDados();
@@ -212,7 +212,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     });
   }
 
-  isTecnico() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO };
-  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isTecnico() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO; };
+  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER || 
+    this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN };
   isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
 }

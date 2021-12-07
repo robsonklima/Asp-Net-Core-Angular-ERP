@@ -33,7 +33,7 @@ namespace SAT.INFRA.Repository
             }
             catch (System.Exception ex)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                throw new Exception(ex.Message);
             }
         }
 

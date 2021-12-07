@@ -126,7 +126,8 @@
                                             mat-stroked-button
                                             [matTooltip]="'Conferir'"
                                             matTooltipPosition="above"
-                                            (click)="conferir(data)">
+                                            (click)="conferir(data)"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
@@ -137,7 +138,8 @@
                                             mat-stroked-button
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
-                                            (click)="informarInconsistencia(data)">
+                                            (click)="informarInconsistencia(data)"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
@@ -148,10 +150,23 @@
                                             mat-stroked-button
                                             [matTooltip]="'Ver RATs'"
                                             matTooltipPosition="above"
-                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)">
+                                            (click)="visualizarRelatoriosAtendimento(data.dataRegistro, data.codUsuario)"
+                                            *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5 text-gray-600"
                                                 [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Corrigir'"
+                                            matTooltipPosition="above"
+                                            (click)="corrigirRegistros(data)"
+                                            *ngIf="userSession.usuario.codPerfil === 35">
+                                            <mat-icon
+                                                class="icon-size-5 text-orange-600"
+                                                [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                                         </button>
                                     </div>
                                 </div>

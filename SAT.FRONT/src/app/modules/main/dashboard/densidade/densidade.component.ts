@@ -69,6 +69,9 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   onMapReady(map: Map): void {
     this.map = map;
+    this.obterRegioesAutorizadas();
+    this.obterTecnicos();
+    this.obterEquipamentosContrato();
   }
 
   private async obterRegioesAutorizadas() {

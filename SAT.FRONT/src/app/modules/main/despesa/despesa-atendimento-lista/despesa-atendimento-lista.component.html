@@ -11,8 +11,31 @@
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight" *ngIf="!isLoading">
-                        {{ isTecnico() ? t('atendimentos') : tecnico?.nome != null ? t('atendimentos') + " - " + tecnico?.nome : t('atendimentos') }}
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center font-medium">
+                            <div *ngIf="userSession.usuario?.codPerfil != 35">
+                                <a class="whitespace-nowrap text-primary-500" [routerLink]="'/despesa/tecnicos'">
+                                    {{ t('tecnicos') }}
+                                </a>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap"
+                                *ngIf="userSession.usuario?.codPerfil != 35">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'">
+                                </mat-icon>
+                                <span class="ml-1 text-secondary"> {{ tecnico?.nome || ""}} </span>
+                            </div>
+                            <div class="flex items-center ml-1 whitespace-nowrap"
+                                *ngIf="userSession.usuario?.codPerfil != 35">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'">
+                                </mat-icon>
+                                <span class="ml-1 text-secondary"> {{ t('atendimentos') }} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-extrabold tracking-tight">
+                        {{ t('atendimentos') }}
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
@@ -106,7 +129,7 @@
                                                     </mat-icon>
                                                 </button>
                                                 <button class="cursor-pointer" (click)="imprimirObservacoes(dp)"
-                                                    *ngIf="!isTecnico()">
+                                                    *ngIf="isLider()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('imprimir') + ' ' + t('observacoes')"
                                                         [svgIcon]="'heroicons_outline:printer'">
@@ -120,7 +143,7 @@
                                                 </button>
                                                 <button class="cursor-pointer"
                                                     [routerLink]="'/despesa/atendimentos/'+codTecnico+'/reprovacao/'+dp.codDespesaPeriodoTecnico"
-                                                    [disabled]="!isLiberado(dp)" *ngIf="!isTecnico()">
+                                                    [disabled]="!isLiberado(dp)" *ngIf="isLider()">
                                                     <mat-icon class="max-w-5 max-h-5" [color]="'primary'"
                                                         [matTooltip]="t('analisar')"
                                                         [svgIcon]="'heroicons_outline:check-circle'">
@@ -146,7 +169,7 @@
                             <mat-paginator [hidden]="!atendimentos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="atendimentos?.totalCount"
-                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 10" [pageSizeOptions]="[5, 10, 25,
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 25" [pageSizeOptions]="[5, 10, 25,
                                 50]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>

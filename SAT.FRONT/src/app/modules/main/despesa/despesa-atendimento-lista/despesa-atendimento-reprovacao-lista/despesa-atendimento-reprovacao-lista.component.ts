@@ -61,8 +61,8 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
   async ngOnInit()
   {
     await this.getDespesas();
-    this.criarForm();
-    this.registerEmitters();
+    await this.criarForm();
+    await this.registerEmitters();
   }
 
   private criarForm()
@@ -102,7 +102,15 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
         this.despesaItemSelecionada.indReprovado = this.despesaSelecionadaForm.controls['indReprovado'].value ? 1 : 0;
         this.despesaItemSelecionada.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
         this.despesaItemSelecionada.codUsuarioManut = this.userSession.usuario.codUsuario;
-        await this._despesaItemSvc.atualizar(this.despesaItemSelecionada).toPromise();
+
+        await this._despesaItemSvc.atualizar(this.despesaItemSelecionada)
+          .subscribe(s => 
+          {
+          },
+            e =>
+            {
+              this.despesaSelecionadaForm.controls['indReprovado'].setValue(false);
+            });
       }
     });
 
@@ -146,7 +154,6 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
 
     this.isLoading = false;
   }
-
 
   async toggleDetails(codDespesaItem: number)
   {
@@ -332,7 +339,11 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     return Enumerable.from(this.despesaItens).any(i => i.indReprovado == 1);
   }
 
-  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isLider()
+  {
+    return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER ||
+      this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN;
+  };
   isEmAnalise()
   {
     return this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])

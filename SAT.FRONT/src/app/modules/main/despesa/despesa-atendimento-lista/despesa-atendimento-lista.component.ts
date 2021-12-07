@@ -62,6 +62,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   {
     super(_userService, "despesa-atendimento");
     this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
+    this.obterTecnico();
   }
 
   ngAfterViewInit()
@@ -106,14 +107,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.isLoading = true;
 
     await this.obterDespesasPeriodoTecnico();
-    await this.obterTecnico();
 
     this.isLoading = false;
   }
 
   registerEmitters(): void
   {
-    this.sidenav.closedStart.subscribe(() =>
+    this.sidenav?.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
       this.obterDados();
@@ -125,7 +125,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     this.onPaginationChanged();
     this.obterDados();
   }
-
 
   criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico
   {
@@ -212,7 +211,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
     });
   }
 
-  isTecnico() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO };
-  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER };
+  isTecnico() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_SUPORTE_TECNICO; };
+  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER || 
+    this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN };
   isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
 }

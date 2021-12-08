@@ -96,5 +96,7 @@ namespace SAT.MODELS.Entities
         public Tecnico Tecnico { get; set; }
         [ForeignKey("CodServico")]
         public TipoServico TipoServico { get; set; }
+        [ForeignKey("CodRAT")]
+        public List<Laudo> Laudos { get; set; }
     }
 }

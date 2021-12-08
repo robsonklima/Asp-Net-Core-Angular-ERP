@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { MatSort } from '@angular/material/sort';
-import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
@@ -14,6 +14,7 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { StringExtensions } from 'app/core/extensions/string-extensions';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -56,6 +57,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
         protected _userService: UserService,
+        private _stringExtensions: StringExtensions,
         private _fileService: FileService
     )
     {
@@ -115,6 +117,9 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
+
+        if (!this._stringExtensions.isEmptyOrWhiteSpace(filter))
+            params.filterType = OrdemServicoFilterEnum.FILTER_GENERIC_TEXT;
 
         const data: OrdemServicoData = await this._ordemServicoService
             .obterPorParametros({

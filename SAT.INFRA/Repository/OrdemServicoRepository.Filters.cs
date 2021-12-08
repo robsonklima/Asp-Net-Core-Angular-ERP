@@ -30,21 +30,14 @@ namespace SAT.INFRA.Repository
                 case OrdemServicoFilterEnum.FILTER_DISPONIBILIDADE_BB_CALCULA_OS:
                     query = AplicarFiltroDisponiblidadeBBCalculaOS(query);
                     break;
+                case OrdemServicoFilterEnum.FILTER_GENERIC_TEXT:
+                    query = AplicarFiltroGenericText(query, parameters);
+                    break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);
                     break;
             }
             return query;
-        }
-
-
-        public class OrdemServicoComparer : IEqualityComparer<OrdemServico>
-        {
-            public bool Equals(OrdemServico x, OrdemServico y) =>
-                x.CodOS.Equals(y.CodOS);
-
-            public int GetHashCode(OrdemServico obj) =>
-                obj.CodOS.GetHashCode();
         }
     }
 }

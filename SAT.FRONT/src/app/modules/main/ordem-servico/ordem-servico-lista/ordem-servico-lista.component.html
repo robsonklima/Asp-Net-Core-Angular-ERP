@@ -196,8 +196,7 @@
                                                 </div>
 
                                                 <div class="hidden lg:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.equipamentoContrato?.acordoNivelServico?.nomeSLA || t('nao informado')"
+                                                    <span [matTooltip]="tooltipSLA(os) || t('nao informado')"
                                                         matTooltipPosition="above">
                                                         {{
                                                         os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'

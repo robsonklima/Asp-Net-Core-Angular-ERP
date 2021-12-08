@@ -169,6 +169,11 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             return 'AGENDAMENTO';
     }
 
+    tooltipSLA(os: OrdemServico) {
+        return os.equipamentoContrato?.acordoNivelServico?.nomeSLA + " - " +
+            os.equipamentoContrato?.acordoNivelServico?.descSLA;
+    }
+
     statusSLADescricao(os: OrdemServico) {
         if (os.prazosAtendimento == null) {
             return "---";

@@ -21,18 +21,18 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
+            grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px auto 50px auto 40px 120px 50px 36px 50px 10px;
             
             @screen sm {
-                grid-template-columns:  48px 80px 92px 92px 36px 36px auto 56px;
+                grid-template-columns:  48px 80px 92px 92px 36px 36px 56px auto;
             }
         
             @screen md {
-                grid-template-columns: 48px 92px 92px 92px 38px 36px auto 58px 58px 58px 58px 58px;
+                grid-template-columns: 48px 92px 92px 92px 38px 36px 58px auto 58px 58px 58px 10px;
             }
         
             @screen lg {
-                grid-template-columns: 38px 60px 80px 60px  20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
+                grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px 50px auto 40px 120px 50px 36px 50px 10px;
             }
         }
     `],

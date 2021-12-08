@@ -51,46 +51,46 @@
                                     <div class="hidden sm:block" [mat-sort-header]="'dataHoraAberturaOS'">
                                         {{ t('abertura') }}
                                     </div>
-                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraSolicitacao'">
+                                    <div class="hidden sm:block text-center" [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
-                                    <div [mat-sort-header]="'fimSLA'">
+                                    <div class="text-center" [mat-sort-header]="'fimSLA'">
                                         {{ t('fim sla') }}
                                     </div>
-                                    <div [mat-sort-header]="'statusOS'">
+                                    <div class="text-center" [mat-sort-header]="'statusOS'">
                                         S
                                     </div>
-                                    <div class="hidden sm:block" [mat-sort-header]="'tipoIntervencao'">
+                                    <div class="hidden sm:block text-center" [mat-sort-header]="'tipoIntervencao'">
                                         Interv
                                     </div>
                                     <div class="hidden md:block" [mat-sort-header]="'nomeTecnico'">
                                         {{ t('tecnico') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'pa'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'pa'">
                                         PA
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'nomeLocal'">
-                                        {{ t('local') }}
-                                    </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'nomeRegiao'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'nomeRegiao'">
                                         PAT
                                     </div>
-                                    <div [mat-sort-header]="'numBanco'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'nomeLocal'">
+                                        {{ t('local') }}
+                                    </div>
+                                    <div class="text-center" [mat-sort-header]="'numBanco'">
                                         {{ t('cliente') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'nomeEquip'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'nomeEquip'">
                                         {{ t('equipamento') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
-                                    <div class="hidden md:block truncate" [mat-sort-header]="'statusSLA'">
+                                    <div class="hidden md:block truncate text-center" [mat-sort-header]="'statusSLA'">
                                         {{ 'S SLA' }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'numSerie'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'numReincidencia'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'numReincidencia'">
                                         Rei.
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                 <ng-container>
                                     <ng-container *ngFor="let os of dataSourceData?.items">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
-                                            <div class="list-grid-ordem-servico grid items-center h-6 gap-4 px-3 text-xs md:px-8 border-b hover:bg-gray-100"
+                                            <div class="list-grid-ordem-servico grid items-center h-6 gap-4 px-1 text-xs md:px-4 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center">
                                                     {{ os.codOS }}
@@ -145,26 +145,30 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
+                                                <div class="hidden md:block truncate text-center">
+                                                    <span [matTooltip]="os.statusServico?.codStatusServico == 8 ?
+                                                        tecnicoDescricao(os) : os.tecnico?.nome"
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
                                                         {{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
+                                                <div class="hidden md:block truncate text-center">
                                                     {{ os.regiaoAutorizada?.pa || '--' }}
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
-                                                </div>
-
-                                                <div class="hidden md:block truncate">
+                                                <div class="hidden md:block truncate" [matTooltip]="os.equipamentoContrato?.regiao?.nomeRegiao || '--' + ' ' +
+                                                os.equipamentoContrato?.autorizada?.nomeFantasia || ''"
+                                                    matTooltipPosition="above">
                                                     {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
                                                     {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}
+                                                </div>
+
+                                                <div class="hidden md:block truncate"
+                                                    [matTooltip]="os.localAtendimento?.nomeLocal"
+                                                    matTooltipPosition="above">
+                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
                                                 </div>
 
                                                 <div class="lg:block truncate">

@@ -98,7 +98,7 @@
                                 <ng-container>
                                     <ng-container *ngFor="let os of dataSourceData?.items">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
-                                            <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-xs md:px-8 border-b hover:bg-gray-100"
+                                            <div class="list-grid-ordem-servico grid items-center h-6 gap-4 px-3 text-xs md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center">
                                                     {{ os.codOS }}
@@ -183,7 +183,7 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
+                                                <div>
                                                     <span [matTooltip]="statusSLADescricao(os)"
                                                         matTooltipPosition="above">
                                                         <span class="py-1 px-2 rounded text-xs" [ngStyle]="{

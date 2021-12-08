@@ -216,7 +216,7 @@
                             <div *ngFor="let rat of os.relatoriosAtendimento">
                                 <div class="grid mt-5">
 
-                                    <div class="text-lg tracking-tight text-secondary">{{ "RAT no. " + rat.numRAT }}
+                                    <div class="text-lg tracking-tight text-secondary">{{ "RAT " + rat.numRAT }}
                                     </div>
                                     <div class="h-0 col-span-12 my-2"></div>
 
@@ -280,7 +280,7 @@
 
                                     <div class="col-span-12" *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
                                         <div class="text-lg mt-5 tracking-tight text-secondary">
-                                            {{ "DETALHES" }}
+                                            {{ "DETALHES " + detalhe.codRATDetalhe }}
                                         </div>
                                         <div class="col-span-12 my-1"></div>
                                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('tipo de servico') }}</div>
@@ -343,10 +343,71 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="h-4 col-span-12 my-2 mb-2 border-b-2"></div>
+                                    <div *ngIf="rat?.laudos.length > 0" class="col-span-12">
+                                        <div class="text-lg mt-5 mb-2 tracking-tight text-secondary">
+                                            {{ t('laudos') | uppercase }}
+                                        </div>
+                                        <div class='text-center' *ngFor="let l of rat?.laudos">
+                                            <div class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
+                                                {{ t('laudo') + " " + l.codLaudo | uppercase }}
+                                            </div>
+                                            <div>
+                                                <div class="col-span-12 text-lg font-medium text-left">
+                                                    {{ t('status') }}
+                                                    <div class="font-light text-base text-justify">
+                                                        {{ l.laudoStatus?.nomeStatus }}</div>
+                                                    <div class="col-span-12 my-2 border-b"></div>
+                                                </div>
+                                                <div class="col-span-12 text-lg font-medium text-left">
+                                                    {{ t('relato cliente') }}
+                                                    <div class="font-light text-base text-justify">
+                                                        {{ l.relatoCliente }}</div>
+                                                    <div class="col-span-12 my-2 border-b"></div>
+                                                </div>
+                                                <div class="col-span-12 text-lg font-medium text-left">
+                                                    {{ t('conclusao') }}
+                                                    <div class="font-light text-base text-justify">
+                                                        {{ l.conclusao }}</div>
+                                                    <div class="col-span-12 my-2 border-b"></div>
+                                                </div>
+                                                <div *ngIf="l.laudosSituacao?.length > 0"
+                                                    class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
+                                                    {{ t('situacoes') | uppercase }}
+                                                </div>
+                                                <div class='text-center' *ngFor="let ls of l.laudosSituacao">
+                                                    <div
+                                                        class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
+                                                        {{ t('situacao') + " " + ls.codLaudoSituacao | uppercase }}
+                                                    </div>
+                                                    <div>
+                                                        <div class="col-span-12 text-lg font-medium text-left">
+                                                            {{ t('causa') }}
+                                                            <div class="font-light text-base text-justify">
+                                                                {{ ls.causa }}</div>
+                                                            <div class="col-span-12 my-2 border-b"></div>
+                                                        </div>
+                                                        <div class="col-span-12 text-lg font-medium text-left">
+                                                            {{ t('acao') }}
+                                                            <div class="font-light text-base text-justify">
+                                                                {{ ls.acao }}</div>
+                                                            <div class="col-span-12 my-2 border-b"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div *ngFor="let foto of getLaudos(rat)" class="inline-flex w-80 m-1">
+                                                    <img class="object-cover h-48 w-full m-1"
+                                                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="h-4 col-span-12 my-2 mb-2 border-b-2"></div>
                             </div>
                         </div>
+
                         <div class="mt-4">
                             <div class="flex items-start mt-4">
                                 <img class="flex-0 w-10 mt-2" src="assets/images/logo/logo.png">

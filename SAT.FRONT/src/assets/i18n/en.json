@@ -411,5 +411,10 @@
     "horas gastas": "Hours Spent",
     "acompanhante": "Companion",
     "descricao da solucao": "Solution Description",
-    "laudos": "Reports"
+    "laudos": "Reports",
+    "laudo": "Report",
+    "relato cliente": "Customer Report",
+    "conclusao": "Conclusion",
+    "situacao": "Situation",
+    "situacoes": "Situations"
 }

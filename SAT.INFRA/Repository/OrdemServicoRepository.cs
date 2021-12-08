@@ -115,6 +115,9 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                         .ThenInclude(d => d.Defeito)
                 .Include(os => os.RelatoriosAtendimento)
+                        .ThenInclude(rat => rat.RelatorioAtendimentoDetalhes)
+                            .ThenInclude(ratd => ratd.TipoServico)
+                .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.StatusServico)
@@ -124,6 +127,10 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.CheckinsCheckouts)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Laudos)
+                        .ThenInclude(a => a.LaudosSituacao)
+                .Include(os => os.RelatoriosAtendimento)
+                    .ThenInclude(a => a.Laudos)
+                        .ThenInclude(a => a.LaudoStatus)
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
                 .FirstOrDefault(os => os.CodOS == codigo);
 

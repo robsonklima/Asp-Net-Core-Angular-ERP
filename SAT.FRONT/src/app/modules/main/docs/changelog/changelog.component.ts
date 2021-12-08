@@ -231,7 +231,6 @@ export class ChangelogComponent
                 }
             ]
         },
-        ,
         {
             version: 'v1.1.3',
             releaseDate: '06 de Dezembro de 2021',
@@ -244,8 +243,7 @@ export class ChangelogComponent
                     ],
                 }
             ]
-        }
-        ,
+        },
         {
             version: 'v1.1.4',
             releaseDate: '07 de Dezembro de 2021',

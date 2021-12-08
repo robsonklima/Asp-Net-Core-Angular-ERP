@@ -34,8 +34,7 @@ import { IFilterBase } from 'app/core/types/filtro.types';
   selector: 'app-ordem-servico-filtro',
   templateUrl: './ordem-servico-filtro.component.html'
 })
-export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase
-{
+export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
   @Input() sidenav: MatSidenav;
 
   filiais: Filial[] = [];
@@ -54,7 +53,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _filialService: FilialService,
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _grupoEquipService: GrupoEquipamentoService,
@@ -67,19 +66,20 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     private _tecnicoService: TecnicoService,
     protected _userService: UserService,
     protected _formBuilder: FormBuilder
-  )
-  {
+  ) {
     super(_userService, _formBuilder, 'ordem-servico');
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.createForm();
     this.loadData();
+
+    this.form.controls["codFiliais"].valueChanges.subscribe(() => {
+
+    });
   }
 
-  loadData(): void
-  {
+  loadData(): void {
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterFiliais();
     this.obterClientes();
@@ -93,8 +93,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.configurarEquipamentos();
   }
 
-  createForm(): void
-  {
+  createForm(): void {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
@@ -120,8 +119,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.form.patchValue(this.filter?.parametros);
   }
 
-  async obterFiliais()
-  {
+  async obterFiliais() {
     let params: FilialParameters = {
       indAtivo: 1,
       sortActive: 'nomeFilial',
@@ -135,8 +133,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.filiais = data.items;
   }
 
-  async obterTipoEquipamentos()
-  {
+  async obterTipoEquipamentos() {
     let params = {
       sortActive: 'nomeTipoEquip',
       sortDirection: 'asc'
@@ -149,8 +146,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tipoEquip = data.items;
   }
 
-  async obterGrupoEquipamentos()
-  {
+  async obterGrupoEquipamentos() {
     let params: GrupoEquipamentoParameters =
     {
       codTipoEquip: this.form.controls['codTipoEquip'].value,
@@ -166,8 +162,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   }
 
 
-  async obterEquipamentos()
-  {
+  async obterEquipamentos() {
     let params: EquipamentoParameters =
     {
       codGrupo: this.form.controls['codGrupoEquip'].value,
@@ -183,8 +178,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.equipamentos = data.items;
   }
 
-  async obterTiposIntervencao()
-  {
+  async obterTiposIntervencao() {
     let params = {
       indAtivo: 1,
       sortActive: 'nomTipoIntervencao',
@@ -198,8 +192,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tiposIntervencao = data.items;
   }
 
-  async obterClientes(filter: string = '')
-  {
+  async obterClientes(filter: string = '') {
     let params: ClienteParameters = {
       filter: filter,
       indAtivo: 1,
@@ -215,8 +208,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.clientes = data.items;
   }
 
-  async obterTecnicos(filialFilter: string)
-  {
+  async obterTecnicos(filialFilter: string) {
     let params: TecnicoParameters = {
       indAtivo: 1,
       sortActive: 'nome',
@@ -233,24 +225,20 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tecnicos = data.items;
   }
 
-  configurarFiliais()
-  {
+  configurarFiliais() {
     if (!this.userSession.usuario.codFilial)
       this.form.controls['codFiliais']
         .valueChanges
-        .subscribe(() => 
-        {
+        .subscribe(() => {
           this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
           this.obterTecnicos(this.form.controls['codFiliais'].value);
         });
 
-    if (this.userSession.usuario.codFilial)
-    {
+    if (this.userSession.usuario.codFilial) {
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
-    else
-    {
+    else {
       this.form.controls['codFiliais'].enable();
     }
 
@@ -258,8 +246,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
   }
 
-  configurarEquipamentos()
-  {
+  configurarEquipamentos() {
     if ((this.form.controls['codTipoEquip'].value))
       this.obterGrupoEquipamentos();
     else
@@ -273,15 +260,12 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
     this.form.controls['codTipoEquip']
       .valueChanges
-      .subscribe(() => 
-      {
-        if (this.form.controls['codTipoEquip'].value)
-        {
+      .subscribe(() => {
+        if (this.form.controls['codTipoEquip'].value) {
           this.obterGrupoEquipamentos();
           this.form.controls['codGrupoEquip'].enable();
         }
-        else
-        {
+        else {
           this.form.controls['codGrupoEquip'].setValue("");
           this.form.controls['codGrupoEquip'].disable();
         }
@@ -289,23 +273,19 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
     this.form.controls['codGrupoEquip']
       .valueChanges
-      .subscribe(() => 
-      {
-        if (this.form.controls['codGrupoEquip'].value)
-        {
+      .subscribe(() => {
+        if (this.form.controls['codGrupoEquip'].value) {
           this.obterEquipamentos();
           this.form.controls['codEquipamentos'].enable();
         }
-        else
-        {
+        else {
           this.form.controls['codEquipamentos'].setValue("");
           this.form.controls['codEquipamentos'].disable();
         }
       });
   }
 
-  async obterRegioesAutorizadas(filialFilter: any)
-  {
+  async obterRegioesAutorizadas(filialFilter: any) {
     let params: RegiaoAutorizadaParameters = {
       indAtivo: 1,
       codFiliais: filialFilter,
@@ -320,12 +300,11 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
   }
 
-  async obterAutorizadas(filter: string = '')
-  {
+  async obterAutorizadas(filter: string = '') {
     let params: AutorizadaParameters = {
       filter: filter,
       indAtivo: 1,
-      codFilial: this.userSession.usuario.codFilial,
+      codFiliais: this.form.controls['codFiliais'].value.join(','),
       pageSize: 1000
     };
 
@@ -336,8 +315,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.autorizadas = Enumerable.from(data.items).toArray();
   }
 
-  async obterStatusServicos()
-  {
+  async obterStatusServicos() {
     let params: StatusServicoParameters = {
       indAtivo: 1,
       sortActive: 'nomeStatusServico',
@@ -351,33 +329,28 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.statusServicos = data.items;
   }
 
-  registrarEmitters(): void
-  {
+  registrarEmitters(): void {
     this.clienteFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
         debounceTime(700),
         distinctUntilChanged()
       )
-      .subscribe(() =>
-      {
+      .subscribe(() => {
         this.obterClientes(this.clienteFilterCtrl.value);
       });
   }
 
-  clean()
-  {
+  clean() {
     super.clean();
 
-    if (this.userSession?.usuario?.codFilial)
-    {
+    if (this.userSession?.usuario?.codFilial) {
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
   }
 
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

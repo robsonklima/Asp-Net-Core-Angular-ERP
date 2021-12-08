@@ -74,9 +74,6 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.createForm();
     this.loadData();
 
-    this.form.controls["codFiliais"].valueChanges.subscribe(() => {
-
-    });
   }
 
   loadData(): void {
@@ -91,6 +88,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
     this.configurarFiliais();
     this.configurarEquipamentos();
+    this.configurarAutorizadas();
   }
 
   createForm(): void {
@@ -244,6 +242,12 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
     this.obterTecnicos(this.form.controls['codFiliais'].value);
     this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+  }
+
+  configurarAutorizadas() {
+    this.form.controls["codFiliais"].valueChanges.subscribe(() => {
+
+    });
   }
 
   configurarEquipamentos() {

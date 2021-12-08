@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Laudo } from "./laudo.types";
 import { RelatorioAtendimentoDetalhe } from "./relatorio-atendimento-detalhe.type";
 import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
@@ -83,6 +84,7 @@ export interface RelatorioAtendimento
     protocolosSTN: any[];
     statusServico: StatusServico;
     tecnico: Tecnico;
+    laudos: Laudo[];
 }
 
 export interface RelatorioAtendimentoData extends Meta

@@ -9,10 +9,8 @@ import { VersionCheckService } from './core/version-control/version-control.serv
 })
 export class AppComponent implements OnInit
 {
-    constructor (private _versionCheckService: VersionCheckService)
-    {
+    constructor (private _versionCheckService: VersionCheckService) { }
 
-    }
     ngOnInit(): void
     {
         this._versionCheckService.initVersionCheck(environment.versionCheckURL);

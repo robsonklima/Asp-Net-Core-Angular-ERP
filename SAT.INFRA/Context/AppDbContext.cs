@@ -108,10 +108,13 @@ namespace SAT.INFRA.Context
         public DbSet<TecnicoConta> TecnicoConta { get; set; }
         public DbSet<Turno> Turno { get; set; }
         public DbSet<DashboardIndicadores> DashboardIndicadores { get; set; }
-        public DbSet<Instalacao>  Instalacao { get; set; }
-        public DbSet<InstalacaoLote>  InstalacaoLote { get; set; }
-        public DbSet<InstalacaoRessalva>  InstalacaoRessalva { get; set; }
-        public DbSet<InstalacaoMotivoRes>  InstalacaoMotivoRes { get; set; }
+        public DbSet<Instalacao> Instalacao { get; set; }
+        public DbSet<InstalacaoLote> InstalacaoLote { get; set; }
+        public DbSet<InstalacaoRessalva> InstalacaoRessalva { get; set; }
+        public DbSet<InstalacaoMotivoRes> InstalacaoMotivoRes { get; set; }
+        public DbSet<Laudo> Laudo { get; set; }
+        public DbSet<LaudoStatus> LaudoStatus { get; set; }
+        public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -129,6 +132,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
             modelBuilder.Entity<TecnicoConta>(new TecnicoContaMap().Configure);
             modelBuilder.Entity<Instalacao>(new InstalacaoMap().Configure);
+            modelBuilder.Entity<Laudo>(new LaudoMap().Configure);
+            modelBuilder.Entity<LaudoStatus>(new LaudoStatusMap().Configure);
+            modelBuilder.Entity<LaudoSituacao>(new LaudoSituacaoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

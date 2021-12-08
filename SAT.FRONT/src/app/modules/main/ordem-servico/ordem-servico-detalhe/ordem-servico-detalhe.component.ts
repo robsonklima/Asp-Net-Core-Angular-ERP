@@ -265,4 +265,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 	}
+
+	getFotos(): Foto[]
+	{
+		return Enumerable.from(this.os?.fotos)
+			.where(i => !i.modalidade.includes("LAUDO"))
+			.toArray();
+	}
+
+	getLaudos(): Foto[]
+	{
+		return Enumerable.from(this.os?.fotos)
+			.where(i => i.modalidade.includes("LAUDO"))
+			.toArray();
+	}
 }

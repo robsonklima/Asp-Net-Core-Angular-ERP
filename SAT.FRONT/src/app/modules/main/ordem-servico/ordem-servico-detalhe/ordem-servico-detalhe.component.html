@@ -415,15 +415,27 @@
                             <ng-template matTabLabel>
                                 <span>
                                     {{ t('fotos') }}
-
                                     <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
-                                        {{ os?.fotos?.length }}
+                                        {{ getFotos().length }}
                                     </span>
                                 </span>
                             </ng-template>
-
                             <ng-template matTabContent>
-                                <app-ordem-servico-fotos [os]="os"></app-ordem-servico-fotos>
+                                <app-ordem-servico-fotos [fotos]="getFotos()"></app-ordem-servico-fotos>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('laudos') }}
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                        {{ getLaudos().length }}
+                                    </span>
+                                </span>
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-ordem-servico-fotos [fotos]="getLaudos()"></app-ordem-servico-fotos>
                             </ng-template>
                         </mat-tab>
 

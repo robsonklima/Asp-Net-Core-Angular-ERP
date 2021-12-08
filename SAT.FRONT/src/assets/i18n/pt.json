@@ -426,6 +426,11 @@
     "tipo garantia": "Tipo Garantia",
     "balcao": "Balcão",
     "on site": "On Site",
-    "cod logix": "Cód. Logix"
-    
+    "cod logix": "Cód. Logix",
+    "laudos": "Laudos",
+    "laudo": "Laudo",
+    "relato cliente": "Relato Cliente",
+    "conclusao": "Conclusão",
+    "situacao": "Situação",
+    "situacoes": "Situações"
 }

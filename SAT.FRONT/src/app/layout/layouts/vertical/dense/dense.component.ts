@@ -70,4 +70,8 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
     toggleNavigationAppearance(): void {
         this.navigationAppearance = (this.navigationAppearance === 'default' ? 'dense' : 'default');
     }
+
+    toolTip(): string {
+        return this.name + "  2006-" + this.currentYear + "  v" + this.version;
+    }
 }

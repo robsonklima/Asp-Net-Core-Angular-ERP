@@ -86,9 +86,6 @@
                                     <div class="hidden lg:block text-center" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
-                                    <div class="hidden md:block truncate text-center" [mat-sort-header]="'statusSLA'">
-                                        {{ 'S SLA' }}
-                                    </div>
                                     <div class="hidden md:block text-center" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
@@ -111,7 +108,8 @@
                                                 </div>
 
                                                 <div class="hidden sm:block">
-                                                    <span>
+                                                    <span [matTooltip]="statusAgendamento(os)"
+                                                        matTooltipPosition="above">
                                                         <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.agendamentos?.length >
                                                             0 ? '#670067' : '',
@@ -122,10 +120,15 @@
                                                     </span>
                                                 </div>
 
-
-                                                <div>
-                                                    {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
+                                                <div class="hidden sm:block" [ngClass]="{'bg-green-200': statusSLADescricao(os)== 'DENTRO',
+                                                'bg-red-200': statusSLADescricao(os) == 'FORA'}">
+                                                    <span [matTooltip]="statusSLADescricao(os)"
+                                                        matTooltipPosition="above">
+                                                        {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento |
+                                                        date:'dd/MM HH:mm') || '--' }}
+                                                    </span>
                                                 </div>
+
                                                 <div class="place-content-center">
                                                     <span [matTooltip]="statusServicoDescricao(os)"
                                                         [matTooltipClass]="'os_lista_tooltip'"
@@ -152,7 +155,10 @@
                                                         tecnicoDescricao(os) : os.tecnico?.nome"
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
-                                                        {{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
+                                                        {{ os.statusServico?.codStatusServico == 8 ||
+                                                        filter?.parametros.codTecnicos != '' ?
+                                                        os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) ||
+                                                        '--' : '--' }}
                                                     </span>
                                                 </div>
 
@@ -168,8 +174,10 @@
                                                 </div>
 
                                                 <div class="hidden md:block truncate">
-                                                    <span [matTooltip]="os.localAtendimento?.nomeLocal" matTooltipPosition="above">
-                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
+                                                    <span [matTooltip]="os.localAtendimento?.nomeLocal"
+                                                        matTooltipPosition="above">
+                                                        {{ (os.localAtendimento?.nomeLocal || t('nao informado')) |
+                                                        uppercase }}
                                                     </span>
                                                 </div>
 
@@ -193,19 +201,7 @@
                                                         matTooltipPosition="above">
                                                         {{
                                                         os.equipamentoContrato?.acordoNivelServico?.nomeSLA || '--'
-                                                    }}
-                                                    </span>
-                                                </div>
-
-                                                <div>
-                                                    <span [matTooltip]="statusSLADescricao(os)"
-                                                        matTooltipPosition="above">
-                                                        <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
-                                                            'background-color': statusSLADescricao(os) == 'DENTRO' ? '#70FF70' : statusSLADescricao(os) == 'FORA' ? '#FF0000' : '#ffffff00', 
-                                                            'color': os.statusServico?.corFonte
-                                                        }">
-                                                            {{ statusSLADescricao(os).substr(0, 1) }}
-                                                        </span>
+                                                        }}
                                                     </span>
                                                 </div>
 

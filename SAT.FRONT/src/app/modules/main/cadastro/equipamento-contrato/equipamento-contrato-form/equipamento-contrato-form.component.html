@@ -4,16 +4,16 @@
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/equipamento-contrato">
-                        {{ t('equipamentos') }}
-                    </a>
-                </div>
+                    {{ codContrato ?  t('contrato') : t('equipamentos') }}
+                </div>       
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                    </span>
+                    <a class="whitespace-nowrap text-primary" [routerLink]="codContrato ? '/contrato/' + codContrato : ''">
+                        {{  codContrato ?
+                            codContrato  : 
+                            (isAddMode ? t('novo') : t('atualizando'))  }}
+                    </a>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
@@ -217,7 +217,7 @@
 
                 <div class="p-8">
                     <div class="flex flex-col gt-xs:flex-row">
-                        <div class="flex flex-col">
+                        <div class="grid grid-cols-3">
                             <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indReceita'">
                                 {{ t('receita') }}
                             </mat-checkbox>
@@ -262,7 +262,7 @@
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button [routerLink]="['/equipamento-contrato']" mat-button>
+                    <button (click)="_location.back()" mat-button>
                         {{ t('cancelar') }}
                     </button>
 

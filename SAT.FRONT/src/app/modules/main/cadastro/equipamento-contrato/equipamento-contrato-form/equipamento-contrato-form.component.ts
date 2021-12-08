@@ -36,6 +36,7 @@ import { debounceTime, delay, filter, first, map, takeUntil, tap } from 'rxjs/op
 })
 export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
   codEquipContrato: number;
+  codContrato: number;
   equipamento: EquipamentoContrato;
   isAddMode: boolean;
   form: FormGroup;
@@ -59,7 +60,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     private _contratoService: ContratoService,
     private _route: ActivatedRoute,
     private _snack: CustomSnackbarService,
-    private _location: Location,
+    public _location: Location,
     private _clienteService: ClienteService,
     private _contratoEquipamentoService: ContratoEquipamentoService,
     private _contratoSLAService: ContratoSLAService,
@@ -74,6 +75,8 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.codEquipContrato = +this._route.snapshot.paramMap.get('codEquipContrato');
+    this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
+
     this.isAddMode = !this.codEquipContrato;
     this.inicializarForm();
     this.obterClientes();

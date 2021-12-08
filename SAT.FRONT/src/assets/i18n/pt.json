@@ -221,6 +221,7 @@
     "modelo": "Modelo",
     "inicio da garantia": "Início da Garantia",
     "fim da garantia": "Fim da Garantia",
+    "garantia": "Garantia",
     "receita": "Receita",
     "repasse": "Repasse",
     "repasse individual": "Repasse Individual",
@@ -260,7 +261,6 @@
     "lista de modelos": "Lista de Modelos",
     "multa": "Multa",
     "deletar": "Deletar",
-    "contratos de venda": "Contratos de Venda",
     "lotes": "Lotes",
     "lote": "Lote",
     "instalacoes": "Instalações",
@@ -420,5 +420,12 @@
     "he": "HE",
     "divergencias": "Divergências",
     "ponto colaboradores": "Ponto Colaboradores",
-    "ponto horarios": "Ponto Horários"
+    "ponto horarios": "Ponto Horários",
+    "contratos de venda": "Contratos de Venda",
+    "instalacao": "Instalação",
+    "tipo garantia": "Tipo Garantia",
+    "balcao": "Balcão",
+    "on site": "On Site",
+    "cod logix": "Cód. Logix"
+    
 }

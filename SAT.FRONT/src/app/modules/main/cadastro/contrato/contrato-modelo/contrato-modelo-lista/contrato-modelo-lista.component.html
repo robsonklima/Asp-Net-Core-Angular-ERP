@@ -48,7 +48,7 @@
 						  <div class="text-center">
 							{{ t("valor unitario") }}
 						  </div>
-						  <div class="text-center">
+						  <div class="hidden md:block text-center">
 							{{ t("quantidade") }}
 						  </div>					
 						  <div class="text-right pr-2">
@@ -74,19 +74,19 @@
 							  "
 							  *transloco="let t"
 							>
-							  <div class="flex">
+							  <div class="flex truncate">
 								{{ contratoEquip.equipamento.nomeEquip }}
 							  </div>
 		  
-							  <div class="hidden text-center md:block truncate">
+							  <div class="text-center md:block">
 								R$ {{ contratoEquip.vlrUnitario }}
 							  </div>
 		  
-							  <div class="text-center">
+							  <div class=" hidden text-center md:block">
 								{{ contratoEquip.qtdEquip }}
 							  </div>		  
 
-							  <div class="hidden text-right md:block truncate" >
+							  <div class="text-right" >
 								<button 
 								class=" fuse-mat-button bg-transparent text-red-600" 
 								[routerLink]="'/contrato/'+ codContrato + '/modelo-form/' + contratoEquip.codEquip"

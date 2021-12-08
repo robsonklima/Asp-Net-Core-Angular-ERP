@@ -104,8 +104,8 @@ namespace SAT.INFRA.Repository
             {
                 equips = equips.Where(
                     e =>
-                    e.CodEquipContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    e.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    e.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    e.CodEquipContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
@@ -118,6 +118,11 @@ namespace SAT.INFRA.Repository
             {
                 equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
             }
+
+            if (parameters.CodContrato != null)
+            {
+                equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
+            } 
 
             if (parameters.CodFilial != null)
             {

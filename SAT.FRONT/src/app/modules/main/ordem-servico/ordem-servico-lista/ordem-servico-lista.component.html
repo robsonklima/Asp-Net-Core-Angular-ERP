@@ -71,7 +71,7 @@
                                     <div class="hidden md:block text-center pl-2" [mat-sort-header]="'pa'">
                                         PA
                                     </div>
-                                    <div class="hidden md:block text-center pl-4" [mat-sort-header]="'nomeRegiao'">
+                                    <div class="hidden md:block text-left" [mat-sort-header]="'nomeRegiao'">
                                         PAT
                                     </div>
                                     <div class="hidden md:block text-center" [mat-sort-header]="'nomeLocal'">
@@ -160,17 +160,17 @@
                                                     {{ os.regiaoAutorizada?.pa || '--' }}
                                                 </div>
 
-                                                <div class="hidden text-center md:block truncate" [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
+                                                <div class="hidden text-left md:block truncate" [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
                                                 (os.equipamentoContrato?.autorizada?.nomeFantasia || '')"
                                                     matTooltipPosition="above">
                                                     {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
                                                     {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}
                                                 </div>
 
-                                                <div class="hidden md:block truncate"
-                                                    [matTooltip]="os.localAtendimento?.nomeLocal"
-                                                    matTooltipPosition="above">
+                                                <div class="hidden md:block truncate">
+                                                    <span [matTooltip]="os.localAtendimento?.nomeLocal" matTooltipPosition="above">
                                                     {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
+                                                    </span>
                                                 </div>
 
                                                 <div class="lg:block truncate">

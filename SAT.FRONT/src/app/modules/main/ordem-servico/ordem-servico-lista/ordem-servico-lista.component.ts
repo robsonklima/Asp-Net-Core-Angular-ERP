@@ -21,7 +21,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px auto 50px auto 40px 120px 50px 36px 50px 10px;
+            grid-template-columns: 42px 65px 80px 60px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 36px 50px 10px;
             
             @screen sm {
                 grid-template-columns:  48px 80px 92px 92px 36px 36px 56px auto;
@@ -32,7 +32,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
             }
         
             @screen lg {
-                grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px 50px auto 40px 120px 50px 36px 50px 30px;
+                grid-template-columns: 42px 65px 80px 60px 20px 48px 50px 30px 120px auto 40px 120px 50px 36px 50px 30px;
             }
         }
     `],
@@ -40,8 +40,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
     animations: fuseAnimations
 })
 
-export class OrdemServicoListaComponent extends Filterable implements AfterViewInit, IFilterable
-{
+export class OrdemServicoListaComponent extends Filterable implements AfterViewInit, IFilterable {
     @ViewChild('sidenav') sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('searchInputControl') searchInputControl: ElementRef;
@@ -53,51 +52,44 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
     isLoading: boolean = false;
     protected _onDestroy = new Subject<void>();
 
-    constructor (
+    constructor(
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
         protected _userService: UserService,
         private _stringExtensions: StringExtensions,
         private _fileService: FileService
-    )
-    {
+    ) {
         super(_userService, 'ordem-servico')
     }
 
-    ngAfterViewInit(): void
-    {
+    ngAfterViewInit(): void {
         interval(5 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
-            .subscribe(() =>
-            {
+            .subscribe(() => {
                 this.obterOrdensServico();
             });
 
         this.registerEmitters();
 
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-            map((event: any) =>
-            {
+            map((event: any) => {
                 return event.target.value;
             })
             , debounceTime(1000)
             , distinctUntilChanged()
-        ).subscribe((text: string) =>
-        {
+        ).subscribe((text: string) => {
             this.paginator.pageIndex = 0;
             this.obterOrdensServico(text);
         });
 
-        if (this.sort && this.paginator)
-        {
+        if (this.sort && this.paginator) {
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
-            this.sort.sortChange.subscribe(() =>
-            {
+            this.sort.sortChange.subscribe(() => {
                 this.onSortChanged();
                 this.obterOrdensServico();
             });
@@ -106,8 +98,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         this._cdr.detectChanges();
     }
 
-    async obterOrdensServico(filter: string = '')
-    {
+    async obterOrdensServico(filter: string = '') {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
@@ -132,17 +123,14 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         this.isLoading = false;
     }
 
-    registerEmitters(): void
-    {
-        this.sidenav.closedStart.subscribe(() =>
-        {
+    registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
             this.onSidenavClosed();
             this.obterOrdensServico();
         })
     }
 
-    loadFilter(): void
-    {
+    loadFilter(): void {
         super.loadFilter();
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
@@ -150,8 +138,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
     }
 
-    public async exportar()
-    {
+    public async exportar() {
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {
@@ -167,33 +154,27 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         this.isLoading = false;
     }
 
-    paginar()
-    {
+    paginar() {
         this.onPaginationChanged();
         this.obterOrdensServico();
     }
 
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
     }
 
-    statusSLADescricao(os: OrdemServico)
-    {
-        if (os.prazosAtendimento == null)
-        {
+    statusSLADescricao(os: OrdemServico) {
+        if (os.prazosAtendimento == null) {
             return "---";
         }
-        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
-        {
+        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0) {
             var solucao = Enumerable.from(os.relatoriosAtendimento).orderBy(i => i.codRAT).firstOrDefault()?.dataHoraSolucao || os.dataHoraFechamento;
             if (solucao < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
                 return "DENTRO";
             return "FORA";
         }
-        else if (os.prazosAtendimento?.length > 0)
-        {
+        else if (os.prazosAtendimento?.length > 0) {
             var now = moment();
             var limit = moment(os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento);
             if (now < limit)
@@ -203,12 +184,10 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         return "---";
     }
 
-    statusServicoDescricao(os: OrdemServico)
-    {
+    statusServicoDescricao(os: OrdemServico) {
         var description = os.statusServico?.nomeStatusServico;
 
-        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10)
-        {
+        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
             var pecas = Enumerable.from(os.relatoriosAtendimento)
                 .selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
                     .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
@@ -220,8 +199,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         return description;
     }
 
-    tecnicoDescricao(os: OrdemServico)
-    {
+    tecnicoDescricao(os: OrdemServico) {
         var description = os.tecnico?.nome;
         description += '\n' + 'TRANSFERIDO EM: ';
         description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
@@ -230,34 +208,29 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         return description;
     }
 
-    alternarDetalhes(id: number): void
-    {
+    alternarDetalhes(id: number): void {
         this.isLoading = true;
 
-        if (this.selectedItem && this.selectedItem.codOS === id)
-        {
+        if (this.selectedItem && this.selectedItem.codOS === id) {
             this.isLoading = false;
             this.fecharDetalhes();
             return;
         }
 
         this._ordemServicoService.obterPorCodigo(id)
-            .subscribe((item) =>
-            {
+            .subscribe((item) => {
                 this.selectedItem = item;
                 this.isLoading = false;
                 this._cdr.markForCheck();
             });
     }
 
-    obterUltimoPrazoAtendimento(os: OrdemServico)
-    {
+    obterUltimoPrazoAtendimento(os: OrdemServico) {
         return Enumerable.from(os.prazosAtendimento)
             .orderByDescending(i => i.codOSPrazoAtendimento).firstOrDefault();
     }
 
-    fecharDetalhes(): void
-    {
+    fecharDetalhes(): void {
         this.selectedItem = null;
     }
 }

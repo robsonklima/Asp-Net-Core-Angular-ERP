@@ -170,6 +170,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
     }
 
     tooltipSLA(os: OrdemServico) {
+        if (os.equipamentoContrato == null || os.equipamentoContrato?.acordoNivelServico == null) return null;
+
         return os.equipamentoContrato?.acordoNivelServico?.nomeSLA + " - " +
             os.equipamentoContrato?.acordoNivelServico?.descSLA;
     }

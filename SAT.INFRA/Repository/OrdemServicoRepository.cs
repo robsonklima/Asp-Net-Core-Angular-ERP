@@ -122,6 +122,8 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.CheckinsCheckouts)
+                .Include(os => os.RelatoriosAtendimento)
+                    .ThenInclude(a => a.Laudos)
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
                 .FirstOrDefault(os => os.CodOS == codigo);
 

@@ -23,8 +23,8 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(p => p.LaudoStatus)
                 .WithOne()
-                .HasForeignKey("CodLaudoStatus")
-                .HasPrincipalKey("CodLaudoStatus");
+                .HasForeignKey<Laudo>("CodLaudoStatus")
+                .HasPrincipalKey<LaudoStatus>("CodLaudoStatus");
         }
     }
 }

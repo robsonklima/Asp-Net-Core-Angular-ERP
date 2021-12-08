@@ -1,16 +1,14 @@
 <div class="flex flex-wrap items-start w-full max-w-400 gap-6" *transloco="let t">
-    <fuse-card *ngFor="let foto of os.fotos" class="flex flex-col max-w-80 w-full filter-article">
-        <img
-            class="object-cover h-48 w-full"
-            [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
-            alt="Card cover image">
+    <fuse-card *ngFor="let foto of fotos" class="flex flex-col max-w-80 w-full filter-article">
+        <img class="object-cover h-48 w-full"
+            [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto" alt="Card cover image">
         <div class="m-8">
             <div class="text-2xl font-semibold leading-tight">RAT {{ foto.numRAT }}</div>
             <div class="text-secondary text-md mt-1">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
         </div>
     </fuse-card>
 
-    <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.fotos?.length">
+    <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!fotos?.length">
         <p>
             {{ t('nenhum registro encontrado') }}
         </p>

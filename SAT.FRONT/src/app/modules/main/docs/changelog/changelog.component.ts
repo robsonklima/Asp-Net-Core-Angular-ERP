@@ -257,6 +257,19 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.5',
+            releaseDate: '08 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Modificação do Layout dos chamados',
+                        'Ajustes nos filtros'
+                    ],
+                }
+            ]
         }
     ];
 

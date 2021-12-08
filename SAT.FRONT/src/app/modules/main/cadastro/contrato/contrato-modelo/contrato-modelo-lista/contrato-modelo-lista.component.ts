@@ -20,26 +20,18 @@ import { MatDialog } from '@angular/material/dialog';
     templateUrl: './contrato-modelo-lista.component.html',
     styles: [`
         .list-grid-contrato-modelo {
-            grid-template-columns: auto 250px 200px 200px;
+            grid-template-columns: auto 75px 75px;
             
-            /* @screen sm {
-                grid-template-columns: 48px 250px 150px auto 120px;
+            @screen sm {
+                grid-template-columns: auto 250px 200px 200px;
             }
-        
-            @screen md{
-                grid-template-columns: 48px 250px 150px auto 120px;
-            }
-        
-            @screen lg {
-                grid-template-columns: 48px 250px 150px auto 120px;
-            } */
         }
     `],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 export class ContratoModeloListaComponent implements AfterViewInit {
-    @ViewChild('sidenav') sidenav: MatSidenav;
+   
     userSession: UserSession;
     @ViewChild(MatSort) private sort: MatSort;
     dataSourceData: ContratoEquipamentoData;

@@ -22,19 +22,11 @@ import Enumerable from 'linq';
     templateUrl: './contrato-sla.component.html',
     styles: [`
         .list-grid-contrato-sla {
-            grid-template-columns: 100px auto 150px;
+            grid-template-columns: 50px auto 50px;
             
-            /* @screen sm {
-                grid-template-columns: 48px 250px 150px auto 120px;
+            @screen sm {
+                grid-template-columns: 100px auto 150px;
             }
-        
-            @screen md{
-                grid-template-columns: 48px 250px 150px auto 120px;
-            }
-        
-            @screen lg {
-                grid-template-columns: 48px 250px 150px auto 120px;
-            } */
         }
     `]
 })

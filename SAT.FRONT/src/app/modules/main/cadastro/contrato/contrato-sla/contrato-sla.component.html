@@ -3,27 +3,27 @@
 		<div class="flex items-center col-span-3">
 			<span class="text-lg font-medium">Sla's do Contrato</span>
 		</div>
-        <mat-form-field class="fuse-mat-dense" floatLabel="always">
-            <mat-select
-                placeholder="Novo SLA"
-                #slaSelect>
-                <mat-option>
-                    <ngx-mat-select-search 
-                        placeholderLabel="Pesquisa..."
-                        noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}"
-                        [formControl]="slasFiltro">
-                    </ngx-mat-select-search>
-                </mat-option>
-                <mat-option 
-                *ngFor="let sla of slas" 
-                matTooltip="{{sla.descSLA}}" 
-                matTooltipPosition="left"
-				(click)="salvar(sla)"
-                >
-                    <span>{{ sla.nomeSLA }}</span>
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+		<mat-form-field class="fuse-mat-dense" floatLabel="always">
+			<mat-select
+			placeholder="Novo SLA"
+			#slaSelect>
+			<mat-option>
+				<ngx-mat-select-search 
+				placeholderLabel="Pesquisa..."
+				noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}"
+				[formControl]="slasFiltro">
+			</ngx-mat-select-search>
+			</mat-option>
+			<mat-option 
+			*ngFor="let sla of slas" 
+			matTooltip="{{sla.descSLA}}" 
+			matTooltipPosition="left"
+			(click)="salvar(sla)"
+			>
+			<span>{{ sla.nomeSLA }}</span>
+			</mat-option>
+			</mat-select>
+		</mat-form-field>
 	</div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div class="max-w-5xl">		
@@ -87,13 +87,13 @@
 							  </div>
 		  
 							  <div 	
-								class="hidden text-start md:block truncate"
+								class="text-start md:block truncate"
 								[matTooltip]="csla.sla.descSLA"
 							  >
 								{{ csla.sla.descSLA }}
 							  </div>  
 
-							  <div class="hidden text-right md:block truncate pr-3" >
+							  <div class="text-right md:block truncate pr-3" >
 								<button class="bg-transparent " [matTooltip]="t('deletar')" (click)="excluir(csla)">
 									<mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_outline:trash'">
 									</mat-icon>

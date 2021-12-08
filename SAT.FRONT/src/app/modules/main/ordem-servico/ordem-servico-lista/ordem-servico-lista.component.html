@@ -43,54 +43,56 @@
                     <ng-container>
                         <ng-container>
                             <div class="grid">
-                                <div class="list-grid-ordem-servico z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-xs font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                <div class="list-grid-ordem-servico z-10 sticky top-0 grid gap-4 py-4 px-4 md:px- shadow text-xs font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                     matSort matSortDisableClear *transloco="let t">
-                                    <div class="md:block text-center" [mat-sort-header]="'codOS'">
+                                    <div class="md:block text-center pl-2" [mat-sort-header]="'codOS'">
                                         {{ t('os') }}
                                     </div>
-                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraAberturaOS'">
+                                    <div class="hidden sm:block text-center pl-2"
+                                        [mat-sort-header]="'dataHoraAberturaOS'">
                                         {{ t('abertura') }}
                                     </div>
-                                    <div class="hidden sm:block" [mat-sort-header]="'dataHoraSolicitacao'">
+                                    <div class="hidden sm:block text-center pl-2"
+                                        [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
-                                    <div [mat-sort-header]="'fimSLA'">
+                                    <div class="text-center" [mat-sort-header]="'fimSLA'">
                                         {{ t('fim sla') }}
                                     </div>
-                                    <div [mat-sort-header]="'statusOS'">
+                                    <div class="text-center pl-2" [mat-sort-header]="'statusOS'">
                                         S
                                     </div>
-                                    <div class="hidden sm:block" [mat-sort-header]="'tipoIntervencao'">
+                                    <div class="hidden sm:block text-center" [mat-sort-header]="'tipoIntervencao'">
                                         Interv
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'nomeTecnico'">
+                                    <div class="hidden pl-2 md:block " [mat-sort-header]="'nomeTecnico'">
                                         {{ t('tecnico') }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'pa'">
+                                    <div class="hidden md:block text-center pl-2" [mat-sort-header]="'pa'">
                                         PA
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'nomeLocal'">
-                                        {{ t('local') }}
-                                    </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'nomeRegiao'">
+                                    <div class="hidden md:block text-center pl-4" [mat-sort-header]="'nomeRegiao'">
                                         PAT
                                     </div>
-                                    <div [mat-sort-header]="'numBanco'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'nomeLocal'">
+                                        {{ t('local') }}
+                                    </div>
+                                    <div class="text-center" [mat-sort-header]="'numBanco'">
                                         {{ t('cliente') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'nomeEquip'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'nomeEquip'">
                                         {{ t('equipamento') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'nomeSLA'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'nomeSLA'">
                                         {{ t('sla') }}
                                     </div>
-                                    <div class="hidden md:block truncate" [mat-sort-header]="'statusSLA'">
+                                    <div class="hidden md:block truncate text-center" [mat-sort-header]="'statusSLA'">
                                         {{ 'S SLA' }}
                                     </div>
-                                    <div class="hidden md:block" [mat-sort-header]="'numSerie'">
+                                    <div class="hidden md:block text-center" [mat-sort-header]="'numSerie'">
                                         {{ t('serie') }}
                                     </div>
-                                    <div class="hidden lg:block" [mat-sort-header]="'numReincidencia'">
+                                    <div class="hidden lg:block text-center" [mat-sort-header]="'numReincidencia'">
                                         Rei.
                                     </div>
                                 </div>
@@ -98,25 +100,33 @@
                                 <ng-container>
                                     <ng-container *ngFor="let os of dataSourceData?.items">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
-                                            <div class="list-grid-ordem-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 text-xs md:px-8 border-b hover:bg-gray-100"
+                                            <div class="list-grid-ordem-servico grid items-center h-6 gap-4 px-1 text-xs md:px-4 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center">
                                                     {{ os.codOS }}
                                                 </div>
 
-                                                <div class="hidden sm:block">
+                                                <div class="hidden sm:block text-center">
                                                     {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                                 </div>
 
-                                                <div class="hidden sm:block"
-                                                    [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
-                                                    {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                                <div class="hidden sm:block">
+                                                    <span>
+                                                        <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                                            'background-color': os.agendamentos?.length >
+                                                            0 ? '#670067' : '',
+                                                            'color': os.agendamentos?.length >
+                                                            0 ?  '#FFFFFF' : '#000000'}">
+                                                            {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm'}}
+                                                        </span>
+                                                    </span>
                                                 </div>
+
 
                                                 <div>
                                                     {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
                                                 </div>
-                                                <div>
+                                                <div class="place-content-center">
                                                     <span [matTooltip]="statusServicoDescricao(os)"
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
@@ -137,26 +147,30 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    <span
-                                                        [matTooltip]="os.statusServico?.codStatusServico == 8 ? tecnicoDescricao(os) : ''"
+                                                <div class="hidden md:block truncate text-center">
+                                                    <span [matTooltip]="os.statusServico?.codStatusServico == 8 ?
+                                                        tecnicoDescricao(os) : os.tecnico?.nome"
                                                         [matTooltipClass]="'os_lista_tooltip'"
                                                         matTooltipPosition="above">
                                                         {{ os.statusServico?.codStatusServico == 8 || filter?.parametros.codTecnicos != '' ? os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) || '--' : '--' }}
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
+                                                <div class="hidden md:block truncate text-center">
                                                     {{ os.regiaoAutorizada?.pa || '--' }}
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
-                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
-                                                </div>
-
-                                                <div class="hidden md:block truncate">
+                                                <div class="hidden text-center md:block truncate" [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
+                                                (os.equipamentoContrato?.autorizada?.nomeFantasia || '')"
+                                                    matTooltipPosition="above">
                                                     {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
                                                     {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}
+                                                </div>
+
+                                                <div class="hidden md:block truncate"
+                                                    [matTooltip]="os.localAtendimento?.nomeLocal"
+                                                    matTooltipPosition="above">
+                                                    {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | uppercase }}
                                                 </div>
 
                                                 <div class="lg:block truncate">
@@ -183,7 +197,7 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="hidden md:block truncate">
+                                                <div>
                                                     <span [matTooltip]="statusSLADescricao(os)"
                                                         matTooltipPosition="above">
                                                         <span class="py-1 px-2 rounded text-xs" [ngStyle]="{

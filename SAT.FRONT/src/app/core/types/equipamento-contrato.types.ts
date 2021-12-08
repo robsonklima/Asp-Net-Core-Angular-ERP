@@ -94,6 +94,7 @@ export interface EquipamentoContratoData extends Meta {
 
 export interface EquipamentoContratoParameters extends QueryStringParameters {
     codEquipContrato?: number;
+    codContrato?: number;
     codPosto?: number;
     indAtivo?: number;
     codFilial?: number;

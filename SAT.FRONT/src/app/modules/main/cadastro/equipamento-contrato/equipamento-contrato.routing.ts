@@ -21,4 +21,8 @@ export const equipamentoContratoRoutes: Route[] = [
         path: 'form/:codEquipContrato',
         component: EquipamentoContratoFormComponent,
     },
+    {
+        path: 'form/:codEquipContrato/:codContrato',
+        component: EquipamentoContratoFormComponent,
+    }
 ];

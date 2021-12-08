@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { MatSort } from '@angular/material/sort';
-import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
@@ -14,24 +14,25 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { StringExtensions } from 'app/core/extensions/string-extensions';
 
 @Component({
     selector: 'ordem-servico-lista',
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 38px 60px 72px 60px 20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
+            grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px auto 50px auto 40px 120px 50px 36px 50px 10px;
             
             @screen sm {
-                grid-template-columns:  48px 72px 92px 92px 36px 36px auto 56px;
+                grid-template-columns:  48px 80px 92px 92px 36px 36px 56px auto;
             }
         
             @screen md {
-                grid-template-columns: 48px 92px 92px 92px 38px 36px auto 58px 58px 58px 58px 58px;
+                grid-template-columns: 48px 92px 92px 92px 38px 36px 58px auto 58px 58px 58px 10px;
             }
         
             @screen lg {
-                grid-template-columns: 38px 60px 72px 60px  20px 48px 50px 30px auto 140px 40px 120px 50px 36px 140px 29px 29px;
+                grid-template-columns: 38px 60px 80px 60px 20px 48px 50px 30px 50px auto 40px 120px 50px 36px 50px 30px;
             }
         }
     `],
@@ -56,6 +57,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         private _cdr: ChangeDetectorRef,
         private _ordemServicoService: OrdemServicoService,
         protected _userService: UserService,
+        private _stringExtensions: StringExtensions,
         private _fileService: FileService
     )
     {
@@ -115,6 +117,9 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
             filter: filter
         };
+
+        if (!this._stringExtensions.isEmptyOrWhiteSpace(filter))
+            params.filterType = OrdemServicoFilterEnum.FILTER_GENERIC_TEXT;
 
         const data: OrdemServicoData = await this._ordemServicoService
             .obterPorParametros({
@@ -209,7 +214,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
                     .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
                         .select(dp => dp.peca?.codMagnus))).toArray();
 
-            if (pecas.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
+            if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
         }
 
         return description;

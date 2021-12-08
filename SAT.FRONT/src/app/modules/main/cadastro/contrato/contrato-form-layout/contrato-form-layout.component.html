@@ -87,7 +87,7 @@
 							</ng-template>
 						  </mat-tab>
 			
-						  <mat-tab [label]="t('servicos')">
+						  <!-- <mat-tab [label]="t('servicos')">
 							<ng-template matTabContent>
 								<div
 								  class="
@@ -102,21 +102,21 @@
 									Weabo
 								  </div>
 							</ng-template>
-						  </mat-tab>
+						  </mat-tab> -->
 			
 						  <mat-tab [label]="t('equipamentos')">
 							<ng-template matTabContent>
 								<div
-								  class="
-									sm:col-span-4
-									lg:col-span-5
+									class="
+									sm:col-span-2
+									lg:col-span-3  
 									flex flex-col flex-auto
 									bg-card
 									shadow
 									rounded-2xl
-									overflow-hidden
-									p-8">
-									Weabo
+									max-w-5xl
+									overflow-hidden">
+									<app-contrato-equipamentos></app-contrato-equipamentos>
 								  </div>
 							</ng-template>
 						  </mat-tab>

@@ -22,6 +22,7 @@ import { EquipamentoContratoFormComponent } from './equipamento-contrato-form/eq
 import { equipamentoContratoRoutes } from './equipamento-contrato.routing';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -39,6 +40,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     RouterModule.forChild(equipamentoContratoRoutes),
     NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
+    MatTooltipModule,
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,

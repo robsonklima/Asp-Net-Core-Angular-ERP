@@ -8,6 +8,7 @@
                         {{ t('contratos') }}
                     </a>
                 </div>
+
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
@@ -15,6 +16,7 @@
                         {{ isAddMode ? t('novo') : t('atualizando') }}
                     </span>
                 </div>
+                
                 <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
@@ -50,7 +52,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('nome-contrato') }}</mat-label>
+                        <mat-label>{{ t('nome contrato') }}</mat-label>
                         <input matInput formControlName="nomeContrato">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>

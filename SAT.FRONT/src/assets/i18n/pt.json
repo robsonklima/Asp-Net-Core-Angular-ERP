@@ -219,6 +219,7 @@
     "modelo": "Modelo",
     "inicio da garantia": "Início da Garantia",
     "fim da garantia": "Fim da Garantia",
+    "garantia": "Garantia",
     "receita": "Receita",
     "repasse": "Repasse",
     "repasse individual": "Repasse Individual",
@@ -311,6 +312,7 @@
     "funcionais eletronicos": "Funcionais (Eletrônicos)",
     "nao funcionais mecanicos": "Não Funcionais (Mecânicos)",
     "lista de modelos": "Lista de Modelos",
+    "lista de equipamentos": "Lista de Equipamentos",
     "multa": "Multa",
     "valor unitario": "Valor Unitário",
     "deletar": "Deletar",
@@ -320,5 +322,10 @@
     "pecas liberadas": "PEÇAS LIBERADAS",
     "dados peca mais faltante": "DADOS PEÇA MAIS FALTANTE",
     "contratos de venda": "Contratos de Venda",
-    "instalacao": "Instalação"
+    "instalacao": "Instalação",
+    "tipo garantia": "Tipo Garantia",
+    "balcao": "Balcão",
+    "on site": "On Site",
+    "cod logix": "Cód. Logix"
+    
 }

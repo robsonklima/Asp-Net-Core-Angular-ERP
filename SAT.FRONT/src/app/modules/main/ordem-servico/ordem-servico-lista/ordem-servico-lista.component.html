@@ -48,10 +48,12 @@
                                     <div class="md:block text-center pl-2" [mat-sort-header]="'codOS'">
                                         {{ t('os') }}
                                     </div>
-                                    <div class="hidden sm:block text-center pl-2" [mat-sort-header]="'dataHoraAberturaOS'">
+                                    <div class="hidden sm:block text-center pl-2"
+                                        [mat-sort-header]="'dataHoraAberturaOS'">
                                         {{ t('abertura') }}
                                     </div>
-                                    <div class="hidden sm:block text-center pl-2" [mat-sort-header]="'dataHoraSolicitacao'">
+                                    <div class="hidden sm:block text-center pl-2"
+                                        [mat-sort-header]="'dataHoraSolicitacao'">
                                         {{ t('solicitacao') }}
                                     </div>
                                     <div class="text-center" [mat-sort-header]="'fimSLA'">
@@ -158,8 +160,8 @@
                                                     {{ os.regiaoAutorizada?.pa || '--' }}
                                                 </div>
 
-                                                <div class="hidden text-center md:block truncate" [matTooltip]="os.equipamentoContrato?.regiao?.nomeRegiao || '--' + ' ' +
-                                                os.equipamentoContrato?.autorizada?.nomeFantasia || ''"
+                                                <div class="hidden text-center md:block truncate" [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
+                                                (os.equipamentoContrato?.autorizada?.nomeFantasia || '')"
                                                     matTooltipPosition="above">
                                                     {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
                                                     {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}

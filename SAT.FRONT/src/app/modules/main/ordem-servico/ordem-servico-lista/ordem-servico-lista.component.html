@@ -108,10 +108,18 @@
                                                     {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
                                                 </div>
 
-                                                <div class="hidden sm:block"
-                                                    [ngClass]="{'font-bold text-purple-800': os.agendamentos?.length > 0}">
-                                                    {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm' }}
+                                                <div class="hidden sm:block">
+                                                    <span>
+                                                        <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
+                                                            'background-color': os.agendamentos?.length >
+                                                            0 ? '#670067' : '',
+                                                            'color': os.agendamentos?.length >
+                                                            0 ?  '#FFFFFF' : '#000000'}">
+                                                            {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm'}}
+                                                        </span>
+                                                    </span>
                                                 </div>
+
 
                                                 <div>
                                                     {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}

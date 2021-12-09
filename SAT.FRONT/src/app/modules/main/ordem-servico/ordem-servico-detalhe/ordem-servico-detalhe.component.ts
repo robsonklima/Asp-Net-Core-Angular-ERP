@@ -36,6 +36,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	usuarioCadastro: Usuario;
+	isLoading: boolean = false;
 
 	public get perfilEnum(): typeof RoleEnum
 	{
@@ -104,12 +105,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private async obterDadosOrdemServico()
 	{
+		this.isLoading = true;
 
-		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+		await this.obterOS();
+		await this.obterUsuarioCadastro();
 
 		if (this.os.agendamentos.length)
 		{
-
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
 
@@ -123,7 +125,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				.first();
 		}
 
-		this.obterUsuarioCadastro();
+		this.isLoading = false;
+	}
+
+	private async obterOS()
+	{
+		this.os =
+			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
 	}
 
 	private async obterUsuarioCadastro()

@@ -88,8 +88,11 @@
                 </div>
             </div>
 
+            <div *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
-                <div class="w-full max-w-screen-xl mx-auto">
+                <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
                     <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>

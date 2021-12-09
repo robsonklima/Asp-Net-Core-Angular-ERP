@@ -109,6 +109,19 @@
                                                 </div>
                                             </div>
 
+                                            <div class="my-2">
+                                                <div>{{ t('aberto por') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                </div>
+                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
+                                                    {{ usuarioCadastro?.fone ? t('contato perto') + ": " +  usuarioCadastro?.fone : '' }}
+                                                </div>
+                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
+                                                    {{ usuarioCadastro?.fax ? t('contato pessoal') + ": " + usuarioCadastro?.fax : '' }}
+                                                </div>
+                                            </div>
+
                                             <div class="my-2" *ngIf="ultimoAgendamento">
                                                 <div>{{ t('agendamento') }}</div>
                                                 <div class="text-secondary text-md w-2/5" matTooltipPosition="right"

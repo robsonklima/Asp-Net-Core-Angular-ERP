@@ -217,28 +217,29 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   /** Atendimentos */
 
-  private carregaOSs()
+  private async carregaOSs()
   {
-    Enumerable.from(this.chamados)
+    var osPorTecnico = Enumerable.from(this.chamados)
       .where(os => os.tecnico != null)
-      .groupBy(os => os.codTecnico)
-      .forEach(async osPorTecnico =>
+      .groupBy(os => os.codTecnico);
+
+    for (const t of osPorTecnico)
+    {
+      var codTecnico: number = t.key();
+      var mediaTecnico = t.firstOrDefault().tecnico.mediaTempoAtendMin;
+      mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
+
+      for (const os of t)
       {
-        var codTecnico: number = osPorTecnico.key();
-        var mediaTecnico = osPorTecnico.firstOrDefault().tecnico.mediaTempoAtendMin;
-        mediaTecnico = mediaTecnico > 60 ? mediaTecnico : 60;
+        var agenda = Enumerable.from(os.agendaTecnico)
+          .firstOrDefault(i => i.codTecnico == codTecnico);
 
-        for (const os of osPorTecnico)
-        {
-          var agenda = Enumerable.from(os.agendaTecnico)
-            .firstOrDefault(i => i.codTecnico == codTecnico);
+        var evento = os.agendaTecnico.length && agenda != null ?
+          this.exibeEventoOSExistente(agenda, os) : (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
 
-          var evento = os.agendaTecnico.length && agenda != null ?
-            this.exibeEventoOSExistente(agenda, os) : (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
-
-          this.events = this.events.concat(evento);
-        }
-      });
+        this.events = this.events.concat(evento);
+      }
+    }
 
     this.validateEvents();
   }

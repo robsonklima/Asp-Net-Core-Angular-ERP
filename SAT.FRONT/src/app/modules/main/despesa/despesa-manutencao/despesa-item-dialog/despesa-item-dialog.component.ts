@@ -195,7 +195,8 @@ export class DespesaItemDialogComponent implements OnInit
       tentativaKM: this.tentativaKm.toString(),
       obs: this.despesaItemForm.value.step3.obs,
       latitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeOrigem : null,
-      longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null
+      longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null,
+      indAtivo: 1
     };
 
     return despesaItem;
@@ -223,7 +224,8 @@ export class DespesaItemDialogComponent implements OnInit
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
       codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
       codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
-      obs: this.despesaItemForm.value.step3.obs
+      obs: this.despesaItemForm.value.step3.obs,
+      indAtivo: 1
     };
 
     return despesaItem;

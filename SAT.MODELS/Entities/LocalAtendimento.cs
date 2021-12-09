@@ -42,7 +42,8 @@ namespace SAT.MODELS.Entities
         [Column("DistanciaKmPAT_Res")]
         public decimal? DistanciaKmPatRes { get; set; }
         public string Observacao { get; set; }
-        public byte IndAtivo { get; set; }
+        public byte? IndAtivo { get; set; }
+        public byte? IndPAE_DEL { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }

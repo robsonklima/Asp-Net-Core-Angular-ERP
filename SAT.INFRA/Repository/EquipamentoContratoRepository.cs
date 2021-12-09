@@ -100,78 +100,40 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.TipoEquipamento)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                equips = equips.Where(
-                    e =>
-                    e.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    e.CodEquipContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+                equips = equips.Where(e =>
+                    e.NumSerie.Contains(parameters.Filter) ||
+                    e.CodEquipContrato.ToString().Contains(parameters.Filter));
 
-            if (parameters.CodEquipContrato != null)
-            {
+            if (parameters.CodEquipContrato.HasValue)
                 equips = equips.Where(e => e.CodEquipContrato == parameters.CodEquipContrato);
-            }
 
-            if (parameters.CodPosto != null)
-            {
+            if (parameters.CodPosto.HasValue)
                 equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
-            }
 
-            if (parameters.CodContrato != null)
-            {
+            if (parameters.CodContrato.HasValue)
                 equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
-            } 
 
-            if (parameters.CodFilial != null)
-            {
+            if (parameters.CodFilial.HasValue)
                 equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
-            }
 
-            if (parameters.IndAtivo != null)
-            {
+            if (parameters.IndAtivo.HasValue)
                 equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
             }
 
-            if (parameters.CodFiliais != null)
+            if (!string.IsNullOrEmpty(parameters.CodEquipamentos))
             {
-                var paramsSplit = parameters.CodFiliais.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
-                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
-                }
-
-                equips = equips.Where(condicoes);
+                var codigos = parameters.CodEquipamentos.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => codigos.Any(p => p == e.CodEquip.ToString()));
             }
 
-            if (parameters.CodEquipamentos != null)
-            {
-                var paramsSplit = parameters.CodEquipamentos.Split(',');
-                paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var condicoes = string.Empty;
-
-                for (int i = 0; i < paramsSplit.Length; i++)
-                {
-                    condicoes += string.Format("CodEquip={0}", paramsSplit[i]);
-                    if (i < paramsSplit.Length - 1) condicoes += " Or ";
-                }
-
-                equips = equips.Where(condicoes);
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-                equips = equips.OrderByDescending(e => e.IndAtivo.Equals(1));
-
-            }
-
-            var a = equips.ToQueryString();
 
             return PagedList<EquipamentoContrato>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }

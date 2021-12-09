@@ -23,16 +23,16 @@ namespace SAT.MODELS.Helpers
 
         public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize, IEqualityComparer<T> comparer = null)
         {
-            try
-            {
-                var count = source.Count();
-                var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-                return new PagedList<T>(items, count, pageNumber, pageSize, comparer);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            // try
+            // {
+            var count = source.Count();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            return new PagedList<T>(items, count, pageNumber, pageSize, comparer);
+            // }
+            // catch (Exception)
+            // {
+            //     throw;
+            // }
         }
 
         public static PagedList<T> ToPagedList(List<T> source, int pageNumber, int pageSize)

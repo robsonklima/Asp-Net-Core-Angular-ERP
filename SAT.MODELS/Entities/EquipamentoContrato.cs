@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,15 +46,15 @@ namespace SAT.MODELS.Entities
         public DateTime? DataInicGarantia { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? DataFimGarantia { get; set; }
-        public byte IndReceita { get; set; }
+        public byte? IndReceita { get; set; }
         public decimal ValorReceita { get; set; }
-        public byte IndRepasse { get; set; }
-        public byte IndRepasseIndividual { get; set; }
+        public byte? IndRepasse { get; set; }
+        public byte? IndRepasseIndividual { get; set; }
         public decimal? ValorRepasse { get; set; }
         public decimal ValorDespesa { get; set; }
         public decimal? ValorDespesaInstalacao { get; set; }
-        public byte IndInstalacao { get; set; }
-        public byte IndAtivo { get; set; }
+        public byte? IndInstalacao { get; set; }
+        public byte? IndAtivo { get; set; }
         public DateTime? DataAtivacao { get; set; }
         public DateTime? DataDesativacao { get; set; }
         public string CodUsuarioCad { get; set; }

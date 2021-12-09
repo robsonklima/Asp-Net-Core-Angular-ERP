@@ -39,7 +39,7 @@ namespace SAT.MODELS.Entities
         public int IsValorAtualizado { get; set; }
         public byte? ListaBackup { get; set; }
         public string DtObsoleto { get; set; }
-        public byte? UtilizadoDss { get; set; }
+        public byte? UtilizadoDSS { get; set; }
         public byte? ItemLogix { get; set; }
         public int? HierarquiaPesquisa { get; set; }
         public double? IndiceDeTroca { get; set; }

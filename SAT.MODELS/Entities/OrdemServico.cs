@@ -99,6 +99,7 @@ namespace SAT.MODELS.Entities
         public float? TempoEfetSolucao { get; set; }
         public byte? IndAcertoParque { get; set; }
         public byte? IndEndossado { get; set; }
+        public byte? IndRevOK { get; set; }
         public string CodUsuarioAcertoParque { get; set; }
         public DateTime? DataAcertoParque { get; set; }
         public byte? IndRevOk { get; set; }

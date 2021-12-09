@@ -14,6 +14,7 @@ namespace SAT.MODELS.Entities
         public string CorFonte { get; set; }
         public byte? TamFonte { get; set; }
         public byte? IndNegrito { get; set; }
+        public int? CodTraducao { get; set; }
         public string Abrev { get; set; }
         public byte? IndServico { get; set; }
         public byte IndAtivo { get; set; }

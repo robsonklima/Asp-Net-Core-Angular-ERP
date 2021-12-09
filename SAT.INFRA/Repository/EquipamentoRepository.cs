@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
-    public class EquipamentoRepository : IEquipamentoRepository
+    public partial class EquipamentoRepository : IEquipamentoRepository
     {
         private readonly AppDbContext _context;
 
@@ -29,25 +29,10 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.GrupoEquipamento)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                equips = equips.Where(
-                    e =>
-                    e.CodEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    e.CodEEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    e.NomeEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
+            equips = AplicarFiltros(equips, parameters);
 
-            if (parameters.CodEquip != null)
-            {
-                equips = equips.Where(e => e.CodEquip == parameters.CodEquip);
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<Equipamento>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }

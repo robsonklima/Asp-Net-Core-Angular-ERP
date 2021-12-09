@@ -17,7 +17,7 @@ namespace SAT.MODELS.Entities
         public int? CodOrigemCausa { get; set; }
         public int CodAcao { get; set; }
         public int? CodServico { get; set; }
-        public int? IndDefeitoMaquina { get; set; }
+        public byte? IndDefeitoMaquina { get; set; }
         public string CodUsuarioCad { get; set; }
         public int CodOS { get; set; }
         public DateTime? DataHoraCad { get; set; }

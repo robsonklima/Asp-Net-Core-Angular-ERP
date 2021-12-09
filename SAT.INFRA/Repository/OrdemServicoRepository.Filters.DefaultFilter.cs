@@ -9,7 +9,7 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<OrdemServico> AplicarFiltroPadrao(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
         {
-            if (!string.IsNullOrEmpty(parameters.Filter))
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 query = query.Where(t =>
                     t.CodOS.ToString().Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||

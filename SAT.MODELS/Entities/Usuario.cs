@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SAT.MODELS.Entities
 {
     public class Usuario
     {
-        [Key]
         public string CodUsuario { get; set; }
         public int? CodFilial { get; set; }
         public int? CodAutorizada { get; set; }
@@ -31,7 +28,7 @@ namespace SAT.MODELS.Entities
         public string Endereco { get; set; }
         public string Bairro { get; set; }
         public string Fone { get; set; }
-        public string Fax { get; set; }
+        public string FoneParticular { get; set; }
         public string Ramal { get; set; }
         public string Email { get; set; }
         public string NumCracha { get; set; }
@@ -49,45 +46,19 @@ namespace SAT.MODELS.Entities
         public string Complemento { get; set; }
         public int? CodTransportadora { get; set; }
         public bool? IndPermiteRegistrarEquipPOS { get; set; }
-        
-
         [JsonIgnore]
         public string Senha { get; set; }
-
-        
-        [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
-
-        [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }
-
         public int? CodCliente { get; set; }
-        [ForeignKey("CodCliente")]
         public Cliente Cliente { get; set; }
-
-        [ForeignKey("CodCidade")]
         public Cidade Cidade { get; set; }
-
-        [ForeignKey("CodPerfil")]
         public Perfil Perfil { get; set; }
-
-        [ForeignKey("CodCargo")]
         public Cargo Cargo { get; set; }
-
-        [ForeignKey("CodTurno")]
         public Turno Turno { get; set; }
-
-        [ForeignKey("CodUsuario")]
         public List<Localizacao> Localizacoes { get; set; }
-
-        [ForeignKey("CodUsuario")]
         public List<PontoPeriodoUsuario> PontosPeriodoUsuario { get; set; }
-
-        [ForeignKey("CodUsuario")]
         public List<PontoUsuario> PontosUsuario { get; set; }
-
-        [ForeignKey("CodFilialPonto")]
-        [Column("CodFilial")]
         public Filial FilialPonto { get; set; }
     }
 }

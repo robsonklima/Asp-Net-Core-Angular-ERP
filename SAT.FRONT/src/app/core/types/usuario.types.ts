@@ -35,7 +35,7 @@ export class Usuario
     endereco: string;
     bairro: string;
     fone: string;
-    fax?: any;
+    foneParticular?: any;
     ramal?: any;
     email?: any;
     numCracha?: any;

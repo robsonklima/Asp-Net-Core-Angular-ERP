@@ -45,19 +45,20 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
   {
     this.isLoading = true;
 
+    var statusNotIn = StatusServicoEnum.FECHADO.toString().concat(",").concat(StatusServicoEnum.TRANSFERIDO.toString());
+
     this.dataSourceData = await this._ordemServicoService
       .obterPorParametros({
         sortActive: 'codOS',
         sortDirection: 'desc',
         pageSize: 100,
         filter: filter,
-        codStatusServicos: StatusServicoEnum.ABERTO,
+        notIn_CodStatusServicos: statusNotIn,
         ...this.filter?.parametros,
       })
       .toPromise();
 
     this.externalEvents = Enumerable.from(this.dataSourceData.items)
-      .where(i => i.codTecnico == null)
       .select(os =>
       {
         return {

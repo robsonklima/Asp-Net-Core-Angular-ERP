@@ -17,7 +17,6 @@ import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import Enumerable from 'linq';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -29,6 +28,7 @@ import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.t
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-ordem-servico-filtro',

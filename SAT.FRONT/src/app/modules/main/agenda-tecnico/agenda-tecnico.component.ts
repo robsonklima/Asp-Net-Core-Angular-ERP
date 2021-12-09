@@ -234,8 +234,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         var agenda = Enumerable.from(os.agendaTecnico)
           .firstOrDefault(i => i.codTecnico == codTecnico);
 
-        var evento = os.agendaTecnico.length && agenda != null ?
-          this.exibeEventoOSExistente(agenda, os) : (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
+        var evento;
+
+        if (os.agendaTecnico.length && agenda != null)
+        {
+          if (os.codStatusServico != StatusServicoEnum.FECHADO && moment(agenda.inicio).date() < moment().date())
+            evento = (await this.atualizaEventoOSExistente(os, agenda, mediaTecnico, codTecnico));
+          else
+            evento = this.exibeEventoOSExistente(agenda, os)
+        }
+        else
+          evento = (await this.criaNovoEventoOS(os, mediaTecnico, codTecnico));
 
         this.events = this.events.concat(evento);
       }
@@ -245,6 +254,26 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   private async criaNovoEventoOS(os: OrdemServico, mediaTecnico: number, codTecnico: number)
+  {
+    var evento: MbscAgendaTecnicoCalendarEvent = this.calculaInicioDoProximoEvento(os, mediaTecnico, codTecnico);
+
+    var agendaTecnico: AgendaTecnico =
+    {
+      inicio: moment(evento.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(evento.end).format('yyyy-MM-DD HH:mm:ss'),
+      codOS: os.codOS,
+      codTecnico: os.codTecnico,
+      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+      tipo: "OS"
+    }
+
+    var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
+
+    evento.codAgendaTecnico = ag?.codAgendaTecnico;
+    return evento;
+  }
+
+  private calculaInicioDoProximoEvento(os: OrdemServico, mediaTecnico: number, codTecnico: number)
   {
     var ultimoEvento = Enumerable.from(this.events)
       .where(i => i.resource == codTecnico && i.title != 'INTERVALO')
@@ -283,19 +312,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       resource: os.tecnico?.codTecnico,
     }
 
-    var agendaTecnico: AgendaTecnico =
-    {
-      inicio: start.format('yyyy-MM-DD HH:mm:ss'),
-      fim: end.format('yyyy-MM-DD HH:mm:ss'),
-      codOS: os.codOS,
-      codTecnico: os.codTecnico,
-      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
-      tipo: "OS"
-    }
+    return evento;
+  }
 
-    var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
+  private async atualizaEventoOSExistente(os: OrdemServico, agenda: AgendaTecnico, mediaTecnico: number, codTecnico: number)
+  {
+    var evento: MbscAgendaTecnicoCalendarEvent = this.calculaInicioDoProximoEvento(os, mediaTecnico, codTecnico);
 
-    evento.codAgendaTecnico = ag?.codAgendaTecnico;
+    agenda.inicio = moment(evento.start).format('yyyy-MM-DD HH:mm:ss');
+    agenda.fim = moment(evento.end).format('yyyy-MM-DD HH:mm:ss');
+    agenda.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
+
+    (await this._agendaTecnicoSvc.atualizar(agenda).toPromise());
     return evento;
   }
 
@@ -346,6 +374,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
             resource: tecnico.codTecnico
           });
       });
+
     return pontos;
   }
 

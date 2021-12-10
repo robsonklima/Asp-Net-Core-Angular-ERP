@@ -69,17 +69,20 @@
                             </div>
                         </mat-error>
                     </mat-form-field>
-
+                    
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
-
-                        <mat-select formControlName="codCliente" [disabled]="!clientes?.length">
+                        <mat-select formControlName="codCliente">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
-                                {{cliente.nomeFantasia}}
+                                {{ cliente.nomeFantasia }}
                             </mat-option>
                         </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                        <mat-error>Preencher este campo</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -175,7 +178,7 @@
                         <mat-label>{{ t('filial') }}</mat-label>
 
                         <mat-select formControlName="codFilial">
-                            <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            <mat-option *ngFor="let filial of filiais" [value]="filial?.codFilial">
                                 {{ filial.nomeFilial }}
                             </mat-option>
                         </mat-select>

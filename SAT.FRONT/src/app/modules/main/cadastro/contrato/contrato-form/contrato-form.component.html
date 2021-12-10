@@ -44,11 +44,15 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
                         <mat-select formControlName="codCliente">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
-                                {{cliente.nomeFantasia}}
+                                {{ cliente.nomeFantasia }}
                             </mat-option>
                         </mat-select>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -101,7 +105,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('data contrato') }}</mat-label>
-                        <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataContrato">
+                        <input matInput  (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataContrato">
                         <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
                         <mat-datepicker #contratoData ></mat-datepicker>
                         <mat-error>{{t('preencher campo')}}</mat-error>

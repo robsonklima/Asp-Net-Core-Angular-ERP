@@ -30,7 +30,6 @@ export class ContratoFiltroComponent extends FilterBase implements OnInit, IFilt
 
   constructor (
     private _tipoContratoService: TipoContratoService,
-    private _equipamentoService: EquipamentoService,
     private _clienteService: ClienteService,
     protected _userService: UserService,
     protected _formBuilder: FormBuilder

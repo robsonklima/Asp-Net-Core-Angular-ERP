@@ -62,6 +62,9 @@ export class AgendaTecnico
     inicio: string;
     fim: string;
     indAgendamento: number;
+    usuarioAtualizacao?: string;
+    cadastro: string;
+    usuarioCadastro: string;
 }
 
 export enum AgendaTecnicoTypeEnum

@@ -13,8 +13,11 @@ namespace SAT.MODELS.Entities
         public DateTime Fim { get; set; }
         public AgendaTecnicoTypeEnum Tipo { get; set; }
         public int IndAgendamento { get; set; }
-        public DateTime? UltimaAtualizacao { get; set; }
         public int? CodOS { get; set; }
         public OrdemServico OrdemServico { get; set; }
+        public DateTime? UltimaAtualizacao { get; set; }
+        public string UsuarioAtualizacao { get; set; }
+        public DateTime Cadastro { get; set; }
+        public string UsuarioCadastro { get; set; }
     }
 }

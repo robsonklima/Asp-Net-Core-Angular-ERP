@@ -71,7 +71,9 @@ namespace SAT.SERVICES.Services
                 CodTecnico = codTecnico,
                 UltimaAtualizacao = DateTime.Now,
                 Tipo = AgendaTecnicoTypeEnum.OS,
-                IndAgendamento = 0
+                IndAgendamento = 0,
+                UsuarioCadastro = "ADMIN",
+                Cadastro = DateTime.Now
             };
 
             var ag = this._agendaRepo.Criar(agendaTecnico);
@@ -96,6 +98,7 @@ namespace SAT.SERVICES.Services
                 agendaTecnicoAnterior.Cor = this.IsAgendamentoColor;
                 agendaTecnicoAnterior.UltimaAtualizacao = DateTime.Now;
                 agendaTecnicoAnterior.IndAgendamento = 1;
+                agendaTecnicoAnterior.UsuarioAtualizacao = "ADMIN";
 
                 var ag = this._agendaRepo.Atualizar(agendaTecnicoAnterior);
                 agendasTecnico.Add(ag);
@@ -115,7 +118,9 @@ namespace SAT.SERVICES.Services
                     CodTecnico = codTecnico,
                     UltimaAtualizacao = DateTime.Now,
                     Tipo = AgendaTecnicoTypeEnum.OS,
-                    IndAgendamento = 1
+                    IndAgendamento = 1,
+                    UsuarioCadastro = "ADMIN",
+                    Cadastro = DateTime.Now
                 };
 
                 var ag = this._agendaRepo.Criar(agendaTecnico);
@@ -165,6 +170,8 @@ namespace SAT.SERVICES.Services
 
                 e.Inicio = start;
                 e.Fim = end;
+                e.UsuarioAtualizacao = "ADMIN";
+                e.UltimaAtualizacao = DateTime.Now;
                 var ag = this._agendaRepo.Atualizar(e);
 
                 ultimoEvento = ag;
@@ -176,12 +183,6 @@ namespace SAT.SERVICES.Services
         {
             return 5;
         }
-
-        private AgendaTecnico AtualizaAgendaTecnico(AgendaTecnico atual, AgendaTecnico anterior)
-        {
-            return null;
-        }
-
         public string GetTypeColor(AgendaTecnicoTypeEnum type)
         {
             switch (type)

@@ -167,7 +167,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codTecnicos: this.filter?.parametros?.codTecnicos
     }).toPromise()).items;
 
-
     this.agendaTecnicos = (await this._agendaTecnicoSvc.obterPorParametros({
       codFiliais: this.filter?.parametros?.codFiliais,
       codTecnicos: this.filter?.parametros?.codTecnicos,
@@ -254,7 +253,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       cor: this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS),
       ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
       tipo: AgendaTecnicoTypeEnum.OS,
-      indAgendamento: 0
+      indAgendamento: 0,
+      usuarioCadastro: this.userSession.usuario.codUsuario,
+      cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
@@ -338,6 +339,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     agenda.inicio = moment(ev.start).format('yyyy-MM-DD HH:mm:ss');
     agenda.fim = moment(ev.end).format('yyyy-MM-DD HH:mm:ss');
     agenda.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
+    agenda.usuarioAtualizacao = this.userSession.usuario.codUsuario;
 
     if (moment(ev.end) > moment())
     {

@@ -6,6 +6,8 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
 
 @Component({
@@ -20,6 +22,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   codTecnico: number;
   form: FormGroup;
   initialTime: string;
+  userSession: UserSession;
   isLoading: boolean = false;
 
   constructor (
@@ -28,6 +31,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     private _formBuilder: FormBuilder,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     private _notify: Notifications,
+    private _userService: UserService,
     private _tecnicoSvc: TecnicoService)
   {
     if (data)
@@ -36,7 +40,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
       this.initialTime = data.initialTime;
       this.codTecnico = data.codTecnico;
     }
-
+    this.userSession = JSON.parse(this._userService.userSession);
     this.criarForm();
   }
 
@@ -72,6 +76,8 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+    agendamento.usuarioAtualizacao = this.userSession.usuario.codUsuario;
+    agendamento.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
 
     await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
     {

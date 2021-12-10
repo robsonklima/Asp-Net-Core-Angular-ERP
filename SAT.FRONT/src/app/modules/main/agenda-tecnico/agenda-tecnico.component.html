@@ -1,4 +1,4 @@
-<mat-drawer-container class="flex-auto h-full" [hasBackdrop]="false">
+<mat-drawer-container [hasBackdrop]="false">
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
@@ -8,9 +8,6 @@
     </mat-drawer>
 
     <mat-drawer-content>
-        <div class="loading-shade" *ngIf="loading">
-            <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
-        </div>
 
         <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
@@ -20,25 +17,26 @@
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
-        <div class="lg:max-h-200 md:max-h-200" *ngIf="!loading">
-            <div>
-                <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
-                    [resourceTemplate]="resourceTemplate">
-                </mbsc-eventcalendar>
-            </div>
-
-            <ng-template #resourceTemplate let-resource>
-                <a (click)="abrirMapa(resource.id)">
-                    <img class="md-meeting-participant-avatar" [src]="resource.img"
-                        onError="this.src='./assets/images/avatars/profile.jpg';"
-                        [ngClass]="{'opacity-10': resource.indFerias}" />
-                    <div class="cursor-pointer" [ngClass]="{'text-gray-400': resource.indFerias}"
-                        [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
-
-                        <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
-                    </div>
-                </a>
-            </ng-template>
+        <div>
+            <mbsc-eventcalendar class="h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"
+                [resourceTemplate]="resourceTemplate" *ngIf="!loading">
+            </mbsc-eventcalendar>
         </div>
+        <div class="loading-indicator" *ngIf="loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </div>
+
+        <ng-template #resourceTemplate let-resource>
+            <a (click)="abrirMapa(resource.id)">
+                <img class="md-meeting-participant-avatar" [src]="resource.img"
+                    onError="this.src='./assets/images/avatars/profile.jpg';"
+                    [ngClass]="{'opacity-10': resource.indFerias}" />
+                <div class="cursor-pointer" [ngClass]="{'text-gray-400': resource.indFerias}"
+                    [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
+
+                    <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
+                </div>
+            </a>
+        </ng-template>
     </mat-drawer-content>
 </mat-drawer-container>

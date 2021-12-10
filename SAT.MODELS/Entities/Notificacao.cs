@@ -16,5 +16,6 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
         public string Link { get; set; }
+        public byte? IndAtivo { get; set; }
     }
 }

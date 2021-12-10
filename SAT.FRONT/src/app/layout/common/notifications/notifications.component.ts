@@ -6,7 +6,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatButton } from '@angular/material/button';
 import { interval, Subject } from 'rxjs';
-import { Notification } from 'app/layout/common/notifications/notifications.types';
+import { Notificacao } from 'app/layout/common/notifications/notifications.types';
 import { NotificationsService } from 'app/layout/common/notifications/notifications.service';
 import moment from 'moment';
 import { startWith } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     @ViewChild('notificationsOrigin') private _notificationsOrigin: MatButton;
     @ViewChild('notificationsPanel') private _notificationsPanel: TemplateRef<any>;
 
-    notifications: Notification[];
+    notifications: Notificacao[];
     unreadCount: number = 0;
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -47,22 +47,24 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private obterNotificacoes(): any {
         this.notifications = [
             {
-                id: '1',
-                icon: 'heroicons_solid:star',
-                title: 'Tarefa Concluída',
-                description: 'Sua tarefa de suporte <strong>3881</strong> foi finalizada',
-                time: moment().subtract(25, 'minutes').toISOString(), // 25 minutes ago
-                read: false
+                codNotificacao: 1,
+                icone: 'heroicons_solid:star',
+                titulo: 'Tarefa Concluída',
+                descricao: 'Sua tarefa de suporte <strong>3881</strong> foi finalizada',
+                dataHoraCad: moment().subtract(25, 'minutes').toISOString(), // 25 minutes ago
+                lida: 0,
+                indAtivo: 1,
             },
             {
-                id: '2',
-                icon: 'heroicons_solid:clipboard',
-                title: 'Chamado Aberto',
-                description: '<strong>João</strong> abriu um chamado para o contrato <em>Banco do Brasil Acompanhamento</em>',
-                time: moment().subtract(50, 'minutes').toISOString(), // 50 minutes ago
-                read: false,
+                codNotificacao: 2,
+                icone: 'heroicons_solid:clipboard',
+                titulo: 'Chamado Aberto',
+                descricao: '<strong>João</strong> abriu um chamado para o contrato <em>Banco do Brasil Acompanhamento</em>',
+                dataHoraCad: moment().subtract(50, 'minutes').toISOString(), // 50 minutes ago
+                lida: 0,
                 link: '/ordem-servico/lista',
-                useRouter: true
+                useRouter: 1,
+                indAtivo: 1
             }
         ];
     }
@@ -89,29 +91,29 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     markAllAsRead(): void {
         // Mark all as read
         this.notifications.forEach((notification, index) => {
-            this.notifications[index].read = true;
+            this.notifications[index].lida = 1;
         });
 
         this._calculateUnreadCount();
         this._changeDetectorRef.markForCheck();
     }
 
-    toggleRead(notification: Notification): void {
+    toggleRead(notification: Notificacao): void {
         // Toggle the read status
-        notification.read = !notification.read;
+        notification.lida = +!notification.lida;
 
-        const index = this.notifications.findIndex(item => item.id === notification.id);
+        const index = this.notifications.findIndex(item => item.codNotificacao === notification.codNotificacao);
 
         this.notifications[index] = notification;
         this._calculateUnreadCount();
         this._changeDetectorRef.markForCheck();
     }
 
-    delete(notification: Notification): void {
+    delete(notification: Notificacao): void {
         // Delete the notification
-        this._notificationsService.delete(notification.id).subscribe();
+        this._notificationsService.delete(notification.codNotificacao).subscribe();
 
-        const index = this.notifications.findIndex(item => item.id === notification.id);
+        const index = this.notifications.findIndex(item => item.codNotificacao === notification.codNotificacao);
         this.notifications.splice(index, 1);
 
         this._calculateUnreadCount();
@@ -170,7 +172,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         let count = 0;
 
         if (this.notifications && this.notifications.length) {
-            count = this.notifications.filter(notification => !notification.read).length;
+            count = this.notifications.filter(notification => !notification.lida).length;
         }
 
         this.unreadCount = count;

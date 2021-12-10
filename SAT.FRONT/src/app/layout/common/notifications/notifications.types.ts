@@ -1,12 +1,15 @@
-export interface Notification
+export interface Notificacao
 {
-    id: string;
-    icon?: string;
-    image?: string;
-    title?: string;
-    description?: string;
-    time: string;
+    codNotificacao: number;
+    titulo?: string;
+    descricao?: string;
+    icone?: string;
+    lida?: number;
     link?: string;
-    useRouter?: boolean;
-    read: boolean;
+    dataHoraCad?: string;
+    codUsuarioCad?: string;
+    dataHoraManut?: string;
+    codUsuarioManut?: string;
+    indAtivo: number;
+    useRouter?: number;
 }

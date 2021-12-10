@@ -1,4 +1,5 @@
 ﻿using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
@@ -7,6 +8,7 @@ namespace SAT.SERVICES.Interfaces
         AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters);
         AgendaTecnico CriarAgendaTecnico(int codOS);
         AgendaTecnico ObterPorCodigo(int codigo);
+        ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         void Deletar(int codigo);
         void Criar(AgendaTecnico agenda);

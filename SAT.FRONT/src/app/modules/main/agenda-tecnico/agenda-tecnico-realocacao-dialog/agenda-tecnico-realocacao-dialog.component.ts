@@ -9,6 +9,7 @@ import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
+import { AgendaTecnicoValidator } from '../agenda-tecnico.validator';
 
 @Component({
   selector: 'app-agenda-tecnico-realocacao-dialog',
@@ -32,6 +33,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     private _agendaTecnicoSvc: AgendaTecnicoService,
     private _notify: Notifications,
     private _userService: UserService,
+    private _validator: AgendaTecnicoValidator,
     private _tecnicoSvc: TecnicoService)
   {
     if (data)
@@ -76,6 +78,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+    agendamento.cor = this._validator.getRealocationStatusColor(moment(this.initialTime));
     agendamento.usuarioAtualizacao = this.userSession.usuario.codUsuario;
     agendamento.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
 

@@ -31,7 +31,7 @@ export interface AgendaTecnicoParameters extends QueryStringParameters
     codOS?: number;
     codTecnico?: number;
     inicio?: string;
-    tipo?: string;
+    tipo?: AgendaTecnicoTypeEnum;
     fim?: string;
     data?: string;
     inicioPeriodoAgenda?: string;

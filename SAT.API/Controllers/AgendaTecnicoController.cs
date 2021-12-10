@@ -20,10 +20,16 @@ namespace SAT.API.Controllers
             _agendaServ = agendaServ;
         }
 
-        [HttpGet]
-        public AgendaTecnico[] Get([FromQuery] AgendaTecnicoParameters parameters)
+        [HttpGet("Agenda")]
+        public AgendaTecnico[] GetAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterAgendaTecnico(parameters);
+        }
+
+        [HttpGet]
+        public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
+        {
+            return _agendaServ.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAgendaTecnico}")]

@@ -20,6 +20,10 @@ import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realoca
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { fuseAnimations } from '@fuse/animations';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePt, 'pt');
 
 setOptions({
   locale: localePtBR,
@@ -169,9 +173,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.registerEmitters();
   }
 
-  private async obterDados()
+  private async obterDados(showLoading: boolean = true)
   {
-    this.loading = true;
+    this.loading = showLoading;
 
     this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
@@ -182,7 +186,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codTecnicos: this.filter?.parametros?.codTecnicos
     }).toPromise()).items;
 
-    this.agendaTecnicos = (await this._agendaTecnicoSvc.obterPorParametros({
+    this.agendaTecnicos = (await this._agendaTecnicoSvc.obterAgendaTecnico({
       codFiliais: this.filter?.parametros?.codFiliais,
       codTecnicos: this.filter?.parametros?.codTecnicos,
       inicioPeriodoAgenda: this.weekStart,
@@ -231,10 +235,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async checkForWarnings(ev, args, inst)
   {
     var isFromSameRegion = (await this._validator.isTecnicoDaRegiaoDoChamado(ev.ordemServico, ev.resource));
+    var isAgendado = ev.indAgendamento == 1;
 
     if (!isFromSameRegion)
     {
       var message: string = `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`;
+      await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
+    }
+
+    if (isAgendado)
+    {
+      var message: string = `Você transferiu um chamado com agendamento marcado. Ele será realocado automaticamente.`;
       await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
     }
 
@@ -263,27 +274,38 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     var agendaTecnico: AgendaTecnico =
     {
-      inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
-      fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
+      inicio: moment(ev.dataAgendamento).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(ev.dataAgendamento).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss'),
       codOS: ev.ordemServico.codOS,
       codTecnico: ev.resource,
       titulo: ev.ordemServico.localAtendimento.nomeLocal.toUpperCase(),
       cor: this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS),
       ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
       tipo: AgendaTecnicoTypeEnum.OS,
-      indAgendamento: 0,
+      indAgendamento: ev.indAgendamento,
       usuarioCadastro: this.userSession.usuario.codUsuario,
       cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+    };
+
+    if (ev.indAgendamento == 1)
+    {
+      agendaTecnico.inicio = moment(ev.dataAgendamento).format('yyyy-MM-DD HH:mm:ss');
+      agendaTecnico.fim = moment(ev.dataAgendamento).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+      agendaTecnico.cor = this._validator.agendamentoColor();
+      agendaTecnico.indAgendamento = 1;
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
 
     if (ag != null)
     {
+      if (ag.indAgendamento == 1) this.obterDados(false);
+
       var os = (await this._osSvc.obterPorCodigo(ev.ordemServico.codOS).toPromise());
 
       os.codTecnico = ag.codTecnico;
       os.dataHoraTransf = ag.ultimaAtualizacao;
+      os.codUsuarioManut = ag.usuarioCadastro;
       os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       ev.codAgendaTecnico = ag.codAgendaTecnico;
@@ -296,7 +318,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           message: 'Atendimento agendado com sucesso.',
           color: 'success'
         });
-
         return true;
       }
       else
@@ -465,17 +486,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     if (moment(args.date) < now) return;
 
     var agendamentosTecnico = (await this._agendaTecnicoSvc.obterPorParametros({
-      codFiliais: this.filter?.parametros?.codFiliais,
-      inicioPeriodoAgenda: this.weekStart,
-      fimPeriodoAgenda: this.weekEnd,
       sortActive: 'nome',
       sortDirection: 'asc',
+      tipo: AgendaTecnicoTypeEnum.OS,
       codTecnico: codTecnico
     }).toPromise());
 
     var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
 
-    Enumerable.from(agendamentosTecnico).where(i => i.indAgendamento == 0).forEach(i =>
+    Enumerable.from(agendamentosTecnico.items).where(i => i.indAgendamento == 0).forEach(i =>
     {
       atendimentosTecnico.push(
         {
@@ -504,7 +523,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     dialog.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-        this.obterDados();
+        this.obterDados(false);
     });
   }
 

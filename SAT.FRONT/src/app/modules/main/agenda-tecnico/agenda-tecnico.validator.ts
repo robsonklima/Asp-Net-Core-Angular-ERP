@@ -177,4 +177,21 @@ export class AgendaTecnicoValidator
                 return "#C8C8C8C8";
         }
     }
+
+    public agendamentoColor(): string
+    {
+        return '#381354';
+    }
+
+    public lateColor(): string
+    {
+        return '#ff4c4c';
+    }
+
+    public getRealocationStatusColor(referenceTime: Moment): string
+    {
+        if (referenceTime < moment())
+            return this.lateColor();
+        return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
+    }
 }

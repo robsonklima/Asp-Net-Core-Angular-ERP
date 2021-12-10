@@ -2,14 +2,15 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChi
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OrdemServicoData, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject, interval, fromEvent } from 'rxjs';
 import { startWith, takeUntil, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { AgendaTecnicoValidator } from '../agenda-tecnico.validator';
 
 @Component({
   selector: 'app-agenda-tecnico-chamados',
@@ -30,7 +31,8 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
   constructor (
     private _cdr: ChangeDetectorRef,
     private _ordemServicoService: OrdemServicoService,
-    protected _userService: UserService
+    protected _userService: UserService,
+    private _validator: AgendaTecnicoValidator
   )
   {
     super(_userService, 'agenda-tecnico-chamados')
@@ -56,6 +58,13 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
       })
       .toPromise();
 
+    this.criaExternalEvents();
+
+    this.isLoading = false;
+  }
+
+  criaExternalEvents()
+  {
     this.externalEvents = Enumerable.from(this.dataSourceData.items)
       .where(i => i.codTecnico == null)
       .select(os =>
@@ -66,14 +75,19 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
           cliente: os.cliente?.razaoSocial,
           regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
           autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-          color: '#009000',
+          color: !os.agendamentos.length ? this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS) : this._validator.agendamentoColor(),
+          indAgendamento: os.agendamentos.length ? 1 : 0,
+          dataAgendamento: os.agendamentos.length ? this.dataAgendamento(os) : null,
           start: moment(),
           end: moment().add(60, 'minutes'),
           ordemServico: os
         }
       }).toArray();
+  }
 
-    this.isLoading = false;
+  private dataAgendamento(os: OrdemServico): string
+  {
+    return Enumerable.from(os.agendamentos).orderByDescending(i => i.codAgendamento).firstOrDefault().dataAgendamento;
   }
 
   registerEmitters(): void
@@ -112,15 +126,6 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
     });
 
     this._cdr.detectChanges();
-  }
-
-  loadFilter(): void
-  {
-    super.loadFilter();
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-    if (this.userSession?.usuario?.codFilial && this.filter)
-      this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
   }
 
   ngOnDestroy()

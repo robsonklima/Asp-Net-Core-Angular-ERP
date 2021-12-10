@@ -70,14 +70,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       if (this._validator.hasOverlap(args, inst))
       {
         this._notify.toast({
-          message: 'Os atendimentos não podem se sobrepor.'
+          message: 'Os atendimentos não podem se sobrepor.',
+          color: 'danger'
         });
         return false;
       }
       else if (this._validator.invalidInsert(args))
       {
         this._notify.toast({
-          message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
+          message: 'O atendimento não pode ser agendado para antes da linha do tempo.',
+          color: 'danger'
         });
         return false;
       }
@@ -89,7 +91,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       if (this._validator.hasOverlap(args, inst))
       {
         this._notify.toast({
-          message: 'Os atendimentos não podem se sobrepor.'
+          message: 'Os atendimentos não podem se sobrepor.',
+          color: 'danger'
         });
         return false;
       }
@@ -100,7 +103,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       else if (this._validator.invalidMove(args))
       {
         this._notify.toast({
-          message: 'O atendimento não pode ser agendado para antes da linha do tempo.'
+          message: 'O atendimento não pode ser agendado para antes da linha do tempo.',
+          color: 'danger'
         });
         return false;
       }
@@ -177,6 +181,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }).toPromise());
 
     await this.carregaAgenda();
+    await this.criaIntervalosDoDia();
 
     this.loading = false;
   }
@@ -243,6 +248,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async createExternalEvent(ev, args, inst)
   {
+    this.sidenavChamados.close();
+
     var agendaTecnico: AgendaTecnico =
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
@@ -259,8 +266,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
-
-    this.sidenavChamados.close();
 
     if (ag != null)
     {
@@ -341,7 +346,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     agenda.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
     agenda.usuarioAtualizacao = this.userSession.usuario.codUsuario;
 
-    if (moment(ev.end) > moment())
+    if (moment(ev.end) > moment() && ev.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
     {
       agenda.cor = this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS);
       var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
@@ -377,6 +382,49 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       })
     }
     inst.removeEvent(args.event);
+  }
+
+  private async criaIntervalosDoDia()
+  {
+    for (const tecnico of this.tecnicos) 
+    {
+      var eventosPorTecnico = Enumerable.from(this.events)
+        .where(i => moment(i.start).format('yyyy-MM-DD') == moment().format('yyyy-MM-DD') && i.resource == tecnico.codTecnico).toArray();
+
+      if (!Enumerable.from(eventosPorTecnico).any(i => i.agendaTecnico.tipo == AgendaTecnicoTypeEnum.INTERVALO))
+      {
+        var agendaTecnico: AgendaTecnico =
+        {
+          inicio: moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 }).format('yyyy-MM-DD HH:mm:ss'),
+          fim: moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 }).format('yyyy-MM-DD HH:mm:ss'),
+          codOS: 0,
+          codTecnico: tecnico.codTecnico,
+          titulo: "INTERVALO",
+          cor: this._validator.getTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
+          ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
+          tipo: AgendaTecnicoTypeEnum.INTERVALO,
+          indAgendamento: 0,
+          usuarioCadastro: "ADMIN",
+          cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+        }
+
+        await this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(intervalo =>
+        {
+          this.events = this.events.concat(
+            {
+              codAgendaTecnico: intervalo.codAgendaTecnico,
+              codOS: intervalo.codOS,
+              agendaTecnico: intervalo,
+              start: intervalo.inicio,
+              end: intervalo.fim,
+              title: intervalo.titulo,
+              color: intervalo.cor,
+              editable: intervalo.indAgendamento == 0 ? true : false,
+              resource: intervalo.codTecnico
+            });
+        });
+      };
+    }
   }
 
   private async realocarAgendamento(args)

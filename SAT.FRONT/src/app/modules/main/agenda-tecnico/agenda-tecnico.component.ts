@@ -1,9 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 import Enumerable from 'linq';
@@ -140,7 +140,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     private _notify: Notifications,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
-    private _cdr: ChangeDetectorRef,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     protected _userSvc: UserService,
     public _dialog: MatDialog,

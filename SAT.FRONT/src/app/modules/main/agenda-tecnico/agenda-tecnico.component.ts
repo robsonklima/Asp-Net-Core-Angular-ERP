@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -19,6 +19,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { fuseAnimations } from '@fuse/animations';
 
 setOptions({
   locale: localePtBR,
@@ -34,6 +35,9 @@ setOptions({
   selector: 'app-agenda-tecnico',
   templateUrl: './agenda-tecnico.component.html',
   styleUrls: ['./agenda-tecnico.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations,
+  providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
 export class AgendaTecnicoComponent extends Filterable implements AfterViewInit, IFilterable
@@ -58,7 +62,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         startDay: 1,
         startTime: '07:00',
         endTime: '24:00',
-      }
+      },
     },
     dragToMove: true,
     externalDrop: true,
@@ -189,6 +193,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     await this.carregaAgenda();
     await this.criaIntervalosDoDia();
+    this.exibePontosDoDia();
 
     this.loading = false;
   }
@@ -250,13 +255,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async validateNewEvent(args, inst)
   {
     var ev = args.event;
+    this.sidenavChamados.close();
     this.checkForWarnings(ev, args, inst);
   }
 
   private async createExternalEvent(ev, args, inst)
   {
-    this.sidenavChamados.close();
-
     var agendaTecnico: AgendaTecnico =
     {
       inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
@@ -382,12 +386,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async criaIntervalosDoDia()
   {
-    for (const tecnico of this.tecnicos) 
+    Enumerable.from(this.tecnicos).where(i => !this._validator.isOnVacation(i)).forEach(tecnico =>
     {
-      var eventosPorTecnico = Enumerable.from(this.events)
-        .where(i => moment(i.start).format('yyyy-MM-DD') == moment().format('yyyy-MM-DD') && i.resource == tecnico.codTecnico).toArray();
+      var intervalosDoDia = Enumerable.from(this.events)
+        .where(i => moment(i.start).format('yyyy-MM-DD') == moment().format('yyyy-MM-DD') && i.resource == tecnico.codTecnico && i.agendaTecnico.tipo == AgendaTecnicoTypeEnum.INTERVALO).toArray();
 
-      if (!Enumerable.from(eventosPorTecnico).any(i => i.agendaTecnico.tipo == AgendaTecnicoTypeEnum.INTERVALO))
+      if (!Enumerable.from(intervalosDoDia).any())
       {
         var agendaTecnico: AgendaTecnico =
         {
@@ -404,7 +408,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
-        await this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(intervalo =>
+        this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(intervalo =>
         {
           this.events = this.events.concat(
             {
@@ -419,8 +423,37 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
               resource: intervalo.codTecnico
             });
         });
-      };
-    }
+      }
+    });
+  }
+
+  private async exibePontosDoDia()
+  {
+    this.tecnicos.map(tecnico =>
+    {
+      this.events = this.events.concat(this.carregaPonto(tecnico));
+    });
+  }
+
+  private carregaPonto(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent[]
+  {
+    var pontos: MbscAgendaTecnicoCalendarEvent[] = [];
+
+    Enumerable.from(tecnico.usuario.pontosUsuario)
+      .where(p => p.indAtivo == 1)
+      .forEach(p =>
+      {
+        pontos.push(
+          {
+            start: moment(p.dataHoraRegistro),
+            end: moment(p.dataHoraRegistro).add(0, 'minutes'),
+            title: "PONTO",
+            color: '#C8C8C8',
+            editable: false,
+            resource: tecnico.codTecnico
+          });
+      });
+    return pontos;
   }
 
   private async realocarAgendamento(args)

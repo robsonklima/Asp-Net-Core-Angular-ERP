@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos) =>
             agendamentos.Select(i =>
             {
-                if (i.CodOS.HasValue && i.IndAgendamento == 0 && i.Fim < DateTime.Now)
+                if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.CodOS.HasValue && i.IndAgendamento == 0 && i.Fim < DateTime.Now)
                 {
                     var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
                     i.Cor = GetStatusColor(os.CodStatusServico);
@@ -54,7 +55,7 @@ namespace SAT.SERVICES.Services
                 case 3:
                     return "#7f7fff";
                 default:
-                    return "ff4c4c";
+                    return "#ff4c4c";
             }
         }
     }

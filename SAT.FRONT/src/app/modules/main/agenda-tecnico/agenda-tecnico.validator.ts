@@ -148,9 +148,9 @@ export class AgendaTecnicoValidator
         return moment(args.event.start) < now;
     }
 
-    public isTechnicianInterval(args)
+    public isTechnicianInterval(event)
     {
-        return args.event.tipo === AgendaTecnicoTypeEnum.INTERVALO;
+        return event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO;
     }
 
     public invalidMove(args)

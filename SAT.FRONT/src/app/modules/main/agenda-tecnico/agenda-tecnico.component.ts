@@ -98,7 +98,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       }
       else if (this._validator.hasChangedResource(args))
       {
-        return this.updateResourceChange(args);
+        if (this._validator.isTechnicianInterval(args.event))
+        {
+          this._notify.toast({
+            message: 'Não é possível transferir um intervalo.',
+            color: 'danger'
+          });
+          return false;
+        }
+        else return this.updateResourceChange(args.event);
       }
       else if (this._validator.invalidMove(args))
       {
@@ -312,27 +320,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async updateResourceChange(args)
   {
     var ev = args.event;
+    var os = (await this._osSvc.obterPorCodigo(ev.codOS).toPromise());
+    os.codTecnico = ev.resource;
 
-    if (this._validator.isTechnicianInterval(args))
+    this._osSvc.atualizar(os).toPromise().then(() =>
     {
-      this._notify.toast({
-        message: 'Não é possível transferir um intervalo.',
-        color: 'danger'
-      });
+      return this.updateEvent(args);
+    }).catch(() =>
+    {
       return false;
-    }
-    else
-    {
-      var os = (await this._osSvc.obterPorCodigo(ev.codOS).toPromise());
-      os.codTecnico = ev.resource;
-      this._osSvc.atualizar(os).toPromise().then(() =>
-      {
-        return this.updateEvent(args);
-      }).catch(() =>
-      {
-        return false;
-      })
-    }
+    });
   }
 
   private async updateEvent(args)

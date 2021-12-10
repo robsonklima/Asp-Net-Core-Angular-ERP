@@ -1,3 +1,5 @@
+import { Meta, QueryStringParameters } from "./generic.types";
+
 export interface Notificacao
 {
     codNotificacao: number;
@@ -13,3 +15,11 @@ export interface Notificacao
     indAtivo: number;
     useRouter?: number;
 }
+
+export interface NotificacaoData extends Meta {
+    items: Notificacao[];
+};
+
+export interface NotificacaoParameters extends QueryStringParameters {
+    codUsuario: string;
+};

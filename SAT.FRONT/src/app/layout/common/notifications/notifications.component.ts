@@ -6,10 +6,9 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatButton } from '@angular/material/button';
 import { interval, Subject } from 'rxjs';
-import { Notificacao } from 'app/layout/common/notifications/notifications.types';
-import { NotificationsService } from 'app/layout/common/notifications/notifications.service';
-import moment from 'moment';
 import { startWith } from 'rxjs/operators';
+import { Notificacao } from 'app/core/types/notificacao.types';
+import { NotificacaoService } from 'app/core/services/notificacao.service';
 
 @Component({
     selector: 'notifications',
@@ -22,14 +21,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     @ViewChild('notificationsOrigin') private _notificationsOrigin: MatButton;
     @ViewChild('notificationsPanel') private _notificationsPanel: TemplateRef<any>;
 
-    notifications: Notificacao[];
+    notifications: Notificacao[] = [];
     unreadCount: number = 0;
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _notificationsService: NotificationsService,
+        private _notificacaoService: NotificacaoService,
         private _overlay: Overlay,
         private _viewContainerRef: ViewContainerRef
     ) { }
@@ -39,34 +38,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .pipe(startWith(0))
             .subscribe(() => {
                 this.obterNotificacoes();
-                this._calculateUnreadCount();
-                this._changeDetectorRef.markForCheck();
             });
     }
 
-    private obterNotificacoes(): any {
-        this.notifications = [
-            {
-                codNotificacao: 1,
-                icone: 'heroicons_solid:star',
-                titulo: 'Tarefa Concluída',
-                descricao: 'Sua tarefa de suporte <strong>3881</strong> foi finalizada',
-                dataHoraCad: moment().subtract(25, 'minutes').toISOString(), // 25 minutes ago
-                lida: 0,
-                indAtivo: 1,
-            },
-            {
-                codNotificacao: 2,
-                icone: 'heroicons_solid:clipboard',
-                titulo: 'Chamado Aberto',
-                descricao: '<strong>João</strong> abriu um chamado para o contrato <em>Banco do Brasil Acompanhamento</em>',
-                dataHoraCad: moment().subtract(50, 'minutes').toISOString(), // 50 minutes ago
-                lida: 0,
-                link: '/ordem-servico/lista',
-                useRouter: 1,
-                indAtivo: 1
-            }
-        ];
+    private async obterNotificacoes() {
+        const data = this._notificacaoService.obterPorParametros({ codUsuario: 'rklima' }).toPromise();
+        this.notifications = (await data).items;
+        this._calculateUnreadCount();
+        this._changeDetectorRef.markForCheck();
     }
 
     openPanel(): void {
@@ -98,26 +77,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
     }
 
-    toggleRead(notification: Notificacao): void {
+    async toggleRead(notification: Notificacao) {
         // Toggle the read status
         notification.lida = +!notification.lida;
 
         const index = this.notifications.findIndex(item => item.codNotificacao === notification.codNotificacao);
 
-        this.notifications[index] = notification;
-        this._calculateUnreadCount();
-        this._changeDetectorRef.markForCheck();
+        this._notificacaoService.atualizar(notification).subscribe(() => {
+            this.notifications[index] = notification;
+            this._calculateUnreadCount();
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
-    delete(notification: Notificacao): void {
-        // Delete the notification
-        this._notificationsService.delete(notification.codNotificacao).subscribe();
-
+    async delete(notification: Notificacao) {
         const index = this.notifications.findIndex(item => item.codNotificacao === notification.codNotificacao);
-        this.notifications.splice(index, 1);
 
-        this._calculateUnreadCount();
-        this._changeDetectorRef.markForCheck();
+        this._notificacaoService.deletar(notification.codNotificacao).subscribe(() => {
+            this.notifications.splice(index, 1);
+            this._calculateUnreadCount();
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     trackByFn(index: number, item: any): any {

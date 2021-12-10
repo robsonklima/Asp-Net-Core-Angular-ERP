@@ -29,7 +29,7 @@
                 </button>
             </div>
             <div class="text-lg font-medium leading-10">{{ t('notificacoes') }}</div>
-            <div class="ml-auto">
+            <!-- <div class="ml-auto">
                 <button
                     mat-icon-button
                     [matTooltip]="'Marcar todas como lidas'"
@@ -39,7 +39,7 @@
                         class="icon-size-5 text-current"
                         [svgIcon]="'heroicons_solid:mail-open'"></mat-icon>
                 </button>
-            </div>
+            </div> -->
         </div>
 
         <!-- Content -->
@@ -84,11 +84,11 @@
                             class="w-6 h-6 min-h-6"
                             mat-icon-button
                             (click)="toggleRead(notification)"
-                            [matTooltip]="notification.read ? 'Marcar como não lida' : 'Marcar como lida'">
+                            [matTooltip]="notification.lida ? 'Marcar como não lida' : 'Marcar como lida'">
                             <span
                                 class="w-2 h-2 rounded-full"
-                                [ngClass]="{'bg-gray-400 dark:bg-gray-500 sm:opacity-0 sm:group-hover:opacity-100': notification.read,
-                                            'bg-primary': !notification.read}"></span>
+                                [ngClass]="{'bg-gray-400 dark:bg-gray-500 sm:opacity-0 sm:group-hover:opacity-100': notification.lida,
+                                            'bg-primary': !notification.lida}"></span>
                         </button>
                         <!-- Remove -->
                         <button
@@ -107,21 +107,15 @@
                 <!-- Notification content template -->
                 <ng-template #notificationContent>
                     <!-- Icon -->
-                    <ng-container *ngIf="notification.icon && !notification.image">
+                    <ng-container *ngIf="notification.icone">
                         <div class="flex flex-shrink-0 items-center justify-center w-8 h-8 mr-4 rounded-full bg-gray-100 dark:bg-gray-700">
                             <mat-icon
                                 class="icon-size-5"
-                                [svgIcon]="notification.icon">
+                                [svgIcon]="notification.icone">
                             </mat-icon>
                         </div>
                     </ng-container>
-                    <!-- Image -->
-                    <ng-container *ngIf="notification.image">
-                        <img
-                            class="flex-shrink-0 w-8 h-8 mr-4 rounded-full overflow-hidden object-cover object-center"
-                            [src]="notification.image"
-                            [alt]="'Notification image'">
-                    </ng-container>
+                   
                     <!-- Title, description & time -->
                     <div class="flex flex-col flex-auto">
                         <ng-container *ngIf="notification.titulo">

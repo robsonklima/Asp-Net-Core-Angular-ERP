@@ -4,5 +4,6 @@ namespace SAT.MODELS.Entities
 {
     public class NotificacaoParameters : QueryStringParameters
     {
+        public string CodUsuario { get; set; }
     }
 }

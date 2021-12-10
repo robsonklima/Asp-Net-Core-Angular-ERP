@@ -64,6 +64,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodUsuario != null)
+            {
+                notificacaoes = notificacaoes.Where(n => n.CodUsuario == parameters.CodUsuario);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 notificacaoes = notificacaoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

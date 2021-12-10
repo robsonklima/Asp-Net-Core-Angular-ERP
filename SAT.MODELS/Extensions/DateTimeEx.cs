@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Enums;
 
@@ -85,6 +86,20 @@ namespace SAT.MODELS.Extensions
                     break;
             }
             return dataPascoa.Date;
+        }
+
+        public static DateTime FirstDayOfWeek(DateTime date)
+        {
+            DayOfWeek fdow = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            int offset = fdow - date.DayOfWeek;
+            DateTime fdowDate = date.AddDays(offset);
+            return fdowDate;
+        }
+
+        public static DateTime LastDayOfWeek(DateTime date)
+        {
+            DateTime ldowDate = FirstDayOfWeek(date).AddDays(6);
+            return ldowDate;
         }
     }
 }

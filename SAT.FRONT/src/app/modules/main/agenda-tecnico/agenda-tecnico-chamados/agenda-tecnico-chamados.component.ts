@@ -66,7 +66,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
           cliente: os.cliente?.razaoSocial,
           regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
           autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-          color: '#1064b0',
+          color: '#009000',
           start: moment(),
           end: moment().add(60, 'minutes'),
           ordemServico: os

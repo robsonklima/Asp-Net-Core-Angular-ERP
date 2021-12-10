@@ -9,16 +9,16 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<AgendaTecnico> builder)
         {
             builder
-                .ToTable("AgendaTecnico");
+                .ToTable("AgendaTecnicoV2");
 
             builder
                 .HasKey(prop => prop.CodAgendaTecnico);
 
-            builder
-                .HasOne(p => p.Tecnico)
-                .WithMany()
-                .HasForeignKey("CodTecnico")
-                .HasPrincipalKey("CodTecnico");
+            // builder
+            //     .Ignore(prop => prop.Cor);
+
+            // builder
+            //     .Ignore(prop => prop.Titulo);
         }
     }
 }

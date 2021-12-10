@@ -16,23 +16,32 @@ namespace SAT.INFRA.Repository
         {
             _context = context;
         }
-        public void Atualizar(AgendaTecnico agenda)
+        public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
             AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
-
-            if (a != null)
+            try
             {
-                _context.Entry(a).CurrentValues.SetValues(agenda);
-                _context.SaveChanges();
+                if (a != null)
+                {
+                    _context.Entry(a).CurrentValues.SetValues(agenda);
+                    _context.SaveChanges();
+                    return agenda;
+                }
+                return null;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
-        public void Criar(AgendaTecnico agenda)
+        public AgendaTecnico Criar(AgendaTecnico agenda)
         {
             try
             {
                 _context.Add(agenda);
                 _context.SaveChanges();
+                return agenda;
             }
             catch (DbUpdateException ex)
             {
@@ -67,37 +76,22 @@ namespace SAT.INFRA.Repository
 
         public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _context.AgendaTecnico
-            .Include(ag => ag.Tecnico)
-            .Include(ag => ag.OrdemServico)
-            .AsQueryable();
+            var agendas = this.ObterQuery(parameters);
 
-            if (!string.IsNullOrEmpty(parameters.Filter))
-                agendas = agendas.Where(
-                    a =>
-                    a.CodAgendaTecnico.ToString().Contains(parameters.Filter) ||
-                    a.CodOS.ToString().Contains(parameters.Filter) ||
-                    a.CodTecnico.ToString().Contains(parameters.Filter));
+            return PagedList<AgendaTecnico>.ToPagedList(agendas, parameters.PageNumber, parameters.PageSize);
+        }
 
-            if (parameters.CodOS.HasValue)
-                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
-
-            if (parameters.CodTecnico.HasValue)
-                agendas = agendas.Where(a => a.CodTecnico == parameters.CodTecnico);
-
-            if (!string.IsNullOrEmpty(parameters.CodFiliais))
-            {
-                var filiais = parameters.CodFiliais.Split(",");
-                agendas = agendas.Where(ag => filiais.Any(a => a == ag.Tecnico.CodFilial.ToString()));
-            }
+        public IQueryable<AgendaTecnico> ObterQuery(AgendaTecnicoParameters parameters)
+        {
+            var agendas = _context.AgendaTecnico.AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
                 agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Fim.Date <= parameters.FimPeriodoAgenda.Value.Date);
 
-            if (!string.IsNullOrEmpty(parameters.Tipo))
-                agendas = agendas.Where(ag => ag.Tipo.ToLower() == parameters.Tipo.ToLower());
+            if (parameters.Tipo.HasValue)
+                agendas = agendas.Where(ag => ag.Tipo == parameters.Tipo);
 
-            return PagedList<AgendaTecnico>.ToPagedList(agendas, parameters.PageNumber, parameters.PageSize);
+            return agendas;
         }
     }
 }

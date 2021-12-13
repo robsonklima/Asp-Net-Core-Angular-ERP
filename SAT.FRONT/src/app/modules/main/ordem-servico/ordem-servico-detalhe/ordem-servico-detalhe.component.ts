@@ -282,7 +282,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					{
 						this.obterDadosOrdemServico();
 						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-						this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise();
+						this.deleteAgendaTecnico();
 					},
 					error =>
 					{
@@ -318,7 +318,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
-						descricao: `O chamado ${this.os.codOS} foi alocado na agenda do técnico ${this.os.tecnico.nome}`,
+						descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
 						lida: 0,
 						indAtivo: 1,
 						codUsuario: this.userSession.usuario.codUsuario
@@ -331,7 +331,41 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
-						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na agenda do técnico ${this.os.tecnico.nome}`,
+						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
+						lida: 0,
+						indAtivo: 1,
+						codUsuario: this.userSession.usuario.codUsuario
+					};
+					this._notificacaoService.criar(notificacao).toPromise();
+				});
+	}
+
+	private deleteAgendaTecnico()
+	{
+		if (this.os.codTecnico == null) return;
+
+		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
+			.then(s =>
+			{
+				if (s)
+				{
+					var notificacao: Notificacao =
+					{
+						titulo: "Agenda Técnico",
+						descricao: `O chamado ${this.os.codOS} foi removido da Agenda Técnico.`,
+						lida: 0,
+						indAtivo: 1,
+						codUsuario: this.userSession.usuario.codUsuario
+					};
+					this._notificacaoService.criar(notificacao).toPromise();
+				}
+			}).catch(
+				e =>
+				{
+					var notificacao: Notificacao =
+					{
+						titulo: "Agenda Técnico",
+						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
 						lida: 0,
 						indAtivo: 1,
 						codUsuario: this.userSession.usuario.codUsuario

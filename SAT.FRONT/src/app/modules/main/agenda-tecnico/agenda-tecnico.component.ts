@@ -59,6 +59,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   lastFilialFilter: any;
   lastTecnicosFilter: any;
   lastPAFilter: any;
+  lastRegiaoFilter: any;
 
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
@@ -202,6 +203,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.lastFilialFilter = this.filter?.parametros?.codFiliais;
       this.lastTecnicosFilter = this.filter?.parametros?.codTecnicos;
       this.lastPAFilter = this.filter?.parametros?.pas;
+      this.lastRegiaoFilter = this.filter?.parametros?.codRegioes;
     });
 
     this.sidenavAgenda.closedStart.subscribe(() =>
@@ -211,6 +213,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       // só aplica o filtro se este de fato mudou. TODO -> //valueChanged
       if (this.lastFilialFilter != this.filter?.parametros?.codFiliais ||
         this.lastTecnicosFilter != this.filter?.parametros?.codTecnicos ||
+        this.lastRegiaoFilter != this.filter?.parametros?.codRegioes ||
         this.lastPAFilter != this.filter?.parametros?.pas)
       {
         this.obterDados();
@@ -232,6 +235,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
       codFiliais: this.filter?.parametros?.codFiliais,
       pas: this.filter?.parametros?.pas,
+      codRegioes: this.filter?.parametros?.codRegioes,
       sortActive: 'nome',
       sortDirection: 'asc',
       codTecnicos: this.filter?.parametros?.codTecnicos

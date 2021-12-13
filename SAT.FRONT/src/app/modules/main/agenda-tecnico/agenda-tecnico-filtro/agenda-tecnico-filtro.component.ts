@@ -8,6 +8,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filial } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import { Regiao } from 'app/core/types/regiao.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
@@ -24,6 +25,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   filiais: Filial[] = [];
   @Input() sidenav: MatSidenav;
   pas: number[] = [];
+  regioes: Regiao[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -42,7 +44,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
       codFiliais: [undefined],
-      pas: [undefined]
+      pas: [undefined],
+      codRegioes: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -65,9 +68,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     if (this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != "")
     {
-      var filialFilter = this.form.controls['codFiliais'].value;
-      this.obterTecnicos(filialFilter);
-      this.obterRegioesAutorizadas(filialFilter)
+      this.obterTecnicos();
+      this.obterRegioesAutorizadas()
     }
   }
 
@@ -75,16 +77,18 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     this.form.controls['codFiliais'].valueChanges.subscribe(async codFilial =>
     {
-      this.obterTecnicos(codFilial);
-      this.obterRegioesAutorizadas(codFilial)
+      this.obterTecnicos();
+      this.obterRegioesAutorizadas()
     });
   }
 
-  private async obterTecnicos(codFilial: string)
+  private async obterTecnicos()
   {
     const data = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
-      codFiliais: codFilial,
+      codFiliais: this.form.controls['codFiliais'].value,
+      pas: this.form.controls['pas'].value,
+      codRegioes: this.form.controls['codRegioes'].value,
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
@@ -117,11 +121,11 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     this.filiais = data.items;
   }
 
-  async obterRegioesAutorizadas(filialFilter: any)
+  async obterRegioesAutorizadas()
   {
     let params: RegiaoAutorizadaParameters = {
       indAtivo: 1,
-      codFiliais: filialFilter,
+      codFiliais: this.form.controls['codFiliais'].value,
       pageSize: 1000
     };
 
@@ -129,6 +133,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       .obterPorParametros(params)
       .toPromise();
 
+    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
     this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
   }
 

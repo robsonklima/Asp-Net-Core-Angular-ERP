@@ -42,6 +42,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => pas.Any(p => p == t.RegiaoAutorizada.PA.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodRegioes))
+            {
+                var regioes = parameters.CodRegioes.Split(",").Select(a => a.Trim());
+                query = query.Where(t => regioes.Any(r => r == t.CodRegiao.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(",");

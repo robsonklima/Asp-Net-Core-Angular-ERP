@@ -11,7 +11,7 @@ import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import moment from 'moment';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
@@ -38,6 +38,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	map: L.Map;
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
+	usuarioCadastro: Usuario;
+	isLoading: boolean = false;
 
 	public get perfilEnum(): typeof RoleEnum
 	{
@@ -108,12 +110,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private async obterDadosOrdemServico()
 	{
+		this.isLoading = true;
 
-		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+		await this.obterOS();
+		await this.obterUsuarioCadastro();
 
 		if (this.os.agendamentos.length)
 		{
-
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
 
@@ -126,6 +129,21 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				.select(a => a.dataAgendamento)
 				.first();
 		}
+
+		this.isLoading = false;
+	}
+
+	private async obterOS()
+	{
+		this.os =
+			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
+	}
+
+	private async obterUsuarioCadastro()
+	{
+		if (this.os?.codUsuarioCad != null)
+			this.usuarioCadastro =
+				(await this._userService.obterPorCodigo(this.os.codUsuarioCad).toPromise());
 	}
 
 	async agendar()

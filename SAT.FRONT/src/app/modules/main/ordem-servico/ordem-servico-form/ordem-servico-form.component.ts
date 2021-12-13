@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -51,6 +51,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   locaisFiltro: FormControl = new FormControl();
   locais: LocalAtendimento[] = [];
   searching: boolean;
+  clienteFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -161,13 +162,25 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterClientes() {
+  private async obterClientes(filter: string = '') {
     this.clientes = (await this._clienteService.obterPorParametros({
       indAtivo: 1,
       pageSize: 500,
       sortActive: 'nomeFantasia',
-      sortDirection: 'asc'
+      sortDirection: 'asc',
+      filter: filter
     }).toPromise()).items;
+
+    this.clienteFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(() =>
+      {
+        this.obterClientes(this.clienteFilterCtrl.value);
+      });
   }
 
   private async obterFiliais() {

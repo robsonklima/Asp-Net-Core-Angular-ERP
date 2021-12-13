@@ -2,7 +2,7 @@ import { TipoIndiceReajusteService } from './../../../../../core/services/tipo-i
 import { TipoContratoService } from './../../../../../core/services/tipo-contrato.service';
 import { Contrato } from './../../../../../core/types/contrato.types';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { ContratoService } from 'app/core/services/contrato.service';
@@ -16,6 +16,7 @@ import { TipoContrato } from 'app/core/types/tipo-contrato.types';
 import { TipoIndiceReajuste } from 'app/core/types/tipo-indice-reajuste.types';
 import { ContratoReajuste } from 'app/core/types/contrato-reajuste.types';
 import { ContratoReajusteService } from 'app/core/services/contrato-reajuste.service';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 
@@ -39,6 +40,7 @@ export class ContratoFormComponent implements OnInit {
 	protected _onDestroy = new Subject<void>();
 	tipoContrato: TipoContrato[];
 	tipoReajuste: TipoIndiceReajuste[];
+	clienteFilterCtrl: FormControl = new FormControl();
 
 	constructor(
 		private _formBuilder: FormBuilder,
@@ -91,6 +93,17 @@ export class ContratoFormComponent implements OnInit {
 			sortActive: 'nomeFantasia',
 			sortDirection: 'asc'
 		}).toPromise()).items;
+
+		this.clienteFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(() =>
+      {
+        this.obterClientes(this.clienteFilterCtrl.value);
+      });
 	}
 
 	salvar(): void {
@@ -192,7 +205,7 @@ export class ContratoFormComponent implements OnInit {
 			objetoContrato: [undefined],
 			semCobertura: [undefined],
 			valTotalContrato: [undefined, Validators.required],
-			indPermitePecaEspecifica: [undefined, Validators.required],
+			indPermitePecaEspecifica: [undefined],
 			numDiasSubstEquip: [undefined]
 
 		});

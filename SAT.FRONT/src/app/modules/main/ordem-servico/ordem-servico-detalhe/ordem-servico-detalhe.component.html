@@ -88,8 +88,11 @@
                 </div>
             </div>
 
+            <div *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
-                <div class="w-full max-w-screen-xl mx-auto">
+                <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
                     <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
@@ -106,6 +109,19 @@
                                                 <div class="text-secondary text-md">{{ os?.dataHoraAberturaOS |
                                                     date:'dd/MM/yyyy
                                                     HH:mm' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="my-2">
+                                                <div>{{ t('aberto por') }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                </div>
+                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
+                                                    {{ usuarioCadastro?.fone ? t('contato perto') + ": " +  usuarioCadastro?.fone : '' }}
+                                                </div>
+                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
+                                                    {{ usuarioCadastro?.foneParticular ? t('contato pessoal') + ": " + usuarioCadastro?.foneParticular : '' }}
                                                 </div>
                                             </div>
 
@@ -396,6 +412,12 @@
                                                 <div>Acompanhante</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.nomeAcompanhante || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2">
+                                                <div>Observação</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ r.obsRAT || 'Não Informado' }}
                                                 </div>
                                             </div>
                                         </div>

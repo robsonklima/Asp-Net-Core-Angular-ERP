@@ -140,27 +140,6 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('tipo equipamento') }}</mat-label>
-                    <mat-select formControlName="codTipoEquip">
-                        <mat-option class="mat-primary fill" [value]=""></mat-option>
-                        <mat-option *ngFor="let tipo of tipoEquip" [value]="tipo.codTipoEquip">
-                            {{ tipo.nomeTipoEquip }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('grupo de equipamento') }}</mat-label>
-                    <mat-select formControlName="codGrupoEquip">
-                        <mat-option class="mat-primary fill" [value]=""></mat-option>
-
-                        <mat-option *ngFor="let grupo of gruposEquip" [value]="grupo.codGrupoEquip">
-                            {{ grupo.nomeGrupoEquip }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('equipamento') }}</mat-label>
                     <mat-select formControlName="codEquipamentos" multiple="true">
                         <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">

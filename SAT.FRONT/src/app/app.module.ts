@@ -12,6 +12,7 @@ import { appConfig } from 'app/core/config/app.config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 const routerConfig: ExtraOptions = {
     scrollPositionRestoration: 'enabled',
@@ -45,7 +46,10 @@ const routerConfig: ExtraOptions = {
     ],
     bootstrap: [
         AppComponent
-    ]
+    ],
+
+    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
+
 })
 export class AppModule
 {

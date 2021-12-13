@@ -234,7 +234,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
             }
 
-            if (!string.IsNullOrEmpty(parameters.Filter))
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 query = query.Where(t =>
                     t.CodOS.ToString().Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||

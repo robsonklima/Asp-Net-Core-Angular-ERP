@@ -9,13 +9,22 @@ export class Equipamento
     codTipoEquip: number;
 }
 
-export interface EquipamentoData {
+export interface EquipamentoData
+{
     items: Equipamento[],
     totalCount: number
 };
 
-export interface EquipamentoParameters extends QueryStringParameters {
-    codGrupo?: number; 
+export interface EquipamentoParameters extends QueryStringParameters
+{
+    codGrupo?: number;
     codTipo?: number;
+    codClientes?: string;
     filter?: any;
+    filterType?: EquipamentoFilterEnum;
 };
+
+export enum EquipamentoFilterEnum
+{
+    FILTER_CHAMADOS = 1
+}

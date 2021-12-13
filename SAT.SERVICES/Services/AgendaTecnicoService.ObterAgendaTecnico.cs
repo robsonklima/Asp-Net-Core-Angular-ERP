@@ -37,7 +37,8 @@ namespace SAT.SERVICES.Services
            {
                InicioPeriodoAgenda = inicioPeriodo,
                FimPeriodoAgenda = fimPeriodo,
-               CodTecnico = codTecnico
+               CodTecnico = codTecnico,
+               IndAtivo = 1
            }).ToList();
 
         private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)

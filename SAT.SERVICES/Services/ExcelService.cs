@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
         private IXLWorksheet WriteSheet(List<object> data)
         {
             IXLWorksheet sheet = null;
-            string entityName = data.FirstOrDefault().GetType().Name;
+            string entityName = data.FirstOrDefault().GetType().Name?? "Export";
 
             if (!Workbook.TryGetWorksheet(entityName, out sheet))
             {

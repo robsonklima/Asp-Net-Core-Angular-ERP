@@ -136,6 +136,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Laudo>(new LaudoMap().Configure);
             modelBuilder.Entity<LaudoStatus>(new LaudoStatusMap().Configure);
             modelBuilder.Entity<LaudoSituacao>(new LaudoSituacaoMap().Configure);
+            modelBuilder.Entity<Usuario>(new UsuarioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

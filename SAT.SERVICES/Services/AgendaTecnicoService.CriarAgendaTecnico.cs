@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico CriarAgendaTecnico(int codOS)
         {
-            var os = this._osRepo.ObterPorCodigo(codOS);
+            var os = this._osRepo.ObterEntidadePorCodigo(codOS);
 
             if (!os.CodTecnico.HasValue) return null;
 
@@ -145,11 +145,11 @@ namespace SAT.SERVICES.Services
             if (!eventosSobrepostos.Any()) return;
 
             var ultimoEvento = agendasTecnico.OrderByDescending(i => i.Fim).FirstOrDefault();
-            var ultimaOS = this._osRepo.ObterPorCodigo(ultimoEvento.CodOS.Value);
+            var ultimaOS = this._osRepo.ObterEntidadePorCodigo(ultimoEvento.CodOS.Value);
 
             eventosSobrepostos.ToList().ForEach(e =>
             {
-                var os = this._osRepo.ObterPorCodigo(e.CodOS.Value);
+                var os = this._osRepo.ObterEntidadePorCodigo(e.CodOS.Value);
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
 
                 var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;

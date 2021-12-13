@@ -27,7 +27,7 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo) =>
            this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
-               InicioPeriodoAgenda = inicioPeriodo.AddDays(-7),
+               InicioPeriodoAgenda = DateTime.Now.DayOfWeek == DayOfWeek.Monday ? inicioPeriodo.AddDays(-7) : inicioPeriodo,
                FimPeriodoAgenda = fimPeriodo
            }).ToList();
 
@@ -59,7 +59,7 @@ namespace SAT.SERVICES.Services
                     {
                         if (i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now)
                         {
-                            var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
+                            var os = this._osRepo.ObterEntidadePorCodigo(i.CodOS.Value);
                             if (os.CodStatusServico != (int)StatusServicoEnum.FECHADO)
                             {
                                 var eventosRealocados = this.RealocaEventosTecnico(eventosDoTecnico.ToList());
@@ -69,7 +69,7 @@ namespace SAT.SERVICES.Services
                         }
                         else if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                         {
-                            var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
+                            var os = this._osRepo.ObterEntidadePorCodigo(i.CodOS.Value);
                             i.Cor = GetStatusColor(os.CodStatusServico);
                             this._agendaRepo.Atualizar(i);
                         }
@@ -126,7 +126,7 @@ namespace SAT.SERVICES.Services
 
             agendasTecnico.ToList().ForEach(e =>
             {
-                var os = this._osRepo.ObterPorCodigo(e.CodOS.Value);
+                var os = this._osRepo.ObterEntidadePorCodigo(e.CodOS.Value);
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
 
                 var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;

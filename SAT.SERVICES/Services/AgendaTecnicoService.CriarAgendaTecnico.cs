@@ -95,7 +95,7 @@ namespace SAT.SERVICES.Services
                 agendasTecnico.FirstOrDefault(i => i.CodOS == os.CodOS);
 
             var eventosSobrepostos =
-                agendasTecnico.Where(i => i.CodOS != os.CodOS && i.CodOS > 0 && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= start && end <= i.Fim)));
+                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
 
             if (agendaTecnicoAnterior != null)
             {
@@ -107,8 +107,7 @@ namespace SAT.SERVICES.Services
                 agendaTecnicoAnterior.CodUsuarioManut = "ADMIN";
 
                 var ag = this._agendaRepo.Atualizar(agendaTecnicoAnterior);
-                agendasTecnico.Add(ag);
-                this.RealocarEventosSobrepostos(agendasTecnico, eventosSobrepostos);
+                this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
 
                 return agendaTecnicoAnterior;
             }
@@ -130,21 +129,21 @@ namespace SAT.SERVICES.Services
                 };
 
                 var ag = this._agendaRepo.Criar(agendaTecnico);
-                agendasTecnico.Add(ag);
-                this.RealocarEventosSobrepostos(agendasTecnico, eventosSobrepostos);
+
+                this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
 
                 return agendaTecnico;
             }
         }
 
-        private void RealocarEventosSobrepostos(List<AgendaTecnico> agendasTecnico, IEnumerable<AgendaTecnico> eventosSobrepostos)
+        private void RealocarEventosSobrepostos(AgendaTecnico ag, IEnumerable<AgendaTecnico> eventosSobrepostos)
         {
             if (!eventosSobrepostos.Any()) return;
 
-            var ultimoEvento = agendasTecnico.OrderByDescending(i => i.Fim).FirstOrDefault();
-            var ultimaOS = ultimoEvento.OrdemServico;
+            var ultimoEvento = ag;
+            var ultimaOS = ag.OrdemServico != null ? ultimoEvento.OrdemServico : this._osRepo.ObterEntidadePorCodigo(ag.CodOS.Value);
 
-            eventosSobrepostos.ToList().ForEach(e =>
+            eventosSobrepostos.OrderBy(i => i.Inicio).ToList().ForEach(e =>
             {
                 var os = e.OrdemServico;
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);

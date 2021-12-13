@@ -17,6 +17,8 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
+import { NotificacaoService } from 'app/core/services/notificacao.service';
+import { Notificacao } from 'app/core/types/notificacao.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -50,7 +52,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _snack: CustomSnackbarService,
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
-		private _agendaTecnicoService: AgendaTecnicoService
+		private _agendaTecnicoService: AgendaTecnicoService,
+		private _notificacaoService: NotificacaoService
 	)
 	{
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -149,11 +152,12 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					result =>
 					{
 						this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+
 						this._ordemServicoService.atualizar(this.os).subscribe(
 							result =>
 							{
 								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-								this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS).toPromise();
+								this.createAgendaTecnico();
 								this.obterDadosOrdemServico();
 							},
 							error =>
@@ -282,5 +286,39 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		return Enumerable.from(this.os?.fotos)
 			.where(i => i.modalidade.includes("LAUDO"))
 			.toArray();
+	}
+
+	private createAgendaTecnico()
+	{
+		if (this.os.codTecnico == null) return;
+
+		this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
+			.then(s =>
+			{
+				if (s)
+				{
+					var notificacao: Notificacao =
+					{
+						titulo: "Agenda Técnico",
+						descricao: `O chamado ${this.os.codOS} foi alocado na agenda do técnico ${this.os.tecnico.nome}`,
+						lida: 0,
+						indAtivo: 1,
+						codUsuario: this.userSession.usuario.codUsuario
+					};
+					this._notificacaoService.criar(notificacao).toPromise();
+				}
+			}).catch(
+				e =>
+				{
+					var notificacao: Notificacao =
+					{
+						titulo: "Agenda Técnico",
+						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na agenda do técnico ${this.os.tecnico.nome}`,
+						lida: 0,
+						indAtivo: 1,
+						codUsuario: this.userSession.usuario.codUsuario
+					};
+					this._notificacaoService.criar(notificacao).toPromise();
+				});
 	}
 }

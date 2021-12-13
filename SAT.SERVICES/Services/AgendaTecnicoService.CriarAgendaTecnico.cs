@@ -11,15 +11,12 @@ namespace SAT.SERVICES.Services
 {
     public partial class AgendaTecnicoService : IAgendaTecnicoService
     {
-        public AgendaTecnico CriarAgendaTecnico(int codOS)
+        public AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico)
         {
             var os = this._osRepo.ObterEntidadePorCodigo(codOS);
 
-            if (!os.CodTecnico.HasValue) return null;
-
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
-            var codTecnico = os.CodTecnico.Value;
 
             var agendamentos = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
             var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);

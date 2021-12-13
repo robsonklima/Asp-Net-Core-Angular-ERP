@@ -39,9 +39,9 @@ export class AgendaTecnicoService
         return this._httpClient.get(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((data: AgendaTecnicoData) => data))
     }
 
-    criarAgendaTecnico(codOS: number): Observable<AgendaTecnico>
+    criarAgendaTecnico(codOS: number, codTecnico: number): Observable<AgendaTecnico>
     {
-        const url = `${c.api}/AgendaTecnico/CriarOS/${codOS}`;
+        const url = `${c.api}/AgendaTecnico/CriarOS/${codOS},${codTecnico}`;
         return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
     }
 

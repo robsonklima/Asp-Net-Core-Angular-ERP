@@ -45,14 +45,14 @@ namespace SAT.API.Controllers
             return evento;
         }
 
-        [HttpGet("CriarOS/{codOS}")]
-        public AgendaTecnico Post(int codOS)
+        [HttpGet("CriarOS/{codOS},{codTecnico}")]
+        public AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico)
         {
-            return _agendaServ.CriarAgendaTecnico(codOS);
+            return _agendaServ.CriarAgendaTecnico(codOS, codTecnico);
         }
 
         [HttpGet("DeletarOS/{codOS},{codTecnico}")]
-        public void Post(int codOS, int codTecnico)
+        public void DeletarAgendaTecnico(int codOS, int codTecnico)
         {
             _agendaServ.DeletarAgendaTecnico(codOS, codTecnico);
         }

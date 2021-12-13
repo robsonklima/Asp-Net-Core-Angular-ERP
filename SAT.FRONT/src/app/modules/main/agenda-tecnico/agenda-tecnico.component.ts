@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, formatDate, MbscPopup, MbscPopupOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -50,9 +50,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   userSession: UserSession;
   tecnicos: Tecnico[] = [];
   events: MbscAgendaTecnicoCalendarEvent[] = [];
-  intervalos: AgendaTecnico[] = [];
   agendaTecnicos: AgendaTecnico[] = [];
-  chamados: OrdemServico[] = [];
   resources = [];
   weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
   weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
@@ -279,8 +277,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           color: ag.cor,
           editable: ag.indAgendamento == 0 ? true : false,
           resource: ag.codTecnico,
-          ordemServico: ag.ordemServico,
-          tooltip: ''
+          ordemServico: ag.ordemServico
         });
     });
   }
@@ -562,8 +559,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   /** Mapa */
   public abrirMapa(codTecnico: number): void
   {
-    const resource = this.resources.filter(r => r.id === codTecnico).shift();
-    const chamados = this.chamados.filter(os => os.codTecnico === codTecnico);
+    const resource = Enumerable.from(this.resources)
+      .firstOrDefault(r => r.id === codTecnico);
+
+    const chamados = Enumerable.from(this.events)
+      .where(e => e.resource === codTecnico && e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
+      .select(i => i.ordemServico)
+      .toArray();
 
     this._dialog.open(RoteiroMapaComponent, {
       width: '960px',

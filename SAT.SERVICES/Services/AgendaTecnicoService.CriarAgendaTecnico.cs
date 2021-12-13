@@ -29,7 +29,7 @@ namespace SAT.SERVICES.Services
 
         private AgendaTecnico CriaNovoEventoOS(List<AgendaTecnico> agendamentos, OrdemServico os, int mediaTecnico, int codTecnico)
         {
-            if (os.Agendamentos.Any())
+            if (os.Agendamentos != null && os.Agendamentos.Any())
                 return CriaNovoEventoOSComAgendamento(agendamentos, os, mediaTecnico, codTecnico);
 
             var ultimoEvento = agendamentos

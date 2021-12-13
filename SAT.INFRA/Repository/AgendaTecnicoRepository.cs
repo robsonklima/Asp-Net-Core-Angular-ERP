@@ -85,7 +85,9 @@ namespace SAT.INFRA.Repository
         {
             var agendas = _context.AgendaTecnico
             .Include(i => i.OrdemServico)
-            .ThenInclude(i => i.TipoIntervencao)
+                .ThenInclude(i => i.TipoIntervencao)
+            .Include(i => i.OrdemServico)
+                .ThenInclude(i => i.LocalAtendimento)
             .AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)

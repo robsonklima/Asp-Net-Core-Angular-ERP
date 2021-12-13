@@ -134,6 +134,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.LocalAtendimento)
                 .Include(i => i.Tecnico)
                 .Include(i => i.TipoIntervencao)
+                .Include(i => i.Agendamentos)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

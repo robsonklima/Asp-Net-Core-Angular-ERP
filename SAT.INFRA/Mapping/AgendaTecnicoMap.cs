@@ -14,11 +14,11 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasKey(prop => prop.CodAgendaTecnico);
 
-            // builder
-            //     .Ignore(prop => prop.Cor);
-
-            // builder
-            //     .Ignore(prop => prop.Titulo);
+            builder
+                .HasOne(prop => prop.OrdemServico)
+                .WithMany()
+                .HasForeignKey(i => i.CodOS)
+                .HasPrincipalKey(i => i.CodOS);
         }
     }
 }

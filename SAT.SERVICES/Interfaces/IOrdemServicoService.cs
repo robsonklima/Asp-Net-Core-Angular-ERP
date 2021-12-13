@@ -12,7 +12,6 @@ namespace SAT.SERVICES.Interfaces
         OrdemServico Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
-        OrdemServico ObterEntidadePorCodigo(int codigo);
         IActionResult ExportToExcel(OrdemServicoParameters parameters);
     }
 }

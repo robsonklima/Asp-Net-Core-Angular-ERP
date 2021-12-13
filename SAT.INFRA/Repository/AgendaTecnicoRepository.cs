@@ -83,7 +83,10 @@ namespace SAT.INFRA.Repository
 
         public IQueryable<AgendaTecnico> ObterQuery(AgendaTecnicoParameters parameters)
         {
-            var agendas = _context.AgendaTecnico.AsQueryable();
+            var agendas = _context.AgendaTecnico
+            .Include(i => i.OrdemServico)
+            .ThenInclude(i => i.TipoIntervencao)
+            .AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
                 agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Fim.Date <= parameters.FimPeriodoAgenda.Value.Date);

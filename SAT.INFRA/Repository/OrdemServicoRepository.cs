@@ -133,6 +133,7 @@ namespace SAT.INFRA.Repository
             var ordemServico = _context.OrdemServico
                 .Include(i => i.LocalAtendimento)
                 .Include(i => i.Tecnico)
+                .Include(i => i.TipoIntervencao)
                 .FirstOrDefault(os => os.CodOS == codigo);
 
             return ordemServico;

@@ -59,8 +59,7 @@ namespace SAT.SERVICES.Services
                     {
                         if (i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now)
                         {
-                            var os = this._osRepo.ObterEntidadePorCodigo(i.CodOS.Value);
-                            if (os.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                            if (i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
                             {
                                 var eventosRealocados = this.RealocaEventosTecnico(eventosDoTecnico.ToList());
                                 eventosValidados.AddRange(eventosRealocados);
@@ -69,8 +68,7 @@ namespace SAT.SERVICES.Services
                         }
                         else if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                         {
-                            var os = this._osRepo.ObterEntidadePorCodigo(i.CodOS.Value);
-                            i.Cor = GetStatusColor(os.CodStatusServico);
+                            i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
                             this._agendaRepo.Atualizar(i);
                         }
 
@@ -126,7 +124,7 @@ namespace SAT.SERVICES.Services
 
             agendasTecnico.ToList().ForEach(e =>
             {
-                var os = this._osRepo.ObterEntidadePorCodigo(e.CodOS.Value);
+                var os = e.OrdemServico;
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
 
                 var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;

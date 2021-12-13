@@ -145,11 +145,11 @@ namespace SAT.SERVICES.Services
             if (!eventosSobrepostos.Any()) return;
 
             var ultimoEvento = agendasTecnico.OrderByDescending(i => i.Fim).FirstOrDefault();
-            var ultimaOS = this._osRepo.ObterEntidadePorCodigo(ultimoEvento.CodOS.Value);
+            var ultimaOS = ultimoEvento.OrdemServico;
 
             eventosSobrepostos.ToList().ForEach(e =>
             {
-                var os = this._osRepo.ObterEntidadePorCodigo(e.CodOS.Value);
+                var os = e.OrdemServico;
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
 
                 var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
@@ -222,7 +222,6 @@ namespace SAT.SERVICES.Services
                     return "#C8C8C8C8";
             }
         }
-
 
         private string IsAgendamentoColor => "#381354";
         private bool isIntervalo(DateTime time) => time >= InicioIntervalo && time <= FimIntervalo;

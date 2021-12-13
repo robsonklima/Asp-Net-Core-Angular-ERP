@@ -52,12 +52,6 @@ namespace SAT.SERVICES.Services
             return os;
         }
 
-        public OrdemServico ObterEntidadePorCodigo(int codigo)
-        {
-            var os = _ordemServicoRepo.ObterEntidadePorCodigo(codigo);
-            return os;
-        }
-
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);

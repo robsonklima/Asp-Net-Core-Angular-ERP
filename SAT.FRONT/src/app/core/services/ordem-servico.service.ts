@@ -8,38 +8,44 @@ import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from '../types
 @Injectable({
   providedIn: 'root'
 })
-export class OrdemServicoService {
-  constructor(
+export class OrdemServicoService
+{
+  constructor (
     private http: HttpClient
-  ) {}
+  ) { }
 
-  obterPorParametros(parameters: OrdemServicoParameters): Observable<OrdemServicoData> {
+  obterPorParametros(parameters: OrdemServicoParameters): Observable<OrdemServicoData>
+  {
     let params = new HttpParams();
 
-    Object.keys(parameters).forEach(key => {
+    Object.keys(parameters).forEach(key =>
+    {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
-    
+
     return this.http.get(`${c.api}/OrdemServico`, { params: params }).pipe(
       map((data: OrdemServicoData) => data)
     )
   }
 
-  obterPorCodigo(codOS: number): Observable<OrdemServico> {
+  obterPorCodigo(codOS: number): Observable<OrdemServico>
+  {
     const url = `${c.api}/OrdemServico/${codOS}`;
 
     return this.http.get<OrdemServico>(url).pipe(
       map((obj) => obj)
     );
-}
+  }
 
-  criar(ordemServico: OrdemServico): Observable<OrdemServico> {
+  criar(ordemServico: OrdemServico): Observable<OrdemServico>
+  {
     return this.http.post<OrdemServico>(`${c.api}/OrdemServico`, ordemServico).pipe(
       map((obj) => obj)
     );
   }
 
-  atualizar(ordemServico: OrdemServico): Observable<OrdemServico> {
+  atualizar(ordemServico: OrdemServico): Observable<OrdemServico>
+  {
     const url = `${c.api}/OrdemServico`;
 
     return this.http.put<OrdemServico>(url, ordemServico).pipe(
@@ -47,7 +53,8 @@ export class OrdemServicoService {
     );
   }
 
-  deletar(codOS: number): Observable<OrdemServico> {
+  deletar(codOS: number): Observable<OrdemServico>
+  {
     const url = `${c.api}/OrdemServico/${codOS}`;
 
     return this.http.delete<OrdemServico>(url).pipe(

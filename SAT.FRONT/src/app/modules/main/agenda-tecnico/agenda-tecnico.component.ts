@@ -230,7 +230,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           title: ag.titulo,
           color: ag.cor,
           editable: ag.indAgendamento == 0 ? true : false,
-          resource: ag.codTecnico
+          resource: ag.codTecnico,
+          ordemServico: ag.ordemServico
         });
     });
   }
@@ -298,15 +299,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       agendaTecnico.indAgendamento = 1;
     }
 
-    console.log(agendaTecnico);
-
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
 
     if (ag != null)
     {
       if (ag.indAgendamento == 1) this.obterDados(false);
 
-      var os = (await this._osSvc.obterPorCodigo(ev.ordemServico.codOS).toPromise());
+      var os = ev.ordemServico;
 
       os.codTecnico = ag.codTecnico;
       os.dataHoraTransf = ag.ultimaAtualizacao;
@@ -315,9 +314,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       ev.codAgendaTecnico = ag.codAgendaTecnico;
 
-      var os = (await this._osSvc.atualizar(os).toPromise());
+      var updatedOS = (await this._osSvc.atualizar(os).toPromise());
 
-      if (os)
+      if (updatedOS)
       {
         this._notify.toast({
           message: 'Atendimento agendado com sucesso.',
@@ -349,7 +348,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async updateResourceChange(args)
   {
     var ev = args.event;
-    var os = (await this._osSvc.obterPorCodigo(ev.codOS).toPromise());
+    var os = args.event.ordemServico;
     os.codTecnico = ev.resource;
 
     this._osSvc.atualizar(os).toPromise().then(() =>
@@ -491,9 +490,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async showOSInfo(args)
   {
-    var codOS = args.event.codOS;
-    var os = (await this._osSvc.obterPorCodigo(codOS).toPromise());
-
+    var os = args.event.ordemServico;
     if (os == null) return;
 
     var text = "";

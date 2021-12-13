@@ -186,9 +186,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codTecnicos: this.filter?.parametros?.codTecnicos
     }).toPromise()).items;
 
+
+    var codTecnicos =
+      Enumerable.from(this.tecnicos).select(i => i.codTecnico).toJoinedString(",");
+
     this.agendaTecnicos = (await this._agendaTecnicoSvc.obterAgendaTecnico({
       codFiliais: this.filter?.parametros?.codFiliais,
-      codTecnicos: this.filter?.parametros?.codTecnicos,
+      codTecnicos: codTecnicos,
       inicioPeriodoAgenda: this.weekStart,
       fimPeriodoAgenda: this.weekEnd,
       sortActive: 'nome',
@@ -196,7 +200,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }).toPromise());
 
     await this.carregaAgenda();
-    await this.criaIntervalosDoDia();
     this.exibePontosDoDia();
 
     this.loading = false;
@@ -274,8 +277,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     var agendaTecnico: AgendaTecnico =
     {
-      inicio: moment(ev.dataAgendamento).format('yyyy-MM-DD HH:mm:ss'),
-      fim: moment(ev.dataAgendamento).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss'),
+      inicio: moment(ev.start).format('yyyy-MM-DD HH:mm:ss'),
+      fim: moment(ev.end).format('yyyy-MM-DD HH:mm:ss'),
       codOS: ev.ordemServico.codOS,
       codTecnico: ev.resource,
       titulo: ev.ordemServico.localAtendimento.nomeLocal.toUpperCase(),
@@ -294,6 +297,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       agendaTecnico.cor = this._validator.agendamentoColor();
       agendaTecnico.indAgendamento = 1;
     }
+
+    console.log(agendaTecnico);
 
     var ag = (await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise());
 
@@ -403,49 +408,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       })
     }
     inst.removeEvent(args.event);
-  }
-
-  private async criaIntervalosDoDia()
-  {
-    Enumerable.from(this.tecnicos).where(i => !this._validator.isOnVacation(i)).forEach(tecnico =>
-    {
-      var intervalosDoDia = Enumerable.from(this.events)
-        .where(i => moment(i.start).format('yyyy-MM-DD') == moment().format('yyyy-MM-DD') && i.resource == tecnico.codTecnico && i.agendaTecnico.tipo == AgendaTecnicoTypeEnum.INTERVALO).toArray();
-
-      if (!Enumerable.from(intervalosDoDia).any())
-      {
-        var agendaTecnico: AgendaTecnico =
-        {
-          inicio: moment().set({ hour: 12, minute: 0, second: 0, millisecond: 0 }).format('yyyy-MM-DD HH:mm:ss'),
-          fim: moment().set({ hour: 13, minute: 0, second: 0, millisecond: 0 }).format('yyyy-MM-DD HH:mm:ss'),
-          codOS: 0,
-          codTecnico: tecnico.codTecnico,
-          titulo: "INTERVALO",
-          cor: this._validator.getTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
-          ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
-          tipo: AgendaTecnicoTypeEnum.INTERVALO,
-          indAgendamento: 0,
-          usuarioCadastro: "ADMIN",
-          cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
-        }
-
-        this._agendaTecnicoSvc.criar(agendaTecnico).subscribe(intervalo =>
-        {
-          this.events = this.events.concat(
-            {
-              codAgendaTecnico: intervalo.codAgendaTecnico,
-              codOS: intervalo.codOS,
-              agendaTecnico: intervalo,
-              start: intervalo.inicio,
-              end: intervalo.fim,
-              title: intervalo.titulo,
-              color: intervalo.cor,
-              editable: intervalo.indAgendamento == 0 ? true : false,
-              resource: intervalo.codTecnico
-            });
-        });
-      }
-    });
   }
 
   private async exibePontosDoDia()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
@@ -42,7 +43,7 @@ namespace SAT.SERVICES.Services
 
             // se começa durante a sugestão de intervalo
             if (this.isIntervalo(start))
-                start = this.InicioIntervalo;
+                start = this.FimIntervalo;
             else if (start >= this.FimExpediente)
             {
                 start = start.AddDays(1);
@@ -52,6 +53,14 @@ namespace SAT.SERVICES.Services
 
             // adiciona deslocamento
             start = start.AddMinutes(deslocamento);
+            if (this.isIntervalo(start))
+                start = this.FimIntervalo;
+            else if (start >= this.FimExpediente)
+            {
+                start = start.AddDays(1);
+                if (this.isIntervalo(start))
+                    start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+            }
 
             // se termina durante a sugestao de intervalo
             var end = start.AddMinutes(mediaTecnico);
@@ -179,11 +188,27 @@ namespace SAT.SERVICES.Services
             });
         }
 
-        private int DistanciaEmMinutos(OrdemServico osAtual, OrdemServico osAnterior)
+        private double DistanciaEmMinutos(OrdemServico osAtual, OrdemServico osAnterior)
         {
-            return 5;
+            double? orig_lat = null, orig_long = null, dest_lat = null, dest_long = null;
+
+            if (osAnterior != null)
+            {
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento.Latitude)) orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento.Longitude)) orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+            }
+            else if (osAtual.Tecnico != null)
+            {
+                if (!string.IsNullOrEmpty(osAtual.Tecnico.Latitude)) orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAtual.Tecnico.Longitude)) orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
+            }
+
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento.Latitude)) dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento.Longitude)) dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+
+            return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
         }
-        public string GetTypeColor(AgendaTecnicoTypeEnum type)
+        private string GetTypeColor(AgendaTecnicoTypeEnum type)
         {
             switch (type)
             {
@@ -198,7 +223,8 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public string IsAgendamentoColor => "#381354";
+
+        private string IsAgendamentoColor => "#381354";
         private bool isIntervalo(DateTime time) => time >= InicioIntervalo && time <= FimIntervalo;
         private DateTime InicioExpediente => DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
         private DateTime FimExpediente => DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));

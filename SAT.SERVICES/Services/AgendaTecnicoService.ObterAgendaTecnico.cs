@@ -16,6 +16,9 @@ namespace SAT.SERVICES.Services
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value);
 
             agendamentos =
+                this.CriaIntervalosDoDia(agendamentos, parameters);
+
+            agendamentos =
                 this.ValidaAgendamentos(agendamentos);
 
             return agendamentos.ToArray();
@@ -24,7 +27,7 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo) =>
            this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
-               InicioPeriodoAgenda = inicioPeriodo,
+               InicioPeriodoAgenda = inicioPeriodo.AddDays(-7),
                FimPeriodoAgenda = fimPeriodo
            }).ToList();
 
@@ -36,17 +39,141 @@ namespace SAT.SERVICES.Services
                CodTecnico = codTecnico
            }).ToList();
 
-        private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos) =>
-            agendamentos.Select(i =>
+        private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
+        {
+            List<AgendaTecnico> eventosValidados =
+            agendamentos.Where(i => i.Tipo != AgendaTecnicoTypeEnum.OS || i.IndAgendamento == 1).ToList();
+
+            agendamentos
+            .Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0)
+            .GroupBy(i => i.CodTecnico)
+            .ToList()
+            .ForEach(eventosDoTecnico =>
             {
-                if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.CodOS.HasValue && i.IndAgendamento == 0 && i.Fim < DateTime.Now)
+                eventosDoTecnico
+                .OrderBy(i => i.Inicio)
+                .ToList()
+                .ForEach(i =>
                 {
-                    var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
-                    i.Cor = GetStatusColor(os.CodStatusServico);
-                    this._agendaRepo.Atualizar(i);
+                    if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.CodOS.HasValue && i.IndAgendamento == 0 && i.Fim.Date <= DateTime.Now.Date)
+                    {
+                        if (i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now)
+                        {
+                            var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
+                            if (os.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                            {
+                                var eventosRealocados = this.RealocaEventosTecnico(eventosDoTecnico.ToList());
+                                eventosValidados.AddRange(eventosRealocados);
+                                return;
+                            }
+                        }
+                        else if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
+                        {
+                            var os = this._osRepo.ObterPorCodigo(i.CodOS.Value);
+                            i.Cor = GetStatusColor(os.CodStatusServico);
+                            this._agendaRepo.Atualizar(i);
+                        }
+
+                        eventosValidados.Add(i);
+                    }
+                });
+            });
+            return eventosValidados;
+        }
+
+        private List<AgendaTecnico> CriaIntervalosDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
+        {
+            var codTecnicos = parameters.CodTecnicos.Split(",").Select(i => i.Trim()).ToList();
+
+            var intervalosDoDia =
+                agendamentos
+                .Where(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+
+            if (intervalosDoDia.Count() == codTecnicos.Count()) return agendamentos;
+
+            codTecnicos.ForEach(codTec =>
+            {
+                var codTecnico = Convert.ToInt32(codTec);
+                if (!intervalosDoDia.Any(i => i.CodTecnico == codTecnico))
+                {
+                    AgendaTecnico a = new AgendaTecnico
+                    {
+                        CodTecnico = codTecnico,
+                        UsuarioCadastro = "ADMIN",
+                        Cadastro = DateTime.Now,
+                        Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
+                        Tipo = AgendaTecnicoTypeEnum.INTERVALO,
+                        Titulo = "INTERVALO",
+                        Inicio = this.InicioIntervalo,
+                        Fim = this.FimIntervalo,
+                        IndAgendamento = 0
+                    };
+
+                    var ag = this._agendaRepo.Criar(a);
+                    agendamentos.Add(ag);
                 }
-                return i;
-            }).ToList();
+            });
+            return agendamentos;
+        }
+
+        // Realoca eventos devido a atraso
+        private List<AgendaTecnico> RealocaEventosTecnico(List<AgendaTecnico> agendasTecnico)
+        {
+            var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
+
+            AgendaTecnico ultimoEvento = null;
+            OrdemServico ultimaOS = null;
+
+            agendasTecnico.ToList().ForEach(e =>
+            {
+                var os = this._osRepo.ObterPorCodigo(e.CodOS.Value);
+                var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
+
+                var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
+
+                // se começa durante a sugestão de intervalo
+                if (this.isIntervalo(start))
+                    start = this.FimIntervalo;
+                else if (start >= this.FimExpediente)
+                {
+                    start = start.AddDays(1);
+                    if (this.isIntervalo(start))
+                        start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                }
+
+                var duracao = (e.Fim - e.Inicio).TotalMinutes;
+
+                // adiciona deslocamento
+                start = start.AddMinutes(deslocamento);
+                if (this.isIntervalo(start))
+                    start = this.FimIntervalo;
+                else if (start >= this.FimExpediente)
+                {
+                    start = start.AddDays(1);
+                    if (this.isIntervalo(start))
+                        start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                }
+
+                // se termina durante a sugestao de intervalo
+                var end = start.AddMinutes(duracao);
+                if (this.isIntervalo(end))
+                {
+                    start = end.AddMinutes(deslocamento);
+                    end = start.AddMinutes(duracao);
+                }
+
+                e.Inicio = start;
+                e.Fim = end;
+                e.UsuarioAtualizacao = "ADMIN";
+                e.UltimaAtualizacao = DateTime.Now;
+                var ag = this._agendaRepo.Atualizar(e);
+
+                ultimoEvento = ag;
+                ultimaOS = os;
+            });
+
+            return agendasTecnico;
+        }
 
         private string GetStatusColor(int statusOS)
         {

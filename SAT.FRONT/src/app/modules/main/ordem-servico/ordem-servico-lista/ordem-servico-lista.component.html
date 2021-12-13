@@ -53,7 +53,7 @@
                                         {{ t('abertura') }}
                                     </div>
                                     <div class="hidden sm:block text-center pl-2"
-                                        [mat-sort-header]="'dataHoraSolicitacao'">
+                                        [mat-sort-header]="'dataHoraAgendamento'">
                                         {{ t('agendamento') }}
                                     </div>
                                     <div class="text-center" [mat-sort-header]="'fimSLA'">
@@ -108,14 +108,13 @@
                                                 </div>
 
                                                 <div class="hidden sm:block">
-                                                    <span [matTooltip]="statusAgendamento(os)"
-                                                        matTooltipPosition="above">
+                                                    <span>
                                                         <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.agendamentos?.length >
                                                             0 ? '#670067' : '',
                                                             'color': os.agendamentos?.length >
                                                             0 ?  '#FFFFFF' : '#000000'}">
-                                                            {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm'}}
+                                                            {{ (obterAgendamento(os) | date:'dd/MM HH:mm') || "---" }}
                                                         </span>
                                                     </span>
                                                 </div>

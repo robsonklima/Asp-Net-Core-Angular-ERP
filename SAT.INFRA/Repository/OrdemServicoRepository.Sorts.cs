@@ -84,11 +84,14 @@ namespace SAT.INFRA.Repository
 
                     case "datahoraAberturaOS":
                         query = sortDirection == "asc" ?
-                            query.Where(s => s.DataHoraAberturaOS != null).OrderBy(q => q.DataHoraAberturaOS) :
-                            query.Where(s => s.DataHoraAberturaOS != null).OrderByDescending(q => q.DataHoraAberturaOS);
+                            query.Where(s => s.DataHoraAberturaOS.HasValue).OrderBy(q => q.DataHoraAberturaOS) :
+                            query.Where(s => s.DataHoraAberturaOS.HasValue).OrderByDescending(q => q.DataHoraAberturaOS);
                         break;
 
-                    case "statusSLA":
+                    case "dataHoraAgendamento":
+                        query = sortDirection == "asc" ?
+                               query.OrderBy(q => q.Agendamentos.OrderByDescending(i => i.CodAgendamento).FirstOrDefault().DataAgendamento) :
+                               query.OrderByDescending(q => q.Agendamentos.OrderByDescending(i => i.CodAgendamento).FirstOrDefault().DataAgendamento);
                         break;
 
                     default:

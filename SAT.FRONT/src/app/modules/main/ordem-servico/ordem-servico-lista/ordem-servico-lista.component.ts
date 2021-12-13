@@ -179,12 +179,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         this._onDestroy.complete();
     }
 
-    statusAgendamento(os: OrdemServico)
-    {
-        if (os.agendamentos?.length > 0)
-            return 'AGENDAMENTO';
-    }
-
     tooltipSLA(os: OrdemServico)
     {
         if (os.equipamentoContrato == null || os.equipamentoContrato?.acordoNivelServico == null) return null;
@@ -232,6 +226,16 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         }
 
         return description;
+    }
+
+    obterAgendamento(os: OrdemServico): string
+    {
+        var ultimoAgendamento = Enumerable.from(os.agendamentos).orderByDescending(i => i.codAgendamento).firstOrDefault();
+
+        if (ultimoAgendamento != null)
+            return ultimoAgendamento.dataAgendamento;
+
+        return null;
     }
 
     tecnicoDescricao(os: OrdemServico)

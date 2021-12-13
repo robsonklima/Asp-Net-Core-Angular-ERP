@@ -147,7 +147,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         });
         return false;
       }
-      return this.updateEvent(args);
+      return this.updateEvent(args.event);
     },
     onCellDoubleClick: (args, inst) =>
     {
@@ -297,7 +297,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!isFromSameRegion)
     {
-      var message: string = `Você transferiu o chamado ${ev.ordemServico.codOS} para um técnico com a região diferente do chamado.`;
+      var message: string = `Você transferiu o chamado ${ev.ordemServico?.codOS} para um técnico com a região diferente do chamado.`;
       await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
     }
 
@@ -416,25 +416,22 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
   }
 
-  private async updateResourceChange(args)
+  private async updateResourceChange(event)
   {
-    var ev = args.event;
-    var os = args.event.ordemServico;
-    os.codTecnico = ev.resource;
+    var os = event.ordemServico;
+    os.codTecnico = event.resource;
 
     this._osSvc.atualizar(os).toPromise().then(() =>
     {
-      return this.updateEvent(args);
+      return this.updateEvent(event);
     }).catch(() =>
     {
       return false;
     });
   }
 
-  private async updateEvent(args)
+  private async updateEvent(ev)
   {
-    var ev = args.event;
-
     var agenda: AgendaTecnico = ev.agendaTecnico;
     agenda.codTecnico = ev.resource;
     agenda.inicio = moment(ev.start).format('yyyy-MM-DD HH:mm:ss');
@@ -445,7 +442,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     if (moment(ev.end) > moment() && ev.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
     {
       agenda.cor = this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS);
-      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == args.event.codAgendaTecnico);
+      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == ev.codAgendaTecnico);
       event.color = agenda.cor;
     }
 
@@ -468,8 +465,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   public async deleteEvent(args, inst)
   {
-    var os = args.event.ordemServico;
-    var ag = os?.codAgendaTecnico;
+    var ag = args.event?.agendaTecnico;
 
     if (ag)
     {

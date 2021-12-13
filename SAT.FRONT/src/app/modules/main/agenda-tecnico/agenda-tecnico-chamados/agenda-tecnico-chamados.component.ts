@@ -71,7 +71,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
       .select(os =>
       {
         return {
-          title: os.localAtendimento?.nomeLocal,
+          title: os.localAtendimento?.nomeLocal.toUpperCase(),
           nomeLocal: os.localAtendimento?.nomeLocal,
           cliente: os.cliente?.razaoSocial,
           regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,

@@ -83,7 +83,9 @@ namespace SAT.SERVICES.Services
 
         private List<AgendaTecnico> CriaIntervalosDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
         {
-            var codTecnicos = parameters.CodTecnicos.Split(",").Select(i => i.Trim()).ToList();
+            var codTecnicos = parameters.CodTecnicos?.Split(",").Select(i => i.Trim()).ToList() ?? null;
+
+            if (codTecnicos == null) return agendamentos;
 
             var intervalosDoDia =
                 agendamentos

@@ -235,12 +235,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
       codFiliais: this.filter?.parametros?.codFiliais,
       pas: this.filter?.parametros?.pas,
+      codTecnicos: this.filter?.parametros?.codTecnicos,
       codRegioes: this.filter?.parametros?.codRegioes,
       sortActive: 'nome',
-      sortDirection: 'asc',
-      codTecnicos: this.filter?.parametros?.codTecnicos
+      sortDirection: 'asc'
     }).toPromise()).items;
-
 
     var codTecnicos =
       Enumerable.from(this.tecnicos).select(i => i.codTecnico).toJoinedString(",");

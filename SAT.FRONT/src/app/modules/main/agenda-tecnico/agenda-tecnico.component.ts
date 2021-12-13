@@ -96,7 +96,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     dragToCreate: false,
     clickToCreate: false,
     showEventTooltip: false,
-    showLabelCount: true,
     onEventCreate: (args, inst) =>
     {
       if (this._validator.hasOverlap(args, inst))
@@ -310,11 +309,28 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   /** Mobiscroll */
 
+  public mouseEnter(): void
+  {
+    if (this.timer)
+    {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+  }
+
+  public mouseLeave(): void
+  {
+    this.timer = setTimeout(() =>
+    {
+      this.tooltip.close();
+    }, 200);
+  }
+
   private async changeWeek(args, inst)
   {
     this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
     this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
-    await this.obterDados();
+    await this.obterDados(false);
   }
 
   private async validateNewEvent(args, inst)
@@ -574,20 +590,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.tooltip.open();
   }
 
-  mouseEnter(): void
+  public countResourceEvents(resource: any): number
   {
-    if (this.timer)
-    {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
-  }
-
-  mouseLeave(): void
-  {
-    this.timer = setTimeout(() =>
-    {
-      this.tooltip.close();
-    }, 200);
+    return Enumerable.from(this.events)
+      .where(i => i.resource == resource.id && i.agendaTecnico.tipo ==
+        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.FECHADO).count();
   }
 }

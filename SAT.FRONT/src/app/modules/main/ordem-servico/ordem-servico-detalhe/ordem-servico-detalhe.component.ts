@@ -16,6 +16,7 @@ import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -48,7 +49,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _userService: UserService,
 		private _snack: CustomSnackbarService,
 		private _cdr: ChangeDetectorRef,
-		private _dialog: MatDialog
+		private _dialog: MatDialog,
+		private _agendaTecnicoService: AgendaTecnicoService
 	)
 	{
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -151,6 +153,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 							result =>
 							{
 								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+								this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS).toPromise();
 								this.obterDadosOrdemServico();
 							},
 							error =>
@@ -257,6 +260,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					{
 						this.obterDadosOrdemServico();
 						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+						this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise();
 					},
 					error =>
 					{

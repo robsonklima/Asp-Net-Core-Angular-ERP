@@ -13,5 +13,6 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
+        OrdemServico ObterEntidadePorCodigo(int codigo);
     }
 }

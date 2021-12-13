@@ -1,14 +1,16 @@
-﻿using SAT.MODELS.Entities;
+﻿using System.Linq;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 
 namespace SAT.INFRA.Interfaces
 {
     public interface IAgendaTecnicoRepository
     {
-        void Criar(AgendaTecnico agenda);
+        AgendaTecnico Criar(AgendaTecnico agenda);
+        IQueryable<AgendaTecnico> ObterQuery(AgendaTecnicoParameters parameters);
         PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
         void Deletar(int codigo);
-        void Atualizar(AgendaTecnico agenda);
+        AgendaTecnico Atualizar(AgendaTecnico agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
     }
 }

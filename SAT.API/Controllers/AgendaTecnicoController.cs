@@ -20,6 +20,12 @@ namespace SAT.API.Controllers
             _agendaServ = agendaServ;
         }
 
+        [HttpGet("Agenda")]
+        public AgendaTecnico[] GetAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
+        {
+            return _agendaServ.ObterAgendaTecnico(parameters);
+        }
+
         [HttpGet]
         public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
         {
@@ -38,6 +44,19 @@ namespace SAT.API.Controllers
             _agendaServ.Criar(evento);
             return evento;
         }
+
+        [HttpGet("CriarOS/{codOS}")]
+        public AgendaTecnico Post(int codOS)
+        {
+            return _agendaServ.CriarAgendaTecnico(codOS);
+        }
+
+        [HttpGet("DeletarOS/{codOS},{codTecnico}")]
+        public void Post(int codOS, int codTecnico)
+        {
+            _agendaServ.DeletarAgendaTecnico(codOS, codTecnico);
+        }
+
 
         [HttpPut]
         public void Put([FromBody] AgendaTecnico evento)

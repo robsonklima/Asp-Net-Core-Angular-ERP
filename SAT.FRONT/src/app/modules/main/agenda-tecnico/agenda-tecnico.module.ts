@@ -5,7 +5,7 @@ import { agendaTecnicoRoutes } from 'app/modules/main/agenda-tecnico/agenda-tecn
 import { TranslocoModule } from '@ngneat/transloco';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MbscModule } from '@mobiscroll/angular';
+import { MbscModule, MbscPopup, MbscPopupModule } from '@mobiscroll/angular';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';

@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoOMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoTypeEnum, Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoOMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
 import moment, { Moment } from 'moment';
-import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +14,7 @@ import { AgendaTecnicoFormatter } from './agenda-tecnico.formatter';
 export class AgendaTecnicoValidator
 {
     constructor (private _tecnicoService: TecnicoService,
-        private _haversineSvc: HaversineService,
-        private _formatter: AgendaTecnicoFormatter) { }
+        private _haversineSvc: HaversineService) { }
 
     /**
      * valida se a região do chamado e a região do técnico são iguais
@@ -76,7 +74,7 @@ export class AgendaTecnicoValidator
                 message: this.getTecnicoOMaisProximoMessage(nomeTecnico, minDistancia, os)
             }
 
-            return tec
+            return tec;
         }
         else
             return null;
@@ -113,9 +111,6 @@ export class AgendaTecnicoValidator
         if (!t.indFerias)
             return false;
 
-        // if (moment(t.dtFeriasInicio) >= moment() && moment(t.dtFeriasFim) <= moment())
-        //   return true;
-
         return true;
     }
 
@@ -142,7 +137,7 @@ export class AgendaTecnicoValidator
     public hasOverlap(args, inst)
     {
         var ev = args.event;
-        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.ordemServico != null || ev.ordemServico != null));
+        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.tipo != AgendaTecnicoTypeEnum.OS || ev.ordemServico != AgendaTecnicoTypeEnum.OS));
         return events.length > 0;
     }
 
@@ -153,9 +148,9 @@ export class AgendaTecnicoValidator
         return moment(args.event.start) < now;
     }
 
-    public isTechnicianInterval(args)
+    public isTechnicianInterval(event)
     {
-        return args.event.title === "INTERVALO";
+        return event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO;
     }
 
     public invalidMove(args)
@@ -170,13 +165,33 @@ export class AgendaTecnicoValidator
         return args.event.resource != args.oldEvent.resource;
     }
 
-    public validateEvents(events: MbscAgendaTecnicoCalendarEvent[]): void
+    public getTypeColor(type: AgendaTecnicoTypeEnum): string
     {
-        var now = moment();
-        Enumerable.from(events).where(e => e.ordemServico != null).forEach(e =>
+        switch (type)
         {
-            if (moment(e.end) < now)
-                e.color = this._formatter.getStatusColor(e.ordemServico.statusServico?.codStatusServico);
-        });
+            case AgendaTecnicoTypeEnum.OS:
+                return "#009000";
+            case AgendaTecnicoTypeEnum.PONTO:
+                return "#C8C8C8C8";
+            case AgendaTecnicoTypeEnum.INTERVALO:
+                return "#C8C8C8C8";
+        }
+    }
+
+    public agendamentoColor(): string
+    {
+        return '#381354';
+    }
+
+    public lateColor(): string
+    {
+        return '#ff4c4c';
+    }
+
+    public getRealocationStatusColor(referenceTime: Moment): string
+    {
+        if (referenceTime < moment())
+            return this.lateColor();
+        return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
     }
 }

@@ -32,15 +32,19 @@
             </mat-progress-spinner>
             <ng-container *ngIf="!isLoading">
                 <div class="flex pt-3 mb-2" *ngFor="let event of externalEvents" mbsc-draggable [dragData]="event">
-                    <div class="rounded-full p-2 bg-gray-200 w-full text-center">
+                    <div class="rounded-full p-2 w-full text-center"
+                        [ngClass]="{'bg-gray-200': event.indAgendamento == 0,'bg-purple-200': event.indAgendamento == 1}">
                         <div class="font-bold">{{ event.title | uppercase }}</div>
                         <div>{{ "OS " + event.ordemServico?.codOS }} - {{ event.cliente }}</div>
                         <div>{{ event.regiao }} - {{ event.autorizada }}</div>
+                        <div class="font-bold" *ngIf="event.indAgendamento == 1">
+                            {{ "Agendado para: " + (event.dataAgendamento | date:'dd/MM/yy HH:mm') }}
+                        </div>
                     </div>
                 </div>
 
-                <div *ngIf="!externalEvents.length" class="flex w-full pt-6">
-                    <p>Nenhum registro encontrado.</p>
+                <div *ngIf="!externalEvents.length" class="text-center font-bold align-bottom min-h-50">
+                    <p>Nenhum chamado encontrado.</p>
                 </div>
             </ng-container>
         </div>

@@ -11,6 +11,7 @@ import { UserService } from 'app/core/user/user.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { statusServicoConst } from 'app/core/types/status-servico.types';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -29,7 +30,8 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     private _tecnicoService: TecnicoService,
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _agendaTecnicoService: AgendaTecnicoService
   )
   {
     this.sessionData = JSON.parse(this._userService.userSession);
@@ -86,6 +88,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     {
       this.isLoading = false;
       this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
+      this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS).toPromise();
       this.sidenav.close();
     }, error =>
     {

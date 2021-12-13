@@ -51,6 +51,7 @@ namespace SAT.SERVICES.Services
 
             return os;
         }
+
         public ListViewModel ObterPorParametros(OrdemServicoParameters parameters)
         {
             var ordensServico = _ordemServicoRepo.ObterPorParametros(parameters);
@@ -148,7 +149,7 @@ namespace SAT.SERVICES.Services
 
             return false;
         }
-     public IActionResult ExportToExcel(OrdemServicoParameters parameters)
+        public IActionResult ExportToExcel(OrdemServicoParameters parameters)
         {
             var os = _ordemServicoRepo
                         .ObterPorParametros(parameters);

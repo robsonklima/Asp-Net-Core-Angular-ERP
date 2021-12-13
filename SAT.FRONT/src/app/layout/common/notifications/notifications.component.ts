@@ -54,7 +54,7 @@ export class NotificationsComponent implements OnInit, OnDestroy
 
     private async obterNotificacoes()
     {
-        const data = this._notificacaoService.obterPorParametros({ codUsuario: this.userSession.usuario.codUsuario }).toPromise();
+        const data = this._notificacaoService.obterPorParametros({ codUsuario: this.userSession?.usuario?.codUsuario }).toPromise();
         this.notifications = (await data).items;
         this._calculateUnreadCount();
         this._changeDetectorRef.markForCheck();

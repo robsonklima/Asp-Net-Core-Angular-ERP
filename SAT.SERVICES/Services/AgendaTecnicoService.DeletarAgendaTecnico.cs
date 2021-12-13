@@ -1,19 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Enums;
-using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
     public partial class AgendaTecnicoService : IAgendaTecnicoService
     {
-        public AgendaTecnico DeletarAgendaTecnico(int codOS)
+        public void DeletarAgendaTecnico(int codOS, int codTecnico)
         {
-            return null;
+            var ag = this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
+            {
+                CodTecnico = codTecnico,
+                CodOS = codOS,
+                IndAtivo = 1
+            }).ToList();
+
+            if (ag != null)
+                ag.ForEach(a =>
+                {
+                    a.IndAtivo = 0;
+                    this._agendaRepo.Atualizar(a);
+                });
         }
     }
 }

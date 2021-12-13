@@ -82,8 +82,8 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
     agendamento.cor = this._validator.getRealocationStatusColor(moment(this.initialTime));
-    agendamento.usuarioAtualizacao = this.userSession.usuario.codUsuario;
-    agendamento.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
+    agendamento.codUsuarioManut = this.userSession.usuario.codUsuario;
+    agendamento.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
 
     await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
     {

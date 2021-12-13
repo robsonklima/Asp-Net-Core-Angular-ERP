@@ -78,11 +78,11 @@ namespace SAT.SERVICES.Services
                 Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS),
                 CodOS = os.CodOS,
                 CodTecnico = codTecnico,
-                UltimaAtualizacao = DateTime.Now,
                 Tipo = AgendaTecnicoTypeEnum.OS,
                 IndAgendamento = 0,
-                UsuarioCadastro = "ADMIN",
-                Cadastro = DateTime.Now
+                IndAtivo = 1,
+                CodUsuarioCad = "ADMIN",
+                DataHoraCad = DateTime.Now
             };
 
             var ag = this._agendaRepo.Criar(agendaTecnico);
@@ -105,9 +105,9 @@ namespace SAT.SERVICES.Services
                 agendaTecnicoAnterior.Inicio = start;
                 agendaTecnicoAnterior.Fim = end;
                 agendaTecnicoAnterior.Cor = this.IsAgendamentoColor;
-                agendaTecnicoAnterior.UltimaAtualizacao = DateTime.Now;
+                agendaTecnicoAnterior.DataHoraManut = DateTime.Now;
                 agendaTecnicoAnterior.IndAgendamento = 1;
-                agendaTecnicoAnterior.UsuarioAtualizacao = "ADMIN";
+                agendaTecnicoAnterior.CodUsuarioManut = "ADMIN";
 
                 var ag = this._agendaRepo.Atualizar(agendaTecnicoAnterior);
                 agendasTecnico.Add(ag);
@@ -125,11 +125,11 @@ namespace SAT.SERVICES.Services
                     Cor = this.IsAgendamentoColor,
                     CodOS = os.CodOS,
                     CodTecnico = codTecnico,
-                    UltimaAtualizacao = DateTime.Now,
                     Tipo = AgendaTecnicoTypeEnum.OS,
                     IndAgendamento = 1,
-                    UsuarioCadastro = "ADMIN",
-                    Cadastro = DateTime.Now
+                    IndAtivo = 1,
+                    CodUsuarioCad = "ADMIN",
+                    DataHoraCad = DateTime.Now
                 };
 
                 var ag = this._agendaRepo.Criar(agendaTecnico);
@@ -179,8 +179,8 @@ namespace SAT.SERVICES.Services
 
                 e.Inicio = start;
                 e.Fim = end;
-                e.UsuarioAtualizacao = "ADMIN";
-                e.UltimaAtualizacao = DateTime.Now;
+                e.CodUsuarioManut = "ADMIN";
+                e.DataHoraManut = DateTime.Now;
                 var ag = this._agendaRepo.Atualizar(e);
 
                 ultimoEvento = ag;

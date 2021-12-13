@@ -28,7 +28,8 @@ namespace SAT.SERVICES.Services
            this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
                InicioPeriodoAgenda = DateTime.Now.DayOfWeek == DayOfWeek.Monday ? inicioPeriodo.AddDays(-7) : inicioPeriodo,
-               FimPeriodoAgenda = fimPeriodo
+               FimPeriodoAgenda = fimPeriodo,
+               IndAtivo = 1
            }).ToList();
 
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, int codTecnico) =>
@@ -97,14 +98,15 @@ namespace SAT.SERVICES.Services
                     AgendaTecnico a = new AgendaTecnico
                     {
                         CodTecnico = codTecnico,
-                        UsuarioCadastro = "ADMIN",
-                        Cadastro = DateTime.Now,
+                        CodUsuarioCad = "ADMIN",
+                        DataHoraCad = DateTime.Now,
                         Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
                         Tipo = AgendaTecnicoTypeEnum.INTERVALO,
                         Titulo = "INTERVALO",
                         Inicio = this.InicioIntervalo,
                         Fim = this.FimIntervalo,
-                        IndAgendamento = 0
+                        IndAgendamento = 0,
+                        IndAtivo = 1
                     };
 
                     var ag = this._agendaRepo.Criar(a);
@@ -162,8 +164,8 @@ namespace SAT.SERVICES.Services
 
                 e.Inicio = start;
                 e.Fim = end;
-                e.UsuarioAtualizacao = "ADMIN";
-                e.UltimaAtualizacao = DateTime.Now;
+                e.CodUsuarioCad = "ADMIN";
+                e.DataHoraCad = DateTime.Now;
                 var ag = this._agendaRepo.Atualizar(e);
 
                 ultimoEvento = ag;

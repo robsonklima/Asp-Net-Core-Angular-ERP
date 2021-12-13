@@ -58,13 +58,14 @@ export class AgendaTecnico
     tecnico?: Tecnico;
     codOS?: number;
     ordemServico?: OrdemServico;
-    ultimaAtualizacao: string;
     inicio: string;
     fim: string;
     indAgendamento: number;
-    usuarioAtualizacao?: string;
-    cadastro: string;
-    usuarioCadastro: string;
+    indAtivo: number;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
+    dataHoraCad: string;
+    codUsuarioCad: string;
 }
 
 export enum AgendaTecnicoTypeEnum

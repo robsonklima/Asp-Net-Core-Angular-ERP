@@ -51,6 +51,12 @@ namespace SAT.API.Controllers
             return _agendaServ.CriarAgendaTecnico(codOS);
         }
 
+        [HttpGet("DeletarOS/{codOS},{codTecnico}")]
+        public void Post(int codOS, int codTecnico)
+        {
+            _agendaServ.DeletarAgendaTecnico(codOS, codTecnico);
+        }
+
 
         [HttpPut]
         public void Put([FromBody] AgendaTecnico evento)

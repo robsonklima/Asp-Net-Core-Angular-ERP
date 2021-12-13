@@ -9,6 +9,8 @@ namespace SAT.MODELS.Entities
         public string CodFiliais { get; set; }
         public string CodTecnicos { get; set; }
         public int? CodTecnico { get; set; }
+        public int? CodOS { get; set; }
+        public int? IndAtivo { get; set; }
         public AgendaTecnicoTypeEnum? Tipo { get; set; }
         public DateTime? InicioPeriodoAgenda { get; set; }
         public DateTime? FimPeriodoAgenda { get; set; }

@@ -260,6 +260,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					{
 						this.obterDadosOrdemServico();
 						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+						this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise();
 					},
 					error =>
 					{

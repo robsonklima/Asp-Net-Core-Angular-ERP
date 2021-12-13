@@ -350,11 +350,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codTecnico: ev.resource,
       titulo: ev.ordemServico.localAtendimento.nomeLocal.toUpperCase(),
       cor: this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS),
-      ultimaAtualizacao: moment().format('yyyy-MM-DD HH:mm:ss'),
       tipo: AgendaTecnicoTypeEnum.OS,
       indAgendamento: ev.indAgendamento,
-      usuarioCadastro: this.userSession.usuario.codUsuario,
-      cadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+      indAtivo: 1,
+      codUsuarioCad: this.userSession.usuario.codUsuario,
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
     };
 
     if (ev.indAgendamento == 1)
@@ -374,8 +374,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       var os = ev.ordemServico;
 
       os.codTecnico = ag.codTecnico;
-      os.dataHoraTransf = ag.ultimaAtualizacao;
-      os.codUsuarioManut = ag.usuarioCadastro;
+      os.dataHoraTransf = ag.dataHoraManut;
+      os.codUsuarioManut = ag.codUsuarioCad;
       os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       os.statusServico.codStatusServico = StatusServicoEnum.TRANSFERIDO;
       ev.codAgendaTecnico = ag.codAgendaTecnico;
@@ -434,8 +434,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     agenda.codTecnico = ev.resource;
     agenda.inicio = moment(ev.start).format('yyyy-MM-DD HH:mm:ss');
     agenda.fim = moment(ev.end).format('yyyy-MM-DD HH:mm:ss');
-    agenda.ultimaAtualizacao = moment().format('yyyy-MM-DD HH:mm:ss');
-    agenda.usuarioAtualizacao = this.userSession.usuario.codUsuario;
+    agenda.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
+    agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
 
     if (moment(ev.end) > moment() && ev.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
     {
@@ -464,9 +464,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   public async deleteEvent(args, inst)
   {
     var os = args.event.ordemServico;
-    if (os?.codAgendaTecnico)
+    var ag = os?.codAgendaTecnico;
+
+    if (ag)
     {
-      this._agendaTecnicoSvc.deletar(os?.codAgendaTecnico).toPromise().then(() =>
+      ag.indAtivo = 0;
+      this._agendaTecnicoSvc.atualizar(ag).toPromise().then(() =>
       {
         inst.removeEvent(args.event);
         return;

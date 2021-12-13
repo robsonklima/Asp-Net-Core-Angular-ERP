@@ -1,4 +1,6 @@
-﻿namespace SAT.MODELS.Entities
+﻿using SAT.MODELS.Enums;
+
+namespace SAT.MODELS.Entities
 {
     public class Alerta
     {

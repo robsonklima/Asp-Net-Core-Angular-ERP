@@ -13,6 +13,9 @@
         public static int FECHADO = 3;
         public static int PECAS_PENDENTES = 7;
 
+        // Alertas para OS
+        public static string CHAMADOS_MESMO_EQUIP = "CHAMADOS_MESMO_EQUIP";
+
         // Tipos de Intervenção
         public static int ALTERACAO_ENGENHARIA = 1;
         public static int CORRETIVA = 2;

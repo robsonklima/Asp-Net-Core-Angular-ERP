@@ -1,3 +1,4 @@
+import { AlertasEnum, OrdemServicoAlerta } from './../../../../core/types/ordem-servico.types';
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -23,11 +24,11 @@ import { RoleEnum } from 'app/core/user/user.types';
 	styleUrls: ['./ordem-servico-detalhe.component.scss'],
 	encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements AfterViewInit
-{
+export class OrdemServicoDetalheComponent implements AfterViewInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
+	osAlertas: OrdemServicoAlerta[] = [];
 	statusServico: StatusServico;
 	perfis: any;
 	userSession: UsuarioSessao;
@@ -38,12 +39,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	usuarioCadastro: Usuario;
 	isLoading: boolean = false;
 
-	public get perfilEnum(): typeof RoleEnum
-	{
+	public get perfilEnum(): typeof RoleEnum {
 		return RoleEnum;
 	}
 
-	constructor (
+	constructor(
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
 		private _agendamentoService: AgendamentoService,
@@ -51,30 +51,25 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _snack: CustomSnackbarService,
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog
-	)
-	{
+	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	ngAfterViewInit(): void
-	{
+	ngAfterViewInit(): void {
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
 		this.obterDadosOrdemServico();
 
 		this.perfis = RoleEnum;
 
-		this.sidenav.closedStart.subscribe(() =>
-		{
+		this.sidenav.closedStart.subscribe(() => {
 			this.obterDadosOrdemServico();
 		})
 
 		this._cdr.detectChanges();
 	}
 
-	trocarTab(tab: any)
-	{
-		if (tab.index !== 4 || !this.os)
-		{
+	trocarTab(tab: any) {
+		if (tab.index !== 4 || !this.os) {
 			return;
 		}
 
@@ -103,15 +98,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.map.invalidateSize();
 	}
 
-	private async obterDadosOrdemServico()
-	{
+	private async obterDadosOrdemServico() {
 		this.isLoading = true;
 
 		await this.obterOS();
 		await this.obterUsuarioCadastro();
 
-		if (this.os.agendamentos.length)
-		{
+		if (this.os.agendamentos.length) {
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
 
@@ -128,64 +121,82 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = false;
 	}
 
-	private async obterOS()
-	{
+	private async obterOS() {
 		this.os =
 			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
+
+		this.ObterAlertas();
+
 	}
 
-	private async obterUsuarioCadastro()
-	{
+	private ObterAlertas() {
+
+		if (!this.os.alertas.length) return;
+
+		Enumerable.from(AlertasEnum).forEach(en => {
+
+			let tipoAlerta = Enumerable.from(this.os.alertas).where(a => a.tipo == en.value).toArray();
+			
+			if (!tipoAlerta.length) return;
+
+			let obj: OrdemServicoAlerta = {
+				titulo: '',
+				descricao: [],
+				tipo: en.value
+			};
+
+			tipoAlerta.forEach(a => {
+				obj.titulo = a.titulo;
+				obj.descricao.push(a.descricao);
+			});		
+
+			this.osAlertas.push(obj);
+
+		});
+	}
+
+	private async obterUsuarioCadastro() {
 		if (this.os?.codUsuarioCad != null)
 			this.usuarioCadastro =
 				(await this._userService.obterPorCodigo(this.os.codUsuarioCad).toPromise());
 	}
 
-	async agendar()
-	{
+	async agendar() {
 		const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
 			data: {
 				codOS: this.os.codOS
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((data: any) =>
-		{
-			if (data)
-			{
+		dialogRef.afterClosed().subscribe((data: any) => {
+			if (data) {
 
-				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss'))
-				{
+				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss')) {
 
 					this._snack.exibirToast('O Chamado não deve ser agendado em datas retroativas', 'error');
 					return;
 				}
 
 				this._agendamentoService.criar(data.agendamento).subscribe(
-					result =>
-					{
+					result => {
 						this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
 						this._ordemServicoService.atualizar(this.os).subscribe(
-							result =>
-							{
+							result => {
 								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
 								this.obterDadosOrdemServico();
 							},
-							error =>
-							{
+							error => {
 								this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 							});
 					},
-					error =>
-					{
+					error => {
 						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 					});
 			}
 		});
 	}
 
-	cancelar()
-	{
+	cancelar() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -197,10 +208,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
 				let obj = {
 					...this.os,
 					...{
@@ -210,21 +219,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					}
 				};
 
-				Object.keys(obj).forEach((key) =>
-				{
+				Object.keys(obj).forEach((key) => {
 					typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
 				});
 
-				if (this.os?.relatoriosAtendimento.length === 0)
-				{
-					this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) =>
-					{
+				if (this.os?.relatoriosAtendimento.length === 0) {
+					this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) => {
 						this.obterDadosOrdemServico();
 
 						this._snack.exibirToast("Chamado cancelado com sucesso!", "success");
 					});
-				} else
-				{
+				} else {
 					this._snack.exibirToast("Chamado não pode ser cancelado, pois possui RAT!", "error");
 				}
 
@@ -232,8 +237,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	cancelarTransferencia()
-	{
+	cancelarTransferencia() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -245,10 +249,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
 
 				if (this.os?.relatoriosAtendimento.length != 0)
@@ -271,28 +273,24 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 
 				this._ordemServicoService.atualizar(obj).subscribe(
-					result =>
-					{
+					result => {
 						this.obterDadosOrdemServico();
 						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 					},
-					error =>
-					{
+					error => {
 						this._snack.exibirToast("Erro ao cancelar transferência!", "error");
 					});
 			}
 		});
 	}
 
-	getFotos(): Foto[]
-	{
+	getFotos(): Foto[] {
 		return Enumerable.from(this.os?.fotos)
 			.where(i => !i.modalidade.includes("LAUDO"))
 			.toArray();
 	}
 
-	getLaudos(): Foto[]
-	{
+	getLaudos(): Foto[] {
 		return Enumerable.from(this.os?.fotos)
 			.where(i => i.modalidade.includes("LAUDO"))
 			.toArray();

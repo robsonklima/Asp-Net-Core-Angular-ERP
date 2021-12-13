@@ -19,6 +19,7 @@ import { TipoIntervencao } from "./tipo-intervencao.types";
 export class OrdemServico
 {
     codOS: number;
+    alertas: OrdemServicoAlerta[];
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;
     localAtendimento?: LocalAtendimento;
@@ -101,7 +102,7 @@ export class OrdemServico
     indEndossado: number;
     codUsuarioAcertoParque?: any;
     dataAcertoParque?: any;
-    indRevOk?: any;
+    indRevOK?: any;
     codTipoEquip: number;
     codGrupoEquip: number;
     indOrcamentoEnd?: any;
@@ -151,11 +152,18 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico[];
-}
+} 
 
 export interface OrdemServicoData extends Meta
 {
     items: OrdemServico[];
+};
+
+export interface OrdemServicoAlerta
+{
+   titulo: string,
+   descricao: any,
+   tipo?: any
 };
 
 export interface OrdemServicoParameters extends QueryStringParameters
@@ -226,4 +234,10 @@ export enum StatusServicoEnum
     AGUARDANDO_CONTATO_COM_CLIENTE = 14,
     AGUARDANDO_DECLARACAO = 15,
     CANCELADO_COM_ATENDIMENTO = 16
+}
+
+export enum AlertasEnum
+{
+    CHAMADOS_MESMO_EQUIP = 'CHAMADOS_MESMO_EQUIP',
+    
 }

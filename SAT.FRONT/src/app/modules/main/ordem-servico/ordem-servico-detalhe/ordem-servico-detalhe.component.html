@@ -319,17 +319,31 @@
                                     {{ t('alertas') }}
 
                                     <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
-                                        0
+                                        {{  osAlertas?.length}}
                                     </span>
                                 </span>
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <div class="prose prose-sm max-w-3xl ml-5 mt-2">
+                                <div class="grid grid-cols-2 gap-4" *ngIf="osAlertas.length">
+                                    <fuse-card *ngFor="let alerta of osAlertas"
+                                        class="flex flex-col gap-4 border px-8 py-6 pb-4"
+                                        [class.text-red-600]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
+                                        [class.border-red-600]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
+                                        [class.bg-red-100]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
+
+                                        #fuseCard>
+                                        <div class="text-lg font-bold">{{ alerta?.titulo}}</div>
+                                        <div class="rounded" *ngFor="let desc of alerta.descricao">
+                                            {{ desc }}
+                                        </div>                                   
+                                    </fuse-card>
+                                </div>
+                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!osAlertas.length">
                                     <p>
                                         {{ t('nenhum registro encontrado') }}
                                     </p>
-                                </div>
+                                </div> 
                             </ng-template>
                         </mat-tab>
 

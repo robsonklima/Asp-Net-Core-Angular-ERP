@@ -15,7 +15,7 @@ namespace SAT.MODELS.Entities
         public string CodStatusServicos { get; set; }
         public int? CodPerfil { get; set; }
         public int? CodAutorizada { get; set; }
-        public int? PA { get; set; }
+        public string PAS { get; set; }
         public DateTime PeriodoMediaAtendInicio { get; set; }
         public DateTime PeriodoMediaAtendFim { get; set; }
         public TecnicoTipoEnum Tipo { get; set; }

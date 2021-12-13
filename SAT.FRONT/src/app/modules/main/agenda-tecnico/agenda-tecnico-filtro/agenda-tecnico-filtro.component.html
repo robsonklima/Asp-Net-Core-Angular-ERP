@@ -24,6 +24,19 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('pa') }}</mat-label>
+                    <mat-select formControlName="pas" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
+                            '')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let pa of pas" [value]="pa">
+                            {{ pa }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('tecnicos') }}</mat-label>
                     <mat-select formControlName="codTecnicos" multiple="true">

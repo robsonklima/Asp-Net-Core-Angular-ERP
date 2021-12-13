@@ -3,11 +3,14 @@ import { FormBuilder, } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { FilialService } from 'app/core/services/filial.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filial } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 
@@ -20,13 +23,15 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   tecnicos: Tecnico[] = [];
   filiais: Filial[] = [];
   @Input() sidenav: MatSidenav;
+  pas: number[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor (
     private _tecnicoSvc: TecnicoService,
     private _filialSvc: FilialService,
     protected _userService: UserService,
-    protected _formBuilder: FormBuilder
+    protected _formBuilder: FormBuilder,
+    private _regiaoAutorizadaSvc: RegiaoAutorizadaService
   )
   {
     super(_userService, _formBuilder, 'agenda-tecnico');
@@ -36,7 +41,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
-      codFiliais: [undefined]
+      codFiliais: [undefined],
+      pas: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -58,7 +64,11 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   configurarFiltro()
   {
     if (this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != "")
-      this.obterTecnicos(this.form.controls['codFiliais'].value);
+    {
+      var filialFilter = this.form.controls['codFiliais'].value;
+      this.obterTecnicos(filialFilter);
+      this.obterRegioesAutorizadas(filialFilter)
+    }
   }
 
   private async obterTecnicosAoEscolherFilial()
@@ -66,6 +76,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     this.form.controls['codFiliais'].valueChanges.subscribe(async codFilial =>
     {
       this.obterTecnicos(codFilial);
+      this.obterRegioesAutorizadas(codFilial)
     });
   }
 
@@ -105,6 +116,22 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
     this.filiais = data.items;
   }
+
+  async obterRegioesAutorizadas(filialFilter: any)
+  {
+    let params: RegiaoAutorizadaParameters = {
+      indAtivo: 1,
+      codFiliais: filialFilter,
+      pageSize: 1000
+    };
+
+    const data = await this._regiaoAutorizadaSvc
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
+  }
+
   ngOnDestroy()
   {
     this._onDestroy.next();

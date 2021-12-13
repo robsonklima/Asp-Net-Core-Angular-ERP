@@ -181,7 +181,7 @@ namespace SAT.SERVICES.Services
             switch (statusOS)
             {
                 case 3:
-                    return "#7f7fff";
+                    return "#4c4cff";
                 default:
                     return "#ff4c4c";
             }

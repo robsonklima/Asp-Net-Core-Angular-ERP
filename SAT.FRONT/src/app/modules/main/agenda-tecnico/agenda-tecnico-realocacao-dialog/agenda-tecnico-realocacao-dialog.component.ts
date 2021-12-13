@@ -25,6 +25,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   initialTime: string;
   userSession: UserSession;
   isLoading: boolean = false;
+  isRealocando: boolean = false;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -73,6 +74,8 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
 
   async atualizarAtendimento()
   {
+    this.isLoading = true;
+    this.isRealocando = true;
     var codAgendaTecnico = this.form.controls.codAgendaTecnico.value;
 
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());

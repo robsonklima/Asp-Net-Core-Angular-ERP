@@ -1,6 +1,29 @@
 .mbsc-timeline-row,
 .mbsc-timeline-resource {
     height: 32px !important;
+    min-height: 32px !important;
+}
+
+.mbsc-schedule-event-range {
+    display: none !important;
+}
+
+.mbsc-schedule-event {
+    font-size: small !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    margin: 1px !important;
+}
+
+.mbsc-timeline-event .mbsc-schedule-event-title {
+    word-break: break-all !important;
+    text-align: center !important;
+    white-space: unset !important;
+    margin-top: -1px !important;
+}
+
+.mbsc-timeline .mbsc-schedule-event-inner {
+    vertical-align: middle !important;
 }
 
 .md-resource-details-name {

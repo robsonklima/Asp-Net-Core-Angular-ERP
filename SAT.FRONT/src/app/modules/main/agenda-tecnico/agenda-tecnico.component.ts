@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions } from '@mobiscroll/angular';
+import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, formatDate, MbscPopup, MbscPopupOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -58,6 +58,28 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
   snackConfigInfo: MatSnackBarConfig = { duration: 2000, panelClass: 'info' };
 
+  lastFilialFilter: any;
+  lastTecnicosFilter: any;
+
+  @ViewChild('popup', { static: false })
+  tooltip!: MbscPopup;
+
+  popupOptions: MbscPopupOptions = {
+    display: 'anchored',
+    touchUi: false,
+    showOverlay: false,
+    contentPadding: false,
+    closeOnOverlayClick: false,
+    width: 350
+  };
+
+  currentEvent: any;
+  interventionType = '';
+  info = '';
+  time = '';
+  anchor: HTMLElement | undefined;
+  timer: any;
+
   calendarOptions: MbscEventcalendarOptions = {
     view: {
       timeline: {
@@ -73,6 +95,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     dragToResize: false,
     dragToCreate: false,
     clickToCreate: false,
+    showEventTooltip: false,
+    showLabelCount: true,
     onEventCreate: (args, inst) =>
     {
       if (this._validator.hasOverlap(args, inst))
@@ -126,10 +150,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       }
       return this.updateEvent(args);
     },
-    onEventDoubleClick: (args, inst) =>
-    {
-      this.showOSInfo(args);
-    },
     onCellDoubleClick: (args, inst) =>
     {
       this.realocarAgendamento(args);
@@ -137,6 +157,24 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     onSelectedDateChange: (args, inst) =>
     {
       this.changeWeek(args, inst)
+    },
+    onEventHoverIn: (args, inst) =>
+    {
+      this.showOSInfo(args, inst);
+    },
+    onEventHoverOut: () =>
+    {
+      if (!this.timer)
+      {
+        this.timer = setTimeout(() =>
+        {
+          this.tooltip.close();
+        }, 200);
+      }
+    },
+    onEventClick: () =>
+    {
+      this.tooltip.open();
     }
   };
 
@@ -161,10 +199,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   registerEmitters(): void
   {
+    this.sidenavAgenda.openedStart.subscribe(() =>
+    {
+      this.lastFilialFilter = this.filter?.parametros?.codFiliais;
+      this.lastTecnicosFilter = this.filter?.parametros?.codTecnicos;
+    });
+
     this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
-      this.obterDados();
+
+      // só aplica o filtro se este de fato mudou. TODO -> //valueChanges 
+      if (this.lastFilialFilter != this.filter?.parametros?.codFiliais || this.lastTecnicosFilter != this.filter?.parametros?.codTecnicos)
+      {
+        this.obterDados();
+      }
     });
   }
 
@@ -231,7 +280,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           color: ag.cor,
           editable: ag.indAgendamento == 0 ? true : false,
           resource: ag.codTecnico,
-          ordemServico: ag.ordemServico
+          ordemServico: ag.ordemServico,
+          tooltip: ''
         });
     });
   }
@@ -488,25 +538,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
   }
 
-  private async showOSInfo(args)
-  {
-    var os = args.event.ordemServico;
-    if (os == null) return;
-
-    var text = "";
-    if (os.localAtendimento?.nomeLocal) text += os.localAtendimento?.nomeLocal + '\n';
-    if (os.tipoIntervencao?.nomTipoIntervencao) text += 'Intervenção ' + os.tipoIntervencao?.nomTipoIntervencao + '\n';
-
-    this._notify.alert(
-      {
-        title: 'OS ' + os.codOS.toString(),
-        message: text.toUpperCase(),
-        display: 'center',
-        cssClass: 'os_info'
-      }
-    );
-  }
-
   /** */
 
   /** Mapa */
@@ -526,4 +557,37 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   /**  */
+
+  private showOSInfo(args, inst)
+  {
+    const event: any = args.event;
+    if (event.ordemServico == null) return;
+
+    const time = formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
+    this.currentEvent = event;
+    this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
+    this.info = event.title + ', ' + event.ordemServico?.codOS;
+    this.time = time;
+    clearTimeout(this.timer);
+    this.timer = null;
+    this.anchor = args.domEvent.target;
+    this.tooltip.open();
+  }
+
+  mouseEnter(): void
+  {
+    if (this.timer)
+    {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+  }
+
+  mouseLeave(): void
+  {
+    this.timer = setTimeout(() =>
+    {
+      this.tooltip.close();
+    }, 200);
+  }
 }

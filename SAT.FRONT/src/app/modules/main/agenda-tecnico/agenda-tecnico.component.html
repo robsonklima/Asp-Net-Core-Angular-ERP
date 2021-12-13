@@ -17,10 +17,23 @@
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
-        <div>
+        <div class="overflow-hidden">
             <mbsc-eventcalendar class="h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"
                 [resourceTemplate]="resourceTemplate" *ngIf="!loading">
             </mbsc-eventcalendar>
+            <mbsc-popup class="md-tooltip p-2" #popup [anchor]="anchor" [options]="popupOptions">
+                <div class="text-center" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+                    <div class="md-tooltip-header">
+                        <span class="md-tooltip-name-age font-bold">{{info}}</span>
+                        <span class="md-tooltip-time">{{time}}</span>
+                    </div>
+                    <div class="md-tooltip-info">
+                        <div class="md-tooltip-title">
+                            <span class="md-tooltip-status md-tooltip-text">{{interventionType}}</span>
+                        </div>
+                    </div>
+                </div>
+            </mbsc-popup>
         </div>
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
@@ -33,7 +46,6 @@
                     [ngClass]="{'opacity-10': resource.indFerias}" />
                 <div class="cursor-pointer" [ngClass]="{'text-gray-400': resource.indFerias}"
                     [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
-
                     <div class="md-resource-details-name truncate" [innerHTML]="resource.name"></div>
                 </div>
             </a>

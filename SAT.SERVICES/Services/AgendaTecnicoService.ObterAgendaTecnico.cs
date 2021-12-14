@@ -21,7 +21,7 @@ namespace SAT.SERVICES.Services
             agendamentos =
                 this.ValidaAgendamentos(agendamentos);
 
-            return agendamentos.ToArray();
+            return agendamentos.Distinct().ToArray();
         }
 
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo) =>
@@ -57,7 +57,7 @@ namespace SAT.SERVICES.Services
                 .ToList()
                 .ForEach(i =>
                 {
-                    if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.CodOS.HasValue && i.IndAgendamento == 0 && i.Fim.Date <= DateTime.Now.Date)
+                    if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && i.Fim.Date <= DateTime.Now.Date)
                     {
                         if (i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now)
                         {
@@ -128,64 +128,55 @@ namespace SAT.SERVICES.Services
             OrdemServico ultimaOS = null;
 
             agendasTecnico
+            .Where(i => i.IndAgendamento == 0 && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
             .OrderBy(i => i.Inicio)
             .ToList()
             .ForEach(e =>
             {
                 OrdemServico os = e.OrdemServico;
-                AgendaTecnico agendaTecnico;
 
-                if (e.IndAgendamento != 0 && os.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
+                var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
+
+                // se começa durante a sugestão de intervalo
+                if (this.isIntervalo(start))
+                    start = this.FimIntervalo;
+                else if (start >= this.FimExpediente)
                 {
-
-                    var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
-
-                    var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
-
-                    // se começa durante a sugestão de intervalo
+                    start = start.AddDays(1);
                     if (this.isIntervalo(start))
-                        start = this.FimIntervalo;
-                    else if (start >= this.FimExpediente)
-                    {
-                        start = start.AddDays(1);
-                        if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
-                    }
-
-                    var duracao = (e.Fim - e.Inicio).TotalMinutes;
-
-                    // adiciona deslocamento
-                    start = start.AddMinutes(deslocamento);
-                    if (this.isIntervalo(start))
-                        start = this.FimIntervalo;
-                    else if (start >= this.FimExpediente)
-                    {
-                        start = start.AddDays(1);
-                        if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
-                    }
-
-                    // se termina durante a sugestao de intervalo
-                    var end = start.AddMinutes(duracao);
-                    if (this.isIntervalo(end))
-                    {
-                        start = end.AddMinutes(deslocamento);
-                        end = start.AddMinutes(duracao);
-                    }
-
-                    e.Inicio = start;
-                    e.Fim = end;
-                    e.CodUsuarioCad = "ADMIN";
-                    e.DataHoraCad = DateTime.Now;
-                    e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
-                    agendaTecnico = this._agendaRepo.Atualizar(e);
-                }
-                else
-                {
-                    agendaTecnico = e;
+                        start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
                 }
 
-                ultimoEvento = agendaTecnico;
+                var duracao = (e.Fim - e.Inicio).TotalMinutes;
+
+                // adiciona deslocamento
+                start = start.AddMinutes(deslocamento);
+                if (this.isIntervalo(start))
+                    start = this.FimIntervalo;
+                else if (start >= this.FimExpediente)
+                {
+                    start = start.AddDays(1);
+                    if (this.isIntervalo(start))
+                        start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                }
+
+                // se termina durante a sugestao de intervalo
+                var end = start.AddMinutes(duracao);
+                if (this.isIntervalo(end))
+                {
+                    start = end.AddMinutes(deslocamento);
+                    end = start.AddMinutes(duracao);
+                }
+
+                e.Inicio = start;
+                e.Fim = end;
+                e.CodUsuarioCad = "ADMIN";
+                e.DataHoraCad = DateTime.Now;
+                e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
+                var ag = this._agendaRepo.Atualizar(e);
+
+                ultimoEvento = ag;
                 ultimaOS = os;
             });
 

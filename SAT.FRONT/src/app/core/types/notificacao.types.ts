@@ -13,7 +13,7 @@ export interface Notificacao
     dataHoraManut?: string;
     codUsuarioManut?: string;
     indAtivo: number;
-    useRouter?: number;
+    useRouter?: boolean;
     codUsuario?: string;
 }
 

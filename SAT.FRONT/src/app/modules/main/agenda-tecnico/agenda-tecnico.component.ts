@@ -170,10 +170,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           this.tooltip.close();
         }, 200);
       }
-    },
-    onEventClick: () =>
-    {
-      this.tooltip.open();
     }
   };
 

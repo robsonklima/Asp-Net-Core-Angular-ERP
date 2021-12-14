@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,9 +23,9 @@ import { first } from 'rxjs/internal/operators/first';
   templateUrl: './ponto-periodo-form.component.html'
 })
 export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
-  pontosPeriodoStatus: PontoPeriodoStatus[] =[];
+  pontosPeriodoStatus: PontoPeriodoStatus[] = [];
   pontosIntervalo: PontoPeriodoIntervaloAcessoData[] = [];
-  pontosModoAprovacao: PontoPeriodoModoAprovacao [] = [];
+  pontosModoAprovacao: PontoPeriodoModoAprovacao[] = [];
   codPontoPeriodo: number;
   pontoPeriodo: PontoPeriodo;
   isAddMode: boolean;
@@ -71,7 +70,7 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
     this.obterPontosPeriodoStatus();
     this.obterPontosModoAprovacao();
     this.obterPontosIntervalo();
-    
+
     if (!this.isAddMode) {
       this._pontoPeriodoSvc.obterPorCodigo(this.codPontoPeriodo)
         .pipe(first())
@@ -117,7 +116,7 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
         codUsuarioManut: this.userSession.usuario.codUsuario
       }
     };
-    
+
     this._pontoPeriodoSvc.atualizar(obj).subscribe(() => {
       this._snack.exibirToast(`Período atualizado com sucesso!`, "success");
       this._router.navigate(['ponto/periodos']);
@@ -154,12 +153,10 @@ export class PontoPeriodoFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       this.loading = true;
 
-      if (confirmacao)
-      {
+      if (confirmacao) {
         this._pontoPeriodoSvc.deletar(this.codPontoPeriodo).subscribe(() => {
           this._snack.exibirToast(`Período removido com sucesso!`, "success");
           this._router.navigate(['ponto/periodos']);

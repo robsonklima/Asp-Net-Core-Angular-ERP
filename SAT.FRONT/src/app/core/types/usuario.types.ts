@@ -1,4 +1,5 @@
 import { Filial } from "./filial.types";
+import { FiltroUsuarioData } from "./filtro.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Localizacao } from "./localizacao.types";
 import { Navegacao } from "./navegacao.types";
@@ -58,6 +59,7 @@ export class Usuario
     localizacoes: Localizacao[];
     tecnico: Tecnico;
     pontosUsuario?: PontoUsuario[];
+    filtroUsuario?: FiltroUsuarioData[];
 }
 
 export interface UsuarioData extends Meta

@@ -72,9 +72,9 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     }
   }
 
-  clean()
+  limpar()
   {
-    super.clean();
+    super.limpar();
 
     if (this.userSession?.usuario?.codFilial)
       this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);

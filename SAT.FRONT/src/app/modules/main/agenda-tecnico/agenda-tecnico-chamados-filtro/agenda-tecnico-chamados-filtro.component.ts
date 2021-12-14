@@ -152,9 +152,9 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
     this.clientes = data.items;
   }
 
-  clean()
+  limpar()
   {
-    super.clean();
+    super.limpar();
 
     if (this.userSession?.usuario?.codFilial)
     {

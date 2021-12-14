@@ -57,11 +57,11 @@
 
             <div class="mt-6 border-t"></div>
             <div class="flex items-center justify-start px-8 py-5">
-                <button (click)="apply()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
 
-                <button side (click)="clean()" color="warn" mat-button>
+                <button side (click)="limpar()" color="warn" mat-button>
                     {{ t('limpar') }}
                 </button>
             </div>

@@ -1,0 +1,24 @@
+<div [hidden]="filterBase?.meusFiltros.length == 0" class="mt-2 absolute inset-y-1 right-5">
+    <div class="flex flex-auto" *transloco="let t">
+
+        <mat-form-field class="fuse-mat-dense w-40" style="height: 45px;">
+            <mat-select name="selectFiltro" #selectFiltro multiple="false"
+                (selectionChange)="filterBase.onSelectFiltroUsuario($event.value)">
+                <mat-option class="mat-primary fill" [value]="0">
+                    {{ t('novo filtro') }}
+                </mat-option>
+
+                <mat-option *ngFor=" let usuarioFiltro of filterBase?.meusFiltros" [disabled]="disableSelection"
+                    [value]="usuarioFiltro.codFiltroUsuario">
+                    {{ usuarioFiltro.nomeFiltro }}
+
+                    <button style="float:right" [matTooltip]="t('remover')" (mouseover)="disableSelection=true"
+                        (mouseout)="disableSelection=false" (click)="remover(usuarioFiltro.codFiltroUsuario)">
+                        <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                    </button>
+
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

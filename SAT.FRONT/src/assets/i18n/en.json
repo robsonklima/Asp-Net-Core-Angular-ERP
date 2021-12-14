@@ -419,5 +419,10 @@
     "situacoes": "Situations",
     "aberto por": "Opened by",
     "contato perto": "Perto contact",
-    "contato pessoal": "Peronal contact"
+    "contato pessoal": "Peronal contact",
+    "nome filtro": "Filter Name",
+    "meus filtros": "My filters",
+    "nova configuracao" : "New setup",
+    "salvar filtro" : "Save filter",    
+    "novo filtro": "New filter"
 }

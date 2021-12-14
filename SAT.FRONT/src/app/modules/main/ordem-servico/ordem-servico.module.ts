@@ -43,6 +43,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { OrdemServicoFiltroComponent } from './ordem-servico-filtro/ordem-servico-filtro.component';
 import { OrdemServicoHistoricoComponent } from './ordem-servico-historico/ordem-servico-historico.component';
+import { FiltroModule } from '../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
     return {
@@ -96,7 +97,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         MatListModule,
         MatStepperModule,
         FuseAlertModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        FiltroModule
     ]
 })
 export class OrdemServicoModule {

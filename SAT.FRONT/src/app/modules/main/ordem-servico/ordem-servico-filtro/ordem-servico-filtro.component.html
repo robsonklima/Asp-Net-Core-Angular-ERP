@@ -1,5 +1,6 @@
 <div class="flex-auto" *transloco="let t">
-    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
+    <!-- Filtros -->
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-6 px-6 md:px-8 border-b">
         <div class="flex justify-between">
             <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
                 {{ t('filtros') }}
@@ -10,6 +11,7 @@
             </button>
         </div>
     </div>
+    <!-- Filtros -->
 
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
@@ -192,14 +194,18 @@
 
             <div class="mt-6 border-t"></div>
 
-            <div class="flex items-center justify-start px-8 py-5">
-                <button (click)="apply()" [disabled]="!form.valid" mat-button [color]="'primary'">
+            <div class="flex items-center justify-start px-8 py-3 relative">
+                <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
 
-                <button side (click)="clean()" color="warn" mat-button>
+                <button side (click)="limpar()" color="warn" mat-button>
                     {{ t('limpar') }}
                 </button>
+
+                <salvar-filtro-usuario [filterName]="'ordem-servico'" [filterBase]="this">
+                </salvar-filtro-usuario>
+
             </div>
         </form>
     </ng-container>

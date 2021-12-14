@@ -51,6 +51,5 @@ const routerConfig: ExtraOptions = {
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
 
 })
-export class AppModule
-{
+export class AppModule {
 }

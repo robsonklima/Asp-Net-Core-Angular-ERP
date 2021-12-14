@@ -280,9 +280,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				this._ordemServicoService.atualizar(obj).subscribe(
 					result =>
 					{
-						this.obterDadosOrdemServico();
 						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 						this.deleteAgendaTecnico();
+						this.obterDadosOrdemServico();
 					},
 					error =>
 					{
@@ -319,6 +319,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					{
 						titulo: "Agenda Técnico",
 						descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
+						link: '/agenda-tecnico',
 						lida: 0,
 						indAtivo: 1,
 						codUsuario: this.userSession.usuario.codUsuario
@@ -347,25 +348,23 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
 			.then(s =>
 			{
-				if (s)
+				var notificacao: Notificacao =
 				{
-					var notificacao: Notificacao =
-					{
-						titulo: "Agenda Técnico",
-						descricao: `O chamado ${this.os.codOS} foi removido da Agenda Técnico.`,
-						lida: 0,
-						indAtivo: 1,
-						codUsuario: this.userSession.usuario.codUsuario
-					};
-					this._notificacaoService.criar(notificacao).toPromise();
-				}
+					titulo: "Agenda Técnico",
+					descricao: `O chamado ${this.os.codOS} foi removido da Agenda Técnico.`,
+					link: '/agenda-tecnico',
+					lida: 0,
+					indAtivo: 1,
+					codUsuario: this.userSession.usuario.codUsuario
+				};
+				this._notificacaoService.criar(notificacao).toPromise();
 			}).catch(
 				e =>
 				{
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
-						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
+						descricao: `Ocorreu um erro ao remover o chamado ${this.os.codOS} da Agenda Técnico.`,
 						lida: 0,
 						indAtivo: 1,
 						codUsuario: this.userSession.usuario.codUsuario

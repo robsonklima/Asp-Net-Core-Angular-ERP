@@ -100,7 +100,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     });
   }
 
-
   private createAgendaTecnico()
   {
     if (this.os.codTecnico == null) return;
@@ -113,7 +112,8 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
           var notificacao: Notificacao =
           {
             titulo: "Agenda Técnico",
-            descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico`,
+            descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
+            link: 'agenda-tecnico',
             lida: 0,
             indAtivo: 1,
             dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),

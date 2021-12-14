@@ -83,6 +83,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         startDay: 1,
         startTime: '07:00',
         endTime: '24:00',
+        rowHeight: 'equal'
       },
     },
     dragToMove: true,
@@ -122,17 +123,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         });
         return false;
       }
+      else if (this._validator.cantChangeInterval(args))
+      {
+        this._notify.toast({
+          message: 'Não é possível transferir um intervalo.',
+          color: 'danger'
+        });
+        return false;
+      }
       else if (this._validator.hasChangedResource(args))
       {
-        if (this._validator.isTechnicianInterval(args.event))
-        {
-          this._notify.toast({
-            message: 'Não é possível transferir um intervalo.',
-            color: 'danger'
-          });
-          return false;
-        }
-        else return this.updateResourceChange(args.event);
+        this.updateResourceChange(args.event);
+        return true;
       }
       else if (this._validator.invalidMove(args))
       {
@@ -142,7 +144,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         });
         return false;
       }
-      return this.updateEvent(args.event);
+      else 
+      {
+        this.updateEvent(args.event);
+        return true;
+      }
     },
     onCellDoubleClick: (args, inst) =>
     {
@@ -231,7 +237,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }).toPromise());
 
     await this.carregaAgenda();
-    await this.exibePontosDoDia();
 
     this.loading = false;
   }
@@ -239,7 +244,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   carregaAgenda()
   {
     this.events = [];
-
     this.resources = Enumerable.from(this.tecnicos).select(tecnico =>
     {
       return {
@@ -252,22 +256,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!Enumerable.from(this.resources).any()) return;
 
-    this.agendaTecnicos.forEach(ag =>
+    this.events = Enumerable.from(this.agendaTecnicos).select(ag =>
     {
-      this.events = this.events.concat(
-        {
-          codAgendaTecnico: ag.codAgendaTecnico,
-          codOS: ag.codOS,
-          agendaTecnico: ag,
-          start: moment(ag.inicio),
-          end: moment(ag.fim),
-          title: ag.titulo,
-          color: ag.cor,
-          editable: ag.indAgendamento == 0 ? true : false,
-          resource: ag.codTecnico,
-          ordemServico: ag.ordemServico
-        });
-    });
+      return {
+        codAgendaTecnico: ag.codAgendaTecnico,
+        codOS: ag.codOS,
+        agendaTecnico: ag,
+        start: moment(ag.inicio),
+        end: moment(ag.fim),
+        title: ag.titulo,
+        color: ag.cor,
+        editable: ag.indAgendamento == 1 || ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
+        resource: ag.codTecnico,
+        ordemServico: ag.ordemServico
+      }
+    }).toArray();
   }
 
   private async checkForWarnings(ev, args, inst)
@@ -400,13 +403,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     var os = event.ordemServico;
     os.codTecnico = event.resource;
-
-    this._osSvc.atualizar(os).toPromise().then(() =>
+    this._osSvc.atualizar(os).subscribe(() =>
     {
-      return this.updateEvent(event);
-    }).catch(() =>
-    {
-      return false;
+      this.updateEvent(event);
     });
   }
 
@@ -419,28 +418,29 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     agenda.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
     agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
 
-    if (moment(ev.end) > moment() && ev.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
+    var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == agenda.codAgendaTecnico);
+    if (agenda.tipo == AgendaTecnicoTypeEnum.OS && moment(ev.end) > moment())
     {
       agenda.cor = this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS);
-      var event = Enumerable.from(this.events).firstOrDefault(e => e.codAgendaTecnico == ev.codAgendaTecnico);
       event.color = agenda.cor;
     }
 
-    this._agendaTecnicoSvc.atualizar(agenda).toPromise().then(() =>
+    var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
+    if (ag != null)
     {
       this._notify.toast({
         message: 'Agendamento atualizado com sucesso.',
         color: 'success'
       });
-      return true;
-    }).catch(() =>
+      event.agendaTecnico = ag;
+    }
+    else
     {
       this._notify.toast({
         message: 'Não foi possível atualizar o agendamento.',
         color: 'danger'
       });
-      return false;
-    })
+    }
   }
 
   public async deleteEvent(args, inst)
@@ -457,37 +457,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       })
     }
     inst.removeEvent(args.event);
-  }
-
-  private async exibePontosDoDia()
-  {
-    if (!Enumerable.from(this.resources).any()) return;
-
-    this.tecnicos.map(tecnico =>
-    {
-      this.events = this.events.concat(this.carregaPonto(tecnico));
-    });
-  }
-
-  private carregaPonto(tecnico: Tecnico): MbscAgendaTecnicoCalendarEvent[]
-  {
-    var pontos: MbscAgendaTecnicoCalendarEvent[] = [];
-
-    Enumerable.from(tecnico.usuario.pontosUsuario)
-      .where(p => p.indAtivo == 1)
-      .forEach(p =>
-      {
-        pontos.push(
-          {
-            start: moment(p.dataHoraRegistro),
-            end: moment(p.dataHoraRegistro).add(0, 'minutes'),
-            title: "PONTO",
-            color: '#C8C8C8',
-            editable: false,
-            resource: tecnico.codTecnico
-          });
-      });
-    return pontos;
   }
 
   private async realocarAgendamento(args)
@@ -568,12 +537,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private showOSInfo(args, inst)
   {
     const event: any = args.event;
-    if (event.ordemServico == null && event.title != "PONTO") return;
+    if (event.agendaTecnico.tipo == AgendaTecnicoTypeEnum.INTERVALO) return;
 
     const time = formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
     this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
-    this.info = event.ordemServico != null ? event.title + ', ' + event.ordemServico?.codOS : event.title;
+    this.info = event.ordemServico != null ? event.title + ', ' + event.ordemServico?.codOS : "PONTO";
     this.time = time;
     clearTimeout(this.timer);
     this.timer = null;

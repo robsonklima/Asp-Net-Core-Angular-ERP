@@ -99,6 +99,12 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTecnico.HasValue)
                 agendas = agendas.Where(ag => ag.CodTecnico == parameters.CodTecnico);
 
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",").Select(t => t.Trim());
+                agendas = agendas.Where(ag => tecnicos.Any(r => r == ag.CodTecnico.ToString()));
+            }
+
             if (parameters.CodOS.HasValue)
                 agendas = agendas.Where(ag => ag.CodOS == parameters.CodOS);
 

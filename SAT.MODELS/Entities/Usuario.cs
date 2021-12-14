@@ -60,8 +60,6 @@ namespace SAT.MODELS.Entities
         public List<PontoPeriodoUsuario> PontosPeriodoUsuario { get; set; }
         public List<PontoUsuario> PontosUsuario { get; set; }
         public Filial FilialPonto { get; set; }
-
-        [ForeignKey("CodUsuario")]
         public List<FiltroUsuario> FiltroUsuario { get; set; }
     }
 }

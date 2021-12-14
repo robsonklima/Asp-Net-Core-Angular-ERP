@@ -137,7 +137,8 @@ export class AgendaTecnicoValidator
     public hasOverlap(args, inst)
     {
         var ev = args.event;
-        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.tipo != AgendaTecnicoTypeEnum.OS || ev.ordemServico != AgendaTecnicoTypeEnum.OS));
+        var events = inst.getEvents(ev.start, ev.end).filter(e => (e.resource == ev.resource && e.id != ev.id));
+        events = events.filter(e => e.tipo == AgendaTecnicoTypeEnum.OS);
         return events.length > 0;
     }
 
@@ -163,6 +164,11 @@ export class AgendaTecnicoValidator
     public hasChangedResource(args)
     {
         return args.event.resource != args.oldEvent.resource;
+    }
+
+    public cantChangeInterval(args)
+    {
+        return args.event.resource != args.oldEvent.resource && (args.event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO || args.oldEvent.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO);
     }
 
     public getTypeColor(type: AgendaTecnicoTypeEnum): string

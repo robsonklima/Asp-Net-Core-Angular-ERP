@@ -1,19 +1,5 @@
-.mbsc-timeline-row,
-.mbsc-timeline-resource {
-    height: 32px !important;
-    min-height: 32px !important;
-    flex: none !important;
-}
-
 .mbsc-schedule-event {
     font-size: small !important;
-    height: 30px !important;
-    min-height: 30px !important;
-    margin: 1px !important;
-}
-
-.mbsc-counter {
-    margin-top: -5px !important;
 }
 
 .mbsc-timeline-event .mbsc-schedule-event-title {
@@ -31,22 +17,34 @@
     vertical-align: middle !important;
 }
 
+.mbsc-counter {
+    margin-top: 4px;
+    margin-left: 1px;
+}
+
+.md-meeting-participant-avatar {
+    position: absolute;
+    border-radius: 50%;
+    max-height: 42px !important;
+    max-width: 42px !important;
+    margin-top: 3px;
+    margin-left: 3px;
+    top: 21px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    left: 20px;
+}
+
 .md-resource-details-name {
-    font-size: 12px !important;
+    font-size: 11px !important;
     margin-left: 40px;
+    margin-top: 5%;
+    max-width: 20px;
 }
 
 .md-work-week-cont {
     position: relative;
     padding-left: 50px;
-}
-
-.md-meeting-participant-avatar {
-    margin-top: -3px !important;
-    position: absolute;
-    max-height: 25px !important;
-    max-width: 25px !important;
-    margin-right: 10px;
 }
 
 .md-work-week-title {

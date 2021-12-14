@@ -59,9 +59,9 @@ namespace SAT.API.Controllers
 
 
         [HttpPut]
-        public void Put([FromBody] AgendaTecnico evento)
+        public AgendaTecnico Put([FromBody] AgendaTecnico evento)
         {
-            _agendaServ.Atualizar(evento);
+            return _agendaServ.Atualizar(evento);
         }
 
         [HttpDelete("{codAgendaTecnico}")]

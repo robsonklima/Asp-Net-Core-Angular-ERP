@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
             List<AgendaTecnico> agendamentos =
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value);
+                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos);
 
             agendamentos =
                 this.CriaIntervalosDoDia(agendamentos, parameters);
@@ -21,14 +21,20 @@ namespace SAT.SERVICES.Services
             agendamentos =
                 this.ValidaAgendamentos(agendamentos);
 
+            var pontos =
+                this.ObterPontosDoDia(parameters);
+
+            agendamentos.AddRange(pontos);
+
             return agendamentos.Distinct().ToArray();
         }
 
-        private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo) =>
+        private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, string codTecnicos) =>
            this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
                InicioPeriodoAgenda = DateTime.Now.DayOfWeek == DayOfWeek.Monday ? inicioPeriodo.AddDays(-7) : inicioPeriodo,
                FimPeriodoAgenda = fimPeriodo,
+               CodTecnicos = codTecnicos,
                IndAtivo = 1
            }).ToList();
 
@@ -117,6 +123,37 @@ namespace SAT.SERVICES.Services
                 }
             });
             return agendamentos;
+        }
+
+        private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters)
+        {
+            if (string.IsNullOrEmpty(parameters.CodTecnicos)) return null;
+            List<AgendaTecnico> pontos = new List<AgendaTecnico>();
+
+            var tecnicos = this._tecnicoRepo.ObterQuery(new TecnicoParameters
+            {
+                CodTecnicos = parameters.CodTecnicos,
+            }).ToList();
+
+            tecnicos.ForEach(t =>
+            {
+                t.Usuario.PontosUsuario.ForEach(p =>
+                {
+                    AgendaTecnico a = new AgendaTecnico
+                    {
+                        CodTecnico = t.CodTecnico,
+                        Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
+                        Tipo = AgendaTecnicoTypeEnum.PONTO,
+                        Inicio = p.DataHoraRegistro,
+                        Fim = p.DataHoraRegistro.AddMilliseconds(25),
+                        IndAgendamento = 0,
+                        IndAtivo = 1
+                    };
+                    pontos.Add(a);
+                });
+            });
+
+            return pontos;
         }
 
         // Realoca eventos devido a atraso

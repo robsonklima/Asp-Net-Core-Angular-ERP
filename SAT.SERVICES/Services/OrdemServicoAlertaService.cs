@@ -27,13 +27,19 @@ namespace SAT.SERVICES.Services
             var os = _ordemServicoRepo.ObterPorCodigo(codOrdemServico);
             List<Alerta> alertas = new List<Alerta>();
 
-            alertas.AddRange(ObterChamadosMesmoEquip(os, codOrdemServico));
+            alertas.Add(ObterChamadosMesmoEquip(os, codOrdemServico));
 
             return alertas;
         }
 
-        public List<Alerta> ObterChamadosMesmoEquip(OrdemServico os, int codOrdemServico)
+        public Alerta ObterChamadosMesmoEquip(OrdemServico os, int codOrdemServico)
         {
+            var al = new Alerta
+            {
+                Titulo = "Mais de um chamado aberto para este equipamento",
+                Tipo = Constants.CHAMADOS_MESMO_EQUIP,
+            };
+
             var osEquip = _ordemServicoRepo
                     .ObterPorParametros(new OrdemServicoParameters
                     {
@@ -43,16 +49,14 @@ namespace SAT.SERVICES.Services
 
             if (!osEquip.Any()) return null;
 
-            return osEquip.Where(c => c.CodOS != codOrdemServico).Select(c =>
-            {
-                return new Alerta
-                {
-                    Titulo = "Mais de um chamado aberto para este equipamento",
-                    Descricao = $"{c.CodOS} - {c.TipoIntervencao.NomTipoIntervencao}",
-                    Tipo = Constants.CHAMADOS_MESMO_EQUIP,
+            osEquip.Where(c => c.CodOS != codOrdemServico)
+                    .ToList()
+                    .ForEach(os =>
+                    {
+                        al.Descricao.Add($"{os.CodOS} - {os.TipoIntervencao.NomTipoIntervencao}");
+                    });
 
-                };
-            }).ToList();
+            return al;
         }
     }
 }

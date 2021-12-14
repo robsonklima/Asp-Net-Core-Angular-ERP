@@ -133,26 +133,27 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 		if (!this.os.alertas.length) return;
 
-		Enumerable.from(AlertasEnum).forEach(en => {
+		console.log(this.os.alertas);
+		// Enumerable.from(AlertasEnum).forEach(en => {
 
-			let tipoAlerta = Enumerable.from(this.os.alertas).where(a => a.tipo == en.value).toArray();
+		// 	let tipoAlerta = Enumerable.from(this.os.alertas).where(a => a.tipo == en.value).toArray();
 			
-			if (!tipoAlerta.length) return;
+		// 	if (!tipoAlerta.length) return;
 
-			let obj: OrdemServicoAlerta = {
-				titulo: '',
-				descricao: [],
-				tipo: en.value
-			};
+		// 	let obj: OrdemServicoAlerta = {
+		// 		titulo: '',
+		// 		descricao: [],
+		// 		tipo: en.value
+		// 	};
 
-			tipoAlerta.forEach(a => {
-				obj.titulo = a.titulo;
-				obj.descricao.push(a.descricao);
-			});		
+		// 	tipoAlerta.forEach(a => {
+		// 		obj.titulo = a.titulo;
+		// 		obj.descricao.push(a.descricao);
+		// 	});		
 
-			this.osAlertas.push(obj);
+		// 	this.osAlertas.push(obj);
 
-		});
+		// });
 	}
 
 	private async obterUsuarioCadastro() {

@@ -2,32 +2,32 @@
     font-size: small !important;
 }
 
-.mbsc-timeline-event .mbsc-schedule-event-title {
-    word-break: break-all !important;
-    text-align: center !important;
-    white-space: unset !important;
-    margin-top: -2px !important;
+.mbsc-flex-1-1 {
+    flex: none !important;
+}
+
+.mbsc-timeline-resource,
+.mbsc-timeline-row {
+    height: 32px !important;
 }
 
 .mbsc-schedule-event-range {
     display: none !important;
 }
 
-.mbsc-timeline .mbsc-schedule-event-inner {
-    vertical-align: middle !important;
-}
-
 .mbsc-counter {
-    margin-top: 4px;
-    margin-left: 1px;
+    margin-top: -1px;
+    margin-bottom: 3px;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
 }
 
 .md-meeting-participant-avatar {
     position: absolute;
-    border-radius: 50%;
-    max-height: 42px !important;
-    max-width: 42px !important;
-    margin-top: 3px;
+    max-height: 25px !important;
+    max-width: 25px !important;
     margin-left: 3px;
     top: 21px;
     -webkit-transform: translate(-50%, -50%);
@@ -36,7 +36,7 @@
 }
 
 .md-resource-details-name {
-    font-size: 11px !important;
+    font-size: 10px !important;
     margin-left: 40px;
     margin-top: 5%;
     max-width: 20px;

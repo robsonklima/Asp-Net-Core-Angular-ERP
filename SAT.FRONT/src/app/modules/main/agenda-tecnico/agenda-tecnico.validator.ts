@@ -138,7 +138,7 @@ export class AgendaTecnicoValidator
     {
         var ev = args.event;
         var events = inst.getEvents(ev.start, ev.end).filter(e => (e.resource == ev.resource && e.id != ev.id));
-        events = events.filter(e => e.tipo == AgendaTecnicoTypeEnum.OS);
+        events = events.filter(e => e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS);
         return events.length > 0;
     }
 

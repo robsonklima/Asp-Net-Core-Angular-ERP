@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { AlertasEnum, OrdemServico, OrdemServicoAlerta } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
@@ -31,6 +31,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
+	osAlertas: OrdemServicoAlerta[] = [];
 	statusServico: StatusServico;
 	perfis: any;
 	userSession: UsuarioSessao;
@@ -137,6 +138,38 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	{
 		this.os =
 			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
+
+		this.ObterAlertas();
+
+	}
+
+	private ObterAlertas()
+	{
+
+		if (!this.os.alertas.length) return;
+
+		Enumerable.from(AlertasEnum).forEach(en =>
+		{
+
+			let tipoAlerta = Enumerable.from(this.os.alertas).where(a => a.tipo == en.value).toArray();
+
+			if (!tipoAlerta.length) return;
+
+			let obj: OrdemServicoAlerta = {
+				titulo: '',
+				descricao: [],
+				tipo: en.value
+			};
+
+			tipoAlerta.forEach(a =>
+			{
+				obj.titulo = a.titulo;
+				obj.descricao.push(a.descricao);
+			});
+
+			this.osAlertas.push(obj);
+
+		});
 	}
 
 	private async obterUsuarioCadastro()

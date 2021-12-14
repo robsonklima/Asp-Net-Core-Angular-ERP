@@ -427,7 +427,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
   private criar(): void {
     const form: any = this.form.getRawValue();
-    let obj = {
+    let obj: OrdemServico = {
       ...this.ordemServico,
       ...form,
       ...{
@@ -437,9 +437,12 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         codUsuarioCad: this.userSession.usuario?.codUsuario,
         indStatusEnvioReincidencia: -1,
         indRevisaoReincidencia: 1,
-        codStatusServico: 1
+        codStatusServico: 1,
+        indRevOK: null
       }
     };
+
+    console.log(obj);
 
     Object.keys(obj).forEach((key) => {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];

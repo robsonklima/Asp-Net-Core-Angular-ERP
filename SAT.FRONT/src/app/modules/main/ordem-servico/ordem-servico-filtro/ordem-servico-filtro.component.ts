@@ -20,15 +20,12 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
-import { GrupoEquipamento, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
+import { GrupoEquipamento } from 'app/core/types/grupo-equipamento.types';
 import { TipoEquipamento } from 'app/core/types/tipo-equipamento.types';
-import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
-import { Equipamento, EquipamentoFilterEnum, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { Equipamento, EquipamentoFilterEnum } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
-import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import Enumerable from 'linq';
 
 @Component({

@@ -15,10 +15,12 @@ namespace SAT.SERVICES.Services
     {
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo)
+        private readonly IOrdemServicoAlertaService _ordemServicoAlertaService;
+        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepo, ISequenciaRepository sequenciaRepo, IOrdemServicoAlertaService ordemServicoAlertaService)
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
+            _ordemServicoAlertaService = ordemServicoAlertaService;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
@@ -46,7 +48,7 @@ namespace SAT.SERVICES.Services
         {
             var os = _ordemServicoRepo.ObterPorCodigo(codigo);
 
-            os.Alertas = ObterAlertas(os.CodOS);
+            os.Alertas = _ordemServicoAlertaService.ObterAlertas(os.CodOS);
             os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
 
             return os;
@@ -68,18 +70,6 @@ namespace SAT.SERVICES.Services
             };
         }
 
-        private List<Alerta> ObterAlertas(int codos)
-        {
-            List<Alerta> Alertas = new List<Alerta>();
-            Alertas.Add(new Alerta()
-            {
-                Tipo = "ALERTA_1",
-                Titulo = "Chamado Bloquio STN",
-                Descricao = "Chamado bloqueado devido a...."
-            });
-
-            return Alertas;
-        }
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {
             if (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO)

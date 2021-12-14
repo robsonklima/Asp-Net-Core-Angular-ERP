@@ -567,7 +567,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       .firstOrDefault(r => r.id === codTecnico);
 
     const chamados = Enumerable.from(this.events)
-      .where(e => e.resource === codTecnico && e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS)
+      .where(e => e.resource === codTecnico && e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS && e.ordemServico.codStatusServico != StatusServicoEnum.FECHADO)
       .select(i => i.ordemServico)
       .toArray();
 

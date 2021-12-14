@@ -175,6 +175,7 @@ namespace SAT.API
             services.AddTransient<IIndicadorService, IndicadorService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrdemServicoService, OrdemServicoService>();
+            services.AddTransient<IOrdemServicoAlertaService, OrdemServicoAlertaService>();
             services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
             services.AddTransient<IAgendamentoService, AgendamentoService>();
             services.AddTransient<IGeolocalizacaoService, GeolocalizacaoService>();

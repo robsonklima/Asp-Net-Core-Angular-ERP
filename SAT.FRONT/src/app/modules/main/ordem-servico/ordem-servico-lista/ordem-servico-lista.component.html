@@ -53,8 +53,8 @@
                                         {{ t('abertura') }}
                                     </div>
                                     <div class="hidden sm:block text-center pl-2"
-                                        [mat-sort-header]="'dataHoraSolicitacao'">
-                                        {{ t('solicitacao') }}
+                                        [mat-sort-header]="'dataHoraAgendamento'">
+                                        {{ t('agendamento') }}
                                     </div>
                                     <div class="text-center" [mat-sort-header]="'fimSLA'">
                                         {{ t('fim sla') }}
@@ -108,14 +108,13 @@
                                                 </div>
 
                                                 <div class="hidden sm:block">
-                                                    <span [matTooltip]="statusAgendamento(os)"
-                                                        matTooltipPosition="above">
+                                                    <span>
                                                         <span class="py-1 px-2 rounded text-xs" [ngStyle]="{
                                                             'background-color': os.agendamentos?.length >
                                                             0 ? '#670067' : '',
                                                             'color': os.agendamentos?.length >
                                                             0 ?  '#FFFFFF' : '#000000'}">
-                                                            {{ os.dataHoraSolicitacao | date:'dd/MM HH:mm'}}
+                                                            {{ (obterAgendamento(os) | date:'dd/MM HH:mm') || "---" }}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -234,8 +233,7 @@
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                                 [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 50"
-                                [pageSizeOptions]="[5, 10, 25, 50, 100, 250]" [showFirstLastButtons]="true"
-                                (page)="paginar()">
+                                [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

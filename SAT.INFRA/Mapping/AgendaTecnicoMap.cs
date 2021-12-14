@@ -15,10 +15,10 @@ namespace SAT.INFRA.Mapping
                 .HasKey(prop => prop.CodAgendaTecnico);
 
             builder
-                .HasOne(p => p.Tecnico)
+                .HasOne(prop => prop.OrdemServico)
                 .WithMany()
-                .HasForeignKey("CodTecnico")
-                .HasPrincipalKey("CodTecnico");
+                .HasForeignKey(i => i.CodOS)
+                .HasPrincipalKey(i => i.CodOS);
         }
     }
 }

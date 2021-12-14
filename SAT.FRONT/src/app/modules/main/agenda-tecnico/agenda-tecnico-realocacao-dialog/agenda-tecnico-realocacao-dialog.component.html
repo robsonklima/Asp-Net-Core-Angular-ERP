@@ -3,6 +3,9 @@
 </h1>
 
 <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center">
+    <div class="flex overflow-hidden" *ngIf="isRealocando">
+        {{ "Realocamento atendimento. Por favor, aguarde..." }}
+    </div>
     <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
 </div>
 <div ng>
@@ -16,7 +19,7 @@
                 <mat-form-field class="fuse-mat-dense flex-auto w-full">
                     <mat-select formControlName="codAgendaTecnico">
                         <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
-                            {{ a.ordemServico?.codOS + " - " + a.title }}
+                            {{ a.codOS + " - " + a.title }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -26,7 +29,7 @@
     <div class="mt-4" align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
 
-        <button mat-button [disabled]="!form?.valid" [color]="'primary'" (click)="confirmar()">
+        <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'" (click)="confirmar()">
             Realocar </button>
     </div>
 </div>

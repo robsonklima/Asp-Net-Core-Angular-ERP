@@ -24,8 +24,8 @@ const routerConfig: ExtraOptions = {
     declarations: [
         AppComponent
     ],
-    imports: [
-        MbscModule,
+    imports: [ 
+    MbscModule,  
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,

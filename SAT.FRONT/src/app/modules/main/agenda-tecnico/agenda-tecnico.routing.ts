@@ -4,11 +4,11 @@ import { RoteiroMapaComponent } from './roteiro-mapa/roteiro-mapa.component';
 
 export const agendaTecnicoRoutes: Route[] = [
     {
-        path     : '',
+        path: '',
         component: AgendaTecnicoComponent,
     },
     {
-        path     : 'roteiro-mapa/:codTecnico',
+        path: 'roteiro-mapa/:codTecnico',
         component: RoteiroMapaComponent
     }
 ];

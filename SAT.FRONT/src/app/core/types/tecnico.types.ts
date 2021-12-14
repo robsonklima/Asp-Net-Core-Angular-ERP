@@ -95,6 +95,8 @@ export interface TecnicoParameters extends QueryStringParameters
     codAutorizadas?: string;
     periodoMediaAtendInicio?: string;
     periodoMediaAtendFim?: string;
+    pas?: string;
+    codRegioes?: string;
     include?: TecnicoIncludeEnum;
     filterType?: TecnicoFilterEnum;
 };

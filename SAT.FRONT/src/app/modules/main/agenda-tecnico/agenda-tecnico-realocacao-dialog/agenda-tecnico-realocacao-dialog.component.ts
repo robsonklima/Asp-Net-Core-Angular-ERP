@@ -6,7 +6,10 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
+import { AgendaTecnicoValidator } from '../agenda-tecnico.validator';
 
 @Component({
   selector: 'app-agenda-tecnico-realocacao-dialog',
@@ -20,7 +23,9 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   codTecnico: number;
   form: FormGroup;
   initialTime: string;
+  userSession: UserSession;
   isLoading: boolean = false;
+  isRealocando: boolean = false;
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -28,6 +33,8 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     private _formBuilder: FormBuilder,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     private _notify: Notifications,
+    private _userService: UserService,
+    private _validator: AgendaTecnicoValidator,
     private _tecnicoSvc: TecnicoService)
   {
     if (data)
@@ -36,7 +43,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
       this.initialTime = data.initialTime;
       this.codTecnico = data.codTecnico;
     }
-
+    this.userSession = JSON.parse(this._userService.userSession);
     this.criarForm();
   }
 
@@ -67,11 +74,16 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
 
   async atualizarAtendimento()
   {
+    this.isLoading = true;
+    this.isRealocando = true;
     var codAgendaTecnico = this.form.controls.codAgendaTecnico.value;
 
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+    agendamento.cor = this._validator.getRealocationStatusColor(moment(this.initialTime));
+    agendamento.codUsuarioManut = this.userSession.usuario.codUsuario;
+    agendamento.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
 
     await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
     {

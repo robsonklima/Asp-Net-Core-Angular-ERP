@@ -3,11 +3,15 @@ import { FormBuilder, } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { FilialService } from 'app/core/services/filial.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Filial } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import { Regiao } from 'app/core/types/regiao.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 
@@ -20,13 +24,16 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   tecnicos: Tecnico[] = [];
   filiais: Filial[] = [];
   @Input() sidenav: MatSidenav;
+  pas: number[] = [];
+  regioes: Regiao[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor (
     private _tecnicoSvc: TecnicoService,
     private _filialSvc: FilialService,
     protected _userService: UserService,
-    protected _formBuilder: FormBuilder
+    protected _formBuilder: FormBuilder,
+    private _regiaoAutorizadaSvc: RegiaoAutorizadaService
   )
   {
     super(_userService, _formBuilder, 'agenda-tecnico');
@@ -36,7 +43,9 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
-      codFiliais: [undefined]
+      codFiliais: [undefined],
+      pas: [undefined],
+      codRegioes: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -58,22 +67,32 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   configurarFiltro()
   {
     if (this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != "")
-      this.obterTecnicos(this.form.controls['codFiliais'].value);
+    {
+      this.obterTecnicos();
+      this.obterRegioesAutorizadas();
+    }
   }
 
   private async obterTecnicosAoEscolherFilial()
   {
-    this.form.controls['codFiliais'].valueChanges.subscribe(async codFilial =>
+    this.form.controls['codFiliais'].valueChanges.subscribe(() =>
     {
-      this.obterTecnicos(codFilial);
+      this.form.controls['pas'].setValue(null);
+      this.form.controls['codRegioes'].setValue(null);
+      this.form.controls['codTecnicos'].setValue(null);
+
+      this.obterTecnicos();
+      this.obterRegioesAutorizadas();
     });
   }
 
-  private async obterTecnicos(codFilial: string)
+  private async obterTecnicos()
   {
     const data = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
-      codFiliais: codFilial,
+      codFiliais: this.form.controls['codFiliais'].value,
+      pas: this.form.controls['pas'].value,
+      codRegioes: this.form.controls['codRegioes'].value,
       codPerfil: 35,
       periodoMediaAtendInicio: moment().add(-7, 'days').format('yyyy-MM-DD 00:00'),
       periodoMediaAtendFim: moment().format('yyyy-MM-DD 23:59'),
@@ -105,6 +124,23 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
     this.filiais = data.items;
   }
+
+  async obterRegioesAutorizadas()
+  {
+    let params: RegiaoAutorizadaParameters = {
+      indAtivo: 1,
+      codFiliais: this.form.controls['codFiliais'].value,
+      pageSize: 1000
+    };
+
+    const data = await this._regiaoAutorizadaSvc
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
+    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
+  }
+
   ngOnDestroy()
   {
     this._onDestroy.next();

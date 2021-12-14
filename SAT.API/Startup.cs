@@ -130,6 +130,7 @@ namespace SAT.API
             services.AddTransient<ITurnoRepository, TurnoRepository>();
             services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
             services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
+            services.AddTransient<INotificacaoRepository, NotificacaoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -190,10 +191,6 @@ namespace SAT.API
             services.AddTransient<IPontoUsuarioDataDivergenciaService, PontoUsuarioDataDivergenciaService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddTransient<ITurnoService, TurnoService>();
-
-            // Utils Services
-            services.AddSingleton<ILoggerService, LoggerService>();
-            services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
             services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();
@@ -212,6 +209,11 @@ namespace SAT.API
             services.AddTransient<ITicketLogPedidoCreditoService, TicketLogPedidoCreditoService>();
             services.AddTransient<IInstalacaoService, InstalacaoService>();
             services.AddTransient<IInstalacaoLoteService, InstalacaoLoteService>();
+            services.AddTransient<INotificacaoService, NotificacaoService>();
+
+            // Utils Services
+            services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddTransient<ITokenService, TokenService>();
 
             services.AddAuthentication(auth =>
             {

@@ -56,11 +56,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
   snackConfigInfo: MatSnackBarConfig = { duration: 2000, panelClass: 'info' };
 
-  lastFilialFilter: any;
-  lastTecnicosFilter: any;
-  lastPAFilter: any;
-  lastRegiaoFilter: any;
-
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
 
@@ -194,26 +189,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   registerEmitters(): void
   {
-    this.sidenavAgenda.openedStart.subscribe(() =>
-    {
-      this.lastFilialFilter = this.filter?.parametros?.codFiliais;
-      this.lastTecnicosFilter = this.filter?.parametros?.codTecnicos;
-      this.lastPAFilter = this.filter?.parametros?.pas;
-      this.lastRegiaoFilter = this.filter?.parametros?.codRegioes;
-    });
-
     this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
-
-      // só aplica o filtro se este de fato mudou. TODO -> //valueChanged
-      if (this.lastFilialFilter != this.filter?.parametros?.codFiliais ||
-        this.lastTecnicosFilter != this.filter?.parametros?.codTecnicos ||
-        this.lastRegiaoFilter != this.filter?.parametros?.codRegioes ||
-        this.lastPAFilter != this.filter?.parametros?.pas)
-      {
-        this.obterDados();
-      }
+      this.obterDados();
     });
   }
 

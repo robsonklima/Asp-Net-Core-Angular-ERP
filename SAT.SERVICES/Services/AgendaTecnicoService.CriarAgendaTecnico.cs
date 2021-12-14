@@ -30,7 +30,7 @@ namespace SAT.SERVICES.Services
                 return CriaNovoEventoOSComAgendamento(agendamentos, os, mediaTecnico, codTecnico);
 
             var ultimoEvento = agendamentos
-                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.OS)
+                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0)
               .OrderByDescending(i => i.Fim)
               .FirstOrDefault();
 
@@ -95,7 +95,7 @@ namespace SAT.SERVICES.Services
                 agendasTecnico.FirstOrDefault(i => i.CodOS == os.CodOS);
 
             var eventosSobrepostos =
-                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
+                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
 
             if (agendaTecnicoAnterior != null)
             {

@@ -268,6 +268,20 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.6',
+            releaseDate: '14 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Modificação da Agenda',
+                        'Alertas nos chamados',
+                        'Sistema de notificações'
+                    ],
+                }
+            ]
         }
     ];
 

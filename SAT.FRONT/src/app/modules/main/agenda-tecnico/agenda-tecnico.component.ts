@@ -224,6 +224,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async obterDados(showLoading: boolean = true)
   {
+    this.loadFilter();
+
     this.loading = showLoading;
 
     this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
@@ -250,14 +252,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }).toPromise());
 
     await this.carregaAgenda();
-    this.exibePontosDoDia();
+    await this.exibePontosDoDia();
 
     this.loading = false;
   }
 
   carregaAgenda()
   {
-    this.resources = this.tecnicos.map(tecnico =>
+    this.events = [];
+
+    this.resources = Enumerable.from(this.tecnicos).select(tecnico =>
     {
       return {
         id: tecnico.codTecnico,
@@ -265,9 +269,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         indFerias: this._validator.isOnVacation(tecnico),
         img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
       }
-    });
+    }).toArray();
 
-    this.events = [];
+    if (!Enumerable.from(this.resources).any()) return;
+
     this.agendaTecnicos.forEach(ag =>
     {
       this.events = this.events.concat(
@@ -477,6 +482,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async exibePontosDoDia()
   {
+    if (!Enumerable.from(this.resources).any()) return;
+
     this.tecnicos.map(tecnico =>
     {
       this.events = this.events.concat(this.carregaPonto(tecnico));
@@ -582,12 +589,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private showOSInfo(args, inst)
   {
     const event: any = args.event;
-    if (event.ordemServico == null) return;
+    if (event.ordemServico == null && event.title != "PONTO") return;
 
     const time = formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
     this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
-    this.info = event.title + ', ' + event.ordemServico?.codOS;
+    this.info = event.ordemServico != null ? event.title + ', ' + event.ordemServico?.codOS : event.title;
     this.time = time;
     clearTimeout(this.timer);
     this.timer = null;
@@ -598,7 +605,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   public countResourceEvents(resource: any): number
   {
     return Enumerable.from(this.events)
-      .where(i => i.resource == resource.id && i.agendaTecnico.tipo ==
+      .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
         AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.FECHADO).count();
   }
 }

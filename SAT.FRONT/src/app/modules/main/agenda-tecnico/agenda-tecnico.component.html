@@ -1,4 +1,4 @@
-<mat-drawer-container [hasBackdrop]="false">
+<mat-drawer-container class="min-w-full min-h-full" [hasBackdrop]="false">
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
@@ -19,8 +19,11 @@
 
         <div class="overflow-hidden">
             <mbsc-eventcalendar class="h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"
-                [resourceTemplate]="resourceTemplate" *ngIf="!loading">
+                [resourceTemplate]="resourceTemplate" *ngIf="!loading && resources.length > 0">
             </mbsc-eventcalendar>
+            <div class="warning-indicator font-bold" *ngIf="!loading && resources.length == 0">
+                Nenhum técnico encontrado. Por favor, verifique seus filtros.
+            </div>
             <mbsc-popup class="md-tooltip p-2" #popup [anchor]="anchor" [options]="popupOptions">
                 <div class="text-center" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
                     <div class="md-tooltip-header">

@@ -16,15 +16,9 @@ namespace SAT.SERVICES.Services
             List<AgendaTecnico> agendamentos =
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos);
 
-            var pontosTask = Task.Run(() => this.ObterPontosDoDiaAsync(parameters));
-            var intervalosTask = Task.Run(() => this.CriaIntervalosDoDiaAsync(agendamentos, parameters));
-            var agendamentosValidadosTask = Task.Run(() => this.ValidaAgendamentosAsync(agendamentos));
-
-            Task.WaitAll(pontosTask, intervalosTask, agendamentosValidadosTask);
-
-            List<AgendaTecnico> pontos = pontosTask.Result;
-            List<AgendaTecnico> intervalos = intervalosTask.Result;
-            List<AgendaTecnico> agendamentosValidados = agendamentosValidadosTask.Result;
+            var pontos = this.ObterPontosDoDiaAsync(parameters).Result;
+            var intervalos = this.CriaIntervalosDoDia(agendamentos, parameters);
+            var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
 
             agendamentosValidados.AddRange(pontos);
             agendamentosValidados.AddRange(intervalos);
@@ -50,31 +44,29 @@ namespace SAT.SERVICES.Services
                IndAtivo = 1
            }).ToList();
 
-        private async Task<List<AgendaTecnico>> ValidaAgendamentosAsync(List<AgendaTecnico> agendamentos)
+        private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
         {
             List<AgendaTecnico> eventosValidados = new List<AgendaTecnico>();
 
             var tasks = agendamentos.GroupBy(i => i.CodTecnico);
 
-            await Task.WhenAll(tasks.Select(task => Task.Run(() =>
+            foreach (var t in tasks)
             {
-                if (task.ToList()
-                    .Where(i => i.IndAgendamento == 0)
-                    .Any(i => i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now
-                        && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
+                if (t.ToList()
+                   .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
+                   .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
                 {
-                    var eventosRealocados = this.RealocaEventosTecnico(task.ToList());
+                    var eventosRealocados = this.RealocaEventosTecnico(t.ToList());
                     eventosValidados.AddRange(eventosRealocados);
-                    return;
+                    continue;
                 }
 
-                eventosValidados.AddRange(task.ToList().Where(i => i.IndAgendamento == 1).ToList());
+                eventosValidados.AddRange(t.ToList().Where(i => i.IndAgendamento == 1).ToList());
 
-                task.ToList()
-                .Where(i => i.IndAgendamento == 0)
+                t.ToList()
+                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
                 .OrderBy(i => i.Inicio)
-                .ToList()
-                .ForEach(i =>
+                .ToList().ForEach(i =>
                 {
                     if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                     {
@@ -82,15 +74,18 @@ namespace SAT.SERVICES.Services
                         this._agendaRepo.Atualizar(i);
                         eventosValidados.Add(i);
                     }
+                    else eventosValidados.Add(i);
                 });
-            })));
+            }
 
             return eventosValidados;
         }
 
-        private async Task<List<AgendaTecnico>> CriaIntervalosDoDiaAsync(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
+        private List<AgendaTecnico> CriaIntervalosDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
         {
-            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos)) return null;
+            List<AgendaTecnico> novosIntervalos = new List<AgendaTecnico>();
+
+            if (string.IsNullOrWhiteSpace(parameters.CodTecnicos)) return novosIntervalos;
 
             var codTecnicos = parameters.CodTecnicos
                 .Split(",")
@@ -98,13 +93,13 @@ namespace SAT.SERVICES.Services
                 .Distinct()
                 .ToList();
 
-            List<AgendaTecnico> novosIntervalos = new List<AgendaTecnico>();
-
             var intervalosDoDia =
                 agendamentos
-                .Where(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+                .Where(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date).ToList();
 
-            await Task.WhenAll(codTecnicos.Select(codTec => Task.Run(() =>
+            if (intervalosDoDia.Count() == codTecnicos.Count()) return intervalosDoDia;
+
+            codTecnicos.ToList().ForEach(codTec =>
             {
                 var codTecnico = Convert.ToInt32(codTec);
 
@@ -125,11 +120,11 @@ namespace SAT.SERVICES.Services
                     };
 
                     var ag = this._agendaRepo.Criar(a);
-                    novosIntervalos.Add(ag);
+                    intervalosDoDia.Add(ag);
                 }
-            })));
+            });
 
-            return novosIntervalos;
+            return intervalosDoDia;
         }
 
         private async Task<List<AgendaTecnico>> ObterPontosDoDiaAsync(AgendaTecnicoParameters parameters)
@@ -174,7 +169,7 @@ namespace SAT.SERVICES.Services
             OrdemServico ultimaOS = null;
 
             agendasTecnico
-            .Where(i => i.IndAgendamento == 0 && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+            .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
             .OrderBy(i => i.Inicio)
             .ToList()
             .ForEach(e =>

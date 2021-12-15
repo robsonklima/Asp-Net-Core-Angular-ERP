@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAT.INFRA.Repository
 {
@@ -33,6 +34,29 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
+
+                    if (a != null)
+                    {
+                        _context.Entry(a).CurrentValues.SetValues(agenda);
+                        _context.SaveChanges();
+                        return agenda;
+                    }
+                    return null;
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            });
         }
 
         public AgendaTecnico Criar(AgendaTecnico agenda)

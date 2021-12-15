@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using SAT.INFRA.Context;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 
@@ -11,6 +13,7 @@ namespace SAT.INFRA.Interfaces
         PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
         void Deletar(int codigo);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
+        Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
     }
 }

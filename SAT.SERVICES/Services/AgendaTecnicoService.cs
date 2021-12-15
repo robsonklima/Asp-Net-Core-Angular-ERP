@@ -9,16 +9,19 @@ namespace SAT.SERVICES.Services
     {
         private readonly IAgendaTecnicoRepository _agendaRepo;
         private readonly ITecnicoRepository _tecnicoRepo;
+        private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
             IAgendaTecnicoRepository agendaRepo,
             ITecnicoRepository tecnicoRepo,
-            IOrdemServicoRepository osRepo)
+            IOrdemServicoRepository osRepo,
+            IPontoUsuarioRepository pontoUsuarioRepo)
         {
             _agendaRepo = agendaRepo;
             _tecnicoRepo = tecnicoRepo;
             _osRepo = osRepo;
+            _pontoUsuarioRepo = pontoUsuarioRepo;
         }
 
         public ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters)

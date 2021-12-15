@@ -5,7 +5,6 @@ using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SAT.SERVICES.Services
 {
@@ -14,14 +13,14 @@ namespace SAT.SERVICES.Services
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
             List<AgendaTecnico> agendamentos =
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos);
+                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico.Value);
 
-            var pontos = this.ObterPontosDoDiaAsync(parameters).Result;
-            var intervalos = this.CriaIntervalosDoDia(agendamentos, parameters);
+            var pontos = this.ObterPontosDoDia(parameters);
+            var intervalo = this.CriaIntervaloDoDia(agendamentos, parameters);
             var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
 
             agendamentosValidados.AddRange(pontos);
-            agendamentosValidados.AddRange(intervalos);
+            agendamentosValidados.Add(intervalo);
 
             return agendamentosValidados.Distinct().ToArray();
         }
@@ -48,105 +47,74 @@ namespace SAT.SERVICES.Services
         {
             List<AgendaTecnico> eventosValidados = new List<AgendaTecnico>();
 
-            var tasks = agendamentos.GroupBy(i => i.CodTecnico);
-
-            foreach (var t in tasks)
+            if (agendamentos.ToList()
+               .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
+               .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
             {
-                if (t.ToList()
-                   .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-                   .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
-                {
-                    var eventosRealocados = this.RealocaEventosTecnico(t.ToList());
-                    eventosValidados.AddRange(eventosRealocados);
-                    continue;
-                }
-
-                eventosValidados.AddRange(t.ToList().Where(i => i.IndAgendamento == 1).ToList());
-
-                t.ToList()
-                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-                .OrderBy(i => i.Inicio)
-                .ToList().ForEach(i =>
-                {
-                    if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
-                    {
-                        i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
-                        this._agendaRepo.Atualizar(i);
-                        eventosValidados.Add(i);
-                    }
-                    else eventosValidados.Add(i);
-                });
+                var eventosRealocados = this.RealocaEventosTecnico(agendamentos);
+                eventosValidados.AddRange(eventosRealocados);
+                return eventosValidados;
             }
+
+            eventosValidados.AddRange(agendamentos.Where(i => i.IndAgendamento == 1).ToList());
+
+            agendamentos.ToList()
+            .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
+            .OrderBy(i => i.Inicio)
+            .ToList().ForEach(i =>
+            {
+                if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
+                {
+                    i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
+                    this._agendaRepo.Atualizar(i);
+                    eventosValidados.Add(i);
+                }
+                else eventosValidados.Add(i);
+            });
 
             return eventosValidados;
         }
 
-        private List<AgendaTecnico> CriaIntervalosDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
+        private AgendaTecnico CriaIntervaloDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
         {
-            List<AgendaTecnico> novosIntervalos = new List<AgendaTecnico>();
-
-            if (string.IsNullOrWhiteSpace(parameters.CodTecnicos)) return novosIntervalos;
-
-            var codTecnicos = parameters.CodTecnicos
-                .Split(",")
-                .Select(i => i.Trim())
-                .Distinct()
-                .ToList();
-
-            var intervalosDoDia =
+            var intervaloDoDia =
                 agendamentos
-                .Where(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date).ToList();
+                .FirstOrDefault(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
 
-            if (intervalosDoDia.Count() == codTecnicos.Count()) return intervalosDoDia;
+            if (intervaloDoDia != null) return intervaloDoDia;
 
-            codTecnicos.ToList().ForEach(codTec =>
+            AgendaTecnico novoIntervalo = new AgendaTecnico
             {
-                var codTecnico = Convert.ToInt32(codTec);
+                CodTecnico = parameters.CodTecnico,
+                CodUsuarioCad = "ADMIN",
+                DataHoraCad = DateTime.Now,
+                Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
+                Tipo = AgendaTecnicoTypeEnum.INTERVALO,
+                Titulo = "INTERVALO",
+                Inicio = this.InicioIntervalo,
+                Fim = this.FimIntervalo,
+                IndAgendamento = 0,
+                IndAtivo = 1
+            };
 
-                if (!intervalosDoDia.Any(i => i.CodTecnico == codTecnico))
-                {
-                    AgendaTecnico a = new AgendaTecnico
-                    {
-                        CodTecnico = codTecnico,
-                        CodUsuarioCad = "ADMIN",
-                        DataHoraCad = DateTime.Now,
-                        Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
-                        Tipo = AgendaTecnicoTypeEnum.INTERVALO,
-                        Titulo = "INTERVALO",
-                        Inicio = this.InicioIntervalo,
-                        Fim = this.FimIntervalo,
-                        IndAgendamento = 0,
-                        IndAtivo = 1
-                    };
-
-                    var ag = this._agendaRepo.Criar(a);
-                    intervalosDoDia.Add(ag);
-                }
-            });
-
-            return intervalosDoDia;
+            return novoIntervalo;
         }
 
-        private async Task<List<AgendaTecnico>> ObterPontosDoDiaAsync(AgendaTecnicoParameters parameters)
+        private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters)
         {
-            if (string.IsNullOrEmpty(parameters.CodTecnicos)) return null;
-
             List<AgendaTecnico> pontos = new List<AgendaTecnico>();
 
-            var tecnicos = this._tecnicoRepo.ObterQuery(
-                new TecnicoParameters
-                {
-                    CodTecnicos = parameters.CodTecnicos
-                })
-                .AsEnumerable();
-
-            await Task.WhenAll(tecnicos.Select(t => Task.Run(() =>
+            var pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
             {
-                t.Usuario.PontosUsuario.ForEach(p =>
+                CodUsuario = parameters.CodUsuario,
+                DataHoraRegistro = DateTime.Today.Date
+            }).ToList();
+
+            pontosUsuario.ForEach(p =>
                 {
                     pontos.Add(new AgendaTecnico
                     {
-                        CodTecnico = t.CodTecnico,
+                        CodTecnico = parameters.CodTecnico.Value,
                         Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
                         Tipo = AgendaTecnicoTypeEnum.PONTO,
                         Inicio = p.DataHoraRegistro,
@@ -155,7 +123,6 @@ namespace SAT.SERVICES.Services
                         IndAtivo = 1
                     });
                 });
-            })));
 
             return pontos;
         }

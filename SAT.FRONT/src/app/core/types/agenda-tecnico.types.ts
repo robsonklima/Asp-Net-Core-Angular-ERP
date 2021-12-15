@@ -28,6 +28,7 @@ export interface AgendaTecnicoParameters extends QueryStringParameters
     pa?: number;
     codFiliais?: string;
     codTecnicos?: string;
+    codUsuario?: string;
     codOS?: number;
     codTecnico?: number;
     inicio?: string;

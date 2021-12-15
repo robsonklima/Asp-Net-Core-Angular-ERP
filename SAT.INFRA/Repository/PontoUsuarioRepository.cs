@@ -42,8 +42,8 @@ namespace SAT.INFRA.Repository
         {
             // try
             // {
-                _context.Add(pontoUsuario);
-                _context.SaveChanges();
+            _context.Add(pontoUsuario);
+            _context.SaveChanges();
             // }
             // catch (DbUpdateException)
             // {
@@ -89,23 +89,20 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodUsuario != null)
-            {
-                query = query.Where(p => p.CodUsuario == parameters.CodUsuario);
-            }
+            if (!string.IsNullOrWhiteSpace(parameters.CodUsuario))
+                query = query.Where(p => !string.IsNullOrEmpty(p.CodUsuario) && p.CodUsuario.ToLower() == parameters.CodUsuario.ToLower());
 
-            if (parameters.CodPontoPeriodo != null)
-            {
+            if (parameters.CodPontoPeriodo.HasValue)
                 query = query.Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo);
-            }
 
             if (parameters.DataHoraRegistroInicio != DateTime.MinValue && parameters.DataHoraRegistroFim != DateTime.MinValue)
                 query = query.Where(p => p.DataHoraRegistro >= parameters.DataHoraRegistroInicio && p.DataHoraRegistro <= parameters.DataHoraRegistroFim);
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (parameters.DataHoraRegistro.HasValue)
+                query = query.Where(p => p.DataHoraRegistro.Date == parameters.DataHoraRegistro.Value.Date);
+
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<PontoUsuario>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

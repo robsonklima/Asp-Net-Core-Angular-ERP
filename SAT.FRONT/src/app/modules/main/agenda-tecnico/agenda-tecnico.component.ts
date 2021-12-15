@@ -190,7 +190,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   )
   {
     super(_userSvc, 'agenda-tecnico')
-    this.obterDados();
+    this.carregaDados();
   }
 
   registerEmitters(): void
@@ -198,7 +198,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
-      this.obterDados();
+      this.carregaDados();
     });
   }
 
@@ -218,10 +218,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.filter.parametros.codFiliais = 4;
   }
 
-  private async obterDados(showLoading: boolean = true)
+  private async carregaDados(showLoading: boolean = true)
   {
     this.loading = showLoading;
+    await this.obterDados().then(() =>
+    {
+      this.loading = false;
+    });
+  }
 
+  private async obterDados()
+  {
     this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
@@ -233,25 +240,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       sortDirection: 'asc'
     }).toPromise()).items;
 
-    var codTecnicos =
-      Enumerable.from(this.tecnicos).select(i => i.codTecnico).toJoinedString(",");
-
-    this.agendaTecnicos = (await this._agendaTecnicoSvc.obterAgendaTecnico({
-      codFiliais: this.filter?.parametros?.codFiliais,
-      codTecnicos: codTecnicos,
-      inicioPeriodoAgenda: this.weekStart,
-      fimPeriodoAgenda: this.weekEnd,
-      sortActive: 'nome',
-      sortDirection: 'asc',
-    }).toPromise());
-
-    await this.carregaAgenda();
-
-    this.loading = false;
-  }
-
-  carregaAgenda()
-  {
     this.events = [];
     this.resources = Enumerable.from(this.tecnicos).select(tecnico =>
     {
@@ -265,7 +253,27 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!Enumerable.from(this.resources).any()) return;
 
-    this.events = Enumerable.from(this.agendaTecnicos).select(ag =>
+    Enumerable.from(this.tecnicos).forEach(t => 
+    {
+      this._agendaTecnicoSvc.obterAgendaTecnico({
+        codFiliais: this.filter?.parametros?.codFiliais,
+        codTecnico: t.codTecnico,
+        codUsuario: t.usuario.codUsuario,
+        inicioPeriodoAgenda: this.weekStart,
+        fimPeriodoAgenda: this.weekEnd,
+        sortActive: 'nome',
+        sortDirection: 'asc'
+      }).toPromise().then(agendamentos =>
+      {
+        this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
+        this.carregaAgendaTecnico(agendamentos);
+      });
+    });
+  }
+
+  carregaAgendaTecnico(agendamentos: AgendaTecnico[])
+  {
+    this.events = this.events.concat(Enumerable.from(agendamentos).select(ag =>
     {
       return {
         codAgendaTecnico: ag.codAgendaTecnico,
@@ -279,7 +287,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
-    }).toArray();
+    }).toArray());
   }
 
   private async checkForWarnings(ev, args, inst)
@@ -327,7 +335,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
     this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
-    await this.obterDados(false);
+    await this.carregaDados(false);
   }
 
   private async validateNewEvent(args, inst)
@@ -366,7 +374,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (ag != null)
     {
-      if (ag.indAgendamento == 1) this.obterDados(false);
+      if (ag.indAgendamento == 1) this.carregaDados(false);
 
       var os = ev.ordemServico;
 
@@ -514,7 +522,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     dialog.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-        this.obterDados(false);
+        this.carregaDados(false);
     });
   }
 

@@ -72,6 +72,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   interventionType = '';
   info = '';
   time = '';
+  status = '';
   anchor: HTMLElement | undefined;
   timer: any;
 
@@ -559,6 +560,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
     this.info = event.ordemServico != null ? event.title + ', ' + event.ordemServico?.codOS : event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? "PONTO" : "INTERVALO";
     this.time = time;
+    this.status = event.ordemServico.statusServico?.nomeStatusServico;
     clearTimeout(this.timer);
     this.timer = null;
     this.anchor = args.domEvent.target;
@@ -570,5 +572,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
         AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.FECHADO).count();
+  }
+
+  public countPontoEvents(resource: any): number
+  {
+    return Enumerable.from(this.events)
+      .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
+        AgendaTecnicoTypeEnum.PONTO).count();
   }
 }

@@ -36,6 +36,8 @@
                 <div class="md-tooltip-info">
                     <div class="md-tooltip-title">
                         <span class="md-tooltip-status md-tooltip-text">{{interventionType}}</span>
+                        <br>
+                        <span class="md-tooltip-status md-tooltip-text font-bold">{{status}}</span>
                     </div>
                 </div>
             </div>
@@ -53,8 +55,14 @@
                 </div>
                 <div class="mr-1 bg-blue-400 text-blue-50 py-1 px-2 rounded text-xs font-bold text-center
                         align-middle mbsc-counter" [matTooltip]="'Chamados Pendentes'" [ngClass]="{'opacity-10':
-                        resource.indFerias}">
+                        resource.indFerias}" *ngIf="countPontoEvents(resource) > 0">
                     {{ countResourceEvents(resource) }}
+                </div>
+                <div class="mr-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter"
+                    [matTooltip]="'Técnico não possui ponto registrado hoje. Chamados pendentes: ' + countResourceEvents(resource) + '.'"
+                    *ngIf="countPontoEvents(resource) == 0 && !resource.indFerias">
+                    {{ "!" }}
                 </div>
             </div>
 

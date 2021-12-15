@@ -15,8 +15,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodClientes))
             {
-                var clientes = parameters.CodClientes.Split(",").Select(c => c.Trim());
-                equipContrato = equipContrato.Where(e => clientes.Any(r => r == e.CodCliente.ToString()));
+                int[] clientes = parameters.CodClientes.Split(",").Select(c => int.Parse(c.Trim())).Distinct().ToArray();
+                equipContrato = equipContrato.Where(e => clientes.Contains(e.CodCliente));
             }
 
             var codEquips = equipContrato

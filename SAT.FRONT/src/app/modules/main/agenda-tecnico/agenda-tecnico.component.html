@@ -26,7 +26,7 @@
         <div class="warning-indicator font-bold" *ngIf="!loading && resources.length == 0">
             Nenhum técnico encontrado. Por favor, verifique seus filtros.
         </div>
-        <mbsc-popup class="md-tooltip p-2" #popup [anchor]="anchor" [options]="popupOptions">
+        <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
             <div class="text-center" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
                 <div class="md-tooltip-header">
                     <span class="md-tooltip-name-age font-bold">{{info}}</span>

@@ -18,7 +18,8 @@
         </button>
 
         <mbsc-eventcalendar class="min-h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"
-            [resourceTemplate]="resourceTemplate" *ngIf="!loading && resources.length != 0">
+            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading &&
+            resources.length != 0">
         </mbsc-eventcalendar>
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
@@ -66,6 +67,18 @@
                 </div>
             </div>
 
+        </ng-template>
+
+        <ng-template #eventTemplate let-data>
+            <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden"
+                [ngStyle]="{borderColor: data.color, background: data.title == '' ? 'transparent' : data.color}">
+                <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock "
+                    [ngStyle]="{color: 'black', background: 'transparent'}" *ngIf="data.title == ''"></span>
+                <div class="mbsc-custom-event-title"
+                    [ngStyle]="{ color: data.title == 'INTERVALO' ? 'black' : 'white'}">
+                    {{ data.title }}
+                </div>
+            </div>
         </ng-template>
     </mat-drawer-content>
 </mat-drawer-container>

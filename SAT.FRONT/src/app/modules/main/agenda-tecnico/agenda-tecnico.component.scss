@@ -1,5 +1,12 @@
 .mbsc-schedule-event {
     font-size: small !important;
+    min-width: 22px;
+    min-height: 22px;
+}
+
+.mbsc-icon {
+    min-width: 22px;
+    min-height: 22px;
 }
 
 .mbsc-flex-1-1 {
@@ -8,11 +15,27 @@
 
 .mbsc-timeline-resource,
 .mbsc-timeline-row {
-    height: 32px !important;
+    min-height: 48px !important;
+}
+
+.mbsc-ios.mbsc-schedule-event-background {
+    opacity: 1 !important;
 }
 
 .mbsc-schedule-event-range {
     display: none !important;
+}
+
+.mbsc-custom-event-title {
+    padding: 5px !important;
+    font-weight: 700 !important;
+    font-size: xx-small !important;
+    text-align: justify !important;
+    vertical-align: middle !important;
+    word-break: break-all !important;
+    max-height: 35px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .md-tooltip {
@@ -22,7 +45,6 @@
 }
 
 .mbsc-counter {
-    margin-top: -1px;
     margin-bottom: 3px;
     min-width: 22px !important;
     max-width: 22px !important;
@@ -35,7 +57,7 @@
     max-height: 25px !important;
     max-width: 25px !important;
     margin-left: 3px;
-    top: 21px;
+    top: 25px;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     left: 20px;
@@ -46,6 +68,10 @@
     margin-left: 40px;
     margin-top: 5%;
     max-width: 20px;
+}
+
+.mbsc-timeline-resource-title {
+    margin-top: 8px;
 }
 
 .md-work-week-cont {

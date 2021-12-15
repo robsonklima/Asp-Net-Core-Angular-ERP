@@ -318,30 +318,39 @@
                                 <span>
                                     {{ t('alertas') }}
 
-                                    <span *ngIf="osAlertas.length"
+                                    <span *ngIf="os?.alertas"
                                      class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
-                                        {{  osAlertas?.length}}
+                                        {{  os.alertas?.length}}
                                     </span>
                                 </span>
                             </ng-template>
 
-                            <ng-template matTabContent>
-                            <div class="grid grid-cols-1 sm: grid-cols-2 w-2x5 col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                <div class="grid grid-cols-1 gap-4" *ngIf="osAlertas.length">
-                                    <fuse-card *ngFor="let alerta of osAlertas"
+                            <ng-template matTabContent >
+                            <div class="max-w-2xl p-8 bg-card shadow-lg rounded-2xl overflow-hidden">
+                                <div class="grid grid-cols-1 gap-4" *ngIf="os?.alertas">
+                                    <fuse-card *ngFor="let alerta of os?.alertas"
                                         class="flex flex-col gap-4 border px-8 py-6 pb-4"
-                                        [class.text-red-600]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
-                                        [class.border-red-600]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
-                                        [class.bg-red-100]="alerta?.tipo == 'CHAMADOS_MESMO_EQUIP'"
+                                        
+                                        [class.text-red-600]="alerta?.tipo == 'WARNING'"
+                                        [class.border-red-600]="alerta?.tipo == 'WARNING'"
+                                        [class.bg-red-100]="alerta?.tipo == 'WARNING'"
+
+                                        [class.text-yellow-600]="alerta?.tipo == 'INFO'"
+                                        [class.border-yellow-600]="alerta?.tipo == 'INFO'"
+                                        [class.bg-yellow-100]="alerta?.tipo == 'INFO'"
+
+                                        [class.text-green-600]="alerta?.tipo == 'SUCCESS'"
+                                        [class.border-green-600]="alerta?.tipo == 'SUCCESS'"
+                                        [class.bg-green-100]="alerta?.tipo == 'SUCCESS'"
 
                                         #fuseCard>
                                         <div class="text-lg font-bold">{{ alerta?.titulo}}</div>
-                                        <div class="rounded" *ngFor="let desc of alerta.descricao">
+                                        <div class="rounded" *ngFor="let desc of alerta?.descricao">
                                             {{ desc }}
                                         </div>                                   
                                     </fuse-card>
                                 </div>
-                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!osAlertas.length">
+                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os.alertas">
                                     <p>
                                         {{ t('nenhum registro encontrado') }}
                                     </p>

@@ -31,7 +31,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
-	osAlertas: OrdemServicoAlerta[] = [];
 	statusServico: StatusServico;
 	perfis: any;
 	userSession: UsuarioSessao;
@@ -138,39 +137,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	{
 		this.os =
 			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
-
-		this.ObterAlertas();
-
-	}
-
-	private ObterAlertas()
-	{
-
-		if (!this.os.alertas.length) return;
-
-		console.log(this.os.alertas);
-		
-		Enumerable.from(AlertasEnum).forEach(en => {
-
-			let tipoAlerta = Enumerable.from(this.os.alertas).where(a => a.tipo == en.value).toArray();
-			
-			if (!tipoAlerta.length) return;
-		
-
-			let obj: OrdemServicoAlerta = {
-				titulo: '',
-				descricao: [],
-				tipo: en.value
-			};
-
-			tipoAlerta.forEach(a => {
-				obj.titulo = a.titulo;
-				obj.descricao.push(a.descricao);
-			});					
-
-			this.osAlertas.push(obj);
-
-		});
 	}
 
 	private async obterUsuarioCadastro()

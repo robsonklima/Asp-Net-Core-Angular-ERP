@@ -14,7 +14,10 @@
         public static int PECAS_PENDENTES = 7;
 
         // Alertas para OS
-        public static string CHAMADOS_MESMO_EQUIP = "CHAMADOS_MESMO_EQUIP";
+        public static string WARNING = "WARNING";
+        public static string INFO = "INFO";
+        public static string SUCCESS = "SUCCESS";
+        public static int[] EQUIPAMENTOS_PINPAD = { 153, 856, 1121 };
 
         // Tipos de Intervenção
         public static int ALTERACAO_ENGENHARIA = 1;

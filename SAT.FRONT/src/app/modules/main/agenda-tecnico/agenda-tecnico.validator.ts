@@ -31,7 +31,7 @@ export class AgendaTecnicoValidator
 
     public isTecnicoOMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
     {
-        var codTecnicosFiilial = Enumerable.from(tecnicos).select(i => i.codTecnico);
+        var codTecnicos = Enumerable.from(tecnicos).select(i => i.codTecnico);
 
         var ultimoAtendimentoTecnico =
             Enumerable.from(events)
@@ -46,7 +46,7 @@ export class AgendaTecnicoValidator
 
         var ultimosAtendimentosAgendados =
             Enumerable.from(events)
-                .where(i => codTecnicosFiilial.contains(+i.resource) && i.ordemServico != null)
+                .where(i => codTecnicos.contains(+i.resource) && i.ordemServico != null)
                 .groupBy(i => i.resource)
                 .select(i => i.maxBy(i => i.end))
                 .toArray();

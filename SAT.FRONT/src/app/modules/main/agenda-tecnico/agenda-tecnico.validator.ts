@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnicoTypeEnum, Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoOMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoTypeEnum, Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -66,7 +66,7 @@ export class AgendaTecnicoValidator
         if (codTecnicoMinDistancia != codTecnico)
         {
             var nomeTecnico = ultimoAtendimentoTecnico.ordemServico?.tecnico?.nome;
-            var tec: TecnicoOMaisProximo =
+            var tec: TecnicoMaisProximo =
             {
                 minDistancia: minDistancia,
                 codTecnicoMinDistancia: codTecnicoMinDistancia,
@@ -78,6 +78,31 @@ export class AgendaTecnicoValidator
         }
         else
             return null;
+    }
+
+    public validaDistanciaEntreEventos(eventoAtual: any, events: MbscAgendaTecnicoCalendarEvent[]): string
+    {
+        var codTecnico = eventoAtual.resource;
+
+        var eventosDoTecnico = Enumerable.from(events)
+            .where(i => i.resource == codTecnico).orderBy(i => i.start).toArray();
+
+        var eventIndex = eventosDoTecnico.indexOf(eventoAtual);
+
+        if (eventIndex != null)
+        {
+            var eventoAnterior = eventosDoTecnico[eventIndex - 1];
+            if (eventoAnterior != null && eventoAnterior?.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS && eventoAtual.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.OS)
+            {
+                var minDistancia: number =
+                    this.calculaDeslocamentoEmMinutos(eventoAtual.ordemServico, eventoAnterior.ordemServico);
+
+                if (minDistancia <= 1) return null;
+
+                return "O técnico demorará " + this.getTimeFromMins(minDistancia) + "h para chegar no local a partir do seu último atendimento.";
+            }
+        }
+        return null;
     }
 
     private getTecnicoOMaisProximoMessage(nomeTecnico: string, minDistancia: number, os: OrdemServico)
@@ -199,5 +224,12 @@ export class AgendaTecnicoValidator
         if (referenceTime < moment())
             return this.lateColor();
         return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
+    }
+
+    private getTimeFromMins(mins)
+    {
+        var h = mins / 60 | 0,
+            m = mins % 60 | 0;
+        return moment.utc().hours(h).minutes(m).format("HH:mm");
     }
 }

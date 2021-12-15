@@ -1,35 +1,37 @@
-<h1 mat-dialog-title>
-    Realocar Atendimento
-</h1>
+<div class="min-w-full min-h-full">
+    <h1 mat-dialog-title>
+        Realocar Atendimento
+    </h1>
 
-<div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center">
-    <div class="flex overflow-hidden" *ngIf="isRealocando">
-        {{ "Realocamento atendimento. Por favor, aguarde..." }}
-    </div>
-    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-</div>
-<div ng>
-    <div class="flex-auto w-full" *ngIf="!isLoading">
-        <div class="flex overflow-hidden">
-            {{ "Escolha o atendimento do técnico " + (tecnico?.nome | uppercase) + " a ser realocado para " + (initialTime | date:'dd/MM/yy') + " às " + (initialTime | date:'HH:mm') + ":" }}
+    <div *ngIf="isLoading" class="flex flex-col flex-auto items-center justify-center">
+        <div class="flex overflow-hidden" *ngIf="isRealocando">
+            {{ "Realocamento atendimento. Por favor, aguarde..." }}
         </div>
-
-        <form [formGroup]="form" *transloco="let t">
-            <div class="flex-auto w-full mt-5">
-                <mat-form-field class="fuse-mat-dense flex-auto w-full">
-                    <mat-select formControlName="codAgendaTecnico">
-                        <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
-                            {{ a.codOS + " - " + a.title }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </form>
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
-    <div class="mt-4" align="end">
-        <button mat-button mat-dialog-close>Cancelar</button>
+    <div ng>
+        <div class="flex-auto w-full" *ngIf="!isLoading">
+            <div class="flex overflow-hidden">
+                {{ "Escolha o atendimento do técnico " + (tecnico?.nome | uppercase) + " a ser realocado para " + (initialTime | date:'dd/MM/yy') + " às " + (initialTime | date:'HH:mm') + ":" }}
+            </div>
 
-        <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'" (click)="confirmar()">
-            Realocar </button>
+            <form [formGroup]="form" *transloco="let t">
+                <div class="flex-auto w-full mt-5">
+                    <mat-form-field class="fuse-mat-dense flex-auto w-full">
+                        <mat-select formControlName="codAgendaTecnico">
+                            <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
+                                {{ a.codOS + " - " + a.title }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4" align="end">
+            <button mat-button mat-dialog-close>Cancelar</button>
+
+            <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'" (click)="confirmar()">
+                Realocar </button>
+        </div>
     </div>
 </div>

@@ -84,7 +84,7 @@ export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
     ordemServico?: OrdemServico;
 }
 
-export interface TecnicoOMaisProximo
+export interface TecnicoMaisProximo
 {
     minDistancia: number;
     codTecnicoMinDistancia: number

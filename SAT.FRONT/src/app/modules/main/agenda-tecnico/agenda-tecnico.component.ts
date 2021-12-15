@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
-import { setOptions, localePtBR, Notifications, MbscEventcalendarOptions, formatDate, MbscPopup, MbscPopupOptions } from '@mobiscroll/angular';
+import { setOptions, localePtBR, MbscEventcalendarOptions, formatDate, MbscPopup, MbscPopupOptions } from '@mobiscroll/angular';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
+import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 import Enumerable from 'linq';
@@ -55,7 +55,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   resources = [];
   weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
   weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
-  snackConfigInfo: MatSnackBarConfig = { duration: 2000, panelClass: 'info' };
+
+  snackConfigInfo: MatSnackBarConfig = { duration: 4000, panelClass: 'info', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
@@ -98,18 +101,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     {
       if (this._validator.hasOverlap(args, inst))
       {
-        this._notify.toast({
-          message: 'Os atendimentos não podem se sobrepor.',
-          color: 'danger'
-        });
+        this._snack.open('Os atendimentos não podem se sobrepor.', null, this.snackConfigDanger).afterDismissed().toPromise();
         return false;
       }
       else if (this._validator.invalidInsert(args))
       {
-        this._notify.toast({
-          message: 'O atendimento não pode ser agendado para antes da linha do tempo.',
-          color: 'danger'
-        });
+        this._snack.open('O atendimento não pode ser agendado para antes da linha do tempo.', null, this.snackConfigDanger).afterDismissed().toPromise();
         return false;
       }
 
@@ -119,18 +116,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     {
       if (this._validator.hasOverlap(args, inst))
       {
-        this._notify.toast({
-          message: 'Os atendimentos não podem se sobrepor.',
-          color: 'danger'
-        });
+        this._snack.open('Os atendimentos não podem se sobrepor.', null, this.snackConfigDanger).afterDismissed().toPromise();
         return false;
       }
       else if (this._validator.cantChangeInterval(args))
       {
-        this._notify.toast({
-          message: 'Não é possível transferir um intervalo.',
-          color: 'danger'
-        });
+        this._snack.open('Não é possível transferir um intervalo.', null, this.snackConfigDanger).afterDismissed().toPromise();
         return false;
       }
       else if (this._validator.hasChangedResource(args))
@@ -140,10 +131,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       }
       else if (this._validator.invalidMove(args))
       {
-        this._notify.toast({
-          message: 'O atendimento não pode ser agendado para antes da linha do tempo.',
-          color: 'danger'
-        });
+        this._snack.open('O atendimento não pode ser agendado para antes da linha do tempo.', null, this.snackConfigDanger).afterDismissed().toPromise();
         return false;
       }
       else 
@@ -181,7 +169,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   protected _onDestroy = new Subject<void>();
 
   constructor (
-    private _notify: Notifications,
     private _tecnicoSvc: TecnicoService,
     private _osSvc: OrdemServicoService,
     private _agendaTecnicoSvc: AgendaTecnicoService,
@@ -350,8 +337,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         if (confirmacao)
         {
           ev.resource = hasTecnicoMaisProximo.codTecnicoMinDistancia;
-          ev.start = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).format('yyyy-MM-DD HH:mm:ss');
-          ev.end = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+          ev.start = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).add(hasTecnicoMaisProximo.minDistancia, 'minute').format('yyyy-MM-DD HH:mm:ss');
+          ev.end = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).add(hasTecnicoMaisProximo.minDistancia, 'minute').add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
           this.createExternalEvent(ev, args, inst).then(() => this.atualizaLinhaTecnico(ev.resource));
           return;
         }
@@ -446,28 +433,20 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
       if (updatedOS)
       {
-        this._notify.toast({
-          message: 'Atendimento agendado com sucesso.',
-          color: 'success'
-        });
+        await this._snack.open('Atendimento agendado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
         return true;
       }
       else
       {
-        this._notify.toast({
-          message: 'Não foi possível fazer o agendamento.',
-          color: 'danger'
-        });
+        await this._snack.open('Não foi possível fazer o agendamento', null, this.snackConfigDanger).afterDismissed().toPromise();
         this.deleteEvent(args, inst);
         return false;
       }
     }
     else
     {
-      this._notify.toast({
-        message: 'Não foi possível fazer o agendamento.',
-        color: 'danger'
-      });
+      await this._snack.open('Não foi possível fazer o agendamento', null, this.snackConfigDanger).afterDismissed().toPromise();
+
       this.deleteEvent(args, inst);
       return false;
     }
@@ -502,18 +481,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
     if (ag != null)
     {
-      this._notify.toast({
-        message: 'Agendamento atualizado com sucesso.',
-        color: 'success'
-      });
+      await this._snack.open('Agendamento atualizado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
       event.agendaTecnico = ag;
+      var message = this._validator.validaDistanciaEntreEventos(event, this.events);
+      if (message)
+        await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
     }
     else
     {
-      this._notify.toast({
-        message: 'Não foi possível atualizar o agendamento.',
-        color: 'danger'
-      });
+      await this._snack.open('Não foi possível fazer o agendamento.', null, this.snackConfigDanger).afterDismissed().toPromise();
     }
   }
 

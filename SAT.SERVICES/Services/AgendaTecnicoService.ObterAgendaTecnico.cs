@@ -5,6 +5,7 @@ using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAT.SERVICES.Services
 {
@@ -15,18 +16,20 @@ namespace SAT.SERVICES.Services
             List<AgendaTecnico> agendamentos =
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos);
 
-            agendamentos =
-                this.CriaIntervalosDoDia(agendamentos, parameters);
+            var pontosTask = Task.Run(() => this.ObterPontosDoDiaAsync(parameters));
+            var intervalosTask = Task.Run(() => this.CriaIntervalosDoDiaAsync(agendamentos, parameters));
+            var agendamentosValidadosTask = Task.Run(() => this.ValidaAgendamentosAsync(agendamentos));
 
-            agendamentos =
-                this.ValidaAgendamentos(agendamentos);
+            Task.WaitAll(pontosTask, intervalosTask, agendamentosValidadosTask);
 
-            var pontos =
-                this.ObterPontosDoDia(parameters);
+            List<AgendaTecnico> pontos = pontosTask.Result;
+            List<AgendaTecnico> intervalos = intervalosTask.Result;
+            List<AgendaTecnico> agendamentosValidados = agendamentosValidadosTask.Result;
 
-            agendamentos.AddRange(pontos);
+            agendamentosValidados.AddRange(pontos);
+            agendamentosValidados.AddRange(intervalos);
 
-            return agendamentos.Distinct().ToArray();
+            return agendamentosValidados.Distinct().ToArray();
         }
 
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, string codTecnicos) =>
@@ -47,61 +50,64 @@ namespace SAT.SERVICES.Services
                IndAtivo = 1
            }).ToList();
 
-        private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
+        private async Task<List<AgendaTecnico>> ValidaAgendamentosAsync(List<AgendaTecnico> agendamentos)
         {
-            List<AgendaTecnico> eventosValidados =
-            agendamentos.Where(i => i.Tipo != AgendaTecnicoTypeEnum.OS || i.IndAgendamento == 1).ToList();
+            List<AgendaTecnico> eventosValidados = new List<AgendaTecnico>();
 
-            agendamentos
-            .Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0)
-            .GroupBy(i => i.CodTecnico)
-            .ToList()
-            .ForEach(eventosDoTecnico =>
+            var tasks = agendamentos.GroupBy(i => i.CodTecnico);
+
+            await Task.WhenAll(tasks.Select(task => Task.Run(() =>
             {
-                eventosDoTecnico
+                if (task.ToList()
+                    .Where(i => i.IndAgendamento == 0)
+                    .Any(i => i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now
+                        && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
+                {
+                    var eventosRealocados = this.RealocaEventosTecnico(task.ToList());
+                    eventosValidados.AddRange(eventosRealocados);
+                    return;
+                }
+
+                eventosValidados.AddRange(task.ToList().Where(i => i.IndAgendamento == 1).ToList());
+
+                task.ToList()
+                .Where(i => i.IndAgendamento == 0)
                 .OrderBy(i => i.Inicio)
                 .ToList()
                 .ForEach(i =>
                 {
-                    if (i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && i.Fim.Date <= DateTime.Now.Date)
+                    if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                     {
-                        if (i.Fim.Date < DateTime.Now.Date && i.Fim < DateTime.Now)
-                        {
-                            if (i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
-                            {
-                                var eventosRealocados = this.RealocaEventosTecnico(eventosDoTecnico.ToList());
-                                eventosValidados.AddRange(eventosRealocados);
-                                return;
-                            }
-                        }
-                        else if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
-                        {
-                            i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
-                            this._agendaRepo.Atualizar(i);
-                        }
-
+                        i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
+                        this._agendaRepo.Atualizar(i);
                         eventosValidados.Add(i);
                     }
                 });
-            });
+            })));
+
             return eventosValidados;
         }
 
-        private List<AgendaTecnico> CriaIntervalosDoDia(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
+        private async Task<List<AgendaTecnico>> CriaIntervalosDoDiaAsync(List<AgendaTecnico> agendamentos, AgendaTecnicoParameters parameters)
         {
-            var codTecnicos = parameters.CodTecnicos?.Split(",").Select(i => i.Trim()).Distinct().ToList() ?? null;
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos)) return null;
 
-            if (codTecnicos == null) return agendamentos;
+            var codTecnicos = parameters.CodTecnicos
+                .Split(",")
+                .Select(i => i.Trim())
+                .Distinct()
+                .ToList();
+
+            List<AgendaTecnico> novosIntervalos = new List<AgendaTecnico>();
 
             var intervalosDoDia =
                 agendamentos
                 .Where(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
 
-            if (intervalosDoDia.Count() == codTecnicos.Count()) return agendamentos;
-
-            codTecnicos.ForEach(codTec =>
+            await Task.WhenAll(codTecnicos.Select(codTec => Task.Run(() =>
             {
                 var codTecnico = Convert.ToInt32(codTec);
+
                 if (!intervalosDoDia.Any(i => i.CodTecnico == codTecnico))
                 {
                     AgendaTecnico a = new AgendaTecnico
@@ -119,27 +125,31 @@ namespace SAT.SERVICES.Services
                     };
 
                     var ag = this._agendaRepo.Criar(a);
-                    agendamentos.Add(ag);
+                    novosIntervalos.Add(ag);
                 }
-            });
-            return agendamentos;
+            })));
+
+            return novosIntervalos;
         }
 
-        private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters)
+        private async Task<List<AgendaTecnico>> ObterPontosDoDiaAsync(AgendaTecnicoParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.CodTecnicos)) return null;
+
             List<AgendaTecnico> pontos = new List<AgendaTecnico>();
 
-            var tecnicos = this._tecnicoRepo.ObterQuery(new TecnicoParameters
-            {
-                CodTecnicos = parameters.CodTecnicos,
-            }).ToList();
+            var tecnicos = this._tecnicoRepo.ObterQuery(
+                new TecnicoParameters
+                {
+                    CodTecnicos = parameters.CodTecnicos
+                })
+                .AsEnumerable();
 
-            tecnicos.ForEach(t =>
+            await Task.WhenAll(tecnicos.Select(t => Task.Run(() =>
             {
                 t.Usuario.PontosUsuario.ForEach(p =>
                 {
-                    AgendaTecnico a = new AgendaTecnico
+                    pontos.Add(new AgendaTecnico
                     {
                         CodTecnico = t.CodTecnico,
                         Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
@@ -148,10 +158,9 @@ namespace SAT.SERVICES.Services
                         Fim = p.DataHoraRegistro.AddMilliseconds(25),
                         IndAgendamento = 0,
                         IndAtivo = 1
-                    };
-                    pontos.Add(a);
+                    });
                 });
-            });
+            })));
 
             return pontos;
         }

@@ -65,8 +65,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.PAS))
             {
-                var pas = parameters.PAS.Split(",").Select(a => a.Trim());
-                query = query.Where(os => pas.Any(p => p == os.RegiaoAutorizada.PA.ToString()));
+                int[] pas = parameters.PAS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => pas.Contains(os.RegiaoAutorizada.PA.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodTiposGrupo))

@@ -38,33 +38,33 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.PAS))
             {
-                var pas = parameters.PAS.Split(",").Select(a => a.Trim());
-                query = query.Where(t => pas.Any(p => p == t.RegiaoAutorizada.PA.ToString()));
+                int[] pas = parameters.PAS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => pas.Contains(t.RegiaoAutorizada.PA.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodRegioes))
             {
-                var regioes = parameters.CodRegioes.Split(",").Select(a => a.Trim());
-                query = query.Where(t => regioes.Any(r => r == t.CodRegiao.ToString()));
+                int[] regioes = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => regioes.Contains(t.CodRegiao.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(",");
-                query = query.Where(t => filiais.Any(a => a == t.CodFilial.ToString()));
+                int[] filiais = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => filiais.Contains(t.CodFilial.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
-                var tecs = parameters.CodTecnicos.Split(",");
-                query = query.Where(t => tecs.Any(a => a == t.CodTecnico.ToString()));
+                int[] tecs = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Where(s => s > 0).Distinct().ToArray();
+                query = query.Where(t => t.CodTecnico != null && tecs.Contains(t.CodTecnico.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodStatusServicos))
             {
-                var codigosStatusServico = parameters.CodStatusServicos.Split(',').Select(a => a.Trim());
+                int[] codigosStatusServico = parameters.CodStatusServicos.Split(',').Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query
-                    .Include(t => t.OrdensServico.Where(os => codigosStatusServico.Contains(os.CodStatusServico.ToString())))
+                    .Include(t => t.OrdensServico.Where(os => codigosStatusServico.Contains(os.CodStatusServico)))
                         .ThenInclude(os => os.TipoIntervencao);
             }
 

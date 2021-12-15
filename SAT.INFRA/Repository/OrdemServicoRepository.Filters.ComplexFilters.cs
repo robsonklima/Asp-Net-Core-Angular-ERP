@@ -12,8 +12,8 @@ namespace SAT.INFRA.Repository
         {
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
-                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
+                int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(os => filiais.Contains(os.CodFilial.Value));
             }
 
             if (parameters.CodTecnico.HasValue)
@@ -43,8 +43,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim()).Distinct();
-                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
+                int[] filiais = parameters.CodFiliais.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(os => filiais.Contains(os.CodFilial.Value));
             }
 
             return query;

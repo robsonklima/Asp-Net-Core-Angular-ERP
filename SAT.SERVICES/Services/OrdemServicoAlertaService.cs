@@ -24,23 +24,19 @@ namespace SAT.SERVICES.Services
 
         public List<Alerta> ObterAlertas(int codOrdemServico)
         {
-            var os = _ordemServicoRepo.ObterPorCodigo(codOrdemServico);
+             var os = _ordemServicoRepo.ObterPorCodigo(codOrdemServico);
             List<Alerta> alertas = new List<Alerta>();
-
-            alertas.Add(ObterAvisoChamadoVizualizado(os));
-            alertas.Add(ObterAvisoChamadosMesmoEquip(os));
-            alertas.Add(ObterAvisoChamadosCidadePinpad(os));
-
-
-            if (alertas.All(item => item == null)) return null;
-
-            alertas.RemoveAll(al => al == null);
+            
+            alertas = ObterAvisoChamadoVizualizado(os, alertas);
+            alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
+            alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
 
             return alertas;
         }
 
-        private Alerta ObterAvisoChamadosCidadePinpad(OrdemServico os)
+        private List<Alerta> ObterAvisoChamadosCidadePinpad(OrdemServico os, List<Alerta> listaAlertas)
         {
+
             var osEquip = _ordemServicoRepo
                     .ObterPorParametros(new OrdemServicoParameters
                     {
@@ -53,57 +49,54 @@ namespace SAT.SERVICES.Services
 
             if (osEquip.Any())
             {
-                var al = new Alerta
+                var alerta = new Alerta
                 {
                     Titulo = "Chamados de PINPAD para a mesma cidade ",
                     Descricao = new List<string>(),
-                    Tipo = Constants.INFO,
+                    Tipo = Constants.INFO
                 };
 
-                osEquip.ForEach(e => 
+                osEquip.ForEach(e =>
                 {
-                    al.Descricao.Add($"{e.CodOS} - {e.TipoIntervencao.NomTipoIntervencao} - {e.StatusServico.NomeStatusServico}");
+                    alerta.Descricao.Add($"{e.CodOS} - {e.TipoIntervencao.NomTipoIntervencao} - {e.StatusServico.NomeStatusServico}");
                 });
 
-                return al;
+                listaAlertas.Add(alerta);
+
+                return listaAlertas;
             }
 
-            return null;
+            return listaAlertas;
         }
 
-        private Alerta ObterAvisoChamadoVizualizado(OrdemServico os)
+        private List<Alerta> ObterAvisoChamadoVizualizado(OrdemServico os, List<Alerta> listaAlertas)
         {
-            if (os.CodStatusServico != 8) return null;
+            if (os.CodStatusServico != 8) return listaAlertas;
 
             var alerta = new Alerta
             {
                 Titulo = "Chamado visualizado pelo técnico",
                 Descricao = new List<string>(),
-                Tipo = Constants.SUCCESS,
+                Tipo = Constants.SUCCESS
             };
-
+            
             if (string.IsNullOrEmpty(os.CodUsuarioOSMobileLida))
             {
                 alerta.Titulo = "Chamado ainda não visualizado";
                 alerta.Descricao.Add($"Técnico Transferido: {os.Tecnico?.Nome}");
                 alerta.Tipo = Constants.INFO;
-                return alerta;
+                listaAlertas.Add(alerta);
+
+                return listaAlertas;
             }
 
             alerta.Descricao.Add($"Técnico: {os.Tecnico?.Nome} às {os.DataHoraOSMobileLida}");
 
-            return alerta;
+            return listaAlertas;
         }
 
-        public Alerta ObterAvisoChamadosMesmoEquip(OrdemServico os)
+        public List<Alerta> ObterAvisoChamadosMesmoEquip(OrdemServico os, List<Alerta> listaAlertas)
         {
-            var alerta = new Alerta
-            {
-                Titulo = "Mais de um chamado aberto para este equipamento",
-                Descricao = new List<string>(),
-                Tipo = Constants.WARNING,
-            };
-
             var osEquip = _ordemServicoRepo
                     .ObterPorParametros(new OrdemServicoParameters
                     {
@@ -111,14 +104,23 @@ namespace SAT.SERVICES.Services
                         NotIn_CodStatusServicos = "2,3,16"
                     }).Where(c => c.CodOS != os.CodOS).ToList();
 
-            if (!osEquip.Any() || !os.CodEquipContrato.HasValue) return null;
+            if (!osEquip.Any() || !os.CodEquipContrato.HasValue) return listaAlertas;
+
+            var alerta = new Alerta
+            {
+                Titulo = "Mais de um chamado aberto para este equipamento",
+                Descricao = new List<string>(),
+                Tipo = Constants.WARNING
+            };
 
             osEquip.ForEach(os =>
                     {
                         alerta.Descricao.Add($"{os.CodOS} - {os.TipoIntervencao.NomTipoIntervencao} - {os.StatusServico.NomeStatusServico}");
                     });
 
-            return alerta;
+            listaAlertas.Add(alerta);
+
+            return listaAlertas;
         }
     }
 }

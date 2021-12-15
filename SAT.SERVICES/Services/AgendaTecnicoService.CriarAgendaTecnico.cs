@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico)
         {
-            var os = this._osRepo.ObterEntidadePorCodigo(codOS);
+            var os = this._osRepo.ObterPorCodigo(codOS);
 
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
@@ -141,7 +141,7 @@ namespace SAT.SERVICES.Services
             if (!eventosSobrepostos.Any()) return;
 
             var ultimoEvento = ag;
-            var ultimaOS = ag.OrdemServico != null ? ultimoEvento.OrdemServico : this._osRepo.ObterEntidadePorCodigo(ag.CodOS.Value);
+            var ultimaOS = ag.OrdemServico != null ? ultimoEvento.OrdemServico : this._osRepo.ObterPorCodigo(ag.CodOS.Value);
 
             eventosSobrepostos.OrderBy(i => i.Inicio).ToList().ForEach(e =>
             {

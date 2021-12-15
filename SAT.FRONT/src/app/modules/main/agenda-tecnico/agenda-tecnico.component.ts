@@ -273,6 +273,28 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
   }
 
+  private atualizaLinhaTecnico(resourceId: number)
+  {
+    var tecnico = Enumerable.from(this.tecnicos).firstOrDefault(i => i.codTecnico == resourceId);
+
+    this.events = Enumerable.from(this.events)
+      .where(i => i.resource != resourceId).toArray();
+
+    this._agendaTecnicoSvc.obterAgendaTecnico({
+      codFiliais: this.filter?.parametros?.codFiliais,
+      codTecnico: tecnico.codTecnico,
+      codUsuario: tecnico.usuario.codUsuario,
+      inicioPeriodoAgenda: this.weekStart,
+      fimPeriodoAgenda: this.weekEnd,
+      sortActive: 'nome',
+      sortDirection: 'asc'
+    }).toPromise().then(agendamentos =>
+    {
+      this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
+      this.carregaAgendaTecnico(agendamentos);
+    });
+  }
+
   carregaAgendaTecnico(agendamentos: AgendaTecnico[])
   {
     this.events = this.events.concat(Enumerable.from(agendamentos).select(ag =>
@@ -330,7 +352,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           ev.resource = hasTecnicoMaisProximo.codTecnicoMinDistancia;
           ev.start = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).format('yyyy-MM-DD HH:mm:ss');
           ev.end = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
-          this.createExternalEvent(ev, args, inst).then(() => this.obterDados());
+          this.createExternalEvent(ev, args, inst).then(() => this.atualizaLinhaTecnico(ev.resource));
           return;
         }
         else
@@ -409,7 +431,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (ag != null)
     {
-      if (ag.indAgendamento == 1) this.carregaDados(false);
+      if (ag.indAgendamento == 1) this.atualizaLinhaTecnico(ev.resource);
 
       var os = ev.ordemServico;
 
@@ -557,7 +579,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     dialog.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-        this.carregaDados(false);
+        this.atualizaLinhaTecnico(codTecnico);
     });
   }
 

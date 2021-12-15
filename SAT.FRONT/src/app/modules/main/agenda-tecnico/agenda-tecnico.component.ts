@@ -22,6 +22,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { fuseAnimations } from '@fuse/animations';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 registerLocaleData(localePt, 'pt');
 
@@ -295,6 +296,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     var isFromSameRegion = (await this._validator.isTecnicoDaRegiaoDoChamado(ev.ordemServico, ev.resource));
     var isAgendado = ev.indAgendamento == 1;
+    var hasTecnicoMaisProximo = isAgendado ? null : (await this._validator.isTecnicoOMaisProximo(ev.ordemServico, this.tecnicos, this.events, ev.resource))
 
     if (!isFromSameRegion)
     {
@@ -308,7 +310,39 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
     }
 
-    this.createExternalEvent(ev, args, inst);
+    if (hasTecnicoMaisProximo != null)
+    {
+      const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+        data: {
+          titulo: 'Aviso',
+          message: hasTecnicoMaisProximo.message,
+          buttonText: {
+            ok: 'Sim',
+            cancel: 'Não'
+          }
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+      {
+        if (confirmacao)
+        {
+          ev.resource = hasTecnicoMaisProximo.codTecnicoMinDistancia;
+          ev.start = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).format('yyyy-MM-DD HH:mm:ss');
+          ev.end = moment(hasTecnicoMaisProximo.ultimoAtendimentoTecnico.end).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
+          this.createExternalEvent(ev, args, inst).then(() => this.obterDados());
+          return;
+        }
+        else
+        {
+          this.createExternalEvent(ev, args, inst);
+        }
+      });
+    }
+    else
+    {
+      this.createExternalEvent(ev, args, inst);
+    }
   }
 
   /**  */

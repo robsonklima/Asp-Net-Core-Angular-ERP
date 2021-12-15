@@ -114,6 +114,8 @@ namespace SAT.INFRA.Repository
                 .ThenInclude(i => i.LocalAtendimento)
             .Include(i => i.OrdemServico)
                 .ThenInclude(i => i.StatusServico)
+            .Include(i => i.OrdemServico)
+                .ThenInclude(i => i.Tecnico)
             .AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)

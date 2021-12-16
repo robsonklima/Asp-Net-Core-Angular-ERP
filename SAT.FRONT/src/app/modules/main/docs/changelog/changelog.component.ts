@@ -282,8 +282,25 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.7',
+            releaseDate: '16 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes na tela de contratos',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Layout da Agenda Técnico'
+                    ],
+                }
+            ]
         }
     ];
-
     constructor () { }
 }

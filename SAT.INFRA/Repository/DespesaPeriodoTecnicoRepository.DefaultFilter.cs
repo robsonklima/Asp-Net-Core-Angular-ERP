@@ -21,14 +21,14 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodTecnico))
             {
-                var codigos = parameters.CodTecnico.Split(',').Select(f => f.Trim());
-                query = query.Where(e => codigos.Any(p => p == e.CodTecnico.ToString()));
+                int[] codigos = parameters.CodTecnico.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(e => codigos.Contains(e.CodTecnico));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodFilial))
             {
-                var codigos = parameters.CodFilial.Split(',').Select(f => f.Trim());
-                query = query.Where(e => codigos.Any(p => p == e.Tecnico.CodFilial.ToString()));
+                int[] codigos = parameters.CodFilial.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(e => codigos.Contains(e.Tecnico.CodFilial.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodDespesaProtocolo))
@@ -42,8 +42,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus))
             {
-                var codigos = parameters.CodDespesaPeriodoStatus.Split(',').Select(f => f.Trim());
-                query = query.Where(e => codigos.Any(p => p == e.CodDespesaPeriodoTecnicoStatus.ToString()));
+                int[] codigos = parameters.CodDespesaPeriodoStatus.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(e => codigos.Contains(e.CodDespesaPeriodoTecnicoStatus));
             }
 
             return query;

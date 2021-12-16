@@ -162,7 +162,7 @@ export interface OrdemServicoData extends Meta
 export interface OrdemServicoAlerta
 {
    titulo: string,
-   descricao: any,
+   descricao: any[],
    tipo?: any
 };
 
@@ -239,6 +239,7 @@ export enum StatusServicoEnum
 
 export enum AlertasEnum
 {
-    CHAMADOS_MESMO_EQUIP = 'CHAMADOS_MESMO_EQUIP',
-    
+    WARNING = 'WARNING',
+    INFO = 'INFO',
+    SUCCESS = 'SUCCESS',
 }

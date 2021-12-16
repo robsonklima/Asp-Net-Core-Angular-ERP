@@ -9,12 +9,17 @@
 
     <mat-drawer-content>
 
-        <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading">
+        <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading" [matTooltip]="'Chamados'">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
         </button>
 
-        <button class="filter-button bg-gray-800" (click)="sidenav.toggle()" [disabled]="loading">
+        <button class="filter-button bg-gray-800" (click)="sidenav.toggle()" [disabled]="loading"
+            [matTooltip]="'Filtro'">
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
+        </button>
+
+        <button class="help-button bg-gray-400" (click)="showHelp()" [disabled]=" loading" [matTooltip]="'Ajuda'">
+            <mat-icon [svgIcon]="'heroicons_outline:question-mark-circle'" class="text-white"></mat-icon>
         </button>
 
         <mbsc-eventcalendar class="min-h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"

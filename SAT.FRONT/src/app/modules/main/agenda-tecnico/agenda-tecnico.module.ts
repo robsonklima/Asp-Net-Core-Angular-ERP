@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
 import { AgendaTecnicoChamadosFiltroComponent } from './agenda-tecnico-chamados-filtro/agenda-tecnico-chamados-filtro.component';
 import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda-tecnico-chamados.component';
+import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda-dialog/agenda-tecnico-ajuda-dialog.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda
         AgendaTecnicoFiltroComponent,
         AgendaTecnicoRealocacaoDialogComponent,
         AgendaTecnicoChamadosFiltroComponent,
-        AgendaTecnicoChamadosComponent
+        AgendaTecnicoChamadosComponent,
+        AgendaTecnicoAjudaDialogComponent
     ],
     imports: [
         RouterModule.forChild(agendaTecnicoRoutes),

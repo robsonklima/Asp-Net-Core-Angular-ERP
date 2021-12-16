@@ -177,6 +177,24 @@
     height: 100%;
 }
 
+.filter-button {
+    position: fixed;
+    z-index: 9999;
+    bottom: 60px;
+    right: 196px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: #1976D2;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: .3s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .add-button {
     position: fixed;
     z-index: 9999;
@@ -195,7 +213,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.filter-button {
+.help-button {
     position: fixed;
     z-index: 9999;
     bottom: 60px;
@@ -212,6 +230,7 @@
     transition: .3s;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 
 .loading-indicator {
     position: fixed;

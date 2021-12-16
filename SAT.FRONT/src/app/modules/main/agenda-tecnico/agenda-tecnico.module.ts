@@ -23,6 +23,7 @@ import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realoca
 import { AgendaTecnicoChamadosFiltroComponent } from './agenda-tecnico-chamados-filtro/agenda-tecnico-chamados-filtro.component';
 import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda-tecnico-chamados.component';
 import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda-dialog/agenda-tecnico-ajuda-dialog.component';
+import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda-dialog
         AgendaTecnicoRealocacaoDialogComponent,
         AgendaTecnicoChamadosFiltroComponent,
         AgendaTecnicoChamadosComponent,
-        AgendaTecnicoAjudaDialogComponent
+        AgendaTecnicoAjudaDialogComponent,
+        AgendaTecnicoOrdenacaoDialogComponent
     ],
     imports: [
         RouterModule.forChild(agendaTecnicoRoutes),

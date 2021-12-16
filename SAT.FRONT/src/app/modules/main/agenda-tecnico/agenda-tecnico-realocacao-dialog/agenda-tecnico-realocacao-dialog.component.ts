@@ -38,7 +38,6 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     private _formBuilder: FormBuilder,
     private _snack: MatSnackBar,
     private _agendaTecnicoSvc: AgendaTecnicoService,
-    private _notify: Notifications,
     private _userService: UserService,
     private _validator: AgendaTecnicoValidator,
     private _tecnicoSvc: TecnicoService)

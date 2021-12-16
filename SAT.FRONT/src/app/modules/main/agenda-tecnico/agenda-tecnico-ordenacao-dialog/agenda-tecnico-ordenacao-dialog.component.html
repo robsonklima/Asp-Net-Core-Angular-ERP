@@ -1,0 +1,28 @@
+<div class="min-w-full min-h-full">
+    <h1 mat-dialog-title>
+        Ordenação de atendimentos
+    </h1>
+
+    <div class="flex flex-col flex-auto items-center justify-center">
+        {{ "Por favor, escolha o método para ordenar os atendimentos do técnico " + tecnico?.nome + ":"}}
+    </div>
+    <div>
+
+        <form [formGroup]="form" *transloco="let t">
+            <div class="flex-auto w-full mt-5">
+                <mat-form-field class="fuse-mat-dense flex-auto w-full">
+                    <mat-select formControlName="codOrdenacao">
+                        <mat-option *ngFor="let a of ordenacoes" [value]="a.codOrdenacao">
+                            {{ a.nomeOrdenacao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+        <div class="mt-4" align="end">
+            <button mat-button mat-dialog-close>Cancelar</button>
+            <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'"
+                (click)="confirmar()">Ordenar</button>
+        </div>
+    </div>
+</div>

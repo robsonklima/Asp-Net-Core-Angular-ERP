@@ -24,6 +24,7 @@ import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda-dialog/agenda-tecnico-ajuda-dialog.component';
+import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 
 registerLocaleData(localePt, 'pt');
 
@@ -630,8 +631,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.tooltip.open();
   }
 
-  public ordenarChamados(resourceID)
+  public ordenarChamados(resourceID: number)
   {
+    var tecnico = Enumerable.from(this.tecnicos).firstOrDefault(i => i.codTecnico == resourceID);
+
+    const dialogRef = this._dialog.open(AgendaTecnicoOrdenacaoDialogComponent, {
+      data: {
+        tecnico: tecnico
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      { }
+    });
   }
 
   public countResourceEvents(resource: any): number

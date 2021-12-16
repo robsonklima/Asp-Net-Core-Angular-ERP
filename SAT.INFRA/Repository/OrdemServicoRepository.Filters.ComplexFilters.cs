@@ -230,16 +230,23 @@ namespace SAT.INFRA.Repository
         {
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
-                query = query.Where(os => filiais.Any(p => p == os.CodFilial.ToString()));
+                var filiais = parameters.CodFiliais.Split(',').Select(a => int.Parse(a.Trim())).ToArray();
+                query = query.Where(os => filiais.Any(p => p == os.CodFilial));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                int parsedValue;
+                Int32.TryParse(parameters.Filter, out parsedValue);
+
+                if (parsedValue != 0)
+                    return query.Where(t => t.CodOS == parsedValue);
+
                 query = query.Where(t =>
-                    t.CodOS.ToString().Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
                     t.NumOSCliente.Contains(parameters.Filter));
+            }
 
             return query;
         }

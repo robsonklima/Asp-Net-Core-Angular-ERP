@@ -39,7 +39,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.PAS))
             {
                 int[] pas = parameters.PAS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                query = query.Where(t => pas.Contains(t.RegiaoAutorizada.PA.Value));
+                query = query.Where(t => pas.Contains(t.IndPA.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodRegioes))

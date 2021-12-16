@@ -7,6 +7,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IOrdemServicoAlertaService
     {
-        List<Alerta> ObterAlertas(int codOrdemServico);        
+        List<Alerta> ObterAlertas(OrdemServico os);        
     }
 }

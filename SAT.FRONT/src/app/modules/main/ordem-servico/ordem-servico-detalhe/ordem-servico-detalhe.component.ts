@@ -137,7 +137,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	{
 		this.os =
 			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
-			console.log(this.os.alertas)
 	}
 
 	private async obterUsuarioCadastro()

@@ -33,6 +33,7 @@ export interface AgendaTecnicoParameters extends QueryStringParameters
     codTecnico?: number;
     inicio?: string;
     tipo?: AgendaTecnicoTypeEnum;
+    ordenacao?: AgendaTecnicoOrdenationEnum;
     fim?: string;
     data?: string;
     inicioPeriodoAgenda?: string;
@@ -43,11 +44,6 @@ export interface AgendaTecnicoData extends Meta
 {
     items: AgendaTecnico[]
 };
-
-export class Coordenada
-{
-    cordenadas: [string, string];
-}
 
 export class AgendaTecnico
 {
@@ -74,6 +70,12 @@ export enum AgendaTecnicoTypeEnum
     OS = 1,
     INTERVALO = 2,
     PONTO = 3
+}
+
+export enum AgendaTecnicoOrdenationEnum
+{
+    FIM_SLA = 1,
+    MENOR_TRAGETORIA = 2
 }
 
 export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent

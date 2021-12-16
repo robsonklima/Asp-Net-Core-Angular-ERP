@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HaversineService } from 'app/core/services/haversine.service';
+import { Coordenada, HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnicoTypeEnum, Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -121,12 +121,12 @@ export class AgendaTecnicoValidator
 
         // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
         if (osAnterior != null)
-            origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
+            origem.coordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
         // Se o técnico não possui nada agendado, parte do endereoç deste
         else
-            origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
+            origem.coordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
 
-        destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
+        destino.coordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
 
         return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
     }

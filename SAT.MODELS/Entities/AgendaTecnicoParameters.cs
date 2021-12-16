@@ -13,6 +13,7 @@ namespace SAT.MODELS.Entities
         public int? CodOS { get; set; }
         public int? IndAtivo { get; set; }
         public AgendaTecnicoTypeEnum? Tipo { get; set; }
+        public AgendaTecnicoOrdenationEnum? Ordenacao { get; set; }
         public DateTime? InicioPeriodoAgenda { get; set; }
         public DateTime? FimPeriodoAgenda { get; set; }
     }

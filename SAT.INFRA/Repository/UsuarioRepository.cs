@@ -135,6 +135,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Perfil)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Filial)
+                .Include(u => u.Localizacoes)
                 .Include(u => u.FiltroUsuario)
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }

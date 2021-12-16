@@ -26,6 +26,19 @@ export class AgendaTecnicoService
         return this._httpClient.get(`${c.api}/AgendaTecnico/Agenda`, { params: params }).pipe(map((data: AgendaTecnico[]) => data))
     }
 
+    ordenarAgendaTecnico(parameters: AgendaTecnicoParameters): Observable<AgendaTecnico[]>
+    {
+        let params = new HttpParams()
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null)
+                params = params.append(key, String(parameters[key]));
+        });
+
+        return this._httpClient.get(`${c.api}/AgendaTecnico/Ordenar`, { params: params }).pipe(map((data: AgendaTecnico[]) => data))
+    }
+
     obterPorParametros(parameters: AgendaTecnicoParameters): Observable<AgendaTecnicoData>
     {
         let params = new HttpParams()

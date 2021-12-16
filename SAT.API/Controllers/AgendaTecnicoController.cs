@@ -26,6 +26,12 @@ namespace SAT.API.Controllers
             return _agendaServ.ObterAgendaTecnico(parameters);
         }
 
+        [HttpGet("Ordenar")]
+        public AgendaTecnico[] OrdenarAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
+        {
+            return _agendaServ.OrdenarAgendaTecnico(parameters);
+        }
+
         [HttpGet]
         public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
         {
@@ -56,7 +62,6 @@ namespace SAT.API.Controllers
         {
             _agendaServ.DeletarAgendaTecnico(codOS, codTecnico);
         }
-
 
         [HttpPut]
         public AgendaTecnico Put([FromBody] AgendaTecnico evento)

@@ -5,9 +5,11 @@ import { UserService } from 'app/core/user/user.service';
 declare var L: any;
 import 'leaflet';
 import 'leaflet-routing-machine';
+import Enumerable from 'linq';
 
-export interface DialogData {
-  resource: any[];
+export interface DialogData
+{
+  codUsuario: string;
   chamados: OrdemServico[]
 }
 
@@ -16,36 +18,41 @@ export interface DialogData {
   templateUrl: './roteiro-mapa.component.html',
   styles: [`
     div { height: 100%; width: 100%; margin-left: 0px; position: relative; }
+    .leaflet-right { display: none !important; }
   `]
 })
-export class RoteiroMapaComponent implements OnInit {
+export class RoteiroMapaComponent implements OnInit
+{
   chamados: OrdemServico[] = [];
-  resource: any;
+  codUsuario: any;
 
-  constructor(
+  constructor (
     private _usuarioSvc: UserService,
     public dialogRef: MatDialogRef<RoteiroMapaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {
+  )
+  {
     this.chamados = data.chamados;
-    this.resource = data.resource;
+    this.codUsuario = data.codUsuario;
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     const paradas = this.chamados
       .filter(os => os.localAtendimento !== null)
       .filter(os => os.localAtendimento.latitude !== null && os.localAtendimento.longitude !== null)
       .map(os => { return L.latLng(+os.localAtendimento.latitude, +os.localAtendimento.longitude) });
 
+    const usuario = await this._usuarioSvc.obterPorCodigo(this.codUsuario).toPromise();
 
-    const usuarios = await this._usuarioSvc.obterPorParametros({
-      nomeUsuario: this.resource.name,
-      indAtivo: 1
-    }).toPromise();
+    const ultimaLocalizacao = Enumerable.from(usuario.localizacoes)
+      .orderByDescending(i => i.dataHoraCad)
+      .firstOrDefault();
 
-    if (usuarios.items[0].localizacoes.length > 0) {
+    if (ultimaLocalizacao != null)
+    {
       paradas.unshift(
-        L.latLng(usuarios.items[0].localizacoes[0].latitude, usuarios.items[0].localizacoes[0].longitude)
+        L.latLng(ultimaLocalizacao.latitude, ultimaLocalizacao.longitude)
       );
     }
 
@@ -53,7 +60,8 @@ export class RoteiroMapaComponent implements OnInit {
 
     L.Routing.control({
       waypoints: paradas,
-      createMarker: (i: number, waypoint: any, n: number) => {
+      createMarker: (i: number, waypoint: any, n: number) =>
+      {
         return L.marker(waypoint.latLng, {
           draggable: false,
           bounceOnAdd: false,
@@ -61,7 +69,7 @@ export class RoteiroMapaComponent implements OnInit {
             duration: 1000,
             height: 800
           },
-          icon: (usuarios.items[0].localizacoes.length > 0 && i == 0) ? L.icon({
+          icon: (ultimaLocalizacao != null && i == 0) ? L.icon({
             iconUrl: './assets/icons/sport-car-64.png',
             iconSize: [32, 32],
             iconAnchor: [15, 32],
@@ -75,12 +83,13 @@ export class RoteiroMapaComponent implements OnInit {
             shadowUrl: null,
           })
         })
-          .bindPopup((usuarios.items[0].localizacoes.length > 0 && i == 0) ? 'Localização do Técnico' : `${i + 1}° Atendimento`);
+          .bindPopup((ultimaLocalizacao != null && i == 0) ? 'Localização do Técnico' : `${i + 1}° Atendimento`);
       },
       lineOptions: {
         addWaypoints: false,
         styles: [{ color: 'green', opacity: 1, weight: 3 }]
-      }
+      },
+      show: false
     }).addTo(map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -90,7 +99,8 @@ export class RoteiroMapaComponent implements OnInit {
     map.invalidateSize();
   }
 
-  fecharModal(): void {
+  fecharModal(): void
+  {
     this.dialogRef.close();
   }
 }

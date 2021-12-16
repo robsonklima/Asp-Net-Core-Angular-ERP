@@ -78,6 +78,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   info = '';
   time = '';
   status = '';
+  selectResource: any;
   anchor: HTMLElement | undefined;
   timer: any;
 
@@ -155,13 +156,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     },
     onEventHoverOut: () =>
     {
-      if (!this.timer)
-      {
-        this.timer = setTimeout(() =>
-        {
-          this.tooltip.close();
-        }, 200);
-      }
+      this.hideEventInfo();
     }
   };
 
@@ -566,8 +561,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   /** Mapa */
   public abrirMapa(codTecnico: number): void
   {
-    const resource = Enumerable.from(this.resources)
-      .firstOrDefault(r => r.id === codTecnico);
+    const codUsuario = Enumerable.from(this.tecnicos)
+      .firstOrDefault(r => r.codTecnico === codTecnico).usuario.codUsuario;
 
     const chamados = Enumerable.from(this.events)
       .where(e => e.resource === codTecnico && e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS && e.ordemServico.codStatusServico != StatusServicoEnum.FECHADO)
@@ -578,7 +573,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       width: '960px',
       height: '640px',
       data: {
-        resource: resource,
+        codUsuario: codUsuario,
         chamados: chamados
       }
     });
@@ -586,11 +581,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   public showHelp()
   {
-
     this._dialog.open(AgendaTecnicoAjudaDialogComponent);
   }
 
   /**  */
+
+  public hideEventInfo()
+  {
+    if (!this.timer)
+    {
+      this.timer = setTimeout(() =>
+      {
+        this.tooltip.close();
+      }, 200);
+    }
+  }
 
   private showEventInfo(args, inst)
   {
@@ -603,8 +608,30 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.status = event.ordemServico?.statusServico?.nomeStatusServico;
     clearTimeout(this.timer);
     this.timer = null;
+    this.selectResource = null;
     this.anchor = args.domEvent.target;
     this.tooltip.open();
+  }
+
+  public showResourceAction(resource)
+  {
+    var target = (window.event as any).target;
+    this.selectResource = resource;
+    this.info = resource.name;
+    clearTimeout(this.timer);
+    this.anchor = target;
+
+    this.interventionType = null;
+    this.time = null;
+    this.status = null;
+    this.currentEvent = null;
+    this.timer = null;
+
+    this.tooltip.open();
+  }
+
+  public ordenarChamados(resourceID)
+  {
   }
 
   public countResourceEvents(resource: any): number

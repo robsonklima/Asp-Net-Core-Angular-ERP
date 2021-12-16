@@ -77,7 +77,6 @@ namespace SAT.SERVICES.Services
                 });
             }
 
-
             return eventosValidados;
         }
 

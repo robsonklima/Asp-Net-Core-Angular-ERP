@@ -13,7 +13,8 @@ import Enumerable from 'linq';
 })
 
 @Injectable()
-export class SalvarFiltroUsuarioComponent implements AfterViewInit {
+export class SalvarFiltroUsuarioComponent implements AfterViewInit
+{
 
     @Input() filterName: string;
     @Input() filterBase: FilterBase;
@@ -23,13 +24,14 @@ export class SalvarFiltroUsuarioComponent implements AfterViewInit {
     private _sidenav: MatSidenav;
     public disableSelection: boolean = false;
 
-    constructor(
+    constructor (
         protected _dialog: MatDialog,
         protected _filtroService: FiltroService,
         protected _snack: CustomSnackbarService
     ) { }
 
-    ngAfterViewInit(): void {
+    ngAfterViewInit(): void
+    {
 
         this.filterBase.configurarFiltrosUsuario(this.filterName, this._dialog, this._filtroService, this._snack, this.selectFiltroElement);
 
@@ -39,35 +41,42 @@ export class SalvarFiltroUsuarioComponent implements AfterViewInit {
 
         this.filterBase.onLimpar.subscribe(this.limpar);
 
-        this._sidenav.closedStart.subscribe(() => {
+        this._sidenav.closedStart.subscribe(() =>
+        {
             this.disableSelection = false;
         })
 
-        this._sidenav.openedStart.subscribe(() => {
+        this._sidenav.openedStart.subscribe(() =>
+        {
             this.filterBase.refreshFilter();
         });
 
-        this.filterBase.onRefreshFilter.subscribe(() => {
+        this.filterBase.onRefreshFilter.subscribe(() =>
+        {
             this.filterBase.meusFiltros = this.filterBase.getFiltros();
             if (this.filterBase.meusFiltros.length == 0) this.filterBase.registerUsuarioFiltro(0);
             if (this.selectFiltroElement) this.selectFiltroElement.value = this.filterBase.obterUsuarioFiltro();
         });
     }
 
-    aplicar(base: FilterBase) {
+    aplicar(base: FilterBase)
+    {
         base.salvar(base.selectFiltroElement.value,
             Enumerable.from(base.getFiltros())
                 .firstOrDefault(f => f.codFiltroUsuario == (base.selectFiltroElement.value || 0))?.nomeFiltro || '');
     }
 
-    limpar(base: FilterBase) {
-        if (base.selectFiltroElement) {
+    limpar(base: FilterBase)
+    {
+        if (base.selectFiltroElement)
+        {
             base.selectFiltroElement.value = 0;
             base.registerUsuarioFiltro(base.selectFiltroElement.value);
         }
     }
 
-    remover(codFiltroUsuario: number) {
+    remover(codFiltroUsuario: number)
+    {
         this.filterBase.remover(codFiltroUsuario);
         this.selectFiltroElement.close();
     }

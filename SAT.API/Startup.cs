@@ -131,6 +131,7 @@ namespace SAT.API
             services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
             services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
             services.AddTransient<INotificacaoRepository, NotificacaoRepository>();
+            services.AddTransient<IDispBBCalcEquipamentoContratoRepository, DispBBCalcEquipamentoContratoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

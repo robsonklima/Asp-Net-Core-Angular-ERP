@@ -7,10 +7,8 @@ namespace SAT.MODELS.Entities
     [Table("UF")]
     public class UnidadeFederativa
     {
-        [Key]
         public int CodUF { get; set; }
         public int CodPais { get; set; }
-        [ForeignKey("CodPais")]
         public Pais Pais { get; set; }
         public string SiglaUF { get; set; }
         public string NomeUF { get; set; }
@@ -19,8 +17,6 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
-
-        [ForeignKey("CodUF")]
         public DispBBRegiaoUF DispBBRegiaoUF { get; set; }
     }
 }

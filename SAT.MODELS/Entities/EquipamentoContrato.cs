@@ -6,39 +6,28 @@ namespace SAT.MODELS.Entities
 {
     public class EquipamentoContrato
     {
-        [Key]
         public int CodEquipContrato { get; set; }
         public int CodContrato { get; set; }
-        [ForeignKey("CodContrato")]
         public Contrato Contrato { get; set; }
         public int CodTipoEquip { get; set; }
-        [ForeignKey("CodTipoEquip")]
         public TipoEquipamento TipoEquipamento { get; set; }
         public int CodGrupoEquip { get; set; }
-        [ForeignKey("CodGrupoEquip")]
         public GrupoEquipamento GrupoEquipamento { get; set; }
         public int CodEquip { get; set; }
-        [ForeignKey("CodEquip")]
         public Equipamento Equipamento { get; set; }
         public int CodSLA { get; set; }
-        [ForeignKey("CodSLA")]
         public AcordoNivelServico AcordoNivelServico { get; set; }
         public string NumSerie { get; set; }
         public string NumSerieCliente { get; set; }
         public int CodCliente { get; set; }
-        [ForeignKey("CodCliente")]
         public Cliente Cliente { get; set; }
         public int CodPosto { get; set; }
-        [ForeignKey("CodPosto")]
         public LocalAtendimento LocalAtendimento { get; set; }
         public int CodRegiao { get; set; }
-        [ForeignKey("CodRegiao")]
         public Regiao Regiao { get; set; }
         public int CodAutorizada { get; set; }
-        [ForeignKey("CodAutorizada")]
         public Autorizada Autorizada { get; set; }
         public int CodFilial { get; set; }
-        [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
         [Column("DistanciaPAT_Res")]
         public decimal? DistanciaPatRes { get; set; }
@@ -93,7 +82,6 @@ namespace SAT.MODELS.Entities
         public string Sequencia { get; set; }
         public byte? IndMecanismo { get; set; }
         public int? CodDispBBCriticidade { get; set; }
-        [ForeignKey("CodDispBBCriticidade")]
         public DispBBCriticidade DispBBCriticidade { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }

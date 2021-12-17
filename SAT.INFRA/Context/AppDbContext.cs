@@ -60,6 +60,7 @@ namespace SAT.INFRA.Context
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
         public DbSet<Monitoramento> Monitoramento { get; set; }
+        public DbSet<DispBBCalcEquipamentoContrato> DispBBCalcEquipamentoContrato { get; set; }
         public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
         public DbSet<DispBBRegiaoFilial> DispBBRegiaoFilial { get; set; }
         public DbSet<DispBBPercRegiao> DispBBPercRegiao { get; set; }
@@ -137,6 +138,10 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<LaudoStatus>(new LaudoStatusMap().Configure);
             modelBuilder.Entity<LaudoSituacao>(new LaudoSituacaoMap().Configure);
             modelBuilder.Entity<Usuario>(new UsuarioMap().Configure);
+            modelBuilder.Entity<EquipamentoContrato>(new EquipamentoContratoMap().Configure);
+            modelBuilder.Entity<UnidadeFederativa>(new UnidadeFederativaMap().Configure);
+            modelBuilder.Entity<DispBBRegiao>(new DispBBRegiaoMap().Configure);
+            modelBuilder.Entity<DispBBCalcEquipamentoContrato>(new DispBBCalcEquipamentoContratoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Coordenada, HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -219,9 +219,11 @@ export class AgendaTecnicoValidator
         return '#ff4c4c';
     }
 
-    public getRealocationStatusColor(referenceTime: Moment): string
+    public getRealocationStatusColor(ag: AgendaTecnico, referenceTime: Moment): string
     {
-        if (referenceTime < moment())
+        if (ag.indAgendamento == 1)
+            return this.agendamentoColor();
+        else if (referenceTime < moment())
             return this.lateColor();
         return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
     }

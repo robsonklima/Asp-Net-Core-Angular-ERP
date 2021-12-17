@@ -172,8 +172,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     protected _userSvc: UserService,
     public _dialog: MatDialog,
     private _validator: AgendaTecnicoValidator,
-    private _snack: MatSnackBar,
-    private _notify: Notifications
+    private _snack: MatSnackBar
   )
   {
     super(_userSvc, 'agenda-tecnico')
@@ -292,7 +291,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         end: moment(ag.fim),
         title: ag.titulo,
         color: ag.cor,
-        editable: ag.indAgendamento == 1 || ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
+        editable: ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
@@ -327,7 +326,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
             ok: 'Sim',
             cancel: 'Não'
           }
-        }
+        },
+        backdropClass: 'static'
       });
 
       dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
@@ -519,16 +519,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       sortActive: 'nome',
       sortDirection: 'asc',
       tipo: AgendaTecnicoTypeEnum.OS,
-      codTecnico: codTecnico
+      codTecnico: codTecnico,
+      indAtivo: 1
     }).toPromise());
 
     var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
 
-    Enumerable.from(agendamentosTecnico.items).where(i => i.indAgendamento == 0).forEach(i =>
+    Enumerable.from(agendamentosTecnico.items).forEach(i =>
     {
       atendimentosTecnico.push(
         {
           codAgendaTecnico: i.codAgendaTecnico,
+          indAgendamento: i.indAgendamento,
           start: i.inicio,
           end: i.fim,
           codOS: i.codOS,
@@ -547,7 +549,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         agendamentos: atendimentosTecnico,
         initialTime: initialTime,
         codTecnico: codTecnico
-      }
+      },
+      backdropClass: 'static'
     });
 
     dialog.afterClosed().subscribe((confirmacao: boolean) =>
@@ -616,6 +619,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   public showResourceAction(resource)
   {
+    if (resource.indFerias) return;
+
     var target = (window.event as any).target;
     this.selectResource = resource;
     this.info = resource.name;
@@ -637,14 +642,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     const dialogRef = this._dialog.open(AgendaTecnicoOrdenacaoDialogComponent, {
       data: {
-        tecnico: tecnico
-      }
+        tecnico: tecnico,
+        weekStart: this.weekStart,
+        weekEnd: this.weekEnd
+      },
+      backdropClass: 'static'
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-      { }
+        this.atualizaLinhaTecnico(resourceID);
     });
   }
 

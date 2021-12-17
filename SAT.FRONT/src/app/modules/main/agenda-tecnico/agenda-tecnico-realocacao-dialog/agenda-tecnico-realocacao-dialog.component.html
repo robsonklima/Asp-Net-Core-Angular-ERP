@@ -19,7 +19,8 @@
                 <div class="flex-auto w-full mt-5">
                     <mat-form-field class="fuse-mat-dense flex-auto w-full">
                         <mat-select formControlName="codAgendaTecnico">
-                            <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
+                            <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico"
+                                [ngClass]="{'text-purple-800': a.indAgendamento == 1 }">
                                 {{ a.codOS + " - " + a.title }}
                             </mat-option>
                         </mat-select>
@@ -28,7 +29,7 @@
             </form>
         </div>
         <div class="mt-4" align="end">
-            <button mat-button mat-dialog-close>Cancelar</button>
+            <button mat-button mat-dialog-close [disabled]="isRealocando">Cancelar</button>
 
             <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'" (click)="confirmar()">
                 Realocar </button>

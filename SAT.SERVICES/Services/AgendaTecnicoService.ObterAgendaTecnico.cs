@@ -1,5 +1,5 @@
-﻿using SAT.INFRA.Interfaces;
-using SAT.MODELS.Entities;
+﻿using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 using System;
@@ -51,7 +51,7 @@ namespace SAT.SERVICES.Services
                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
                .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
             {
-                var eventosRealocados = this.RealocaEventosTecnico(agendamentos);
+                var eventosRealocados = this.RealocaEventosComAtraso(agendamentos);
                 eventosValidados.AddRange(eventosRealocados);
             }
             else
@@ -91,13 +91,13 @@ namespace SAT.SERVICES.Services
             AgendaTecnico novoIntervalo = new AgendaTecnico
             {
                 CodTecnico = parameters.CodTecnico,
-                CodUsuarioCad = "ADMIN",
+                CodUsuarioCad = Constants.SISTEMA_NOME,
                 DataHoraCad = DateTime.Now,
                 Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
                 Tipo = AgendaTecnicoTypeEnum.INTERVALO,
-                Titulo = "INTERVALO",
-                Inicio = this.InicioIntervalo,
-                Fim = this.FimIntervalo,
+                Titulo = this.IntervaloTitle,
+                Inicio = this.InicioIntervalo(),
+                Fim = this.FimIntervalo(),
                 IndAgendamento = 0,
                 IndAtivo = 1
             };
@@ -116,24 +116,24 @@ namespace SAT.SERVICES.Services
             }).ToList();
 
             pontosUsuario.ForEach(p =>
+            {
+                pontos.Add(new AgendaTecnico
                 {
-                    pontos.Add(new AgendaTecnico
-                    {
-                        CodTecnico = parameters.CodTecnico.Value,
-                        Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
-                        Tipo = AgendaTecnicoTypeEnum.PONTO,
-                        Inicio = p.DataHoraRegistro,
-                        Fim = p.DataHoraRegistro.AddMilliseconds(25),
-                        IndAgendamento = 0,
-                        IndAtivo = 1
-                    });
+                    CodTecnico = parameters.CodTecnico.Value,
+                    Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
+                    Tipo = AgendaTecnicoTypeEnum.PONTO,
+                    Inicio = p.DataHoraRegistro,
+                    Fim = p.DataHoraRegistro.AddMilliseconds(25),
+                    IndAgendamento = 0,
+                    IndAtivo = 1
                 });
+            });
 
             return pontos;
         }
 
         // Realoca eventos devido a atraso
-        private List<AgendaTecnico> RealocaEventosTecnico(List<AgendaTecnico> agendasTecnico)
+        private List<AgendaTecnico> RealocaEventosComAtraso(List<AgendaTecnico> agendasTecnico)
         {
             var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
 
@@ -157,16 +157,16 @@ namespace SAT.SERVICES.Services
                     OrdemServico os = e.OrdemServico;
 
                     var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
-                    var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
+                    var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
 
                     // se começa durante a sugestão de intervalo
                     if (this.isIntervalo(start))
-                        start = this.FimIntervalo;
-                    else if (start >= this.FimExpediente)
+                        start = this.FimIntervalo(start);
+                    else if (start >= this.FimExpediente(start))
                     {
                         start = start.AddDays(1);
                         if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo(start).Hour, this.FimIntervalo(start).Minute, 0);
                     }
 
                     var duracao = (e.Fim - e.Inicio).TotalMinutes;
@@ -174,12 +174,12 @@ namespace SAT.SERVICES.Services
                     // adiciona deslocamento
                     start = start.AddMinutes(deslocamento);
                     if (this.isIntervalo(start))
-                        start = this.FimIntervalo;
-                    else if (start >= this.FimExpediente)
+                        start = this.FimIntervalo(start);
+                    else if (start >= this.FimExpediente(start))
                     {
                         start = start.AddDays(1);
                         if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo(start).Hour, this.FimIntervalo(start).Minute, 0);
                     }
 
                     // se termina durante a sugestao de intervalo
@@ -192,7 +192,7 @@ namespace SAT.SERVICES.Services
 
                     e.Inicio = start;
                     e.Fim = end;
-                    e.CodUsuarioCad = "ADMIN";
+                    e.CodUsuarioCad = Constants.SISTEMA_NOME;
                     e.DataHoraCad = DateTime.Now;
                     e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
                     var ag = this._agendaRepo.Atualizar(e);

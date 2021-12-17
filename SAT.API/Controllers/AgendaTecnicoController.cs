@@ -27,9 +27,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet("Ordenar")]
-        public AgendaTecnico[] OrdenarAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
+        public void OrdenarAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
         {
-            return _agendaServ.OrdenarAgendaTecnico(parameters);
+            _agendaServ.OrdenarAgendaTecnico(parameters);
         }
 
         [HttpGet]

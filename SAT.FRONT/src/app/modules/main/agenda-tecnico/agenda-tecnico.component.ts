@@ -172,8 +172,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     protected _userSvc: UserService,
     public _dialog: MatDialog,
     private _validator: AgendaTecnicoValidator,
-    private _snack: MatSnackBar,
-    private _notify: Notifications
+    private _snack: MatSnackBar
   )
   {
     super(_userSvc, 'agenda-tecnico')
@@ -637,14 +636,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     const dialogRef = this._dialog.open(AgendaTecnicoOrdenacaoDialogComponent, {
       data: {
-        tecnico: tecnico
+        tecnico: tecnico,
+        weekStart: this.weekStart,
+        weekEnd: this.weekEnd
       }
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-      { }
+        this.atualizaLinhaTecnico(resourceID);
     });
   }
 

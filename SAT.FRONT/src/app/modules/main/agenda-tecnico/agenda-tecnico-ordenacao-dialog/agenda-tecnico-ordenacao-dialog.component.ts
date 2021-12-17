@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
+import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendaTecnicoOrdenationEnum } from 'app/core/types/agenda-tecnico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -20,14 +21,19 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
   ordenacoes: any = [];
   isLoading: boolean = false;
   tecnico: Tecnico;
+  weekStart: string;
+  weekEnd: string;
 
   constructor (@Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<AgendaTecnicoOrdenacaoDialogComponent>,
-    private _formBuilder: FormBuilder) 
+    private _formBuilder: FormBuilder,
+    private _agendaTecnicoService: AgendaTecnicoService) 
   {
     if (data)
     {
       this.tecnico = data.tecnico;
+      this.weekStart = data.weekStart;
+      this.weekEnd = data.weekEnd;
     }
   }
 
@@ -58,8 +64,24 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
     });
   }
 
+  private ordernar()
+  {
+    this._agendaTecnicoService.ordenarAgendaTecnico({
+      codTecnico: this.tecnico.codTecnico,
+      codUsuario: this.tecnico.usuario.codUsuario,
+      inicioPeriodoAgenda: this.weekStart,
+      fimPeriodoAgenda: this.weekEnd,
+      ordenacao: this.form.controls.codOrdenacao.value,
+      sortActive: 'nome',
+      sortDirection: 'asc'
+    }).toPromise().then(() =>
+    {
+      this.dialogRef.close(true);
+    });
+  }
+
   async confirmar()
   {
-    this.dialogRef.close(true);
+    this.ordernar();
   }
 }

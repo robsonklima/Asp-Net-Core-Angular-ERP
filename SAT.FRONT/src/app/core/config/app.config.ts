@@ -39,5 +39,5 @@ export const appConfig: AppConfig = {
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',
     autonomia_veiculo_frota: 13,
     rd_centro_de_custo: "5001",
-    system_user: 'ADMIN'
+    system_user: 'SAT'
 };

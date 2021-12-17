@@ -129,7 +129,6 @@ namespace SAT.SERVICES.Services
             return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
         }
 
-
         private void ReordenaEventos(List<AgendaTecnico> agendasTecnico)
         {
             if (!agendasTecnico.Any()) return;
@@ -151,7 +150,7 @@ namespace SAT.SERVICES.Services
                     OrdemServico os = e.OrdemServico;
 
                     var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
-                    var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
+                    var start = ultimoEvento != null ? ultimoEvento.Fim : DateTime.Now;
                     var duracao = (e.Fim - e.Inicio).TotalMinutes;
 
                     // adiciona deslocamento

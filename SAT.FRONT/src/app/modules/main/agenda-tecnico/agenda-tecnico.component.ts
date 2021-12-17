@@ -326,7 +326,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
             ok: 'Sim',
             cancel: 'Não'
           }
-        }
+        },
+        backdropClass: 'static'
       });
 
       dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
@@ -546,7 +547,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         agendamentos: atendimentosTecnico,
         initialTime: initialTime,
         codTecnico: codTecnico
-      }
+      },
+      backdropClass: 'static'
     });
 
     dialog.afterClosed().subscribe((confirmacao: boolean) =>
@@ -641,7 +643,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         tecnico: tecnico,
         weekStart: this.weekStart,
         weekEnd: this.weekEnd
-      }
+      },
+      backdropClass: 'static'
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>

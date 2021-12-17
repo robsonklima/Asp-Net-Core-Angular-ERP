@@ -615,6 +615,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   public showResourceAction(resource)
   {
+    if (resource.indFerias) return;
+
     var target = (window.event as any).target;
     this.selectResource = resource;
     this.info = resource.name;

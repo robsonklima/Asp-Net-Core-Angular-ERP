@@ -211,8 +211,8 @@ namespace SAT.SERVICES.Services
         private string IntervaloTitle => "INTERVALO";
         private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
-        private DateTime FimExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
-        private DateTime InicioIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
-        private DateTime FimIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
+        private DateTime FimExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
+        private DateTime InicioIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
+        private DateTime FimIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
     }
 }

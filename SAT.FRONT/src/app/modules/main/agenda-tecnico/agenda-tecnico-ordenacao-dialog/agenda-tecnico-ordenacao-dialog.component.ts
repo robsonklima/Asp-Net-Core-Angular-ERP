@@ -45,16 +45,17 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
 
   private obterOrdenacoes(): void
   {
-    Object.keys(AgendaTecnicoOrdenationEnum).filter(element => isNaN(Number(element))).forEach((tr, i) =>
+    Object.keys(AgendaTecnicoOrdenationEnum).map(key => parseInt(key)).forEach(key =>
     {
-      this.ordenacoes.push({
-        codOrdenacao: i,
-        nomeOrdenacao: i == AgendaTecnicoOrdenationEnum.FIM_SLA ? "FIM DE SLA" : "MENOR TRAGETÓRIA"
-      })
+      if (!(Number.isNaN(key)))
+        this.ordenacoes.push({
+          codOrdenacao: key,
+          nomeOrdenacao: key == 1 ? "FIM DE SLA" : "MENOR TRAGETÓRIA"
+        })
     });
 
     this.ordenacoes =
-      Enumerable.from(this.ordenacoes).orderBy(i => (i as any).nomeOrdenacao);
+      Enumerable.from(this.ordenacoes).orderBy(i => (i as any).nomeOrdenacao).toArray();
   }
 
   criarForm()
@@ -64,8 +65,10 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
     });
   }
 
-  private ordernar()
+  private ordenar()
   {
+    console.log(this.ordenacoes);
+
     this.isLoading = true;
     this._agendaTecnicoService.ordenarAgendaTecnico({
       codTecnico: this.tecnico.codTecnico,
@@ -84,6 +87,6 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
 
   async confirmar()
   {
-    this.ordernar();
+    this.ordenar();
   }
 }

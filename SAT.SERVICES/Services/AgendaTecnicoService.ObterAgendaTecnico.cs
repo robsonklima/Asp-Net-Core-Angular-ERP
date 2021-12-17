@@ -71,7 +71,6 @@ namespace SAT.SERVICES.Services
                     }
                     else
                     {
-                        i.Cor = GetTypeColor(AgendaTecnicoTypeEnum.OS);
                         eventosValidados.Add(i);
                     }
                 });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
@@ -45,15 +46,90 @@ namespace SAT.SERVICES.Services
             this.ReordenaEventos(listaAgendamentos);
         }
 
-        private void OrdernarPorMenorTragetoria(List<AgendaTecnico> agendamentos)
+        private void OrdernarPorMenorTragetoria(List<AgendaTecnico> agendasTecnico)
         {
+            if (!agendasTecnico.Any()) return;
 
+            var codTecnico =
+                agendasTecnico.FirstOrDefault().CodTecnico.Value;
+
+            var tecnico =
+                this._tecnicoRepo.ObterPorCodigo(codTecnico);
+
+            Localizacao ultimaLocalizacao =
+                tecnico.Usuario.Localizacoes
+                .OrderByDescending(i => i.CodLocalizacao)
+                .FirstOrDefault();
+
+            if (ultimaLocalizacao == null)
+            {
+                ultimaLocalizacao = new Localizacao
+                {
+                    Latitude = tecnico.Latitude,
+                    Longitude = tecnico.Longitude
+                };
+            }
+
+            var agendamentosNaoAgendados = agendasTecnico
+                .Where(i => i.IndAgendamento == 0 &&
+                    i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                    i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                .ToList();
+
+            List<AgendaTecnico> listaAgendamentos = new List<AgendaTecnico>();
+
+            while (agendamentosNaoAgendados.Any())
+            {
+                var distancias = new List<AgendaTecnicoDistanceModel>();
+
+                agendamentosNaoAgendados.ForEach(i =>
+                {
+                    var proximaLocalizacao = new Localizacao
+                    {
+                        Latitude = i.OrdemServico.LocalAtendimento.Latitude,
+                        Longitude = i.OrdemServico.LocalAtendimento.Longitude
+                    };
+
+                    distancias.Add(new AgendaTecnicoDistanceModel
+                    {
+                        CodAgendaTecnico = i.CodAgendaTecnico,
+                        Distancia = this.CalculaDistancia(ultimaLocalizacao, proximaLocalizacao),
+                    });
+                });
+
+                var distsOrdened = distancias.OrderBy(i => i.Distancia).ToList();
+                var minDistCodAgendaTecnico = distsOrdened.FirstOrDefault().CodAgendaTecnico;
+                var minAgendaTecnico = agendamentosNaoAgendados.FirstOrDefault(i => i.CodAgendaTecnico == minDistCodAgendaTecnico);
+
+                ultimaLocalizacao = new Localizacao
+                {
+                    Latitude = minAgendaTecnico.OrdemServico.LocalAtendimento.Latitude,
+                    Longitude = minAgendaTecnico.OrdemServico.LocalAtendimento.Longitude
+                };
+
+                listaAgendamentos.Add(minAgendaTecnico);
+                agendamentosNaoAgendados.Remove(minAgendaTecnico);
+            }
+
+            this.ReordenaEventos(listaAgendamentos);
         }
+
+        private double CalculaDistancia(Localizacao inicial, Localizacao final)
+        {
+            double? orig_lat = double.Parse(inicial.Latitude, CultureInfo.InvariantCulture);
+            double? orig_long = double.Parse(inicial.Longitude, CultureInfo.InvariantCulture);
+            double? dest_lat = double.Parse(final.Latitude, CultureInfo.InvariantCulture);
+            double? dest_long = double.Parse(final.Longitude, CultureInfo.InvariantCulture);
+
+            return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
+        }
+
 
         private void ReordenaEventos(List<AgendaTecnico> agendasTecnico)
         {
-            var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
+            if (!agendasTecnico.Any()) return;
 
+            var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
             AgendaTecnico ultimoEvento = null;
             OrdemServico ultimaOS = null;
 

@@ -21,4 +21,10 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }
     }
+
+    public class AgendaTecnicoDistanceModel
+    {
+        public int CodAgendaTecnico { get; set; }
+        public double Distancia { get; set; }
+    }
 }

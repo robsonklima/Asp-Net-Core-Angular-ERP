@@ -53,6 +53,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.TipoRota)
                 .Include(t => t.Regiao)
                 .Include(t => t.Usuario)
+                    .ThenInclude(t => t.Localizacoes)
                 .Include(t => t.Cidade)
                 .Include(t => t.Cidade.UnidadeFederativa)
                 .FirstOrDefault(t => t.CodTecnico == codigo);

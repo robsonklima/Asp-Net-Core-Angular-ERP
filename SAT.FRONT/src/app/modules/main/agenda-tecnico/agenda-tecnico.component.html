@@ -49,7 +49,9 @@
                         </mbsc-button>
 
                         <mbsc-button color="primary" class="md-tooltip-view-button"
-                            (click)="ordenarChamados(selectResource.id)" *ngIf="selectResource != null">Ordenar
+                            (click)="ordenarChamados(selectResource.id)"
+                            [disabled]="countResourceEvents(selectResource) <= 0" *ngIf="selectResource != null">
+                            Ordenar
                             atendimentos
                         </mbsc-button>
                     </div>

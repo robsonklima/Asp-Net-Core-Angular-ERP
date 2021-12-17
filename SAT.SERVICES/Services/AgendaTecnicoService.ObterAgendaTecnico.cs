@@ -158,31 +158,21 @@ namespace SAT.SERVICES.Services
 
                     var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
                     var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
-
-                    // se começa durante a sugestão de intervalo
-                    if (this.isIntervalo(start))
-                        start = this.FimIntervalo(start);
-                    else if (start >= this.FimExpediente(start))
-                    {
-                        start = start.AddDays(1);
-                        if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo(start).Hour, this.FimIntervalo(start).Minute, 0);
-                    }
-
                     var duracao = (e.Fim - e.Inicio).TotalMinutes;
 
                     // adiciona deslocamento
                     start = start.AddMinutes(deslocamento);
+
+                    // se começa durante o intervalo ou depois do expediente
                     if (this.isIntervalo(start))
                         start = this.FimIntervalo(start);
                     else if (start >= this.FimExpediente(start))
                     {
                         start = start.AddDays(1);
-                        if (this.isIntervalo(start))
-                            start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo(start).Hour, this.FimIntervalo(start).Minute, 0);
+                        start = this.InicioExpediente(start);
                     }
 
-                    // se termina durante a sugestao de intervalo
+                    // se termina durante o intervalo
                     var end = start.AddMinutes(duracao);
                     if (this.isIntervalo(end))
                     {

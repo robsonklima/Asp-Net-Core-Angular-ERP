@@ -116,10 +116,15 @@ namespace SAT.SERVICES.Services
 
         private double CalculaDistancia(Localizacao inicial, Localizacao final)
         {
-            double? orig_lat = double.Parse(inicial.Latitude, CultureInfo.InvariantCulture);
-            double? orig_long = double.Parse(inicial.Longitude, CultureInfo.InvariantCulture);
-            double? dest_lat = double.Parse(final.Latitude, CultureInfo.InvariantCulture);
-            double? dest_long = double.Parse(final.Longitude, CultureInfo.InvariantCulture);
+            double orig_lat, orig_long, dest_lat, dest_long;
+
+            double.TryParse(inicial.Latitude, NumberStyles.Number, CultureInfo.InvariantCulture, out orig_lat);
+
+            double.TryParse(inicial.Longitude, NumberStyles.Number, CultureInfo.InvariantCulture, out orig_long);
+
+            double.TryParse(final.Latitude, NumberStyles.Number, CultureInfo.InvariantCulture, out dest_lat);
+
+            double.TryParse(final.Longitude, NumberStyles.Number, CultureInfo.InvariantCulture, out dest_long);
 
             return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
         }

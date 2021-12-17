@@ -67,8 +67,6 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
 
   private ordenar()
   {
-    console.log(this.ordenacoes);
-
     this.isLoading = true;
     this._agendaTecnicoService.ordenarAgendaTecnico({
       codTecnico: this.tecnico.codTecnico,

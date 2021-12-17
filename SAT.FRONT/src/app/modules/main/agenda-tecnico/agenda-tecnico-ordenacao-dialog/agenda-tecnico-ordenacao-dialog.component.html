@@ -26,7 +26,7 @@
             </mat-progress-spinner>
         </div>
         <div class="mt-4" align="end">
-            <button mat-button mat-dialog-close>Cancelar</button>
+            <button mat-button mat-dialog-close [disabled]="isLoading">Cancelar</button>
             <button mat-button [disabled]="!form?.valid || isLoading" [color]="'primary'"
                 (click)="confirmar()">Ordenar</button>
         </div>

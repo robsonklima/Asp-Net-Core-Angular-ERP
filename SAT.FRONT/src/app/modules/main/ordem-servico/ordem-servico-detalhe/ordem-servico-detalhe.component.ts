@@ -115,7 +115,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		await this.obterOS();
 		await this.obterUsuarioCadastro();
 
-		if (this.os.agendamentos.length)
+		if (this.os.agendamentos?.length)
 		{
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);

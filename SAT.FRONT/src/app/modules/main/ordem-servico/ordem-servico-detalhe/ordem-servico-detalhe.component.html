@@ -318,7 +318,7 @@
                                 <span>
                                     {{ t('alertas') }}
 
-                                    <span *ngIf="os?.alertas.length"
+                                    <span *ngIf="os?.alertas?.length"
                                      class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
                                         {{  os.alertas?.length}}
                                     </span>
@@ -327,7 +327,7 @@
 
                             <ng-template matTabContent >
                             <div class="max-w-2xl p-8 bg-card shadow-lg rounded-2xl overflow-hidden">
-                                <div class="grid grid-cols-1 gap-6" *ngIf="os?.alertas.length">
+                                <div class="grid grid-cols-1 gap-6" *ngIf="os?.alertas?.length">
                                     <fuse-card *ngFor="let alerta of os?.alertas"
                                         class="flex flex-col border px-8 py-6"
                                         
@@ -350,7 +350,7 @@
                                         </div>                                   
                                     </fuse-card>
                                 </div>
-                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.alertas.length">
+                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.alertas?.length">
                                     <p>
                                         {{ t('nenhum registro encontrado') }}
                                     </p>

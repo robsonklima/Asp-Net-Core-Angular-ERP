@@ -78,7 +78,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	trocarTab(tab: any)
 	{
-		if (tab.index !== 4 || !this.os)
+		if (tab.index !== 5 || !this.os)
 		{
 			return;
 		}

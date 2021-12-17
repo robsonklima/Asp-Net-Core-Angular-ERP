@@ -35,41 +35,41 @@
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
-                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button [color]="'primary'"
-                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
-                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-indigo-700" mat-flat-button
-                                *ngIf="os?.codStatusServico != 8"
-                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || os?.codStatusServico === 7"
-                                [matTooltip]="t('transferir')" matTooltipPosition="above" (click)="sidenav.toggle()">
+                                *ngIf="os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
+                                os?.codStatusServico === 7 || isLoading" [matTooltip]="t('transferir')"
+                                matTooltipPosition="above" (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-red-700" mat-flat-button
                                 *ngIf="os?.codStatusServico == 8" [matTooltip]="t('cancelar transferencia')"
-                                matTooltipPosition="above" (click)="cancelarTransferencia()">
+                                [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
                             </button>
                         </div>
 
                         <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700" mat-flat-button
-                            [matMenuTriggerFor]="menu" *transloco="let t">
+                            [matMenuTriggerFor]="menu" *transloco="let t" [disabled]="isLoading">
                             <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
                             <mat-menu #menu>
@@ -319,43 +319,39 @@
                                     {{ t('alertas') }}
 
                                     <span *ngIf="os?.alertas?.length"
-                                     class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
                                         {{  os.alertas?.length}}
                                     </span>
                                 </span>
                             </ng-template>
 
-                            <ng-template matTabContent >
-                            <div class="max-w-2xl p-8 bg-card shadow-lg rounded-2xl overflow-hidden">
-                                <div class="grid grid-cols-1 gap-6" *ngIf="os?.alertas?.length">
-                                    <fuse-card *ngFor="let alerta of os?.alertas"
-                                        class="flex flex-col border px-8 py-6"
-                                        
-                                        [class.text-red-600]="alerta?.tipo == 'WARNING'"
-                                        [class.border-red-600]="alerta?.tipo == 'WARNING'"
-                                        [class.bg-red-100]="alerta?.tipo == 'WARNING'"
-
-                                        [class.text-yellow-600]="alerta?.tipo == 'INFO'"
-                                        [class.border-yellow-600]="alerta?.tipo == 'INFO'"
-                                        [class.bg-yellow-100]="alerta?.tipo == 'INFO'"
-
-                                        [class.text-green-600]="alerta?.tipo == 'SUCCESS'"
-                                        [class.border-green-600]="alerta?.tipo == 'SUCCESS'"
-                                        [class.bg-green-100]="alerta?.tipo == 'SUCCESS'"
-
-                                        #fuseCard>
-                                        <div class="text-lg font-bold">{{ alerta?.titulo}}</div>
-                                        <div class="rounded mt-2 text-justify" *ngFor="let desc of alerta?.descricao">
-                                            {{ desc }}
-                                        </div>                                   
-                                    </fuse-card>
+                            <ng-template matTabContent>
+                                <div class="max-w-2xl p-8 bg-card shadow-lg rounded-2xl overflow-hidden">
+                                    <div class="grid grid-cols-1 gap-6" *ngIf="os?.alertas?.length">
+                                        <fuse-card *ngFor="let alerta of os?.alertas"
+                                            class="flex flex-col border px-8 py-6"
+                                            [class.text-red-600]="alerta?.tipo == 'WARNING'"
+                                            [class.border-red-600]="alerta?.tipo == 'WARNING'"
+                                            [class.bg-red-100]="alerta?.tipo == 'WARNING'"
+                                            [class.text-yellow-600]="alerta?.tipo == 'INFO'"
+                                            [class.border-yellow-600]="alerta?.tipo == 'INFO'"
+                                            [class.bg-yellow-100]="alerta?.tipo == 'INFO'"
+                                            [class.text-green-600]="alerta?.tipo == 'SUCCESS'"
+                                            [class.border-green-600]="alerta?.tipo == 'SUCCESS'"
+                                            [class.bg-green-100]="alerta?.tipo == 'SUCCESS'" #fuseCard>
+                                            <div class="text-lg font-bold">{{ alerta?.titulo}}</div>
+                                            <div class="rounded mt-2 text-justify"
+                                                *ngFor="let desc of alerta?.descricao">
+                                                {{ desc }}
+                                            </div>
+                                        </fuse-card>
+                                    </div>
+                                    <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.alertas?.length">
+                                        <p>
+                                            {{ t('nenhum registro encontrado') }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.alertas?.length">
-                                    <p>
-                                        {{ t('nenhum registro encontrado') }}
-                                    </p>
-                                </div>
-                            </div> 
                             </ng-template>
                         </mat-tab>
 

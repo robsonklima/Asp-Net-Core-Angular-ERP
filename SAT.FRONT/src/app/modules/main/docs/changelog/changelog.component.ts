@@ -300,6 +300,25 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.8',
+            releaseDate: '17 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes na Agenda Técnico',
+                        'Ajustes na tela de detalhes do chamado',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Ordenação de chamados na Agenda Técnico'
+                    ],
+                }
+            ]
         }
     ];
     constructor () { }

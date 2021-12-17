@@ -230,8 +230,8 @@ namespace SAT.INFRA.Repository
         {
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.CodFiliais.Split(',').Select(a => int.Parse(a.Trim())).ToArray();
-                query = query.Where(os => filiais.Any(p => p == os.CodFilial));
+                var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(os => filiais.Any(f => f == os.CodFilial.ToString()));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))

@@ -291,7 +291,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         end: moment(ag.fim),
         title: ag.titulo,
         color: ag.cor,
-        editable: ag.indAgendamento == 1 || ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
+        editable: ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
@@ -519,16 +519,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       sortActive: 'nome',
       sortDirection: 'asc',
       tipo: AgendaTecnicoTypeEnum.OS,
-      codTecnico: codTecnico
+      codTecnico: codTecnico,
+      indAtivo: 1
     }).toPromise());
 
     var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
 
-    Enumerable.from(agendamentosTecnico.items).where(i => i.indAgendamento == 0).forEach(i =>
+    Enumerable.from(agendamentosTecnico.items).forEach(i =>
     {
       atendimentosTecnico.push(
         {
           codAgendaTecnico: i.codAgendaTecnico,
+          indAgendamento: i.indAgendamento,
           start: i.inicio,
           end: i.fim,
           codOS: i.codOS,

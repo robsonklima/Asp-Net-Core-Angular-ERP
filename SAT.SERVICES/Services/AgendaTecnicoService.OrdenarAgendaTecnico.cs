@@ -70,19 +70,18 @@ namespace SAT.SERVICES.Services
                 };
             }
 
-            var agendamentosNaoAgendados = agendasTecnico
+            var agendasTecnicosPertinentes = agendasTecnico
                 .Where(i => i.IndAgendamento == 0 &&
-                    i.Tipo == AgendaTecnicoTypeEnum.OS &&
-                    i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO)
+                    i.Tipo == AgendaTecnicoTypeEnum.OS)
                 .ToList();
 
             List<AgendaTecnico> listaAgendamentos = new List<AgendaTecnico>();
 
-            while (agendamentosNaoAgendados.Any())
+            while (agendasTecnicosPertinentes.Any())
             {
                 var distancias = new List<AgendaTecnicoDistanceModel>();
 
-                agendamentosNaoAgendados.ForEach(i =>
+                agendasTecnicosPertinentes.ForEach(i =>
                 {
                     var proximaLocalizacao = new Localizacao
                     {
@@ -99,7 +98,7 @@ namespace SAT.SERVICES.Services
 
                 var distsOrdened = distancias.OrderBy(i => i.Distancia).ToList();
                 var minDistCodAgendaTecnico = distsOrdened.FirstOrDefault().CodAgendaTecnico;
-                var minAgendaTecnico = agendamentosNaoAgendados.FirstOrDefault(i => i.CodAgendaTecnico == minDistCodAgendaTecnico);
+                var minAgendaTecnico = agendasTecnicosPertinentes.FirstOrDefault(i => i.CodAgendaTecnico == minDistCodAgendaTecnico);
 
                 ultimaLocalizacao = new Localizacao
                 {
@@ -108,7 +107,7 @@ namespace SAT.SERVICES.Services
                 };
 
                 listaAgendamentos.Add(minAgendaTecnico);
-                agendamentosNaoAgendados.Remove(minAgendaTecnico);
+                agendasTecnicosPertinentes.Remove(minAgendaTecnico);
             }
 
             this.ReordenaEventos(listaAgendamentos);
@@ -140,9 +139,9 @@ namespace SAT.SERVICES.Services
             agendasTecnico
             .ForEach(e =>
             {
-                if (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO)
+                if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                 {
-                    e.Cor = this.GetStatusColor(e.OrdemServico.CodStatusServico);
+                    e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                     this._agendaRepo.Atualizar(e);
                 }
                 else

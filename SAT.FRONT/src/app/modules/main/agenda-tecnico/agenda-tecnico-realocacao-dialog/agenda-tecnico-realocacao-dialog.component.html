@@ -19,7 +19,8 @@
                 <div class="flex-auto w-full mt-5">
                     <mat-form-field class="fuse-mat-dense flex-auto w-full">
                         <mat-select formControlName="codAgendaTecnico">
-                            <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico">
+                            <mat-option *ngFor="let a of agendamentos" [value]="a.codAgendaTecnico"
+                                [ngClass]="{'text-purple-800': a.indAgendamento == 1 }">
                                 {{ a.codOS + " - " + a.title }}
                             </mat-option>
                         </mat-select>

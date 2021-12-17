@@ -19,6 +19,8 @@ namespace SAT.SERVICES.Services
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
 
+            this.DeletarAgendaTecnico(codOS, codTecnico);
+
             var agendamentos = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
             var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
 

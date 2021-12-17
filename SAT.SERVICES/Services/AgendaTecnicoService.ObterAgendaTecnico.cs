@@ -65,14 +65,12 @@ namespace SAT.SERVICES.Services
                 {
                     if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                     {
-                        i.Cor = GetStatusColor(i.OrdemServico.CodStatusServico);
+                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
                         this._agendaRepo.Atualizar(i);
                         eventosValidados.Add(i);
                     }
                     else
-                    {
                         eventosValidados.Add(i);
-                    }
                 });
             }
 
@@ -145,14 +143,13 @@ namespace SAT.SERVICES.Services
             .ToList()
             .ForEach(e =>
             {
-                if (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO)
+                if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                 {
-                    e.Cor = this.GetStatusColor(e.OrdemServico.CodStatusServico);
+                    e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                     this._agendaRepo.Atualizar(e);
                 }
                 else
                 {
-
                     OrdemServico os = e.OrdemServico;
 
                     var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
@@ -195,12 +192,22 @@ namespace SAT.SERVICES.Services
             return agendasTecnico;
         }
 
-        private string GetStatusColor(int statusOS)
+        private string GetStatusColor(StatusServicoEnum statusServicoEnum)
         {
-            switch (statusOS)
+            switch (statusServicoEnum)
             {
-                case 3:
+                case StatusServicoEnum.FECHADO:
                     return "#4c4cff";
+                case StatusServicoEnum.PECA_FALTANTE:
+                    return "#ff4cb7";
+                case StatusServicoEnum.PECAS_PENDENTES:
+                    return "#ff4cb7";
+                case StatusServicoEnum.PECA_EM_TRANSITO:
+                    return "#ff4cb7";
+                case StatusServicoEnum.PARCIAL:
+                    return "#6dbd62";
+                case StatusServicoEnum.CANCELADO:
+                    return "#964B00";
                 default:
                     return "#ff4c4c";
             }

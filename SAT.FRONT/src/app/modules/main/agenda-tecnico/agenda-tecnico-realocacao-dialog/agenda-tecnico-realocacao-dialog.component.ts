@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { Notifications } from '@mobiscroll/angular';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -86,7 +85,7 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
-    agendamento.cor = this._validator.getRealocationStatusColor(moment(this.initialTime));
+    agendamento.cor = this._validator.getRealocationStatusColor(agendamento, moment(this.initialTime));
     agendamento.codUsuarioManut = this.userSession.usuario.codUsuario;
     agendamento.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
 

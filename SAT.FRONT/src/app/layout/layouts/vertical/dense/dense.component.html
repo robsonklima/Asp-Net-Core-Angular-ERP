@@ -12,19 +12,19 @@
         </div>
     </ng-container>
 
-    <ng-container fuseVerticalNavigationFooter>
+    <!-- <ng-container fuseVerticalNavigationFooter>
         <div class="flex items-center w-full px-8 py-8 border-t">
-            <div class="flex flex-col w-full ml-4 overflow-hidden">
+            <div class="flex flex-col w-full overflow-hidden">
                 <div
-                    class="w-full mt-0.5 whitespace-nowrap text-sm overflow-ellipsis overflow-hidden leading-normal text-current opacity-50">
-                    {{ name }} &bull;
-                    2006-{{currentYear}} &bull;
-                    <a class="text-blue-500" [routerLink]="['/docs/changelog']"
+                    class="w-full mt-0.5 whitespace-nowrap text-sm overflow-hidden leading-normal text-current opacity-50">
+                     {{ name }} &bull;
+                    2006-{{currentYear}} &bull; 
+                    <a class="text-white" [routerLink]="['/docs/changelog']"
                         routerLinkActive="router-link-active">v{{ version }}</a>
                 </div>
             </div>
         </div>
-    </ng-container>
+    </ng-container> -->
 
 </fuse-vertical-navigation>
 
@@ -42,6 +42,8 @@
         </div>
 
         <div class="flex items-center pl-2 ml-auto space-x-2">
+            <a class="text-gray-400 mr-1 pb-1" [routerLink]="['/docs/changelog']"
+            routerLinkActive="router-link-active">SAT {{ version }}</a>
             <languages></languages>
             <fuse-fullscreen></fuse-fullscreen>
             <search [appearance]="'bar'"></search>

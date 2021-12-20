@@ -319,6 +319,19 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.9',
+            releaseDate: '20 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes no filtro',
+                        'Ajustes no layout na tela de detalhes do chamado',
+                    ],
+                }
+            ]
         }
     ];
     constructor () { }

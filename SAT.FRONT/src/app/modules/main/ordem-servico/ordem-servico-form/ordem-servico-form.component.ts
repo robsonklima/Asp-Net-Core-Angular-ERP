@@ -34,7 +34,8 @@ import { RoleEnum } from 'app/core/user/user.types';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoFormComponent implements OnInit, OnDestroy {
+export class OrdemServicoFormComponent implements OnInit, OnDestroy
+{
   codOS: number;
   ordemServico: OrdemServico;
   form: FormGroup;
@@ -54,7 +55,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
   clienteFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
@@ -68,11 +69,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     private _filialService: FilialService,
     private _autorizadaService: AutorizadaService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService
-  ) {
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.isAddMode = !this.codOS;
     this.inicializarForm();
@@ -97,12 +100,14 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     // Filter Observables
     this.obterLocaisAoFiltrar();
 
-    this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() => {
+    this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() =>
+    {
       this.validaIntervencao();
     })
   }
 
-  private inicializarForm(): void {
+  private inicializarForm(): void
+  {
     this.form = this._formBuilder.group({
       codOS: [
         {
@@ -133,8 +138,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterOrdemServico() {
-    if (!this.isAddMode) {
+  private async obterOrdemServico()
+  {
+    if (!this.isAddMode)
+    {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
       this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
@@ -145,7 +152,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
 
-    if (this.userSession.usuario?.filial?.codFilial) {
+    if (this.userSession.usuario?.filial?.codFilial)
+    {
       this.form.controls['codFilial'].setValue(codFilial);
       this.form.controls['codFilial'].disable();
 
@@ -153,7 +161,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async obterTiposIntervencao() {
+  private async obterTiposIntervencao()
+  {
     this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
       indAtivo: 1,
       pageSize: 100,
@@ -162,7 +171,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterClientes(filter: string = '') {
+  private async obterClientes(filter: string = '')
+  {
     this.clientes = (await this._clienteService.obterPorParametros({
       indAtivo: 1,
       pageSize: 500,
@@ -183,7 +193,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
     this.filiais = (await this._filialService.obterPorParametros({
       indAtivo: 1,
       pageSize: 500,
@@ -192,7 +203,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
   }
 
-  private async obterAutorizadas() {
+  private async obterAutorizadas()
+  {
     this.autorizadas = (await this._autorizadaService
       .obterPorParametros({
         indAtivo: 1,
@@ -203,8 +215,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }).toPromise()).items;
   }
 
-  private async obterLocaisAoTrocarCliente() {
-    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente => {
+  private async obterLocaisAoTrocarCliente()
+  {
+    this.form.controls['codCliente'].valueChanges.subscribe(async codCliente =>
+    {
       const data = await this._localAtendimentoService.obterPorParametros({
         indAtivo: 1,
         sortActive: 'nomeLocal',
@@ -218,8 +232,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterEquipamentosAoTrocarLocal() {
-    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto => {
+  private async obterEquipamentosAoTrocarLocal()
+  {
+    this.form.controls['codPosto'].valueChanges.subscribe(async codPosto =>
+    {
       const data = await this._equipamentoContratoService.obterPorParametros({
         sortActive: 'numSerie',
         sortDirection: 'asc',
@@ -231,15 +247,18 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterLocaisAoFiltrar() {
+  private async obterLocaisAoFiltrar()
+  {
     this.locaisFiltro.valueChanges.pipe(
       filter(query => !!query),
       tap(() => this.searching = true),
       debounceTime(700),
-      map(async query => {
+      map(async query =>
+      {
         const codCliente = this.form.controls['codCliente'].value;
 
-        if (!codCliente) {
+        if (!codCliente)
+        {
           return [];
         }
 
@@ -257,18 +276,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       delay(500),
       takeUntil(this._onDestroy)
     )
-      .subscribe(async locaisFiltrados => {
+      .subscribe(async locaisFiltrados =>
+      {
         this.searching = false;
         this.locais = await locaisFiltrados;
       },
-        () => {
+        () =>
+        {
           this.searching = false;
         }
       );
   }
 
-  private async obterRegioesAoTrocarAutorizada() {
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada => {
+  private async obterRegioesAoTrocarAutorizada()
+  {
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async codAutorizada =>
+    {
       const data = await this._regiaoAutorizadaService.obterPorParametros({
         indAtivo: 1,
         codAutorizada: codAutorizada,
@@ -281,12 +304,15 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private obterPATRegiaoAoSelecionarEquipamento() {
-    this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato => {
+  private obterPATRegiaoAoSelecionarEquipamento()
+  {
+    this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato =>
+    {
       var equipContrato = Enumerable.from(this.equipamentosContrato)
         .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
 
-      if (!this.userSession?.usuario?.filial?.codFilial) {
+      if (!this.userSession?.usuario?.filial?.codFilial)
+      {
         var filial = (await this._filialService.obterPorCodigo(equipContrato.codFilial).toPromise());
         this.form.controls['codFilial'].setValue(filial.codFilial);
       }
@@ -296,8 +322,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterAutorizadasAoTrocarFilial() {
-    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
+  private async obterAutorizadasAoTrocarFilial()
+  {
+    this.form.controls['codFilial'].valueChanges.subscribe(async codFilial =>
+    {
       const data = await this._autorizadaService.obterPorParametros({
         indAtivo: 1,
         sortActive: 'nomeFantasia',
@@ -310,11 +338,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  escondeCamposClientes(): boolean {
+  escondeCamposClientes(): boolean
+  {
     var perfilUsuarioLogado: RoleEnum = this.userSession.usuario.perfil?.codPerfil;
 
     var perfisClientes =
@@ -329,7 +359,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private validaIntervencao(): void {
+  private validaIntervencao(): void
+  {
     let perfilUsuarioLogado = this.userSession.usuario?.perfil?.codPerfil;
     let novoTipoIntervencao = this.form.controls['codTipoIntervencao'].value;
 
@@ -379,30 +410,34 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     ];
 
     // lider só pode criar autorização deslocamento
-    if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) && novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {
+    if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) && novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
+    {
       this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
-      return;
     }
+
     // só RPV pode alterar para corretiva
-    else if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado)) {
+    if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado))
+    {
       this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarCorretiva': true });
-      return;
     }
-    else if (intervencoesDeOrcamento.includes(novoTipoIntervencao)) {
+
+    if (intervencoesDeOrcamento.includes(novoTipoIntervencao))
+    {
       if (!podemAlterarOrcamento.includes(perfilUsuarioLogado))
         this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
-      return;
     }
-    else if (intervencoesDeOrcamentoFilial.includes(novoTipoIntervencao)) {
+
+    if (intervencoesDeOrcamentoFilial.includes(novoTipoIntervencao))
+    {
       if (!podemAlterarOrcamentoFilial.includes(perfilUsuarioLogado))
         this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
-      return;
     }
 
     this.form.controls['codTipoIntervencao'].setErrors(null);
   }
 
-  private atualizar(): void {
+  private atualizar(): void
+  {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
@@ -415,17 +450,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach((key) =>
+    {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._ordemServicoService.atualizar(obj).subscribe(() => {
+    this._ordemServicoService.atualizar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Chamado atualizado com sucesso!", "success");
       this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
     });
   }
 
-  private criar(): void {
+  private criar(): void
+  {
     const form: any = this.form.getRawValue();
     let obj: OrdemServico = {
       ...this.ordemServico,
@@ -444,17 +482,20 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
     console.log(obj);
 
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach((key) =>
+    {
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._ordemServicoService.criar(obj).subscribe((os) => {
+    this._ordemServicoService.criar(obj).subscribe((os) =>
+    {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

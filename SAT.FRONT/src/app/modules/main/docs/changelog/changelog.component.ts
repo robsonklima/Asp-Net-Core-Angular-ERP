@@ -332,6 +332,18 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.10',
+            releaseDate: '20 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes no formulário de Ordem Servico'
+                    ],
+                }
+            ]
         }
     ];
     constructor () { }

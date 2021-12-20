@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
         AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters);
         void OrdenarAgendaTecnico(AgendaTecnicoParameters parameters);
         AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico);
-        void DeletarAgendaTecnico(int codOS, int codTecnico);
+        void DeletarAgendaTecnico(int codOS);
         AgendaTecnico ObterPorCodigo(int codigo);
         ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters);
         AgendaTecnico Atualizar(AgendaTecnico agenda);

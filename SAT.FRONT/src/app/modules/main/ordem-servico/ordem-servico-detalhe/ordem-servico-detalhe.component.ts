@@ -344,9 +344,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private deleteAgendaTecnico()
 	{
-		if (this.os.codTecnico == null) return;
-
-		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
+		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise()
 			.then(s =>
 			{
 				var notificacao: Notificacao =

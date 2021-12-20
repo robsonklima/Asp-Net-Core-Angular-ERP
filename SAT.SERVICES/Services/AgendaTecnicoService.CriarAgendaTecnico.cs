@@ -16,7 +16,7 @@ namespace SAT.SERVICES.Services
         {
             var os = this._osRepo.ObterPorCodigo(codOS);
 
-            this.DeletarAgendaTecnico(codOS, codTecnico);
+            this.DeletarAgendaTecnico(codOS);
 
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);

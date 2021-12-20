@@ -58,9 +58,9 @@ export class AgendaTecnicoService
         return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
     }
 
-    deletarAgendaTecnico(codOS: number, codTecnico: number): Observable<AgendaTecnico>
+    deletarAgendaTecnico(codOS: number): Observable<AgendaTecnico>
     {
-        const url = `${c.api}/AgendaTecnico/DeletarOS/${codOS},${codTecnico}`;
+        const url = `${c.api}/AgendaTecnico/DeletarOS/${codOS}`;
         return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
     }
 

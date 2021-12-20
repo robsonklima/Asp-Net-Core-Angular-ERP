@@ -30,22 +30,22 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
-           {
-               options.AddPolicy(name: "CorsApi",
-                builder =>
-                    {
-                        builder
-                            .WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .SetIsOriginAllowed(origin => true)
-                            .AllowCredentials();
-                    }
-                );
-           });
+            {
+                options.AddPolicy(name: "CorsApi",
+                 builder =>
+                 {
+                     builder
+                        .WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .SetIsOriginAllowed(origin => true)
+                        .AllowCredentials();
+                 }
+                 );
+            });
 
             services.AddMvc();
             services.AddSession();
@@ -130,6 +130,7 @@ namespace SAT.API
             services.AddTransient<ITurnoRepository, TurnoRepository>();
             services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
             services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
+            services.AddTransient<IFiltroRepository, FiltroRepository>();
             services.AddTransient<INotificacaoRepository, NotificacaoRepository>();
             services.AddTransient<IDispBBCalcEquipamentoContratoRepository, DispBBCalcEquipamentoContratoRepository>();
 
@@ -192,6 +193,11 @@ namespace SAT.API
             services.AddTransient<IPontoUsuarioDataDivergenciaService, PontoUsuarioDataDivergenciaService>();
             services.AddTransient<IMonitoramentoService, MonitoramentoService>();
             services.AddTransient<ITurnoService, TurnoService>();
+            services.AddTransient<IFiltroService, FiltroService>();
+
+            // Utils Services
+            services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
             services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();

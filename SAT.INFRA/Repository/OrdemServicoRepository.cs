@@ -139,17 +139,5 @@ namespace SAT.INFRA.Repository
 
             return ordemServico;
         }
-
-        public OrdemServico ObterEntidadePorCodigo(int codigo)
-        {
-            var ordemServico = _context.OrdemServico
-                .Include(i => i.LocalAtendimento)
-                .Include(i => i.Tecnico)
-                .Include(i => i.TipoIntervencao)
-                .Include(i => i.Agendamentos)
-                .FirstOrDefault(os => os.CodOS == codigo);
-
-            return ordemServico;
-        }
     }
 }

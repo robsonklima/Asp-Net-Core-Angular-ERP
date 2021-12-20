@@ -282,8 +282,57 @@ export class ChangelogComponent
                     ],
                 }
             ]
+        },
+        {
+            version: 'v1.1.7',
+            releaseDate: '16 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes na tela de contratos',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Layout da Agenda Técnico'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.1.8',
+            releaseDate: '17 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes na Agenda Técnico',
+                        'Ajustes na tela de detalhes do chamado',
+                    ],
+                },
+                {
+                    type: 'Adições',
+                    list: [
+                        'Ordenação de chamados na Agenda Técnico'
+                    ],
+                }
+            ]
+        },
+        {
+            version: 'v1.1.9',
+            releaseDate: '20 de Dezembro de 2021',
+            changes: [
+                {
+                    type: 'Correções',
+                    list: [
+                        'Ajustes no filtro',
+                        'Ajustes no layout na tela de detalhes do chamado',
+                    ],
+                }
+            ]
         }
     ];
-
     constructor () { }
 }

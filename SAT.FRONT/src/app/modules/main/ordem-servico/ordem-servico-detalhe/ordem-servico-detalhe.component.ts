@@ -78,7 +78,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	trocarTab(tab: any)
 	{
-		if (tab.index !== 4 || !this.os)
+		if (tab.index !== 5 || !this.os)
 		{
 			return;
 		}
@@ -115,7 +115,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		await this.obterOS();
 		await this.obterUsuarioCadastro();
 
-		if (this.os.agendamentos.length)
+		if (this.os.agendamentos?.length)
 		{
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
@@ -344,9 +344,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private deleteAgendaTecnico()
 	{
-		if (this.os.codTecnico == null) return;
-
-		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
+		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise()
 			.then(s =>
 			{
 				var notificacao: Notificacao =

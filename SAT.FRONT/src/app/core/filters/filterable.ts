@@ -54,13 +54,14 @@ export class Filterable implements IFilterableCore
     {
         this._userService.atualizarPropriedade(this.filterName, "sortActive", this.sort.active);
         this._userService.atualizarPropriedade(this.filterName, "sortDirection", this.sort.direction);
-        this.loadFilter();
         this.paginator.pageIndex = 0;
+        this.loadFilter();
     }
 
     onPaginationChanged(): void
     {
         this._userService.atualizarPropriedade(this.filterName, "qtdPaginacaoLista", this.paginator?.pageSize);
+        this.loadFilter();
     }
 
     onSidenavClosed(): void

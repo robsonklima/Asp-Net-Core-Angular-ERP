@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Notifications } from '@mobiscroll/angular';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
@@ -27,12 +27,16 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
   isLoading: boolean = false;
   isRealocando: boolean = false;
 
+  snackConfigInfo: MatSnackBarConfig = { duration: 2000, panelClass: 'info', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<AgendaTecnicoRealocacaoDialogComponent>,
     private _formBuilder: FormBuilder,
+    private _snack: MatSnackBar,
     private _agendaTecnicoSvc: AgendaTecnicoService,
-    private _notify: Notifications,
     private _userService: UserService,
     private _validator: AgendaTecnicoValidator,
     private _tecnicoSvc: TecnicoService)
@@ -81,17 +85,17 @@ export class AgendaTecnicoRealocacaoDialogComponent implements OnInit
     var agendamento = (await this._agendaTecnicoSvc.obterPorCodigo(codAgendaTecnico).toPromise());
     agendamento.inicio = moment(this.initialTime).format('yyyy-MM-DD HH:mm:ss');
     agendamento.fim = moment(this.initialTime).add(1, 'hour').format('yyyy-MM-DD HH:mm:ss');
-    agendamento.cor = this._validator.getRealocationStatusColor(moment(this.initialTime));
+    agendamento.cor = this._validator.getRealocationStatusColor(agendamento, moment(this.initialTime));
     agendamento.codUsuarioManut = this.userSession.usuario.codUsuario;
     agendamento.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
 
-    await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(() =>
+    await this._agendaTecnicoSvc.atualizar(agendamento).toPromise().then(async a =>
     {
-      this._notify.toast({ message: 'Atendimento realocado com sucesso.', color: 'success' });
+      await this._snack.open('Atendimento realocado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
     })
-      .catch(() =>
+      .catch(async () =>
       {
-        this._notify.toast({ message: 'Erro ao realocar atendimento.', color: 'danger' });
+        await this._snack.open('Erro ao realocar atendimento.', null, this.snackConfigDanger).afterDismissed().toPromise();
       });
   }
 }

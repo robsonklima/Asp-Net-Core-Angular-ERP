@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SAT.MODELS.Entities
@@ -60,5 +61,6 @@ namespace SAT.MODELS.Entities
         public List<PontoPeriodoUsuario> PontosPeriodoUsuario { get; set; }
         public List<PontoUsuario> PontosUsuario { get; set; }
         public Filial FilialPonto { get; set; }
+        public List<FiltroUsuario> FiltroUsuario { get; set; }
     }
 }

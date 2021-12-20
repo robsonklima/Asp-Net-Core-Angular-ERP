@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
@@ -13,14 +14,15 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico)
         {
-            var os = this._osRepo.ObterEntidadePorCodigo(codOS);
+            var os = this._osRepo.ObterPorCodigo(codOS);
+
+            this.DeletarAgendaTecnico(codOS);
 
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
-
             var agendamentos = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
-            var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
 
+            var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
             return ag;
         }
 
@@ -30,33 +32,22 @@ namespace SAT.SERVICES.Services
                 return CriaNovoEventoOSComAgendamento(agendamentos, os, mediaTecnico, codTecnico);
 
             var ultimoEvento = agendamentos
-                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.OS)
+                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0)
               .OrderByDescending(i => i.Fim)
               .FirstOrDefault();
 
             var deslocamento = this.DistanciaEmMinutos(os, ultimoEvento?.OrdemServico);
 
-            var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
-
-            // se começa durante a sugestão de intervalo
-            if (this.isIntervalo(start))
-                start = this.FimIntervalo;
-            else if (start >= this.FimExpediente)
-            {
-                start = start.AddDays(1);
-                if (this.isIntervalo(start))
-                    start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
-            }
+            var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
 
             // adiciona deslocamento
             start = start.AddMinutes(deslocamento);
             if (this.isIntervalo(start))
-                start = this.FimIntervalo;
-            else if (start >= this.FimExpediente)
+                start = this.FimIntervalo(start);
+            else if (start >= this.FimExpediente(start))
             {
                 start = start.AddDays(1);
-                if (this.isIntervalo(start))
-                    start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
+                start = this.InicioExpediente(start);
             }
 
             // se termina durante a sugestao de intervalo
@@ -78,7 +69,7 @@ namespace SAT.SERVICES.Services
                 Tipo = AgendaTecnicoTypeEnum.OS,
                 IndAgendamento = 0,
                 IndAtivo = 1,
-                CodUsuarioCad = "ADMIN",
+                CodUsuarioCad = Constants.SISTEMA_NOME,
                 DataHoraCad = DateTime.Now
             };
 
@@ -95,7 +86,7 @@ namespace SAT.SERVICES.Services
                 agendasTecnico.FirstOrDefault(i => i.CodOS == os.CodOS);
 
             var eventosSobrepostos =
-                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
+                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
 
             if (agendaTecnicoAnterior != null)
             {
@@ -104,7 +95,7 @@ namespace SAT.SERVICES.Services
                 agendaTecnicoAnterior.Cor = this.IsAgendamentoColor;
                 agendaTecnicoAnterior.DataHoraManut = DateTime.Now;
                 agendaTecnicoAnterior.IndAgendamento = 1;
-                agendaTecnicoAnterior.CodUsuarioManut = "ADMIN";
+                agendaTecnicoAnterior.CodUsuarioManut = Constants.SISTEMA_NOME;
 
                 var ag = this._agendaRepo.Atualizar(agendaTecnicoAnterior);
                 this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
@@ -124,7 +115,7 @@ namespace SAT.SERVICES.Services
                     Tipo = AgendaTecnicoTypeEnum.OS,
                     IndAgendamento = 1,
                     IndAtivo = 1,
-                    CodUsuarioCad = "ADMIN",
+                    CodUsuarioCad = Constants.SISTEMA_NOME,
                     DataHoraCad = DateTime.Now
                 };
 
@@ -141,29 +132,27 @@ namespace SAT.SERVICES.Services
             if (!eventosSobrepostos.Any()) return;
 
             var ultimoEvento = ag;
-            var ultimaOS = ag.OrdemServico != null ? ultimoEvento.OrdemServico : this._osRepo.ObterEntidadePorCodigo(ag.CodOS.Value);
+            var ultimaOS = ag.OrdemServico != null ? ultimoEvento.OrdemServico : this._osRepo.ObterPorCodigo(ag.CodOS.Value);
 
             eventosSobrepostos.OrderBy(i => i.Inicio).ToList().ForEach(e =>
             {
                 var os = e.OrdemServico;
                 var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
 
-                var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente;
-
-                // se começa durante a sugestão de intervalo
-                if (this.isIntervalo(start))
-                    start = this.InicioIntervalo;
-                else if (start >= this.FimExpediente)
-                {
-                    start = start.AddDays(1);
-                    if (this.isIntervalo(start))
-                        start = new DateTime(start.Year, start.Month, start.Day, this.FimIntervalo.Hour, this.FimIntervalo.Minute, 0);
-                }
-
+                var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
                 var duracao = (e.Fim - e.Inicio).TotalMinutes;
 
                 // adiciona deslocamento
                 start = start.AddMinutes(deslocamento);
+
+                // se começa durante o intervalo ou depois do expediente
+                if (this.isIntervalo(start))
+                    start = this.FimIntervalo(start);
+                else if (start >= this.FimExpediente(start))
+                {
+                    start = start.AddDays(1);
+                    start = this.InicioExpediente(start);
+                }
 
                 // se termina durante a sugestao de intervalo
                 var end = start.AddMinutes(duracao);
@@ -175,7 +164,7 @@ namespace SAT.SERVICES.Services
 
                 e.Inicio = start;
                 e.Fim = end;
-                e.CodUsuarioManut = "ADMIN";
+                e.CodUsuarioManut = Constants.SISTEMA_NOME;
                 e.DataHoraManut = DateTime.Now;
                 var ag = this._agendaRepo.Atualizar(e);
 
@@ -220,10 +209,11 @@ namespace SAT.SERVICES.Services
         }
 
         private string IsAgendamentoColor => "#381354";
-        private bool isIntervalo(DateTime time) => time >= InicioIntervalo && time <= FimIntervalo;
-        private DateTime InicioExpediente => DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
-        private DateTime FimExpediente => DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
-        private DateTime InicioIntervalo => DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
-        private DateTime FimIntervalo => DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
+        private string IntervaloTitle => "INTERVALO";
+        private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
+        private DateTime InicioExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
+        private DateTime FimExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
+        private DateTime InicioIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
+        private DateTime FimIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
     }
 }

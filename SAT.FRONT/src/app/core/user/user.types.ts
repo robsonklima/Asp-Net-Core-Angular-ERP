@@ -1,4 +1,5 @@
 import { Filial } from "../types/filial.types";
+import { FiltroUsuarioData } from "../types/filtro.types";
 import { Navegacao } from "../types/navegacao.types";
 
 export interface UserSession
@@ -61,6 +62,7 @@ export interface User
     tecnico: any;
     avatar?: string;
     status?: string;
+    filtroUsuario?: FiltroUsuarioData[];
 }
 
 export enum RoleEnum

@@ -108,9 +108,9 @@ export class ContratoFiltroComponent extends FilterBase implements OnInit, IFilt
       });
   }
 
-  clean()
+  limpar()
   {
-    super.clean();
+    super.limpar();
 
     if (this.userSession?.usuario?.codFilial)
     {

@@ -314,9 +314,9 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       });
   }
 
-  clean()
+  limpar()
   {
-    super.clean();
+    super.limpar();
 
     if (this.userSession?.usuario?.codFilial)
     {

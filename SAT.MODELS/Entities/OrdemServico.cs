@@ -32,7 +32,6 @@ namespace SAT.MODELS.Entities
         public List<Agendamento> Agendamentos { get; set; }
         [ForeignKey("CodOS")]
         public List<Intencao> Intencoes { get; set; }
-        [NotMapped]
         public string DefeitoRelatado { get; set; }
         public string ObservacaoCliente { get; set; }
         public DateTime? DataHoraCad { get; set; }

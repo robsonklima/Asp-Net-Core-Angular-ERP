@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HaversineService } from 'app/core/services/haversine.service';
+import { Coordenada, HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnicoTypeEnum, Coordenada, MbscAgendaTecnicoCalendarEvent, TecnicoOMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -31,7 +31,7 @@ export class AgendaTecnicoValidator
 
     public isTecnicoOMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
     {
-        var codTecnicosFiilial = Enumerable.from(tecnicos).select(i => i.codTecnico);
+        var codTecnicos = Enumerable.from(tecnicos).select(i => i.codTecnico);
 
         var ultimoAtendimentoTecnico =
             Enumerable.from(events)
@@ -46,7 +46,7 @@ export class AgendaTecnicoValidator
 
         var ultimosAtendimentosAgendados =
             Enumerable.from(events)
-                .where(i => codTecnicosFiilial.contains(+i.resource) && i.ordemServico != null)
+                .where(i => codTecnicos.contains(+i.resource) && i.ordemServico != null)
                 .groupBy(i => i.resource)
                 .select(i => i.maxBy(i => i.end))
                 .toArray();
@@ -66,7 +66,7 @@ export class AgendaTecnicoValidator
         if (codTecnicoMinDistancia != codTecnico)
         {
             var nomeTecnico = ultimoAtendimentoTecnico.ordemServico?.tecnico?.nome;
-            var tec: TecnicoOMaisProximo =
+            var tec: TecnicoMaisProximo =
             {
                 minDistancia: minDistancia,
                 codTecnicoMinDistancia: codTecnicoMinDistancia,
@@ -78,6 +78,31 @@ export class AgendaTecnicoValidator
         }
         else
             return null;
+    }
+
+    public validaDistanciaEntreEventos(eventoAtual: any, events: MbscAgendaTecnicoCalendarEvent[]): string
+    {
+        var codTecnico = eventoAtual.resource;
+
+        var eventosDoTecnico = Enumerable.from(events)
+            .where(i => i.resource == codTecnico).orderBy(i => i.start).toArray();
+
+        var eventIndex = eventosDoTecnico.indexOf(eventoAtual);
+
+        if (eventIndex != null)
+        {
+            var eventoAnterior = eventosDoTecnico[eventIndex - 1];
+            if (eventoAnterior != null && eventoAnterior?.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS && eventoAtual.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.OS)
+            {
+                var minDistancia: number =
+                    this.calculaDeslocamentoEmMinutos(eventoAtual.ordemServico, eventoAnterior.ordemServico);
+
+                if (minDistancia <= 1) return null;
+
+                return "O técnico demorará " + this.getTimeFromMins(minDistancia) + "h para chegar no local a partir do seu último atendimento.";
+            }
+        }
+        return null;
     }
 
     private getTecnicoOMaisProximoMessage(nomeTecnico: string, minDistancia: number, os: OrdemServico)
@@ -96,12 +121,12 @@ export class AgendaTecnicoValidator
 
         // se ele já estava atendendo algum chamado, parte das coordenadas deste chamado
         if (osAnterior != null)
-            origem.cordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
+            origem.coordenadas = [osAnterior.localAtendimento?.latitude, osAnterior.localAtendimento?.longitude];
         // Se o técnico não possui nada agendado, parte do endereoç deste
         else
-            origem.cordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
+            origem.coordenadas = [os.tecnico?.latitude, os.tecnico?.longitude];
 
-        destino.cordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
+        destino.coordenadas = [os.localAtendimento?.latitude, os.localAtendimento?.longitude];
 
         return this._haversineSvc.getDistanceInMinutesPerKm(origem, destino, 50);
     }
@@ -137,7 +162,8 @@ export class AgendaTecnicoValidator
     public hasOverlap(args, inst)
     {
         var ev = args.event;
-        var events = inst.getEvents(ev.start, ev.end).filter(e => e.resource == ev.resource && e.id != ev.id && (e.tipo != AgendaTecnicoTypeEnum.OS || ev.ordemServico != AgendaTecnicoTypeEnum.OS));
+        var events = inst.getEvents(ev.start, ev.end).filter(e => (e.resource == ev.resource && e.id != ev.id));
+        events = events.filter(e => e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS);
         return events.length > 0;
     }
 
@@ -165,6 +191,11 @@ export class AgendaTecnicoValidator
         return args.event.resource != args.oldEvent.resource;
     }
 
+    public cantChangeInterval(args)
+    {
+        return args.event.resource != args.oldEvent.resource && (args.event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO || args.oldEvent.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO);
+    }
+
     public getTypeColor(type: AgendaTecnicoTypeEnum): string
     {
         switch (type)
@@ -188,10 +219,19 @@ export class AgendaTecnicoValidator
         return '#ff4c4c';
     }
 
-    public getRealocationStatusColor(referenceTime: Moment): string
+    public getRealocationStatusColor(ag: AgendaTecnico, referenceTime: Moment): string
     {
-        if (referenceTime < moment())
+        if (ag.indAgendamento == 1)
+            return this.agendamentoColor();
+        else if (referenceTime < moment())
             return this.lateColor();
         return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
+    }
+
+    private getTimeFromMins(mins)
+    {
+        var h = mins / 60 | 0,
+            m = mins % 60 | 0;
+        return moment.utc().hours(h).minutes(m).format("HH:mm");
     }
 }

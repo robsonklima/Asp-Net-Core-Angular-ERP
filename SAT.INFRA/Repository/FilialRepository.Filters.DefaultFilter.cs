@@ -26,7 +26,8 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodFiliais != null)
             {
-                var paramsSplit = parameters.CodFiliais.Split(',');
+                string[] paramsSplit = parameters.CodFiliais.Split(',');//.Select(s => int.Parse(s.Trim())).Distinct().ToArray();
+
                 paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 var condicoes = string.Empty;
 

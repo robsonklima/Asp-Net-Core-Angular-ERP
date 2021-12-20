@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAT.INFRA.Repository
 {
@@ -33,6 +34,29 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
+
+                    if (a != null)
+                    {
+                        _context.Entry(a).CurrentValues.SetValues(agenda);
+                        _context.SaveChanges();
+                        return agenda;
+                    }
+                    return null;
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            });
         }
 
         public AgendaTecnico Criar(AgendaTecnico agenda)
@@ -88,6 +112,12 @@ namespace SAT.INFRA.Repository
                 .ThenInclude(i => i.TipoIntervencao)
             .Include(i => i.OrdemServico)
                 .ThenInclude(i => i.LocalAtendimento)
+            .Include(i => i.OrdemServico)
+                .ThenInclude(i => i.StatusServico)
+            .Include(i => i.OrdemServico)
+                .ThenInclude(i => i.Tecnico)
+            .Include(i => i.OrdemServico)
+                .ThenInclude(i => i.PrazosAtendimento)
             .AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
@@ -98,6 +128,12 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodTecnico.HasValue)
                 agendas = agendas.Where(ag => ag.CodTecnico == parameters.CodTecnico);
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var tecnicos = parameters.CodTecnicos.Split(",").Select(t => t.Trim());
+                agendas = agendas.Where(ag => tecnicos.Any(r => r == ag.CodTecnico.ToString()));
+            }
 
             if (parameters.CodOS.HasValue)
                 agendas = agendas.Where(ag => ag.CodOS == parameters.CodOS);

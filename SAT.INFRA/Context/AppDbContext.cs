@@ -116,6 +116,7 @@ namespace SAT.INFRA.Context
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
+        public DbSet<FiltroUsuario> FiltroUsuario { get; set; }
         public DbSet<Notificacao> Notificacao { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

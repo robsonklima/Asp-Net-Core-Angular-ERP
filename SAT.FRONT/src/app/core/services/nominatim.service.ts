@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, EMPTY } from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from '../../core/config/app.config';
-import { Coordenada } from '../types/agenda-tecnico.types';
+import { Coordenada } from './haversine.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NominatimService {
-  constructor(
+export class NominatimService
+{
+  constructor (
     private http: HttpClient
   ) { }
 
@@ -32,7 +33,7 @@ export class NominatimService {
 
   public async deslocamentoEmMinutos(origem: Coordenada, destino: Coordenada): Promise<number>
   {
-     return (await this.buscarRota(origem.cordenadas[0], origem.cordenadas[1], 
-        destino.cordenadas[0], destino.cordenadas[1])).route.time/60.0;
+    return (await this.buscarRota(origem.coordenadas[0], origem.coordenadas[1],
+      destino.coordenadas[0], destino.coordenadas[1])).route.time / 60.0;
   }
 }

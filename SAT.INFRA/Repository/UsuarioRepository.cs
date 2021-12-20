@@ -28,6 +28,7 @@ namespace SAT.INFRA.Repository
                     .Include(u => u.Perfil)
                     .Include(u => u.Perfil.NavegacoesConfiguracao)
                         .ThenInclude(conf => conf.Navegacao)
+                    .Include(u => u.FiltroUsuario)
                     .FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
             }
             else
@@ -61,6 +62,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Perfil)
                 .Include(u => u.Filial)
                 .Include(u => u.Tecnico)
+                .Include(u => u.FiltroUsuario)
                 .Include(u => u.Localizacoes.OrderByDescending(loc => loc.CodLocalizacao).Take(1))
                 .AsQueryable();
 
@@ -133,6 +135,8 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Perfil)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Filial)
+                .Include(u => u.Localizacoes)
+                .Include(u => u.FiltroUsuario)
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
     }

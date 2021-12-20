@@ -47,14 +47,12 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       pas: [undefined],
       codRegioes: [undefined]
     });
-
-    this.form.patchValue(this.filter?.parametros);
   }
 
   loadData(): void
   {
-    this.obterTecnicosAoEscolherFilial();
     this.obterFiliais();
+    this.obterTecnicosAoEscolherFilial();
     this.configurarFiltro();
   }
 
@@ -62,6 +60,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     this.createForm();
     this.loadData();
+    this.form.patchValue(this.filter?.parametros);
   }
 
   configurarFiltro()
@@ -72,6 +71,15 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       this.obterRegioesAutorizadas();
     }
   }
+
+  limpar()
+  {
+    super.limpar();
+
+    if (this.userSession?.usuario?.codFilial)
+      this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
+  }
+
 
   private async obterTecnicosAoEscolherFilial()
   {
@@ -115,7 +123,10 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     else if (this.form.controls['codFiliais'].value == "" || !this.form.controls['codFiliais'].value)
     {
       this.form.controls['codFiliais'].setValue(4);
+      this.obterTecnicos();
+      this.obterRegioesAutorizadas();
     }
+
     const data = await this._filialSvc.obterPorParametros({
       indAtivo: 1,
       sortActive: 'nomeFilial',

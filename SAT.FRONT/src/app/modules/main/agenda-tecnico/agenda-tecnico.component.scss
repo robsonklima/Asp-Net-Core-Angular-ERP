@@ -1,52 +1,89 @@
-.mbsc-timeline-row,
-.mbsc-timeline-resource {
-    height: 32px !important;
-    min-height: 32px !important;
+.mbsc-schedule-event {
+    font-size: small !important;
+    min-width: 22px;
+    min-height: 22px;
+}
+
+.mbsc-icon {
+    min-width: 22px;
+    min-height: 22px;
+}
+
+// .mbsc-timeline-resource,
+// .mbsc-timeline-row {
+//     min-height: 32px !important;
+//     height: 32px !important;
+//     max-height: 52px !important;
+// }
+
+.mbsc-flex-1-1 {
     flex: none !important;
 }
 
-.mbsc-schedule-event {
-    font-size: small !important;
-    height: 30px !important;
-    min-height: 30px !important;
-    margin: 1px !important;
-}
+// .mbsc-timeline-resource,
+// .mbsc-timeline-row {
+//     min-height: 48px !important;
+// }
 
-.mbsc-counter {
-    margin-top: -5px !important;
-}
-
-.mbsc-timeline-event .mbsc-schedule-event-title {
-    word-break: break-all !important;
-    text-align: center !important;
-    white-space: unset !important;
-    margin-top: -2px !important;
+.mbsc-ios.mbsc-schedule-event-background {
+    opacity: 1 !important;
 }
 
 .mbsc-schedule-event-range {
     display: none !important;
 }
 
-.mbsc-timeline .mbsc-schedule-event-inner {
+.mbsc-custom-event-title {
+    padding: 5px !important;
+    font-weight: 700 !important;
+    font-size: xx-small !important;
+    text-align: justify !important;
     vertical-align: middle !important;
+    word-break: break-all !important;
+    max-height: 35px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.md-tooltip {
+    font-size: smaller !important;
+    padding: 2px !important;
+    margin-top: 1px !important;
+}
+
+.mbsc-counter {
+    margin-bottom: 3px;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+}
+
+.md-meeting-participant-avatar {
+    position: absolute;
+    max-height: 25px !important;
+    max-width: 25px !important;
+    margin-left: 3px;
+    top: 25px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    left: 20px;
 }
 
 .md-resource-details-name {
-    font-size: 12px !important;
+    font-size: 10px !important;
     margin-left: 40px;
+    margin-top: 5%;
+    max-width: 20px;
+}
+
+.mbsc-timeline-resource-title {
+    margin-top: 8px;
 }
 
 .md-work-week-cont {
     position: relative;
     padding-left: 50px;
-}
-
-.md-meeting-participant-avatar {
-    margin-top: -3px !important;
-    position: absolute;
-    max-height: 25px !important;
-    max-width: 25px !important;
-    margin-right: 10px;
 }
 
 .md-work-week-title {
@@ -147,6 +184,24 @@
     height: 100%;
 }
 
+.filter-button {
+    position: fixed;
+    z-index: 9999;
+    bottom: 60px;
+    right: 196px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: #1976D2;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: .3s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .add-button {
     position: fixed;
     z-index: 9999;
@@ -165,7 +220,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.filter-button {
+.help-button {
     position: fixed;
     z-index: 9999;
     bottom: 60px;
@@ -183,11 +238,25 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+
 .loading-indicator {
     position: fixed;
     z-index: 999;
     height: 2em;
     width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.warning-indicator {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 30em;
     overflow: show;
     margin: auto;
     top: 0;

@@ -9,14 +9,21 @@
     min-height: 22px;
 }
 
+// .mbsc-timeline-resource,
+// .mbsc-timeline-row {
+//     min-height: 32px !important;
+//     height: 32px !important;
+//     max-height: 52px !important;
+// }
+
 .mbsc-flex-1-1 {
     flex: none !important;
 }
 
-.mbsc-timeline-resource,
-.mbsc-timeline-row {
-    min-height: 48px !important;
-}
+// .mbsc-timeline-resource,
+// .mbsc-timeline-row {
+//     min-height: 48px !important;
+// }
 
 .mbsc-ios.mbsc-schedule-event-background {
     opacity: 1 !important;

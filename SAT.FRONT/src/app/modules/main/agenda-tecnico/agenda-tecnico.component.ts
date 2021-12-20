@@ -35,7 +35,7 @@ setOptions({
   clickToCreate: true,
   dragToCreate: true,
   dragToMove: true,
-  dragToResize: true
+  dragToResize: true,
 });
 
 @Component({
@@ -91,7 +91,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         startDay: 1,
         startTime: '07:00',
         endTime: '24:00',
-        rowHeight: 'equal'
+        rowHeight: 'equal',
+
       },
     },
     dragToMove: true,

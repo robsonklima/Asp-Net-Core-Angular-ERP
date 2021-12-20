@@ -204,6 +204,8 @@ namespace SAT.SERVICES.Services
                     return "#ff4cb7";
                 case StatusServicoEnum.PECA_EM_TRANSITO:
                     return "#ff4cb7";
+                case StatusServicoEnum.PECAS_LIBERADAS:
+                    return "#ff4cb7";
                 case StatusServicoEnum.PARCIAL:
                     return "#6dbd62";
                 case StatusServicoEnum.CANCELADO:

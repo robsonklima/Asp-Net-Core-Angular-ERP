@@ -16,14 +16,13 @@ namespace SAT.SERVICES.Services
         {
             var os = this._osRepo.ObterPorCodigo(codOS);
 
-            var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
-            var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
-
             this.DeletarAgendaTecnico(codOS, codTecnico);
 
+            var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
+            var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
             var agendamentos = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
-            var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
 
+            var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
             return ag;
         }
 

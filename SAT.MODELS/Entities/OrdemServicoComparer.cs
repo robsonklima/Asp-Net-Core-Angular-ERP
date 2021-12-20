@@ -1,7 +1,6 @@
-using SAT.MODELS.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SAT.INFRA.Repository
+namespace SAT.MODELS.Entities
 {
     public class OrdemServicoComparer : IEqualityComparer<OrdemServico>
     {

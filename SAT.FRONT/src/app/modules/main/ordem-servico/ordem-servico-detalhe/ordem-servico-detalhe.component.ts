@@ -226,8 +226,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				{
 					this._ordemServicoService.atualizar(obj).subscribe((os: OrdemServico) =>
 					{
+						this.deleteAgendaTecnico();
 						this.obterDadosOrdemServico();
-
 						this._snack.exibirToast("Chamado cancelado com sucesso!", "success");
 					});
 				} else

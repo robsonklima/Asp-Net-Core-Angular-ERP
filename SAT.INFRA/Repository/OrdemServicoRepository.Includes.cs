@@ -134,6 +134,7 @@ namespace SAT.INFRA.Repository
                             DefeitoRelatado = i.DefeitoRelatado,
                             NumOSQuarteirizada = i.NumOSQuarteirizada,
                             NumOSCliente = i.NumOSCliente,
+                            CodRegiao = i.CodRegiao,
                             Tecnico = new Tecnico
                             {
                                 CodTecnico = i.Tecnico.CodTecnico,
@@ -149,11 +150,13 @@ namespace SAT.INFRA.Repository
                             },
                             TipoIntervencao = new TipoIntervencao
                             {
+                                CodTipoIntervencao = i.TipoIntervencao.CodTipoIntervencao,
                                 NomTipoIntervencao = i.TipoIntervencao.NomTipoIntervencao,
                                 CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao
                             },
                             EquipamentoContrato = new EquipamentoContrato
                             {
+                                CodEquipContrato = i.EquipamentoContrato.CodEquipContrato,
                                 NumSerie = i.EquipamentoContrato.NumSerie,
                                 Autorizada = new Autorizada
                                 {
@@ -170,6 +173,7 @@ namespace SAT.INFRA.Repository
                             },
                             LocalAtendimento = new LocalAtendimento
                             {
+                                CodPosto = i.LocalAtendimento.CodPosto,
                                 NomeLocal = i.LocalAtendimento.NomeLocal
                             },
                             Equipamento = new Equipamento
@@ -178,6 +182,9 @@ namespace SAT.INFRA.Repository
                             },
                             RegiaoAutorizada = new RegiaoAutorizada
                             {
+                                CodRegiao = i.RegiaoAutorizada.CodRegiao,
+                                CodAutorizada = i.RegiaoAutorizada.CodAutorizada,
+                                CodFilial = i.RegiaoAutorizada.CodFilial,
                                 PA = i.RegiaoAutorizada.PA,
                             },
                             Cliente = new Cliente

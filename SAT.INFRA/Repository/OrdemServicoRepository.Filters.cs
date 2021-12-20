@@ -2,7 +2,6 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.MODELS.Enums;
-using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {

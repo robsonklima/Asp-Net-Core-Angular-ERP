@@ -2,6 +2,7 @@ using SAT.MODELS.Entities;
 using System.Linq;
 using System;
 using SAT.INFRA.Interfaces;
+using SAT.MODELS.Enums;
 
 namespace SAT.INFRA.Repository
 {
@@ -103,7 +104,12 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
                 int[] cods = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Where(s => s > 0).Distinct().ToArray();
-                query = query.Where(os => os.CodTecnico != null && cods.Contains(os.CodTecnico.Value));
+
+                if (parameters.Include == OrdemServicoIncludeEnum.OS_LISTA)
+                    query = query.Where(os => (os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value))
+                        || cods.Contains(os.RelatoriosAtendimento.FirstOrDefault().CodTecnico));
+                else
+                    query = query.Where(os => os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodTiposIntervencao))

@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
                 alertas = ObterAlertasDispBB(os, alertas);
             }
 
-            alertas = ObterAvisoChamadoVizualizado(os, alertas);
+            alertas = ObterAvisoChamadoVisualizado(os, alertas);
             alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
             alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
 
@@ -84,7 +84,7 @@ namespace SAT.SERVICES.Services
             int minutes = (int)(dataAtualOuFimRat - dataSolicitacao).Value.TotalMinutes;
 
             TimeSpan inicioSla = os.EquipamentoContrato.AcordoNivelServico.HorarioInicio.Value.TimeOfDay;
-            TimeSpan fim = os.EquipamentoContrato.AcordoNivelServico.HorarioFim.Value.TimeOfDay ;
+            TimeSpan fim = os.EquipamentoContrato.AcordoNivelServico.HorarioFim.Value.TimeOfDay;
 
             if (diasNaoUteis > 0)
             {
@@ -103,7 +103,7 @@ namespace SAT.SERVICES.Services
                             Enumerable.Range(0, minutes)
                             .Select(min => dataSolicitacao.Value.AddMinutes(min))
                             .Where(dt => dt.TimeOfDay >= inicioSla && dt.TimeOfDay < fim)
-                            .Count() / 60    );
+                            .Count() / 60);
         }
 
         private TimeSpan CalculaHorasDisponiveis(OrdemServico os)
@@ -168,7 +168,7 @@ namespace SAT.SERVICES.Services
             return listaAlertas;
         }
 
-        private List<Alerta> ObterAvisoChamadoVizualizado(OrdemServico os, List<Alerta> listaAlertas)
+        private List<Alerta> ObterAvisoChamadoVisualizado(OrdemServico os, List<Alerta> listaAlertas)
         {
             if (os.CodStatusServico != 8) return listaAlertas;
 

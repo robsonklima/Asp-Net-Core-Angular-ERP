@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { MatSort } from '@angular/material/sort';
-import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
@@ -115,6 +115,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
             sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
             sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
             pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
+            include: OrdemServicoIncludeEnum.OS_LISTA,
             filter: filter
         };
 
@@ -147,7 +148,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
         // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
         if (this.userSession?.usuario?.codFilial && this.filter)
-            this.filter.parametros.codFiliais = this.userSession.usuario.codFilial
+            this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
     }
 
     public async exportar()
@@ -228,16 +229,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         return description;
     }
 
-    obterAgendamento(os: OrdemServico): string
-    {
-        var ultimoAgendamento = Enumerable.from(os.agendamentos).orderByDescending(i => i.codAgendamento).firstOrDefault();
-
-        if (ultimoAgendamento != null)
-            return ultimoAgendamento.dataAgendamento;
-
-        return null;
-    }
-
     tecnicoDescricao(os: OrdemServico)
     {
         var description = os.tecnico?.nome;
@@ -266,12 +257,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
                 this.isLoading = false;
                 this._cdr.markForCheck();
             });
-    }
-
-    obterUltimoPrazoAtendimento(os: OrdemServico)
-    {
-        return Enumerable.from(os.prazosAtendimento)
-            .orderByDescending(i => i.codOSPrazoAtendimento).firstOrDefault();
     }
 
     fecharDetalhes(): void

@@ -114,7 +114,7 @@
                                                             0 ? '#670067' : '',
                                                             'color': os.agendamentos?.length >
                                                             0 ?  '#FFFFFF' : '#000000'}">
-                                                            {{ (obterAgendamento(os) | date:'dd/MM HH:mm') || "---" }}
+                                                            {{ (os?.agendamentos[0]?.dataAgendamento | date:'dd/MM HH:mm') || "---" }}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -127,8 +127,7 @@
                                                         'text-white': statusSLADescricao(os)== 'DENTRO' ||
                                                         statusSLADescricao(os) == 'FORA',
                                                         'bg-red-500': statusSLADescricao(os) == 'FORA'}">
-                                                            {{ (obterUltimoPrazoAtendimento(os)?.dataHoraLimiteAtendimento |
-                                                        date:'dd/MM HH:mm') || '--' }}
+                                                            {{ (os?.prazosAtendimento[0]?.dataHoraLimiteAtendimento | date:'dd/MM HH:mm') || '--' }}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -161,7 +160,7 @@
                                                         matTooltipPosition="above">
                                                         {{ os.statusServico?.codStatusServico == 8 ||
                                                         filter?.parametros.codTecnicos != '' ?
-                                                        os.tecnico?.nome.substr(0, os.tecnico?.nome.indexOf(' ')) ||
+                                                        os.tecnico?.nome?.substr(0, os.tecnico?.nome?.indexOf(' ')) ||
                                                         '--' : '--' }}
                                                     </span>
                                                 </div>

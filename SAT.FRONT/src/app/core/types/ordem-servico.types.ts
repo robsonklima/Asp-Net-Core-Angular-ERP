@@ -152,7 +152,7 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico[];
-} 
+}
 
 export interface OrdemServicoData extends Meta
 {
@@ -161,9 +161,9 @@ export interface OrdemServicoData extends Meta
 
 export interface OrdemServicoAlerta
 {
-   titulo: string,
-   descricao: any[],
-   tipo?: any
+    titulo: string,
+    descricao: any[],
+    tipo?: any
 };
 
 export interface OrdemServicoParameters extends QueryStringParameters
@@ -205,7 +205,8 @@ export enum OrdemServicoIncludeEnum
     OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO = 8,
     OS_TECNICO_ATENDIMENTO = 9,
     OS_EQUIPAMENTOS_ATENDIMENTOS = 10,
-    OS_DISPONIBILIDADE_BB = 11
+    OS_DISPONIBILIDADE_BB = 11,
+    OS_LISTA = 12
 }
 
 export enum OrdemServicoFilterEnum

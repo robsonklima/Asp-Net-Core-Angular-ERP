@@ -3,6 +3,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.MODELS.Enums;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -111,6 +112,104 @@ namespace SAT.INFRA.Repository
                                  .ThenInclude(os => os.UnidadeFederativa)
                                      .ThenInclude(os => os.DispBBRegiaoUF)
                                         .ThenInclude(os => os.DispBBRegiao);
+                    break;
+                case (OrdemServicoIncludeEnum.OS_LISTA):
+                    query = query
+                        .Select(i => new OrdemServico
+                        {
+                            CodOS = i.CodOS,
+                            NumReincidencia = i.NumReincidencia,
+                            CodTipoIntervencao = i.CodTipoIntervencao,
+                            CodEquip = i.CodEquip,
+                            CodContrato = i.CodContrato,
+                            CodEquipContrato = i.CodEquipContrato,
+                            CodTecnico = i.CodTecnico,
+                            CodStatusServico = i.CodStatusServico,
+                            CodFilial = i.CodFilial,
+                            CodPosto = i.CodPosto,
+                            CodCliente = i.CodCliente,
+                            CodAutorizada = i.CodAutorizada,
+                            DataHoraAberturaOS = i.DataHoraAberturaOS,
+                            DataHoraFechamento = i.DataHoraFechamento,
+                            DefeitoRelatado = i.DefeitoRelatado,
+                            NumOSQuarteirizada = i.NumOSQuarteirizada,
+                            NumOSCliente = i.NumOSCliente,
+                            Tecnico = new Tecnico
+                            {
+                                CodTecnico = i.Tecnico.CodTecnico,
+                                Nome = i.Tecnico.Nome
+                            },
+                            StatusServico = new StatusServico
+                            {
+                                CodStatusServico = i.StatusServico.CodStatusServico,
+                                NomeStatusServico = i.StatusServico.NomeStatusServico,
+                                CorFundo = i.StatusServico.CorFundo,
+                                CorFonte = i.StatusServico.CorFonte,
+                                Abrev = i.StatusServico.Abrev
+                            },
+                            TipoIntervencao = new TipoIntervencao
+                            {
+                                NomTipoIntervencao = i.TipoIntervencao.NomTipoIntervencao,
+                                CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao
+                            },
+                            EquipamentoContrato = new EquipamentoContrato
+                            {
+                                NumSerie = i.EquipamentoContrato.NumSerie,
+                                Autorizada = new Autorizada
+                                {
+                                    NomeFantasia = i.EquipamentoContrato.Autorizada.NomeFantasia
+                                },
+                                Regiao = new Regiao
+                                {
+                                    NomeRegiao = i.EquipamentoContrato.Regiao.NomeRegiao
+                                },
+                                AcordoNivelServico = new AcordoNivelServico
+                                {
+                                    NomeSLA = i.EquipamentoContrato.AcordoNivelServico.NomeSLA
+                                }
+                            },
+                            LocalAtendimento = new LocalAtendimento
+                            {
+                                NomeLocal = i.LocalAtendimento.NomeLocal
+                            },
+                            Equipamento = new Equipamento
+                            {
+                                NomeEquip = i.Equipamento.NomeEquip,
+                            },
+                            RegiaoAutorizada = new RegiaoAutorizada
+                            {
+                                PA = i.RegiaoAutorizada.PA,
+                            },
+                            Cliente = new Cliente
+                            {
+                                NomeFantasia = i.Cliente.NomeFantasia,
+                                NumBanco = i.Cliente.NumBanco
+                            },
+                            Agendamentos = i.Agendamentos
+                            .OrderByDescending(i => i.CodAgendamento)
+                            .Select(i => new Agendamento
+                            {
+                                CodAgendamento = i.CodAgendamento,
+                                CodMotivo = i.CodMotivo,
+                                MotivoAgendamento = i.MotivoAgendamento,
+                                DataAgendamento = i.DataAgendamento
+                            }).ToList(),
+                            RelatoriosAtendimento = i.RelatoriosAtendimento
+                            .OrderByDescending(i => i.CodRAT)
+                            .Select(i => new RelatorioAtendimento
+                            {
+                                CodRAT = i.CodRAT,
+                                CodTecnico = i.CodTecnico,
+                                DataHoraSolucao = i.DataHoraSolucao
+                            }).ToList(),
+                            PrazosAtendimento = i.PrazosAtendimento
+                            .OrderByDescending(i => i.CodOSPrazoAtendimento)
+                            .Select(i => new OSPrazoAtendimento
+                            {
+                                CodOSPrazoAtendimento = i.CodOSPrazoAtendimento,
+                                DataHoraLimiteAtendimento = i.DataHoraLimiteAtendimento
+                            }).ToList(),
+                        });
                     break;
                 default:
                     query = query

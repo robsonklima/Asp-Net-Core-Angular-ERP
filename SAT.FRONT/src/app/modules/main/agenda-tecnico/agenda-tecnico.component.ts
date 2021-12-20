@@ -23,7 +23,7 @@ import { fuseAnimations } from '@fuse/animations';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda-dialog/agenda-tecnico-ajuda-dialog.component';
+import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda/agenda-tecnico-ajuda.component';
 import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 
 registerLocaleData(localePt, 'pt');
@@ -164,6 +164,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   @ViewChild('sidenavChamados') sidenavChamados: MatSidenav;
   @ViewChild('sidenav') sidenavAgenda: MatSidenav;
+  @ViewChild('sidenavAjuda') sidenavAjuda: MatSidenav;
   protected _onDestroy = new Subject<void>();
 
   constructor (
@@ -586,7 +587,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   public showHelp()
   {
-    this._dialog.open(AgendaTecnicoAjudaDialogComponent);
+    this.sidenavAjuda.open();
   }
 
   /**  */

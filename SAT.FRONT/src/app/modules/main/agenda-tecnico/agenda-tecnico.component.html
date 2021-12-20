@@ -7,6 +7,11 @@
         <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavAjuda>
+        <app-agenda-tecnico-ajuda [sidenav]="sidenavAjuda">
+        </app-agenda-tecnico-ajuda>
+    </mat-drawer>
+
     <mat-drawer-content>
 
         <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading" [matTooltip]="'Chamados'">

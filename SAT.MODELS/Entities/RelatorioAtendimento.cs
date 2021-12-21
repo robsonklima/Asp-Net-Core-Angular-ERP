@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("RAT")]
     public class RelatorioAtendimento
     {
-        [Key]
         public int CodRAT { get; set; }
         public string NumRAT { get; set; }
         public string NomeRespCliente { get; set; }
         public string NomeAcompanhante { get; set; }
-        [ForeignKey("CodRAT")]
-        public List<CheckinCheckout> CheckinsCheckouts { get; set; }
         public DateTime? DataHoraChegada { get; set; }
         public DateTime DataHoraInicio { get; set; }
         public DateTime? DataHoraFim { get; set; }
@@ -86,17 +80,13 @@ namespace SAT.MODELS.Entities
         public int CodOS { get; set; }
         public int CodTecnico { get; set; }
         public int? CodStatusServico { get; set; }
-        [ForeignKey("CodRAT")]
         public List<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhes { get; set; }
-        [ForeignKey("CodRAT")]
         public List<ProtocoloSTN> ProtocolosSTN { get; set; }
-        [ForeignKey("CodStatusServico")]
         public StatusServico StatusServico { get; set; }
-        [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }
-        [ForeignKey("CodServico")]
         public TipoServico TipoServico { get; set; }
-        [ForeignKey("CodRAT")]
         public List<Laudo> Laudos { get; set; }
+        public List<CheckinCheckout> CheckinsCheckouts { get; set; }
+        public List<Foto> Fotos { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Laudo } from "./laudo.types";
 import { RelatorioAtendimentoDetalhe } from "./relatorio-atendimento-detalhe.type";
@@ -85,6 +86,7 @@ export interface RelatorioAtendimento
     statusServico: StatusServico;
     tecnico: Tecnico;
     laudos: Laudo[];
+    fotos: Foto[];
 }
 
 export interface RelatorioAtendimentoData extends Meta

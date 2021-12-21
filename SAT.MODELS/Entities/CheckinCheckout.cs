@@ -10,7 +10,7 @@ namespace SAT.MODELS.Entities
         public string Tipo { get; set; }
         public string Modalidade { get; set; }
         public int? CodOS { get; set; }
-        public int? CodRat { get; set; }
+        public int? CodRAT { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string CodUsuarioTecnico { get; set; }

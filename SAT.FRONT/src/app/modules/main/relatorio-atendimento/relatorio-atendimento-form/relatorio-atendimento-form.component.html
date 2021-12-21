@@ -152,6 +152,7 @@
                     </mat-error>
 
                 </div>
+                
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
                 </div>
@@ -302,6 +303,39 @@
                             (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('fotos') }}</p>
+                </div>
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
+                        <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
+                            <img class="object-cover h-48 w-full"
+                                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto" alt="">
+                            <div class="m-1 p-1 text-center">
+                                <div class="flex items-center">
+                                    <div class="text-sm font-semibold leading-tight">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
+                                    <button
+                                        class="ml-auto"
+                                        (click)="removerFoto(foto.codRATFotoSmartphone)"
+                                        mat-icon-button>
+                                        <mat-icon
+                                            class="icon-size-5 text-hint text-red-600"
+                                            [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </fuse-card>
+                    </div>
+
+                    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2" *ngIf="!relatorioAtendimento?.fotos?.length">
+                        <p>
+                            {{ t('nenhuma foto encontrada') }}
+                        </p>
                     </div>
                 </div>
 

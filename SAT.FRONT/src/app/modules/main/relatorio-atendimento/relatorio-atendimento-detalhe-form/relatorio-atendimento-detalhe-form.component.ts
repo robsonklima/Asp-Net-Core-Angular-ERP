@@ -11,7 +11,7 @@ import { Defeito } from 'app/core/types/defeito.types';
 import { Acao } from 'app/core/types/acao.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { debounceTime, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';

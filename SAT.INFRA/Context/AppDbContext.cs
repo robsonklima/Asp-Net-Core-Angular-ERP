@@ -118,6 +118,7 @@ namespace SAT.INFRA.Context
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
         public DbSet<FiltroUsuario> FiltroUsuario { get; set; }
         public DbSet<Notificacao> Notificacao { get; set; }
+        public DbSet<Foto> Foto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -143,6 +144,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<UnidadeFederativa>(new UnidadeFederativaMap().Configure);
             modelBuilder.Entity<DispBBRegiao>(new DispBBRegiaoMap().Configure);
             modelBuilder.Entity<DispBBCalcEquipamentoContrato>(new DispBBCalcEquipamentoContratoMap().Configure);
+            modelBuilder.Entity<RelatorioAtendimento>(new RelatorioAtendimentoMap().Configure);
+            modelBuilder.Entity<Foto>(new FotoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

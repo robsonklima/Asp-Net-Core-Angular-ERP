@@ -49,6 +49,7 @@ namespace SAT.INFRA.Repository
         {
             var relatorio = _context.RelatorioAtendimento
                 .Include(r => r.StatusServico)
+                .Include(r => r.Fotos)
                 .Include(r => r.Tecnico)
                     .ThenInclude(r => r.Usuario)
                 .Include(r => r.Tecnico)

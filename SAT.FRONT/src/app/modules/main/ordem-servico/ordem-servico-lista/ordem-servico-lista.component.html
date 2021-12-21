@@ -169,8 +169,9 @@
                                                     {{ os.regiaoAutorizada?.pa || '--' }}
                                                 </div>
 
-                                                <div class="hidden text-left md:block truncate" [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
-                                                (os.equipamentoContrato?.autorizada?.nomeFantasia || '')"
+                                                <div class="hidden text-left md:block truncate"
+                                                    [matTooltip]="(os.equipamentoContrato?.regiao?.nomeRegiao || '--') + ' ' +
+                                                                  (os.equipamentoContrato?.autorizada?.nomeFantasia || '')"
                                                     matTooltipPosition="above">
                                                     {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
                                                     {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}

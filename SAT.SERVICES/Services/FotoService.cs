@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
@@ -16,6 +18,7 @@ namespace SAT.SERVICES.Services
         public Foto Criar(Foto foto)
         {
             _fotoRepo.Criar(foto);
+            SalvarFotoServer(foto);
             return foto;
         }
 
@@ -27,6 +30,22 @@ namespace SAT.SERVICES.Services
         public Foto ObterPorCodigo(int codigo)
         {
             return _fotoRepo.ObterPorCodigo(codigo);
+        }
+
+        public void SalvarFotoServer(Foto foto) {
+            if (!string.IsNullOrWhiteSpace(foto.Base64)) {
+                string target = Directory.GetCurrentDirectory() + "/Upload";
+
+                if (!Directory.Exists(target))
+                {
+                    Directory.CreateDirectory(target);
+                }
+
+                string imageName = foto.NomeFoto;
+                string imgPath = Path.Combine(target, imageName);
+                byte[] imageBytes = Convert.FromBase64String(foto.Base64.Replace("data:image/jpeg;base64,", "").Replace("data:image/png;base64,", ""));
+                File.WriteAllBytes(imgPath, imageBytes);
+            }
         }
     }
 }

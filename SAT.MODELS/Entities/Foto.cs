@@ -10,5 +10,6 @@ namespace SAT.MODELS.Entities
         public string NomeFoto { get; set; }
         public string Modalidade { get; set; }
         public DateTime? DataHoraCad { get; set; }
+        public string Base64 { get; set; }
     }
 }

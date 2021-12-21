@@ -1,12 +1,13 @@
 import { Meta } from "./generic.types";
 
 export interface Foto {
-    codRATFotoSmartphone: number;
+    codRATFotoSmartphone?: number;
     codOS: number;
     numRAT: string;
     nomeFoto: string;
     modalidade: string;
     dataHoraCad: string;
+    base64: string;
 }
 export enum FotoModalidadeEnum {
     ASSINATURACLIENTELAUDO = 'Ass cliente laudo',

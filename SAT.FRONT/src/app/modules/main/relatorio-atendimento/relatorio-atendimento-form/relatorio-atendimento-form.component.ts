@@ -27,7 +27,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
-import { FotoModalidadeEnum } from 'app/core/types/foto.types';
+import { Foto, FotoModalidadeEnum } from 'app/core/types/foto.types';
 import { FotoService } from 'app/core/services/foto.service';
 
 
@@ -287,6 +287,37 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  selecionarImagem(ev: any) {
+    var files = ev.target.files;
+    var file = files[0];
+    
+    if (files && file) {
+        var reader = new FileReader();
+        reader.onload = this.transformarBase64.bind(this);
+        reader.readAsBinaryString(file);
+    }
+  }
+
+  private transformarBase64(readerEvt) {
+    var binaryString = readerEvt.target.result;
+    var base64textString = btoa(binaryString);
+    console.log();
+
+    const foto: Foto = {
+      codOS: this.codOS,
+      numRAT: this.relatorioAtendimento.numRAT,
+      modalidade: 'RAT',
+      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+      nomeFoto:  moment().format('YYYYMMDDHHmmss') + "_" + this.codOS + '_' + 'RAT.jpg',
+      base64: base64textString
+    }
+
+    this._fotoSvc.criar(foto).subscribe(() => {
+      this.obterRelatorioAtendimento();
+      this._snack.exibirToast("Imagem adicionada com sucesso!", "success");
+    });
+  }
+
   private inicializarForm(): void {
     this.form = this._formBuilder.group({
       codRAT: [
@@ -336,8 +367,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
 
     let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
-    let dataHoraOS = moment(this.ordemServico.dataHoraAberturaOS);
-    let dataHoraAgendamento = moment(this.ordemServico.dataHoraAberturaOS);
+    let dataHoraOS = moment(this.ordemServico?.dataHoraAberturaOS);
+    let dataHoraAgendamento = moment(this.ordemServico?.dataHoraAberturaOS);
 
     if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value)) {
       this.form.controls['data'].setErrors({
@@ -357,7 +388,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   private validaBloqueioStatus(): void {
-    let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
+    let bloqueioReincidencia = this.ordemServico?.indBloqueioReincidencia;
 
     if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO) {
       this.form.controls['codStatusServico'].setErrors({
@@ -369,9 +400,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
     if (
       (
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
-        this.ordemServico.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
+        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
+        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
       )
       && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
     ) {

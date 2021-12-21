@@ -312,10 +312,19 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
+                    <div class="col-span-12 bg-grey-500 mb-4">
+                        <span>Selecione a Foto</span>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            (change)="selecionarImagem($event)">
+                    </div>
+
                     <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
                         <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
                             <img class="object-cover h-48 w-full"
-                                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto" alt="">
+                                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
+                                onError="this.src='./https://apisat-homologacao.perto.com.br/Upload/'+foto.nomeFoto;" alt="">
                             <div class="m-1 p-1 text-center">
                                 <div class="flex items-center">
                                     <div class="text-sm font-semibold leading-tight">{{ formatarModalidadeFoto(foto.modalidade) }}</div>

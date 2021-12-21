@@ -118,80 +118,83 @@ namespace SAT.INFRA.Repository
                         .Select(i => new OrdemServico
                         {
                             CodOS = i.CodOS,
-                            NumReincidencia = i.NumReincidencia,
+                            NumReincidencia = i.NumReincidencia ?? null,
                             CodTipoIntervencao = i.CodTipoIntervencao,
-                            CodEquip = i.CodEquip,
-                            CodContrato = i.CodContrato,
-                            CodEquipContrato = i.CodEquipContrato,
-                            CodTecnico = i.CodTecnico,
+                            CodEquip = i.CodEquip ?? null,
+                            CodContrato = i.CodContrato ?? null,
+                            CodEquipContrato = i.CodEquipContrato ?? null,
+                            CodTecnico = i.CodTecnico ?? null,
                             CodStatusServico = i.CodStatusServico,
-                            CodFilial = i.CodFilial,
+                            CodFilial = i.CodFilial ?? null,
                             CodPosto = i.CodPosto,
                             CodCliente = i.CodCliente,
-                            CodAutorizada = i.CodAutorizada,
-                            DataHoraAberturaOS = i.DataHoraAberturaOS,
-                            DataHoraFechamento = i.DataHoraFechamento,
+                            CodAutorizada = i.CodAutorizada ?? null,
+                            DataHoraAberturaOS = i.DataHoraAberturaOS ?? null,
+                            DataHoraFechamento = i.DataHoraFechamento ?? null,
                             DefeitoRelatado = i.DefeitoRelatado,
                             NumOSQuarteirizada = i.NumOSQuarteirizada,
                             NumOSCliente = i.NumOSCliente,
-                            CodRegiao = i.CodRegiao,
-                            Tecnico = new Tecnico
+                            CodRegiao = i.CodRegiao ?? null,
+                            Tecnico = i.Tecnico != null ? new Tecnico
                             {
-                                CodTecnico = i.Tecnico.CodTecnico,
-                                Nome = i.Tecnico.Nome
-                            },
-                            StatusServico = new StatusServico
+                                CodTecnico = i.Tecnico != null ? i.Tecnico.CodTecnico : null,
+                                Nome = i.Tecnico != null ? i.Tecnico.Nome : null
+                            } : null,
+                            StatusServico = i.StatusServico != null ? new StatusServico
                             {
                                 CodStatusServico = i.StatusServico.CodStatusServico,
                                 NomeStatusServico = i.StatusServico.NomeStatusServico,
                                 CorFundo = i.StatusServico.CorFundo,
                                 CorFonte = i.StatusServico.CorFonte,
                                 Abrev = i.StatusServico.Abrev
-                            },
-                            TipoIntervencao = new TipoIntervencao
+                            } : null,
+                            TipoIntervencao = i.TipoIntervencao != null ? new TipoIntervencao
                             {
-                                CodTipoIntervencao = i.TipoIntervencao.CodTipoIntervencao,
+                                CodTipoIntervencao = i.TipoIntervencao != null ? i.TipoIntervencao.CodTipoIntervencao : null,
                                 NomTipoIntervencao = i.TipoIntervencao.NomTipoIntervencao,
                                 CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao
-                            },
-                            EquipamentoContrato = new EquipamentoContrato
+                            } : null,
+                            EquipamentoContrato = i.EquipamentoContrato != null ? new EquipamentoContrato
                             {
                                 CodEquipContrato = i.EquipamentoContrato.CodEquipContrato,
                                 NumSerie = i.EquipamentoContrato.NumSerie,
                                 Autorizada = new Autorizada
                                 {
+                                    CodAutorizada = i.EquipamentoContrato != null ? i.EquipamentoContrato.Autorizada.CodAutorizada : null,
                                     NomeFantasia = i.EquipamentoContrato.Autorizada.NomeFantasia
                                 },
                                 Regiao = new Regiao
                                 {
+                                    CodRegiao = i.EquipamentoContrato.Regiao.CodRegiao,
                                     NomeRegiao = i.EquipamentoContrato.Regiao.NomeRegiao
                                 },
                                 AcordoNivelServico = new AcordoNivelServico
                                 {
+                                    CodSLA = i.EquipamentoContrato.AcordoNivelServico.CodSLA,
                                     NomeSLA = i.EquipamentoContrato.AcordoNivelServico.NomeSLA
                                 }
-                            },
-                            LocalAtendimento = new LocalAtendimento
+                            } : null,
+                            LocalAtendimento = i.LocalAtendimento != null ? new LocalAtendimento
                             {
-                                CodPosto = i.LocalAtendimento.CodPosto,
+                                CodPosto = i.LocalAtendimento != null ? i.LocalAtendimento.CodPosto : null,
                                 NomeLocal = i.LocalAtendimento.NomeLocal
-                            },
-                            Equipamento = new Equipamento
+                            } : null,
+                            Equipamento = i.Equipamento != null ? new Equipamento
                             {
                                 NomeEquip = i.Equipamento.NomeEquip,
-                            },
-                            RegiaoAutorizada = new RegiaoAutorizada
+                            } : null,
+                            RegiaoAutorizada = i.RegiaoAutorizada != null ? new RegiaoAutorizada
                             {
-                                CodRegiao = i.RegiaoAutorizada.CodRegiao,
-                                CodAutorizada = i.RegiaoAutorizada.CodAutorizada,
-                                CodFilial = i.RegiaoAutorizada.CodFilial,
-                                PA = i.RegiaoAutorizada.PA,
-                            },
-                            Cliente = new Cliente
+                                CodRegiao = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodRegiao : null,
+                                CodAutorizada = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodAutorizada : null,
+                                CodFilial = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodFilial : null,
+                                PA = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.PA : null,
+                            } : null,
+                            Cliente = i.Cliente != null ? new Cliente
                             {
                                 NomeFantasia = i.Cliente.NomeFantasia,
                                 NumBanco = i.Cliente.NumBanco
-                            },
+                            } : null,
                             Agendamentos = i.Agendamentos
                             .OrderByDescending(i => i.CodAgendamento)
                             .Select(i => new Agendamento

@@ -4,6 +4,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,6 +52,34 @@ namespace SAT.INFRA.Repository
                         return agenda;
                     }
                     return null;
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            });
+        }
+
+        public async Task<bool> AtualizarListaAsync(List<AgendaTecnico> agendas)
+        {
+            return await Task.Run(() =>
+            {
+                bool atualizado = false;
+
+                try
+                {
+                    foreach (var agenda in agendas)
+                    {
+                        AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
+
+                        if (a != null)
+                        {
+                            _context.Entry(a).CurrentValues.SetValues(agenda);
+                            _context.SaveChanges();
+                            atualizado = true;
+                        }
+                    }
+                    return atualizado;
                 }
                 catch (DbUpdateException ex)
                 {
@@ -131,8 +160,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
-                var tecnicos = parameters.CodTecnicos.Split(",").Select(t => t.Trim());
-                agendas = agendas.Where(ag => tecnicos.Any(r => r == ag.CodTecnico.ToString()));
+                int[] tecnicos = parameters.CodTecnicos.Split(",").Select(t => int.Parse(t.Trim())).ToArray();
+                agendas = agendas.Where(ag => tecnicos.Contains(ag.CodTecnico.Value));
             }
 
             if (parameters.CodOS.HasValue)
@@ -141,7 +170,7 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo.HasValue)
                 agendas = agendas.Where(ag => ag.IndAtivo == parameters.IndAtivo);
 
-            return agendas;
+            return agendas.AsNoTracking();
         }
     }
 }

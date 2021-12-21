@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SAT.INFRA.Context;
 using SAT.MODELS.Entities;
@@ -14,6 +15,7 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda);
+        Task<bool> AtualizarListaAsync(List<AgendaTecnico> agenda);        
         AgendaTecnico ObterPorCodigo(int codigo);
     }
 }

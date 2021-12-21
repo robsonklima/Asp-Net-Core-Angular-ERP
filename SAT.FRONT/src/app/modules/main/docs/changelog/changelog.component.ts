@@ -6,10 +6,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     styles: [''],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChangelogComponent implements OnInit {
+export class ChangelogComponent implements OnInit
+{
     changelog: any[] = [];
-    constructor() { }
-    ngOnInit(): void {
+    constructor () { }
+    ngOnInit(): void
+    {
         this.changelog = [
             {
                 version: '1.0.0',
@@ -336,13 +338,14 @@ export class ChangelogComponent implements OnInit {
                 ]
             },
             {
-                version: '1.1.10',
-                releaseDate: '20 de Dezembro de 2021',
+                version: '1.1.11',
+                releaseDate: '21 de Dezembro de 2021',
                 changes: [
                     {
                         type: 'Correções',
                         list: [
-                            'Ajustes no formulário de Ordem Servico'
+                            'Ajustes no filtro de OS',
+                            'Otimização de desempenho da Agenda Técnico'
                         ],
                     }
                 ]

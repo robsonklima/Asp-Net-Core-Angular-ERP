@@ -15,7 +15,7 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda);
-        Task<bool> AtualizarListaAsync(List<AgendaTecnico> agenda);        
+        void AtualizarListaAsync(List<AgendaTecnico> agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
     }
 }

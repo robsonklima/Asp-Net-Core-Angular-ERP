@@ -130,7 +130,6 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.filiais = data.items;
   }
 
-
   async obterEquipamentos()
   {
     const data = await this._equipamentoService

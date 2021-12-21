@@ -292,7 +292,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         end: moment(ag.fim),
         title: ag.titulo,
         color: ag.cor,
-        editable: ag.tipo == AgendaTecnicoTypeEnum.PONTO ? false : true,
+        editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO ||
+          (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)) ? false : true,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }

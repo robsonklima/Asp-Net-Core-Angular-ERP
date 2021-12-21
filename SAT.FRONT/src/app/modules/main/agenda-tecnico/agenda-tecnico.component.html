@@ -55,7 +55,7 @@
 
                         <mbsc-button color="primary" class="md-tooltip-view-button"
                             (click)="ordenarChamados(selectResource.id)"
-                            [disabled]="countResourceEvents(selectResource) <= 0" *ngIf="selectResource != null">
+                            [disabled]="countResourceTransferidos(selectResource) <= 0" *ngIf="selectResource != null">
                             Ordenar
                             atendimentos
                         </mbsc-button>
@@ -65,27 +65,33 @@
         </mbsc-popup>
 
         <ng-template #resourceTemplate let-resource>
-            <img class="md-meeting-participant-avatar" [src]="resource.img"
-                onError="this.src='./assets/images/avatars/profile.jpg';"
-                [ngClass]="{'opacity-10': resource.indFerias}" />
-            <div class="inline-flex max-w-full min-w-full" [ngClass]="{'text-gray-400': resource.indFerias}">
-                <div class="md-resource-details-name truncate min-w-2/3 max-w-2/3" [innerHTML]="resource.name"
+            <div class="inline-flex" [ngClass]="{'text-gray-400': resource.indFerias}">
+                <img class="md-meeting-participant-avatar" [src]="resource.img"
+                    onError="this.src='./assets/images/avatars/profile.jpg';"
+                    [ngClass]="{'opacity-10': resource.indFerias}" />
+                <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
                     [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''" (mouseover)="showResourceAction(resource)"
                     (mouseleave)="hideEventInfo()">
                 </div>
-                <div class="mr-1 bg-blue-400 text-blue-50 py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados Pendentes'" [ngClass]="{'opacity-10':
-                        resource.indFerias}" *ngIf="countPontoEvents(resource) > 0">
-                    {{ countResourceEvents(resource) }}
-                </div>
-                <div class="mr-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter"
-                    [matTooltip]="'Técnico não possui ponto registrado hoje. Chamados pendentes: ' + countResourceEvents(resource) + '.'"
-                    *ngIf="countPontoEvents(resource) == 0 && !resource.indFerias">
-                    {{ "!" }}
+                <div class="ml-4 grid grid-rows-1 grid-cols-3 grid-flow-col">
+                    <div class="mr-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'" *ngIf="!resource.indFerias">
+                        {{ countResourceAtendidos(resource) }}
+                    </div>
+                    <div class="mr-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter" [matTooltip]="'Chamados transferidos'" *ngIf="!resource.indFerias">
+                        {{ countResourceTransferidos(resource) }}
+                    </div>
+                    <div>
+                        <div class="mr-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter" [matTooltip]="'Técnico não possui ponto registrado hoje.'"
+                            *ngIf="countPontoEvents(resource) == 0 && !resource.indFerias" [ngClass]="{'opacity-10':
+                            resource.indFerias}">
+                            {{ "!" }}
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </ng-template>
 
         <ng-template #eventTemplate let-data>

@@ -658,11 +658,18 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
   }
 
-  public countResourceEvents(resource: any): number
+  public countResourceAtendidos(resource: any): number
   {
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
-        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.FECHADO).count();
+        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.TRANSFERIDO).count();
+  }
+
+  public countResourceTransferidos(resource: any): number
+  {
+    return Enumerable.from(this.events)
+      .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
+        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO).count();
   }
 
   public countPontoEvents(resource: any): number

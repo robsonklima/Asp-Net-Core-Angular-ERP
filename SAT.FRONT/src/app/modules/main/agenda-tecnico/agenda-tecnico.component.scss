@@ -9,21 +9,9 @@
     min-height: 22px;
 }
 
-// .mbsc-timeline-resource,
-// .mbsc-timeline-row {
-//     min-height: 32px !important;
-//     height: 32px !important;
-//     max-height: 52px !important;
-// }
-
 .mbsc-flex-1-1 {
     flex: none !important;
 }
-
-// .mbsc-timeline-resource,
-// .mbsc-timeline-row {
-//     min-height: 48px !important;
-// }
 
 .mbsc-ios.mbsc-schedule-event-background {
     opacity: 1 !important;
@@ -73,12 +61,19 @@
 .md-resource-details-name {
     font-size: 10px !important;
     margin-left: 40px;
-    margin-top: 5%;
-    max-width: 20px;
+    margin-top: 5px;
+    width: 100px;
 }
 
 .mbsc-timeline-resource-title {
     margin-top: 8px;
+}
+
+.mbsc-timeline-resource,
+.mbsc-timeline-resource-empty {
+    width: 255px !important;
+    z-index: 999;
+    background: white;
 }
 
 .md-work-week-cont {

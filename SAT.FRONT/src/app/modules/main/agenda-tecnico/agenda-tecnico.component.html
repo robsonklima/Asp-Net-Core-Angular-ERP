@@ -68,27 +68,26 @@
             <div class="inline-flex" [ngClass]="{'text-gray-400': resource.indFerias}">
                 <img class="md-meeting-participant-avatar" [src]="resource.img"
                     onError="this.src='./assets/images/avatars/profile.jpg';"
-                    [ngClass]="{'opacity-10': resource.indFerias}" />
+                    [ngClass]="{'opacity-10': resource.indFerias}" (mouseover)="showResourceAction(resource)"
+                    (mouseleave)="hideEventInfo()" />
                 <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
-                    [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''" (mouseover)="showResourceAction(resource)"
-                    (mouseleave)="hideEventInfo()">
+                    [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
                 </div>
-                <div class="ml-4 grid grid-rows-1 grid-cols-3 grid-flow-col">
-                    <div class="mr-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'" *ngIf="!resource.indFerias">
-                        {{ countResourceAtendidos(resource) }}
-                    </div>
-                    <div class="mr-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados transferidos'" *ngIf="!resource.indFerias">
-                        {{ countResourceTransferidos(resource) }}
-                    </div>
+                <div class="ml-2 grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
                     <div>
-                        <div class="mr-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
                         align-middle mbsc-counter" [matTooltip]="'Técnico não possui ponto registrado hoje.'"
-                            *ngIf="countPontoEvents(resource) == 0 && !resource.indFerias" [ngClass]="{'opacity-10':
-                            resource.indFerias}">
+                            *ngIf="countPontoEvents(resource) == 0">
                             {{ "!" }}
                         </div>
+                    </div>
+                    <div class="mr-1 ml-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'">
+                        {{ countResourceAtendidos(resource) }}
+                    </div>
+                    <div class="mr-1 ml-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
+                        align-middle mbsc-counter" [matTooltip]="'Chamados transferidos'">
+                        {{ countResourceTransferidos(resource) }}
                     </div>
                 </div>
             </div>

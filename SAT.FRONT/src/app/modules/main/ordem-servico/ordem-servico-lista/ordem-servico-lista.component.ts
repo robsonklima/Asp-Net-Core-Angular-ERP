@@ -197,14 +197,14 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0)
         {
             var solucao = Enumerable.from(os.relatoriosAtendimento).orderBy(i => i.codRAT).firstOrDefault()?.dataHoraSolucao || os.dataHoraFechamento;
-            if (solucao < os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento)
+            if (solucao < os.prazosAtendimento[0]?.dataHoraLimiteAtendimento)
                 return "DENTRO";
             return "FORA";
         }
         else if (os.prazosAtendimento?.length > 0)
         {
             var now = moment();
-            var limit = moment(os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento);
+            var limit = moment(os.prazosAtendimento[0]?.dataHoraLimiteAtendimento);
             if (now < limit)
                 return "DENTRO";
             return "FORA";

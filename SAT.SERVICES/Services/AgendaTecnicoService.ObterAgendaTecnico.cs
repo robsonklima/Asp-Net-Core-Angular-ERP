@@ -87,6 +87,8 @@ namespace SAT.SERVICES.Services
                     if (i.Fim.Date == DateTime.Now.Date && i.Fim < DateTime.Now)
                     {
                         i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
+                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        i.DataHoraManut = DateTime.Now;
                         //   this._agendaRepo.Atualizar(i);
                         listaAtualizar.Add(i);
                         eventosValidados.Add(i);
@@ -97,7 +99,6 @@ namespace SAT.SERVICES.Services
             }
 
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
-
             return eventosValidados;
         }
 
@@ -227,7 +228,7 @@ namespace SAT.SERVICES.Services
                     e.DataHoraCad = DateTime.Now;
                     e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
 
-                    //var ag = this._agendaRepo.Atualizar(e);
+                    // var ag = this._agendaRepo.Atualizar(e);
                     atualizarAgendas.Add(e);
                     ultimoEvento = e;
                     ultimaOS = os;
@@ -235,7 +236,6 @@ namespace SAT.SERVICES.Services
             });
 
             this._agendaRepo.AtualizarListaAsync(atualizarAgendas);
-
             return agendasTecnico;
         }
 

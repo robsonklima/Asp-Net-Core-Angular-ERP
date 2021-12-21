@@ -20,12 +20,12 @@ namespace SAT.MODELS.Entities
         public string CodEquipamentos { get; set; }
         public string CodTiposGrupo { get; set; }
         public string CodRegioes { get; set; }
-        public DateTime DataAberturaInicio { get; set; }
-        public DateTime DataAberturaFim { get; set; }
-        public DateTime DataFechamentoInicio { get; set; }
-        public DateTime DataFechamentoFim { get; set; }
-        public DateTime DataTransfInicio { get; set; }
-        public DateTime DataTransfFim { get; set; }
+        public DateTime? DataAberturaInicio { get; set; }
+        public DateTime? DataAberturaFim { get; set; }
+        public DateTime? DataFechamentoInicio { get; set; }
+        public DateTime? DataFechamentoFim { get; set; }
+        public DateTime? DataTransfInicio { get; set; }
+        public DateTime? DataTransfFim { get; set; }
         public OrdemServicoIncludeEnum Include { get; set; }
         public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }
@@ -37,8 +37,8 @@ namespace SAT.MODELS.Entities
         public string NotIn_CodStatusServicos { get; set; }
         public DateTime? DataInicioDispBB { get; set; }
         public DateTime? DataFimDispBB { get; set; }
-        public DateTime DataHoraInicioInicio { get; set; }
-        public DateTime DataHoraInicioFim { get; set; }
+        public DateTime? DataHoraInicioInicio { get; set; }
+        public DateTime? DataHoraInicioFim { get; set; }
         public DateTime? InicioPeriodoAgenda { get; set; }
         public DateTime? FimPeriodoAgenda { get; set; }
     }

@@ -160,6 +160,7 @@ namespace SAT.INFRA.Repository
                             {
                                 CodEquipContrato = i.EquipamentoContrato.CodEquipContrato,
                                 NumSerie = i.EquipamentoContrato.NumSerie,
+                                PontoEstrategico = i.EquipamentoContrato.PontoEstrategico,
                                 Autorizada = new Autorizada
                                 {
                                     CodAutorizada = i.EquipamentoContrato != null ? i.EquipamentoContrato.Autorizada.CodAutorizada : null,

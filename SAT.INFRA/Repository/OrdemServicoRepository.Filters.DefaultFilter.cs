@@ -18,21 +18,21 @@ namespace SAT.INFRA.Repository
                     t.NumOSCliente.Contains(parameters.Filter));
 
             if (parameters.CodContrato.HasValue)
-            {
                 query = query.Where(os => os.CodContrato == parameters.CodContrato.Value);
-            }
 
             if (parameters.IndServico.HasValue)
-            {
                 query = query.Where(os => os.IndServico == parameters.IndServico.Value);
-            }
 
-            if (parameters.DataHoraInicioInicio != DateTime.MinValue && parameters.DataHoraInicioFim != DateTime.MinValue)
-            {
+            if (parameters.CodTecnico.HasValue)
+                query = query.Where(os => os.CodTecnico == parameters.CodTecnico);
+
+            if (parameters.CodEquipContrato.HasValue)
+                query = query.Where(os => os.CodEquipContrato == parameters.CodEquipContrato);
+
+            if (parameters.DataHoraInicioInicio.HasValue && parameters.DataHoraInicioFim.HasValue)
                 query = query
-                    .Where(os => os.RelatoriosAtendimento
-                    .Any(r => r.DataHoraInicio >= parameters.DataHoraInicioInicio && r.DataHoraInicio <= parameters.DataHoraInicioFim));
-            }
+                    .Where(os => os.RelatoriosAtendimento.Any(r => r.DataHoraInicio.Date >= parameters.DataHoraInicioInicio.Value.Date &&
+                    r.DataHoraInicio.Date <= parameters.DataHoraInicioFim.Value.Date));
 
             if (!string.IsNullOrEmpty(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
@@ -40,25 +40,17 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.NumOSQuarteirizada))
                 query = query.Where(os => os.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
 
-            if (parameters.CodTecnico.HasValue)
-            {
-                query = query.Where(os => os.CodTecnico == parameters.CodTecnico);
-            }
+            if (parameters.DataAberturaInicio.HasValue && parameters.DataAberturaFim.HasValue)
+                query = query.Where(os => os.DataHoraAberturaOS.HasValue && os.DataHoraAberturaOS.Value.Date >= parameters.DataAberturaInicio.Value.Date
+                    && os.DataHoraAberturaOS.Value.Date <= parameters.DataAberturaFim.Value.Date);
 
-            if (parameters.CodEquipContrato.HasValue)
-                query = query.Where(os => os.CodEquipContrato == parameters.CodEquipContrato);
+            if (parameters.DataFechamentoInicio.HasValue && parameters.DataFechamentoFim.HasValue)
+                query = query.Where(os => os.DataHoraFechamento.HasValue && os.DataHoraFechamento.Value.Date >= parameters.DataFechamentoInicio.Value.Date
+                    && os.DataHoraFechamento.Value.Date <= parameters.DataFechamentoFim.Value.Date);
 
-            if (parameters.DataAberturaInicio != DateTime.MinValue && parameters.DataAberturaFim != DateTime.MinValue)
-                query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataAberturaInicio
-                    && os.DataHoraAberturaOS <= parameters.DataAberturaFim);
-
-            if (parameters.DataFechamentoInicio != DateTime.MinValue && parameters.DataFechamentoFim != DateTime.MinValue)
-                query = query.Where(os => os.DataHoraFechamento >= parameters.DataFechamentoInicio
-                    && os.DataHoraFechamento <= parameters.DataFechamentoFim);
-
-            if (parameters.DataTransfInicio != DateTime.MinValue && parameters.DataTransfFim != DateTime.MinValue)
-                query = query.Where(os => os.DataHoraTransf >= parameters.DataTransfInicio
-                    && os.DataHoraTransf <= parameters.DataTransfFim);
+            if (parameters.DataTransfInicio.HasValue && parameters.DataTransfFim.HasValue)
+                query = query.Where(os => os.DataHoraTransf.HasValue && os.DataHoraTransf.Value.Date >= parameters.DataTransfInicio.Value.Date
+                    && os.DataHoraTransf.Value.Date <= parameters.DataTransfFim.Value.Date);
 
             if (parameters.DataInicioDispBB.HasValue && parameters.DataFimDispBB.HasValue)
                 query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataInicioDispBB
@@ -75,7 +67,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.EquipamentoContrato != null
                     && parameters.CodTiposGrupo.Contains(os.EquipamentoContrato.CodTipoEquip.ToString()));
             }
-
 
             if (!string.IsNullOrWhiteSpace(parameters.NotIn_CodStatusServicos))
             {

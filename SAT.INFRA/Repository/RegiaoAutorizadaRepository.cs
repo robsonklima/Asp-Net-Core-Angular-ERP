@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
-    public class RegiaoAutorizadaRepository : IRegiaoAutorizadaRepository
+    public partial class RegiaoAutorizadaRepository : IRegiaoAutorizadaRepository
     {
         private readonly AppDbContext _context;
 
@@ -85,53 +85,22 @@ namespace SAT.INFRA.Repository
                 ra.CodFilial == codFilial);
         }
 
+        public IQueryable<RegiaoAutorizada> ObterQuery(RegiaoAutorizadaParameters parameters)
+        {
+            IQueryable<RegiaoAutorizada> query = _context.RegiaoAutorizada.AsQueryable();
+
+            query = AplicarIncludes(query);
+            query = AplicarFiltros(query, parameters);
+            query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
+
+            return query.AsNoTracking();
+        }
+
         public PagedList<RegiaoAutorizada> ObterPorParametros(RegiaoAutorizadaParameters parameters)
         {
-            var regioesAutorizadas = _context.RegiaoAutorizada
-                .Include(ra => ra.Cidade)
-                .Include(ra => ra.Filial)
-                .Include(ra => ra.Autorizada)
-                .Include(ra => ra.Regiao)
-                .AsQueryable();
+            IQueryable<RegiaoAutorizada> query = this.ObterQuery(parameters);
 
-            if (parameters.CodRegiao != null)
-            {
-                regioesAutorizadas = regioesAutorizadas.Where(r => r.CodRegiao == parameters.CodRegiao);
-            }
-
-            if (parameters.CodAutorizada != null)
-            {
-                regioesAutorizadas = regioesAutorizadas.Where(r => r.CodAutorizada == parameters.CodAutorizada);
-            }
-
-
-            if (parameters.IndAtivo != null)
-            {
-                regioesAutorizadas = regioesAutorizadas.Where(r => r.IndAtivo == parameters.IndAtivo);
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodFiliais))
-            {
-                var filiais = parameters.CodFiliais.Split(",");
-                regioesAutorizadas = regioesAutorizadas.Where(ag => filiais.Any(a => a == ag.Filial.CodFilial.ToString()));
-            }
-
-            if (parameters.Filter != null)
-            {
-                regioesAutorizadas = regioesAutorizadas.Where(
-                    ra => ra.CodAutorizada.ToString().Equals(parameters.Filter) ||
-                          ra.Autorizada.NomeFantasia.Contains(parameters.Filter) ||
-                          ra.Regiao.NomeRegiao.Contains(parameters.Filter) ||
-                          ra.Filial.NomeFilial.Contains(parameters.Filter)
-                );
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                regioesAutorizadas = regioesAutorizadas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
-
-            return PagedList<RegiaoAutorizada>.ToPagedList(regioesAutorizadas, parameters.PageNumber, parameters.PageSize);
+            return PagedList<RegiaoAutorizada>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

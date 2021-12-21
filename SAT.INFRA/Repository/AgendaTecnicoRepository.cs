@@ -60,31 +60,24 @@ namespace SAT.INFRA.Repository
             });
         }
 
-        public async Task<bool> AtualizarListaAsync(List<AgendaTecnico> agendas)
+        /// <summary>
+        /// Atualiza paralelamente ao retorno da API os dados no SQL
+        /// </summary>
+        /// <param name="agendas"></param>
+        public void AtualizarListaAsync(List<AgendaTecnico> agendas)
         {
-            return await Task.Run(() =>
+            Parallel.Invoke(() =>
             {
-                bool atualizado = false;
-
-                try
+                foreach (var agenda in agendas)
                 {
-                    foreach (var agenda in agendas)
+                    AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
+
+                    if (a != null)
                     {
-                        AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
-
-                        if (a != null)
-                        {
-                            _context.Entry(a).CurrentValues.SetValues(agenda);
-                            _context.SaveChanges();
-                            atualizado = true;
-                        }
+                        _context.Entry(a).CurrentValues.SetValues(agenda);
                     }
-                    return atualizado;
                 }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+                _context.SaveChanges();
             });
         }
 

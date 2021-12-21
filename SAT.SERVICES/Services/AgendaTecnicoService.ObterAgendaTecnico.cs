@@ -49,7 +49,7 @@ namespace SAT.SERVICES.Services
 
             if (agendamentos.ToList()
                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-               .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico != (int)StatusServicoEnum.FECHADO))
+               .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO))
             {
                 var eventosRealocados = this.RealocaEventosComAtraso(agendamentos);
                 eventosValidados.AddRange(eventosRealocados);

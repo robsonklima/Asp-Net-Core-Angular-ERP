@@ -85,8 +85,8 @@ namespace SAT.SERVICES.Services
             var agendaTecnicoAnterior =
                 agendasTecnico.FirstOrDefault(i => i.CodOS == os.CodOS);
 
-            var eventosSobrepostos =
-                agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
+            // var eventosSobrepostos =
+            //     agendasTecnico.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0 && ((start >= i.Inicio && i.Fim <= end) || (i.Inicio >= end)));
 
             if (agendaTecnicoAnterior != null)
             {
@@ -98,7 +98,7 @@ namespace SAT.SERVICES.Services
                 agendaTecnicoAnterior.CodUsuarioManut = Constants.SISTEMA_NOME;
 
                 var ag = this._agendaRepo.Atualizar(agendaTecnicoAnterior);
-                this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
+                // this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
 
                 return agendaTecnicoAnterior;
             }
@@ -121,7 +121,7 @@ namespace SAT.SERVICES.Services
 
                 var ag = this._agendaRepo.Criar(agendaTecnico);
 
-                this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
+                // this.RealocarEventosSobrepostos(ag, eventosSobrepostos);
 
                 return agendaTecnico;
             }

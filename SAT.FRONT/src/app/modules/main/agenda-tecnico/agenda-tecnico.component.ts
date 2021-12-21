@@ -527,7 +527,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
 
-    Enumerable.from(agendamentosTecnico.items).where(i => i.tipo == AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.FECHADO).forEach(i =>
+    Enumerable.from(agendamentosTecnico.items).where(i => i.tipo == AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO).forEach(i =>
     {
       atendimentosTecnico.push(
         {

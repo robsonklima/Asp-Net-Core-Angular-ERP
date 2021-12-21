@@ -135,6 +135,8 @@ namespace SAT.INFRA.Repository
                             NumOSQuarteirizada = i.NumOSQuarteirizada,
                             NumOSCliente = i.NumOSCliente,
                             CodRegiao = i.CodRegiao ?? null,
+                            DataHoraTransf = i.DataHoraTransf,
+                            DataHoraOSMobileLida = i.DataHoraOSMobileLida,
                             Tecnico = i.Tecnico != null ? new Tecnico
                             {
                                 CodTecnico = i.Tecnico != null ? i.Tecnico.CodTecnico : null,
@@ -158,6 +160,7 @@ namespace SAT.INFRA.Repository
                             {
                                 CodEquipContrato = i.EquipamentoContrato.CodEquipContrato,
                                 NumSerie = i.EquipamentoContrato.NumSerie,
+                                PontoEstrategico = i.EquipamentoContrato.PontoEstrategico,
                                 Autorizada = new Autorizada
                                 {
                                     CodAutorizada = i.EquipamentoContrato != null ? i.EquipamentoContrato.Autorizada.CodAutorizada : null,

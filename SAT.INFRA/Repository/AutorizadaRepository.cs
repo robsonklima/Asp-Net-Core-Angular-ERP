@@ -73,11 +73,11 @@ namespace SAT.INFRA.Repository
 
         public Autorizada ObterPorCodigo(int codigo)
         {
-         return _context.Autorizada.Where(a => a.CodAutorizada == codigo)
-                     .Include(f => f.Cidade)
-                     .Include(f => f.Cidade.UnidadeFederativa)
-                     .Include(f => f.Cidade.UnidadeFederativa.Pais)
-                .SingleOrDefault();
+            return _context.Autorizada.Where(a => a.CodAutorizada == codigo)
+                        .Include(f => f.Cidade)
+                        .Include(f => f.Cidade.UnidadeFederativa)
+                        .Include(f => f.Cidade.UnidadeFederativa.Pais)
+                   .SingleOrDefault();
         }
 
         public PagedList<Autorizada> ObterPorParametros(AutorizadaParameters parameters)
@@ -86,42 +86,33 @@ namespace SAT.INFRA.Repository
                 .Include(a => a.Filial)
                 .AsQueryable();
 
-            if (parameters.CodAutorizada != null)
-            {
-                autorizadas = autorizadas.Where(a => a.CodAutorizada == parameters.CodAutorizada);
-            }
-
-            if (parameters.CodAutorizadas != null)
-            {
-                autorizadas = autorizadas.Where(
-                    a =>
-                    parameters.CodAutorizadas.Contains(a.CodAutorizada.ToString())
-                );
-            }
-
-            if (parameters.CodFilial != null)
-            {
-                autorizadas = autorizadas.Where(a => a.CodFilial == parameters.CodFilial);
-            }
-
-            if (parameters.IndAtivo != null)
-            {
-                autorizadas = autorizadas.Where(a => a.IndAtivo == parameters.IndAtivo);
-            }
-
-            if (parameters.Filter != null)
-            {
-                autorizadas = autorizadas.Where(
-                    a => a.NomeFantasia.Contains(parameters.Filter) ||
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+                autorizadas = autorizadas.Where(a => a.NomeFantasia.Contains(parameters.Filter) ||
                          a.RazaoSocial.Contains(parameters.Filter) ||
-                         a.CNPJ.Contains(parameters.Filter)
-                );
+                         a.CNPJ.Contains(parameters.Filter));
+
+            if (parameters.CodAutorizada.HasValue)
+                autorizadas = autorizadas.Where(a => a.CodAutorizada == parameters.CodAutorizada);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
+                autorizadas = autorizadas
+                    .Where(a => parameters.CodAutorizadas.Contains(a.CodAutorizada.ToString()));
+
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                autorizadas = autorizadas.Where(os => cods.Contains(os.CodFilial));
             }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (parameters.CodFilial.HasValue)
+                autorizadas = autorizadas.Where(a => a.CodFilial == parameters.CodFilial);
+
+            if (parameters.IndAtivo.HasValue)
+                autorizadas = autorizadas.Where(a => a.IndAtivo == parameters.IndAtivo);
+
+
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 autorizadas = autorizadas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<Autorizada>.ToPagedList(autorizadas, parameters.PageNumber, parameters.PageSize);
         }

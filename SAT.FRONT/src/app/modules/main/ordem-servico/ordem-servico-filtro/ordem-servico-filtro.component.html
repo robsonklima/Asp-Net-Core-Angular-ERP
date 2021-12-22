@@ -112,6 +112,22 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('equipamento') }}</mat-label>
+                    <mat-select formControlName="codEquipamentos" multiple="true">
+                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('nro serie') }}</mat-label>
+                    <input matInput formControlName="numSerie">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('pa') }}</mat-label>
                     <mat-select formControlName="pas" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
@@ -142,15 +158,6 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('equipamento') }}</mat-label>
-                    <mat-select formControlName="codEquipamentos" multiple="true">
-                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
-                            {{ equip.nomeEquip }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('data de abertura') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerAbertura">
                         <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
@@ -168,6 +175,16 @@
                     </mat-date-range-input>
                     <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
                     <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data de solucao') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerSolucao">
+                        <input formControlName="dataHoraSolucaoInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataHoraSolucaoFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerSolucao"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerSolucao></mat-date-range-picker>
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">

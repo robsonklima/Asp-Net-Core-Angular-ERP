@@ -1,13 +1,14 @@
 <mat-drawer-container class="main-agenda" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenav>
+
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavChamados>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
         <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavAjuda>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavAjuda>
         <app-agenda-tecnico-ajuda [sidenav]="sidenavAjuda">
         </app-agenda-tecnico-ajuda>
     </mat-drawer>

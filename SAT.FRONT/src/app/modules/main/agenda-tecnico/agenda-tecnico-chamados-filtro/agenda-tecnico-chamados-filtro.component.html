@@ -1,4 +1,4 @@
-<div class="flex-auto" *transloco="let t">
+<div class="flex-auto min-h-full" *transloco="let t">
     <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
         <div class="flex justify-between">
             <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
@@ -11,8 +11,8 @@
     </div>
 
     <ng-container>
-        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+        <form class="flex flex-col bg-card shadow rounded" [formGroup]="form" *transloco="let t">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0">
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
@@ -51,11 +51,43 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('cliente') }}</mat-label>
                     <mat-select formControlName="codClientes" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
+                            'codCliente')" [value]="0">
+                            TODOS
+                        </mat-option>
                         <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                             {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="form.controls['codFiliais'].value != ''">
+                    <mat-label>{{ t('regiao') }}</mat-label>
+                    <mat-select formControlName="codRegioes" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
+                            'codRegiao')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
+                            {{ regiao.nomeRegiao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('local de atendimento') }}</mat-label>
+
+                    <mat-select formControlName="codPostos" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codPostos, locaisAtendimento,
+                            'codPosto')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let localAtendimento of locaisAtendimento"
+                            [value]="localAtendimento.codPosto">
+                            {{ localAtendimento.nomeLocal }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

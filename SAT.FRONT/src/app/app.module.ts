@@ -13,6 +13,8 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'environments/environment';
 
 const routerConfig: ExtraOptions = {
     scrollPositionRestoration: 'enabled',
@@ -24,12 +26,14 @@ const routerConfig: ExtraOptions = {
     declarations: [
         AppComponent
     ],
-    imports: [ 
-    MbscModule,  
+    imports: [
+        MbscModule,
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),
+
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
         // Fuse, FuseConfig
         FuseModule,
@@ -51,5 +55,6 @@ const routerConfig: ExtraOptions = {
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
 
 })
-export class AppModule {
+export class AppModule
+{
 }

@@ -1,19 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'environments/environment.prod';
-import { VersionCheckService } from './core/version-control/version-control.service';
+import { AfterViewInit, Component } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit
-{
-    // constructor (private _versionCheckService: VersionCheckService) { }
-    constructor () { }
 
-    ngOnInit(): void
+export class AppComponent implements AfterViewInit
+{
+    constructor (private swUpdate: SwUpdate) { }
+
+    ngAfterViewInit()
     {
-        // this._versionCheckService.initVersionCheck(environment.versionCheckURL);
+        if (this.swUpdate.isEnabled)
+        {
+            this.swUpdate.versionUpdates
+                .subscribe(() =>
+                {
+                    this.swUpdate
+                        .activateUpdate()
+                        .then(() =>
+                        {
+                            window.location.reload();
+                        });
+                });
+        }
     }
 }

@@ -94,61 +94,59 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.TipoRota)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
                     l =>
-                    l.CodPosto.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    l.NomeLocal.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    l.DCPosto.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    l.NumAgencia.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    l.CodPosto.ToString().Contains(parameters.Filter) ||
+                    l.NomeLocal.Contains(parameters.Filter) ||
+                    l.DCPosto.Contains(parameters.Filter) ||
+                    l.NumAgencia.Contains(parameters.Filter)
                 );
-            }
 
-            if (parameters.CodPosto != null)
-            {
+            if (parameters.CodPosto.HasValue)
                 locais = locais.Where(l => l.CodPosto == parameters.CodPosto);
-            }
 
-            if (parameters.CodCliente != null)
-            {
+            if (parameters.CodCliente.HasValue)
                 locais = locais.Where(l => l.CodCliente == parameters.CodCliente);
-            }
 
-            if (parameters.NumAgencia != null)
-            {
+            if (!string.IsNullOrWhiteSpace(parameters.NumAgencia))
                 locais = locais.Where(l => l.NumAgencia == parameters.NumAgencia);
-            }
 
-            if (parameters.DCPosto != null)
-            {
+            if (!string.IsNullOrWhiteSpace(parameters.DCPosto))
                 locais = locais.Where(l => l.DCPosto == parameters.DCPosto);
-            }
 
-            if (parameters.CodAutorizada != null)
-            {
+            if (parameters.CodAutorizada.HasValue)
                 locais = locais.Where(l => l.CodAutorizada == parameters.CodAutorizada);
-            }
 
-            if (parameters.CodRegiao != null)
-            {
+            if (parameters.CodRegiao.HasValue)
                 locais = locais.Where(l => l.CodRegiao == parameters.CodRegiao);
-            }
 
-            if (parameters.CodFilial != null)
-            {
+            if (parameters.CodFilial.HasValue)
                 locais = locais.Where(l => l.CodFilial == parameters.CodFilial);
-            }
 
-            if (parameters.IndAtivo != null)
-            {
+            if (parameters.IndAtivo.HasValue)
                 locais = locais.Where(l => l.IndAtivo == parameters.IndAtivo);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                locais = locais.Where(l => cods.Contains(l.CodFilial.Value));
             }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
-                locais = locais.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                locais = locais.Where(l => cods.Contains(l.CodCliente));
             }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
+            {
+                int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                locais = locais.Where(l => cods.Contains(l.CodRegiao.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                locais = locais.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
             return PagedList<LocalAtendimento>.ToPagedList(locais, parameters.PageNumber, parameters.PageSize);
         }

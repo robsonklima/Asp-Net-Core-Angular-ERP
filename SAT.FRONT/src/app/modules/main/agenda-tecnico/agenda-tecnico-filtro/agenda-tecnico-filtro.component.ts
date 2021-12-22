@@ -148,8 +148,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       .obterPorParametros(params)
       .toPromise();
 
-    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).toArray();
-    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).toArray();
+    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(r => r.nomeRegiao).toArray();
+    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(r => r).toArray();
   }
 
   ngOnDestroy()

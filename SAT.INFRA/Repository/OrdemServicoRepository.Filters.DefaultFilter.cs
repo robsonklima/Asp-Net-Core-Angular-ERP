@@ -72,6 +72,12 @@ namespace SAT.INFRA.Repository
                     && parameters.CodTiposGrupo.Contains(os.EquipamentoContrato.CodTipoEquip.ToString()));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodPostos))
+            {
+                int[] postos = parameters.CodPostos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => postos.Contains(os.CodPosto));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.NotIn_CodStatusServicos))
             {
                 int[] cods = parameters.NotIn_CodStatusServicos.Split(",").Select(a => int.Parse(a.Trim())).ToArray();

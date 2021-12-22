@@ -293,6 +293,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         ordemServico: ag.ordemServico
       }
     }).toArray());
+
+    this.validaIntervalos();
   }
 
   private async checkForWarnings(ev, args, inst)
@@ -674,5 +676,36 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
         AgendaTecnicoTypeEnum.PONTO).count();
+  }
+
+  private validaIntervalos()
+  {
+    //     this.resources.forEach(r => 
+    //     {
+    //       var primeiroPontoDoDia = Enumerable.from(this.events)
+    //         .where(i => i.resource == r.id &&
+    //           moment(i.start).date() == moment().date() &&
+    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
+    //         .orderBy(i => i.start)
+    //         .firstOrDefault();
+    // 
+    //       var intervalo = Enumerable.from(this.events)
+    //         .where(i => i.resource == r.id &&
+    //           moment(i.start).date() == moment().date() &&
+    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO)
+    //         .firstOrDefault();
+    // 
+    //       if (primeiroPontoDoDia != null && intervalo != null)
+    //       {
+    //         var inicio = moment(primeiroPontoDoDia.start);
+    //         var fim = moment(intervalo.start);
+    //         var hours = moment.duration(fim.diff(inicio)).asHours();
+    // 
+    //         if (hours > 4)
+    //         {
+    //           intervalo.color = '#FF0000';
+    //         }
+    //       }
+    //     })
   }
 }

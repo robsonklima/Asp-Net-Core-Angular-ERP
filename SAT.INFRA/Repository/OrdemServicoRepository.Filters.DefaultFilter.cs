@@ -52,6 +52,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.DataHoraTransf.HasValue && os.DataHoraTransf.Value.Date >= parameters.DataTransfInicio.Value.Date
                     && os.DataHoraTransf.Value.Date <= parameters.DataTransfFim.Value.Date);
 
+            if (parameters.DataHoraSolucaoInicio.HasValue && parameters.DataHoraSolucaoFim.HasValue)
+                query = query.Where(os => os.RelatoriosAtendimento.Any(r => r.DataHoraSolucao.Date >= parameters.DataHoraSolucaoInicio.Value.Date &&
+                   r.DataHoraSolucao.Date <= parameters.DataHoraSolucaoFim.Value.Date));
+
             if (parameters.DataInicioDispBB.HasValue && parameters.DataFimDispBB.HasValue)
                 query = query.Where(os => os.DataHoraAberturaOS >= parameters.DataInicioDispBB
                     && os.DataHoraAberturaOS <= parameters.DataFimDispBB);

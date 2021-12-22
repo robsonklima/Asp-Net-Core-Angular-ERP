@@ -323,7 +323,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     });
   }
 
-<<<<<<< HEAD
   selecionarImagem(ev: any)
   {
     var files = ev.target.files;
@@ -361,10 +360,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
   private inicializarForm(): void
   {
-=======
-  private inicializarForm(): void
-  {
->>>>>>> piloto
     this.form = this._formBuilder.group({
       codRAT: [
         {

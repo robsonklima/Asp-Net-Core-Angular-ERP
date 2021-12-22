@@ -31,7 +31,11 @@
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
+    <div *ngIf="loading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
             <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -152,7 +156,7 @@
                     </mat-error>
 
                 </div>
-                
+
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
                 </div>
@@ -314,26 +318,22 @@
 
                     <div class="col-span-12 bg-grey-500 mb-4">
                         <span>Selecione a Foto</span>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            (change)="selecionarImagem($event)">
+                        <input type="file" accept="image/*" (change)="selecionarImagem($event)">
                     </div>
 
                     <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
                         <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
                             <img class="object-cover h-48 w-full"
                                 [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
-                                onError="this.src='./https://apisat-homologacao.perto.com.br/Upload/'+foto.nomeFoto;" alt="">
+                                onError="this.src='./https://apisat-homologacao.perto.com.br/Upload/'+foto.nomeFoto;"
+                                alt="">
                             <div class="m-1 p-1 text-center">
                                 <div class="flex items-center">
-                                    <div class="text-sm font-semibold leading-tight">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
-                                    <button
-                                        class="ml-auto"
-                                        (click)="removerFoto(foto.codRATFotoSmartphone)"
+                                    <div class="text-sm font-semibold leading-tight">{{
+                                        formatarModalidadeFoto(foto.modalidade) }}</div>
+                                    <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)"
                                         mat-icon-button>
-                                        <mat-icon
-                                            class="icon-size-5 text-hint text-red-600"
+                                        <mat-icon class="icon-size-5 text-hint text-red-600"
                                             [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                                     </button>
                                 </div>
@@ -341,7 +341,8 @@
                         </fuse-card>
                     </div>
 
-                    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2" *ngIf="!relatorioAtendimento?.fotos?.length">
+                    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2"
+                        *ngIf="!relatorioAtendimento?.fotos?.length">
                         <p>
                             {{ t('nenhuma foto encontrada') }}
                         </p>

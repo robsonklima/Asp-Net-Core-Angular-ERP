@@ -1,7 +1,9 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+
         <div class="flex-1 min-w-0">
+
             <div class="flex flex-wrap items-center font-medium">
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
@@ -31,7 +33,11 @@
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
+    <div *ngIf="loading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
             <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -69,13 +75,14 @@
                             </div>
                         </mat-error>
                     </mat-form-field>
-                    
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
                         <mat-select formControlName="codCliente">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="clienteFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
@@ -94,9 +101,8 @@
                                     placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option 
-                                *ngFor="let local of locais" 
-                                [matTooltip]="local.endereco + ', ' + local.bairro + ' - ' + local.cidade.nomeCidade" 
+                            <mat-option *ngFor="let local of locais"
+                                [matTooltip]="local.endereco + ', ' + local.bairro + ' - ' + local.cidade.nomeCidade"
                                 [value]="local.codPosto">
                                 <span class="opacity-60 text-md">
                                     {{ local.numAgencia }}/{{ local.dcPosto }}

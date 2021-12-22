@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Confirmação</h1>
+<div mat-dialog-content>
+    <mat-form-field class="min-w-full">
+        <mat-label>Motivo do Cancelamento</mat-label>
+
+        <textarea matInput [(ngModel)]="os.motivoCancelamento" [placeholder]="'Motivo do Cancelamento'" [rows]="4"
+            maxlength="1000"></textarea>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="cancelar()">Não</button>
+    <button mat-button (click)="salvar()" cdkFocusInitial>Sim</button>
+</div>

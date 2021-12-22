@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthService } from 'app/core/auth/auth.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
     selector: 'auth-sign-in',
@@ -10,17 +11,31 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AuthSignInComponent implements OnInit {
+export class AuthSignInComponent implements OnInit, AfterViewInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     signInForm: FormGroup;
     showAlert: boolean = false;
+    deviceInfo = null;
 
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
+        private deviceService: DeviceDetectorService,
         private _router: Router
     ) { }
+
+    ngAfterViewInit(): void {
+        console.log('hello `Home` component');
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        const isTablet = this.deviceService.isTablet();
+        const isDesktopDevice = this.deviceService.isDesktop();
+        console.log(this.deviceInfo);
+        console.log(isMobile);
+        console.log(isTablet);
+        console.log(isDesktopDevice);
+    }
 
     ngOnInit(): void {
         this.signInForm = this._formBuilder.group({

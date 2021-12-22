@@ -1,7 +1,7 @@
 <div [hidden]="filterBase?.meusFiltros.length == 0" class="mt-2 absolute inset-y-1 right-5">
     <div class="flex flex-auto" *transloco="let t">
 
-        <mat-form-field class="fuse-mat-dense w-40" style="height: 45px;">
+        <mat-form-field class="fuse-mat-dense w-60" style="height: 45px;">
             <mat-select name="selectFiltro" #selectFiltro multiple="false"
                 (selectionChange)="filterBase.onSelectFiltroUsuario($event.value)">
                 <mat-option class="mat-primary fill" [value]="0">
@@ -10,7 +10,7 @@
 
                 <mat-option *ngFor=" let usuarioFiltro of filterBase?.meusFiltros" [disabled]="disableSelection"
                     [value]="usuarioFiltro.codFiltroUsuario">
-                    {{ usuarioFiltro.nomeFiltro }}
+                    {{ usuarioFiltro.nomeFiltro | slice:0:20 }}
 
                     <button style="float:right" [matTooltip]="t('remover')" (mouseover)="disableSelection=true"
                         (mouseout)="disableSelection=false" (click)="remover(usuarioFiltro.codFiltroUsuario)">

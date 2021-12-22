@@ -1,4 +1,4 @@
-<div class="flex-auto" *transloco="let t">
+<div class="flex-auto min-h-full" *transloco="let t">
     <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-6 md:px-8 border-b">
         <div class="flex justify-between">
             <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
@@ -11,8 +11,8 @@
     </div>
 
     <ng-container>
-        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden min-h-1/2">
+        <form class="flex flex-col bg-card shadow rounded" [formGroup]="form" *transloco="let t">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0">
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>

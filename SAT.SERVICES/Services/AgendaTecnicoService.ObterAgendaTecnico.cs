@@ -135,7 +135,7 @@ namespace SAT.SERVICES.Services
 
             if (usuarios != null)
             {
-                foreach (Usuario usuario in usuarios)
+                foreach (Usuario usuario in usuarios.Where(i => i != null))
                 {
                     if (!dadosTecico.ContainsKey(usuario.CodUsuario.Trim().ToLower()))
                         dadosTecico.Add(usuario.CodUsuario.Trim().ToLower(), usuario.Tecnico.CodTecnico.Value);

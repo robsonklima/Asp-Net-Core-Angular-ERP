@@ -179,17 +179,17 @@ namespace SAT.SERVICES.Services
 
             if (osAnterior != null)
             {
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento.Latitude)) orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento.Longitude)) orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Latitude)) orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Longitude)) orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
             }
             else if (osAtual.Tecnico != null)
             {
-                if (!string.IsNullOrEmpty(osAtual.Tecnico.Latitude)) orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAtual.Tecnico.Longitude)) orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Latitude)) orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Longitude)) orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
             }
 
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento.Latitude)) dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento.Longitude)) dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Latitude)) dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Longitude)) dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
 
             return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
         }
@@ -207,7 +207,6 @@ namespace SAT.SERVICES.Services
                     return "#C8C8C8C8";
             }
         }
-
         private string IsAgendamentoColor => "#381354";
         private string IntervaloTitle => "INTERVALO";
         private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);

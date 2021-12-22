@@ -9,12 +9,16 @@
     min-height: 22px;
 }
 
-.mbsc-flex-1-1 {
-    flex: none !important;
-}
-
 .mbsc-ios.mbsc-schedule-event-background {
     opacity: 1 !important;
+}
+
+.main-agenda {
+    height: 900px !important;
+}
+
+.scheduler-scroll {
+    height: 97.5% !important;
 }
 
 .mbsc-schedule-event-range {

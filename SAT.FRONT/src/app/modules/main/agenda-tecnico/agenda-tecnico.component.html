@@ -1,19 +1,22 @@
-<mat-drawer-container class="min-w-full min-h-full" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
+<mat-drawer-container class="main-agenda" [hasBackdrop]="false">
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavChamados>
         <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavAjuda>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavAjuda>
         <app-agenda-tecnico-ajuda [sidenav]="sidenavAjuda">
         </app-agenda-tecnico-ajuda>
     </mat-drawer>
 
-    <mat-drawer-content>
-
+    <div class="scheduler-scroll">
+        <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
+            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading &&
+            resources.length != 0">
+        </mbsc-eventcalendar>
         <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading" [matTooltip]="'Chamados'">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
         </button>
@@ -27,10 +30,6 @@
             <mat-icon [svgIcon]="'heroicons_outline:question-mark-circle'" class="text-white"></mat-icon>
         </button>
 
-        <mbsc-eventcalendar class="min-h-screen" [options]="calendarOptions" [data]="events" [resources]="resources"
-            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading &&
-            resources.length != 0">
-        </mbsc-eventcalendar>
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
         </div>
@@ -104,5 +103,6 @@
                 </div>
             </div>
         </ng-template>
-    </mat-drawer-content>
+    </div>
+
 </mat-drawer-container>

@@ -120,7 +120,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       indAtivo: 1,
       sortActive: 'nome',
       sortDirection: 'asc',
-      // codFiliais: this.ordemServico?.filial?.codFilial.toString()
+      codFiliais: this.ordemServico?.filial?.codFilial.toString()
     }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges
@@ -135,7 +135,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
             sortDirection: 'asc',
             indAtivo: 1,
             filter: query,
-            // codFiliais: this.ordemServico?.filial?.codFilial.toString()
+            codFiliais: this.ordemServico?.filial?.codFilial.toString()
           }).toPromise();
 
           return data.items.slice();

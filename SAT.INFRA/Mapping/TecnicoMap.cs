@@ -73,8 +73,8 @@ namespace SAT.INFRA.Mapping
             builder
                .HasOne(i => i.Usuario)
                .WithOne()
-               .HasForeignKey("CodTecnico")
-               .HasPrincipalKey("CodTecnico");
+               .HasForeignKey<Usuario>(i => i.CodTecnico)
+               .HasPrincipalKey<Tecnico>(i => i.CodTecnico);
 
             builder
                 .Ignore(i => i.MediaTempoAtendMin)

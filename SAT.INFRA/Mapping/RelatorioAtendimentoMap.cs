@@ -15,27 +15,27 @@ namespace SAT.INFRA.Mapping
                 .HasMany(i => i.Fotos)
                 .WithOne()
                 .HasForeignKey("NumRAT")
-                .HasPrincipalKey("NumRAT"); 
+                .HasPrincipalKey("NumRAT");
 
             builder
                 .HasMany(i => i.Laudos)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodRAT });
+                .HasForeignKey(i => i.CodRAT);
 
             builder
                 .HasMany(i => i.RelatorioAtendimentoDetalhes)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodRAT });
+                .HasForeignKey(i => i.CodRAT);
 
             builder
                 .HasMany(i => i.ProtocolosSTN)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodRAT });
+                .HasForeignKey(i => i.CodRAT);
 
             builder
                 .HasMany(i => i.CheckinsCheckouts)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodRAT });
+                .HasForeignKey(i => i.CodRAT);
 
             builder
                 .HasOne(i => i.StatusServico)

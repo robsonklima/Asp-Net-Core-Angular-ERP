@@ -78,7 +78,7 @@ namespace SAT.MODELS.Entities
         public int? QtdCedulasPagas { get; set; }
         public string NroSerieMecanismo { get; set; }
         public int CodOS { get; set; }
-        public int CodTecnico { get; set; }
+        public int? CodTecnico { get; set; }
         public int? CodStatusServico { get; set; }
         public List<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhes { get; set; }
         public List<ProtocoloSTN> ProtocolosSTN { get; set; }

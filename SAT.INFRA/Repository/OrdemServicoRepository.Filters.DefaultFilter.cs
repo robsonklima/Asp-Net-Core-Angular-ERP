@@ -102,7 +102,7 @@ namespace SAT.INFRA.Repository
 
                 if (parameters.Include == OrdemServicoIncludeEnum.OS_LISTA)
                     query = query.Where(os => (os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value))
-                        || cods.Contains(os.RelatoriosAtendimento.FirstOrDefault().CodTecnico));
+                        || cods.Contains(os.RelatoriosAtendimento.FirstOrDefault().CodTecnico.Value));
                 else
                     query = query.Where(os => os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value));
             }

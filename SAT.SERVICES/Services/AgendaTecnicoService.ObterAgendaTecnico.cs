@@ -40,7 +40,9 @@ namespace SAT.SERVICES.Services
             foreach (int codTec in cods)
             {
                 var intervalo = this.CriaIntervaloDoDia(agendamentos, codTec);
+                var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, codTec);
                 agendamentosValidados.Add(intervalo);
+                if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
             }
 
             return agendamentosValidados.Distinct().ToArray();
@@ -127,6 +129,32 @@ namespace SAT.SERVICES.Services
             return novoIntervalo;
         }
 
+
+        private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendamentos, int codTecnico)
+        {
+            var primeiroPontoDoDia =
+                agendamentos
+                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.PONTO && i.Inicio.Date == DateTime.Today.Date).OrderBy(i => i.Inicio).FirstOrDefault();
+
+            if (primeiroPontoDoDia == null) return null;
+
+            AgendaTecnico fimExpediente = new AgendaTecnico
+            {
+                CodTecnico = codTecnico,
+                CodUsuarioCad = Constants.SISTEMA_NOME,
+                DataHoraCad = DateTime.Now,
+                Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.FIM_EXPEDIENTE),
+                Tipo = AgendaTecnicoTypeEnum.FIM_EXPEDIENTE,
+                Titulo = this.FimExpedienteTitle,
+                Inicio = primeiroPontoDoDia.Inicio.AddHours(9).AddMinutes(48),
+                Fim = primeiroPontoDoDia.Inicio.AddHours(9).AddMinutes(48),
+                IndAgendamento = 0,
+                IndAtivo = 1
+            };
+
+            return fimExpediente;
+        }
+
         private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters, IEnumerable<Usuario> usuarios = null)
         {
             List<AgendaTecnico> pontos = new();
@@ -163,6 +191,7 @@ namespace SAT.SERVICES.Services
                 {
                     CodTecnico = dadosTecico[p.CodUsuario.Trim().ToLower()],
                     Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
+                    Titulo = this.PontoTitle,
                     Tipo = AgendaTecnicoTypeEnum.PONTO,
                     Inicio = p.DataHoraRegistro,
                     Fim = p.DataHoraRegistro.AddMilliseconds(25),
@@ -208,11 +237,6 @@ namespace SAT.SERVICES.Services
                     // se começa durante o intervalo ou depois do expediente
                     if (this.isIntervalo(start))
                         start = this.FimIntervalo(start);
-                    else if (start >= this.FimExpediente(start))
-                    {
-                        start = start.AddDays(1);
-                        start = this.InicioExpediente(start);
-                    }
 
                     // se termina durante o intervalo
                     var end = start.AddMinutes(duracao);

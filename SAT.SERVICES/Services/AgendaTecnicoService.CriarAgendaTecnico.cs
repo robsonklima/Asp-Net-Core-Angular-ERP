@@ -44,11 +44,6 @@ namespace SAT.SERVICES.Services
             start = start.AddMinutes(deslocamento);
             if (this.isIntervalo(start))
                 start = this.FimIntervalo(start);
-            else if (start >= this.FimExpediente(start))
-            {
-                start = start.AddDays(1);
-                start = this.InicioExpediente(start);
-            }
 
             // se termina durante a sugestao de intervalo
             var end = start.AddMinutes(mediaTecnico);
@@ -148,11 +143,6 @@ namespace SAT.SERVICES.Services
                 // se começa durante o intervalo ou depois do expediente
                 if (this.isIntervalo(start))
                     start = this.FimIntervalo(start);
-                else if (start >= this.FimExpediente(start))
-                {
-                    start = start.AddDays(1);
-                    start = this.InicioExpediente(start);
-                }
 
                 // se termina durante a sugestao de intervalo
                 var end = start.AddMinutes(duracao);
@@ -209,6 +199,8 @@ namespace SAT.SERVICES.Services
         }
         private string IsAgendamentoColor => "#381354";
         private string IntervaloTitle => "INTERVALO";
+        private string FimExpedienteTitle => "FIM DO EXPEDIENTE";
+        private string PontoTitle => "PONTO";
         private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
         private DateTime FimExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));

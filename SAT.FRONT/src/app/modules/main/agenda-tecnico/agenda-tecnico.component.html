@@ -95,9 +95,11 @@
 
         <ng-template #eventTemplate let-data>
             <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden"
-                [ngStyle]="{borderColor: data.color, background: data.title == '' ? 'transparent' : data.color}">
+                [ngStyle]="{borderColor: data.color, background: data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE' ?
+                'transparent' : data.color}">
                 <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
-                    [ngStyle]="{color: 'black', background: 'transparent'}" *ngIf="data.title == ''"></span>
+                    [ngStyle]="{color: data.title == 'FIM DO EXPEDIENTE' ? 'red' : 'black', background: 'transparent'}"
+                    *ngIf="data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE'"></span>
                 <div class="mbsc-custom-event-title"
                     [ngStyle]="{ color: data.title == 'INTERVALO' ? 'black' : 'white'}">
                     {{ data.title }}

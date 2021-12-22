@@ -20,6 +20,7 @@ namespace SAT.MODELS.Entities
         public string CodEquipamentos { get; set; }
         public string CodTiposGrupo { get; set; }
         public string CodRegioes { get; set; }
+        public string NumSerie { get; set; }
         public DateTime? DataAberturaInicio { get; set; }
         public DateTime? DataAberturaFim { get; set; }
         public DateTime? DataFechamentoInicio { get; set; }

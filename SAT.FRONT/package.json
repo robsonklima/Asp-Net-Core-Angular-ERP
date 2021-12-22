@@ -55,6 +55,7 @@
         "moment-timezone": "^0.5.33",
         "ng-apexcharts": "1.5.12",
         "ng-mat-select-infinite-scroll": "^3.0.0",
+        "ngx-device-detector": "^3.0.0",
         "ngx-markdown": "12.0.1",
         "ngx-mask": "12.0.0",
         "ngx-mat-select-search": "^3.3.0",

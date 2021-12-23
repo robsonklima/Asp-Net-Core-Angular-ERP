@@ -216,6 +216,12 @@
                                                         || 'não informado' }}
                                                 </div>
                                             </div>
+                                            <div class="my-2" *ngIf="os?.localAtendimento?.cep">
+                                                <div>{{ 'CEP' }}</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ os?.localAtendimento?.cep | titlecase }}
+                                                </div>
+                                            </div>
                                             <div class="my-2">
                                                 <div>{{ t('sla') }}</div>
 

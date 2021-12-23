@@ -1,5 +1,6 @@
 using MailKit.Net.Smtp;
 using MimeKit;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 
@@ -7,27 +8,20 @@ namespace SAT.SERVICES.Services
 {
     public class EmailService : IEmailService
     {
-        public void Enviar(
-            string nomeRemetente,
-            string emailRemetente,
-            string nomeDestinatario,
-            string emailDestinatario,
-            string assunto,
-            string corpo
-        )
+        public void Enviar(Email email)
         {
             MimeMessage message = new MimeMessage();
 
-            MailboxAddress from = new MailboxAddress(nomeRemetente, emailRemetente);
+            MailboxAddress from = new MailboxAddress(email.NomeRemetente, email.EmailRemetente);
             message.From.Add(from);
 
-            MailboxAddress to = new MailboxAddress(nomeDestinatario, emailDestinatario);
+            MailboxAddress to = new MailboxAddress(email.NomeDestinatario, email.EmailDestinatario);
             message.To.Add(to);
 
-            message.Subject = assunto;
+            message.Subject = email.Assunto;
 
             BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = corpo;
+            bodyBuilder.HtmlBody = email.Corpo;
             message.Body = bodyBuilder.ToMessageBody();
 
             SmtpClient client = new SmtpClient();

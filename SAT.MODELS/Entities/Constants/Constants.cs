@@ -3,6 +3,7 @@
     public class Constants
     {
         public static string SISTEMA_NOME = "SAT";
+        public static string SISTEMA_EMAIL = "aplicacao.sat@perto.com.br";
         public static string SMTP_HOST = "zimbragd.perto.com.br";
         public static int SMTP_PORT = 587;
         public static string SMTP_USER = "aplicacao.sat@perto.com.br";
@@ -41,6 +42,7 @@
         public static string NAO_FOI_POSSIVEL_CRIAR = "Não foi possível criar o registro";
         public static string NAO_FOI_POSSIVEL_OBTER = "Não foi possível atualizar o(s) registro(s)";
         public static string USUARIO_OU_SENHA_INVALIDOS = "Usuário ou senha inválidos";
+        public static string SISTEMA_ATIVACAO_ACESSO = "Ativação de Acesso ao Sistema SAT";
 
         // Filiais
         public static int FRS = 4;

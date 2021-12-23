@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -12,18 +11,10 @@ namespace SAT.API.Controllers
     public class UsuarioDispositivoController : ControllerBase
     {
         private readonly IUsuarioDispositivoService _usuarioDispositivoService;
-        private readonly IEmailService _emailService;
-        private readonly IUsuarioService _usuarioService;
 
-        public UsuarioDispositivoController(
-            IUsuarioDispositivoService usuarioDispositivoService,
-            IEmailService emailService,
-            IUsuarioService usuarioService
-        )
+        public UsuarioDispositivoController(IUsuarioDispositivoService usuarioDispositivoService)
         {
             _usuarioDispositivoService = usuarioDispositivoService;
-            _emailService = emailService;
-            _usuarioService = usuarioService;
         }
 
         [HttpGet("{codUsuario}/{hash}")]
@@ -35,22 +26,13 @@ namespace SAT.API.Controllers
         [HttpPost]
         public void Post([FromBody] UsuarioDispositivo dispositivo)
         {
-            var usuario = _usuarioService.ObterPorCodigo(dispositivo.CodUsuario);
-
-            if (!string.IsNullOrWhiteSpace(usuario.Email)) {
-                var email = new Email() {
-                    NomeRemetente = Constants.SISTEMA_NOME,
-                    EmailRemetente = Constants.SISTEMA_EMAIL,
-                    NomeDestinatario = usuario.NomeUsuario,
-                    EmailDestinatario = usuario.Email,
-                    Assunto = Constants.SISTEMA_ATIVACAO_ACESSO,
-                    Corpo = "Teste"
-                };
-
-                _emailService.Enviar(email);
-            }
-
             _usuarioDispositivoService.Criar(dispositivo);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] UsuarioDispositivo dispositivo)
+        {
+            _usuarioDispositivoService.Atualizar(dispositivo);
         }
     }
 }

@@ -6,5 +6,6 @@ namespace SAT.SERVICES.Interfaces
     {
         void Criar(UsuarioDispositivo usuarioDispositivo);
         UsuarioDispositivo ObterPorUsuarioEHash(string codUsuario, string hash);
+        void Atualizar(UsuarioDispositivo usuarioDispositivo);
     }
 }

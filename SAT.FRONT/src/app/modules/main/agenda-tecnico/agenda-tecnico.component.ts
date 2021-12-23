@@ -705,8 +705,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         var fim = moment(intervalo.start);
         var hours = moment.duration(fim.diff(inicio)).asHours();
 
-        if (hours > 4)
-          intervalo.color = '#FF0000';
+        // if (hours > 4)
+        //   intervalo.color = '#FF0000';
       }
     })
   }
@@ -722,18 +722,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var intervalo = event;
 
-    if (primeiroPontoDoDia != null && intervalo != null)
+    if (primeiroPontoDoDia != null && event != null)
     {
       var inicio = moment(primeiroPontoDoDia.start);
       var fim = moment(intervalo.start);
       var hours = moment.duration(fim.diff(inicio)).asHours();
-
-      console.log(inicio, fim, hours);
-
-      if (hours > 4)
-        intervalo.color = '#FF0000';
-      else
-        intervalo.color = this._validator.getTypeColor(AgendaTecnicoTypeEnum.INTERVALO);
     }
   }
 }

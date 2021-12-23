@@ -46,7 +46,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
-                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length || bloqueiaFormTecnico(ordemServico) ||
+                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length  ||
                             this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <!-- <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('fotos') }}</p>
                 </div>
                 <div
@@ -344,15 +344,15 @@
                                 </div>
                             </div>
                         </fuse-card>
-                    </div>
+                    </div> -->
 
-                    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2"
+                <!-- <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2"
                         *ngIf="!relatorioAtendimento?.fotos?.length">
                         <p>
                             {{ t('nenhuma foto encontrada') }}
                         </p>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"

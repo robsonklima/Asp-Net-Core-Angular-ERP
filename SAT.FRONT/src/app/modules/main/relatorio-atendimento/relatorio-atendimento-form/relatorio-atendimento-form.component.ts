@@ -190,7 +190,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     if (this.bloqueiaFormTecnico(ordemServico))
     {
       this.form.controls['codTecnico'].setValue(ordemServico.codTecnico);
-      this.form.controls['codTecnico'].disable();
+      // this.form.controls['codTecnico'].disable();
     }
   }
 

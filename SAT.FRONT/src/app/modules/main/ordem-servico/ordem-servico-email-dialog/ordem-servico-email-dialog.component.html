@@ -1,4 +1,4 @@
-<div class="min-w-128">
+<div class="min-w-full">
     <h1 mat-dialog-title>
         Enviar e-mail
     </h1>
@@ -24,6 +24,241 @@
 
             <button mat-button [disabled]="!form?.valid" [color]="'primary'" (click)="confirmar()">
                 Enviar </button>
+        </div>
+    </div>
+    <div class="flex-auto h-full text-center hidden" *transloco="let t">
+        <div style="display: inline-block; padding: 24px; text-align: left;">
+            <div id="print-area"
+                style="overflow:auto; padding: 64px; border-radius: 16px; margin-left: 50%; border: 1px;">
+                <div style="display: flex; align-items: self-start;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 4px;">
+                        <div style="font-size: 32px; letter-spacing: -0.025;">{{ t('os') + " " + os?.codOS }}</div>
+                        <div style="font-weight: 500;">
+                            {{ t('abertura').toUpperCase() + ": " + os?.dataHoraAberturaOS | date:'dd/MM/YY HH:mm'  }}
+                        </div>
+                        <div style="font-weight: 500;">
+                            {{ t('intervencao').toUpperCase() + ": " +  os?.tipoIntervencao?.nomTipoIntervencao }}
+                        </div>
+                        <div style="font-weight: 500;">{{ "STATUS: " + os?.statusServico?.nomeStatusServico }}</div>
+                    </div>
+                </div>
+                <div style="font-size: 13px;">
+                    <div style="font-size: 18px; font-weight: 500; margin-top: 10px;">{{ os.cliente.nomeFantasia }}
+                    </div>
+                    <div>{{ os?.localAtendimento.numAgencia }}/{{ os?.localAtendimento?.dcPosto }}
+                        {{os?.localAtendimento?.nomeLocal }}</div>
+                    <div>
+                        {{ os?.localAtendimento?.endereco.trim() + " - " | titlecase }}
+                        {{ os?.localAtendimento?.bairro.trim() + "," | titlecase }}
+                        {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
+                    </div>
+                </div>
+
+
+                <!-- dados abertura -->
+                <div
+                    style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 4px; margin-top: 50px; width: 500px;">
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('solicitacao') }}</div>
+                    <div style="height: 0px; align-self: center; text-align: right;"
+                        style="height: 0px; align-self: center; text-align: right;"></div>
+                    <div style="height: 0px; align-self: center; text-align: right;"></div>
+                    <div style="height: 0px;  grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.dataHoraSolicitacao | date:'dd/MM/YY HH:mm' }}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('os cliente') }}</div>
+
+                    <div style="height: 0px;  grid-column: span 2 / span 2; align-self: center; text-align: right;">
+                        {{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('os quarteirizada') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ (os?.numOSQuarteirizada ? os?.numOSQuarteirizada : 'Não Informado') | uppercase}}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('status servico') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.statusServico?.nomeStatusServico }}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;"></div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                    </div>
+                    <div style="height: 16px; grid-column: span 12 / span 12; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <!-- dados cliente -->
+                    <div class="h-0 col-span-8 text-lg font-medium">{{ t('cliente') }}</div>
+
+                    <div style="height: 0px; grid-column: span 2 / span 2; align-self: center; text-align: right;">
+                        {{ os?.cliente?.numBanco }} -
+                        {{ os?.cliente?.nomeFantasia }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('cidade') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.localAtendimento?.cidade?.nomeCidade | uppercase }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('bairro') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.localAtendimento?.bairro | uppercase}}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('endereco') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.localAtendimento?.endereco | uppercase }}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('solicitante') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ (os?.nomeSolicitante || 'Não Informado')| uppercase }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('telefone solicitante') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.localAtendimento?.telefoneSolicitante || 'Não Informado' | uppercase }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('contato') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ (os?.nomeContato || 'Não Informado')| uppercase }}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;"></div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                    </div>
+                    <div style="height: 16px; grid-column: span 12 / span 12; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <!-- dados equipamento -->
+                    <div style="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('equipamento') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.equipamento?.nomeEquip | uppercase}}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('nro serie') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.equipamentoContrato?.numSerie | uppercase}}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('sla') }}</div>
+                    <div style="height: 0px; align-self: center; text-align: right;">
+                    </div>
+                    <div style="height: 0px; align-self: center; text-align: right;"></div>
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 4px; margin-bottom: 4px;">
+                    </div>
+                    <div style="grid-column: 12 span / 12 span; font-size: 16px; font-weight: 500;"
+                        *ngIf="os?.equipamentoContrato?.acordoNivelServico?.descSLA">
+                        <div
+                            style="grid-column: 12 span / 12 span; align-self: center; font-weight: 300; font-size: 14px; text-align: justify;">
+                            {{ os?.equipamentoContrato?.acordoNivelServico?.descSLA }}</div>
+                        <div style="grid-column: 12 span / 12 span;"></div>
+                    </div>
+
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('filial') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os?.filial?.nomeFilial }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">PAT</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('regiao') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
+                        {{ t('fim sla') }}</div>
+
+                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
+                        {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/YY HH:mm') : '--' }}
+                    </div>
+                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    </div>
+                    <div style="grid-column: 12 span / 12 span; font-size: 16px; font-weight: 500;"
+                        *ngIf="os?.defeitoRelatado">
+                        {{ t('defeito') }}
+                        <div
+                            style="grid-column: 12 span / 12 span; align-self: center; font-weight: 300; font-size: 14px; text-align: justify;">
+                            {{ os?.defeitoRelatado }}</div>
+                        <div style="grid-column: 12 span / 12 span;  margin-top: 8px ; margin-bottom: 8px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <div style="display: flex; align-items: flex-start; margin-top: 16px;">
+                        <img style=" flex: 0 0 auto; width: 40px; margin-top: 8px;" src="assets/images/logo/logo.png">
+                        <div style="font-size: 12px; margin-left: 24px;">
+                            <div style="font-weight: 500;">Perto S.A.</div>
+                            <div>Tecnologia para Bancos e Varejo</div>
+                            <div style="font-weight: 500;">SAT - Sistema de Assistência Técnica</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

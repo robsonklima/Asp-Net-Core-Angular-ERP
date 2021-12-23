@@ -20,6 +20,8 @@ namespace SAT.MODELS.Entities
         public string CodEquipamentos { get; set; }
         public string CodTiposGrupo { get; set; }
         public string CodRegioes { get; set; }
+        public string CodPostos { get; set; }
+        public string NumSerie { get; set; }
         public DateTime? DataAberturaInicio { get; set; }
         public DateTime? DataAberturaFim { get; set; }
         public DateTime? DataFechamentoInicio { get; set; }
@@ -41,5 +43,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraInicioFim { get; set; }
         public DateTime? InicioPeriodoAgenda { get; set; }
         public DateTime? FimPeriodoAgenda { get; set; }
+        public DateTime? DataHoraSolucaoInicio { get; set; }
+        public DateTime? DataHoraSolucaoFim { get; set; }
     }
 }

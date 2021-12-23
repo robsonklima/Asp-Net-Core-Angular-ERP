@@ -70,7 +70,8 @@ export enum AgendaTecnicoTypeEnum
 {
     OS = 1,
     INTERVALO = 2,
-    PONTO = 3
+    PONTO = 3,
+    FIM_EXPEDIENTE = 4
 }
 
 export enum AgendaTecnicoOrdenationEnum

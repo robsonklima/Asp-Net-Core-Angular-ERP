@@ -38,6 +38,7 @@
         "@ngneat/transloco": "2.21.0",
         "@types/leaflet.markercluster": "^1.4.5",
         "apexcharts": "3.27.1",
+        "async": "^3.2.2",
         "chalk": "^5.0.0",
         "crypto-js": "3.3.0",
         "each-async": "^2.0.0",

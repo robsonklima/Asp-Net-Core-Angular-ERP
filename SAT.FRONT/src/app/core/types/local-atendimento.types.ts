@@ -6,7 +6,8 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Regiao } from "./regiao.types";
 import { TipoRota } from "./tipo-rota.types";
 
-export class LocalAtendimento {
+export class LocalAtendimento
+{
     codPosto: number;
     codCliente: number;
     cliente: Cliente;
@@ -55,11 +56,13 @@ export class LocalAtendimento {
     senhaAcessoNotaFiscal?: any;
 }
 
-export interface LocalAtendimentoData extends Meta {
+export interface LocalAtendimentoData extends Meta
+{
     items: LocalAtendimento[];
 };
 
-export interface LocalAtendimentoParameters extends QueryStringParameters {
+export interface LocalAtendimentoParameters extends QueryStringParameters
+{
     codPosto?: number;
     codCliente?: number;
     indAtivo?: number;
@@ -68,4 +71,7 @@ export interface LocalAtendimentoParameters extends QueryStringParameters {
     codAutorizada?: number;
     codRegiao?: number;
     codFilial?: number;
+    codFiliais?: string;
+    codClientes?: string;
+    codRegioes?: string;
 };

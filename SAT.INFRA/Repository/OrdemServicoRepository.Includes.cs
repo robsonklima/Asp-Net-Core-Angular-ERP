@@ -135,12 +135,12 @@ namespace SAT.INFRA.Repository
                             NumOSQuarteirizada = i.NumOSQuarteirizada,
                             NumOSCliente = i.NumOSCliente,
                             CodRegiao = i.CodRegiao ?? null,
-                            DataHoraTransf = i.DataHoraTransf,
-                            DataHoraOSMobileLida = i.DataHoraOSMobileLida,
+                            DataHoraTransf = i.DataHoraTransf ?? null,
+                            DataHoraOSMobileLida = i.DataHoraOSMobileLida ?? null,
                             Tecnico = i.Tecnico != null ? new Tecnico
                             {
-                                CodTecnico = i.Tecnico != null ? i.Tecnico.CodTecnico : null,
-                                Nome = i.Tecnico != null ? i.Tecnico.Nome : null
+                                CodTecnico = i.Tecnico.CodTecnico,
+                                Nome = i.Tecnico.Nome
                             } : null,
                             StatusServico = i.StatusServico != null ? new StatusServico
                             {
@@ -152,7 +152,7 @@ namespace SAT.INFRA.Repository
                             } : null,
                             TipoIntervencao = i.TipoIntervencao != null ? new TipoIntervencao
                             {
-                                CodTipoIntervencao = i.TipoIntervencao != null ? i.TipoIntervencao.CodTipoIntervencao : null,
+                                CodTipoIntervencao = i.TipoIntervencao.CodTipoIntervencao,
                                 NomTipoIntervencao = i.TipoIntervencao.NomTipoIntervencao,
                                 CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao
                             } : null,
@@ -161,11 +161,11 @@ namespace SAT.INFRA.Repository
                                 CodEquipContrato = i.EquipamentoContrato.CodEquipContrato,
                                 NumSerie = i.EquipamentoContrato.NumSerie,
                                 PontoEstrategico = i.EquipamentoContrato.PontoEstrategico,
-                                Autorizada = new Autorizada
+                                Autorizada = i.EquipamentoContrato.Autorizada != null ? new Autorizada
                                 {
-                                    CodAutorizada = i.EquipamentoContrato != null ? i.EquipamentoContrato.Autorizada.CodAutorizada : null,
+                                    CodAutorizada = i.EquipamentoContrato.Autorizada.CodAutorizada,
                                     NomeFantasia = i.EquipamentoContrato.Autorizada.NomeFantasia
-                                },
+                                } : null,
                                 Regiao = new Regiao
                                 {
                                     CodRegiao = i.EquipamentoContrato.Regiao.CodRegiao,
@@ -179,8 +179,18 @@ namespace SAT.INFRA.Repository
                             } : null,
                             LocalAtendimento = i.LocalAtendimento != null ? new LocalAtendimento
                             {
-                                CodPosto = i.LocalAtendimento != null ? i.LocalAtendimento.CodPosto : null,
-                                NomeLocal = i.LocalAtendimento.NomeLocal
+                                CodPosto = i.LocalAtendimento.CodPosto,
+                                NomeLocal = i.LocalAtendimento.NomeLocal,
+                            } : null,
+                            Regiao = i.Regiao != null ? new Regiao
+                            {
+                                CodRegiao = i.Regiao.CodRegiao,
+                                NomeRegiao = i.Regiao.NomeRegiao
+                            } : null,
+                            Autorizada = i.Autorizada != null ? new Autorizada
+                            {
+                                CodAutorizada = i.Autorizada.CodAutorizada,
+                                NomeFantasia = i.Autorizada.NomeFantasia
                             } : null,
                             Equipamento = i.Equipamento != null ? new Equipamento
                             {
@@ -188,10 +198,10 @@ namespace SAT.INFRA.Repository
                             } : null,
                             RegiaoAutorizada = i.RegiaoAutorizada != null ? new RegiaoAutorizada
                             {
-                                CodRegiao = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodRegiao : null,
-                                CodAutorizada = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodAutorizada : null,
-                                CodFilial = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.CodFilial : null,
-                                PA = i.RegiaoAutorizada != null ? i.RegiaoAutorizada.PA : null,
+                                CodRegiao = i.RegiaoAutorizada.CodRegiao,
+                                CodAutorizada = i.RegiaoAutorizada.CodAutorizada,
+                                CodFilial = i.RegiaoAutorizada.CodFilial,
+                                PA = i.RegiaoAutorizada.PA
                             } : null,
                             Cliente = i.Cliente != null ? new Cliente
                             {

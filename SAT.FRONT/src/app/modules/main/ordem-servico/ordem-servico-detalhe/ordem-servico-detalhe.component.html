@@ -77,8 +77,8 @@
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
                                 </button>
-                                <button mat-menu-item (click)="cancelar()"
-                                    [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2">
+                                <button mat-menu-item (click)="cancelar()" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
+                                    !isUserPosVenda()" *ngIf="isUserPosVenda()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
                                     {{ t('cancelar') }}
                                 </button>

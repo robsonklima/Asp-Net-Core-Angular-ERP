@@ -1,13 +1,14 @@
 <mat-drawer-container class="main-agenda" [hasBackdrop]="false">
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenav>
+
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavChamados>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
         <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 h-4/5" [position]="'end'" #sidenavAjuda>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavAjuda>
         <app-agenda-tecnico-ajuda [sidenav]="sidenavAjuda">
         </app-agenda-tecnico-ajuda>
     </mat-drawer>
@@ -72,7 +73,7 @@
                 <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
                     [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
                 </div>
-                <div class="    grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
+                <div class="grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
                     <div>
                         <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
                         align-middle mbsc-counter" [matTooltip]="'Técnico não possui ponto registrado hoje.'"
@@ -94,9 +95,11 @@
 
         <ng-template #eventTemplate let-data>
             <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden"
-                [ngStyle]="{borderColor: data.color, background: data.title == '' ? 'transparent' : data.color}">
+                [ngStyle]="{borderColor: data.color, background: data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE' ?
+                'transparent' : data.color}">
                 <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
-                    [ngStyle]="{color: 'black', background: 'transparent'}" *ngIf="data.title == ''"></span>
+                    [ngStyle]="{color: data.title == 'FIM DO EXPEDIENTE' ? 'red' : 'black', background: 'transparent'}"
+                    *ngIf="data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE'"></span>
                 <div class="mbsc-custom-event-title"
                     [ngStyle]="{ color: data.title == 'INTERVALO' ? 'black' : 'white'}">
                     {{ data.title }}

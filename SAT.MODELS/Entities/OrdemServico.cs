@@ -49,7 +49,12 @@ namespace SAT.MODELS.Entities
         [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
         public int? CodAutorizada { get; set; }
+        [ForeignKey("CodAutorizada")]
+
+        public Autorizada Autorizada { get; set; }
         public int? CodRegiao { get; set; }
+        [ForeignKey("CodRegiao")]
+        public Regiao Regiao { get; set; }
         public int CodStatusServico { get; set; }
         public int? CodTecnico { get; set; }
         public string DescNumSerieNi { get; set; }

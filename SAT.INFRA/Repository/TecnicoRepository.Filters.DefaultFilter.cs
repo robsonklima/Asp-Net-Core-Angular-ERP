@@ -19,7 +19,7 @@ namespace SAT.INFRA.Repository
                     t.Filial.NomeFilial.Contains(parameters.Filter));
 
             if (parameters.IndAtivo.HasValue)
-                query = query.Where(t => t.IndAtivo == parameters.IndAtivo && t.Usuario.IndAtivo == parameters.IndAtivo);
+                query = query.Where(t => t.IndAtivo == parameters.IndAtivo && (t.Usuario == null || t.Usuario.IndAtivo == parameters.IndAtivo));
 
             if (parameters.IndFerias.HasValue)
                 query = query.Where(t => t.IndFerias == parameters.IndFerias);

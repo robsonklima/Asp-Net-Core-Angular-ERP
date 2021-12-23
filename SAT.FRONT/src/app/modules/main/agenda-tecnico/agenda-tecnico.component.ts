@@ -237,19 +237,22 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!Enumerable.from(this.resources).any()) return;
 
-    this._agendaTecnicoSvc.obterAgendaTecnico({
-      codFiliais: this.filter?.parametros?.codFiliais,
-      codTecnicos: Enumerable.from(this.tecnicos).select(t => t.codTecnico).distinct().toArray().join(','),
-      inicioPeriodoAgenda: this.weekStart,
-      fimPeriodoAgenda: this.weekEnd,
-      sortActive: 'nome',
-      sortDirection: 'asc'
-    }).toPromise().then(agendamentos =>
+    await Promise.all(this.tecnicos.map(async (t) =>
     {
+      var agendamentos = (await this._agendaTecnicoSvc.obterAgendaTecnico({
+        codTecnico: t.codTecnico,
+        codUsuario: t.usuario.codUsuario,
+        inicioPeriodoAgenda: this.weekStart,
+        fimPeriodoAgenda: this.weekEnd,
+        sortActive: 'nome',
+        sortDirection: 'asc'
+      }).toPromise());
+
       this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
-      this.carregaAgendaTecnico(agendamentos);
-      this.loading = false;
-    });
+    }));
+
+    this.carregaAgendaTecnico(this.agendaTecnicos);
+    this.loading = false;
   }
 
   private atualizaLinhaTecnico(resourceId: number)
@@ -286,13 +289,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         end: moment(ag.fim),
         title: ag.titulo,
         color: ag.cor,
-        // editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO ||
-        //   (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)) ? false : true,
-        editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO) ? false : true,
+        editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO ||
+          (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)) ? false : true,
+        // editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO) ? false : true,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
     }).toArray());
+
+    this.validaIntervalos();
   }
 
   private async checkForWarnings(ev, args, inst)
@@ -481,6 +486,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       var message = this._validator.validaDistanciaEntreEventos(event, this.events);
       if (message)
         await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
+      this.validaIntervalo(event);
     }
     else
     {
@@ -601,10 +607,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private showEventInfo(args, inst)
   {
     const event: any = args.event;
-    const time = event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? formatDate('HH:mm', new Date(event.start)) : formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
+    const time = (event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO || AgendaTecnicoTypeEnum.FIM_EXPEDIENTE) ? formatDate('HH:mm', new Date(event.start)) : formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
     this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
-    this.info = event.ordemServico != null ? (event.title + '- ' + event.ordemServico?.codOS) : event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? "PONTO" : "INTERVALO";
+    this.info = event.ordemServico != null ? (event.title + '- ' + event.ordemServico?.codOS) :
+      event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? "PONTO" :
+        event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO ? "INTERVALO" : "FIM DO EXPEDIENTE";
     this.time = time;
     this.status = event.ordemServico?.statusServico?.nomeStatusServico;
     clearTimeout(this.timer);
@@ -672,5 +680,53 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
         AgendaTecnicoTypeEnum.PONTO).count();
+  }
+
+  private validaIntervalos()
+  {
+    //     this.resources.forEach(r => 
+    //     {
+    //       var primeiroPontoDoDia = Enumerable.from(this.events)
+    //         .where(i => i.resource == r.id &&
+    //           moment(i.start).date() == moment().date() &&
+    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
+    //         .orderBy(i => i.start)
+    //         .firstOrDefault();
+    // 
+    //       var intervalo = Enumerable.from(this.events)
+    //         .where(i => i.resource == r.id &&
+    //           moment(i.start).date() == moment().date() &&
+    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO)
+    //         .firstOrDefault();
+    // 
+    //       if (primeiroPontoDoDia != null && intervalo != null)
+    //       {
+    //         var inicio = moment(primeiroPontoDoDia.start);
+    //         var fim = moment(intervalo.start);
+    //         var hours = moment.duration(fim.diff(inicio)).asHours();
+    // 
+    //         // if (hours > 4)
+    //         //   intervalo.color = '#FF0000';
+    //       }
+    //     })
+  }
+
+  private validaIntervalo(event: any)
+  {
+    //     var primeiroPontoDoDia = Enumerable.from(this.events)
+    //       .where(i => i.resource == event.resource &&
+    //         moment(i.start).date() == moment().date() &&
+    //         i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
+    //       .orderBy(i => i.start)
+    //       .firstOrDefault();
+    // 
+    //     var intervalo = event;
+    // 
+    //     if (primeiroPontoDoDia != null && event != null)
+    //     {
+    //       var inicio = moment(primeiroPontoDoDia.start);
+    //       var fim = moment(intervalo.start);
+    //       var hours = moment.duration(fim.diff(inicio)).asHours();
+    //     }
   }
 }

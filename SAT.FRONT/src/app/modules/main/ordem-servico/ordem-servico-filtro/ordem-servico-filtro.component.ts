@@ -107,7 +107,10 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       dataFechamentoFim: [undefined],
       pas: [undefined],
       pontosEstrategicos: [undefined],
-      codEquipamentos: [undefined]
+      codEquipamentos: [undefined],
+      dataHoraSolucaoInicio: [undefined],
+      dataHoraSolucaoFim: [undefined],
+      numSerie: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);

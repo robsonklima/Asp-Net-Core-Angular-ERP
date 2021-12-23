@@ -13,18 +13,18 @@ export class AppComponent implements AfterViewInit
 
     ngAfterViewInit()
     {
-        // if (this.swUpdate.isEnabled)
-        // {
-        //     this.swUpdate.versionUpdates
-        //         .subscribe(() =>
-        //         {
-        //             this.swUpdate
-        //                 .activateUpdate()
-        //                 .then(() =>
-        //                 {
-        //                     window.location.reload();
-        //                 });
-        //         });
-        // }
+        if (this.swUpdate.isEnabled)
+        {
+            this.swUpdate.versionUpdates
+                .subscribe(() =>
+                {
+                    this.swUpdate
+                        .activateUpdate()
+                        .then(() =>
+                        {
+                            window.location.reload();
+                        });
+                });
+        }
     }
 }

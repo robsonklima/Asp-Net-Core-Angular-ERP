@@ -367,6 +367,19 @@ export class ChangelogComponent implements OnInit
                         ],
                     }
                 ]
+            },
+            {
+                version: '1.1.13',
+                releaseDate: '23 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Adições',
+                        list: [
+                            'Autenticação de dois passos',
+                            'E-mail da Ordem de Serviço'
+                        ],
+                    }
+                ]
             }
         ];
     }

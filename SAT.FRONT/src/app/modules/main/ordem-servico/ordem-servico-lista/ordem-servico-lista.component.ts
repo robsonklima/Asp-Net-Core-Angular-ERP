@@ -21,7 +21,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 50px 10px;
+            grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 100px 10px;
             
             @screen sm {
                 grid-template-columns:  48px 80px 92px 92px 36px 36px 56px auto;
@@ -32,7 +32,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
             }
         
             @screen lg {
-                grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px 120px auto 40px 120px 50px 50px 30px;
+                grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px 120px auto 40px 120px 50px 100px 30px;
             }
         }
     `],

@@ -20,6 +20,7 @@ import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { Notificacao } from 'app/core/types/notificacao.types';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
+import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -192,9 +193,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	enviarPorEmail()
+	openEmailDialog()
 	{
-
+		this._dialog.open(OrdemServicoEmailDialogComponent);
 	}
 
 	cancelar()

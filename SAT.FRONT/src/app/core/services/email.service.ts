@@ -14,6 +14,7 @@ export class EmailService
 
     enviarEmail(email: Email): Observable<Email>
     {
+        debugger;
         const url = `${c.api}/Email`;
         return this.http.post<Email>(url, email).pipe(
             map((obj) => obj)

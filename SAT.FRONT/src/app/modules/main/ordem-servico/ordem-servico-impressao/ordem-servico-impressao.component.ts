@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
-import { Laudo } from 'app/core/types/laudo.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import Enumerable from 'linq';

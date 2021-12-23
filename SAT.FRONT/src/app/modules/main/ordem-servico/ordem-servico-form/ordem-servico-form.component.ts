@@ -151,11 +151,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
-      this.form.patchValue(this.ordemServico);
-      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
+      this.form.controls['codFilial'].setValue(this.ordemServico?.codFilial);
       this.form.controls['agenciaPosto'].setValue(
-        `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`
-      );
+        `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`);
     }
 
     const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
@@ -251,13 +249,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       pageSize: 100
     }).toPromise();
 
-    this.equipamentosContrato = data.items.slice();
+    this.equipamentosContrato = Enumerable.from(data.items)
+      .orderByDescending(i => i.indAtivo)
+      .thenBy(i => i.numSerie)
+      .toArray();
   }
 
   private obterEquipamentosAoTrocarLocal()
   {
     this.form.controls['codPosto'].valueChanges.subscribe(() => 
     {
+      this.form.controls['codEquipContrato'].setValue(null);
       this.obterEquipamentos();
     });
   }
@@ -313,9 +315,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       pageSize: 100
     }).toPromise();
 
-    this.regioes = data.items
-      .filter(ra => ra.codAutorizada === codAutorizada)
-      .map(ra => ra.regiao);
+    this.regioes = Enumerable.from(data.items)
+      .where(ra => ra.codAutorizada === codAutorizada)
+      .select(ra => ra.regiao).orderBy(ra => ra.nomeRegiao).toArray();
 
   }
 

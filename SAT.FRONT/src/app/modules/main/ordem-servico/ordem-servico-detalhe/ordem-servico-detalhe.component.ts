@@ -195,9 +195,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	openEmailDialog()
 	{
-		this._dialog.open(OrdemServicoEmailDialogComponent, {
+		const dialogRef = this._dialog.open(OrdemServicoEmailDialogComponent, {
 			width: '400px',
 			data: { os: this.os }
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: any) =>
+		{
+			if (confirmacao)
+			{
+				this._snack.exibirToast('E-mail enviado com sucesso.', 'success');
+			}
 		});
 	}
 

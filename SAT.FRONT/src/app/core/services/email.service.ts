@@ -12,8 +12,7 @@ export class EmailService
 {
     constructor (private http: HttpClient) { }
 
-    enviarEmail(email: Email): Observable<Email>
-    {
+    enviarEmail(email: Email): Observable<Email> {
         const url = `${c.api}/Email`;
         return this.http.post<Email>(url, email).pipe(
             map((obj) => obj)

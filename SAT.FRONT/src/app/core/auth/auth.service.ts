@@ -11,7 +11,7 @@ export class AuthService
 {
     private _authenticated: boolean = this.accessToken !== undefined;
 
-    constructor(
+    constructor (
         private _httpClient: HttpClient,
         private _userService: UserService
     )
@@ -47,14 +47,34 @@ export class AuthService
         }
 
         return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha, hash: hash }).pipe(
-            switchMap((response: any) => {
+            switchMap((response: any) =>
+            {
                 this.accessToken = response.token;
                 this._authenticated = true;
                 this._userService.user = response.usuario;
                 this._userService.userSession = response;
                 return of(response);
             })
-       );
+        );
+    }
+
+    signInDeprecated(codUsuario: string, senha: string): Observable<any>
+    {
+        if (this._authenticated)
+        {
+            return throwError('Usuário já está logado..');
+        }
+
+        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha }).pipe(
+            switchMap((response: any) =>
+            {
+                this.accessToken = response.token;
+                this._authenticated = true;
+                this._userService.user = response.usuario;
+                this._userService.userSession = response;
+                return of(response);
+            })
+        );
     }
 
     signInUsingToken(): Observable<any>
@@ -64,14 +84,15 @@ export class AuthService
         }).pipe(
             catchError(() =>
                 of(false)
-           ),
-            switchMap((response: any) => {
+            ),
+            switchMap((response: any) =>
+            {
                 this.accessToken = response.accessToken;
                 this._authenticated = true;
                 this._userService.user = response.user;
                 return of(true);
             })
-       );
+        );
     }
 
     signOut(): Observable<any>
@@ -111,11 +132,13 @@ export class AuthService
         return this.signInUsingToken();
     }
 
-    getUserHash(): string {
+    getUserHash(): string
+    {
         return JSON.parse(localStorage.getItem("hash"));
     }
 
-    setUserHash(hash: string) {
+    setUserHash(hash: string)
+    {
         localStorage.setItem("hash", JSON.stringify(hash));
     }
 }

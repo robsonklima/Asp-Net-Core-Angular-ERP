@@ -96,10 +96,13 @@ namespace SAT.INFRA.Repository
                 query = query.Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo);
 
             if (parameters.DataHoraRegistroInicio != DateTime.MinValue && parameters.DataHoraRegistroFim != DateTime.MinValue)
-                query = query.Where(p => p.DataHoraRegistro >= parameters.DataHoraRegistroInicio && p.DataHoraRegistro <= parameters.DataHoraRegistroFim);
+                query = query.Where(p => p.DataHoraRegistro.Date >= parameters.DataHoraRegistroInicio.Date && p.DataHoraRegistro.Date <= parameters.DataHoraRegistroFim.Date);
 
             if (parameters.DataHoraRegistro.HasValue)
                 query = query.Where(p => p.DataHoraRegistro.Date == parameters.DataHoraRegistro.Value.Date);
+
+            if (parameters.IndAtivo.HasValue)
+                query = query.Where(p => p.IndAtivo == parameters.IndAtivo.Value);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

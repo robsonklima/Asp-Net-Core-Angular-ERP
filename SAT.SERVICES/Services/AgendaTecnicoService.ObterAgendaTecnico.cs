@@ -12,38 +12,44 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
-            List<AgendaTecnico> agendamentos =
-                !string.IsNullOrWhiteSpace(parameters.CodTecnicos) ?
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
+            List<AgendaTecnico> agendamentos = this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
+            // !string.IsNullOrWhiteSpace(parameters.CodTecnicos) ?
+            // this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
+            // this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
 
-            List<Tecnico> tecnicos = this._tecnicoRepo.ObterPorParametros(new TecnicoParameters()
-            {
-                Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-                CodTecnicos = parameters.CodTecnicos
-            });
+            // Tecnico tecnico = this._tecnicoRepo.ObterPorCodigo(parameters.CodTecnico.Value);
+            // {
+            //     Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
+            //     CodTecnicos = parameters.CodTecnicos
+            // });
 
-            var pontos = this.ObterPontosDoDia(parameters, tecnicos.Select(u => u.Usuario));
+            var pontos = this.ObterPontosDoDia(parameters);
             var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
             agendamentosValidados.AddRange(pontos);
 
-            List<int> cods = new();
-            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
-            {
-                cods.AddRange(parameters.CodTecnicos.Split(',').Select(s => int.Parse(s.Trim())).ToArray());
-            }
-            else
-            {
-                cods.Add(parameters.CodTecnico.Value);
-            }
+            // List<int> cods = new();
+            // if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            // {
+            //     cods.AddRange(parameters.CodTecnicos.Split(',').Select(s => int.Parse(s.Trim())).ToArray());
+            // }
+            // else
+            // {
+            //     cods.Add(parameters.CodTecnico.Value);
+            // }
 
-            foreach (int codTec in cods)
-            {
-                var intervalo = this.CriaIntervaloDoDia(agendamentos, codTec);
-                var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, codTec);
-                agendamentosValidados.Add(intervalo);
-                if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
-            }
+            // foreach (int codTec in cods)
+            // {
+            //     var intervalo = this.CriaIntervaloDoDia(agendamentos, codTec);
+            //     var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, codTec);
+            //     agendamentosValidados.Add(intervalo);
+            //     if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
+            // }
+
+            var intervalo = this.CriaIntervaloDoDia(agendamentos, parameters.CodTecnico.Value);
+            var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, parameters.CodTecnico.Value);
+            agendamentosValidados.Add(intervalo);
+            if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
+
 
             return agendamentosValidados.Distinct().ToArray();
         }
@@ -126,7 +132,9 @@ namespace SAT.SERVICES.Services
                 IndAtivo = 1
             };
 
-            return novoIntervalo;
+            var ag = this._agendaRepo.Criar(novoIntervalo);
+
+            return ag;
         }
 
 
@@ -155,41 +163,51 @@ namespace SAT.SERVICES.Services
             return fimExpediente;
         }
 
-        private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters, IEnumerable<Usuario> usuarios = null)
+        private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters)
         {
             List<AgendaTecnico> pontos = new();
-            List<PontoUsuario> pontosUsuario = new();
-            Dictionary<string, int> dadosTecico = new();
+            //             List<PontoUsuario> pontosUsuario = new();
+            //             Dictionary<string, int> dadosTecico = new();
+            // 
+            //             if (usuarios != null)
+            //             {
+            //                 foreach (Usuario usuario in usuarios.Where(i => i != null))
+            //                 {
+            //                     if (!dadosTecico.ContainsKey(usuario.CodUsuario.Trim().ToLower()))
+            //                         dadosTecico.Add(usuario.CodUsuario.Trim().ToLower(), usuario.Tecnico.CodTecnico.Value);
+            // 
+            //                     pontosUsuario.AddRange(this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
+            //                     {
+            //                         CodUsuario = usuario.CodUsuario,
+            //                         DataHoraRegistro = DateTime.Today.Date
+            //                     }).ToList());
+            //                 }
+            //             }
+            //             else
+            //             {
+            //                 dadosTecico.Add(parameters.CodUsuario.ToLower(), parameters.CodTecnico.Value);
+            //                 pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
+            //                 {
+            //                     CodUsuario = parameters.CodUsuario,
+            //                     DataHoraRegistro = DateTime.Today.Date
+            //                 }).ToList();
+            //             }
 
-            if (usuarios != null)
+            List<PontoUsuario> pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters()
             {
-                foreach (Usuario usuario in usuarios.Where(i => i != null))
-                {
-                    if (!dadosTecico.ContainsKey(usuario.CodUsuario.Trim().ToLower()))
-                        dadosTecico.Add(usuario.CodUsuario.Trim().ToLower(), usuario.Tecnico.CodTecnico.Value);
+                CodUsuario = parameters.CodUsuario,
+                DataHoraRegistroInicio = DateTime.Today,
+                DataHoraRegistroFim = DateTime.Today,
+                IndAtivo = 1
+            });
 
-                    pontosUsuario.AddRange(this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
-                    {
-                        CodUsuario = usuario.CodUsuario,
-                        DataHoraRegistro = DateTime.Today.Date
-                    }).ToList());
-                }
-            }
-            else
-            {
-                dadosTecico.Add(parameters.CodUsuario.ToLower(), parameters.CodTecnico.Value);
-                pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
-                {
-                    CodUsuario = parameters.CodUsuario,
-                    DataHoraRegistro = DateTime.Today.Date
-                }).ToList();
-            }
 
-            pontosUsuario.ForEach(p =>
+
+            pontosUsuario.Where(i => i.DataHoraRegistro.Date == DateTime.Now.Date).ToList().ForEach(p =>
             {
                 pontos.Add(new AgendaTecnico
                 {
-                    CodTecnico = dadosTecico[p.CodUsuario.Trim().ToLower()],
+                    CodTecnico = parameters.CodTecnico.Value,
                     Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
                     Titulo = this.PontoTitle,
                     Tipo = AgendaTecnicoTypeEnum.PONTO,

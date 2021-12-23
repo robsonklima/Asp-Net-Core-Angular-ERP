@@ -411,6 +411,12 @@
                                                     {{ r.statusServico?.nomeStatusServico || 'Não Informado'}}
                                                 </div>
                                             </div>
+                                            <div class="my-2" *ngIf="isPecasPendentes(r)">
+                                                <div>Peças Pendentes</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ getPecasPendentes(r) }}
+                                                </div>
+                                            </div>
                                             <div class="my-2">
                                                 <div>Solicitação</div>
                                                 <div class="text-secondary text-md">

@@ -192,6 +192,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
+	enviarPorEmail()
+	{
+
+	}
+
 	cancelar()
 	{
 		const dialogRef = this._dialog.open(OrdemServicoCancelamentoComponent, {

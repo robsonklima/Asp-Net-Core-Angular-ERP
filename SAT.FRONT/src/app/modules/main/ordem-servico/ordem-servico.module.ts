@@ -47,7 +47,8 @@ import { FiltroModule } from '../filtros/filtro.module';
 import { OrdemServicoCancelamentoComponent } from './ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 
-const maskConfigFunction: () => Partial<IConfig> = () => {
+const maskConfigFunction: () => Partial<IConfig> = () =>
+{
     return {
         validation: false,
     };
@@ -105,5 +106,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         FiltroModule
     ]
 })
-export class OrdemServicoModule {
+export class OrdemServicoModule
+{
 }

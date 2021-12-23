@@ -8,7 +8,6 @@ import { Email } from 'app/core/types/email.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { OrdemServicoImpressaoComponent } from '../ordem-servico-impressao/ordem-servico-impressao.component';
 
 @Component({
   selector: 'app-ordem-servico-email-dialog',

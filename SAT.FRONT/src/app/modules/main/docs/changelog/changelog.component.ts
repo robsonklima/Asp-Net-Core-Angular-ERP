@@ -349,6 +349,24 @@ export class ChangelogComponent implements OnInit
                         ],
                     }
                 ]
+            },
+            {
+                version: '1.1.12',
+                releaseDate: '23 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Adições',
+                        list: [
+                            'Novos filtros na OS'
+                        ],
+                    },
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Ajustes Agenda Técnico'
+                        ],
+                    }
+                ]
             }
         ];
     }

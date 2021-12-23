@@ -16,6 +16,19 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
+        public void Atualizar(UsuarioDispositivo usuarioDispositivo)
+        {
+            UsuarioDispositivo d = _context.UsuarioDispositivo
+                .OrderByDescending(d => d.DataHoraCad)
+                .FirstOrDefault(d => d.CodUsuario == usuarioDispositivo.CodUsuario && d.Hash == usuarioDispositivo.Hash);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(usuarioDispositivo);
+                _context.SaveChanges();
+            }
+        }
+
         public void Criar(UsuarioDispositivo usuarioDispositivo)
         {
             _context.Add(usuarioDispositivo);

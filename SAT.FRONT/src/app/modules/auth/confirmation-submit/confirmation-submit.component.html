@@ -12,6 +12,17 @@
                 Clique abaixo para confirmar o registro do dispositivo para seu usuário
             </div>
 
+            <div class="mt-4" *ngIf="dispositivo">
+                Dispositivo: 
+                <span class="font-semibold">
+                    {{ dispositivo?.sistemaOperacional }}
+                    {{ dispositivo?.versaoSO }}
+                    {{ dispositivo?.navegador }}
+                    {{ dispositivo?.versaoNavegador }}
+                    {{ dispositivo?.tipoDispositivo }}
+                </span>
+            </div>
+
             <fuse-alert
                 class="mt-8 mb-0"
                 *ngIf="showAlert"

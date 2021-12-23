@@ -1,5 +1,4 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-root',
@@ -9,22 +8,9 @@ import { SwUpdate } from '@angular/service-worker';
 
 export class AppComponent implements AfterViewInit
 {
-    constructor (private swUpdate: SwUpdate) { }
+    constructor () { }
 
     ngAfterViewInit()
     {
-        if (this.swUpdate.isEnabled)
-        {
-            this.swUpdate.versionUpdates
-                .subscribe(() =>
-                {
-                    this.swUpdate
-                        .activateUpdate()
-                        .then(() =>
-                        {
-                            window.location.reload();
-                        });
-                });
-        }
     }
 }

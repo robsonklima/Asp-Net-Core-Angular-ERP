@@ -58,9 +58,7 @@
               "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
               "./node_modules/@mobiscroll/angular/dist/css/mobiscroll.min.css"
             ],
-            "scripts": [],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "scripts": []
           },
           "configurations": {
             "production": {

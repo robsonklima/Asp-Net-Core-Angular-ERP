@@ -140,7 +140,7 @@
                         <mat-label>{{ t('nome solicitante') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                         </mat-icon>
-                        <input matInput formControlName="nomeSolicitante" maxlength="25">
+                        <input matInput formControlName="nomeSolicitante">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -155,21 +155,21 @@
                         <mat-label>{{ t('os quarteirizada') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:document-duplicate'"
                             matPrefix></mat-icon>
-                        <input matInput formControlName="numOSQuarteirizada" maxlength="20">
+                        <input matInput formControlName="numOSQuarteirizada">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!escondeCamposClientes()">
                         <mat-label>{{ t('os cliente') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'" matPrefix>
                         </mat-icon>
-                        <input matInput formControlName="numOSCliente" maxlength="20">
+                        <input matInput formControlName="numOSCliente">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome contato') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                         </mat-icon>
-                        <input matInput formControlName="nomeContato" maxlength="25">
+                        <input matInput formControlName="nomeContato">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">

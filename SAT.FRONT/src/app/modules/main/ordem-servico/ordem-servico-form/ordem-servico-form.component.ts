@@ -151,11 +151,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
-      this.form.patchValue(this.ordemServico);
-      this.form.controls['codFilial'].setValue(this.ordemServico?.filial?.codFilial);
+      this.form.controls['codFilial'].setValue(this.ordemServico?.codFilial);
       this.form.controls['agenciaPosto'].setValue(
-        `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`
-      );
+        `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`);
     }
 
     const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;

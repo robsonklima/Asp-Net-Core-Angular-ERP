@@ -26,6 +26,7 @@ namespace SAT.API.Controllers
             return _usuarioService.ObterPorParametros(parameters);
         }
 
+        [AllowAnonymous]
         [HttpGet("{codUsuario}")]
         public Usuario Get(string codUsuario)
         {

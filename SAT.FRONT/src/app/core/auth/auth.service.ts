@@ -58,25 +58,6 @@ export class AuthService
         );
     }
 
-    signInDeprecated(codUsuario: string, senha: string): Observable<any>
-    {
-        if (this._authenticated)
-        {
-            return throwError('Usuário já está logado..');
-        }
-
-        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha }).pipe(
-            switchMap((response: any) =>
-            {
-                this.accessToken = response.token;
-                this._authenticated = true;
-                this._userService.user = response.usuario;
-                this._userService.userSession = response;
-                return of(response);
-            })
-        );
-    }
-
     signInUsingToken(): Observable<any>
     {
         return this._httpClient.post('api/auth/refresh-access-token', {

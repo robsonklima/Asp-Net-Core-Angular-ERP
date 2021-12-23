@@ -311,9 +311,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       pageSize: 100
     }).toPromise();
 
-    this.regioes = data.items
-      .filter(ra => ra.codAutorizada === codAutorizada)
-      .map(ra => ra.regiao);
+    this.regioes = Enumerable.from(data.items)
+      .where(ra => ra.codAutorizada === codAutorizada)
+      .select(ra => ra.regiao).orderBy(ra => ra.nomeRegiao).toArray();
 
   }
 

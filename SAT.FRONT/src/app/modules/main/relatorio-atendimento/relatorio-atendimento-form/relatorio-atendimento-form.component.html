@@ -46,8 +46,8 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
-                        <mat-select formControlName="codTecnico" #tecnicoSelect
-                            [disabled]="!tecnicos.length || bloqueiaFormTecnico(ordemServico)">
+                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length || bloqueiaFormTecnico(ordemServico) ||
+                            this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tecnicosFiltro">
@@ -66,7 +66,8 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('status de servico') }}</mat-label>
 
-                        <mat-select formControlName="codStatusServico" [disabled]="!statusServicos.length">
+                        <mat-select formControlName="codStatusServico"
+                            [disabled]="!statusServicos.length || this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
                             <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
                                 {{ status.nomeStatusServico }}
                             </mat-option>
@@ -292,18 +293,20 @@
                     <div class="flex justify-end p-8"
                         *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
                         <button class="px-4 mr-2" type="button" mat-button (click)="inserirDetalhe()"
-                            [matTooltip]="t('adicionar detalhe')">
+                            [matTooltip]="t('adicionar detalhe')" [disabled]="this.ordemServico?.codStatusServico === 3
+                            || this.ordemServico?.codStatusServico === 2">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'primary'"
-                            [disabled]="detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 && detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26"
-                            [matTooltip]="t('adicionar peca')"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
+                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) ||
+                            this.ordemServico?.codStatusServico === 3
+                            || this.ordemServico?.codStatusServico === 2" [matTooltip]="t('adicionar peca')"
                             (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
-                            [disabled]="!detalhesList.selectedOptions.selected.length"
-                            [matTooltip]="t('remover detalhe')"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'" [disabled]="!detalhesList.selectedOptions.selected.length ||
+                            this.ordemServico?.codStatusServico === 3
+                            || this.ordemServico?.codStatusServico === 2" [matTooltip]="t('remover detalhe')"
                             (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>
@@ -316,7 +319,8 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <div class="col-span-12 bg-grey-500 mb-4">
+                    <div class="col-span-12 bg-grey-500 mb-4"
+                        *ngIf="!(this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico===2)">
                         <span>Selecione a Foto</span>
                         <input type="file" accept="image/*" (change)="selecionarImagem($event)">
                     </div>
@@ -332,7 +336,8 @@
                                     <div class="text-sm font-semibold leading-tight">{{
                                         formatarModalidadeFoto(foto.modalidade) }}</div>
                                     <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)"
-                                        mat-icon-button>
+                                        mat-icon-button [disabled]="this.ordemServico?.codStatusServico === 3
+                                        || this.ordemServico?.codStatusServico === 2">
                                         <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:trash'">
                                         </mat-icon>
                                     </button>
@@ -360,8 +365,8 @@
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
+                        <!-- <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner> -->
                     </button>
                 </div>
             </form>

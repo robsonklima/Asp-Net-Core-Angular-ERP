@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthService } from 'app/core/auth/auth.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { UsuarioDispositivoService } from 'app/core/services/usuario-dispositivo.service';
+import moment from 'moment';
 
 @Component({
     selector: 'auth-sign-in',
@@ -11,31 +12,18 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AuthSignInComponent implements OnInit, AfterViewInit {
+export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     signInForm: FormGroup;
     showAlert: boolean = false;
-    deviceInfo = null;
 
     constructor(
         private _activatedRoute: ActivatedRoute,
+        private _usuarioDispositivoSvc: UsuarioDispositivoService,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private deviceService: DeviceDetectorService,
         private _router: Router
     ) { }
-
-    ngAfterViewInit(): void {
-        console.log('hello `Home` component');
-        this.deviceInfo = this.deviceService.getDeviceInfo();
-        const isMobile = this.deviceService.isMobile();
-        const isTablet = this.deviceService.isTablet();
-        const isDesktopDevice = this.deviceService.isDesktop();
-        console.log(this.deviceInfo);
-        console.log(isMobile);
-        console.log(isTablet);
-        console.log(isDesktopDevice);
-    }
 
     ngOnInit(): void {
         this.signInForm = this._formBuilder.group({
@@ -44,13 +32,13 @@ export class AuthSignInComponent implements OnInit, AfterViewInit {
         });
     }
 
-    signIn(): void {
-        if (this.signInForm.invalid) {
-            return;
-        }
-
+    async signIn() {
+        if (this.signInForm.invalid) return;
         this.signInForm.disable();
-        this._authService.signIn(this.signInForm.value.codUsuario, this.signInForm.value.senha)
+        let hash = this._authService.getUserHash();
+
+        this._authService
+            .signIn(this.signInForm.value.codUsuario, this.signInForm.value.senha, hash)
             .subscribe(
                 () => {
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
@@ -61,5 +49,17 @@ export class AuthSignInComponent implements OnInit, AfterViewInit {
                     this.signInNgForm.resetForm();
                 }
             );
+    }
+
+    adicionarDispositivo(hash: string) {
+        this._usuarioDispositivoSvc.criar({
+            dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
+            indAtivo: 0,
+            hash: hash,
+            codUsuario: this.signInForm.value.codUsuario
+        }).subscribe(() => {
+            this._router.navigateByUrl('confirmation-required');
+            this.signInForm.enable();
+        });
     }
 }

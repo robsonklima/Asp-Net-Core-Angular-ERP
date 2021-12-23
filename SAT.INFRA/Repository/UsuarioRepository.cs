@@ -25,6 +25,7 @@ namespace SAT.INFRA.Repository
             {
                 return _context.Usuario
                     .Include(u => u.Filial)
+                    .Include(u => u.UsuarioDispositivos)
                     .Include(u => u.Perfil)
                     .Include(u => u.Perfil.NavegacoesConfiguracao)
                         .ThenInclude(conf => conf.Navegacao)

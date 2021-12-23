@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="closedxml" Version="0.95.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SAT.INFRA\SAT.INFRA.csproj" />
-    <ProjectReference Include="..\SAT.MODELS\SAT.MODELS.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="closedxml" Version="0.95.4"/>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8"/>
+		<PackageReference Include="NLog.Extensions.Logging" Version="1.7.2"/>
+		<PackageReference Include="MailKit" Version="3.0.0"/>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SAT.INFRA\SAT.INFRA.csproj"/>
+		<ProjectReference Include="..\SAT.MODELS\SAT.MODELS.csproj"/>
+	</ItemGroup>
 </Project>

@@ -84,6 +84,7 @@ export interface RelatorioAtendimento
     relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[];
     protocolosSTN: any[];
     statusServico: StatusServico;
+    codStatusServico?: number;
     tecnico: Tecnico;
     laudos: Laudo[];
     fotos: Foto[];

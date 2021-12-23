@@ -21,6 +21,7 @@ import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { Notificacao } from 'app/core/types/notificacao.types';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
+import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -290,6 +291,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		return Enumerable.from(this.os?.fotos)
 			.where(i => i.modalidade.includes("LAUDO"))
 			.toArray();
+	}
+
+	isPecasPendentes(rat: RelatorioAtendimento): boolean
+	{
+		return rat.codStatusServico == 7;
+	}
+
+	getPecasPendentes(rat: RelatorioAtendimento)
+	{
+		return Enumerable.from(rat.relatorioAtendimentoDetalhes)
+			.selectMany(i => i.relatorioAtendimentoDetalhePecas).where(i => i.descStatus == 'PEÇA FALTANTE')
+			.select(i => i.peca.nomePeca).toJoinedString();
 	}
 
 	private createAgendaTecnico()

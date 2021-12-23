@@ -30,9 +30,9 @@ namespace SAT.AGENDADOR
                 // Configura o DB
                 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
 
-                /** Inicializa os repositórios e serviços **/
+                /** Inicializa os repositï¿½rios e serviï¿½os **/
 
-                // Repositórios
+                // Repositï¿½rios
                 services.AddTransient<ITecnicoRepository, TecnicoRepository>();
                 services.AddTransient<IFeriadoRepository, FeriadoRepository>();
                 services.AddTransient<IDashboardRepository, DashboardRepository>();
@@ -43,19 +43,19 @@ namespace SAT.AGENDADOR
                 services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
                 services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
 
-                // Serviços
+                // Serviï¿½os
                 services.AddTransient<IFeriadoService, FeriadoService>();
                 services.AddTransient<IDashboardService, DashboardService>();
                 services.AddTransient<IIndicadorService, IndicadorService>();
 
                 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-                // Inicializa os serviços que serão usados
+                // Inicializa os serviï¿½os que serï¿½o usados
                 this._indicadorService = serviceProvider.GetService<IIndicadorService>();
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
     }

@@ -95,10 +95,7 @@ export class MapaDisponibilidadeComponent implements AfterViewInit
     this._indicadorService.obterPorParametros({
       tipo: IndicadorTipoEnum.DISPONIBILIDADE,
       agrupador: IndicadorAgrupadorEnum.REGIAO
-    }).subscribe((data: Indicador[]) =>
-    {
-      debugger;
-    });
+    }).subscribe((data: Indicador[]) => {});
 
 
 

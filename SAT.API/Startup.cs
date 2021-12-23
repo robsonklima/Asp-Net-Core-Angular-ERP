@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
 
             services.AddCors(options =>
             {
@@ -134,6 +134,7 @@ namespace SAT.API
             services.AddTransient<INotificacaoRepository, NotificacaoRepository>();
             services.AddTransient<IDispBBCalcEquipamentoContratoRepository, DispBBCalcEquipamentoContratoRepository>();
             services.AddTransient<IFotoRepository, FotoRepository>();
+            services.AddTransient<IUsuarioDispositivoRepository, UsuarioDispositivoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -196,10 +197,12 @@ namespace SAT.API
             services.AddTransient<ITurnoService, TurnoService>();
             services.AddTransient<IFotoService, FotoService>();
             services.AddTransient<IFiltroService, FiltroService>();
+            services.AddTransient<IUsuarioDispositivoService, UsuarioDispositivoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
             services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
             services.AddTransient<IDespesaAdiantamentoPeriodoService, DespesaAdiantamentoPeriodoService>();

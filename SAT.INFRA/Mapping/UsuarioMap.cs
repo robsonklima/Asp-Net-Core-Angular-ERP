@@ -8,11 +8,9 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            builder
-                .ToTable("Usuario");
-
-            builder
-                .HasKey(prop => prop.CodUsuario);
+            builder.ToTable("Usuario");
+            builder.HasKey(prop => prop.CodUsuario);
+            builder.Ignore(prop => prop.Hash);
 
             builder
                 .HasOne(p => p.Filial)
@@ -85,6 +83,11 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey("CodFilialPonto")
                 .HasPrincipalKey("CodFilial");
+
+            builder
+                .HasMany(i => i.UsuarioDispositivos)
+                .WithOne()
+                .HasForeignKey(i => new { i.CodUsuario });
 
             builder
                 .Property(p => p.FoneParticular)

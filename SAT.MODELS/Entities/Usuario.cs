@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SAT.MODELS.Entities
@@ -47,6 +46,7 @@ namespace SAT.MODELS.Entities
         public string Complemento { get; set; }
         public int? CodTransportadora { get; set; }
         public bool? IndPermiteRegistrarEquipPOS { get; set; }
+        public string Hash { get; set; }
         [JsonIgnore]
         public string Senha { get; set; }
         public Filial Filial { get; set; }
@@ -62,5 +62,6 @@ namespace SAT.MODELS.Entities
         public List<PontoUsuario> PontosUsuario { get; set; }
         public Filial FilialPonto { get; set; }
         public List<FiltroUsuario> FiltroUsuario { get; set; }
+        public List<UsuarioDispositivo> UsuarioDispositivos { get; set; }
     }
 }

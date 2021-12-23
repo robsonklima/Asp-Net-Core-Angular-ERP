@@ -39,14 +39,14 @@ export class AuthService
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
-    signIn(codUsuario: string, senha: string): Observable<any>
+    signIn(codUsuario: string, senha: string, hash: string): Observable<any>
     {
         if (this._authenticated)
         {
-            return throwError('User is already logged in.');
+            return throwError('Usuário já está logado.');
         }
 
-        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha }).pipe(
+        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha, hash: hash }).pipe(
             switchMap((response: any) => {
                 this.accessToken = response.token;
                 this._authenticated = true;
@@ -109,5 +109,13 @@ export class AuthService
         }
 
         return this.signInUsingToken();
+    }
+
+    getUserHash(): string {
+        return JSON.parse(localStorage.getItem("hash"));
+    }
+
+    setUserHash(hash: string) {
+        localStorage.setItem("hash", JSON.stringify(hash));
     }
 }

@@ -3,7 +3,11 @@
     public class Constants
     {
         public static string SISTEMA_NOME = "SAT";
-
+        public static string SMTP_HOST = "zimbragd.perto.com.br";
+        public static int SMTP_PORT = 587;
+        public static string SMTP_USER = "aplicacao.sat@perto.com.br";
+        public static string SMTP_PASSWORD = "S@aPlic20(v";
+        
         // Status de Serviço
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;

@@ -486,6 +486,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       var message = this._validator.validaDistanciaEntreEventos(event, this.events);
       if (message)
         await this._snack.open(message, null, this.snackConfigInfo).afterDismissed().toPromise();
+      this.validaIntervalo(event);
     }
     else
     {
@@ -683,32 +684,56 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private validaIntervalos()
   {
-    //     this.resources.forEach(r => 
-    //     {
-    //       var primeiroPontoDoDia = Enumerable.from(this.events)
-    //         .where(i => i.resource == r.id &&
-    //           moment(i.start).date() == moment().date() &&
-    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
-    //         .orderBy(i => i.start)
-    //         .firstOrDefault();
-    // 
-    //       var intervalo = Enumerable.from(this.events)
-    //         .where(i => i.resource == r.id &&
-    //           moment(i.start).date() == moment().date() &&
-    //           i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO)
-    //         .firstOrDefault();
-    // 
-    //       if (primeiroPontoDoDia != null && intervalo != null)
-    //       {
-    //         var inicio = moment(primeiroPontoDoDia.start);
-    //         var fim = moment(intervalo.start);
-    //         var hours = moment.duration(fim.diff(inicio)).asHours();
-    // 
-    //         if (hours > 4)
-    //         {
-    //           intervalo.color = '#FF0000';
-    //         }
-    //       }
-    //     })
+    this.resources.forEach(r => 
+    {
+      var primeiroPontoDoDia = Enumerable.from(this.events)
+        .where(i => i.resource == r.id &&
+          moment(i.start).date() == moment().date() &&
+          i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
+        .orderBy(i => i.start)
+        .firstOrDefault();
+
+      var intervalo = Enumerable.from(this.events)
+        .where(i => i.resource == r.id &&
+          moment(i.start).date() == moment().date() &&
+          i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO)
+        .firstOrDefault();
+
+      if (primeiroPontoDoDia != null && intervalo != null)
+      {
+        var inicio = moment(primeiroPontoDoDia.start);
+        var fim = moment(intervalo.start);
+        var hours = moment.duration(fim.diff(inicio)).asHours();
+
+        if (hours > 4)
+          intervalo.color = '#FF0000';
+      }
+    })
+  }
+
+  private validaIntervalo(event: any)
+  {
+    var primeiroPontoDoDia = Enumerable.from(this.events)
+      .where(i => i.resource == event.resource &&
+        moment(i.start).date() == moment().date() &&
+        i.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO)
+      .orderBy(i => i.start)
+      .firstOrDefault();
+
+    var intervalo = event;
+
+    if (primeiroPontoDoDia != null && intervalo != null)
+    {
+      var inicio = moment(primeiroPontoDoDia.start);
+      var fim = moment(intervalo.start);
+      var hours = moment.duration(fim.diff(inicio)).asHours();
+
+      console.log(inicio, fim, hours);
+
+      if (hours > 4)
+        intervalo.color = '#FF0000';
+      else
+        intervalo.color = this._validator.getTypeColor(AgendaTecnicoTypeEnum.INTERVALO);
+    }
   }
 }

@@ -174,12 +174,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
       this.form.patchValue(this.relatorioAtendimento);
-      console.log(this.form);
     } else
     {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
       this.configuraForm(this.ordemServico);
     }
+
+    if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
+      this.form.disable();
   }
 
   private configuraForm(ordemServico: OrdemServico)

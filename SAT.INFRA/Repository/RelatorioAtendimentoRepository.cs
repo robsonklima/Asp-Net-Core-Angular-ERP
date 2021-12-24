@@ -49,6 +49,7 @@ namespace SAT.INFRA.Repository
         {
             var relatorio = _context.RelatorioAtendimento
                 .Include(r => r.StatusServico)
+                .Include(r => r.CheckinsCheckouts)
                 .Include(r => r.Fotos)
                 .Include(r => r.Tecnico)
                     .ThenInclude(r => r.Usuario)
@@ -75,6 +76,7 @@ namespace SAT.INFRA.Repository
             var relatorios = _context.RelatorioAtendimento
                 .Include(r => r.Tecnico)
                 .Include(r => r.StatusServico)
+                .Include(r => r.CheckinsCheckouts)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
@@ -84,14 +86,12 @@ namespace SAT.INFRA.Repository
                 .Include(r => r.StatusServico)
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 relatorios = relatorios.Where(
                     r =>
                     r.CodRAT.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     r.NumRAT.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
-            }
 
             if (parameters.CodRAT.HasValue)
                 relatorios = relatorios.Where(r => r.CodRAT == parameters.CodRAT);
@@ -102,14 +102,13 @@ namespace SAT.INFRA.Repository
             if (parameters.DataSolucao.HasValue)
                 relatorios = relatorios.Where(r => r.DataHoraSolucao <= parameters.DataSolucao.Value);
 
-            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
             {
                 var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
-
                 relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 relatorios = relatorios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
             return PagedList<RelatorioAtendimento>.ToPagedList(relatorios, parameters.PageNumber, parameters.PageSize);

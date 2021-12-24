@@ -85,6 +85,7 @@ export interface RelatorioAtendimento
     protocolosSTN: any[];
     statusServico: StatusServico;
     codStatusServico?: number;
+    checkinsCheckouts?: CheckinCheckout[];
     tecnico: Tecnico;
     laudos: Laudo[];
     fotos: Foto[];
@@ -101,4 +102,23 @@ export interface RelatorioAtendimentoParameters extends QueryStringParameters
     codOS?: number;
     dataInicio?: string;
     dataSolucao?: string;
+};
+
+export interface CheckinCheckout
+{
+    codCheckInCheckOut: number;
+    tipo: string;
+    modalidade: string;
+    codOS: number;
+    codRAT: number;
+    latitude: string;
+    longitude: string;
+    codUsuarioTecnico: string;
+    codUsuarioPa: string;
+    dataHoraCadSmartphone: string;
+    dataHoraCad: string;
+    distanciaLocalMetros: string;
+    distanciaLocalDescricao: string;
+    duracaoLocalSegundos: string;
+    duracaoLocalDescricao: string;
 };

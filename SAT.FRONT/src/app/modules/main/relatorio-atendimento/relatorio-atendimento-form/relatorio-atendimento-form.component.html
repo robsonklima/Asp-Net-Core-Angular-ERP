@@ -117,6 +117,7 @@
                         <mat-datepicker #pickerData disabled="false"></mat-datepicker>
                     </mat-form-field>
 
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('hora do inicio') }}</mat-label>
                         <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
@@ -129,6 +130,25 @@
                         <mat-label>{{ t('hora da solucao') }}</mat-label>
                         <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
                             [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <span class="fuse-mat-dense sm:col-span-6">
+                    </span>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>Check-in</mat-label>
+                        <input matInput formControlName="checkin" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" readonly='true'>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3 self-end">
+                        <mat-label>Check-out</mat-label>
+                        <input matInput formControlName="checkout" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" readonly='true'>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
                         </mat-icon>
                     </mat-form-field>

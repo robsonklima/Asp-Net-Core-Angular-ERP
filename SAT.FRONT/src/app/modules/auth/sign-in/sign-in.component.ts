@@ -89,7 +89,9 @@ export class AuthSignInComponent implements OnInit {
                     .signIn(codUsuario, senha, hash)
                     .subscribe(() => {
                         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                        this._router.navigateByUrl(redirectURL);
+                        this._router.navigateByUrl(redirectURL).then(() => {
+                            window.location.reload();
+                        });;
                     }, (e) => {
                         this.signInForm.enable();
                         this.signInNgForm.resetForm();
@@ -100,7 +102,6 @@ export class AuthSignInComponent implements OnInit {
             } else {
                 this.enviarEmail(codUsuario, usuario, hash);
                 this._router.navigateByUrl('confirmation-required');
-                this.signInForm.enable();
             }
         }
     }

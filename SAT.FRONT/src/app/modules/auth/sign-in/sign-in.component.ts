@@ -23,7 +23,9 @@ export class AuthSignInComponent implements OnInit {
     deviceInfo: any;
     signInForm: FormGroup;
     showAlert: boolean = false;
-    snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+    snackConfigDanger: MatSnackBarConfig = {
+        duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right'
+    };
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -89,7 +91,9 @@ export class AuthSignInComponent implements OnInit {
                     .signIn(codUsuario, senha, hash)
                     .subscribe(() => {
                         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                        this._router.navigateByUrl(redirectURL);
+                        this._router.navigateByUrl(redirectURL).then(() => {
+                            window.location.reload();
+                        });;
                     }, (e) => {
                         this.signInForm.enable();
                         this.signInNgForm.resetForm();
@@ -100,7 +104,6 @@ export class AuthSignInComponent implements OnInit {
             } else {
                 this.enviarEmail(codUsuario, usuario, hash);
                 this._router.navigateByUrl('confirmation-required');
-                this.signInForm.enable();
             }
         }
     }
@@ -118,7 +121,10 @@ export class AuthSignInComponent implements OnInit {
                     <p>Navegador: ${this.deviceInfo.browser}</p>
                     <p>Versão Navegador: ${this.deviceInfo.browser_version}</p>
                     <p>Tipo de Dispositivo: ${this.deviceInfo.deviceType}</p>
-                    <p>Acesse o link para adicionar seu novo dispositivo https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmation-submit/${codUsuario}/${hash} </p>`
+                    <p>
+                        Acesse o link para adicionar seu novo dispositivo
+                        https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmation-submit/${codUsuario}/${hash}
+                    </p>`
         }).subscribe();
     }
 }

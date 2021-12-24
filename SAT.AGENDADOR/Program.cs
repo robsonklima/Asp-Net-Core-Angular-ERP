@@ -39,10 +39,16 @@ namespace SAT.AGENDADOR
             Tarefas.Agendar(
             nome: "Atualiza dados dos indicadores Dashboard",
             tarefa: () => services.IndicadorService.AtualizaDadosIndicadoresDashboard(
-                            periodoInicio: agora.AddDays(-1),
+                            periodoInicio: agora.AddDays(-30),
                             periodoFim: agora
             ),
             intervaloEmSegundos: 10 * 60); // 10 minutos
+
+            // Tarefa 2:
+            Tarefas.Agendar(
+            nome: "Cria pontos no Agenda Técnico",
+            tarefa: () => services.AgendaTecnicoService.CriaIntervalosDoDia(),
+            intervaloEmSegundos: 60 * 60); // 60 minutos
         }
     }
 }

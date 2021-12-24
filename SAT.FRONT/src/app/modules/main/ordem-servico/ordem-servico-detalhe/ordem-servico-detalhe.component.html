@@ -432,6 +432,14 @@
                                                     date:'dd/MM HH:mm') : 'Não Informado' }}
                                                 </div>
                                             </div>
+
+                                            <div class="my-2" *ngIf="r.checkinsCheckouts != null">
+                                                <div>Check-in/Check-out</div>
+                                                <div class="text-secondary text-md">
+                                                    {{ (getCheckin(r) | date:'dd/MM HH:mm') + ' - '  + (getCheckout(r) | date:'dd/MM HH:mm') }}
+                                                </div>
+                                            </div>
+
                                             <div class="my-2">
                                                 <div>Horas Gastas</div>
                                                 <div class="text-secondary text-md">

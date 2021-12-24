@@ -39,7 +39,10 @@ export class OrdemServicoImpressaoComponent implements OnInit
         this.loading = false;
       }))
       .subscribe(
-        (successData) => { this.os = successData; },
+        (successData) =>
+        {
+          this.os = successData;
+        },
         (err) => { }
       );
   }

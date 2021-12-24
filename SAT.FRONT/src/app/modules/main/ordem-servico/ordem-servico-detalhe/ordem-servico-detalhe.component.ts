@@ -279,6 +279,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
+	getCheckin(relatorioAtendimento: RelatorioAtendimento): string
+	{
+		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
+			.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
+	}
+
+	getCheckout(relatorioAtendimento: RelatorioAtendimento): string
+	{
+		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
+			.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
+	}
+
 	getFotos(): Foto[]
 	{
 		return Enumerable.from(this.os?.fotos)

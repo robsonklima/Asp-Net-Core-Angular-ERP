@@ -2,6 +2,7 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using SAT.MODELS.Helpers;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,13 @@ namespace SAT.INFRA.Repository
             });
         }
 
+        public bool ExisteIntervaloNoDia(int codTecnico)
+        {
+            return _context.AgendaTecnico
+                .Any(i => i.CodTecnico == codTecnico &&
+                i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+        }
+
         public AgendaTecnico Criar(AgendaTecnico agenda)
         {
             try
@@ -94,7 +102,6 @@ namespace SAT.INFRA.Repository
                 throw new Exception(ex.Message);
             }
         }
-
         public void Deletar(int codigo)
         {
             AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == codigo);

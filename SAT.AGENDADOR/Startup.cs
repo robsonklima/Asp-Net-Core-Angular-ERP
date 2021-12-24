@@ -13,8 +13,10 @@ namespace SAT.AGENDADOR
     public class Startup
     {
         private IIndicadorService _indicadorService;
+        private IAgendaTecnicoService _agendaTecnicoService;
 
         public IIndicadorService IndicadorService { get { return this._indicadorService; } }
+        public IAgendaTecnicoService AgendaTecnicoService { get { return this._agendaTecnicoService; } }
 
         public Startup()
         {
@@ -28,11 +30,15 @@ namespace SAT.AGENDADOR
                 IServiceCollection services = new ServiceCollection();
 
                 // Configura o DB
+#if DEBUG
+                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
+#else
                 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
+#endif
 
-                /** Inicializa os reposit�rios e servi�os **/
+                /** Inicializa os repositorios e servicos **/
 
-                // Reposit�rios
+                // Repositorios
                 services.AddTransient<ITecnicoRepository, TecnicoRepository>();
                 services.AddTransient<IFeriadoRepository, FeriadoRepository>();
                 services.AddTransient<IDashboardRepository, DashboardRepository>();
@@ -42,16 +48,24 @@ namespace SAT.AGENDADOR
                 services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
                 services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
                 services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
+                services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
+                services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
 
-                // Servi�os
+                // Servicos
                 services.AddTransient<IFeriadoService, FeriadoService>();
                 services.AddTransient<IDashboardService, DashboardService>();
                 services.AddTransient<IIndicadorService, IndicadorService>();
+                services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
+                services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
 
                 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-                // Inicializa os servi�os que ser�o usados
+                // Inicializa os servicos que serao usados
                 this._indicadorService = serviceProvider.GetService<IIndicadorService>();
+                this._agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
+
+
+
             }
             catch (Exception ex)
             {

@@ -12,15 +12,15 @@
                     <div class="flex items-start justify-between">
                         <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                             <div class="text-4xl tracking-tight text-secondary">{{ t('os') }}</div>
-                            <div class="text-4xl">{{ os.codOS }}</div>
+                            <div class="text-4xl">{{ os?.codOS }}</div>
                             <div class="font-medium tracking-tight text-secondary">{{ t('abertura').toUpperCase() }}
                             </div>
-                            <div class="font-medium">{{ os.dataHoraAberturaOS | date:'dd/MM/YY HH:mm' }}</div>
+                            <div class="font-medium">{{ os?.dataHoraAberturaOS | date:'dd/MM/YY HH:mm' }}</div>
                             <div class="font-medium tracking-tight text-secondary">{{ t('intervencao').toUpperCase() }}
                             </div>
-                            <div class="font-medium">{{ os.tipoIntervencao.nomTipoIntervencao }}</div>
+                            <div class="font-medium">{{ os?.tipoIntervencao?.nomTipoIntervencao }}</div>
                             <div class="font-medium tracking-tight text-secondary">STATUS</div>
-                            <div class="font-medium">{{ os.statusServico.nomeStatusServico }}</div>
+                            <div class="font-medium">{{ os?.statusServico?.nomeStatusServico }}</div>
                         </div>
                         <div
                             class="grid auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
@@ -39,9 +39,9 @@
                     </div>
 
                     <div class="text-md">
-                        <div class="text-xl font-medium">{{ os.cliente.nomeFantasia }}</div>
-                        <div>{{ os.localAtendimento.numAgencia }}/{{ os.localAtendimento.dcPosto }}
-                            {{os.localAtendimento.nomeLocal }}</div>
+                        <div class="text-xl font-medium">{{ os?.cliente?.nomeFantasia }}</div>
+                        <div>{{ os?.localAtendimento?.numAgencia }}/{{ os?.localAtendimento?.dcPosto }}
+                            {{os?.localAtendimento?.nomeLocal }}</div>
                         <div>
                             {{ os?.localAtendimento?.endereco.trim() + " - " | titlecase }}
                             {{ os?.localAtendimento?.bairro.trim() + "," | titlecase }}
@@ -64,7 +64,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-2 self-center text-right">
-                            {{ os?.numOSCliente ? os?.numOSCliente : 'Não Informado' }}</div>
+                            {{ os?.numOSCliente ? os?.numOSCliente : ('Não Informado' | uppercase) }}</div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('os quarteirizada') }}</div>
@@ -183,23 +183,23 @@
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 col-span-6 self-center text-right">
-                            {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
-                            {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                            {{ os?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                            {{ os?.autorizada?.nomeFantasia || '' }}</div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('regiao') }}</div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 col-span-6 self-center text-right">
-                            {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
-                            {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                            {{ os?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                            {{ os?.autorizada?.nomeFantasia || '' }}</div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('fim sla') }}</div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 self-center text-right"></div>
                         <div class="h-0 col-span-6 self-center text-right">
-                            {{ os.prazosAtendimento?.length > 0 ? (os.prazosAtendimento[os.prazosAtendimento.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/YY HH:mm') : '--' }}
+                            {{ os?.prazosAtendimento?.length > 0 ? (os?.prazosAtendimento[os?.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/YY HH:mm') : '--' }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
                         <div class="col-span-12 text-lg font-medium" *ngIf="os?.defeitoRelatado">
@@ -209,14 +209,14 @@
                             <div class="col-span-12 my-2 border-b"></div>
                         </div>
                     </div>
-                    <div *ngIf="os.relatoriosAtendimento.length > 0">
+                    <div *ngIf="os?.relatoriosAtendimento?.length > 0">
                         <div class="h-4 mt-2"></div>
                         <div class="text-xl tracking-tight text-secondary">ATENDIMENTOS</div>
                         <div>
-                            <div *ngFor="let rat of os.relatoriosAtendimento">
+                            <div *ngFor="let rat of os?.relatoriosAtendimento">
                                 <div class="grid mt-5">
 
-                                    <div class="text-lg tracking-tight text-secondary">{{ "RAT " + rat.numRAT }}
+                                    <div class="text-lg tracking-tight text-secondary">{{ "RAT " + rat?.numRAT }}
                                     </div>
                                     <div class="h-0 col-span-12 my-2"></div>
 
@@ -224,7 +224,7 @@
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ rat.tecnico.nome | uppercase }}
+                                        {{ rat?.tecnico?.nome | uppercase }}
                                     </div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -232,69 +232,70 @@
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.nomeAcompanhante || 'Não informado') | uppercase  }}</div>
+                                        {{ (rat?.nomeAcompanhante || 'Não informado') | uppercase  }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('status') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ rat.statusServico.nomeStatusServico | uppercase }}</div>
+                                        {{ rat?.statusServico?.nomeStatusServico | uppercase }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('inicio') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.dataHoraInicio | date:'dd/MM/YY HH:mm') || "---" }}</div>
+                                        {{ (rat?.dataHoraInicio | date:'dd/MM/YY HH:mm') || "---" }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.dataHoraSolucao | date:'dd/MM/YY HH:mm') || "---" }}</div>
+                                        {{ (rat?.dataHoraSolucao | date:'dd/MM/YY HH:mm') || "---" }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('horas gastas') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 col-span-6 self-center text-right">
-                                        {{ (rat.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
+                                        {{ (rat?.qtdeHorasTecnicas/60.0).toFixed(2) + 'h'  }}</div>
 
-                                    <div class="h-4 col-span-12 my-2 border-b" *ngIf="rat.relatoSolucao || rat.obsRAT">
+                                    <div class="h-4 col-span-12 my-2 border-b"
+                                        *ngIf="rat?.relatoSolucao || rat?.obsRAT">
                                     </div>
-                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat.relatoSolucao">
+                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat?.relatoSolucao">
                                         {{ t('descricao da solucao') }}
                                         <div class="font-light text-base text-justify">
-                                            {{ rat.relatoSolucao }}</div>
+                                            {{ rat?.relatoSolucao }}</div>
                                         <div class="col-span-12 my-2 border-b"></div>
                                     </div>
 
-                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat.obsRAT">
+                                    <div class="col-span-12 text-lg font-medium" *ngIf="rat?.obsRAT">
                                         {{ t('observacao') }}
                                         <div class="font-light text-base text-justify">
-                                            {{ rat.obsRAT }}</div>
+                                            {{ rat?.obsRAT }}</div>
                                         <div class="col-span-12 my-2 border-b"></div>
                                     </div>
 
-                                    <div class="col-span-12" *ngFor="let detalhe of rat.relatorioAtendimentoDetalhes">
+                                    <div class="col-span-12" *ngFor="let detalhe of rat?.relatorioAtendimentoDetalhes">
                                         <div class="text-lg mt-5 tracking-tight text-secondary">
-                                            {{ "DETALHES " + detalhe.codRATDetalhe }}
+                                            {{ "DETALHES " + detalhe?.codRATDetalhe }}
                                         </div>
                                         <div class="col-span-12 my-1"></div>
                                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('tipo de servico') }}</div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 col-span-6 self-center text-right">
-                                            {{ (detalhe.tipoServico?.nomeServico | uppercase) || "---" }}</div>
+                                            {{ (detalhe?.tipoServico?.nomeServico | uppercase) || "---" }}</div>
                                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                                         <div class="h-0 col-span-4 text-lg font-medium">{{ t('causa') }}</div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 col-span-6 self-center text-right">
-                                            {{ detalhe.causa.codCausa + ' - ' + detalhe.causa.nomeCausa | uppercase }}
+                                            {{ detalhe?.causa?.codCausa + ' - ' + detalhe?.causa?.nomeCausa | uppercase }}
                                         </div>
                                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -302,7 +303,7 @@
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 col-span-6 self-center text-right">
-                                            {{ detalhe.defeito.codDefeito + ' - ' + detalhe.defeito.nomeDefeito | uppercase }}
+                                            {{ detalhe?.defeito?.codDefeito + ' - ' + detalhe?.defeito?.nomeDefeito | uppercase }}
                                         </div>
                                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -310,12 +311,12 @@
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 self-center text-right"></div>
                                         <div class="h-0 col-span-6 self-center text-right">
-                                            {{ detalhe.acao.codAcao + ' - ' + detalhe.acao.nomeAcao | uppercase }}
+                                            {{ detalhe?.acao?.codAcao + ' - ' + detalhe?.acao?.nomeAcao | uppercase }}
                                         </div>
                                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                                        <div *ngFor="let detalhesPeca of detalhe.relatorioAtendimentoDetalhePecas">
-                                            <div *ngIf="detalhe.relatorioAtendimentoDetalhePecas.length > 0">
+                                        <div *ngFor="let detalhesPeca of detalhe?.relatorioAtendimentoDetalhePecas">
+                                            <div *ngIf="detalhe?.relatorioAtendimentoDetalhePecas?.length > 0">
                                                 <div class="text-lg tracking-tight text-secondary">
                                                     {{ t('pecas') | uppercase }}
                                                 </div>
@@ -326,7 +327,7 @@
                                                     <div class="h-0 self-center text-right"></div>
                                                     <div class="h-0 self-center text-right"></div>
                                                     <div class="h-0 col-span-6 self-center text-right">
-                                                        {{ detalhesPeca.peca.codMagnus  }}
+                                                        {{ detalhesPeca?.peca?.codMagnus  }}
                                                     </div>
                                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -336,60 +337,60 @@
                                                     <div class="h-0 self-center text-right"></div>
                                                     <div class="h-0 self-center text-right"></div>
                                                     <div class="h-0 col-span-6 self-center text-right">
-                                                        {{ detalhesPeca.qtdePecas }}
+                                                        {{ detalhesPeca?.qtdePecas }}
                                                     </div>
                                                     <div class="h-4 col-span-12 my-2"></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div *ngIf="rat?.laudos.length > 0" class="col-span-12">
+                                    <div *ngIf="rat?.laudos?.length > 0" class="col-span-12">
                                         <div class="text-lg mt-5 mb-2 tracking-tight text-secondary">
                                             {{ t('laudos') | uppercase }}
                                         </div>
                                         <div class='text-center' *ngFor="let l of rat?.laudos">
                                             <div class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
-                                                {{ t('laudo') + " " + l.codLaudo | uppercase }}
+                                                {{ t('laudo') + " " + l?.codLaudo | uppercase }}
                                             </div>
                                             <div>
                                                 <div class="col-span-12 text-lg font-medium text-left">
                                                     {{ t('status') }}
                                                     <div class="font-light text-base text-justify">
-                                                        {{ l.laudoStatus?.nomeStatus }}</div>
+                                                        {{ l?.laudoStatus?.nomeStatus }}</div>
                                                     <div class="col-span-12 my-2 border-b"></div>
                                                 </div>
                                                 <div class="col-span-12 text-lg font-medium text-left">
                                                     {{ t('relato cliente') }}
                                                     <div class="font-light text-base text-justify">
-                                                        {{ l.relatoCliente }}</div>
+                                                        {{ l?.relatoCliente }}</div>
                                                     <div class="col-span-12 my-2 border-b"></div>
                                                 </div>
                                                 <div class="col-span-12 text-lg font-medium text-left">
                                                     {{ t('conclusao') }}
                                                     <div class="font-light text-base text-justify">
-                                                        {{ l.conclusao }}</div>
+                                                        {{ l?.conclusao }}</div>
                                                     <div class="col-span-12 my-2 border-b"></div>
                                                 </div>
-                                                <div *ngIf="l.laudosSituacao?.length > 0"
+                                                <div *ngIf="l?.laudosSituacao?.length > 0"
                                                     class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
                                                     {{ t('situacoes') | uppercase }}
                                                 </div>
-                                                <div class='text-center' *ngFor="let ls of l.laudosSituacao">
+                                                <div class='text-center' *ngFor="let ls of l?.laudosSituacao">
                                                     <div
                                                         class="text-lg mt-5 mb-2 tracking-tight text-secondary text-left">
-                                                        {{ t('situacao') + " " + ls.codLaudoSituacao | uppercase }}
+                                                        {{ t('situacao') + " " + ls?.codLaudoSituacao | uppercase }}
                                                     </div>
                                                     <div>
                                                         <div class="col-span-12 text-lg font-medium text-left">
                                                             {{ t('causa') }}
                                                             <div class="font-light text-base text-justify">
-                                                                {{ ls.causa }}</div>
+                                                                {{ ls?.causa }}</div>
                                                             <div class="col-span-12 my-2 border-b"></div>
                                                         </div>
                                                         <div class="col-span-12 text-lg font-medium text-left">
                                                             {{ t('acao') }}
                                                             <div class="font-light text-base text-justify">
-                                                                {{ ls.acao }}</div>
+                                                                {{ ls?.acao }}</div>
                                                             <div class="col-span-12 my-2 border-b"></div>
                                                         </div>
                                                     </div>
@@ -398,7 +399,7 @@
                                             <div>
                                                 <div *ngFor="let foto of getLaudos(rat)" class="inline-flex w-80 m-1">
                                                     <img class="object-cover h-48 w-full m-1"
-                                                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto">
+                                                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto?.nomeFoto">
                                                 </div>
                                             </div>
                                         </div>

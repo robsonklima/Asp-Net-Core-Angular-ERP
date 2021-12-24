@@ -5,6 +5,7 @@ using System.Reflection;
 using NLog.Config;
 using NLog.Targets;
 using System.Diagnostics;
+using System.IO;
 
 namespace SAT.SERVICES.Services
 {
@@ -58,7 +59,12 @@ namespace SAT.SERVICES.Services
         /// <returns>New instance of NLog logger completly isolated from default instance if any</returns>
         private static Logger ConfigureLogger(string name)
         {
-            string assemblyPathOfCallingProject = DirectoryOfCallingClass().Split("bin")[0];
+            string assemblyPathOfCallingProject = Path.GetDirectoryName(DirectoryOfCallingClass());
+            if (DirectoryOfCallingClass().Contains("bin"))
+            {
+                assemblyPathOfCallingProject = DirectoryOfCallingClass().Split("bin")[0];
+            }
+
             string LogEntryLayout = "${ date:format=dd.MM.yyyy HH\\:mm\\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}";
             string logFileLayout = "{0}/Logs/{1}/{2}.txt";
             string absoluteFilePath = "";

@@ -13,43 +13,17 @@ namespace SAT.SERVICES.Services
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
             List<AgendaTecnico> agendamentos = this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
-            // !string.IsNullOrWhiteSpace(parameters.CodTecnicos) ?
-            // this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
-            // this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
-
-            // Tecnico tecnico = this._tecnicoRepo.ObterPorCodigo(parameters.CodTecnico.Value);
-            // {
-            //     Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-            //     CodTecnicos = parameters.CodTecnicos
-            // });
 
             var pontos = this.ObterPontosDoDia(parameters);
+
             var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
             agendamentosValidados.AddRange(pontos);
 
-            // List<int> cods = new();
-            // if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
-            // {
-            //     cods.AddRange(parameters.CodTecnicos.Split(',').Select(s => int.Parse(s.Trim())).ToArray());
-            // }
-            // else
-            // {
-            //     cods.Add(parameters.CodTecnico.Value);
-            // }
+            AgendaTecnico intervalo = agendamentos.FirstOrDefault(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+            AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, parameters.CodTecnico.Value);
 
-            // foreach (int codTec in cods)
-            // {
-            //     var intervalo = this.CriaIntervaloDoDia(agendamentos, codTec);
-            //     var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, codTec);
-            //     agendamentosValidados.Add(intervalo);
-            //     if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
-            // }
-
-            var intervalo = this.CriaIntervaloDoDia(agendamentos, parameters.CodTecnico.Value);
-            var fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, parameters.CodTecnico.Value);
-            agendamentosValidados.Add(intervalo);
+            if (intervalo != null) agendamentosValidados.Add(intervalo);
             if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
-
 
             return agendamentosValidados.Distinct().ToArray();
         }
@@ -71,7 +45,6 @@ namespace SAT.SERVICES.Services
                CodTecnico = codTecnico,
                IndAtivo = 1
            }).ToList();
-
         private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
         {
             List<AgendaTecnico> eventosValidados = new();
@@ -97,7 +70,6 @@ namespace SAT.SERVICES.Services
                         i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
                         i.CodUsuarioManut = Constants.SISTEMA_NOME;
                         i.DataHoraManut = DateTime.Now;
-                        //   this._agendaRepo.Atualizar(i);
                         listaAtualizar.Add(i);
                         eventosValidados.Add(i);
                     }
@@ -110,33 +82,39 @@ namespace SAT.SERVICES.Services
             return eventosValidados;
         }
 
-        private AgendaTecnico CriaIntervaloDoDia(List<AgendaTecnico> agendamentos, int codTecnico)
+        /// <summary>
+        /// Roda via Agendamento
+        /// </summary>
+        public void CriaIntervalosDoDia()
         {
-            var intervaloDoDia =
-                agendamentos
-                .FirstOrDefault(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
-
-            if (intervaloDoDia != null) return intervaloDoDia;
-
-            AgendaTecnico novoIntervalo = new AgendaTecnico
+            Tecnico[] tecnicos = this._tecnicoRepo.ObterPorParametros(new TecnicoParameters()
             {
-                CodTecnico = codTecnico,
-                CodUsuarioCad = Constants.SISTEMA_NOME,
-                DataHoraCad = DateTime.Now,
-                Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
-                Tipo = AgendaTecnicoTypeEnum.INTERVALO,
-                Titulo = this.IntervaloTitle,
-                Inicio = this.InicioIntervalo(),
-                Fim = this.FimIntervalo(),
-                IndAgendamento = 0,
+                Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
                 IndAtivo = 1
-            };
+            }).Where(t => t.CodTecnico.GetValueOrDefault(0) != 0).ToArray();
 
-            var ag = this._agendaRepo.Criar(novoIntervalo);
+            foreach (Tecnico tecnicoAtivo in tecnicos)
+            {
+                if (!this._agendaRepo.ExisteIntervaloNoDia(tecnicoAtivo.CodTecnico.Value))
+                {
+                    AgendaTecnico novoIntervalo = new AgendaTecnico
+                    {
+                        CodTecnico = tecnicoAtivo.CodTecnico,
+                        CodUsuarioCad = Constants.SISTEMA_NOME,
+                        DataHoraCad = DateTime.Now,
+                        Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
+                        Tipo = AgendaTecnicoTypeEnum.INTERVALO,
+                        Titulo = this.IntervaloTitle,
+                        Inicio = this.InicioIntervalo(),
+                        Fim = this.FimIntervalo(),
+                        IndAgendamento = 0,
+                        IndAtivo = 1
+                    };
 
-            return ag;
+                    this._agendaRepo.Criar(novoIntervalo);
+                }
+            }
         }
-
 
         private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendamentos, int codTecnico)
         {
@@ -166,32 +144,6 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters)
         {
             List<AgendaTecnico> pontos = new();
-            //             List<PontoUsuario> pontosUsuario = new();
-            //             Dictionary<string, int> dadosTecico = new();
-            // 
-            //             if (usuarios != null)
-            //             {
-            //                 foreach (Usuario usuario in usuarios.Where(i => i != null))
-            //                 {
-            //                     if (!dadosTecico.ContainsKey(usuario.CodUsuario.Trim().ToLower()))
-            //                         dadosTecico.Add(usuario.CodUsuario.Trim().ToLower(), usuario.Tecnico.CodTecnico.Value);
-            // 
-            //                     pontosUsuario.AddRange(this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
-            //                     {
-            //                         CodUsuario = usuario.CodUsuario,
-            //                         DataHoraRegistro = DateTime.Today.Date
-            //                     }).ToList());
-            //                 }
-            //             }
-            //             else
-            //             {
-            //                 dadosTecico.Add(parameters.CodUsuario.ToLower(), parameters.CodTecnico.Value);
-            //                 pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
-            //                 {
-            //                     CodUsuario = parameters.CodUsuario,
-            //                     DataHoraRegistro = DateTime.Today.Date
-            //                 }).ToList();
-            //             }
 
             List<PontoUsuario> pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters()
             {
@@ -200,8 +152,6 @@ namespace SAT.SERVICES.Services
                 DataHoraRegistroFim = DateTime.Today,
                 IndAtivo = 1
             });
-
-
 
             pontosUsuario.Where(i => i.DataHoraRegistro.Date == DateTime.Now.Date).ToList().ForEach(p =>
             {
@@ -270,7 +220,6 @@ namespace SAT.SERVICES.Services
                     e.DataHoraCad = DateTime.Now;
                     e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
 
-                    // var ag = this._agendaRepo.Atualizar(e);
                     atualizarAgendas.Add(e);
                     ultimoEvento = e;
                     ultimaOS = os;

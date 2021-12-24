@@ -29,6 +29,7 @@ import { Agendamento } from 'app/core/types/agendamento.types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { Foto, FotoModalidadeEnum } from 'app/core/types/foto.types';
 import { FotoService } from 'app/core/services/foto.service';
+import Enumerable from 'linq';
 
 
 @Component({
@@ -82,11 +83,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
     this.inicializarForm();
-    await this.obterOrdemServico().then(() =>
-    {
-      this.loading = false;
-    });
 
+    await this.obterOrdemServico();
     await this.obterRelatorioAtendimento();
 
     this.form.controls['data'].valueChanges.subscribe((data) =>
@@ -120,7 +118,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       indAtivo: 1,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.ordemServico?.filial?.codFilial.toString()
+      codFiliais: this.ordemServico?.codFilial.toString()
     }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges
@@ -135,7 +133,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
             sortDirection: 'asc',
             indAtivo: 1,
             filter: query,
-            codFiliais: this.ordemServico?.filial?.codFilial.toString()
+            codFiliais: this.ordemServico?.codFilial.toString()
           }).toPromise();
 
           return data.items.slice();
@@ -153,6 +151,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
           this.searching = false;
         }
       );
+
+    this.loading = false;
   }
 
   private async obterOrdemServico()
@@ -173,6 +173,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+
+      var checkin = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
+        .where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
+      var checkout = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
+        .where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
+
+      this.form.controls['checkin'].setValue(moment(checkin?.dataHoraCadSmartphone).format('HH:mm'));
+      this.form.controls['checkout'].setValue(moment(checkout?.dataHoraCadSmartphone).format('HH:mm'));
+
       this.form.patchValue(this.relatorioAtendimento);
     } else
     {
@@ -386,6 +395,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       ],
       horaInicio: [undefined, [TimeValidator(), Validators.required]],
       horaFim: [undefined, [TimeValidator(), Validators.required,]],
+      checkin: [undefined, [TimeValidator()]],
+      checkout: [undefined, [TimeValidator()]],
       obsRAT: [undefined],
     });
   }
@@ -460,9 +471,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
     if (
       (
-        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
-        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
-        this.ordemServico?.tipoIntervencao.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
+        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
+        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
+        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
       )
       && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
     )

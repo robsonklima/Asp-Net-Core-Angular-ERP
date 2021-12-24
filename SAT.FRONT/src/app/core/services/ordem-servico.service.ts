@@ -37,6 +37,15 @@ export class OrdemServicoService
     );
   }
 
+  obterEntidadePorCodigo(codOS: number): Observable<OrdemServico>
+  {
+    const url = `${c.api}/OrdemServico/Entidade/${codOS}`;
+
+    return this.http.get<OrdemServico>(url).pipe(
+      map((obj) => obj)
+    );
+  }
+
   criar(ordemServico: OrdemServico): Observable<OrdemServico>
   {
     return this.http.post<OrdemServico>(`${c.api}/OrdemServico`, ordemServico).pipe(

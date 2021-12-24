@@ -17,5 +17,6 @@ namespace SAT.INFRA.Interfaces
         Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda);
         void AtualizarListaAsync(List<AgendaTecnico> agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
+        bool ExisteIntervaloNoDia(int codTecnico);
     }
 }

@@ -137,7 +137,7 @@
                     <span class="fuse-mat-dense sm:col-span-6">
                     </span>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
                         <mat-label>Check-in</mat-label>
                         <input matInput formControlName="checkin" mask="00:00" [showMaskTyped]="true"
                             [dropSpecialCharacters]="false" readonly='true'>
@@ -145,7 +145,7 @@
                         </mat-icon>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3 self-end">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
                         <mat-label>Check-out</mat-label>
                         <input matInput formControlName="checkout" mask="00:00" [showMaskTyped]="true"
                             [dropSpecialCharacters]="false" readonly='true'>

@@ -57,7 +57,7 @@ export class AuthSignInComponent implements OnInit {
         const usuario = await this._userSvc.obterPorCodigo(codUsuario).toPromise();
 
         if (!hash) {
-            if(usuario && usuario?.email) {
+            if (usuario && usuario?.email) {
                 hash = Math.random().toString(36).slice(2).toString();
                 this._authService.setUserHash(hash);
 
@@ -75,11 +75,11 @@ export class AuthSignInComponent implements OnInit {
 
                 await this._usuarioDispositivoSvc.criar(dispositivo).subscribe();
                 this.enviarEmail(codUsuario, usuario, hash);
-                this._router.navigateByUrl('confirmation-required');
+                this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
             } else {
                 this._snack.open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger).afterDismissed().toPromise();
             }
-            
+
             this.signInForm.enable();
         } else {
             let dispositivo = await this._usuarioDispositivoSvc
@@ -93,17 +93,16 @@ export class AuthSignInComponent implements OnInit {
                         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                         this._router.navigateByUrl(redirectURL).then(() => {
                             window.location.reload();
-                        });;
+                        });
                     }, (e) => {
                         this.signInForm.enable();
                         this.signInNgForm.resetForm();
-                    }
-                );
+                    });
 
                 this.signInForm.enable();
             } else {
                 this.enviarEmail(codUsuario, usuario, hash);
-                this._router.navigateByUrl('confirmation-required');
+                this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
             }
         }
     }

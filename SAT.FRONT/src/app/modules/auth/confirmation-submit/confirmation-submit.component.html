@@ -38,9 +38,9 @@
                 mat-flat-button
                 [color]="'primary'"
                 *ngIf="!showAlert"
-                [disabled]="!dispositivo"
+                [disabled]="!dispositivo || isLoading"
                 (click)="adicionar()">
-                <span *ngIf="!isLoading || dispositivo">
+                <span *ngIf="!isLoading && dispositivo">
                     Adicionar
                 </span>
                 <mat-progress-spinner

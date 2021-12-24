@@ -66,12 +66,6 @@
                                 [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
                             </button>
-
-                            <button class="fuse-mat-button-rounded bg-purple-700" mat-flat-button
-                                [matTooltip]="'Enviar por e-mail'" [disabled]="isLoading" matTooltipPosition="above"
-                                (click)="openEmailDialog()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                            </button>
                         </div>
 
                         <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700" mat-flat-button
@@ -87,6 +81,10 @@
                                     !isUserPosVenda()" *ngIf="isUserPosVenda()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
                                     {{ t('cancelar') }}
+                                </button>
+                                <button mat-menu-item (click)="openEmailDialog()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                    Enviar por e-mail
                                 </button>
                             </mat-menu>
                         </button>

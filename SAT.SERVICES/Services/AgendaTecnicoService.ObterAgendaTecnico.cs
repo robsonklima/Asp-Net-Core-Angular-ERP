@@ -22,7 +22,7 @@ namespace SAT.SERVICES.Services
             AgendaTecnico intervalo = agendamentos.FirstOrDefault(i => i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
             AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, parameters.CodTecnico.Value);
 
-            agendamentosValidados.Add(intervalo);
+            if (intervalo != null) agendamentosValidados.Add(intervalo);
             if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
 
             return agendamentosValidados.Distinct().ToArray();
@@ -115,6 +115,7 @@ namespace SAT.SERVICES.Services
                 }
             }
         }
+
         private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendamentos, int codTecnico)
         {
             var primeiroPontoDoDia =

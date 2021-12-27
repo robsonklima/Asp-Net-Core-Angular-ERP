@@ -318,7 +318,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 					{
 						titulo: "Agenda Técnico",
 						descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
-						link: '/agenda-tecnico',
+						link: './#/agenda-tecnico',
 						useRouter: true,
 						lida: 0,
 						indAtivo: 1,
@@ -347,7 +347,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				{
 					titulo: "Agenda Técnico",
 					descricao: `O chamado ${this.os.codOS} foi removido da Agenda Técnico.`,
-					link: '/agenda-tecnico',
+					link: './#/agenda-tecnico',
 					useRouter: true,
 					lida: 0,
 					indAtivo: 1,

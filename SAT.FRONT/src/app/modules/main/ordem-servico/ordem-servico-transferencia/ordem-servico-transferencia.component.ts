@@ -113,7 +113,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
           {
             titulo: "Agenda Técnico",
             descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
-            link: '/agenda-tecnico',
+            link: './#/agenda-tecnico',
             useRouter: true,
             lida: 0,
             indAtivo: 1,

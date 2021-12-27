@@ -390,7 +390,10 @@ export class ChangelogComponent implements OnInit
                         list: [
                             'Ajustes Agenda Técnico',
                             'Serviço de AutoReload',
-                            'Alteração de expiração do token'
+                            'Alteração de expiração do token',
+                            'Edição das fotos da RAT',
+                            'Melhora da performance de carregamento do formulario do RAT',
+                            'Melhora performance da Agenda'
                         ],
                     }
                 ]

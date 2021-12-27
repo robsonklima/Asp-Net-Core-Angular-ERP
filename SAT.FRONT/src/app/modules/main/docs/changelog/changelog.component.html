@@ -25,7 +25,10 @@
                     <hr class="mt-6">
                     <ng-container *ngFor="let change of item.changes">
                         <div class="mt-8">
-                            <span class="inline-flex bg-default rounded px-3 py-1 text-secondary font-bold">
+                            <span 
+                                class="inline-flex text-white rounded px-3 py-1 font-bold"
+                                [class.bg-red-500]="change.type == 'Correções'"
+                                [class.bg-green-500]="change.type == 'Adições'">
                                 {{change.type}}
                             </span>
                             <ul>

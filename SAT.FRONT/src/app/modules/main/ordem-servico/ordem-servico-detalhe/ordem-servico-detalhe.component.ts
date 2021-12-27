@@ -23,6 +23,8 @@ import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { FotoService } from 'app/core/services/foto.service';
+import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
+import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -57,6 +59,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
+		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
 		private _notificacaoService: NotificacaoService
 	) {
@@ -121,6 +124,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
 		console.log(this.os);
 		
+	}
+
+	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {
+		return new Promise((resolve, reject) => {
+			this._ordemServicoHistoricoSvc
+				.obterPorParametros({ codOS: codOS })
+				.subscribe((historico: OrdemServicoHistoricoData) => {
+				resolve(historico);
+			}, () => {
+				reject();
+			});
+		})
 	}
 
 	private async obterUsuarioCadastro() {
@@ -217,7 +232,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		});
 	}
 
-	cancelarTransferencia() {
+	async cancelarTransferencia() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -232,35 +247,38 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
 			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
+				
+				this.obterHistoricoOS(this.codOS).then((historico) => {
+					const historicoOS = historico.items.filter(h => h.codStatusServico != 8);
 
-				if (this.os?.relatoriosAtendimento.length != 0)
-					ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
-						.orderByDescending(i => i.codRAT)
-						.firstOrDefault()
-						.statusServico
-						.codStatusServico;
+					if (historicoOS.length != 0)
+						ultimoStatus = Enumerable.from(historicoOS)
+							.orderByDescending(i => i.codHistOS)
+							.firstOrDefault()
+							.codStatusServico;
 
-				let obj = {
-					...this.os,
-					...{
-						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-						codUsuarioManut: this.userSession.usuario.codUsuario,
-						codStatusServico: ultimoStatus,
-						codTecnico: null
-					}
-				};
+					let obj = {
+						...this.os,
+						...{
+							dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+							codUsuarioManut: this.userSession.usuario.codUsuario,
+							codStatusServico: ultimoStatus,
+							codTecnico: null
+						}
+					};
 
-				Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 
-				this._ordemServicoService.atualizar(obj).subscribe(
-					result => {
-						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-						this.deleteAgendaTecnico();
-						this.obterDadosOrdemServico();
-					},
-					error => {
-						this._snack.exibirToast("Erro ao cancelar transferência!", "error");
-					});
+					this._ordemServicoService.atualizar(obj).subscribe(
+						() => {
+							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+							this.deleteAgendaTecnico();
+							this.obterDadosOrdemServico();
+						},
+						() => {
+							this._snack.exibirToast("Erro ao cancelar transferência!", "error");
+						});
+				});
 			}
 		});
 	}

@@ -66,6 +66,7 @@ namespace SAT.SERVICES.Services
                CodTecnico = codTecnico,
                IndAtivo = 1
            }).ToList();
+
         private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
         {
             List<AgendaTecnico> eventosValidados = new();
@@ -88,6 +89,9 @@ namespace SAT.SERVICES.Services
                 {
                     if (i.Fim < DateTime.Now)
                     {
+                        if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO))
+                            i.IndAtivo = 0;
+
                         i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
                         i.CodUsuarioManut = Constants.SISTEMA_NOME;
                         i.DataHoraManut = DateTime.Now;
@@ -100,7 +104,7 @@ namespace SAT.SERVICES.Services
             }
 
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
-            return eventosValidados;
+            return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
         }
 
         /// <summary>
@@ -241,6 +245,9 @@ namespace SAT.SERVICES.Services
             {
                 if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                 {
+                    if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO))
+                        e.IndAtivo = 0;
+
                     e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                     atualizarAgendas.Add(e);
                 }
@@ -280,7 +287,7 @@ namespace SAT.SERVICES.Services
             });
 
             this._agendaRepo.AtualizarListaAsync(atualizarAgendas);
-            return agendasTecnico;
+            return agendasTecnico.Where(i => i.IndAtivo == 1).ToList();
         }
 
         private string GetStatusColor(StatusServicoEnum statusServicoEnum)

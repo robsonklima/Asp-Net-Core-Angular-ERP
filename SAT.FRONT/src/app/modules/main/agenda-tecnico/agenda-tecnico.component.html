@@ -98,7 +98,7 @@
                 [ngStyle]="{borderColor: data.color, background: data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE' ?
                 'transparent' : data.color}">
                 <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
-                    [ngStyle]="{color: data.title == 'FIM DO EXPEDIENTE' ? 'red' : 'black', background: 'transparent'}"
+                    [ngStyle]="{color: data.title == 'FIM DO EXPEDIENTE' ? 'red' : 'green', background: 'transparent'}"
                     *ngIf="data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE'"></span>
                 <div class="mbsc-custom-event-title"
                     [ngStyle]="{ color: data.title == 'INTERVALO' ? 'black' : 'white'}">

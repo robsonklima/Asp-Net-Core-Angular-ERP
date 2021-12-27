@@ -237,22 +237,19 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (!Enumerable.from(this.resources).any()) return;
 
-    await Promise.all(this.tecnicos.map(async (t) =>
+    this._agendaTecnicoSvc.obterAgendaTecnico({
+      codFiliais: this.filter?.parametros?.codFiliais,
+      codTecnicos: Enumerable.from(this.tecnicos).select(t => t.codTecnico).distinct().toArray().join(','),
+      inicioPeriodoAgenda: this.weekStart,
+      fimPeriodoAgenda: this.weekEnd,
+      sortActive: 'nome',
+      sortDirection: 'asc'
+    }).toPromise().then(agendamentos =>
     {
-      var agendamentos = (await this._agendaTecnicoSvc.obterAgendaTecnico({
-        codTecnico: t.codTecnico,
-        codUsuario: t.usuario.codUsuario,
-        inicioPeriodoAgenda: this.weekStart,
-        fimPeriodoAgenda: this.weekEnd,
-        sortActive: 'nome',
-        sortDirection: 'asc'
-      }).toPromise());
-
       this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
-    }));
-
-    this.carregaAgendaTecnico(this.agendaTecnicos);
-    this.loading = false;
+      this.carregaAgendaTecnico(agendamentos);
+      this.loading = false;
+    });
   }
 
   private atualizaLinhaTecnico(resourceId: number)

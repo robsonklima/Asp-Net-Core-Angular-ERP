@@ -380,6 +380,20 @@ export class ChangelogComponent implements OnInit
                         ],
                     }
                 ]
+            },
+            {
+                version: '1.1.14',
+                releaseDate: '27 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Ajustes Agenda Técnico',
+                            'Serviço de AutoReload',
+                            'Alteração de expiração do token'
+                        ],
+                    }
+                ]
             }
         ];
     }

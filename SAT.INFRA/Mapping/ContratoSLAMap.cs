@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<ContratoSLA> builder)
         {
-            builder
-                .ToTable("ContratoSLA");
-
-            builder
-                .HasKey(prop => new { prop.CodContrato, prop.CodSLA });
+            builder.ToTable("ContratoSLA");
+            builder.HasKey(prop => new { prop.CodContrato, prop.CodSLA });
         }
     }
 }

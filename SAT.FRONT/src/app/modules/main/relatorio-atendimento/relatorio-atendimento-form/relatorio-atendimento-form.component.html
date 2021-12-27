@@ -349,7 +349,7 @@
                         <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
                             <img class="object-cover h-48 w-full"
                                 [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
-                                onError="this.src='./https://apisat-homologacao.perto.com.br/Upload/'+foto.nomeFoto;"
+                                onError="this.src='assets/images/avatars/gallery.png';"
                                 alt="">
                             <div class="m-1 p-1 text-center">
                                 <div class="flex items-center">
@@ -358,7 +358,7 @@
                                     <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)"
                                         mat-icon-button [disabled]="this.ordemServico?.codStatusServico === 3
                                         || this.ordemServico?.codStatusServico === 2">
-                                        <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:trash'">
+                                        <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
                                         </mat-icon>
                                     </button>
                                 </div>

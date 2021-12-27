@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
 using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Helpers;
 
 namespace SAT.INFRA.Repository
 {
@@ -46,6 +47,28 @@ namespace SAT.INFRA.Repository
         public Foto ObterPorCodigo(int codigo)
         {
             return _context.Foto.FirstOrDefault(f => f.CodRATFotoSmartphone == codigo);
+        }
+
+        public PagedList<Foto> ObterPorParametros(FotoParameters parameters)
+        {
+            var fotos = _context.Foto.AsQueryable();
+
+            if (parameters.NumRAT != null)
+            {
+                fotos = fotos.Where(f => f.NumRAT == parameters.NumRAT);
+            }
+
+            if (parameters.CodOS != null)
+            {
+                fotos = fotos.Where(f => f.CodOS == parameters.CodOS);
+            }
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                fotos = fotos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+            }
+
+            return PagedList<Foto>.ToPagedList(fotos, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

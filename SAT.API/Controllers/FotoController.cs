@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -17,6 +18,12 @@ namespace SAT.API.Controllers
         public FotoController(IFotoService fotoService)
         {
             _fotoService = fotoService;
+        }
+
+        [HttpGet]
+        public ListViewModel Get([FromQuery] FotoParameters parameters)
+        {
+            return _fotoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codFoto}")]

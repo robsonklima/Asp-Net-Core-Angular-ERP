@@ -1,5 +1,6 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Enums;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -76,10 +77,8 @@ namespace SAT.INFRA.Repository
 
                     case "nomeTecnico":
                         query = sortDirection == "asc" ?
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
-                                 .OrderBy(q => q.Tecnico.Nome) :
-                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome) && q.CodStatusServico == 8)
-                                 .OrderByDescending(q => q.Tecnico.Nome);
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome)).OrderBy(q => q.Tecnico.Nome) :
+                            query.Where(q => !string.IsNullOrEmpty(q.Tecnico.Nome)).OrderByDescending(q => q.Tecnico.Nome);
                         break;
 
                     case "datahoraAberturaOS":
@@ -92,6 +91,12 @@ namespace SAT.INFRA.Repository
                         query = sortDirection == "asc" ?
                                query.OrderBy(q => q.Agendamentos.OrderByDescending(i => i.CodAgendamento).FirstOrDefault().DataAgendamento) :
                                query.OrderByDescending(q => q.Agendamentos.OrderByDescending(i => i.CodAgendamento).FirstOrDefault().DataAgendamento);
+                        break;
+
+                    case "tipoIntervencao":
+                        query = sortDirection == "asc" ?
+                               query.OrderBy(q => q.TipoIntervencao.NomTipoIntervencao) :
+                               query.OrderByDescending(q => q.TipoIntervencao.NomTipoIntervencao);
                         break;
 
                     default:

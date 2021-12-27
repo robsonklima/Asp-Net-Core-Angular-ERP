@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
-import { AlertasEnum, OrdemServico, OrdemServicoAlerta } from 'app/core/types/ordem-servico.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
@@ -23,6 +23,8 @@ import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { FotoService } from 'app/core/services/foto.service';
+import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
+import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -30,8 +32,7 @@ import { FotoService } from 'app/core/services/foto.service';
 	styleUrls: ['./ordem-servico-detalhe.component.scss'],
 	encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements AfterViewInit
-{
+export class OrdemServicoDetalheComponent implements AfterViewInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
@@ -45,12 +46,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	usuarioCadastro: Usuario;
 	isLoading: boolean = false;
 
-	public get perfilEnum(): typeof RoleEnum
-	{
+	public get perfilEnum(): typeof RoleEnum {
 		return RoleEnum;
 	}
 
-	constructor (
+	constructor(
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
 		private _agendamentoService: AgendamentoService,
@@ -59,32 +59,28 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
+		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
 		private _notificacaoService: NotificacaoService
-	)
-	{
+	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	ngAfterViewInit(): void
-	{
+	ngAfterViewInit(): void {
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
 		this.obterDadosOrdemServico();
 
 		this.perfis = RoleEnum;
 
-		this.sidenav.closedStart.subscribe(() =>
-		{
+		this.sidenav.closedStart.subscribe(() => {
 			this.obterDadosOrdemServico();
 		})
 
 		this._cdr.detectChanges();
 	}
 
-	trocarTab(tab: any)
-	{
-		if (tab.index !== 5 || !this.os)
-		{
+	trocarTab(tab: any) {
+		if (tab.index !== 5 || !this.os) {
 			return;
 		}
 
@@ -113,8 +109,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.map.invalidateSize();
 	}
 
-	private async obterDadosOrdemServico()
-	{
+	private async obterDadosOrdemServico() {
 		this.isLoading = true;
 
 		await this.obterOS();
@@ -125,21 +120,31 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = false;
 	}
 
-	private async obterOS()
-	{
-		this.os =
-			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
+	private async obterOS() {
+		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+		console.log(this.os);
+		
 	}
 
-	private async obterUsuarioCadastro()
-	{
+	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {
+		return new Promise((resolve, reject) => {
+			this._ordemServicoHistoricoSvc
+				.obterPorParametros({ codOS: codOS })
+				.subscribe((historico: OrdemServicoHistoricoData) => {
+				resolve(historico);
+			}, () => {
+				reject();
+			});
+		})
+	}
+
+	private async obterUsuarioCadastro() {
 		if (this.os?.codUsuarioCad != null)
 			this.usuarioCadastro =
 				(await this._userService.obterPorCodigo(this.os.codUsuarioCad).toPromise());
 	}
 
-	private async obterFotos()
-	{
+	private async obterFotos() {
 		this.os.fotos =
 			(await this._fotoService.obterPorParametros(
 				{
@@ -148,10 +153,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			).toPromise()).items;
 	}
 
-	private async obterAgendamentos()
-	{
-		if (this.os.agendamentos?.length)
-		{
+	private async obterAgendamentos() {
+		if (this.os.agendamentos?.length) {
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
 
@@ -166,85 +169,70 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}
 	}
 
-	async agendar()
-	{
+	async agendar() {
 		const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
 			data: {
 				codOS: this.os.codOS
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((data: any) =>
-		{
-			if (data)
-			{
+		dialogRef.afterClosed().subscribe((data: any) => {
+			if (data) {
 
-				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss'))
-				{
+				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss')) {
 
 					this._snack.exibirToast('O Chamado não deve ser agendado em datas retroativas', 'error');
 					return;
 				}
 
 				this._agendamentoService.criar(data.agendamento).subscribe(
-					result =>
-					{
+					result => {
 						this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
 
 						this._ordemServicoService.atualizar(this.os).subscribe(
-							result =>
-							{
+							result => {
 								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
 								this.createAgendaTecnico();
 								this.obterDadosOrdemServico();
 							},
-							error =>
-							{
+							error => {
 								this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 							});
 					},
-					error =>
-					{
+					error => {
 						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 					});
 			}
 		});
 	}
 
-	openEmailDialog()
-	{
+	openEmailDialog() {
 		const dialogRef = this._dialog.open(OrdemServicoEmailDialogComponent, {
 			width: '400px',
 			data: { os: this.os }
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: any) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: any) => {
+			if (confirmacao) {
 				this._snack.exibirToast('E-mail enviado com sucesso.', 'success');
 			}
 		});
 	}
 
-	cancelar()
-	{
+	cancelar() {
 		const dialogRef = this._dialog.open(OrdemServicoCancelamentoComponent, {
 			width: '400px',
 			data: { os: this.os }
 		});
 
-		dialogRef.afterClosed().subscribe((os: any) =>
-		{
-			if (os)
-			{
+		dialogRef.afterClosed().subscribe((os: any) => {
+			if (os) {
 				this.obterDadosOrdemServico();
 			}
 		});
 	}
 
-	cancelarTransferencia()
-	{
+	async cancelarTransferencia() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -256,93 +244,83 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
+				
+				this.obterHistoricoOS(this.codOS).then((historico) => {
+					const historicoOS = historico.items.filter(h => h.codStatusServico != 8);
 
-				if (this.os?.relatoriosAtendimento.length != 0)
-					ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
-						.orderByDescending(i => i.codRAT)
-						.firstOrDefault()
-						.statusServico
-						.codStatusServico;
+					if (historicoOS.length != 0)
+						ultimoStatus = Enumerable.from(historicoOS)
+							.orderByDescending(i => i.codHistOS)
+							.firstOrDefault()
+							.codStatusServico;
 
-				let obj = {
-					...this.os,
-					...{
-						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-						codUsuarioManut: this.userSession.usuario.codUsuario,
-						codStatusServico: ultimoStatus,
-						codTecnico: null
-					}
-				};
+					let obj = {
+						...this.os,
+						...{
+							dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+							codUsuarioManut: this.userSession.usuario.codUsuario,
+							codStatusServico: ultimoStatus,
+							codTecnico: null
+						}
+					};
 
-				Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 
-				this._ordemServicoService.atualizar(obj).subscribe(
-					result =>
-					{
-						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-						this.deleteAgendaTecnico();
-						this.obterDadosOrdemServico();
-					},
-					error =>
-					{
-						this._snack.exibirToast("Erro ao cancelar transferência!", "error");
-					});
+					this._ordemServicoService.atualizar(obj).subscribe(
+						() => {
+							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+							this.deleteAgendaTecnico();
+							this.obterDadosOrdemServico();
+						},
+						() => {
+							this._snack.exibirToast("Erro ao cancelar transferência!", "error");
+						});
+				});
 			}
 		});
 	}
 
-	getCheckin(relatorioAtendimento: RelatorioAtendimento): string
-	{
+	getCheckin(relatorioAtendimento: RelatorioAtendimento): string {
 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
 			.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
 	}
 
-	getCheckout(relatorioAtendimento: RelatorioAtendimento): string
-	{
+	getCheckout(relatorioAtendimento: RelatorioAtendimento): string {
 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
 			.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
 	}
 
-	getFotos(): Foto[]
-	{
+	getFotos(): Foto[] {
 		return Enumerable.from(this.os?.fotos)
 			.where(i => !i.modalidade.includes("LAUDO"))
 			.toArray();
 	}
 
-	getLaudos(): Foto[]
-	{
+	getLaudos(): Foto[] {
 		return Enumerable.from(this.os?.fotos)
 			.where(i => i.modalidade.includes("LAUDO"))
 			.toArray();
 	}
 
-	isPecasPendentes(rat: RelatorioAtendimento): boolean
-	{
+	isPecasPendentes(rat: RelatorioAtendimento): boolean {
 		return rat.codStatusServico == 7;
 	}
 
-	getPecasPendentes(rat: RelatorioAtendimento)
-	{
+	getPecasPendentes(rat: RelatorioAtendimento) {
 		return Enumerable.from(rat.relatorioAtendimentoDetalhes)
 			.selectMany(i => i.relatorioAtendimentoDetalhePecas).where(i => i.descStatus == 'PEÇA FALTANTE')
 			.select(i => i.peca.nomePeca).toJoinedString();
 	}
 
-	private createAgendaTecnico()
-	{
+	private createAgendaTecnico() {
 		if (this.os.codTecnico == null) return;
 
 		this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
-			.then(s =>
-			{
-				if (s)
-				{
+			.then(s => {
+				if (s) {
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
@@ -356,8 +334,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					this._notificacaoService.criar(notificacao).toPromise();
 				}
 			}).catch(
-				e =>
-				{
+				e => {
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
@@ -370,11 +347,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				});
 	}
 
-	private deleteAgendaTecnico()
-	{
+	private deleteAgendaTecnico() {
 		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise()
-			.then(s =>
-			{
+			.then(s => {
 				var notificacao: Notificacao =
 				{
 					titulo: "Agenda Técnico",
@@ -387,8 +362,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				};
 				this._notificacaoService.criar(notificacao).toPromise();
 			}).catch(
-				e =>
-				{
+				e => {
 					var notificacao: Notificacao =
 					{
 						titulo: "Agenda Técnico",
@@ -401,8 +375,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				});
 	}
 
-	isUserPosVenda()
-	{
+	isUserPosVenda() {
 		var userRole: RoleEnum = this.userSession?.usuario?.codPerfil;
 
 		if (userRole == RoleEnum.PV_COORDENADOR_DE_CONTRATO || userRole == RoleEnum.ADMIN) return true;

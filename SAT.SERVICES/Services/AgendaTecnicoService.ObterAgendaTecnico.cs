@@ -89,7 +89,7 @@ namespace SAT.SERVICES.Services
                 {
                     if (i.Fim < DateTime.Now)
                     {
-                        if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO))
+                        if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
                             i.IndAtivo = 0;
 
                         i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
@@ -259,7 +259,7 @@ namespace SAT.SERVICES.Services
             {
                 if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                 {
-                    if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO))
+                    if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
                         e.IndAtivo = 0;
 
                     e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);

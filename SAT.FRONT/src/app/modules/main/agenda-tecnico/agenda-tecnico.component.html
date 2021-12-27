@@ -16,7 +16,7 @@
     <div class="scheduler-scroll">
         <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
             [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading &&
-            resources.length != 0">
+            resources?.length != 0">
         </mbsc-eventcalendar>
         <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading" [matTooltip]="'Chamados'">
             <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
@@ -34,7 +34,7 @@
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
         </div>
-        <div class="warning-indicator font-bold" *ngIf="!loading && resources.length == 0">
+        <div class="warning-indicator font-bold" *ngIf="!loading && resources?.length == 0">
             Nenhum técnico encontrado. Por favor, verifique seus filtros.
         </div>
         <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">

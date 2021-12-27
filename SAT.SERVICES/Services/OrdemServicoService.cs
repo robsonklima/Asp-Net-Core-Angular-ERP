@@ -8,6 +8,7 @@ using SAT.SERVICES.Interfaces;
 using System.Linq;
 using System;
 using SAT.MODELS.Entities.Constants;
+using System.Threading.Tasks;
 
 namespace SAT.SERVICES.Services
 {
@@ -48,7 +49,7 @@ namespace SAT.SERVICES.Services
         {
             OrdemServico os = _ordemServicoRepo.ObterPorCodigo(codigo);
 
-            // os.Alertas = _ordemServicoAlertaService.ObterAlertas(os);
+            os.Alertas = _ordemServicoAlertaService.ObterAlertas(os);
             os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
 
             return os;

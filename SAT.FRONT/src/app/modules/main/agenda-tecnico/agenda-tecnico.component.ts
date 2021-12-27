@@ -88,7 +88,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         type: 'week',
         allDay: false,
         startDay: 1,
-        startTime: '07:00',
+        startTime: '06:00',
         endTime: '24:00',
         rowHeight: 'equal',
 

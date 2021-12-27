@@ -32,12 +32,6 @@ namespace SAT.API.Controllers
             return _fotoService.ObterPorCodigo(codFoto);
         }
 
-        [HttpGet]
-        public ListViewModel Get([FromQuery] FotoParameters parameters)
-        {
-            return _fotoService.ObterPorParametros(parameters);
-        }
-
         [HttpPost]
         public void Post([FromBody] Foto foto)
         {

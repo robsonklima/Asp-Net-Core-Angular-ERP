@@ -76,8 +76,6 @@ export class ContratoEquipamentosComponent implements OnInit {
             .obterPorParametros(params)
             .toPromise();
 
-        console.log(data);
-        
         this.dataSourceData = data;
         this.isLoading = false;
 
@@ -97,7 +95,6 @@ export class ContratoEquipamentosComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                console.log('Not Implemented hihi ');
                 
             }
 

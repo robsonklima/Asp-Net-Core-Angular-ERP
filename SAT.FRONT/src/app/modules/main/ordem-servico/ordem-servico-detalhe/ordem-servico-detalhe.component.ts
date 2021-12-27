@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
@@ -122,8 +122,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 	private async obterOS() {
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-		console.log(this.os);
-		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {
@@ -249,9 +247,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				var ultimoStatus = statusServicoConst.ABERTO;
 				
 				this.obterHistoricoOS(this.codOS).then((historico) => {
-					const historicoOS = historico.items.filter(h => h.codStatusServico != 8);
+					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
-					if (historicoOS.length != 0)
+					if (historicoOS.length)
 						ultimoStatus = Enumerable.from(historicoOS)
 							.orderByDescending(i => i.codHistOS)
 							.firstOrDefault()

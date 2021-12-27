@@ -53,8 +53,14 @@ namespace SAT.INFRA.Repository
         {
             var fotos = _context.Foto.AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parameters.NumRAT))
+                fotos = fotos.Where(f => f.NumRAT == parameters.NumRAT);
+
             if (parameters.CodOS.HasValue)
                 fotos = fotos.Where(f => f.CodOS == parameters.CodOS);
+
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                fotos = fotos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
 
             return PagedList<Foto>.ToPagedList(fotos, parameters.PageNumber, parameters.PageSize);
         }

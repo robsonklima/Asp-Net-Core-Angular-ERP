@@ -8,6 +8,6 @@ namespace SAT.INFRA.Interfaces
         void Criar(Foto foto);
         void Deletar(int codigo);
         Foto ObterPorCodigo(int codigo);
-        public PagedList<Foto> ObterPorParametros(FotoParameters parameters);
+        PagedList<Foto> ObterPorParametros(FotoParameters parameters);
     }
 }

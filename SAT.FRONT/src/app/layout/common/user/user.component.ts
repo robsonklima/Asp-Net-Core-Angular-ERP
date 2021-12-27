@@ -45,6 +45,6 @@ export class UserComponent implements OnInit, OnDestroy
     }
 
     navegarParaPerfil(): void {
-        this._router.navigate(['/configuracoes/'+this.usuario.codUsuario]);
+        //this._router.navigate(['/configuracoes/'+this.usuario.codUsuario]);
     }
 }

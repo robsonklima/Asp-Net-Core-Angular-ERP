@@ -11,14 +11,15 @@ export interface Foto
     base64: string;
 }
 
-export interface FotoParameters extends QueryStringParameters
-{
-    codOS?: number;
-};
-
 export interface FotoData extends Meta
 {
     items: Foto[];
+};
+
+export interface FotoParameters extends QueryStringParameters
+{
+    codOS?: number;
+    numRAT?: string;
 };
 
 export enum FotoModalidadeEnum

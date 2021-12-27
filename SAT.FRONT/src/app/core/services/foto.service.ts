@@ -12,6 +12,20 @@ export class FotoService
 {
   constructor (private http: HttpClient) { }
 
+  obterPorParametros(parameters: FotoParameters): Observable<FotoData>
+  {
+    let params = new HttpParams();
+
+    Object.keys(parameters).forEach(key =>
+    {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/Foto`, { params: params }).pipe(
+      map((data: FotoData) => data)
+    )
+  }
+
   obterPorCodigo(codFoto: number): Observable<Foto>
   {
     const url = `${c.api}/Foto/${codFoto}`;
@@ -34,18 +48,5 @@ export class FotoService
     return this.http.delete<Foto>(url).pipe(
       map((obj) => obj)
     );
-  }
-
-  obterPorParametros(parameters: FotoParameters): Observable<FotoData>
-  {
-    let params = new HttpParams();
-
-    Object.keys(parameters).forEach(key =>
-    {
-      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
-    });
-
-    return this.http.get(`${c.api}/Foto`, { params: params }).pipe(map((data: FotoData) => data)
-    )
   }
 }

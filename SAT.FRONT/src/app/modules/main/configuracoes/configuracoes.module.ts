@@ -24,6 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     ],
     imports     : [
         RouterModule.forChild(configuracoesRoutes),
+        SharedModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
@@ -34,7 +35,6 @@ import { TranslocoModule } from '@ngneat/transloco';
         MatSlideToggleModule,
         FuseAlertModule,
         TranslocoModule,
-        SharedModule
     ]
 })
 export class ConfiguracoesModule

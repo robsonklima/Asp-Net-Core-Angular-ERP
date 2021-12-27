@@ -1,6 +1,5 @@
 <div class="w-full max-w-3xl" *transloco="let t">
-    <form [formGroup]="accountForm">
-        <!-- Section -->
+    <form [formGroup]="form">
         <div class="w-full">
             <div class="text-xl">
                 {{ t('perfil') }}
@@ -10,8 +9,7 @@
             </div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- Name -->
-            <div class="sm:col-span-4">
+            <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
                     <mat-label>
                         {{ t('nome') }}
@@ -21,19 +19,18 @@
                         [svgIcon]="'heroicons_solid:user'"
                         matPrefix></mat-icon>
                     <input
-                        [formControlName]="'nome'"
+                        [formControlName]="'nomeUsuario'"
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Username -->
-            <div class="sm:col-span-4">
-                <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
+            
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
                     <mat-label>{{ t('usuario') }}</mat-label>
-                    <div
-                        class="text-secondary"
-                        matPrefix>
-                        sat.perto.com.br/
-                    </div>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:key'"
+                        matPrefix></mat-icon>
                     <input
                         [formControlName]="'codUsuario'"
                         matInput>
@@ -41,19 +38,16 @@
             </div>
         </div>
 
-        <!-- Divider -->
         <div class="my-10 border-t"></div>
 
-        <!-- Section -->
         <div class="w-full">
             <div class="text-xl">{{ t('informacoes pessoais') }}</div>
             <div class="text-secondary">{{ t('informacoes privadas') }}</div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- Email -->
             <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Email</mat-label>
+                    <mat-label>E-mail</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:mail'"
@@ -63,10 +57,10 @@
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Phone -->
+            
             <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Phone</mat-label>
+                    <mat-label>Fone</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:phone'"
@@ -76,47 +70,10 @@
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Country -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Country</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:location-marker'"
-                        matPrefix></mat-icon>
-                    <mat-select [formControlName]="'country'">
-                        <mat-option [value]="'usa'">United States</mat-option>
-                        <mat-option [value]="'canada'">Canada</mat-option>
-                        <mat-option [value]="'mexico'">Mexico</mat-option>
-                        <mat-option [value]="'france'">France</mat-option>
-                        <mat-option [value]="'germany'">Germany</mat-option>
-                        <mat-option [value]="'italy'">Italy</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <!-- Language -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Language</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:globe-alt'"
-                        matPrefix></mat-icon>
-                    <mat-select [formControlName]="'language'">
-                        <mat-option [value]="'english'">English</mat-option>
-                        <mat-option [value]="'french'">French</mat-option>
-                        <mat-option [value]="'spanish'">Spanish</mat-option>
-                        <mat-option [value]="'german'">German</mat-option>
-                        <mat-option [value]="'italian'">Italian</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
         </div>
 
-        <!-- Divider -->
         <div class="mt-11 mb-10 border-t"></div>
 
-        <!-- Actions -->
         <div class="flex items-center justify-end">
             <button
                 mat-stroked-button
@@ -132,5 +89,4 @@
             </button>
         </div>
     </form>
-
 </div>

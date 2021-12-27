@@ -20,6 +20,12 @@ namespace SAT.API.Controllers
             _fotoService = fotoService;
         }
 
+        [HttpGet]
+        public ListViewModel Get([FromQuery] FotoParameters parameters)
+        {
+            return _fotoService.ObterPorParametros(parameters);
+        }
+
         [HttpGet("{codFoto}")]
         public Foto Get(int codFoto)
         {

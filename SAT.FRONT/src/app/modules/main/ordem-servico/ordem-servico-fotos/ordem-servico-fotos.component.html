@@ -1,5 +1,8 @@
 <div class="flex flex-wrap items-start w-full max-w-400 gap-6" *transloco="let t">
-    <fuse-card *ngFor="let foto of fotos" class="flex flex-col max-w-80 w-full filter-article">
+    <fuse-card 
+        *ngFor="let foto of fotos"
+        class="flex flex-col max-w-80 w-full filter-article hover:opacity-80 cursor-pointer"
+        (click)="ampliarFoto(foto)">
         <img class="object-cover h-48 w-full"
             [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto" alt="Card cover image">
         <div class="m-8">

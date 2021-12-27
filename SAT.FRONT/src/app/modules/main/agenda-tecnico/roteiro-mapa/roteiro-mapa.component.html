@@ -1,3 +1,5 @@
 <div mat-dialog-content class="p-0">
-    <div id="map"></div>
+    <div id="map" [ngClass]="{'hidden': !isLoading && !paradas?.length}">
+    </div>
+    <div class="text-center" *ngIf="!isLoading && !paradas?.length">Nenhuma localização encontrada.</div>
 </div>

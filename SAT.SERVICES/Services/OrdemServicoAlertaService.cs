@@ -61,7 +61,7 @@ namespace SAT.SERVICES.Services
                 Descricao = new List<string>(),
                 Tipo = Constants.INFO
             };
-            TimeSpan hrMaxPorEquip = CalculaHorasDisponiveis(os);
+            var hrMaxPorEquip = CalculaHorasDisponiveis(os).ToString(@"hh\:mm");
             TimeSpan horasConsumidas = CalculaHorasConsumidas(os);
 
             alerta.Descricao.Add($@"Nesta criticidade {os.EquipamentoContrato.DispBBCriticidade.CodDispBBCriticidade} 

@@ -22,6 +22,8 @@ export class ChangelogComponent implements OnInit
                     type: 'Adições',
                     list: [
                         'Inclusão de uma hora a mais no inicio da janela da agenda (6:00)',
+                        'Inclusão do relato da solução digitado pelo técnico no histórico do chamado, em detalhes',
+                        'Inclusão dos detalhes e peças na aba relatórios em detalhes do chamado'
                     ],
                 },
                 {

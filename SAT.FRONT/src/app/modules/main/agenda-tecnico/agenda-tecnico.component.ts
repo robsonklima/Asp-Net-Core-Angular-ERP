@@ -88,7 +88,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         type: 'week',
         allDay: false,
         startDay: 1,
-        startTime: '07:00',
+        startTime: '06:00',
         endTime: '24:00',
         rowHeight: 'equal',
 
@@ -541,7 +541,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         });
     });
 
-    if (!atendimentosTecnico.length) return;
+    if (!atendimentosTecnico?.length) return;
 
     var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
       data:

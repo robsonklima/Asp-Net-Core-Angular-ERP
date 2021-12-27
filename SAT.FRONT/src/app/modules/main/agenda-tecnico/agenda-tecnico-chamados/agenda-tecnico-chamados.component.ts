@@ -85,9 +85,9 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
           cliente: os.cliente?.razaoSocial,
           regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
           autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-          color: !os.agendamentos.length ? this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS) : this._validator.agendamentoColor(),
-          indAgendamento: os.agendamentos.length ? 1 : 0,
-          dataAgendamento: os.agendamentos.length ? this.dataAgendamento(os) : null,
+          color: !os.agendamentos?.length ? this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS) : this._validator.agendamentoColor(),
+          indAgendamento: os.agendamentos?.length ? 1 : 0,
+          dataAgendamento: os.agendamentos?.length ? this.dataAgendamento(os) : null,
           start: moment(),
           end: moment().add(60, 'minutes'),
           ordemServico: os

@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
         {
             var fotos = _fotoRepo.ObterPorParametros(parameters);
 
-            return new ListViewModel
+            var lista = new ListViewModel
             {
                 Items = fotos,
                 TotalCount = fotos.TotalCount,
@@ -47,10 +47,14 @@ namespace SAT.SERVICES.Services
                 HasNext = fotos.HasNext,
                 HasPrevious = fotos.HasPrevious
             };
+
+            return lista;
         }
 
-        public void SalvarFotoServer(Foto foto) {
-            if (!string.IsNullOrWhiteSpace(foto.Base64)) {
+        public void SalvarFotoServer(Foto foto)
+        {
+            if (!string.IsNullOrWhiteSpace(foto.Base64))
+            {
                 string target = Directory.GetCurrentDirectory() + "/Upload";
 
                 if (!Directory.Exists(target))

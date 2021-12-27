@@ -1,6 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export interface Foto {
+export interface Foto
+{
     codRATFotoSmartphone?: number;
     codOS: number;
     numRAT: string;
@@ -10,16 +11,19 @@ export interface Foto {
     base64: string;
 }
 
-export interface FotoData extends Meta {
+export interface FotoData extends Meta
+{
     items: Foto[];
 };
 
-export interface FotoParameters extends QueryStringParameters {
+export interface FotoParameters extends QueryStringParameters
+{
     codOS?: number;
     numRAT?: string;
 };
 
-export enum FotoModalidadeEnum {
+export enum FotoModalidadeEnum
+{
     ASSINATURACLIENTELAUDO = 'Ass cliente laudo',
     ASSINATURATECNICOLAUDO = 'Ass técnico laudo',
     CHECKLIST_PREVENTIVA = 'Checklist preventiva',

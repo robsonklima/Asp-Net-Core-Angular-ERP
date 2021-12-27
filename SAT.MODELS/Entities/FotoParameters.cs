@@ -1,4 +1,4 @@
-using SAT.MODELS.Entities.Helpers;
+﻿using SAT.MODELS.Entities.Helpers;
 
 namespace SAT.MODELS.Entities
 {

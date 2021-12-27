@@ -1,7 +1,8 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { MotivoAgendamento } from "./motivo-agendamento.types";
 
-export class Agendamento {
+export class Agendamento
+{
     codAgendamento?: number;
     codMotivo: number;
     motivoAgendamento?: MotivoAgendamento;
@@ -11,10 +12,13 @@ export class Agendamento {
     dataHoraUsuAgendamento: string;
 }
 
-export interface AgendamentoData extends Meta {
+export interface AgendamentoData extends Meta
+{
     items: Agendamento[]
 };
 
-export interface AgendamentoParameters extends QueryStringParameters {
+export interface AgendamentoParameters extends QueryStringParameters
+{
     codAgendamento?: number;
+    codOS?: number;
 };

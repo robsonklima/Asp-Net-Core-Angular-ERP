@@ -397,6 +397,20 @@ export class ChangelogComponent implements OnInit
                         ],
                     }
                 ]
+            },
+            {
+                version: '1.1.15',
+                releaseDate: '27 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Otimização na edição da RAT',
+                            'Otimização nos detalhes do chamado',
+                            'Fotos das RATs'
+                        ],
+                    }
+                ]
             }
         ];
     }

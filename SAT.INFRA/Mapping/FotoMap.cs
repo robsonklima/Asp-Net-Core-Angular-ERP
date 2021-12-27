@@ -8,9 +8,14 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Foto> builder)
         {
-            builder.ToTable("RatFotoSmartphone");
-            builder.HasKey(i => i.CodRATFotoSmartphone);
-            builder.Ignore(i => i.Base64);
+            builder
+                .ToTable("RatFotoSmartphone");
+
+            builder
+                .HasKey(i => i.CodRATFotoSmartphone);
+
+            builder
+                .Ignore(i => i.Base64);
         }
     }
 }

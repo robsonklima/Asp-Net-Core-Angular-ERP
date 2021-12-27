@@ -316,7 +316,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     }).toPromise();
 
     this.regioes = Enumerable.from(data.items)
-      .where(ra => ra.codAutorizada === codAutorizada)
+      .where(ra => ra.codAutorizada === codAutorizada && ra.indAtivo == 1 && ra.regiao?.indAtivo == 1)
       .select(ra => ra.regiao).orderBy(ra => ra.nomeRegiao).toArray();
 
   }

@@ -37,8 +37,8 @@
             <div class="min-w-0 ml-4">
                 <div class="font-medium leading-5 truncate">{{ tecnico.nome }}</div>
                 <div class="leading-5 truncate text-secondary">
-                    {{ tecnico.autorizada.nomeFantasia }} -
-                    {{ tecnico.regiao.nomeRegiao }}
+                    {{ tecnico.autorizada?.nomeFantasia || 'Autorizada Não Informada' }} -
+                    {{ tecnico.regiao?.nomeRegiao || 'Região Não Informada' }}
                 </div>
             </div>
         </a>

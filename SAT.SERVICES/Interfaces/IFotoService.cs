@@ -1,4 +1,5 @@
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
@@ -7,5 +8,6 @@ namespace SAT.SERVICES.Interfaces
         Foto Criar(Foto foto);
         void Deletar(int codigo);
         Foto ObterPorCodigo(int codigo);
+        public ListViewModel ObterPorParametros(FotoParameters parameters);
     }
 }

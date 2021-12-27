@@ -1,36 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("OS")]
     public class OrdemServico
     {
-        [Key]
         public int CodOS { get; set; }
-        [ForeignKey("CodStatusServico")]
         public StatusServico StatusServico { get; set; }
-        [ForeignKey("CodTipoIntervencao")]
         public TipoIntervencao TipoIntervencao { get; set; }
-        [ForeignKey("CodPosto")]
         public LocalAtendimento LocalAtendimento { get; set; }
-        [ForeignKey("CodEquipContrato")]
         public EquipamentoContrato EquipamentoContrato { get; set; }
-        [ForeignKey("CodEquip")]
         public Equipamento Equipamento { get; set; }
-        [ForeignKey("CodOS")]
         public List<RelatorioAtendimento> RelatoriosAtendimento { get; set; }
-        [ForeignKey("CodOS")]
-        public List<Foto> Fotos { get; set; }
-        [ForeignKey("CodCliente")]
+        public virtual List<Foto> Fotos { get; set; }
         public Cliente Cliente { get; set; }
-        [ForeignKey("CodTecnico")]
         public Tecnico Tecnico { get; set; }
-        [ForeignKey("CodOS")]
         public List<Agendamento> Agendamentos { get; set; }
-        [ForeignKey("CodOS")]
         public List<Intencao> Intencoes { get; set; }
         public string DefeitoRelatado { get; set; }
         public string ObservacaoCliente { get; set; }
@@ -46,14 +31,10 @@ namespace SAT.MODELS.Entities
         public int? CodEquip { get; set; }
         public int CodTipoIntervencao { get; set; }
         public int? CodFilial { get; set; }
-        [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
         public int? CodAutorizada { get; set; }
-        [ForeignKey("CodAutorizada")]
-
         public Autorizada Autorizada { get; set; }
         public int? CodRegiao { get; set; }
-        [ForeignKey("CodRegiao")]
         public Regiao Regiao { get; set; }
         public int CodStatusServico { get; set; }
         public int? CodTecnico { get; set; }
@@ -153,23 +134,13 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioOsmobileRecebida { get; set; }
         public DateTime? DataHoraIntegracaoRevisaoV2 { get; set; }
         public DateTime? DataHoraIntegracaoRevisaoAgendamentoV2 { get; set; }
-        [NotMapped]
         public List<Alerta> Alertas { get; set; }
-        [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
-
-        [ForeignKey("CodOS")]
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
-        [ForeignKey("CodOS")]
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
-        [NotMapped]
         public bool? IndNumRATObrigatorio { get; set; }
         public virtual List<AgendaTecnico> AgendaTecnico { get; set; }
-
-        [ForeignKey("CodEquipContrato")]
         public DispBBEquipamentoContrato DispBBEquipamentoContrato { get; set; }
-
-        [ForeignKey("CodContrato")]
         public Contrato Contrato { get; set; }
     }
 }

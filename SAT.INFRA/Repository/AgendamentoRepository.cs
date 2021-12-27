@@ -77,15 +77,14 @@ namespace SAT.INFRA.Repository
         {
             var agendamentos = _context.Agendamento.AsQueryable();
 
-            if (parameters.CodAgendamento != null)
-            {
+            if (parameters.CodAgendamento.HasValue)
                 agendamentos = agendamentos.Where(a => a.CodAgendamento == parameters.CodAgendamento);
-            }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
+            if (parameters.CodOS.HasValue)
+                agendamentos = agendamentos.Where(a => a.CodOS == parameters.CodOS);
+
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 agendamentos = agendamentos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
 
             return PagedList<Agendamento>.ToPagedList(agendamentos, parameters.PageNumber, parameters.PageSize);
         }

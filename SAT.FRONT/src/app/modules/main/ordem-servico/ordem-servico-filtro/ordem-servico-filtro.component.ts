@@ -271,7 +271,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       .obterPorParametros(params)
       .toPromise();
 
-    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(i => i.nomeRegiao).toArray();
+    this.regioes = Enumerable.from(data.items).where(ra => ra.regiao?.indAtivo == 1).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(i => i.nomeRegiao).toArray();
     this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(i => i).toArray();
   }
 

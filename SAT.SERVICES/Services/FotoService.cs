@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -32,8 +34,28 @@ namespace SAT.SERVICES.Services
             return _fotoRepo.ObterPorCodigo(codigo);
         }
 
-        public void SalvarFotoServer(Foto foto) {
-            if (!string.IsNullOrWhiteSpace(foto.Base64)) {
+        public ListViewModel ObterPorParametros(FotoParameters parameters)
+        {
+            var fotos = _fotoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = fotos,
+                TotalCount = fotos.TotalCount,
+                CurrentPage = fotos.CurrentPage,
+                PageSize = fotos.PageSize,
+                TotalPages = fotos.TotalPages,
+                HasNext = fotos.HasNext,
+                HasPrevious = fotos.HasPrevious
+            };
+
+            return lista;
+        }
+
+        public void SalvarFotoServer(Foto foto)
+        {
+            if (!string.IsNullOrWhiteSpace(foto.Base64))
+            {
                 string target = Directory.GetCurrentDirectory() + "/Upload";
 
                 if (!Directory.Exists(target))

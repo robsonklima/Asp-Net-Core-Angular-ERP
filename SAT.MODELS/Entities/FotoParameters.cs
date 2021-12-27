@@ -2,9 +2,8 @@
 
 namespace SAT.MODELS.Entities
 {
-    public class AgendamentoParameters : QueryStringParameters
+    public class FotoParameters : QueryStringParameters
     {
-        public int? CodAgendamento { get; set; }
         public int? CodOS { get; set; }
     }
 }

@@ -22,6 +22,7 @@ import { Notificacao } from 'app/core/types/notificacao.types';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { FotoService } from 'app/core/services/foto.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -58,6 +59,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
+		private _fotoService: FotoService,
 		private _notificacaoService: NotificacaoService
 	)
 	{
@@ -117,21 +119,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 		await this.obterOS();
 		await this.obterUsuarioCadastro();
-
-		if (this.os.agendamentos?.length)
-		{
-			var agendamentos = Enumerable.from(this.os.agendamentos)
-				.orderByDescending(a => a.codAgendamento);
-
-			this.histAgendamento += agendamentos
-				.select(e => moment(e.dataAgendamento)
-					.format('DD/MM HH:mm'))
-				.toJoinedString(", \n");
-
-			this.ultimoAgendamento = agendamentos
-				.select(a => a.dataAgendamento)
-				.first();
-		}
+		await this.obterFotos();
+		await this.obterAgendamentos();
 
 		this.isLoading = false;
 	}
@@ -147,6 +136,34 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		if (this.os?.codUsuarioCad != null)
 			this.usuarioCadastro =
 				(await this._userService.obterPorCodigo(this.os.codUsuarioCad).toPromise());
+	}
+
+	private async obterFotos()
+	{
+		this.os.fotos =
+			(await this._fotoService.obterPorParametros(
+				{
+					codOS: this.codOS
+				}
+			).toPromise()).items;
+	}
+
+	private async obterAgendamentos()
+	{
+		if (this.os.agendamentos?.length)
+		{
+			var agendamentos = Enumerable.from(this.os.agendamentos)
+				.orderByDescending(a => a.codAgendamento);
+
+			this.histAgendamento += agendamentos
+				.select(e => moment(e.dataAgendamento)
+					.format('DD/MM HH:mm'))
+				.toJoinedString(", \n");
+
+			this.ultimoAgendamento = agendamentos
+				.select(a => a.dataAgendamento)
+				.first();
+		}
 	}
 
 	async agendar()

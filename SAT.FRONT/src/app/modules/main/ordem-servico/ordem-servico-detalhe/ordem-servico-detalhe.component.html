@@ -393,7 +393,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex flex-col my-2">
+                                        <div class="grid grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                                             <div class="my-2">
                                                 <div>Número</div>
                                                 <div class="text-secondary text-md">{{ r.numRAT }}</div>
@@ -407,12 +407,6 @@
                                                 <div>Status</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.statusServico?.nomeStatusServico || 'Não Informado'}}
-                                                </div>
-                                            </div>
-                                            <div class="my-2" *ngIf="isPecasPendentes(r)">
-                                                <div>Peças Pendentes</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ getPecasPendentes(r) }}
                                                 </div>
                                             </div>
                                             <div class="my-2">
@@ -458,10 +452,55 @@
                                                     {{ r.nomeAcompanhante || 'Não Informado' }}
                                                 </div>
                                             </div>
-                                            <div class="my-2">
+                                            <div class="my-2 lg:col-span-3 md:col-span-3 sm:col-span-2">
                                                 <div>Observação</div>
                                                 <div class="text-secondary text-md">
                                                     {{ r.obsRAT || 'Não Informado' }}
+                                                </div>
+                                            </div>
+                                            <div class="my-2 lg:col-span-3 md:col-span-3 sm:col-span-2">
+                                                <div>Detalhes</div>
+                                                <div class="my-2 grid grid-flow-row sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4"
+                                                    *ngFor="let detalhe of r.relatorioAtendimentoDetalhes; let
+                                                    i=index;">
+                                                    <div>
+                                                        <div>Serviço</div>
+                                                        <div class="text-secondary text-md">
+                                                            {{ detalhe.tipoServico?.codETipoServico }} -
+                                                            {{ detalhe.tipoServico?.nomeServico }}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>Causa</div>
+                                                        <div class="text-secondary text-md">
+                                                            {{ detalhe.causa?.codECausa }} -
+                                                            {{ detalhe.causa?.nomeCausa || 'Não Informado' }}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>Defeito</div>
+                                                        <div class="text-secondary text-md">
+                                                            {{ detalhe.defeito?.codEDefeito }} -
+                                                            {{ detalhe.defeito?.nomeDefeito | titlecase }}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>Ação</div>
+                                                        <div class="text-secondary text-md">
+                                                            {{ detalhe.acao?.codEAcao }} -
+                                                            {{ detalhe.acao?.nomeAcao | titlecase }}
+                                                        </div>
+                                                    </div>
+                                                    <div class='lg:col-span-4 md:col-span-4 sm:col-span-2'
+                                                        *ngIf="getPecas(detalhe) != ''">
+                                                        <div>Peças</div>
+                                                        <div class="text-secondary text-md">
+                                                            {{ getPecas(detalhe) }}
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="lg:col-span-4 md:col-span-4 sm:col-span-2 my-1 border-b">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

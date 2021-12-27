@@ -19,7 +19,8 @@ import { Notificacao } from 'app/core/types/notificacao.types';
   selector: 'app-ordem-servico-transferencia',
   templateUrl: 'ordem-servico-transferencia.component.html'
 })
-export class OrdemServicoTransferenciaComponent implements AfterViewInit {
+export class OrdemServicoTransferenciaComponent implements AfterViewInit
+{
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
   @Input() sidenav: MatSidenav;
   @Input() os: OrdemServico;
@@ -27,23 +28,26 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
   isLoading: boolean;
   sessionData: UsuarioSessao;
 
-  constructor(
+  constructor (
     private _tecnicoService: TecnicoService,
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
     private _userService: UserService,
     private _agendaTecnicoService: AgendaTecnicoService,
     private _notificacaoService: NotificacaoService
-  ) {
+  )
+  {
     this.sessionData = JSON.parse(this._userService.userSession);
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this.obterTecnicos();
     this.registrarEmitters();
   }
 
-  async obterTecnicos() {
+  async obterTecnicos()
+  {
     const params: TecnicoParameters = {
       indAtivo: 1,
       sortActive: 'nome',
@@ -60,47 +64,56 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
     this.tecnicos = data.items;
   }
 
-  private registrarEmitters(): void {
+  private registrarEmitters(): void
+  {
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
+      map((event: any) =>
+      {
         return event.target.value;
       })
       , debounceTime(700)
       , distinctUntilChanged()
-    ).subscribe((text: string) => {
+    ).subscribe((text: string) =>
+    {
       this.searchInputControl.nativeElement.val = text;
       this.obterTecnicos();
     });
   }
 
-  transferir(tecnico: Tecnico): void {
+  transferir(tecnico: Tecnico): void
+  {
     this.isLoading = true;
     this.os.codTecnico = tecnico.codTecnico;
     this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
     this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
     this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-    this._ordemServicoService.atualizar(this.os).subscribe(() => {
+    this._ordemServicoService.atualizar(this.os).subscribe(() =>
+    {
       this.isLoading = false;
       this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
       this.createAgendaTecnico();
       this.sidenav.close();
-    }, error => {
+    }, error =>
+    {
       this.isLoading = false;
       this._snack.exibirToast(error, 'error');
     });
   }
 
-  private createAgendaTecnico() {
+  private createAgendaTecnico()
+  {
     if (this.os.codTecnico == null) return;
 
     this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
-      .then(s => {
-        if (s) {
+      .then(s =>
+      {
+        if (s)
+        {
           var notificacao: Notificacao =
           {
             titulo: "Agenda Técnico",
             descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
-            link: '/#/agenda-tecnico',
+            link: '/agenda-tecnico',
             useRouter: true,
             lida: 0,
             indAtivo: 1,
@@ -110,7 +123,8 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
           this._notificacaoService.criar(notificacao).toPromise();
         }
       }).catch(
-        e => {
+        e =>
+        {
           var notificacao: Notificacao =
           {
             titulo: "Agenda Técnico",

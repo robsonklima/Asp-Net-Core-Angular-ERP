@@ -541,7 +541,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         });
     });
 
-    if (!atendimentosTecnico.length) return;
+    if (!atendimentosTecnico?.length) return;
 
     var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
       data:

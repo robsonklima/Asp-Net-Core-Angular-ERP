@@ -241,6 +241,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
                         .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa.Pais)
                         .Include(os => os.Equipamento)
+                        .Include(os => os.Agendamentos)
                         .Include(os => os.EquipamentoContrato)
                         .Include(os => os.EquipamentoContrato.Regiao)
                         .Include(os => os.EquipamentoContrato.Autorizada)

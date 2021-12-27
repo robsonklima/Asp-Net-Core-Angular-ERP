@@ -103,6 +103,20 @@ namespace SAT.SERVICES.Services
                 });
             }
 
+            // Verifica duplicados
+            eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
+            .GroupBy(i => i.CodOS)
+            .ToList()
+            .Where(i => i.Key > 1)
+            .ToList().ForEach(i =>
+           {
+               i.Skip(1).ToList().ForEach(a =>
+               {
+                   a.IndAtivo = 0;
+                   listaAtualizar.Add(a);
+               });
+           });
+
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
             return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
         }

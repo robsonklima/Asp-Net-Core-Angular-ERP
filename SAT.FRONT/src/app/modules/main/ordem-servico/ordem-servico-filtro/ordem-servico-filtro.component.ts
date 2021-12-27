@@ -27,6 +27,8 @@ import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import Enumerable from 'linq';
+import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
+import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -46,6 +48,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   tipoEquip: TipoEquipamento[] = [];
   equipamentos: Equipamento[] = [];
   tecnicos: Tecnico[] = [];
+  locaisAtendimento: LocalAtendimento[] = [];
   pas: number[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
@@ -62,6 +65,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     private _autorizadaService: AutorizadaService,
     private _tecnicoService: TecnicoService,
     protected _userService: UserService,
+    private _localAtendimentoSvc: LocalAtendimentoService,
     protected _formBuilder: FormBuilder
   )
   {
@@ -84,8 +88,9 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.obterStatusServicos();
     this.registrarEmitters();
 
-    this.configurarFiliais();
-    this.configurarEquipamentos();
+    this.aoSelecionarFilial();
+    this.aoSelecionarCliente();
+    this.aoSelecionarEquipamento();
   }
 
   createForm(): void
@@ -106,6 +111,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
       pas: [undefined],
+      codPostos: [undefined],
       pontosEstrategicos: [undefined],
       codEquipamentos: [undefined],
       dataHoraSolucaoInicio: [undefined],
@@ -193,7 +199,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tecnicos = data.items;
   }
 
-  configurarFiliais()
+  aoSelecionarFilial()
   {
     this.form.controls['codFiliais']
       .valueChanges
@@ -232,15 +238,20 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     }
   }
 
-  configurarEquipamentos()
+  aoSelecionarCliente()
   {
     if ((this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != ''))
     {
       this.obterEquipamentos();
+      this.obterLocaisAtendimentos();
+      this.form.controls['codPostos'].enable();
       this.form.controls['codEquipamentos'].enable();
     }
     else
+    {
+      this.form.controls['codPostos'].disable();
       this.form.controls['codEquipamentos'].disable();
+    }
 
     this.form.controls['codClientes']
       .valueChanges
@@ -249,14 +260,45 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
         if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '')
         {
           this.obterEquipamentos();
+          this.obterLocaisAtendimentos();
+          this.form.controls['codPostos'].enable();
           this.form.controls['codEquipamentos'].enable();
         }
         else
         {
+          this.form.controls['codPostos'].setValue(null);
+          this.form.controls['codPostos'].disable();
+
           this.form.controls['codEquipamentos'].setValue(null);
           this.form.controls['codEquipamentos'].disable();
         }
       });
+  }
+
+  aoSelecionarEquipamento()
+  {
+    //     if ((this.form.controls['codEquipamentos'].value && this.form.controls['codEquipamentos'].value != ''))
+    //     {
+    //       this.obterLocaisAtendimentos();
+    //       this.form.controls['codPostos'].enable();
+    //     }
+    //     else
+    //       this.form.controls['codPostos'].disable();
+    // 
+    //     this.form.controls['codEquipamentos']
+    //       .valueChanges
+    //       .subscribe(() =>
+    //       {
+    //         if (this.form.controls['codEquipamentos'].value && this.form.controls['codEquipamentos'].value != '')
+    //         {
+    //           this.obterLocaisAtendimentos();
+    //         }
+    //         else
+    //         {
+    //           this.form.controls['codPostos'].setValue(null);
+    //           this.form.controls['codPostos'].disable();
+    //         }
+    //       });
   }
 
   async obterRegioesAutorizadas(filialFilter: any)
@@ -288,6 +330,31 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       .toPromise();
 
     this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
+  }
+
+  async obterLocaisAtendimentos()
+  {
+    var filialFilter = this.form.controls['codFiliais'].value;
+    var clienteFilter = this.form.controls['codClientes'].value;
+    var regiaoFilter = this.form.controls['codRegioes'].value;
+    var autorizadaFilter = this.form.controls['codAutorizadas'].value;
+
+    let params: LocalAtendimentoParameters = {
+      indAtivo: 1,
+      codFiliais: filialFilter,
+      codClientes: clienteFilter,
+      codRegioes: regiaoFilter,
+      codAutorizada: autorizadaFilter,
+      sortActive: 'nomeLocal',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
+
+    const data = await this._localAtendimentoSvc
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
   }
 
   async obterStatusServicos()

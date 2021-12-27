@@ -152,7 +152,7 @@ namespace SAT.INFRA.Repository
                             {
                                 CodTipoIntervencao = i.TipoIntervencao.CodTipoIntervencao,
                                 NomTipoIntervencao = i.TipoIntervencao.NomTipoIntervencao,
-                                CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao
+                                CodETipoIntervencao = i.TipoIntervencao.CodETipoIntervencao,
                             } : null,
                             EquipamentoContrato = i.EquipamentoContrato != null ? new EquipamentoContrato
                             {

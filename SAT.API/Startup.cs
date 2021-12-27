@@ -135,6 +135,7 @@ namespace SAT.API
             services.AddTransient<IDispBBCalcEquipamentoContratoRepository, DispBBCalcEquipamentoContratoRepository>();
             services.AddTransient<IFotoRepository, FotoRepository>();
             services.AddTransient<IUsuarioDispositivoRepository, UsuarioDispositivoRepository>();
+            services.AddTransient<IOrdemServicoHistoricoRepository, OrdemServicoHistoricoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -198,10 +199,7 @@ namespace SAT.API
             services.AddTransient<IFotoService, FotoService>();
             services.AddTransient<IFiltroService, FiltroService>();
             services.AddTransient<IUsuarioDispositivoService, UsuarioDispositivoService>();
-
-            // Utils Services
-            services.AddSingleton<ILoggerService, LoggerService>();
-            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IOrdemServicoHistoricoService, OrdemServicoHistoricoService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IDespesaAdiantamentoService, DespesaAdiantamentoService>();
             services.AddTransient<IDespesaAdiantamentoTipoService, DespesaAdiantamentoTipoService>();
@@ -223,6 +221,10 @@ namespace SAT.API
             services.AddTransient<IInstalacaoLoteService, InstalacaoLoteService>();
             services.AddTransient<INotificacaoService, NotificacaoService>();
 
+            // Utils Services
+            services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddTransient<ITokenService, TokenService>();
+            
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();

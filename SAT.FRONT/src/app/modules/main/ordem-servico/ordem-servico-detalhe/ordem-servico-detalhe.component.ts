@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulati
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
-import { AlertasEnum, OrdemServico, OrdemServicoAlerta } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
@@ -24,6 +24,8 @@ import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { FotoService } from 'app/core/services/foto.service';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
+import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
+import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -60,6 +62,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
+		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
 		private _notificacaoService: NotificacaoService
 	)
@@ -128,8 +131,23 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private async obterOS()
 	{
-		this.os =
-			(await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
+		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+	}
+
+	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>
+	{
+		return new Promise((resolve, reject) =>
+		{
+			this._ordemServicoHistoricoSvc
+				.obterPorParametros({ codOS: codOS })
+				.subscribe((historico: OrdemServicoHistoricoData) =>
+				{
+					resolve(historico);
+				}, () =>
+				{
+					reject();
+				});
+		})
 	}
 
 	private async obterUsuarioCadastro()
@@ -244,7 +262,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	cancelarTransferencia()
+	async cancelarTransferencia()
 	{
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
@@ -263,36 +281,40 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			{
 				var ultimoStatus = statusServicoConst.ABERTO;
 
-				if (this.os?.relatoriosAtendimento.length != 0)
-					ultimoStatus = Enumerable.from(this.os.relatoriosAtendimento)
-						.orderByDescending(i => i.codRAT)
-						.firstOrDefault()
-						.statusServico
-						.codStatusServico;
+				this.obterHistoricoOS(this.codOS).then((historico) =>
+				{
+					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
-				let obj = {
-					...this.os,
-					...{
-						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-						codUsuarioManut: this.userSession.usuario.codUsuario,
-						codStatusServico: ultimoStatus,
-						codTecnico: null
-					}
-				};
+					if (historicoOS.length)
+						ultimoStatus = Enumerable.from(historicoOS)
+							.orderByDescending(i => i.codHistOS)
+							.firstOrDefault()
+							.codStatusServico;
 
-				Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+					let obj = {
+						...this.os,
+						...{
+							dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+							codUsuarioManut: this.userSession.usuario.codUsuario,
+							codStatusServico: ultimoStatus,
+							codTecnico: null
+						}
+					};
 
-				this._ordemServicoService.atualizar(obj).subscribe(
-					result =>
-					{
-						this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-						this.deleteAgendaTecnico();
-						this.obterDadosOrdemServico();
-					},
-					error =>
-					{
-						this._snack.exibirToast("Erro ao cancelar transferência!", "error");
-					});
+					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
+
+					this._ordemServicoService.atualizar(obj).subscribe(
+						() =>
+						{
+							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
+							this.deleteAgendaTecnico();
+							this.obterDadosOrdemServico();
+						},
+						() =>
+						{
+							this._snack.exibirToast("Erro ao cancelar transferência!", "error");
+						});
+				});
 			}
 		});
 	}

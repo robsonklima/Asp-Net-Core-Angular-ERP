@@ -327,7 +327,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   private transformarBase64(readerEvt) {
     var binaryString = readerEvt.target.result;
     var base64textString = btoa(binaryString);
-    console.log();
 
     const foto: Foto = {
       codOS: this.codOS,

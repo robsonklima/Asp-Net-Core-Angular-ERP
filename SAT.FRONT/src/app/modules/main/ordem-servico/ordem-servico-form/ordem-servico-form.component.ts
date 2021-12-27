@@ -98,6 +98,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.obterEquipamentosAoTrocarLocal();
     this.obterPATRegiaoAoSelecionarEquipamento();
 
+    this.validaObrigatoriedadeDosCampos();
+
     // Main Obj
     await this.obterOrdemServico().then(async () =>
     {
@@ -131,7 +133,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       codTipoIntervencao: [undefined, Validators.required],
       codPosto: [undefined, Validators.required],
       defeitoRelatado: [undefined, Validators.required],
-      codEquipContrato: [undefined],
+      codEquipContrato: [undefined, Validators.required],
       codEquip: [undefined],
       codFilial: [undefined, Validators.required],
       codRegiao: [undefined, Validators.required],
@@ -462,6 +464,19 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     }
 
     this.form.controls['codTipoIntervencao'].setErrors(null);
+  }
+
+  validaObrigatoriedadeDosCampos()
+  {
+    this.form.get('codTipoIntervencao').valueChanges.subscribe(val =>
+    {
+      if (val == TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
+        this.form.controls['codEquipContrato'].clearValidators();
+      else
+        this.form.controls['codEquipContrato'].setValidators([Validators.required]);
+
+      this.form.controls['codEquipContrato'].updateValueAndValidity();
+    });
   }
 
   private atualizar(): void

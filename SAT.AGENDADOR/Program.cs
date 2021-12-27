@@ -48,7 +48,7 @@ namespace SAT.AGENDADOR
             Tarefas.Agendar(
             nome: "Cria pontos no Agenda Técnico",
             tarefa: () => services.AgendaTecnicoService.CriaIntervalosDoDia(),
-            intervaloEmSegundos: 60 * 60); // 60 minutos
+            intervaloEmSegundos: 5 * 60); // 60 minutos
         }
     }
 }

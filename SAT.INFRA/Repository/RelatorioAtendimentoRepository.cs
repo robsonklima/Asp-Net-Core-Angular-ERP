@@ -65,10 +65,9 @@ namespace SAT.INFRA.Repository
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes)
                     .ThenInclude(d => d.RelatorioAtendimentoDetalhePecas)
-                        .ThenInclude(dp => dp.Peca)
-                .FirstOrDefault(rat => rat.CodRAT == codigo);
+                        .ThenInclude(dp => dp.Peca);
 
-            return relatorio;
+            return relatorio.FirstOrDefault(rat => rat.CodRAT == codigo);
         }
 
         public PagedList<RelatorioAtendimento> ObterPorParametros(RelatorioAtendimentoParameters parameters)

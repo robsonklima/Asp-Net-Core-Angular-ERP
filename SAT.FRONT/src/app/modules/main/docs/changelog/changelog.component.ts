@@ -14,24 +14,38 @@ export class ChangelogComponent implements OnInit
     
     ngOnInit(): void
     {
-        this.changelog = [{
-            version: '1.1.16',
-            releaseDate: '27 de Dezembro de 2021',
-            changes: [
-                {
-                    type: 'Adições',
-                    list: [
-                        'Inclusão de uma hora a mais no inicio da janela da agenda (6:00)',
-                        'Inclusão do relato da solução digitado pelo técnico no histórico do chamado, em detalhes',
-                        'Inclusão dos detalhes e peças na aba relatórios em detalhes do chamado'
-                    ],
-                },
-                {
-                    type: 'Correções',
-                    list: [
-                        
-                    ],
-                }
+        this.changelog = [
+            {
+                version: '1.1.17',
+                releaseDate: '28 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Novo layout de exibição do relatório de atendimento nos detalhes no chamado'
+                        ],
+                    }
+                ]
+            },
+            {
+                version: '1.1.16',
+                releaseDate: '27 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Adições',
+                        list: [
+                            'Inclusão de uma hora a mais no inicio da janela da agenda (6:00)',
+                            'Inclusão do relato da solução digitado pelo técnico no histórico do chamado, em detalhes',
+                            'Inclusão dos detalhes e peças na aba relatórios em detalhes do chamado'
+                        ],
+                    },
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Correção do bug de redirecionamento quando o usuário clicava na notificação',
+                            'Ao cancelar transferência do chamado sistema assume último status ao qual o chamado foi atribuído e não último Status do RAT'
+                        ],
+                    }
                 ]
             },
             {

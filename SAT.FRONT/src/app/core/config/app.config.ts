@@ -4,7 +4,6 @@ export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
 export type Api = 'https://localhost:44341/api' |
     'https://sat.perto.com.br/SAT.V2.API/api' |
-    'https://apisat-homologacao.perto.com.br/api' |
     'https://localhost:5001/api' | string;
 
 export interface AppConfig
@@ -26,7 +25,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: 'https://sat.perto.com.br/SAT.V2.API/api',
+    api: 'https://localhost:5001/api',
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',

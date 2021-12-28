@@ -88,7 +88,7 @@ export class AuthSignInComponent implements OnInit {
 
             if (dispositivo?.indAtivo) {
                 this._authService
-                    .signIn(codUsuario, senha, hash)
+                    .signIn(codUsuario, senha)
                     .subscribe(() => {
                         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                         this._router.navigateByUrl(redirectURL).then(() => {

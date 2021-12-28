@@ -7,48 +7,39 @@ import { UserService } from 'app/core/user/user.service';
 import { appConfig as c } from 'app/core/config/app.config'
 
 @Injectable()
-export class AuthService
-{
+export class AuthService {
     private _authenticated: boolean = this.accessToken !== undefined;
 
-    constructor (
+    constructor(
         private _httpClient: HttpClient,
         private _userService: UserService
-    )
-    {
+    ) {
         this._authenticated = this.accessToken !== '';
     }
 
-    set accessToken(token: string)
-    {
+    set accessToken(token: string) {
         localStorage.setItem('accessToken', token);
     }
 
-    get accessToken(): string
-    {
+    get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
     }
 
-    forgotPassword(email: string): Observable<any>
-    {
+    forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
     }
 
-    resetPassword(password: string): Observable<any>
-    {
+    resetPassword(password: string): Observable<any> {
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
-    signIn(codUsuario: string, senha: string, hash: string): Observable<any>
-    {
-        if (this._authenticated)
-        {
+    signIn(codUsuario: string, senha: string): Observable<any> {
+        if (this._authenticated) {
             return throwError('Usuário já está logado.');
         }
 
-        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha, hash: hash }).pipe(
-            switchMap((response: any) =>
-            {
+        return this._httpClient.post(c.api + '/Usuario/Login', { codUsuario: codUsuario, senha: senha }).pipe(
+            switchMap((response: any) => {
                 this.accessToken = response.token;
                 this._authenticated = true;
                 this._userService.user = response.usuario;
@@ -58,16 +49,14 @@ export class AuthService
         );
     }
 
-    signInUsingToken(): Observable<any>
-    {
+    signInUsingToken(): Observable<any> {
         return this._httpClient.post('api/auth/refresh-access-token', {
             accessToken: this.accessToken
         }).pipe(
             catchError(() =>
                 of(false)
             ),
-            switchMap((response: any) =>
-            {
+            switchMap((response: any) => {
                 this.accessToken = response.accessToken;
                 this._authenticated = true;
                 this._userService.user = response.user;
@@ -76,50 +65,41 @@ export class AuthService
         );
     }
 
-    signOut(): Observable<any>
-    {
+    signOut(): Observable<any> {
         localStorage.removeItem('accessToken');
         this._authenticated = false;
         return of(true);
     }
 
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
+    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any> {
         return this._httpClient.post('api/auth/sign-up', user);
     }
 
-    unlockSession(credentials: { email: string; password: string }): Observable<any>
-    {
+    unlockSession(credentials: { email: string; password: string }): Observable<any> {
         return this._httpClient.post('api/auth/unlock-session', credentials);
     }
 
-    check(): Observable<boolean>
-    {
-        if (this._authenticated)
-        {
+    check(): Observable<boolean> {
+        if (this._authenticated) {
             return of(true);
         }
 
-        if (!this.accessToken)
-        {
+        if (!this.accessToken) {
             return of(false);
         }
 
-        if (AuthUtils.isTokenExpired(this.accessToken))
-        {
+        if (AuthUtils.isTokenExpired(this.accessToken)) {
             return of(false);
         }
 
         return this.signInUsingToken();
     }
 
-    getUserHash(): string
-    {
+    getUserHash(): string {
         return JSON.parse(localStorage.getItem("hash"));
     }
 
-    setUserHash(hash: string)
-    {
+    setUserHash(hash: string) {
         localStorage.setItem("hash", JSON.stringify(hash));
     }
 }

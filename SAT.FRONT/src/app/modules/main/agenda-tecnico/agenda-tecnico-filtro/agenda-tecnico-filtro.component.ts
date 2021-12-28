@@ -49,10 +49,10 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     });
   }
 
-  loadData(): void
+  async loadData(): Promise<void>
   {
-    this.obterFiliais();
-    this.obterTecnicosAoEscolherFilial();
+    await this.obterFiliais();
+    await this.obterTecnicosAoEscolherFilial();
     this.configurarFiltro();
   }
 
@@ -77,7 +77,10 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     super.limpar();
 
     if (this.userSession?.usuario?.codFilial)
+    {
       this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
+      this.form.controls['codFiliais'].disable();
+    }
   }
 
 

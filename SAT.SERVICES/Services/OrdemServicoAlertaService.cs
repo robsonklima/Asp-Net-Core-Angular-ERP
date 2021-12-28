@@ -125,7 +125,7 @@ namespace SAT.SERVICES.Services
             var hrMaxPorEquip = Convert.ToDouble(
                                     (dispBBParque.Sum(disp => disp.MinTotais) / 60) *
                                     (dispBBPerc.Percentual / 100) /
-                                    dispBBParque.Count()
+                                    (dispBBParque.Count() == 0 ? 1 : dispBBParque.Count())
                                     );
 
             return TimeSpan.FromHours(hrMaxPorEquip);

@@ -315,21 +315,19 @@
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <fuse-card class="flex flex-col flex-auto pl-6 pr-6 pb-6 pt-2 w-2/3" *ngIf="os?.alertas?.length">
-                                    <div class="grid grid-cols-1">
-                                        <fuse-alert
-                                            *ngFor="let alerta of os?.alertas"
-                                            class="mt-4"
-                                            [type]="alerta?.tipo"
-                                            [appearance]="'outline'">
-                                            <span fuseAlertTitle>{{ alerta?.titulo }}</span>
-                                            <div class="rounded mt-2 text-justify"
-                                                *ngFor="let desc of alerta?.descricao">
-                                                {{ desc }}
-                                            </div>
-                                        </fuse-alert>
-                                    </div>
-                                </fuse-card>
+                                <div class="flex flex-col flex-auto pl-6 pr-6 pb-6 pt-0 w-2/4">
+                                    <fuse-alert
+                                        *ngFor="let alerta of os?.alertas"
+                                        class="mt-4"
+                                        [type]="alerta?.tipo"
+                                        [appearance]="'border'">
+                                        <span fuseAlertTitle>{{ alerta?.titulo }}</span>
+                                        <div class="rounded mt-2 text-justify"
+                                            *ngFor="let desc of alerta?.descricao">
+                                            {{ desc }}
+                                        </div>
+                                    </fuse-alert>
+                                </div>
 
                                 <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!os?.alertas?.length">
                                     <p>

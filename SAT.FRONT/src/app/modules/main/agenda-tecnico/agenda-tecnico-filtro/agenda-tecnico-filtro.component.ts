@@ -113,16 +113,12 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
   private async obterFiliais()
   {
-    var codFilial = this.userSession.usuario?.filial?.codFilial;
+    var codFilial = this.userSession.usuario?.filial?.codFilial || this.form.controls['codFiliais'].value;
 
     if (codFilial)
     {
       this.form.controls['codFiliais'].setValue(codFilial);
       this.form.controls['codFiliais'].disable();
-    }
-    else if (this.form.controls['codFiliais'].value == "" || !this.form.controls['codFiliais'].value)
-    {
-      this.form.controls['codFiliais'].setValue(4);
       this.obterTecnicos();
       this.obterRegioesAutorizadas();
     }

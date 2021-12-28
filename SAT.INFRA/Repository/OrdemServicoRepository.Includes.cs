@@ -171,7 +171,8 @@ namespace SAT.INFRA.Repository
                                 AcordoNivelServico = i.EquipamentoContrato.AcordoNivelServico != null ? new AcordoNivelServico
                                 {
                                     CodSLA = i.EquipamentoContrato.AcordoNivelServico.CodSLA,
-                                    NomeSLA = i.EquipamentoContrato.AcordoNivelServico.NomeSLA
+                                    NomeSLA = i.EquipamentoContrato.AcordoNivelServico.NomeSLA,
+                                    DescSLA = i.EquipamentoContrato.AcordoNivelServico.DescSLA
                                 } : null
                             } : null,
                             LocalAtendimento = i.LocalAtendimento != null ? new LocalAtendimento

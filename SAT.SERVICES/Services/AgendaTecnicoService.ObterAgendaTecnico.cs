@@ -17,13 +17,25 @@ namespace SAT.SERVICES.Services
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
 
-            List<Tecnico> tecnicos = this._tecnicoRepo.ObterPorParametros(new TecnicoParameters()
-            {
-                Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
-                CodTecnicos = parameters.CodTecnicos
-            });
+            List<Usuario> usuarios = new();
 
-            var pontos = this.ObterPontosDoDia(parameters, tecnicos.Select(u => u.Usuario));
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            {
+                List<Tecnico> tecnicos = this._tecnicoRepo.ObterPorParametros(new TecnicoParameters()
+                {
+                    Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
+                    CodTecnicos = parameters.CodTecnicos
+                });
+
+                usuarios.AddRange(tecnicos.Select(u => u.Usuario));
+            }
+            else if (parameters.CodTecnico.HasValue)
+            {
+                Tecnico tecnico = this._tecnicoRepo.ObterPorCodigo(parameters.CodTecnico.Value);
+                usuarios.Add(tecnico.Usuario);
+            }
+
+            var pontos = this.ObterPontosDoDia(parameters, usuarios);
             var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
             agendamentosValidados.AddRange(pontos);
 

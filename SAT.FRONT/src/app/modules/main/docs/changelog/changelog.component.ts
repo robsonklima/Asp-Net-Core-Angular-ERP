@@ -9,9 +9,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 export class ChangelogComponent implements OnInit
 {
     changelog: any[] = [];
-    
+
     constructor () { }
-    
+
     ngOnInit(): void
     {
         this.changelog = [
@@ -22,7 +22,8 @@ export class ChangelogComponent implements OnInit
                     {
                         type: 'Correções',
                         list: [
-                            'Novo layout de exibição do relatório de atendimento nos detalhes no chamado'
+                            'Novo layout de exibição do relatório de atendimento nos detalhes no chamado',
+                            'Ajuste no formulário da RAT'
                         ],
                     }
                 ]

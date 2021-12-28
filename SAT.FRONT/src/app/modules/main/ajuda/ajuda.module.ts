@@ -19,6 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ajudaRoutes } from './ajuda.routing';
+import { AjudaTutorialComponent } from './ajuda-tutorial/ajuda-tutorial.component';
 import { AjudaSuporteComponent } from './ajuda-suporte/ajuda-suporte.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 
@@ -26,6 +27,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 @NgModule({
   declarations: [
     AjudaFaqComponent,
+    AjudaTutorialComponent,
     AjudaSuporteComponent
   ],
   imports: [

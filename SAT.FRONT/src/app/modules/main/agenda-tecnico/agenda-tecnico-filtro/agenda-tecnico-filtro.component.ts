@@ -47,6 +47,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       pas: [undefined],
       codRegioes: [undefined]
     });
+    
+    this.form.patchValue(this.filter?.parametros);
   }
 
   async loadData(): Promise<void>
@@ -60,7 +62,6 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   {
     this.createForm();
     this.loadData();
-    this.form.patchValue(this.filter?.parametros);
   }
 
   configurarFiltro()

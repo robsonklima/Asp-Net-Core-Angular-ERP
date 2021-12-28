@@ -87,7 +87,7 @@ namespace SAT.SERVICES.Services
             {
                 agendaTecnicoAnterior.Inicio = start;
                 agendaTecnicoAnterior.Fim = end;
-                agendaTecnicoAnterior.Cor = this.IsAgendamentoColor;
+                agendaTecnicoAnterior.Cor = this.AgendamentoColor;
                 agendaTecnicoAnterior.DataHoraManut = DateTime.Now;
                 agendaTecnicoAnterior.IndAgendamento = 1;
                 agendaTecnicoAnterior.CodUsuarioManut = Constants.SISTEMA_NOME;
@@ -104,7 +104,7 @@ namespace SAT.SERVICES.Services
                     Inicio = start,
                     Fim = end,
                     Titulo = os.LocalAtendimento?.NomeLocal?.ToUpper(),
-                    Cor = this.IsAgendamentoColor,
+                    Cor = this.AgendamentoColor,
                     CodOS = os.CodOS,
                     CodTecnico = codTecnico,
                     Tipo = AgendaTecnicoTypeEnum.OS,
@@ -197,7 +197,7 @@ namespace SAT.SERVICES.Services
                     return "#C8C8C8C8";
             }
         }
-        private string IsAgendamentoColor => "#381354";
+        private string AgendamentoColor => "#381354";
         private string IntervaloTitle => "INTERVALO";
         private string FimExpedienteTitle => "FIM DO EXPEDIENTE";
         private string PontoTitle => "PONTO";

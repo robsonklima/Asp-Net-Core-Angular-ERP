@@ -103,9 +103,14 @@ namespace SAT.SERVICES.Services
                     }
                     else if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO))
                     {
+                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
                         i.CodUsuarioManut = Constants.SISTEMA_NOME;
                         i.DataHoraManut = DateTime.Now;
-                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
+                        listaAtualizar.Add(i);
+                    }
+                    else
+                    {
+                        i.Cor = this.AgendamentoColor;
                         listaAtualizar.Add(i);
                     }
 

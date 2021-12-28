@@ -4,6 +4,7 @@ import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from "./des
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
+import { Regiao } from "./regiao.types";
 import { TipoRota } from "./tipo-rota.types";
 import { Usuario } from "./usuario.types";
 
@@ -44,12 +45,13 @@ export class Tecnico
     foneParticular: string;
     fonePerto?: any;
     simCardMobile: string;
-    indPa?: any;
+    indPA?: number;
     trackerId?: any;
     codSimCard?: any;
     cpflogix: string;
     indFerias: number;
     codRegiao: number;
+    regiao?: Regiao;
     codDespesaCartaoCombustivel?: any;
     codFrotaCobrancaGaragem: number;
     codFrotaFinalidadeUso: number;

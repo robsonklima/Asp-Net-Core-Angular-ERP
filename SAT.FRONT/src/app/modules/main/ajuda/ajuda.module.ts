@@ -18,11 +18,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ajudaRoutes } from './ajuda.routing';
+import { AjudaTutorialComponent } from './ajuda-tutorial/ajuda-tutorial.component';
 
 
 @NgModule({
   declarations: [
-    AjudaFaqComponent
+    AjudaFaqComponent,
+    AjudaTutorialComponent
   ],
   imports: [
     CommonModule,

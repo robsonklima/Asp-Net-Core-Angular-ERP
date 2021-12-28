@@ -163,16 +163,16 @@ namespace SAT.INFRA.Repository
                                     CodAutorizada = i.EquipamentoContrato.Autorizada.CodAutorizada,
                                     NomeFantasia = i.EquipamentoContrato.Autorizada.NomeFantasia
                                 } : null,
-                                Regiao = new Regiao
+                                Regiao = i.EquipamentoContrato.Regiao != null ? new Regiao
                                 {
                                     CodRegiao = i.EquipamentoContrato.Regiao.CodRegiao,
                                     NomeRegiao = i.EquipamentoContrato.Regiao.NomeRegiao
-                                },
-                                AcordoNivelServico = new AcordoNivelServico
+                                } : null,
+                                AcordoNivelServico = i.EquipamentoContrato.AcordoNivelServico != null ? new AcordoNivelServico
                                 {
                                     CodSLA = i.EquipamentoContrato.AcordoNivelServico.CodSLA,
                                     NomeSLA = i.EquipamentoContrato.AcordoNivelServico.NomeSLA
-                                }
+                                } : null
                             } : null,
                             LocalAtendimento = i.LocalAtendimento != null ? new LocalAtendimento
                             {
@@ -182,6 +182,7 @@ namespace SAT.INFRA.Repository
                                 Cep = i.LocalAtendimento.Cep,
                                 Bairro = i.LocalAtendimento.Bairro,
                                 NumeroEnd = i.LocalAtendimento.NumeroEnd,
+                                DistanciaKmPatRes = i.LocalAtendimento.DistanciaKmPatRes,
                                 Cidade = i.LocalAtendimento.Cidade != null ? new Cidade
                                 {
                                     CodCidade = i.LocalAtendimento.Cidade.CodCidade,
@@ -191,6 +192,21 @@ namespace SAT.INFRA.Repository
                                         CodUF = i.LocalAtendimento.Cidade.UnidadeFederativa.CodUF,
                                         SiglaUF = i.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF
                                     } : null,
+                                } : null,
+                                Filial = i.LocalAtendimento.Filial != null ? new Filial
+                                {
+                                    CodFilial = i.LocalAtendimento.Filial.CodFilial,
+                                    NomeFilial = i.LocalAtendimento.Filial.NomeFilial,
+                                } : null,
+                                Autorizada = i.LocalAtendimento.Autorizada != null ? new Autorizada
+                                {
+                                    CodAutorizada = i.LocalAtendimento.Autorizada.CodAutorizada,
+                                    NomeFantasia = i.LocalAtendimento.Autorizada.NomeFantasia,
+                                } : null,
+                                Regiao = i.LocalAtendimento.Regiao != null ? new Regiao
+                                {
+                                    CodRegiao = i.LocalAtendimento.Regiao.CodRegiao,
+                                    NomeRegiao = i.LocalAtendimento.Regiao.NomeRegiao,
                                 } : null,
                             } : null,
                             Regiao = i.Regiao != null ? new Regiao

@@ -153,20 +153,22 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     {
       this.ordemServico = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
       this.form.patchValue(this.ordemServico);
+      console.log(this.ordemServico.codRegiao);
       this.form.controls['codFilial'].setValue(this.ordemServico?.codFilial);
       this.form.controls['agenciaPosto'].setValue(
         `${this.ordemServico.localAtendimento.numAgencia}/${this.ordemServico.localAtendimento.dcPosto}`);
     }
-
-    const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
-
-    if (this.userSession.usuario?.filial?.codFilial)
+    else
     {
-      this.form.controls['codFilial'].setValue(codFilial);
-      this.form.controls['codFilial'].disable();
+      const codFilial = this.ordemServico?.filial?.codFilial || this.userSession.usuario?.filial?.codFilial;
 
-      await this.obterAutorizadas();
+      if (codFilial)
+        this.form.controls['codFilial'].setValue(codFilial);
+
+      if (this.userSession.usuario?.filial?.codFilial)
+        this.form.controls['codFilial'].disable();
     }
+    await this.obterAutorizadas();
   }
 
   private async obterTiposIntervencao()
@@ -261,7 +263,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   {
     this.form.controls['codPosto'].valueChanges.subscribe(() => 
     {
-      this.form.controls['codEquipContrato'].setValue(null);
       this.obterEquipamentos();
     });
   }
@@ -335,6 +336,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   {
     this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato =>
     {
+      if (!this.isAddMode) return;
+
       var equipContrato = Enumerable.from(this.equipamentosContrato)
         .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
 

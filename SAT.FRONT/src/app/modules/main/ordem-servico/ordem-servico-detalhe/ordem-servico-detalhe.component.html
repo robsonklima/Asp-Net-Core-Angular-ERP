@@ -101,221 +101,202 @@
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
-                                    <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                        <div class="flex items-center justify-between">
-                                            <div class="text-2xl font-semibold leading-tight">{{ t('chamado') }}</div>
-                                        </div>
+                                    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
 
-                                        <div class="flex flex-col my-2">
-                                            <div class="my-2">
-                                                <div>{{ t('abertura') }}</div>
-                                                <div class="text-secondary text-md">{{ os?.dataHoraAberturaOS |
-                                                    date:'dd/MM/yyyy
-                                                    HH:mm' }}
-                                                </div>
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('abertura') }}</div>
+                                                <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
-
-                                            <div class="my-2">
-                                                <div>{{ t('aberto por') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
-                                                </div>
-                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('aberto por') }}</div>
+                                                <div>{{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}</div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3" *ngIf="usuarioCadastro?.fone || usuarioCadastro?.foneParticular">
+                                                <div class="text-secondary">{{ t('contato') }}</div>
+                                                <div>
                                                     {{ usuarioCadastro?.fone ? t('contato perto') + ": " +  usuarioCadastro?.fone : '' }}
-                                                </div>
-                                                <div class="text-secondary text-md" *ngIf="usuarioCadastro">
                                                     {{ usuarioCadastro?.foneParticular ? t('contato pessoal') + ": " + usuarioCadastro?.foneParticular : '' }}
                                                 </div>
                                             </div>
-
-                                            <div class="my-2" *ngIf="ultimoAgendamento">
-                                                <div>{{ t('agendamento') }}</div>
-                                                <div class="text-secondary text-md w-2/5" matTooltipPosition="right"
-                                                    matTooltipClass="tool-tip" [matTooltip]="histAgendamento">
-                                                    {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
-                                                </div>
-                                            </div>
-
-                                            <div class="my-2">
-                                                <div>{{ t('os cliente') }}</div>
-                                                <div class="text-secondary text-md">{{ os?.numOSCliente || 'Não
-                                                    Informado' }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('os quarteirizada') }}</div>
-                                                <div class="text-secondary text-md">{{ os?.numOSQuarteirizada || 'Não
-                                                    Informado'
-                                                    }}</div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('status de servico') }}</div>
-                                                <div class="text-secondary text-md pt-1">
-                                                    <span class="py-1 px-1 rounded "
-                                                        [style.background-color]="os?.statusServico?.corFundo"
-                                                        [style.color]="os?.statusServico?.corFonte">
-                                                        {{ os?.statusServico?.nomeStatusServico }}
+                                            <div class="flex items-center justify-between py-3"  *ngIf="ultimoAgendamento">
+                                                <div class="text-secondary">{{ t('agendamento') }}</div>
+                                                <div>
+                                                    <span class="text-secondary text-md w-2/5" matTooltipPosition="right"
+                                                        matTooltipClass="tool-tip" [matTooltip]="histAgendamento">
+                                                        {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('defeito') }}</div>
-                                                <div class="text-secondary text-md">{{ os?.defeitoRelatado }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os cliente') }}</div>
+                                                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os quarteirizada') }}</div>
+                                                <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.tecnico?.nome">
+                                                <div class="text-secondary">{{ t('tecnico') }}</div>
+                                                <div>{{ os?.tecnico?.nome | titlecase }}</div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('status de servico') }}</div>
+                                                <div>
+                                                    <span
+                                                        class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1"
+                                                        [style.background-color]="os?.statusServico?.corFundo"
+                                                        [style.color]="os?.statusServico?.corFonte">
+                                                        {{ os?.statusServico?.nomeStatusServico }}
+                                                </span>
                                                 </div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('observacao') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.observacaoCliente || 'Não Informado' }}
-                                                </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os cliente') }}</div>
+                                                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('marcacao especial') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}
-                                                </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('defeito') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.defeitoRelatado }}</div>
+                                                </ng-container>
                                             </div>
-                                            <div class="my-2" *ngIf="os?.tecnico?.nome">
-                                                <div>{{ t('tecnico') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.tecnico?.nome | titlecase }}
-                                                </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('observacao') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.observacaoCliente || 'Não Informado' }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>
+                                                </ng-container>
                                             </div>
                                         </div>
                                     </fuse-card>
 
-                                    <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                        <div class="flex items-center justify-between">
-                                            <div class="text-2xl font-semibold leading-tight">{{ t('local') }}</div>
-                                        </div>
+                                    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}</div>
 
-                                        <div class="flex flex-col my-2">
-                                            <div class="my-2">
-                                                <div>{{ t('cliente') }}</div>
-                                                <div class="text-secondary text-md">
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('cliente') }}</div>
+                                                <div>
                                                     {{ os?.cliente?.numBanco || '--' }}
                                                     {{ os?.localAtendimento?.numAgencia || '--' }}/{{
                                                     os?.localAtendimento?.dcPosto || '--' }}
                                                 </div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('local de atendimento') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.localAtendimento?.nomeLocal | titlecase }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('endereco') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{  os?.localAtendimento?.endereco + ' - ' + os?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
-                                                        os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF 
-                                                        || 'não informado' }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2" *ngIf="os?.localAtendimento?.cep">
-                                                <div>{{ 'CEP' }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.localAtendimento?.cep | titlecase }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('sla') }}</div>
 
-                                                <div class="text-secondary text-md">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('sla') }}</div>
+                                                <div>       
                                                     <span class="cursor-help"
                                                         [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
                                                         matTooltipPosition="above">
-                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não
-                                                        Informado' }}
+                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não Informado' }}
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('fim sla') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') || '--' }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('contrato') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não
-                                                    Informado' }}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('filial') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.filial?.nomeFilial || 'Não Informado'}}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('autorizada') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.autorizada?.nomeFantasia || 'Não Informado'}}
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <div>{{ t('regiao') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.regiao?.nomeRegiao || 'Não Informado'}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fuse-card>
 
-                                    <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                        <div class="flex items-center justify-between">
-                                            <div class="text-2xl font-semibold leading-tight">{{ t('equipamento') }}
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
+                                                <div class="text-secondary">{{ t('fim sla') }}</div>
+                                                <div>{{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}</div>
                                             </div>
-                                        </div>
 
-                                        <div class="flex flex-col my-2">
-                                            <div class="my-2">
-                                                <div>{{ t('equipamento') }}</div>
-                                                <div class="text-secondary text-md">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('contrato') }}</div>
+                                                <div>{{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('filial') }}</div>
+                                                <div>{{ os?.filial?.nomeFilial || 'Não Informado'}}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('autorizada') }}</div>
+                                                <div>{{ os?.autorizada?.nomeFantasia || 'Não Informado'}}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('regiao') }}</div>
+                                                <div>{{ os?.regiao?.nomeRegiao || 'Não Informado'}}</div>
+                                            </div>
+                                        
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('equipamento') }}</div>
+                                                <div>
                                                     {{ os?.equipamento?.nomeEquip || '--' }}
                                                     {{ os?.equipamentoContrato?.numSerie || '--' }}
                                                 </div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('distancia da pat') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('distancia da pat') }}</div>
+                                                <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('semat') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('semat') }}</div>
+                                                <div>{{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('reincidencia') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('reincidencia') }}</div>
+                                                <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('sugestao') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.sugestaoOS || 'Não Informado' }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('sugestao') }}</div>
+                                                <div>{{ os?.sugestaoOS || 'Não Informado' }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('exige laudo') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('exige laudo') }}</div>
+                                                <div>{{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}</div>
                                             </div>
-                                            <div class="my-2">
-                                                <div>{{ t('fechadura') }}</div>
-                                                <div class="text-secondary text-md">
-                                                    {{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}
-                                                </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('fechadura') }}</div>
+                                                <div>{{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('endereco') }}</div>
+                                        </div>
+
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>
+                                                        {{  
+                                                            os?.localAtendimento?.cep + ' - ' +
+                                                            os?.localAtendimento?.endereco + ' - ' + 
+                                                            os?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
+                                                            os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
+                                                        }}
+                                                    </div>
+                                                </ng-container>
                                             </div>
                                         </div>
                                     </fuse-card>

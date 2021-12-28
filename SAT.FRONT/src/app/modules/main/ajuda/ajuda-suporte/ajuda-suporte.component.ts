@@ -47,6 +47,8 @@ export class AjudaSuporteComponent implements OnInit
     const email: Email = {
       emailRemetente: usuario.email,
       nomeRemetente: usuario.nomeUsuario,
+      emailCC: usuario.email,
+      nomeCC: usuario.nomeUsuario,
       nomeDestinatario: 'Equipe SAT',
       emailDestinatario: 'equipe.sat@perto.com.br',
       assunto: `Contato via Suporte: ${form.assunto}`,

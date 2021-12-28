@@ -13,21 +13,26 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MbscModule } from '@mobiscroll/angular';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ajudaRoutes } from './ajuda.routing';
+import { AjudaSuporteComponent } from './ajuda-suporte/ajuda-suporte.component';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 
 @NgModule({
   declarations: [
-    AjudaFaqComponent
+    AjudaFaqComponent,
+    AjudaSuporteComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(ajudaRoutes),
     SharedModule,
+    MbscModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -44,6 +49,7 @@ import { ajudaRoutes } from './ajuda.routing';
     MatDialogModule,
     MatOptionModule,
     MatIconModule,
+    FuseAlertModule,
     MatExpansionModule
   ]
 })

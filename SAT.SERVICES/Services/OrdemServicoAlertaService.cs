@@ -59,7 +59,7 @@ namespace SAT.SERVICES.Services
             {
                 Titulo = "Chamado BB Tecnologia 0125/2017 ",
                 Descricao = new List<string>(),
-                Tipo = Constants.INFO
+                Tipo = Constants.PRIMARY
             };
             var hrMaxPorEquip = CalculaHorasDisponiveis(os).ToString(@"hh\:mm");
             TimeSpan horasConsumidas = CalculaHorasConsumidas(os);
@@ -152,7 +152,7 @@ namespace SAT.SERVICES.Services
                 {
                     Titulo = "Chamados de PINPAD para a mesma cidade ",
                     Descricao = new List<string>(),
-                    Tipo = Constants.INFO
+                    Tipo = Constants.PRIMARY
                 };
 
                 osEquip.ForEach(e =>
@@ -183,7 +183,7 @@ namespace SAT.SERVICES.Services
             {
                 alerta.Titulo = "Chamado ainda não visualizado";
                 alerta.Descricao.Add($"Técnico Transferido: {os.Tecnico?.Nome}");
-                alerta.Tipo = Constants.INFO;
+                alerta.Tipo = Constants.PRIMARY;
                 listaAlertas.Add(alerta);
 
                 return listaAlertas;

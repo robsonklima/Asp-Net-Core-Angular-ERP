@@ -315,22 +315,18 @@
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <fuse-card class="flex flex-col flex-auto p-6 w-2/3" *ngIf="os?.alertas?.length">
+                                <fuse-card class="flex flex-col flex-auto pl-6 pr-6 pb-6 pt-2 w-2/3" *ngIf="os?.alertas?.length">
                                     <div class="grid grid-cols-1">
                                         <fuse-alert
-                                            class="mb-4"
-                                            [type]="'success'"
+                                            *ngFor="let alerta of os?.alertas"
+                                            class="mt-4"
+                                            [type]="alerta?.tipo"
                                             [appearance]="'outline'">
-                                            <span fuseAlertTitle>Primary alert</span>
-                                            Thank you for joining our newsletter
-                                        </fuse-alert>
-
-                                        <fuse-alert
-                                            class="mb-4"
-                                            [type]="'success'"
-                                            [appearance]="'outline'">
-                                            <span fuseAlertTitle>Primary alert</span>
-                                            Thank you for joining our newsletter
+                                            <span fuseAlertTitle>{{ alerta?.titulo }}</span>
+                                            <div class="rounded mt-2 text-justify"
+                                                *ngFor="let desc of alerta?.descricao">
+                                                {{ desc }}
+                                            </div>
                                         </fuse-alert>
                                     </div>
                                 </fuse-card>

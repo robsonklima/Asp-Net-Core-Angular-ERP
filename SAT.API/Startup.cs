@@ -30,7 +30,11 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            #if DEBUG
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
+            #else
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            #endif
 
             services.AddCors(options =>
             {

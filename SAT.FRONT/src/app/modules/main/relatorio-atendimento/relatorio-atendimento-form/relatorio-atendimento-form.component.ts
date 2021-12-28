@@ -38,7 +38,8 @@ import Enumerable from 'linq';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
+export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
+{
   sidenav: MatSidenav;
   sessionData: UsuarioSessao;
   codOS: number;
@@ -56,7 +57,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _raService: RelatorioAtendimentoService,
@@ -70,11 +71,13 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _snack: CustomSnackbarService,
     private _router: Router,
     private _dialog: MatDialog
-  ) {
+  )
+  {
     this.sessionData = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.loading = true;
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
@@ -82,22 +85,29 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.inicializarForm();
 
     await this.obterOrdemServico();
-    await this.obterRelatorioAtendimento();
-    await this.obterFotos();
+    if (!this.isAddMode)
+    {
+      await this.obterRelatorioAtendimento();
+      await this.obterFotos();
+    }
 
-    this.form.controls['data'].valueChanges.subscribe((data) => {
+    this.form.controls['data'].valueChanges.subscribe((data) =>
+    {
       this.validaDataHoraRAT();
     })
 
-    this.form.controls['horaInicio'].valueChanges.subscribe((horaInicio) => {
+    this.form.controls['horaInicio'].valueChanges.subscribe((horaInicio) =>
+    {
       this.validaDataHoraRAT();
     })
 
-    this.form.controls['horaFim'].valueChanges.subscribe((horaFim) => {
+    this.form.controls['horaFim'].valueChanges.subscribe((horaFim) =>
+    {
       this.validaDataHoraRAT();
     })
 
-    this.form.controls['codStatusServico'].valueChanges.subscribe(() => {
+    this.form.controls['codStatusServico'].valueChanges.subscribe(() =>
+    {
       this.validaBloqueioStatus();
     })
 
@@ -120,7 +130,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         tap(() => this.searching = true),
         takeUntil(this._onDestroy),
         debounceTime(700),
-        map(async query => {
+        map(async query =>
+        {
           const data = await this._tecnicoService.obterPorParametros({
             sortActive: 'nome',
             sortDirection: 'asc',
@@ -134,11 +145,13 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         delay(500),
         takeUntil(this._onDestroy)
       )
-      .subscribe(async data => {
+      .subscribe(async data =>
+      {
         this.searching = false;
         this.tecnicos = await data;
       },
-        () => {
+        () =>
+        {
           this.searching = false;
         }
       );
@@ -146,14 +159,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  private async obterOrdemServico() {
+  private async obterOrdemServico()
+  {
     this.ordemServico = await this._ordemServicoService
       .obterPorCodigo(this.codOS)
       .toPromise();
   }
 
-  private async obterRelatorioAtendimento() {
-    if (!this.isAddMode) {
+  private async obterRelatorioAtendimento()
+  {
+    if (!this.isAddMode)
+    {
       this.relatorioAtendimento = await this._raService
         .obterPorCodigo(this.codRAT)
         .toPromise();
@@ -171,7 +187,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.form.controls['checkout'].setValue(moment(checkout?.dataHoraCadSmartphone).format('HH:mm'));
 
       this.form.patchValue(this.relatorioAtendimento);
-    } else {
+    } else
+    {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
       this.configuraForm(this.ordemServico);
     }
@@ -180,7 +197,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.form.disable();
   }
 
-  private async obterFotos() {
+  private async obterFotos()
+  {
     const data = await this._fotoSvc.obterPorParametros({
       numRAT: this.relatorioAtendimento.numRAT,
       codOS: this.relatorioAtendimento.codOS
@@ -189,24 +207,29 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this.relatorioAtendimento.fotos = data.items;
   }
 
-  private configuraForm(ordemServico: OrdemServico) {
+  private configuraForm(ordemServico: OrdemServico)
+  {
     // Se o status for transferido, carrega o técnico
-    if (this.bloqueiaFormTecnico(ordemServico)) {
+    if (this.bloqueiaFormTecnico(ordemServico))
+    {
       this.form.controls['codTecnico'].setValue(ordemServico.codTecnico);
       // this.form.controls['codTecnico'].disable();
     }
   }
 
-  inserirDetalhe() {
+  inserirDetalhe()
+  {
     const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
 
-    dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
+    dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) =>
+    {
       if (detalhe)
         this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
     });
   }
 
-  removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
+  removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void
+  {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -218,8 +241,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
         const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
           .map(function (d) { return d; })
           .indexOf(detalhe);
@@ -229,7 +254,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void {
+  removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void
+  {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -241,8 +267,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
         const iDetalhe = this.relatorioAtendimento.relatorioAtendimentoDetalhes
           .map(function (d) { return d; })
           .indexOf(detalhe);
@@ -254,11 +282,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
+  inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void
+  {
     const dialogRef = this._dialog.open(RelatorioAtendimentoDetalhePecaFormComponent);
 
-    dialogRef.afterClosed().subscribe(raDetalhePeca => {
-      if (raDetalhePeca) {
+    dialogRef.afterClosed().subscribe(raDetalhePeca =>
+    {
+      if (raDetalhePeca)
+      {
         const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
           .map(function (d) { return d; })
           .indexOf(detalhe);
@@ -271,16 +302,20 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  obterTotalDetalhesNaoRemovidos(): number {
+  obterTotalDetalhesNaoRemovidos(): number
+  {
     return this.relatorioAtendimento
       ?.relatorioAtendimentoDetalhes
       ?.filter(d => !d.removido).length || 0;
   }
 
-  existeDetalheSemPeca(): boolean {
-    for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+  existeDetalheSemPeca(): boolean
+  {
+    for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes)
+    {
       if ((detalhe.codAcao === 19 || detalhe.codAcao === 26) && detalhe.relatorioAtendimentoDetalhePecas
-        .filter(dp => !dp.removido).length === 0) {
+        .filter(dp => !dp.removido).length === 0)
+      {
         return true;
       }
     }
@@ -288,11 +323,13 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  formatarModalidadeFoto(modalidade: string): string {
+  formatarModalidadeFoto(modalidade: string): string
+  {
     return FotoModalidadeEnum[modalidade];
   }
 
-  removerFoto(codRATFotoSmartphone: number) {
+  removerFoto(codRATFotoSmartphone: number)
+  {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -304,27 +341,33 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
-        this._fotoSvc.deletar(codRATFotoSmartphone).subscribe(() => {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this._fotoSvc.deletar(codRATFotoSmartphone).subscribe(() =>
+        {
           this.obterFotos();
         });
       }
     });
   }
 
-  selecionarImagem(ev: any) {
+  selecionarImagem(ev: any)
+  {
     var files = ev.target.files;
     var file = files[0];
 
-    if (files && file) {
+    if (files && file)
+    {
       var reader = new FileReader();
       reader.onload = this.transformarBase64.bind(this);
       reader.readAsBinaryString(file);
     }
   }
 
-  private transformarBase64(readerEvt) {
+  private transformarBase64(readerEvt)
+  {
     var binaryString = readerEvt.target.result;
     var base64textString = btoa(binaryString);
 
@@ -337,13 +380,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       base64: base64textString
     }
 
-    this._fotoSvc.criar(foto).subscribe(() => {
+    this._fotoSvc.criar(foto).subscribe(() =>
+    {
       this.obterFotos();
       this._snack.exibirToast("Imagem adicionada com sucesso!", "success");
     });
   }
 
-  private inicializarForm(): void {
+  private inicializarForm(): void
+  {
     this.form = this._formBuilder.group({
       codRAT: [
         {
@@ -369,7 +414,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private validaDataHoraRAT(): void {
+  private validaDataHoraRAT(): void
+  {
     let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
     let horaFim = moment(this.form.controls['horaFim'].value, 'h:mm A');
 
@@ -377,19 +423,23 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
     this.form.controls['horaFim'].setErrors(null)
 
-    if (duracaoEmMinutos < 20) {
+    if (duracaoEmMinutos < 20)
+    {
       this.form.controls['horaInicio'].setErrors({
         'periodoInvalido': true
       });
-    } else {
+    } else
+    {
       this.form.controls['horaInicio'].setErrors(null)
     }
 
-    if (duracaoEmMinutos < 20) {
+    if (duracaoEmMinutos < 20)
+    {
       this.form.controls['horaFim'].setErrors({
         'periodoInvalido': true
       });
-    } else {
+    } else
+    {
       this.form.controls['horaFim'].setErrors(null)
     }
 
@@ -397,31 +447,38 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     let dataHoraOS = moment(this.ordemServico?.dataHoraAberturaOS);
     let dataHoraAgendamento = moment(this.ordemServico?.dataHoraAberturaOS);
 
-    if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value)) {
+    if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
+    {
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })
-    } else {
+    } else
+    {
       this.form.controls['data'].setErrors(null)
     }
 
-    if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value)) {
+    if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
+    {
       this.form.controls['data'].setErrors({
         'dataRATInvalida': true
       })
-    } else {
+    } else
+    {
       this.form.controls['data'].setErrors(null)
     }
   }
 
-  private validaBloqueioStatus(): void {
+  private validaBloqueioStatus(): void
+  {
     let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
 
-    if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO) {
+    if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO)
+    {
       this.form.controls['codStatusServico'].setErrors({
         'bloqueioReincidencia': true
       })
-    } else {
+    } else
+    {
       this.form.controls['codStatusServico'].setErrors(null)
     }
 
@@ -432,18 +489,21 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
       )
       && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
-    ) {
+    )
+    {
       this.form.controls['codStatusServico'].setErrors({
         'bloqueioOrcamento': true
       })
     }
   }
 
-  async salvar() {
+  async salvar()
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private async criar() {
+  private async criar()
+  {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
@@ -466,19 +526,22 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(ra).forEach((key) => {
+    Object.keys(ra).forEach((key) =>
+    {
       typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
     const raRes = await this._raService.criar(ra).toPromise();
     ra.codRAT = raRes.codRAT;
 
-    for (let d of ra.relatorioAtendimentoDetalhes) {
+    for (let d of ra.relatorioAtendimentoDetalhes)
+    {
       d.codRAT = raRes.codRAT;
       d.codOS = this.codOS;
       const detalheRes = await this._raDetalheService.criar(d).toPromise();
 
-      for (let dp of d.relatorioAtendimentoDetalhePecas) {
+      for (let dp of d.relatorioAtendimentoDetalhePecas)
+      {
         dp.codRATDetalhe = detalheRes.codRATDetalhe;
         await this._raDetalhePecaService.criar(dp).toPromise();
       }
@@ -503,7 +566,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
-  private async atualizar() {
+  private async atualizar()
+  {
     this.form.disable();
     const form: any = this.form.getRawValue();
 
@@ -519,16 +583,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    Object.keys(ra).forEach((key) => {
+    Object.keys(ra).forEach((key) =>
+    {
       typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
     });
 
     ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
     await this._raService.atualizar(ra).toPromise();
 
-    for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+    for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes)
+    {
       // Remover Detalhes e Peças
-      if (detalhe.removido && detalhe.codRATDetalhe) {
+      if (detalhe.removido && detalhe.codRATDetalhe)
+      {
         for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas)
           await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
 
@@ -536,12 +603,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
 
       // Adicionar Detalhes e Peças
-      if (!detalhe.removido && !detalhe.codRATDetalhe) {
+      if (!detalhe.removido && !detalhe.codRATDetalhe)
+      {
         detalhe.codRAT = this.relatorioAtendimento.codRAT;
         detalhe.codOS = this.relatorioAtendimento.codOS;
         const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
 
-        for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
+        for (let peca of detalhe.relatorioAtendimentoDetalhePecas)
+        {
           peca.codRATDetalhe = detalheRes.codRATDetalhe;
 
           await this._raDetalhePecaService.criar(peca).toPromise();
@@ -549,13 +618,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       }
 
       // Adicionar Pecas
-      if (!detalhe.removido && detalhe.codRATDetalhe) {
-        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
-          if (!dPeca.codRATDetalhePeca && !dPeca.removido) {
+      if (!detalhe.removido && detalhe.codRATDetalhe)
+      {
+        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas)
+        {
+          if (!dPeca.codRATDetalhePeca && !dPeca.removido)
+          {
             dPeca.codRATDetalhe = detalhe.codRATDetalhe;
 
             await this._raDetalhePecaService.criar(dPeca).toPromise();
-          } else if (dPeca.codRATDetalhePeca && dPeca.removido) {
+          } else if (dPeca.codRATDetalhePeca && dPeca.removido)
+          {
             await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
           }
         }
@@ -577,10 +650,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
-  private formatarRelatoSolucao(relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[]) {
+  private formatarRelatoSolucao(relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[])
+  {
     let retorno = "";
 
-    for (let detalhe of relatorioAtendimentoDetalhes) {
+    for (let detalhe of relatorioAtendimentoDetalhes)
+    {
       const maquina = detalhe.tipoServico?.codETipoServico.substring(0, 1);
 
       retorno += ` ITEM: CAUSA ${maquina == "1" ? "Máquina" : "Extra-Máquina"}, ${detalhe.acao?.nomeAcao?.replace("'", "")} do(a) ${detalhe.causa?.nomeCausa?.replace("'", "")} `;
@@ -589,11 +664,13 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     return retorno;
   }
 
-  public bloqueiaFormTecnico(ordemServico: OrdemServico) {
+  public bloqueiaFormTecnico(ordemServico: OrdemServico)
+  {
     return (ordemServico?.codStatusServico == 8 && ordemServico?.codTecnico != null);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

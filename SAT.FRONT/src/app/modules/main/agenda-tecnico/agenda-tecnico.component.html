@@ -4,7 +4,7 @@
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
 
-    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenavChamados>
+    <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900 z-in" [position]="'end'" #sidenavChamados>
         <app-agenda-tecnico-chamados [sidenavOut]="sidenavChamados"></app-agenda-tecnico-chamados>
     </mat-drawer>
 
@@ -34,7 +34,7 @@
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
         </div>
-        <div class="warning-indicator font-bold" *ngIf="!loading && resources?.length == 0">
+        <div class="font-bold" *ngIf="!loading && resources?.length == 0">
             Nenhum técnico encontrado. Por favor, verifique seus filtros.
         </div>
         <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">

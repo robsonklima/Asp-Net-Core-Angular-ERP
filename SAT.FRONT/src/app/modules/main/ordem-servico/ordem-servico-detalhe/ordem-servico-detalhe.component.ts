@@ -345,11 +345,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			.toArray();
 	}
 
-	getPecas(ratDetalhes: RelatorioAtendimentoDetalhe)
-	{
-		return Enumerable.from(ratDetalhes.relatorioAtendimentoDetalhePecas).select(i => i.peca.codMagnus + " - " + i.peca.nomePeca + " (" + i.qtdePecas + ")").toJoinedString();
-	}
-
 	private createAgendaTecnico()
 	{
 		if (this.os.codTecnico == null) return;

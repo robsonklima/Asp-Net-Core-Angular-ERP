@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { AjudaFaqComponent } from './ajuda-faq/ajuda-faq.component';
+import { AjudaSuporteComponent } from './ajuda-suporte/ajuda-suporte.component';
 
 export const ajudaRoutes: Route[] = [
     {
@@ -13,6 +14,6 @@ export const ajudaRoutes: Route[] = [
     },
     {
         path: 'ajuda-suporte',
-        component: AjudaFaqComponent
+        component: AjudaSuporteComponent
     },
 ];

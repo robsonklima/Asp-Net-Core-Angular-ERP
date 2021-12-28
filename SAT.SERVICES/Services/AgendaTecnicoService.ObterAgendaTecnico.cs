@@ -92,11 +92,28 @@ namespace SAT.SERVICES.Services
             }
             else
             {
-                eventosValidados.AddRange(agendamentos.Where(i => i.IndAgendamento == 1));
+                agendamentos.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
+                {
+                    if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                    {
+                        i.IndAtivo = 0;
+                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        i.DataHoraManut = DateTime.Now;
+                        listaAtualizar.Add(i);
+                    }
+                    else if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO))
+                    {
+                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        i.DataHoraManut = DateTime.Now;
+                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
+                        listaAtualizar.Add(i);
+                    }
+
+                    eventosValidados.Add(i);
+                });
 
                 agendamentos
                 .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-                .OrderBy(i => i.Inicio)
                 .ToList().ForEach(i =>
                 {
                     if (i.Fim < DateTime.Now)
@@ -125,6 +142,8 @@ namespace SAT.SERVICES.Services
                i.Skip(1).ToList().ForEach(a =>
                {
                    a.IndAtivo = 0;
+                   a.CodUsuarioManut = Constants.SISTEMA_NOME;
+                   a.DataHoraManut = DateTime.Now;
                    listaAtualizar.Add(a);
                });
            });
@@ -274,6 +293,8 @@ namespace SAT.SERVICES.Services
                     if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
                         e.IndAtivo = 0;
 
+                    e.CodUsuarioManut = Constants.SISTEMA_NOME;
+                    e.DataHoraManut = DateTime.Now;
                     e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                     atualizarAgendas.Add(e);
                 }

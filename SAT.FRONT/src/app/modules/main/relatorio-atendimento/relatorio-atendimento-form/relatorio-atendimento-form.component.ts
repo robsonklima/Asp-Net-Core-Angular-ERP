@@ -30,6 +30,7 @@ import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { Foto, FotoModalidadeEnum } from 'app/core/types/foto.types';
 import { FotoService } from 'app/core/services/foto.service';
 import Enumerable from 'linq';
+import { OrdemServicoFotoComponent } from '../../ordem-servico/ordem-servico-foto/ordem-servico-foto.component';
 
 
 @Component({
@@ -352,6 +353,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       }
     });
   }
+
+  ampliarFoto(foto: Foto) {
+		this._dialog.open(OrdemServicoFotoComponent, {
+			data: { foto: foto}
+		});
+	}
 
   selecionarImagem(ev: any)
   {

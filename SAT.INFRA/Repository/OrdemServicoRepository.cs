@@ -72,9 +72,8 @@ namespace SAT.INFRA.Repository
             return query.AsNoTracking();
         }
 
-        public OrdemServico ObterPorCodigo(int codigo)
-        {
-            var ordemServico = _context.OrdemServico
+        public OrdemServico ObterPorCodigo(int codigo) =>
+            _context.OrdemServico
                 .Include(os => os.StatusServico)
                 .Include(os => os.TipoIntervencao)
                 .Include(os => os.LocalAtendimento)
@@ -140,8 +139,5 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
-
-            return ordemServico;
-        }
     }
 }

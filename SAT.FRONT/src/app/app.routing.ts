@@ -89,6 +89,7 @@ export const appRoutes: Route[] = [
             { path: 'instalacao', loadChildren: () => import('app/modules/main/instalacao/instalacao.module').then(m => m.InstalacaoModule) },
             { path: 'dialog', loadChildren: () => import('app/modules/main/dialog/dialog.module').then(m => m.DialogModule) },
             { path: 'filtros', loadChildren: () => import('app/modules/main/filtros/filtro.module').then(m => m.FiltroModule) },
+            { path: 'ajuda', loadChildren: () => import('app/modules/main/ajuda/ajuda.module').then(m => m.AjudaModule) },
 
             // 404 & Catch all
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/error/error-404/error-404.module').then(m => m.Error404Module) },

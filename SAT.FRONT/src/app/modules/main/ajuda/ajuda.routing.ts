@@ -6,14 +6,14 @@ export const ajudaRoutes: Route[] = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'ajuda-faq'
+        redirectTo: 'faq'
     },
     {
-        path: 'ajuda-faq',
+        path: 'faq',
         component: AjudaFaqComponent
     },
     {
-        path: 'ajuda-suporte',
+        path: 'suporte',
         component: AjudaSuporteComponent
     },
 ];

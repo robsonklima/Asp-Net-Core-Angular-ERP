@@ -179,6 +179,20 @@ namespace SAT.INFRA.Repository
                             {
                                 CodPosto = i.LocalAtendimento.CodPosto,
                                 NomeLocal = i.LocalAtendimento.NomeLocal,
+                                Endereco = i.LocalAtendimento.Endereco,
+                                Cep = i.LocalAtendimento.Cep,
+                                Bairro = i.LocalAtendimento.Bairro,
+                                NumeroEnd = i.LocalAtendimento.NumeroEnd,
+                                Cidade = i.LocalAtendimento.Cidade != null ? new Cidade
+                                {
+                                    CodCidade = i.LocalAtendimento.Cidade.CodCidade,
+                                    NomeCidade = i.LocalAtendimento.Cidade.NomeCidade,
+                                    UnidadeFederativa = i.LocalAtendimento.Cidade.UnidadeFederativa != null ? new UnidadeFederativa
+                                    {
+                                        CodUF = i.LocalAtendimento.Cidade.UnidadeFederativa.CodUF,
+                                        SiglaUF = i.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF
+                                    } : null,
+                                } : null,
                             } : null,
                             Regiao = i.Regiao != null ? new Regiao
                             {

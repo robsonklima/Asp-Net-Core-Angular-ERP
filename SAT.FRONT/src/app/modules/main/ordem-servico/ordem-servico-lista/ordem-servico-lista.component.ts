@@ -239,6 +239,42 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         return description;
     }
 
+    localDescricao(os: OrdemServico)
+    {
+        var description: string = '';
+
+        var nomeLocal = os?.localAtendimento?.nomeLocal?.trim();
+        var endereco = os?.localAtendimento?.endereco?.trim();
+        var numero = os?.localAtendimento?.numeroEnd?.trim();
+        var bairro = os?.localAtendimento?.bairro?.trim();
+        var cidade = os?.localAtendimento?.cidade?.nomeCidade?.trim();
+        var uf = os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF?.trim();
+        var cep = os?.localAtendimento?.cep?.trim();
+
+        if (nomeLocal)
+            description += nomeLocal;
+
+        if (endereco)
+            description += nomeLocal ? ', ' + endereco : endereco;
+
+        if (endereco && numero)
+            description += ', ' + numero;
+
+        if (endereco && bairro)
+            description += ', ' + bairro;
+
+        if (cidade)
+            description += ', ' + cidade;
+
+        if (cidade && uf)
+            description += ' - ' + uf;
+
+        if (uf && cep)
+            description += ', ' + cep + '.';
+
+        return description;
+    }
+
     alternarDetalhes(id: number): void
     {
         this.isLoading = true;

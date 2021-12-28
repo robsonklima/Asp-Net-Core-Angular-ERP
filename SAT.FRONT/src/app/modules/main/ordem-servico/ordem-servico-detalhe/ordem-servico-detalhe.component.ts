@@ -23,14 +23,15 @@ import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { FotoService } from 'app/core/services/foto.service';
-import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
 	templateUrl: './ordem-servico-detalhe.component.html',
 	styleUrls: ['./ordem-servico-detalhe.component.scss'],
+	animations   : fuseAnimations,
 	encapsulation: ViewEncapsulation.None,
 })
 export class OrdemServicoDetalheComponent implements AfterViewInit

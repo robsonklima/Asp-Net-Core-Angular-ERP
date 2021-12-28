@@ -18,6 +18,11 @@ namespace SAT.SERVICES.Services
             MailboxAddress to = new MailboxAddress(email.NomeDestinatario, email.EmailDestinatario);
             message.To.Add(to);
 
+            if (!string.IsNullOrWhiteSpace(email.NomeCC) && !string.IsNullOrWhiteSpace(email.EmailCC)) {
+                MailboxAddress cc = new MailboxAddress(email.NomeCC, email.EmailCC);
+                message.Cc.Add(cc);
+            }
+
             message.Subject = email.Assunto;
 
             BodyBuilder bodyBuilder = new BodyBuilder();

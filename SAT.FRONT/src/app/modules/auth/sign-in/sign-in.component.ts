@@ -70,7 +70,6 @@ export class AuthSignInComponent implements OnInit {
                 versaoSO: this.deviceInfo.os_version,
                 versaoNavegador: this.deviceInfo.browser_version,
                 tipoDispositivo: this.deviceInfo.deviceType,
-                indAtivo: statusConst.ATIVO,
                 ip: this.ipData.ip,
             })
             .toPromise();

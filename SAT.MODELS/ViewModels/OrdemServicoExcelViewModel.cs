@@ -1,10 +1,6 @@
-﻿using SAT.MODELS.Helpers;
-using System;
-using System.Collections.Generic;
-
-namespace SAT.MODELS.ViewModels
+﻿namespace SAT.MODELS.ViewModels
 {
-    public class OrdemServicoExcelViewModel  
+    public class OrdemServicoExcelViewModel
     {
         public int Chamado { get; set; }
         public string DataAbertura { get; set; }
@@ -22,6 +18,5 @@ namespace SAT.MODELS.ViewModels
         public string Equipamento { get; set; }
         public string Serie { get; set; }
         public int? Reincidencia { get; set; }
-
     }
 }

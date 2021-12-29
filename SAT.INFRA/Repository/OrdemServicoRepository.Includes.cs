@@ -273,6 +273,8 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.Equipamento)
                         .Include(os => os.Agendamentos)
                         .Include(os => os.EquipamentoContrato)
+                        .Include(os => os.Regiao)
+                        .Include(os => os.Autorizada)
                         .Include(os => os.EquipamentoContrato.Regiao)
                         .Include(os => os.EquipamentoContrato.Autorizada)
                         .Include(os => os.EquipamentoContrato.AcordoNivelServico)

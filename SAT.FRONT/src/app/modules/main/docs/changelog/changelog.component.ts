@@ -16,6 +16,19 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.20',
+                releaseDate: '29 de Dezembro de 2021',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Correções Autenticação por Duas Etapas',
+                            'Ajuste layour lista de chamados'
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.19',
                 releaseDate: '29 de Dezembro de 2021',
                 changes: [

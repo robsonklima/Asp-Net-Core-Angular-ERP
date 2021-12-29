@@ -23,7 +23,7 @@ export class ChangelogComponent implements OnInit
                         type: 'Correções',
                         list: [
                             'Correções Autenticação por Duas Etapas',
-                            'Ajuste layour lista de chamados'
+                            'Ajuste layout lista de chamados'
                         ],
                     }
                 ]

@@ -12,6 +12,7 @@ import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
 import { JsonIPService } from 'app/core/services/jsonip.service';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
     selector: 'auth-sign-in',
@@ -69,21 +70,23 @@ export class AuthSignInComponent implements OnInit {
                 versaoSO: this.deviceInfo.os_version,
                 versaoNavegador: this.deviceInfo.browser_version,
                 tipoDispositivo: this.deviceInfo.deviceType,
+                indAtivo: statusConst.ATIVO,
                 ip: this.ipData.ip,
-                indAtivo: 1,
             })
             .toPromise();
-        
+
         let dispositivo = dispositivoData.items.shift();
 
         if (!usuario || !usuario?.email) {
-            return this._snack
+            this._snack
                 .open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger)
                 .afterDismissed()
                 .toPromise();
-        }
-
-        if (dispositivo?.indAtivo) {
+        } else if (!dispositivo) {
+            dispositivo = await this.cadastrarDispositivo();
+            this.enviarEmail(codUsuario, usuario, dispositivo);
+            this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
+        } else if (dispositivo?.indAtivo) {
             this._authService
                 .signIn(codUsuario, senha)
                 .subscribe(() => {
@@ -98,7 +101,6 @@ export class AuthSignInComponent implements OnInit {
 
             this.signInForm.enable();
         } else {
-            dispositivo = await this.cadastrarDispositivo();
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
@@ -144,7 +146,7 @@ export class AuthSignInComponent implements OnInit {
                 resolve(dispositivo);
             }, (err) => {
                 reject(err);
-            });  
+            });
         })
     }
 }

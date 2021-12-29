@@ -12,6 +12,7 @@ import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protoc
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-despesa-protocolo-detalhe',
@@ -84,7 +85,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   {
     return Enumerable.from(dpt.despesas)
       .sum(d => Enumerable.from(d.despesaItens).
-        where(i => i.indAtivo == 1 &&
+        where(i => i.indAtivo == statusConst.ATIVO &&
           i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
         .sum(i => i.despesaValor));
   }

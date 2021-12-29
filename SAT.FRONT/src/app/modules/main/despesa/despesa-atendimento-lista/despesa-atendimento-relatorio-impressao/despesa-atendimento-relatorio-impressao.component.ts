@@ -8,6 +8,7 @@ import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { statusConst } from 'app/core/types/status-types';
 import { TecnicoConta } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
 
@@ -85,7 +86,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   obterContaTecnico()
   {
     this.tecnicoConta = Enumerable.from(this.despesaPeriodoTecnico.tecnico.tecnicoConta)
-      .firstOrDefault(i => i.indAtivo == 1);
+      .firstOrDefault(i => i.indAtivo == statusConst.ATIVO);
   }
 
   obterCartaoCombustivel()
@@ -104,27 +105,27 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   obterTotalDespesa()
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
-      .where(i => i.indAtivo == 1)
+      .where(i => i.indAtivo == statusConst.ATIVO)
       .selectMany(i => i.despesaItens)
-      .where(i => i.indAtivo == 1)
+      .where(i => i.indAtivo == statusConst.ATIVO)
       .sum(i => i.despesaValor);
   }
 
   obterTotalQuilometragem()
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
-      .where(i => i.indAtivo == 1)
+      .where(i => i.indAtivo == statusConst.ATIVO)
       .selectMany(i => i.despesaItens)
-      .where(i => i.indAtivo == 1 && i.codDespesaTipo == DespesaTipoEnum.KM)
+      .where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo == DespesaTipoEnum.KM)
       .sum(i => i.kmPercorrido);
   }
 
   obterTipoDespesa(tipo: DespesaTipoEnum)
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
-      .where(i => i.indAtivo == 1)
+      .where(i => i.indAtivo == statusConst.ATIVO)
       .selectMany(i => i.despesaItens)
-      .where(i => i.indAtivo == 1 && i.codDespesaTipo == tipo)
+      .where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo == tipo)
       .sum(i => i.despesaValor);
   }
 
@@ -221,16 +222,16 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   obterTotalDespesaSemKM()
   {
     return Enumerable.from(this.despesaPeriodoTecnico.despesas)
-      .where(i => i.indAtivo == 1)
+      .where(i => i.indAtivo == statusConst.ATIVO)
       .selectMany(i => i.despesaItens)
-      .where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM)
+      .where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo != DespesaTipoEnum.KM)
       .sum(i => i.despesaValor);
   }
 
   obterTotalAdiantamentos()
   {
     var adiantamentos = Enumerable.from(this.adiantamentos)
-      .where(i => i.despesaAdiantamento.indAtivo == 1);
+      .where(i => i.despesaAdiantamento.indAtivo == statusConst.ATIVO);
 
     var recebido = adiantamentos.sum(i => i.despesaAdiantamento.valorAdiantamento);
     var utilizado = adiantamentos.sum(i => i.valorAdiantamentoUtilizado);

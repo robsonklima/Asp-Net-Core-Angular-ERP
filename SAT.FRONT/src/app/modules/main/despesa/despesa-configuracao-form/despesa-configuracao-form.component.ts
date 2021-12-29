@@ -7,6 +7,7 @@ import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-carta
 import { DespesaConfiguracaoService } from 'app/core/services/despesa-configuracao.service';
 import { DespesaCartaoCombustivel } from 'app/core/types/despesa-cartao-combustivel.types';
 import { DespesaConfiguracao } from 'app/core/types/despesa.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -104,7 +105,7 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
       ...this.despesaConfiguracao,
       ...this.form.getRawValue(),
       ...{
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : statusConst.INATIVO,
         dataVigencia: moment(this.form.controls.dataVigencia.value).format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario?.codUsuario,
         dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss')
@@ -128,7 +129,7 @@ export class DespesaConfiguracaoFormComponent implements OnInit, OnDestroy
     let configuracao: DespesaConfiguracao = {
       ...this.form.getRawValue(),
       ...{
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : statusConst.INATIVO,
         dataVigencia: moment(this.form.controls.dataVigencia.value).format('yyyy-MM-DD HH:mm:ss'),
         dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario

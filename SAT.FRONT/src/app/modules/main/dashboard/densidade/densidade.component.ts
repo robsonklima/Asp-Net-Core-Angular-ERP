@@ -14,6 +14,7 @@ import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-densidade',
@@ -76,7 +77,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   private async obterRegioesAutorizadas() {
     const data = await this._regiaoAutorizadaSvc.obterPorParametros({
-      ...{ indAtivo: 1 }, ...this.filter?.parametros
+      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
     }).toPromise();
 
     this.regioes = data.items.map(ra => ra.regiao);
@@ -103,7 +104,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   private async obterTecnicos() {
     const data = await this._tecnicoSvc.obterPorParametros({
-      ...{ indAtivo: 1 }, ...this.filter?.parametros
+      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
@@ -126,7 +127,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   private async obterEquipamentosContrato() {
     const data = await this._equipamentoContratoSvc.obterPorParametros({
-      ...{ indAtivo: 1 }, ...this.filter?.parametros
+      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
     }).toPromise();
 
     let markers: any[] = data.items.filter(e => this.isFloat(+e.localAtendimento.latitude) && this.isFloat(+e.localAtendimento.longitude)).map((equip) => {

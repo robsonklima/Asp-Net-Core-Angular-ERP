@@ -15,6 +15,7 @@ import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-relatorio-atendimento-detalhe-form',
@@ -70,7 +71,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         sortActive: 'codECausa',
         sortDirection: 'asc',
         pageSize: 100,
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }).toPromise();
 
       this.causas = data.items;
@@ -82,7 +83,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         sortActive: 'codEDefeito',
         sortDirection: 'asc',
         pageSize: 100,
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }).toPromise();
 
       this.defeitos = data.items;
@@ -98,7 +99,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
           const data = await this._causaService.obterPorParametros({
             sortActive: 'codECausa',
             sortDirection: 'asc',
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             filter: query,
             pageSize: 100,
           }).toPromise();
@@ -118,7 +119,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
         sortActive: 'codEAcao',
         sortDirection: 'asc',
         pageSize: 100,
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }).toPromise();
 
       this.acoes = data.items;
@@ -134,7 +135,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
           const data = await this._defeitoService.obterPorParametros({
             sortActive: 'codEDefeito',
             sortDirection: 'asc',
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             filter: query,
             pageSize: 100
           }).toPromise();
@@ -158,7 +159,7 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
           const data = await this._acaoService.obterPorParametros({
             sortActive: 'codEAcao',
             sortDirection: 'asc',
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             filter: query,
             pageSize: 100,
           }).toPromise();

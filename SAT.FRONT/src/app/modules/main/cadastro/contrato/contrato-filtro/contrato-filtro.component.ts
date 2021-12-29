@@ -12,6 +12,7 @@ import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FilterBase } from 'app/core/filters/filter-base';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-contrato-filtro',
@@ -65,7 +66,7 @@ export class ContratoFiltroComponent extends FilterBase implements OnInit, IFilt
   async obterTipoContrato()
   {
     let params = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeTipoContrato',
       sortDirection: 'asc'
     }
@@ -81,7 +82,7 @@ export class ContratoFiltroComponent extends FilterBase implements OnInit, IFilt
   {
     let params: ClienteParameters = {
       filter: filter,
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       pageSize: 1000

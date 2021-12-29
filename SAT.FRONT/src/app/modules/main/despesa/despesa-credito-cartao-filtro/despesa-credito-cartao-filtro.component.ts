@@ -7,6 +7,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { DespesaCreditoCartaoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { RoleEnum } from 'app/core/user/user.types';
@@ -63,7 +64,7 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
   {
     const data = await this._tecnicoService
       .obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         sortActive: 'nome',
         sortDirection: 'asc',
         codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
@@ -78,7 +79,7 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
   async obterFiliais()
   {
     let params: FilialParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFilial',
       sortDirection: 'asc'
     };

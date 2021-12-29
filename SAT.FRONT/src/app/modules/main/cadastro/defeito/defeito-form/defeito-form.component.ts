@@ -9,6 +9,7 @@ import { Defeito } from 'app/core/types/defeito.types';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-defeito-form',
@@ -48,7 +49,7 @@ export class DefeitoFormComponent implements OnInit, OnDestroy {
       ],
       codEDefeito: ['', [Validators.required, Validators.maxLength(3)]],
       nomeDefeito: ['', Validators.required],
-      indAtivo: [0]
+      indAtivo: [ statusConst.INATIVO ]
     });
 
     if (!this.isAddMode) {

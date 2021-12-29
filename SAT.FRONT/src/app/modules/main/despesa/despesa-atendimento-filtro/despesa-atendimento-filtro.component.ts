@@ -5,6 +5,7 @@ import { UserService } from 'app/core/user/user.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { DespesaPeriodoTecnicoStatus, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-despesa-atendimento-filtro',
@@ -25,7 +26,7 @@ export class DespesaAtendimentoFiltroComponent extends FilterBase implements OnI
   createForm(): void
   {
     this.form = this._formBuilder.group({
-      indAtivo: [1],
+      indAtivo: [statusConst.ATIVO],
       codDespesaPeriodoStatus: [undefined],
       inicioPeriodo: [undefined],
       fimPeriodo: [undefined]

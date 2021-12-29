@@ -5,6 +5,7 @@ import { FilterBase } from 'app/core/filters/filter-base';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class DespesaTecnicoFiltroComponent extends FilterBase implements OnInit,
   {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
-      indAtivo: [1],
+      indAtivo: [statusConst.ATIVO],
       indTecnicoLiberado: [undefined]
     });
 
@@ -43,7 +44,7 @@ export class DespesaTecnicoFiltroComponent extends FilterBase implements OnInit,
   async obterFiliais()
   {
     let params: FilialParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
       pageSize: 50

@@ -22,6 +22,7 @@ import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { Regiao } from 'app/core/types/regiao.types';
+import { statusConst } from 'app/core/types/status-types';
 import { TipoRota, TipoRotaEnum } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -249,7 +250,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     const params: CidadeParameters = {
       sortActive: 'nomeCidade',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codUF: codUF,
       pageSize: 1000,
       filter: filtro
@@ -263,7 +264,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     const params: ClienteParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 50
     }
 
@@ -275,7 +276,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 50
     }
 
@@ -287,7 +288,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     const params: AutorizadaParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFilial: this.form.controls['codFilial'].value,
       pageSize: 50
     }
@@ -386,7 +387,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario,
         cep: form.cep.replace('-', ''),
-        indAtivo: form.indAtivo ? 1 : 0
+        indAtivo: form.indAtivo ? statusConst.ATIVO : 0
       }
     };
 
@@ -405,7 +406,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
         cep: form.cep.replace('-', ''),
-        indAtivo: form.indAtivo ? 1 : 0
+        indAtivo: form.indAtivo ? statusConst.ATIVO : 0
       }
     };
 

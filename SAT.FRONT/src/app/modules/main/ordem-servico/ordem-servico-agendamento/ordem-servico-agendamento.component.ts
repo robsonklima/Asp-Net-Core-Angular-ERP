@@ -8,6 +8,7 @@ import { MotivoAgendamento, MotivoAgendamentoData, MotivoAgendamentoParameters }
 import { Agendamento } from 'app/core/types/agendamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-ordem-servico-agendamento',
@@ -57,7 +58,7 @@ export class OrdemServicoAgendamentoComponent implements OnInit {
     const parametros: MotivoAgendamentoParameters = { 
       sortActive: 'descricaoMotivo',
       sortDirection: 'asc',
-      indAtivo: 1 
+      indAtivo: statusConst.ATIVO 
     };
 
     const data: MotivoAgendamentoData = await this._motivoAgendamentoService

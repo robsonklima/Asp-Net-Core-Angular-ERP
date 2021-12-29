@@ -5,6 +5,7 @@ import { FilterBase } from 'app/core/filters/filter-base';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { DespesaAdiantamentoTipo, DespesaAdiantamentoTipoEnum } from 'app/core/types/despesa-adiantamento.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { statusConst } from 'app/core/types/status-types';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 
@@ -30,7 +31,7 @@ export class DespesaAdiantamentoFiltroComponent extends FilterBase implements On
   createForm(): void
   {
     this.form = this._formBuilder.group({
-      indAtivo: [1],
+      indAtivo: [statusConst.ATIVO],
       codDespesaAdiantamentoTipo: [undefined],
       codTecnicos: [undefined]
     });
@@ -60,7 +61,7 @@ export class DespesaAdiantamentoFiltroComponent extends FilterBase implements On
   {
     const data = await this._tecnicoService
       .obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         sortActive: 'nome',
         sortDirection: 'asc',
         codPerfil: 35,

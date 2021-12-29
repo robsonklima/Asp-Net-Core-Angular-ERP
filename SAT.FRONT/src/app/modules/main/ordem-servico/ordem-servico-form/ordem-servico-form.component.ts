@@ -27,6 +27,7 @@ import { EquipamentoContratoService } from 'app/core/services/equipamento-contra
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-ordem-servico-form',
@@ -173,7 +174,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   private async obterTiposIntervencao()
   {
     this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100,
       sortActive: 'nomTipoIntervencao',
       sortDirection: 'asc'
@@ -183,7 +184,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   private async obterClientes(filter: string = '')
   {
     this.clientes = (await this._clienteService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 500,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
@@ -205,7 +206,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   private async obterFiliais()
   {
     this.filiais = (await this._filialService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 500,
       sortActive: 'nomeFilial',
       sortDirection: 'asc'
@@ -216,7 +217,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
   {
     this.autorizadas = (await this._autorizadaService
       .obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         pageSize: 500,
         sortActive: 'nomeFantasia',
         sortDirection: 'asc',
@@ -229,7 +230,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.form.controls['codCliente'].valueChanges.subscribe(async codCliente =>
     {
       const data = await this._localAtendimentoService.obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         sortActive: 'nomeLocal',
         sortDirection: 'asc',
         codCliente: codCliente,
@@ -284,7 +285,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
         const data = await this._localAtendimentoService.obterPorParametros({
           sortActive: 'nomeLocal',
           sortDirection: 'asc',
-          indAtivo: 1,
+          indAtivo: statusConst.ATIVO,
           filter: query,
           codCliente: codCliente,
           pageSize: 10
@@ -312,13 +313,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     var codAutorizada = this.form.controls['codAutorizada'].value ?? null;
 
     const data = await this._regiaoAutorizadaService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codAutorizada: codAutorizada,
       pageSize: 100
     }).toPromise();
 
     this.regioes = Enumerable.from(data.items)
-      .where(ra => ra.codAutorizada === codAutorizada && ra.indAtivo == 1 && ra.regiao?.indAtivo == 1)
+      .where(ra => ra.codAutorizada === codAutorizada && ra.indAtivo == statusConst.ATIVO && ra.regiao?.indAtivo == statusConst.ATIVO)
       .select(ra => ra.regiao).orderBy(ra => ra.nomeRegiao).toArray();
 
   }
@@ -359,7 +360,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
     this.form.controls['codFilial'].valueChanges.subscribe(async codFilial =>
     {
       const data = await this._autorizadaService.obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         sortActive: 'nomeFantasia',
         sortDirection: 'asc',
         codFilial: codFilial,

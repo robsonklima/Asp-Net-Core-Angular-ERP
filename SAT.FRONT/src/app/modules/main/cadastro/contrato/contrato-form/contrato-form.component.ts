@@ -17,6 +17,7 @@ import { TipoIndiceReajuste } from 'app/core/types/tipo-indice-reajuste.types';
 import { ContratoReajuste } from 'app/core/types/contrato-reajuste.types';
 import { ContratoReajusteService } from 'app/core/services/contrato-reajuste.service';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { statusConst } from 'app/core/types/status-types';
 
 
 
@@ -88,7 +89,7 @@ export class ContratoFormComponent implements OnInit {
 	private async obterClientes(filter: string = '') {
 		this.clientes = (await this._clienteService.obterPorParametros({
 			filter: filter,
-			indAtivo: 1,
+			indAtivo: statusConst.ATIVO,
 			pageSize: 500,
 			sortActive: 'nomeFantasia',
 			sortDirection: 'asc'
@@ -133,7 +134,7 @@ export class ContratoFormComponent implements OnInit {
 				codContrato: ct.codContrato,
 				codTipoIndiceReajuste: form.codTipoIndiceReajuste,
 				percReajuste: form.percReajuste,
-				indAtivo: 1,
+				indAtivo: statusConst.ATIVO,
 				codUsuarioCad: obj.codUsuarioManut,
 				dataHoraCad: obj.dataHoraManut
 			}
@@ -151,7 +152,7 @@ export class ContratoFormComponent implements OnInit {
 			...this.contrato,
 			...form,
 			...{
-				indAtivo: 1,
+				indAtivo: statusConst.ATIVO,
 				dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario?.codUsuario,
@@ -168,7 +169,7 @@ export class ContratoFormComponent implements OnInit {
 				codContrato: ct.codContrato,
 				codTipoIndiceReajuste: form.codTipoIndiceReajuste,
 				percReajuste: form.percReajuste,
-				indAtivo: 1,
+				indAtivo: statusConst.ATIVO,
 				codUsuarioCad: obj.codUsuarioCad,
 				dataHoraCad: obj.dataHoraCad
 			}

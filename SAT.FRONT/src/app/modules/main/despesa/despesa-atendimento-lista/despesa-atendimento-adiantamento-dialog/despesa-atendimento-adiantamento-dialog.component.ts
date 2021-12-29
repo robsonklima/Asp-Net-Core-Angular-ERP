@@ -4,6 +4,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaAdiantamentoService } from 'app/core/services/despesa-adiantamento.service';
 import { DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoPeriodoData } from 'app/core/types/despesa-adiantamento.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
@@ -61,13 +62,13 @@ export class DespesaAtendimentoAdiantamentoDialogComponent implements OnInit
     this.adiantamentos = (await this._despesaAdiantamentoService.obterPorParametros(
       {
         codTecnicos: this.codTecnico.toString(),
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }).toPromise());
 
     this.adiantamentosPeriodo = (await this._despesaAdiantamentoPeriodoService.obterPorParametros(
       {
         codDespesaPeriodo: this.codPeriodo,
-        indAtivoAdiantamento: 1
+        indAtivoAdiantamento: statusConst.ATIVO
       }).toPromise());
   }
 

@@ -24,6 +24,7 @@ import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -165,7 +166,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     const params: ClienteParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 300
     }
 
@@ -179,7 +180,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     const params: ContratoParameters = {
       sortActive: 'nomeContrato',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codCliente: codCliente,
       pageSize: 100
     }
@@ -216,7 +217,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100
     }
 
@@ -229,7 +230,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 
     const params: RegiaoAutorizadaParameters = {
       codAutorizada: codAutorizada,
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100
     }
 
@@ -243,7 +244,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     const params: AutorizadaParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFilial: codFilial,
       pageSize: 100
     }
@@ -259,7 +260,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
     const params: LocalAtendimentoParameters = {
       sortActive: 'nomeLocal',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       filter: filtro,
       codAutorizada: codAutorizada,
       codRegiao: codRegiao,

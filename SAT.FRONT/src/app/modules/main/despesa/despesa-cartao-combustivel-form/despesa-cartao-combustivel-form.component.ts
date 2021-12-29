@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { DespesaCartaoCombustivel } from 'app/core/types/despesa-cartao-combustivel.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -91,7 +92,7 @@ export class DespesaCartaoCombustivelFormComponent implements OnInit, OnDestroy
       ...this.despesaCartaoCombustivel,
       ...this.form.getRawValue(),
       ...{
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : statusConst.INATIVO,
         codUsuarioManut: this.userSession.usuario?.codUsuario
       }
     };
@@ -113,7 +114,7 @@ export class DespesaCartaoCombustivelFormComponent implements OnInit, OnDestroy
     let cartao: DespesaCartaoCombustivel = {
       ...this.form.getRawValue(),
       ...{
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : statusConst.INATIVO,
         dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario
       }

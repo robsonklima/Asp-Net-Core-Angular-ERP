@@ -14,6 +14,7 @@ import { statusServicoConst } from 'app/core/types/status-servico.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { Notificacao } from 'app/core/types/notificacao.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -49,7 +50,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
   async obterTecnicos()
   {
     const params: TecnicoParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
       codFiliais: this.sessionData?.usuario?.filial?.codFilial?.toString(),
@@ -116,7 +117,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
             link: './#/agenda-tecnico',
             useRouter: true,
             lida: 0,
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
             codUsuario: this.sessionData.usuario.codUsuario
           };
@@ -130,7 +131,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
             titulo: "Agenda Técnico",
             descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
             lida: 0,
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
             codUsuario: this.sessionData.usuario.codUsuario
           };

@@ -14,6 +14,7 @@ import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
+import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -198,7 +199,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
   private async obterTransportadoras(filter: string='') {
     const data = await this._transportadoraSvc.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'NomeTransportadora',
       sortDirection: 'asc',
       filter: filter
@@ -209,7 +210,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
   private async obterFiliais(filter: string='') {
     const data = await this._filialSvc.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'NomeFilial',
       sortDirection: 'asc',
       filter: filter

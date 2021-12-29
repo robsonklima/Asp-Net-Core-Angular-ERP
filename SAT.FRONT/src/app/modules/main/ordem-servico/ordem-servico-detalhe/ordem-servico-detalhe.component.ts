@@ -26,6 +26,7 @@ import { FotoService } from 'app/core/services/foto.service';
 import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 import { fuseAnimations } from '@fuse/animations';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -362,7 +363,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						link: './#/agenda-tecnico',
 						useRouter: true,
 						lida: 0,
-						indAtivo: 1,
+						indAtivo: statusConst.ATIVO,
 						codUsuario: this.userSession.usuario.codUsuario
 					};
 					this._notificacaoService.criar(notificacao).toPromise();
@@ -375,7 +376,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						titulo: "Agenda Técnico",
 						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
 						lida: 0,
-						indAtivo: 1,
+						indAtivo: statusConst.ATIVO,
 						codUsuario: this.userSession.usuario.codUsuario
 					};
 					this._notificacaoService.criar(notificacao).toPromise();
@@ -394,7 +395,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					link: './#/agenda-tecnico',
 					useRouter: true,
 					lida: 0,
-					indAtivo: 1,
+					indAtivo: statusConst.ATIVO,
 					codUsuario: this.userSession.usuario.codUsuario
 				};
 				this._notificacaoService.criar(notificacao).toPromise();
@@ -406,7 +407,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						titulo: "Agenda Técnico",
 						descricao: `Ocorreu um erro ao remover o chamado ${this.os.codOS} da Agenda Técnico.`,
 						lida: 0,
-						indAtivo: 1,
+						indAtivo: statusConst.ATIVO,
 						codUsuario: this.userSession.usuario.codUsuario
 					};
 					this._notificacaoService.criar(notificacao).toPromise();

@@ -20,6 +20,7 @@ import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
+import { statusConst } from 'app/core/types/status-types';
 import { FrotaCobrancaGaragemEnum, FrotaFinalidadeUsoEnum, Tecnico } from 'app/core/types/tecnico.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -194,7 +195,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100
     }
 
@@ -208,7 +209,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     const params: AutorizadaParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFilial: codFilial,
       pageSize: 100
     }
@@ -222,7 +223,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     const params: RegiaoAutorizadaParameters = {
       codAutorizada: codAutorizada,
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100
     }
 
@@ -261,7 +262,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     const params: CidadeParameters = {
       sortActive: 'nomeCidade',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codUF: codUF,
       pageSize: 1000,
       filter: filtro
@@ -317,7 +318,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       sortActive: 'numero',
       sortDirection: 'asc',
       pageSize: 1000,
-      indAtivo: 1
+      indAtivo: statusConst.ATIVO
     }
 
     const data = await this._despesaCartaoCombustivelService.obterPorParametros(params).toPromise();

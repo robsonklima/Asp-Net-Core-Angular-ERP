@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioData } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -89,7 +90,7 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
         pageNumber: this.paginator.pageIndex + 1,
         sortActive: this.sort.active || 'nomeUsuario',
         sortDirection: this.sort.direction || 'asc',
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         codPontoPeriodo: this.codPontoPeriodo,
         filter: this.filtro
       })

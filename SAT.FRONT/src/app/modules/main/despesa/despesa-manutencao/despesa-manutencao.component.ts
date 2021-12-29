@@ -16,6 +16,7 @@ import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaConfiguracaoData, DespesaItem, DespesaItemAlertaData } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
@@ -132,7 +133,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     var despesa: Despesa =
     {
       codRAT: this.rat.codRAT,
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       centroCusto: "1008",
       codFilial: this.rat.tecnico.codFilial,
       codTecnico: this.rat.codTecnico,
@@ -237,7 +238,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   {
     this.despesaConfiguracao =
       (await this._despesaConfiguracaoService.obterPorParametros({
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }).toPromise());
   }
 

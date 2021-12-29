@@ -11,6 +11,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { DespesaAdiantamento, DespesaAdiantamentoTipo } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodo } from 'app/core/types/despesa-periodo.types';
 import { DespesaConfiguracao } from 'app/core/types/despesa.types';
+import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -121,7 +122,7 @@ export class DespesaAdiantamentoFormComponent implements OnInit, OnDestroy
   {
     this.tecnico = (await this._tecnicoSvc
       .obterPorParametros({
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         sortActive: 'nome',
         sortDirection: 'asc'
       }).toPromise()).items;
@@ -139,7 +140,7 @@ export class DespesaAdiantamentoFormComponent implements OnInit, OnDestroy
       ...this.form.getRawValue(),
       ...{
         dataAdiantamento: moment(this.form.controls.dataAdiantamento.value).format('yyyy-MM-DD HH:mm:ss'),
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : 0,
         dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario?.codUsuario
       }
@@ -163,7 +164,7 @@ export class DespesaAdiantamentoFormComponent implements OnInit, OnDestroy
       ...this.form.getRawValue(),
       ...{
         dataAdiantamento: moment(this.form.controls.dataAdiantamento.value).format('yyyy-MM-DD HH:mm:ss'),
-        indAtivo: this._formIndAtivo.checked ? 1 : 0,
+        indAtivo: this._formIndAtivo.checked ? statusConst.ATIVO : 0,
         dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario
       }

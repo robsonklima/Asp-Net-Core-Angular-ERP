@@ -29,6 +29,7 @@ import { IFilterBase } from 'app/core/types/filtro.types';
 import Enumerable from 'linq';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-ordem-servico-filtro',
@@ -125,7 +126,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterFiliais()
   {
     let params: FilialParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFilial',
       sortDirection: 'asc'
     };
@@ -152,7 +153,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterTiposIntervencao()
   {
     let params = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomTipoIntervencao',
       sortDirection: 'asc'
     }
@@ -168,7 +169,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   {
     let params: ClienteParameters = {
       filter: filter,
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       pageSize: 1000
@@ -184,7 +185,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterTecnicos(filialFilter: string)
   {
     let params: TecnicoParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
       codPerfil: 35,
@@ -304,7 +305,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterRegioesAutorizadas(filialFilter: any)
   {
     let params: RegiaoAutorizadaParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFiliais: filialFilter,
       pageSize: 1000
     };
@@ -320,7 +321,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterAutorizadas(filialFilter: any)
   {
     let params: AutorizadaParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFiliais: filialFilter,
       pageSize: 1000
     };
@@ -340,7 +341,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     var autorizadaFilter = this.form.controls['codAutorizadas'].value;
 
     let params: LocalAtendimentoParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFiliais: filialFilter,
       codClientes: clienteFilter,
       codRegioes: regiaoFilter,
@@ -360,7 +361,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   async obterStatusServicos()
   {
     let params: StatusServicoParameters = {
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
     }

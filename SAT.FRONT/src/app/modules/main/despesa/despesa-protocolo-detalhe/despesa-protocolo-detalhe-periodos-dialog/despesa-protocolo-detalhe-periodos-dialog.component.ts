@@ -4,6 +4,7 @@ import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-
 import { DespesaProtocoloPeriodoTecnicoService } from 'app/core/services/despesa-protocolo-periodo-tecnico.service';
 import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -61,7 +62,7 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
         codDespesaPeriodoTecnico: option,
         codUsuarioCad: this.userSession.usuario.codUsuario,
         dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       };
       await this._despesaProtocoloTecnicoSvc.criar(item).toPromise();
     });

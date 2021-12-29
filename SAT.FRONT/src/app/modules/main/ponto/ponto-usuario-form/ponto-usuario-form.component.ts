@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PontoUsuarioService } from 'app/core/services/ponto-usuario.service';
 import { PontoUsuarioData } from 'app/core/types/ponto-usuario-data.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
@@ -58,7 +59,7 @@ export class PontoUsuarioFormComponent implements OnInit {
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraEnvio: moment().format('yyyy-MM-DD HH:mm:ss'),
       dataHoraRegistro: dataHoraRegistro,
-      indAtivo: 1
+      indAtivo: statusConst.ATIVO
     };
 
     this._pontoUsuarioSvc.criar(pontoUsuario).subscribe(() => {

@@ -3,8 +3,8 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/core/auth/auth.service';
 import { UsuarioDispositivoService } from 'app/core/services/usuario-dispositivo.service';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioDispositivo } from 'app/core/types/usuario-dispositivo.types';
 
 @Component({
@@ -26,7 +26,6 @@ export class AuthConfirmationSubmitComponent implements OnInit {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _authSvc: AuthService,
         private _snack: MatSnackBar,
         private _usuarioDispositivoSvc: UsuarioDispositivoService
     ) {}
@@ -54,7 +53,7 @@ export class AuthConfirmationSubmitComponent implements OnInit {
 
     async adicionar() {
         this.isLoading = true;
-        this.dispositivo.indAtivo = 1;
+        this.dispositivo.indAtivo = statusConst.ATIVO;
         await this._usuarioDispositivoSvc.atualizar(this.dispositivo).toPromise();
         await this._snack.open('Dispositivo cadastrado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
         this._router.navigateByUrl('sign-in');

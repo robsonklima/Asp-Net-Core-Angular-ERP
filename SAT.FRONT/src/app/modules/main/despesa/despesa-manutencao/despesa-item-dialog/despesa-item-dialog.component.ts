@@ -18,6 +18,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'leaflet';
 import 'leaflet-routing-machine';
 import { CidadeService } from 'app/core/services/cidade.service';
+import { statusConst } from 'app/core/types/status-types';
 declare var L: any;
 
 
@@ -76,7 +77,7 @@ export class DespesaItemDialogComponent implements OnInit
 
   private async obterTiposDespesa()
   {
-    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
+    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: statusConst.ATIVO }).toPromise()).items;
 
     if (Enumerable.from(this.despesa.despesaItens)
       .where(i => i.codDespesaTipo == DespesaTipoEnum.KM).count() == 2)
@@ -196,7 +197,7 @@ export class DespesaItemDialogComponent implements OnInit
       obs: this.despesaItemForm.value.step3.obs,
       latitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeOrigem : null,
       longitudeHotel: !this.isResidencial ? this.despesaItemForm.value.step2.latitudeDestino : null,
-      indAtivo: 1
+      indAtivo: statusConst.ATIVO
     };
 
     return despesaItem;
@@ -207,7 +208,7 @@ export class DespesaItemDialogComponent implements OnInit
     return (await this._cidadeSvc.obterPorParametros
       ({
         filter: nomeCidade,
-        indAtivo: 1,
+        indAtivo: statusConst.ATIVO,
         pageSize: 5
       }).toPromise()).items[0]?.codCidade;
   }
@@ -225,7 +226,7 @@ export class DespesaItemDialogComponent implements OnInit
       codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
       codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
       obs: this.despesaItemForm.value.step3.obs,
-      indAtivo: 1
+      indAtivo: statusConst.ATIVO
     };
 
     return despesaItem;

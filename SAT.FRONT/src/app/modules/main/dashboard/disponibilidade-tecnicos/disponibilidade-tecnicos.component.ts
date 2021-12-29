@@ -4,6 +4,7 @@ import { IndicadorService } from 'app/core/services/indicador.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { DashboardTecnicoDisponibilidadeFilialViewModel, Filial, FilialFilterEnum, FilialIncludeEnum } from 'app/core/types/filial.types';
 import { Filtro } from 'app/core/types/filtro.types';
+import { statusConst } from 'app/core/types/status-types';
 import Enumerable from 'linq';
 import moment from 'moment';
 
@@ -82,7 +83,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
 
     /** DADOS DAS FILIAIS **/
     let filialTecnico = (await this._filialService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       codFiliais: Enumerable.from(dadosTecnicosDashboard).select(t => t.codFilial).distinct().toArray().join(','),
       include: FilialIncludeEnum.FILIAL_ORDENS_SERVICO,
       filterType: FilialFilterEnum.FILTER_DASHBOARD_DISPONIBILIDADE_TECNICOS,

@@ -5,6 +5,7 @@ import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adi
 import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaProtocolo, DespesaProtocoloImpressaoListView, DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { statusConst } from 'app/core/types/status-types';
 import Enumerable from 'linq';
 import moment from 'moment';
 
@@ -121,8 +122,8 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
 
   private calcularTipoDespesa(dp: DespesaProtocoloPeriodoTecnico, tipo: DespesaTipoEnum)
   {
-    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
-      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1
+    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == statusConst.ATIVO)
+      .selectMany(i => i.despesaItens).where(i => i.indAtivo == statusConst.ATIVO
         && i.codDespesaTipo == tipo).sum(i => i.despesaValor);
   }
 
@@ -131,15 +132,15 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     var codTecnico = dp.despesaPeriodoTecnico.codTecnico;
     var codPeriodo = dp.despesaPeriodoTecnico.codDespesaPeriodo;
 
-    return Enumerable.from(this.adiantamentos).where(i => i.despesaAdiantamento.indAtivo == 1
+    return Enumerable.from(this.adiantamentos).where(i => i.despesaAdiantamento.indAtivo == statusConst.ATIVO
       && i.despesaAdiantamento.codTecnico == codTecnico && i.despesaPeriodo.codDespesaPeriodo == codPeriodo)
       .sum(i => i.valorAdiantamentoUtilizado);
   }
 
   private calcularDespesaTotal(dp: DespesaProtocoloPeriodoTecnico)
   {
-    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == 1)
-      .selectMany(i => i.despesaItens).where(i => i.indAtivo == 1 && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
+    return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == statusConst.ATIVO)
+      .selectMany(i => i.despesaItens).where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
   }
 
   valorDescontinuado()

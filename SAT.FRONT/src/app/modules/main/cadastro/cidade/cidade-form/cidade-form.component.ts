@@ -18,6 +18,7 @@ import { UserService } from 'app/core/user/user.service';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
   selector: 'app-cidade-form',
@@ -135,7 +136,7 @@ export class CidadeFormComponent implements OnInit {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100
     }
     const data = await this._filialService.obterPorParametros(params).toPromise();

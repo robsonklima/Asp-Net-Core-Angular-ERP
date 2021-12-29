@@ -30,6 +30,7 @@ import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { Foto, FotoModalidadeEnum } from 'app/core/types/foto.types';
 import { FotoService } from 'app/core/services/foto.service';
 import Enumerable from 'linq';
+import { statusConst } from 'app/core/types/status-types';
 
 
 @Component({
@@ -112,14 +113,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     })
 
     this.statusServicos = (await this._statusServicoService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       pageSize: 100,
       sortActive: 'nomeStatusServico',
       sortDirection: 'asc'
     }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
 
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
-      indAtivo: 1,
+      indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
       codFiliais: this.ordemServico?.codFilial.toString()
@@ -135,7 +136,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
           const data = await this._tecnicoService.obterPorParametros({
             sortActive: 'nome',
             sortDirection: 'asc',
-            indAtivo: 1,
+            indAtivo: statusConst.ATIVO,
             filter: query,
             codFiliais: this.ordemServico?.codFilial.toString()
           }).toPromise();

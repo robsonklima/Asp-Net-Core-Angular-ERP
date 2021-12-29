@@ -75,6 +75,11 @@ namespace SAT.INFRA.Repository
                 dispositivos = dispositivos.Where(d => d.TipoDispositivo == parameters.TipoDispositivo);
             }
 
+            if (parameters.Ip != null)
+            {
+                dispositivos = dispositivos.Where(u => u.Ip == parameters.Ip);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 dispositivos = dispositivos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

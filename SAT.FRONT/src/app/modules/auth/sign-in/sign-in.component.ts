@@ -11,6 +11,7 @@ import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
+import { JsonIPService } from 'app/core/services/jsonip.service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -21,6 +22,7 @@ import moment from 'moment';
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     deviceInfo: any;
+    ipData: any;
     signInForm: FormGroup;
     showAlert: boolean = false;
     snackConfigDanger: MatSnackBarConfig = {
@@ -34,18 +36,20 @@ export class AuthSignInComponent implements OnInit {
         private _userSvc: UserService,
         private _snack: MatSnackBar,
         private _authService: AuthService,
+        private _jsonIP: JsonIPService,
         private _formBuilder: FormBuilder,
         private device: DeviceDetectorService,
         private _router: Router
     ) { }
 
-    ngOnInit(): void {
+    async ngOnInit() {
         this.signInForm = this._formBuilder.group({
             codUsuario: ['', [Validators.required]],
             senha: ['', Validators.required]
         });
 
         this.deviceInfo = this.device.getDeviceInfo();
+        this.ipData = await this._jsonIP.obterIP().toPromise();
     }
 
     async signIn() {
@@ -65,6 +69,7 @@ export class AuthSignInComponent implements OnInit {
                 versaoSO: this.deviceInfo.os_version,
                 versaoNavegador: this.deviceInfo.browser_version,
                 tipoDispositivo: this.deviceInfo.deviceType,
+                ip: this.ipData.ip,
                 indAtivo: 1,
             })
             .toPromise();
@@ -93,22 +98,10 @@ export class AuthSignInComponent implements OnInit {
 
             this.signInForm.enable();
         } else {
-            debugger
             dispositivo = await this.cadastrarDispositivo();
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
-        
-        // if () {
-        //     this.salvarDispositivo().then(() => {
-        //         this.enviarEmail(codUsuario, usuario);
-        //         this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
-        //     });
-        // } else {
-            
-        // }
-
-        // this.signInForm.enable();
     }
 
     private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
@@ -143,7 +136,8 @@ export class AuthSignInComponent implements OnInit {
                 navegador: this.deviceInfo.browser,
                 versaoSO: this.deviceInfo.os_version,
                 versaoNavegador: this.deviceInfo.browser_version,
-                tipoDispositivo: this.deviceInfo.deviceType
+                tipoDispositivo: this.deviceInfo.deviceType,
+                ip: this.ipData.ip
             };
 
             this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) => {

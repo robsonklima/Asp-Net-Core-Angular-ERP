@@ -9,6 +9,7 @@ export class UsuarioDispositivo {
     tipoDispositivo: string;
     codUsuario: string;
     dataHoraCad: string;
+    ip?: string;
     indAtivo: number;
 }
 
@@ -24,4 +25,5 @@ export interface UsuarioDispositivoParameters extends QueryStringParameters {
     versaoNavegador?: string;
     tipoDispositivo?: string;
     indAtivo?: number;
+    ip?: string;
 };

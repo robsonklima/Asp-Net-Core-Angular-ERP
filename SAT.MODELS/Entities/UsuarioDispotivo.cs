@@ -11,6 +11,7 @@ namespace SAT.MODELS.Entities
         public string Navegador { get; set; }
         public string VersaoNavegador { get; set; }
         public string TipoDispositivo { get; set; }
+        public string Ip { get; set; }
         public DateTime DataHoraCad { get; set; }
         public byte IndAtivo { get; set; }
     }

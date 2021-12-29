@@ -60,7 +60,7 @@
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="signInForm.disabled"
+                    [disabled]="signInForm.disabled || !ipData"
                     (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         Entrar

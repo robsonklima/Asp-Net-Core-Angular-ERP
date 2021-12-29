@@ -97,7 +97,7 @@ export class DespesaItemDialogComponent implements OnInit
         localInicoDeslocamento: [undefined, Validators.required],
         codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
         enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
-        cepDestino: [this.ordemServico?.localAtendimento?.cep, Validators.required],
+        cepDestino: [this.ordemServico?.localAtendimento?.cep],
         bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
         complementoDestino: [this.ordemServico?.localAtendimento?.enderecoComplemento],
         numeroDestino: [this.ordemServico?.localAtendimento?.numeroEnd],
@@ -108,7 +108,7 @@ export class DespesaItemDialogComponent implements OnInit
         longitudeDestino: [this.ordemServico?.localAtendimento?.longitude, Validators.required],
 
         enderecoOrigem: [undefined, Validators.required],
-        cepOrigem: [undefined, Validators.required],
+        cepOrigem: [undefined],
         bairroOrigem: [undefined, Validators.required],
         complementoOrigem: [undefined],
         numeroOrigem: [undefined],

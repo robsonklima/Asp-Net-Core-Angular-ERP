@@ -8,13 +8,13 @@ namespace SAT.SERVICES.Services
     {
         public double GetDistanceInMinutesPerKm(double? origem_lat, double? origem_long, double? destino_lat, double? destino_long, int velocidadeMediaEmHoras)
         {
-            // // Se todas as coordenadas estiverem disponiveis, calcula a distância e retorna o tempo em minutos
-            // if ((origem_lat.HasValue && origem_lat.Value != 0) && (origem_long.HasValue && origem_long.Value != 0) && (destino_lat.HasValue && destino_lat.Value != 0) && (destino_long.HasValue && destino_long.Value != 0))
-            // {
-            //     var distance = this.CalculateDistanceInKm(origem_lat.Value, origem_long.Value, destino_lat.Value, destino_long.Value);
-            //     var hours = ((distance / velocidadeMediaEmHoras));
-            //     return hours * 60;
-            // }
+            // Se todas as coordenadas estiverem disponiveis, calcula a distância e retorna o tempo em minutos
+            if ((origem_lat.HasValue && origem_lat.Value != 0) && (origem_long.HasValue && origem_long.Value != 0) && (destino_lat.HasValue && destino_lat.Value != 0) && (destino_long.HasValue && destino_long.Value != 0))
+            {
+                var distance = this.CalculateDistanceInKm(origem_lat.Value, origem_long.Value, destino_lat.Value, destino_long.Value);
+                var hours = ((distance / velocidadeMediaEmHoras));
+                return hours * 60;
+            }
 
             // Se não, retorna um tempo padrão de deslocamento
             return 30;

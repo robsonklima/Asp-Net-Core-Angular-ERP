@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
 
             services.AddCors(options =>
             {
@@ -136,6 +136,7 @@ namespace SAT.API
             services.AddTransient<IFotoRepository, FotoRepository>();
             services.AddTransient<IUsuarioDispositivoRepository, UsuarioDispositivoRepository>();
             services.AddTransient<IOrdemServicoHistoricoRepository, OrdemServicoHistoricoRepository>();
+            services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

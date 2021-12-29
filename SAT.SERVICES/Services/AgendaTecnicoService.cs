@@ -11,12 +11,14 @@ namespace SAT.SERVICES.Services
         private readonly ITecnicoRepository _tecnicoRepo;
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IRelatorioAtendimentoRepository _ratRepo;
+        private readonly IMediaAtendimentoTecnicoRepository _mediaTecnicoRepo;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
             IAgendaTecnicoRepository agendaRepo,
             ITecnicoRepository tecnicoRepo,
             IOrdemServicoRepository osRepo,
+            IMediaAtendimentoTecnicoRepository mediaTecnicoRepo,
             IRelatorioAtendimentoRepository ratRepo,
             IPontoUsuarioRepository pontoUsuarioRepo)
         {
@@ -25,6 +27,7 @@ namespace SAT.SERVICES.Services
             _osRepo = osRepo;
             _ratRepo = ratRepo;
             _pontoUsuarioRepo = pontoUsuarioRepo;
+            _mediaTecnicoRepo = mediaTecnicoRepo;
         }
 
         public ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters)

@@ -3,11 +3,12 @@
     public class Constants
     {
         public static string SISTEMA_NOME = "SAT";
+        public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string SMTP_HOST = "zimbragd.perto.com.br";
         public static int SMTP_PORT = 587;
         public static string SMTP_USER = "aplicacao.sat@perto.com.br";
         public static string SMTP_PASSWORD = "S@aPlic20(v";
-        
+
         // Status de Serviço
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;
@@ -25,7 +26,7 @@
         public static string USUARIO_SERVICO = "SERVIÇO";
         public static int[] EQUIPAMENTOS_PINPAD = { 153, 856, 1121 };
         public static int[] TIPO_INTERVENCAO_GERAL = { 2, 5, 17, 18, 19, 20 };
-        public static int[] EQUIPS_TDS_TCC_TOP_TR1150 = { 91, 101, 112, 114, 151, 263, 264,298, 320, 329, 407, 410, 415, 447, 448, 459, 460, 603, 604, 628, 779, 865, 958, 959, 960, 961, 962, 970, 1090 };
+        public static int[] EQUIPS_TDS_TCC_TOP_TR1150 = { 91, 101, 112, 114, 151, 263, 264, 298, 320, 329, 407, 410, 415, 447, 448, 459, 460, 603, 604, 628, 779, 865, 958, 959, 960, 961, 962, 970, 1090 };
         public static int CONTRATO_BB_TECNOLOGIA = 3145;
 
         // Tipos de Intervenção

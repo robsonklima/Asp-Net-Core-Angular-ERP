@@ -27,7 +27,7 @@ namespace SAT.SERVICES.Services
                     AgendaTecnico novoIntervalo = new AgendaTecnico
                     {
                         CodTecnico = tecnicoAtivo.CodTecnico,
-                        CodUsuarioCad = Constants.SISTEMA_NOME,
+                        CodUsuarioCad = Constants.AGENDADOR_NOME,
                         DataHoraCad = DateTime.Now,
                         Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.INTERVALO),
                         Tipo = AgendaTecnicoTypeEnum.INTERVALO,

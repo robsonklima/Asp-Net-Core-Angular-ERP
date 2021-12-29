@@ -10,15 +10,14 @@ import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
 import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
-import { PontoUsuario } from 'app/core/types/ponto-usuario.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
-import { PontoCorrecaoFormComponent } from '../ponto-correcao-form/ponto-correcao-form.component';
 import { PontoInconsistenciaFormComponent } from '../ponto-inconsistencia-form/ponto-inconsistencia-form.component';
 import { PontoRelatoriosAtendimentoComponent } from '../ponto-relatorios-atendimento/ponto-relatorios-atendimento.component';
+import { PontoUsuarioFormComponent } from '../ponto-usuario-form/ponto-usuario-form.component';
 
 @Component({
   selector: 'app-ponto-horarios-lista',
@@ -183,7 +182,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   }
 
   corrigirRegistros(pontoUsuarioData: PontoUsuarioData) {
-    const dialogRef = this._dialog.open(PontoCorrecaoFormComponent, {
+    const dialogRef = this._dialog.open(PontoUsuarioFormComponent, {
       data: {
         pontoUsuarioData: pontoUsuarioData
       }

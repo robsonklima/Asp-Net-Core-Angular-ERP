@@ -30,7 +30,9 @@ import { MatTableModule } from '@angular/material/table';
 import { PontoInconsistenciaFormComponent } from './ponto-inconsistencia-form/ponto-inconsistencia-form.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { PontoCorrecaoFormComponent } from './ponto-correcao-form/ponto-correcao-form.component';
+import { PontoUsuarioFormComponent } from './ponto-usuario-form/ponto-usuario-form.component';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localeBr, 'pt');
 
@@ -50,7 +52,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     PontoHorariosListaComponent,
     PontoRelatoriosAtendimentoComponent,
     PontoInconsistenciaFormComponent,
-    PontoCorrecaoFormComponent
+    PontoUsuarioFormComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatOptionModule,
     MatSelectModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FuseAlertModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })

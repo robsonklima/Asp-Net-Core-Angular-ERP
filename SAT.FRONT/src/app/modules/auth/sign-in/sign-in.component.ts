@@ -51,68 +51,74 @@ export class AuthSignInComponent implements OnInit {
     async signIn() {
         if (this.signInForm.invalid) return;
         this.signInForm.disable();
-        let hash = this._authService.getUserHash();
-        const codUsuario = this.signInForm.value.codUsuario;
-        const senha = this.signInForm.value.senha;
+
+        const form = this.signInForm.getRawValue();
+        const codUsuario = form.codUsuario;
+        const senha = form.senha;
         const usuario = await this._userSvc.obterPorCodigo(codUsuario).toPromise();
 
-        if (!hash) {
-            if (usuario && usuario?.email) {
-                hash = Math.random().toString(36).slice(2).toString();
-                this._authService.setUserHash(hash);
+        const dispositivoData = await this._usuarioDispositivoSvc
+            .obterPorParametros({
+                codUsuario: codUsuario,
+                sistemaOperacional: this.deviceInfo.os,
+                navegador: this.deviceInfo.browser,
+                versaoSO: this.deviceInfo.os_version,
+                versaoNavegador: this.deviceInfo.browser_version,
+                tipoDispositivo: this.deviceInfo.deviceType,
+                indAtivo: 1,
+            })
+            .toPromise();
+        
+        let dispositivo = dispositivoData.items.shift();
 
-                const dispositivo: UsuarioDispositivo = {
-                    dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
-                    indAtivo: 0,
-                    hash: hash,
-                    codUsuario: codUsuario,
-                    sistemaOperacional: this.deviceInfo.os,
-                    navegador: this.deviceInfo.browser,
-                    versaoSO: this.deviceInfo.os_version,
-                    versaoNavegador: this.deviceInfo.browser_version,
-                    tipoDispositivo: this.deviceInfo.deviceType
-                };
+        if (!usuario || !usuario?.email) {
+            return this._snack
+                .open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger)
+                .afterDismissed()
+                .toPromise();
+        }
 
-                await this._usuarioDispositivoSvc.criar(dispositivo).subscribe();
-                this.enviarEmail(codUsuario, usuario, hash);
-                this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
-            } else {
-                this._snack.open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger).afterDismissed().toPromise();
-            }
+        if (dispositivo?.indAtivo) {
+            this._authService
+                .signIn(codUsuario, senha)
+                .subscribe(() => {
+                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                    this._router.navigateByUrl(redirectURL).then(() => {
+                        window.location.reload();
+                    });
+                }, (e) => {
+                    this.signInForm.enable();
+                    this.signInNgForm.resetForm();
+                });
 
             this.signInForm.enable();
         } else {
-            let dispositivo = await this._usuarioDispositivoSvc
-                .obterPorUsuarioEHash(codUsuario, hash)
-                .toPromise();
-
-            if (dispositivo?.indAtivo) {
-                this._authService
-                    .signIn(codUsuario, senha)
-                    .subscribe(() => {
-                        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                        this._router.navigateByUrl(redirectURL).then(() => {
-                            window.location.reload();
-                        });
-                    }, (e) => {
-                        this.signInForm.enable();
-                        this.signInNgForm.resetForm();
-                    });
-
-                this.signInForm.enable();
-            } else {
-                this.enviarEmail(codUsuario, usuario, hash);
-                this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
-            }
+            debugger
+            dispositivo = await this.cadastrarDispositivo();
+            this.enviarEmail(codUsuario, usuario, dispositivo);
+            this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
+        
+        // if () {
+        //     this.salvarDispositivo().then(() => {
+        //         this.enviarEmail(codUsuario, usuario);
+        //         this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
+        //     });
+        // } else {
+            
+        // }
+
+        // this.signInForm.enable();
     }
 
-    private enviarEmail(codUsuario: string, usuario: Usuario, hash: string) {
+    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._emailSvc.enviarEmail({
             nomeRemetente: "SAT",
             emailRemetente: "aplicacao.sat@perto.com.br",
             nomeDestinatario: usuario.nomeUsuario,
             emailDestinatario: usuario.email,
+            nomeCC: 'Equipe SAT',
+            emailCC: 'equipe.sat@perto.com.br',
             assunto: "Ativação de Acesso ao Sistema SAT",
             corpo: `<p>Solicitação de Permissão de Acesso à sua Conta no SAT</p>
                     <p>Sistema Operacional: ${this.deviceInfo.os}</p>
@@ -122,8 +128,29 @@ export class AuthSignInComponent implements OnInit {
                     <p>Tipo de Dispositivo: ${this.deviceInfo.deviceType}</p>
                     <p>
                         Acesse o link para adicionar seu novo dispositivo
-                        https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmation-submit/${codUsuario}/${hash}
+                        https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmation-submit/${dispositivo.codUsuarioDispositivo}
                     </p>`
         }).subscribe();
+    }
+
+    private cadastrarDispositivo(): Promise<UsuarioDispositivo> {
+        return new Promise((resolve, reject) => {
+            let dispositivo: UsuarioDispositivo = {
+                dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
+                indAtivo: 0,
+                codUsuario: this.signInForm.value.codUsuario,
+                sistemaOperacional: this.deviceInfo.os,
+                navegador: this.deviceInfo.browser,
+                versaoSO: this.deviceInfo.os_version,
+                versaoNavegador: this.deviceInfo.browser_version,
+                tipoDispositivo: this.deviceInfo.deviceType
+            };
+
+            this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) => {
+                resolve(dispositivo);
+            }, (err) => {
+                reject(err);
+            });  
+        })
     }
 }

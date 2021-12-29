@@ -34,22 +34,18 @@ export class AuthConfirmationSubmitComponent implements OnInit {
     async ngOnInit() {
         this.showAlert = false;
         this.isLoading = true;
-        const codUsuario = this._route.snapshot.paramMap.get('codUsuario');
-        const hash = this._route.snapshot.paramMap.get('hash');
+        const codUsuarioDispositivo = +this._route.snapshot.paramMap.get('codUsuarioDispositivo');
 
         this.dispositivo = await this._usuarioDispositivoSvc
-            .obterPorUsuarioEHash(codUsuario, hash)
+            .obterPorCodigo(codUsuarioDispositivo)
             .toPromise();
 
         if (!this.dispositivo) {
-            this._authSvc.setUserHash('');
-
             this.alert = {
                 type   : 'error',
                 message: 'O dispositivo não foi encontrado'
             };
 
-            // Show the alert
             this.showAlert = true;
         }
         

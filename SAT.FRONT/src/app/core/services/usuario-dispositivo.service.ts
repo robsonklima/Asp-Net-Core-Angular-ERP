@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { UsuarioDispositivo } from '../types/usuario-dispositivo.types';
+import { UsuarioDispositivo, UsuarioDispositivoData, UsuarioDispositivoParameters } from '../types/usuario-dispositivo.types';
 
 @Injectable({
     providedIn: 'root'
@@ -11,23 +11,35 @@ import { UsuarioDispositivo } from '../types/usuario-dispositivo.types';
 export class UsuarioDispositivoService {
     constructor(private http: HttpClient) {}
 
-    obterPorUsuarioEHash(codUsuario: string, hash: string): Observable<UsuarioDispositivo> {
-        const url = `${c.api}/UsuarioDispositivo/${codUsuario}/${hash}`;
+    obterPorParametros(parameters: UsuarioDispositivoParameters): Observable<UsuarioDispositivoData> {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key => {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(`${c.api}/UsuarioDispositivo`, { params: params }).pipe(
+            map((data: UsuarioDispositivoData) => data)
+        )
+    }
+
+    obterPorCodigo(cod: number): Observable<UsuarioDispositivo> {
+        const url = `${c.api}/UsuarioDispositivo/${cod}`;
         return this.http.get<UsuarioDispositivo>(url).pipe(
             map((obj) => obj)
         );
     }
 
-    atualizar(relatorioAtendimento: UsuarioDispositivo): Observable<UsuarioDispositivo> {
+    atualizar(usuarioDispositivo: UsuarioDispositivo): Observable<UsuarioDispositivo> {
         const url = `${c.api}/UsuarioDispositivo`;
     
-        return this.http.put<UsuarioDispositivo>(url, relatorioAtendimento).pipe(
+        return this.http.put<UsuarioDispositivo>(url, usuarioDispositivo).pipe(
           map((obj) => obj)
         );
       }
 
-    criar(hash: UsuarioDispositivo): Observable<UsuarioDispositivo> {
-        return this.http.post<UsuarioDispositivo>(`${c.api}/UsuarioDispositivo`, hash).pipe(
+    criar(disp: UsuarioDispositivo): Observable<UsuarioDispositivo> {
+        return this.http.post<UsuarioDispositivo>(`${c.api}/UsuarioDispositivo`, disp).pipe(
             map((obj) => obj)
         );
     }

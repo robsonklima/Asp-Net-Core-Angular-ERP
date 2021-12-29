@@ -1,5 +1,6 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -17,19 +18,37 @@ namespace SAT.SERVICES.Services
             _usuarioDispositivoRepo = usuarioDispositivoRepository;    
         }
 
-        public void Criar(UsuarioDispositivo usuarioDispositivo)
+        public ListViewModel ObterPorParametros(UsuarioDispositivoParameters parameters)
         {
-            _usuarioDispositivoRepo.Criar(usuarioDispositivo);
+            var dispositivos = _usuarioDispositivoRepo.ObterPorParametros(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = dispositivos,
+                TotalCount = dispositivos.TotalCount,
+                CurrentPage = dispositivos.CurrentPage,
+                PageSize = dispositivos.PageSize,
+                TotalPages = dispositivos.TotalPages,
+                HasNext = dispositivos.HasNext,
+                HasPrevious = dispositivos.HasPrevious
+            };
+
+            return lista;
+        }
+
+        public UsuarioDispositivo ObterPorCodigo(int codigo)
+        {
+            return _usuarioDispositivoRepo.ObterPorCodigo(codigo);
+        }
+
+        public UsuarioDispositivo Criar(UsuarioDispositivo usuarioDispositivo)
+        {
+            return _usuarioDispositivoRepo.Criar(usuarioDispositivo);
         }
 
         public void Atualizar(UsuarioDispositivo usuarioDispositivo)
         {
             _usuarioDispositivoRepo.Atualizar(usuarioDispositivo);
-        }
-
-        public UsuarioDispositivo ObterPorUsuarioEHash(string codUsuario, string hash)
-        {
-            return _usuarioDispositivoRepo.ObterPorUsuarioEHash(codUsuario, hash);
         }
     }
 }

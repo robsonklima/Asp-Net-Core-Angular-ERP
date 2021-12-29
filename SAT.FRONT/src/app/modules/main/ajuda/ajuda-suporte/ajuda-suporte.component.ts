@@ -10,24 +10,21 @@ import { UserSession } from 'app/core/user/user.types';
   templateUrl: './ajuda-suporte.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class AjudaSuporteComponent implements OnInit
-{
+export class AjudaSuporteComponent implements OnInit {
   @ViewChild('supportNgForm') supportNgForm: NgForm;
   userSession: UserSession;
   alert: any;
   supportForm: FormGroup;
 
-  constructor (
+  constructor(
     private _formBuilder: FormBuilder,
     private _userSvc: UserService,
     private _emailSvc: EmailService
-  )
-  {
+  ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.supportForm = this._formBuilder.group({
       nome: ['', Validators.required],
       assunto: ['', Validators.required],
@@ -35,13 +32,11 @@ export class AjudaSuporteComponent implements OnInit
     });
   }
 
-  clearForm(): void
-  {
+  clearForm(): void {
     this.supportNgForm.resetForm();
   }
 
-  async sendForm()
-  {
+  async sendForm() {
     const form: any = this.supportForm.getRawValue();
     const usuario = this.userSession.usuario;
     const email: Email = {
@@ -62,8 +57,7 @@ export class AjudaSuporteComponent implements OnInit
       message: 'Sua solicitação foi entregue! Um membro da nossa equipe de suporte responderá o mais rápido possível.'
     };
 
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       this.alert = null;
     }, 7000);
 

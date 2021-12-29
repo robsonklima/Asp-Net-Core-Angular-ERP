@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -17,22 +18,28 @@ namespace SAT.API.Controllers
             _usuarioDispositivoService = usuarioDispositivoService;
         }
 
-        [HttpGet("{codUsuario}/{hash}")]
-        public UsuarioDispositivo Get(string codUsuario, string hash)
+        [HttpGet]
+        public ListViewModel Get([FromQuery] UsuarioDispositivoParameters parameters)
         {
-            return _usuarioDispositivoService.ObterPorUsuarioEHash(codUsuario, hash);
+            return _usuarioDispositivoService.ObterPorParametros(parameters);
         }
 
         [HttpPost]
-        public void Post([FromBody] UsuarioDispositivo dispositivo)
+        public UsuarioDispositivo Post([FromBody] UsuarioDispositivo dispositivo)
         {
-            _usuarioDispositivoService.Criar(dispositivo);
+            return _usuarioDispositivoService.Criar(dispositivo);
         }
 
         [HttpPut]
         public void Put([FromBody] UsuarioDispositivo dispositivo)
         {
             _usuarioDispositivoService.Atualizar(dispositivo);
+        }
+
+        [HttpGet("{codUsuarioDispositivo}")]
+        public UsuarioDispositivo Get(int codUsuarioDispositivo)
+        {
+            return _usuarioDispositivoService.ObterPorCodigo(codUsuarioDispositivo);
         }
     }
 }

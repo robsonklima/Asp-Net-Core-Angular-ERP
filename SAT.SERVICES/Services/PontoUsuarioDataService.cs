@@ -326,12 +326,12 @@ namespace SAT.SERVICES.Services
 
                 if (motivo > -1)
                 {
-                    divergencia.PontoUsuarioDataMotivoDivergencia.CodPontoUsuarioDataMotivoDivergencia = motivo;
+                    divergencia.CodPontoUsuarioDataMotivoDivergencia = motivo;
                 }
 
                 if (modoDivergencia > -1)
                 {
-                    divergencia.PontoUsuarioDataModoDivergencia.CodPontoUsuarioDataModoDivergencia = modoDivergencia;
+                    divergencia.CodPontoUsuarioDataModoDivergencia = modoDivergencia;
                 }
 
                 divergencia.CodUsuarioCad = Constants.SISTEMA_NOME;

@@ -3,7 +3,7 @@ import { AuthConfirmationSubmitComponent } from 'app/modules/auth/confirmation-s
 
 export const authConfirmationSubmitRoutes: Route[] = [
     {
-        path     : ':codUsuario/:hash',
+        path     : ':codUsuarioDispositivo',
         component: AuthConfirmationSubmitComponent
     }
 ];

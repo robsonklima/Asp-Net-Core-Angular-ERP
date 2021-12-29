@@ -1,11 +1,13 @@
 using SAT.MODELS.Entities;
+using SAT.MODELS.Helpers;
 
 namespace SAT.INFRA.Interfaces
 {
     public interface IUsuarioDispositivoRepository
     {
-        void Criar(UsuarioDispositivo usuarioDispositivo);
-        UsuarioDispositivo ObterPorUsuarioEHash(string codUsuario, string hash);
+        UsuarioDispositivo ObterPorCodigo(int codigo);
+        UsuarioDispositivo Criar(UsuarioDispositivo usuarioDispositivo);
+        PagedList<UsuarioDispositivo> ObterPorParametros(UsuarioDispositivoParameters parameters);
         void Atualizar(UsuarioDispositivo usuarioDispositivo);
     }
 }

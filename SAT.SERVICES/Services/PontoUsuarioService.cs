@@ -36,7 +36,6 @@ namespace SAT.SERVICES.Services
 
         public PontoUsuario Criar(PontoUsuario pontoUsuario)
         {
-            pontoUsuario.CodPontoUsuario = _seqRepo.ObterContador("PontoUsuario");
             _pontoUsuarioRepo.Criar(pontoUsuario);
             return pontoUsuario;
         }

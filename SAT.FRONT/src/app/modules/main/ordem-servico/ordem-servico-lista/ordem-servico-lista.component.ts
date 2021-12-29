@@ -32,7 +32,7 @@ import { StringExtensions } from 'app/core/extensions/string-extensions';
             }
         
             @screen lg {
-                grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px 120px auto 40px 120px 50px 100px 30px;
+                grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px 40px auto 40px 120px 50px 100px 30px;
             }
         }
     `],

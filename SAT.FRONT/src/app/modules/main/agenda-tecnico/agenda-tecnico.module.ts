@@ -24,6 +24,7 @@ import { AgendaTecnicoChamadosFiltroComponent } from './agenda-tecnico-chamados-
 import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda-tecnico-chamados.component';
 import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda/agenda-tecnico-ajuda.component';
 import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
+import { FiltroModule } from '../filtros/filtro.module';
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenaca
         MatInputModule,
         MatDialogModule,
         MatOptionModule,
-        MatIconModule
+        MatIconModule,
+        FiltroModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

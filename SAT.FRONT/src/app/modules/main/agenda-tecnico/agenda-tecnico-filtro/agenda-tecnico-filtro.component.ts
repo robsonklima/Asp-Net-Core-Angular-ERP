@@ -44,6 +44,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       pas: [undefined],
       codRegioes: [undefined]
     });
+
+    this.form.patchValue(this.filter?.parametros);
   }
 
   async loadData(): Promise<void> {
@@ -55,7 +57,6 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   ngOnInit(): void {
     this.createForm();
     this.loadData();
-    this.form.patchValue(this.filter?.parametros);
   }
 
   configurarFiltro() {
@@ -100,6 +101,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     }).toPromise();
 
     this.tecnicos = data.items;
+    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(r => r.nomeRegiao).toArray();
   }
 
   private async obterFiliais() {
@@ -107,10 +109,12 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
     if (codFilial) {
       this.form.controls['codFiliais'].setValue(codFilial);
-      this.form.controls['codFiliais'].disable();
-      this.obterTecnicos();
-      this.obterRegioesAutorizadas();
+      await this.obterTecnicos();
+      await this.obterRegioesAutorizadas();
     }
+
+    if (this.userSession.usuario?.filial?.codFilial)
+      this.form.controls['codFiliais'].disable();
 
     const data = await this._filialSvc.obterPorParametros({
       indAtivo: 1,
@@ -125,14 +129,12 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     let params: RegiaoAutorizadaParameters = {
       indAtivo: 1,
       codFiliais: this.form.controls['codFiliais'].value,
-      pageSize: 1000
     };
 
     const data = await this._regiaoAutorizadaSvc
       .obterPorParametros(params)
       .toPromise();
 
-    this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(r => r.nomeRegiao).toArray();
     this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(r => r).toArray();
   }
 

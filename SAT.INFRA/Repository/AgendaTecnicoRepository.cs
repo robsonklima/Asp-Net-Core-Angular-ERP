@@ -150,7 +150,7 @@ namespace SAT.INFRA.Repository
             .AsQueryable();
 
             if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
-                agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Fim.Date <= parameters.FimPeriodoAgenda.Value.Date);
+                agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Inicio.Date <= parameters.FimPeriodoAgenda.Value.Date);
 
             if (parameters.Tipo.HasValue)
                 agendas = agendas.Where(ag => ag.Tipo == parameters.Tipo);

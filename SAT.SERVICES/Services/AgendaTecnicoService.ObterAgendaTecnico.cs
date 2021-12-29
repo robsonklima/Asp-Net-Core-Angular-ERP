@@ -84,8 +84,8 @@ namespace SAT.SERVICES.Services
             List<AgendaTecnico> eventosValidados = new();
             List<AgendaTecnico> listaAtualizar = new();
 
-            if (agendamentos.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-               .Any(i => i.Fim.Date < DateTime.Now.Date && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO))
+            if (agendamentos.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
+               .Any(i => i.Fim.Date < DateTime.Now.Date))
             {
                 var eventosRealocados = this.RealocaEventosComAtraso(agendamentos);
                 eventosValidados.AddRange(eventosRealocados);

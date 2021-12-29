@@ -101,7 +101,8 @@
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
-                                    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
@@ -111,20 +112,25 @@
                                             </div>
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
-                                                <div>{{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}</div>
+                                                <div>
+                                                    {{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3" *ngIf="usuarioCadastro?.fone || usuarioCadastro?.foneParticular">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="usuarioCadastro?.fone || usuarioCadastro?.foneParticular">
                                                 <div class="text-secondary">{{ t('contato') }}</div>
                                                 <div>
                                                     {{ usuarioCadastro?.fone ? t('contato perto') + ": " +  usuarioCadastro?.fone : '' }}
                                                     {{ usuarioCadastro?.foneParticular ? t('contato pessoal') + ": " + usuarioCadastro?.foneParticular : '' }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3"  *ngIf="ultimoAgendamento">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="ultimoAgendamento">
                                                 <div class="text-secondary">{{ t('agendamento') }}</div>
                                                 <div>
-                                                    <span class="text-secondary text-md w-2/5" matTooltipPosition="right"
-                                                        matTooltipClass="tool-tip" [matTooltip]="histAgendamento">
+                                                    <span class="text-secondary text-md w-2/5"
+                                                        matTooltipPosition="right" matTooltipClass="tool-tip"
+                                                        [matTooltip]="histAgendamento">
                                                         {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                     </span>
                                                 </div>
@@ -138,7 +144,8 @@
                                                 <div class="text-secondary">{{ t('os quarteirizada') }}</div>
                                                 <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.tecnico?.nome">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.tecnico?.nome">
                                                 <div class="text-secondary">{{ t('tecnico') }}</div>
                                                 <div>{{ os?.tecnico?.nome | titlecase }}</div>
                                             </div>
@@ -150,7 +157,7 @@
                                                         [style.background-color]="os?.statusServico?.corFundo"
                                                         [style.color]="os?.statusServico?.corFonte">
                                                         {{ os?.statusServico?.nomeStatusServico }}
-                                                </span>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3">
@@ -193,13 +200,15 @@
                                         </div>
                                     </fuse-card>
 
-                                    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                        <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}</div>
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}
+                                        </div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('cliente') }}</div>
-                                                <div>
+                                                <div>{{ os?.cliente?.nomeFantasia + ' - ' }}
                                                     {{ os?.cliente?.numBanco || '--' }}
                                                     {{ os?.localAtendimento?.numAgencia || '--' }}/{{
                                                     os?.localAtendimento?.dcPosto || '--' }}
@@ -208,7 +217,7 @@
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('sla') }}</div>
-                                                <div>       
+                                                <div>
                                                     <span class="cursor-help"
                                                         [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
                                                         matTooltipPosition="above">
@@ -217,14 +226,19 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
                                                 <div class="text-secondary">{{ t('fim sla') }}</div>
-                                                <div>{{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}</div>
+                                                <div>
+                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
+                                                </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('contrato') }}</div>
-                                                <div>{{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}</div>
+                                                <div>
+                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
+                                                </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
@@ -241,7 +255,7 @@
                                                 <div class="text-secondary">{{ t('regiao') }}</div>
                                                 <div>{{ os?.regiao?.nomeRegiao || 'Não Informado'}}</div>
                                             </div>
-                                        
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('equipamento') }}</div>
                                                 <div>
@@ -252,7 +266,8 @@
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('distancia da pat') }}</div>
-                                                <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}</div>
+                                                <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
+                                                </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
@@ -262,7 +277,8 @@
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('reincidencia') }}</div>
-                                                <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}</div>
+                                                <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
+                                                </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
@@ -277,7 +293,8 @@
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('fechadura') }}</div>
-                                                <div>{{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}</div>
+                                                <div>{{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}
+                                                </div>
                                             </div>
                                         </div>
 
@@ -316,14 +333,10 @@
 
                             <ng-template matTabContent>
                                 <div class="flex flex-col flex-auto p-6 pt-px w-2/3">
-                                    <fuse-alert
-                                        *ngFor="let alerta of os?.alertas"
-                                        class="mt-4"
-                                        [type]="alerta?.tipo"
+                                    <fuse-alert *ngFor="let alerta of os?.alertas" class="mt-4" [type]="alerta?.tipo"
                                         [appearance]="'border'">
                                         <span fuseAlertTitle>{{ alerta?.titulo }}</span>
-                                        <div class="rounded mt-2 text-justify"
-                                            *ngFor="let desc of alerta?.descricao">
+                                        <div class="rounded mt-2 text-justify" *ngFor="let desc of alerta?.descricao">
                                             {{ desc }}
                                         </div>
                                     </fuse-alert>
@@ -477,9 +490,9 @@
                                 </span>
                             </ng-template>
                             <ng-template matTabContent>
-                                <app-ordem-servico-fotos [fotos]="getFotos()"></app-ordem-servico-fotos>                        
+                                <app-ordem-servico-fotos [fotos]="getFotos()"></app-ordem-servico-fotos>
                             </ng-template>
-                        </mat-tab>              
+                        </mat-tab>
 
                         <mat-tab>
                             <ng-template matTabLabel>

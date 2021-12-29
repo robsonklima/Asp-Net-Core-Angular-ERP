@@ -10,17 +10,20 @@ namespace SAT.SERVICES.Services
         private readonly IAgendaTecnicoRepository _agendaRepo;
         private readonly ITecnicoRepository _tecnicoRepo;
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
+        private readonly IRelatorioAtendimentoRepository _ratRepo;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
             IAgendaTecnicoRepository agendaRepo,
             ITecnicoRepository tecnicoRepo,
             IOrdemServicoRepository osRepo,
+            IRelatorioAtendimentoRepository ratRepo,
             IPontoUsuarioRepository pontoUsuarioRepo)
         {
             _agendaRepo = agendaRepo;
             _tecnicoRepo = tecnicoRepo;
             _osRepo = osRepo;
+            _ratRepo = ratRepo;
             _pontoUsuarioRepo = pontoUsuarioRepo;
         }
 

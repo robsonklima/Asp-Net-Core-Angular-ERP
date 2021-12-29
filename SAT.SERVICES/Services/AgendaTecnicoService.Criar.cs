@@ -162,49 +162,5 @@ namespace SAT.SERVICES.Services
                 ultimaOS = os;
             });
         }
-
-        private double DistanciaEmMinutos(OrdemServico osAtual, OrdemServico osAnterior)
-        {
-            double? orig_lat = null, orig_long = null, dest_lat = null, dest_long = null;
-
-            if (osAnterior != null)
-            {
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Latitude)) orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Longitude)) orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
-            }
-            else if (osAtual.Tecnico != null)
-            {
-                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Latitude)) orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Longitude)) orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
-            }
-
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Latitude)) dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Longitude)) dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
-
-            return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
-        }
-        private string GetTypeColor(AgendaTecnicoTypeEnum type)
-        {
-            switch (type)
-            {
-                case AgendaTecnicoTypeEnum.OS:
-                    return "#009000";
-                case AgendaTecnicoTypeEnum.PONTO:
-                    return "#C8C8C8C8";
-                case AgendaTecnicoTypeEnum.INTERVALO:
-                    return "#C8C8C8C8";
-                default:
-                    return "#C8C8C8C8";
-            }
-        }
-        private string AgendamentoColor => "#381354";
-        private string IntervaloTitle => "INTERVALO";
-        private string FimExpedienteTitle => "FIM DO EXPEDIENTE";
-        private string PontoTitle => "PONTO";
-        private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
-        private DateTime InicioExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
-        private DateTime FimExpediente(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
-        private DateTime InicioIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
-        private DateTime FimIntervalo(DateTime? referenceTime = null) => referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
     }
 }

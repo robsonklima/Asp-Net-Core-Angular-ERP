@@ -87,10 +87,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       timeline: {
         type: 'day',
         size: 2,
-        allDay: false,
+        allDay: true,
         startDay: 1,
-        startTime: '06:00',
-        endTime: '24:00',
         rowHeight: 'equal'
       },
     },
@@ -666,14 +664,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
-        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.TRANSFERIDO).count();
+        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico != StatusServicoEnum.TRANSFERIDO &&
+        ((moment(i.agendaTecnico?.inicio).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD') && moment(i.agendaTecnico?.inicio).format('YYYY-MM-DD') <= moment().add(1, 'day').format('YYYY-MM-DD')))).count();
   }
 
   public countResourceTransferidos(resource: any): number
   {
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
-        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO).count();
+        AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO &&
+        ((moment(i.agendaTecnico?.inicio).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD') && moment(i.agendaTecnico?.inicio).format('YYYY-MM-DD') <= moment().add(1, 'day').format('YYYY-MM-DD')))).count();
   }
 
   public countPontoEvents(resource: any): number

@@ -29,7 +29,7 @@ namespace SAT.SERVICES.Services
         private void OrdernarPorFimSLA(List<AgendaTecnico> agendamentos)
         {
             var agendamentosComSLA = agendamentos.Where(i => i.IndAgendamento == 0 &&
-                i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO &&
                 i.OrdemServico.PrazosAtendimento.Any())
             .OrderBy(i => i.OrdemServico.PrazosAtendimento
                 .OrderByDescending(i => i.CodOSPrazoAtendimento)
@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
             .ToList();
 
             var agendamentosSemSLA = agendamentos.Where(i => i.IndAgendamento == 0 &&
-                i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO &&
                 !i.OrdemServico.PrazosAtendimento.Any())
             .OrderBy(i => i.Inicio).ToList();
 
@@ -72,7 +72,7 @@ namespace SAT.SERVICES.Services
 
             var agendasTecnicosPertinentes = agendasTecnico
                 .Where(i => i.IndAgendamento == 0 &&
-                    i.Tipo == AgendaTecnicoTypeEnum.OS)
+                    i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
                 .ToList();
 
             List<AgendaTecnico> listaAgendamentos = new List<AgendaTecnico>();

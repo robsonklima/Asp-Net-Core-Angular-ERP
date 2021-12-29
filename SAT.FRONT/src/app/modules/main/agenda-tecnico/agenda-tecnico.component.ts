@@ -54,8 +54,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   agendaTecnicos: AgendaTecnico[] = [];
   resources = [];
-  weekStart = moment().clone().startOf('isoWeek').format('yyyy-MM-DD HH:mm:ss');
-  weekEnd = moment().clone().startOf('isoWeek').add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
+  weekStart: string = moment().add(-1, 'day').format('yyyy-MM-DD HH:mm:ss');
+  weekEnd: string = moment().add(2, 'day').format('yyyy-MM-DD HH:mm:ss');
 
   snackConfigInfo: MatSnackBarConfig = { duration: 4000, panelClass: 'info', verticalPosition: 'top', horizontalPosition: 'right' };
   snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
@@ -85,13 +85,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   calendarOptions: MbscEventcalendarOptions = {
     view: {
       timeline: {
-        type: 'week',
+        type: 'day',
+        size: 2,
         allDay: false,
         startDay: 1,
         startTime: '06:00',
         endTime: '24:00',
-        rowHeight: 'equal',
-
+        rowHeight: 'equal'
       },
     },
     dragToMove: true,
@@ -376,8 +376,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async changeWeek(args, inst)
   {
-    this.weekStart = moment(args.date).format('yyyy-MM-DD HH:mm:ss');
-    this.weekEnd = moment(args.date).add(7, 'days').format('yyyy-MM-DD HH:mm:ss');
+    this.weekStart = moment(args.date).add(-1, 'days').format('yyyy-MM-DD HH:mm:ss');
+    this.weekEnd = moment(args.date).add(2, 'days').format('yyyy-MM-DD HH:mm:ss');
+
+
     await this.carregaDados(false);
   }
 
@@ -647,8 +649,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     const dialogRef = this._dialog.open(AgendaTecnicoOrdenacaoDialogComponent, {
       data: {
         tecnico: tecnico,
-        weekStart: this.weekStart,
-        weekEnd: this.weekEnd
+        weekStart: moment().add(-7, 'day').format('yyyy-MM-DD HH:mm:ss'),
+        weekEnd: moment().add(7, 'day').format('yyyy-MM-DD HH:mm:ss')
       },
       backdropClass: 'static'
     });

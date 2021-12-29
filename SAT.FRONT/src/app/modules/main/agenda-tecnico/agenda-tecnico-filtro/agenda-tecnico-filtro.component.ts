@@ -123,10 +123,12 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     if (codFilial)
     {
       this.form.controls['codFiliais'].setValue(codFilial);
-      this.form.controls['codFiliais'].disable();
       await this.obterTecnicos();
       await this.obterRegioesAutorizadas();
     }
+
+    if (this.userSession.usuario?.filial?.codFilial)
+      this.form.controls['codFiliais'].disable();
 
     const data = await this._filialSvc.obterPorParametros({
       indAtivo: 1,

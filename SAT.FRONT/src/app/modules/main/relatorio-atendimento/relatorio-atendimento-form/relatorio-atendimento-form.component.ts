@@ -86,11 +86,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     this.inicializarForm();
 
     await this.obterOrdemServico();
-    if (!this.isAddMode)
-    {
-      await this.obterRelatorioAtendimento();
-      await this.obterFotos();
-    }
+    await this.obterRelatorioAtendimento();
 
     this.form.controls['data'].valueChanges.subscribe((data) =>
     {
@@ -175,6 +171,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
         .obterPorCodigo(this.codRAT)
         .toPromise();
 
+      await this.obterFotos();
+
       this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
       this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
       this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
@@ -214,7 +212,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     if (this.bloqueiaFormTecnico(ordemServico))
     {
       this.form.controls['codTecnico'].setValue(ordemServico.codTecnico);
-      // this.form.controls['codTecnico'].disable();
     }
   }
 
@@ -395,7 +392,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
         {
           value: undefined,
           disabled: true,
-        }, [Validators.required]
+        }
       ],
       numRAT: [undefined],
       codTecnico: [undefined, [Validators.required]],
@@ -409,8 +406,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       ],
       horaInicio: [undefined, [TimeValidator(), Validators.required]],
       horaFim: [undefined, [TimeValidator(), Validators.required,]],
-      checkin: [undefined, [TimeValidator()]],
-      checkout: [undefined, [TimeValidator()]],
+      checkin: [undefined],
+      checkout: [undefined],
       obsRAT: [undefined],
     });
   }

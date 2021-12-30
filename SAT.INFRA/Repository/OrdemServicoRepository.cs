@@ -140,7 +140,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
-                    .ThenInclude(a => a.CheckinsCheckouts)
+                // .ThenInclude(a => a.CheckinsCheckouts)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Laudos)
                         .ThenInclude(a => a.LaudosSituacao)

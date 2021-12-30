@@ -6,9 +6,7 @@ using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System.Linq;
-using System;
 using SAT.MODELS.Entities.Constants;
-using System.Threading.Tasks;
 
 namespace SAT.SERVICES.Services
 {
@@ -142,8 +140,7 @@ namespace SAT.SERVICES.Services
         }
         public IActionResult ExportToExcel(OrdemServicoParameters parameters)
         {
-            var os = _ordemServicoRepo
-                        .ObterPorParametros(parameters);
+            var os = _ordemServicoRepo.ObterPorParametros(parameters);
 
             List<List<object>> listaExcel = new();
 

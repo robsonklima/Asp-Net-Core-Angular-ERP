@@ -405,7 +405,7 @@
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horas Gastas</div>
                                             <div>
-                                                {{ r?.qtdeHorasTecnicas ? ((r?.qtdeHorasTecnicas / 60).toFixed(2) + 'h') : 'Não Informado' }}
+                                                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não Informado' }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">

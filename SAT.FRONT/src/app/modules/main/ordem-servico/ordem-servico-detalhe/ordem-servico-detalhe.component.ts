@@ -422,4 +422,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 		return false;
 	}
+
+	getTimeFromMins(mins)
+	{
+		var h = mins / 60 | 0,
+			m = mins % 60 | 0;
+		return moment.utc().hours(h).minutes(m).format("HH:mm");
+	}
 }

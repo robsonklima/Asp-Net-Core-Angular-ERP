@@ -32,7 +32,7 @@ import { statusConst } from 'app/core/types/status-types';
 	selector: 'app-ordem-servico-detalhe',
 	templateUrl: './ordem-servico-detalhe.component.html',
 	styleUrls: ['./ordem-servico-detalhe.component.scss'],
-	animations   : fuseAnimations,
+	animations: fuseAnimations,
 	encapsulation: ViewEncapsulation.None,
 })
 export class OrdemServicoDetalheComponent implements AfterViewInit
@@ -321,17 +321,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	getCheckin(relatorioAtendimento: RelatorioAtendimento): string
-	{
-		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
-			.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
-	}
-
-	getCheckout(relatorioAtendimento: RelatorioAtendimento): string
-	{
-		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
-			.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
-	}
+	// 	getCheckin(relatorioAtendimento: RelatorioAtendimento): string
+	// 	{
+	// 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
+	// 			.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
+	// 	}
+	// 
+	// 	getCheckout(relatorioAtendimento: RelatorioAtendimento): string
+	// 	{
+	// 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
+	// 			.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
+	// 	}
 
 	getFotos(): Foto[]
 	{

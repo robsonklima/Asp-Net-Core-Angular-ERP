@@ -396,12 +396,12 @@
                                             <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM
                                                     HH:mm') : 'Não Informado' }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+                                        <!-- <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Check-in/Check-out</div>
                                             <div>
                                                 {{ (getCheckin(r) ? (getCheckin(r) | date:'dd/MM HH:mm') : 'Não informado') + ' - '  + (getCheckout(r)  ? (getCheckout(r) | date:'dd/MM HH:mm') : 'Não informado') }}
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horas Gastas</div>
                                             <div> {{ r?.qtdHorasTecnicas || 'Não Informado' }}</div>

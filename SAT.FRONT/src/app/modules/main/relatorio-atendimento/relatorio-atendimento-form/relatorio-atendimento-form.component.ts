@@ -508,6 +508,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     const data = form.data.format('YYYY-MM-DD');
     const horaInicio = form.horaInicio;
     const horaFim = form.horaFim;
+    const qtdeHorasTecnicas = moment.duration(moment(horaFim).diff(moment(horaInicio))).asMinutes();
 
     let ra: RelatorioAtendimento = {
       ...this.relatorioAtendimento,
@@ -518,6 +519,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
         dataHoraInicioValida: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
         dataHoraSolucao: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
         dataHoraSolucaoValida: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
+        qtdeHorasTecnicas: qtdeHorasTecnicas,
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.sessionData.usuario.codUsuario,
         codUsuarioCadastro: this.sessionData.usuario.codUsuario

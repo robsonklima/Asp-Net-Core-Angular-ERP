@@ -31,7 +31,9 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG)));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
+                sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
             services.AddCors(options =>
             {

@@ -43,7 +43,11 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
 
   ngAfterViewInit(): void
   {
-    this.obterTecnicos();
+    this.sidenav.openedStart.subscribe(() =>
+    {
+      this.obterTecnicos();
+    });
+
     this.registrarEmitters();
   }
 

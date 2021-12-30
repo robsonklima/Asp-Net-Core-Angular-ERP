@@ -127,7 +127,8 @@
                                             [matTooltip]="'Conferir'"
                                             matTooltipPosition="above"
                                             (click)="conferir(data)"
-                                            *ngIf="userSession.usuario.codPerfil !== 35">
+                                            *ngIf="userSession.usuario.codPerfil !== 35"
+                                            [disabled]="data.codPontoUsuarioDataStatusAcesso == 1">
                                             <mat-icon
                                                 class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
@@ -139,7 +140,8 @@
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
                                             (click)="informarInconsistencia(data)"
-                                            *ngIf="userSession.usuario.codPerfil !== 35">
+                                            *ngIf="userSession.usuario.codPerfil !== 35"
+                                            [disabled]="data.codPontoUsuarioDataStatusAcesso == 1">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>

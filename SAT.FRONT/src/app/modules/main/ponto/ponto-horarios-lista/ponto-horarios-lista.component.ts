@@ -3,10 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { PontoPeriodoUsuarioService } from 'app/core/services/ponto-periodo-usuario.service';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoUsuarioDataDivergenciaService } from 'app/core/services/ponto-usuario-data-divergencia.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
 import { pontoPeriodoUsuarioStatusConst } from 'app/core/types/ponto-periodo-usuario-status.types';
+import { PontoPeriodoUsuario } from 'app/core/types/ponto-periodo-usuario.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
@@ -37,6 +39,7 @@ import { PontoUsuarioFormComponent } from '../ponto-usuario-form/ponto-usuario-f
 export class PontoHorariosListaComponent implements AfterViewInit {
   codPontoPeriodo: number;
   pontoPeriodo: PontoPeriodo;
+  pontoPeriodoUsuario: PontoPeriodoUsuario;
   codUsuario: string;
   usuario: Usuario;
   dataSourceData: PontoUsuarioDataData;
@@ -47,6 +50,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     private _pontoUsuarioDataSvc: PontoUsuarioDataService,
     private _pontoPeriodoSvc: PontoPeriodoService,
     private _pontoUsuarioDataDivergenciaSvc: PontoUsuarioDataDivergenciaService,
+    private _pontoPeriodoUsuarioSvc: PontoPeriodoUsuarioService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _userSvc: UserService,
@@ -70,6 +74,12 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     this.pontoPeriodo = await this._pontoPeriodoSvc
       .obterPorCodigo(this.codPontoPeriodo)
       .toPromise();
+
+    this.pontoPeriodoUsuario = (await this._pontoPeriodoUsuarioSvc
+      .obterPorParametros({codUsuario: this.codUsuario, codPontoPeriodo: this.codPontoPeriodo})
+      .toPromise())
+      .items
+      .shift();
 
     const datas = await this._pontoUsuarioDataSvc
       .obterPorParametros({
@@ -176,7 +186,8 @@ export class PontoHorariosListaComponent implements AfterViewInit {
         this.conferirPontoData(pontoData);
         
         setTimeout(() => {
-          this.obterHorarios();  
+          this.obterHorarios();
+          this.atualizarStatusPeriodo();
         }, 1200);
       }
     });
@@ -191,6 +202,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.obterHorarios();
+      this.atualizarStatusPeriodo();
     });
   }
 
@@ -203,6 +215,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.obterHorarios();
+      this.atualizarStatusPeriodo();
     });
   }
 
@@ -220,7 +233,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     });
   }
 
-  private verificarNovoStatusPeriodo(): number {
+  private verificarNovoPontoPeriodoUsuarioStatus(): number {
     const datas = this.dataSourceData;
 
     if (datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.INCONSISTENTE).length) {
@@ -239,10 +252,16 @@ export class PontoHorariosListaComponent implements AfterViewInit {
       return pontoPeriodoUsuarioStatusConst.CONFERIDO;
     }
 
-    return this.pontoPeriodo.codPontoPeriodoStatus;
+    return this.pontoPeriodoUsuario.codPontoPeriodoUsuarioStatus;
   }
 
   private atualizarStatusPeriodo(): void {
+    const novoStatus = this.verificarNovoPontoPeriodoUsuarioStatus();
 
+    if (this.pontoPeriodoUsuario.codPontoPeriodoUsuarioStatus !== novoStatus) {
+      this.pontoPeriodoUsuario.codPontoPeriodoUsuarioStatus = novoStatus;
+
+      this._pontoPeriodoUsuarioSvc.atualizar(this.pontoPeriodoUsuario).toPromise();
+    }
   }
 }

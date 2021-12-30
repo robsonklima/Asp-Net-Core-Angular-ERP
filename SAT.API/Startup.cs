@@ -12,6 +12,7 @@ using SAT.API.Support;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.INFRA.Repository;
+using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using SAT.SERVICES.Services;
 using System;
@@ -30,7 +31,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG)));
 
             services.AddCors(options =>
             {

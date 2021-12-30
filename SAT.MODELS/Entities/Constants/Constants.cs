@@ -8,6 +8,8 @@
         public static int SMTP_PORT = 587;
         public static string SMTP_USER = "aplicacao.sat@perto.com.br";
         public static string SMTP_PASSWORD = "S@aPlic20(v";
+        public static string DB_PROD = "Prod";
+        public static string DB_HOMOLOG = "Homolog";
 
         // Status de Serviço
         public static int TRANFERIDO = 8;

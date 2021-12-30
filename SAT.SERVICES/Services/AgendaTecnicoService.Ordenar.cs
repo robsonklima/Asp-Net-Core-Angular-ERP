@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -62,13 +63,11 @@ namespace SAT.SERVICES.Services
                 .FirstOrDefault();
 
             if (ultimaLocalizacao == null)
-            {
                 ultimaLocalizacao = new Localizacao
                 {
                     Latitude = tecnico.Latitude,
                     Longitude = tecnico.Longitude
                 };
-            }
 
             var agendasTecnicosPertinentes = agendasTecnico
                 .Where(i => i.IndAgendamento == 0 &&
@@ -174,7 +173,7 @@ namespace SAT.SERVICES.Services
 
                     e.Inicio = start;
                     e.Fim = end;
-                    e.CodUsuarioCad = "ADMIN";
+                    e.CodUsuarioCad = Constants.SISTEMA_NOME;
                     e.DataHoraCad = DateTime.Now;
                     e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
                     var ag = this._agendaRepo.Atualizar(e);

@@ -136,6 +136,7 @@ namespace SAT.API
             services.AddTransient<IFotoRepository, FotoRepository>();
             services.AddTransient<IUsuarioDispositivoRepository, UsuarioDispositivoRepository>();
             services.AddTransient<IOrdemServicoHistoricoRepository, OrdemServicoHistoricoRepository>();
+            services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

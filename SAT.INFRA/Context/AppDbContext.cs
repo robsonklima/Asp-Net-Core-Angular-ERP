@@ -34,6 +34,7 @@ namespace SAT.INFRA.Context
         public DbSet<Filial> Filial { get; set; }
         public DbSet<Defeito> Defeito { get; set; }
         public DbSet<Acao> Acao { get; set; }
+        public DbSet<MediaAtendimentoTecnico> MediaAtendimentoTecnico { get; set; }
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Regiao> Regiao { get; set; }
         public DbSet<Agendamento> Agendamento { get; set; }

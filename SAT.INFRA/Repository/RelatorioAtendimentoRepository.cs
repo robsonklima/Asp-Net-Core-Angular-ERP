@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
-    public class RelatorioAtendimentoRepository : IRelatorioAtendimentoRepository
+    public partial class RelatorioAtendimentoRepository : IRelatorioAtendimentoRepository
     {
         private readonly AppDbContext _context;
 
@@ -71,45 +71,20 @@ namespace SAT.INFRA.Repository
 
         public PagedList<RelatorioAtendimento> ObterPorParametros(RelatorioAtendimentoParameters parameters)
         {
-            var relatorios = _context.RelatorioAtendimento
-                .Include(r => r.Tecnico)
-                .Include(r => r.StatusServico)
-                .Include(r => r.CheckinsCheckouts)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.GrupoCausa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Acao)
-                .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Defeito)
-                .Include(r => r.StatusServico)
-                .AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(parameters.Filter))
-                relatorios = relatorios.Where(
-                    r =>
-                    r.CodRAT.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    r.NumRAT.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-
-            if (parameters.CodRAT.HasValue)
-                relatorios = relatorios.Where(r => r.CodRAT == parameters.CodRAT);
-
-            if (parameters.DataInicio.HasValue)
-                relatorios = relatorios.Where(r => r.DataHoraInicio >= parameters.DataInicio.Value);
-
-            if (parameters.DataSolucao.HasValue)
-                relatorios = relatorios.Where(r => r.DataHoraSolucao <= parameters.DataSolucao.Value);
-
-            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
-            {
-                var tecnicos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
-                relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                relatorios = relatorios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-
+            var relatorios = this.ObterQuery(parameters);
             return PagedList<RelatorioAtendimento>.ToPagedList(relatorios, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IQueryable<RelatorioAtendimento> ObterQuery(RelatorioAtendimentoParameters parameters)
+        {
+            IQueryable<RelatorioAtendimento> relatorios = _context.RelatorioAtendimento.AsQueryable();
+
+            relatorios = AplicarIncludes(relatorios, parameters.Include);
+            relatorios = AplicarFiltros(relatorios, parameters);
+
+            var temp = relatorios.ToQueryString();
+
+            return relatorios.AsNoTracking();
         }
     }
 }

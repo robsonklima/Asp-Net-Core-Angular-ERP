@@ -22,7 +22,7 @@ export class ChangelogComponent implements OnInit
                     {
                         type: 'Correções',
                         list: [
-                            'ajuste na exportação de chamados'
+                            'Ajuste na exportação de chamados'
                         ],
                     }
                 ]

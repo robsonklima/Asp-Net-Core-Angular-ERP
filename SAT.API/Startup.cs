@@ -139,6 +139,7 @@ namespace SAT.API
             services.AddTransient<IUsuarioDispositivoRepository, UsuarioDispositivoRepository>();
             services.AddTransient<IOrdemServicoHistoricoRepository, OrdemServicoHistoricoRepository>();
             services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
+            services.AddTransient<IPontoPeriodoUsuarioRepository, PontoPeriodoUsuarioRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -223,6 +224,7 @@ namespace SAT.API
             services.AddTransient<IInstalacaoService, InstalacaoService>();
             services.AddTransient<IInstalacaoLoteService, InstalacaoLoteService>();
             services.AddTransient<INotificacaoService, NotificacaoService>();
+            services.AddTransient<IPontoPeriodoUsuarioService, PontoPeriodoUsuarioService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

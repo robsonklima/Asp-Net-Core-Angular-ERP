@@ -240,7 +240,7 @@ namespace SAT.SERVICES.Services
 
                     AlteraStatus(pontoData, status, motivoDivergencia, (int)PontoUsuarioDataModoDivergenciaEnum.DIVERGENCIA_AUTOMATICA);
 
-                    pontoData.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus = (int)PontoUsuarioDataStatusEnum.INCONSISTENTE;
+                    pontoData.CodPontoUsuarioDataStatus = (int)PontoUsuarioDataStatusEnum.INCONSISTENTE;
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace SAT.SERVICES.Services
 
         protected void AlteraStatus(PontoUsuarioData pontoData, PontoUsuarioDataStatus status, int motivo, int modoDivergencia)
         {
-            pontoData.CodUsuario = "sat";
+            // pontoData.CodUsuario = "sat";
             pontoData.DataRegistro = pontoData.DataRegistro;
 
             if (pontoData != null)
@@ -315,7 +315,7 @@ namespace SAT.SERVICES.Services
                 pontoData.CodUsuarioCad = Constants.SISTEMA_NOME;
                 pontoData.DataHoraCad = DateTime.Now;
                 pontoData.CodPontoPeriodo = pontoData.PontoPeriodo.CodPontoPeriodo;
-                pontoData.PontoUsuarioDataStatus.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
+                pontoData.CodPontoUsuarioDataStatus = status.CodPontoUsuarioDataStatus;
 
                 _pontoUsuarioDataRepo.Criar(pontoData);
             }

@@ -26,7 +26,7 @@
                         <mat-form-field class="flex-auto">
                             <mat-label>{{ t('tipo de advertencia') }}</mat-label>
 
-                            <mat-select formControlName="codPontoUsuarioDataTipoAdvertencia" required>
+                            <mat-select formControlName="codPontoUsuarioDataTipoAdvertencia">
                                 <mat-option *ngFor="let tipo of tiposAdvertencia" [value]="tipo.codPontoUsuarioDataTipoAdvertencia">
                                     {{ tipo.descricao }}
                                 </mat-option>

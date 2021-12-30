@@ -20,15 +20,10 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
+            _context.ChangeTracker.Clear();
+
             PontoUsuarioData pontoData = _context.PontoUsuarioData
                 .SingleOrDefault(p => p.CodPontoUsuarioData == pontoUsuarioData.CodPontoUsuarioData);
-
-            pontoUsuarioData.Divergencias = null;
-            pontoUsuarioData.PontoUsuarioDataStatus = null;
-            pontoUsuarioData.PontoUsuarioDataStatusAcesso = null;
-            pontoUsuarioData.PontosUsuario = null;
-            pontoUsuarioData.PontoPeriodo = null;
-            pontoUsuarioData.Usuario = null;
 
             if (pontoData != null)
             {
@@ -102,6 +97,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(d => d.PontoUsuarioDataModoDivergencia)
                 .Include(pd => pd.Usuario)
                 .Include(pd => pd.PontoPeriodo)
+                .AsNoTracking()
                 .AsQueryable();
 
             if (parameters.Filter != null)

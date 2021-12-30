@@ -40,15 +40,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(PontoUsuarioDataDivergencia pontoUsuarioDataDivergencia)
         {
-            try
-            {
+            // try
+            // {
                 _context.Add(pontoUsuarioDataDivergencia);
                 _context.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
-            }
+            // }
+            // catch (DbUpdateException)
+            // {
+            //     throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+            // }
         }
 
         public void Deletar(int codigo)

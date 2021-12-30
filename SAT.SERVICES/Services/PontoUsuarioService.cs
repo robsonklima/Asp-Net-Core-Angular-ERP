@@ -36,8 +36,7 @@ namespace SAT.SERVICES.Services
 
         public PontoUsuario Criar(PontoUsuario pontoUsuario)
         {
-            _pontoUsuarioRepo.Criar(pontoUsuario);
-            return pontoUsuario;
+            return _pontoUsuarioRepo.Criar(pontoUsuario);
         }
 
         public void Deletar(int codigo)

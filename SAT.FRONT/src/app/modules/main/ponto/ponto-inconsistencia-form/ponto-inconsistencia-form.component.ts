@@ -43,7 +43,7 @@ export class PontoInconsistenciaFormComponent implements OnInit {
   async ngOnInit() {
     this.form = this._formBuilder.group({
       codPontoUsuarioDataMotivoDivergencia: [undefined, [Validators.required]],
-      codPontoUsuarioDataTipoAdvertencia: [undefined, [Validators.required]],
+      codPontoUsuarioDataTipoAdvertencia: [undefined],
     });
 
     const motivos = await this._pontoUsuarioDataMotivoDivergenciaSvc

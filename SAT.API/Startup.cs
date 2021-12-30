@@ -30,7 +30,7 @@ namespace SAT.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Homolog")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Prod")));
 
             services.AddCors(options =>
             {
@@ -38,7 +38,7 @@ namespace SAT.API
                  builder =>
                  {
                      builder
-                        .WithOrigins("https://sat-homologacao.perto.com.br", "http://localhost:4200")
+                        .WithOrigins("https://sat.perto.com.br", "https://sat-homologacao.perto.com.br", "http://localhost:4200")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed(origin => true)

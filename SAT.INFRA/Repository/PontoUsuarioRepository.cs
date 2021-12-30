@@ -38,17 +38,18 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Criar(PontoUsuario pontoUsuario)
+        public PontoUsuario Criar(PontoUsuario pontoUsuario)
         {
-            // try
-            // {
-            _context.Add(pontoUsuario);
-            _context.SaveChanges();
-            // }
-            // catch (DbUpdateException)
-            // {
-            //     throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
-            // }
+            try
+            {
+                _context.Add(pontoUsuario);
+                _context.SaveChanges();
+                return pontoUsuario;
+            }
+            catch (DbUpdateException)
+            {
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+            }
         }
 
         public void Deletar(int codigo)

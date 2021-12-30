@@ -6,6 +6,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoUsuarioDataDivergenciaService } from 'app/core/services/ponto-usuario-data-divergencia.service';
 import { PontoUsuarioDataService } from 'app/core/services/ponto-usuario-data.service';
+import { pontoPeriodoUsuarioStatusConst } from 'app/core/types/ponto-periodo-usuario-status.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
@@ -219,7 +220,29 @@ export class PontoHorariosListaComponent implements AfterViewInit {
     });
   }
 
-  paginar() {
-    this.obterHorarios();
+  private verificarNovoStatusPeriodo(): number {
+    const datas = this.dataSourceData;
+
+    if (datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.INCONSISTENTE).length) {
+      return pontoPeriodoUsuarioStatusConst.INCONSISTENTE;
+    }
+
+    if (datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.AGUARDANDO_CONFERENCIA).length) {
+      return pontoPeriodoUsuarioStatusConst.AGUARDANDO_CONFERENCIA;
+    }
+
+    if (datas.items.length === datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.SEM_REGISTRO).length) {
+      return pontoPeriodoUsuarioStatusConst.SEM_REGISTRO;
+    }
+
+    if (datas.items.length === datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.CONFERIDO).length) {
+      return pontoPeriodoUsuarioStatusConst.CONFERIDO;
+    }
+
+    return this.pontoPeriodo.codPontoPeriodoStatus;
+  }
+
+  private atualizarStatusPeriodo(): void {
+
   }
 }

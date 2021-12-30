@@ -12,7 +12,6 @@ import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
 import { JsonIPService } from 'app/core/services/jsonip.service';
-import { statusConst } from 'app/core/types/status-types';
 
 @Component({
     selector: 'auth-sign-in',
@@ -23,7 +22,7 @@ import { statusConst } from 'app/core/types/status-types';
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     deviceInfo: any;
-    ipData: any;
+    ipData: any = '';
     signInForm: FormGroup;
     showAlert: boolean = false;
     snackConfigDanger: MatSnackBarConfig = {

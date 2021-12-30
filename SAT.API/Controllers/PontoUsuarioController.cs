@@ -33,9 +33,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] PontoUsuario pontoUsuario)
+        public PontoUsuario Post([FromBody] PontoUsuario pontoUsuario)
         {
-            _pontoUsuarioService.Criar(pontoUsuario: pontoUsuario);
+            return _pontoUsuarioService.Criar(pontoUsuario: pontoUsuario);
         }
 
         [HttpPut]

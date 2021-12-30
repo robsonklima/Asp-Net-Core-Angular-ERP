@@ -328,11 +328,13 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
+                        <mat-tab [disabled]="!os?.alertas?.length">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="!os?.alertas?.length">
                                     {{ t('alertas') }}
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                    <span
+                                        class="bg-orange-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1" 
+                                        *ngIf="os?.alertas?.length">
                                         {{  os?.alertas?.length || 0}}
                                     </span>
                                 </span>
@@ -348,22 +350,19 @@
                                         </div>
                                     </fuse-alert>
                                 </div>
-
-                                <div class="prose prose-sm max-w-3xl ml-5 -mt-4" *ngIf="!os?.alertas?.length">
-                                    <p>
-                                        {{ t('nenhum registro encontrado') }}
-                                    </p>
-                                </div>
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
+                        <mat-tab [disabled]="!os?.relatoriosAtendimento?.length">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="!os?.relatoriosAtendimento?.length">
                                     {{ t('relatorios') }}
 
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">{{
-                                        os?.relatoriosAtendimento?.length }}</span>
+                                    <span
+                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="os?.relatoriosAtendimento?.length">
+                                        {{ os?.relatoriosAtendimento?.length }}
+                                    </span>
                                 </span>
                             </ng-template>
 
@@ -396,12 +395,6 @@
                                             <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM
                                                     HH:mm') : 'Não Informado' }}</div>
                                         </div>
-                                        <!-- <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Check-in/Check-out</div>
-                                            <div>
-                                                {{ (getCheckin(r) ? (getCheckin(r) | date:'dd/MM HH:mm') : 'Não informado') + ' - '  + (getCheckout(r)  ? (getCheckout(r) | date:'dd/MM HH:mm') : 'Não informado') }}
-                                            </div>
-                                        </div> -->
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horas Gastas</div>
                                             <div>
@@ -480,38 +473,38 @@
                                         </div>
                                     </div>
                                 </fuse-card>
-                                <div class="prose prose-sm max-w-3xl ml-5 mt-2"
-                                    *ngIf="!os?.relatoriosAtendimento?.length">
-                                    <p>
-                                        {{ t('nenhum registro encontrado') }}
-                                    </p>
-                                </div>
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
+                        <mat-tab [disabled]="!getFotos().length">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="!getFotos().length">
                                     {{ t('fotos') }}
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                    <span
+                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="getFotos().length">
                                         {{ getFotos().length }}
                                     </span>
                                 </span>
                             </ng-template>
+
                             <ng-template matTabContent>
                                 <app-ordem-servico-fotos [fotos]="getFotos()"></app-ordem-servico-fotos>
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
+                        <mat-tab [disabled]="!getLaudos().length">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="!getLaudos().length">
                                     {{ t('laudos') }}
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                    <span
+                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="getLaudos().length">
                                         {{ getLaudos().length }}
                                     </span>
                                 </span>
                             </ng-template>
+
                             <ng-template matTabContent>
                                 <app-ordem-servico-fotos [fotos]="getLaudos()"></app-ordem-servico-fotos>
                             </ng-template>
@@ -530,11 +523,12 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-                        <mat-tab *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
+                        <mat-tab
+                            [disabled]="!os?.codEquipContrato"    
+                            *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
-                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS"
-                            [disabled]="!os?.codEquipContrato">
+                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS">
                             <ng-template matTabLabel>
                                 <span>
                                     {{ t('historico') }}

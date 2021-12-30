@@ -37,7 +37,8 @@
 
     <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
-            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+            <form [formGroup]="form" #formGroupAccessor="ngForm"
+                class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
                 </div>
@@ -306,9 +307,10 @@
                     </mat-selection-list>
 
                     <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="!obterTotalDetalhesNaoRemovidos()">
-                        <p>
-                            {{ t('adicione os detalhes do atendimento') }}
-                        </p>
+                        <p> {{ t('adicione os detalhes do atendimento') }} </p>
+                    </div>
+                    <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="existeDetalheSemPeca()">
+                        <p> {{ 'Adicione as peças dos detalhes.' }} </p>
                     </div>
 
                     <div class="flex justify-end p-8"
@@ -380,8 +382,9 @@
                         {{ t('voltar') }}
                     </button>
 
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                        [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid">
+                    <button class="px-6" mat-button [color]="'primary'"
+                        [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid"
+                        (click)="salvar()">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

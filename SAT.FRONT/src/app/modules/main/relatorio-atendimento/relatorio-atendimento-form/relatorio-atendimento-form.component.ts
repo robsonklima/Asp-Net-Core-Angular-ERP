@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TimeValidator } from 'app/core/validators/time.validator';
 import { Agendamento } from 'app/core/types/agendamento.types';
@@ -31,6 +31,8 @@ import { Foto, FotoModalidadeEnum } from 'app/core/types/foto.types';
 import { FotoService } from 'app/core/services/foto.service';
 import Enumerable from 'linq';
 import { statusConst } from 'app/core/types/status-types';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { AcaoEnum } from 'app/core/types/acao.types';
 
 
 @Component({
@@ -41,6 +43,9 @@ import { statusConst } from 'app/core/types/status-types';
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 {
+  snackConfigError: MatSnackBarConfig = { duration: 2000, panelClass: 'error', verticalPosition: 'bottom', horizontalPosition: 'center' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+
   sidenav: MatSidenav;
   sessionData: UsuarioSessao;
   codOS: number;
@@ -69,7 +74,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     private _userService: UserService,
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
-    private _snack: CustomSnackbarService,
+    private _matSnackBar: MatSnackBar,
+    private _cdr: ChangeDetectorRef,
     private _router: Router,
     private _dialog: MatDialog
   )
@@ -179,6 +185,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
       var checkin = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
         .where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
+
       var checkout = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
         .where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
 
@@ -186,14 +193,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
       this.form.controls['checkout'].setValue(moment(checkout?.dataHoraCadSmartphone).format('HH:mm'));
 
       this.form.patchValue(this.relatorioAtendimento);
-    } else
+
+      if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
+        this.form.disable();
+    }
+    else
     {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
-      this.configuraForm(this.ordemServico);
+      this.configuraForm();
     }
-
-    if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
-      this.form.disable();
   }
 
   private async obterFotos()
@@ -206,13 +214,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     this.relatorioAtendimento.fotos = data.items;
   }
 
-  private configuraForm(ordemServico: OrdemServico)
+  private configuraForm()
   {
     // Se o status for transferido, carrega o técnico
-    if (this.bloqueiaFormTecnico(ordemServico))
-    {
-      this.form.controls['codTecnico'].setValue(ordemServico.codTecnico);
-    }
+    if (this.ordemServico?.codStatusServico == StatusServicoEnum.TRANSFERIDO && this.ordemServico?.codTecnico !== null)
+      this.form.controls['codTecnico'].setValue(this.ordemServico?.codTecnico);
   }
 
   inserirDetalhe()
@@ -276,6 +282,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
         this.relatorioAtendimento
           .relatorioAtendimentoDetalhes[iDetalhe]
           .relatorioAtendimentoDetalhePecas[iDetalhePeca].removido = true;
+
+        // this._cdr.markForCheck();
       }
     });
   }
@@ -311,11 +319,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
   {
     for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes)
     {
-      if ((detalhe.codAcao === 19 || detalhe.codAcao === 26) && detalhe.relatorioAtendimentoDetalhePecas
-        .filter(dp => !dp.removido).length === 0)
-      {
+      if ((detalhe.codAcao === AcaoEnum.PENDÊNCIA_DE_PEÇA || detalhe.codAcao === AcaoEnum.TROCA_SUBSTITUIÇÃO) && detalhe.relatorioAtendimentoDetalhePecas.filter(dp => !dp.removido).length === 0)
         return true;
-      }
     }
 
     return false;
@@ -381,29 +386,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     this._fotoSvc.criar(foto).subscribe(() =>
     {
       this.obterFotos();
-      this._snack.exibirToast("Imagem adicionada com sucesso!", "success");
+      this._matSnackBar.open("Imagem adicionada com sucesso!", null, this.snackConfigSuccess);
     });
   }
 
   private inicializarForm(): void
   {
     this.form = this._formBuilder.group({
-      codRAT: [
-        {
-          value: undefined,
-          disabled: true,
-        }
-      ],
+      codRAT: [{ value: undefined, disabled: true }],
       numRAT: [undefined],
       codTecnico: [undefined, [Validators.required]],
       codStatusServico: [undefined, [Validators.required]],
       nomeAcompanhante: [undefined],
-      data: [
-        {
-          value: undefined,
-          disabled: false,
-        }, [Validators.required]
-      ],
+      data: [{ value: undefined, disabled: false }, [Validators.required]],
       horaInicio: [undefined, [TimeValidator(), Validators.required]],
       horaFim: [undefined, [TimeValidator(), Validators.required,]],
       checkin: [undefined],
@@ -414,56 +409,45 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
 
   private validaDataHoraRAT(): void
   {
+    if (!this.form.controls['horaInicio'].value || !this.form.controls['horaFim'].value)
+    {
+      if (!this.form.controls['horaFim'].value)
+        this.form.controls['horaFim'].setErrors({ 'incorrect': true });
+
+      if (!this.form.controls['horaInicio'].value)
+        this.form.controls['horaInicio'].setErrors({ 'incorrect': true });
+
+      return;
+    }
+
     let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
     let horaFim = moment(this.form.controls['horaFim'].value, 'h:mm A');
 
     const duracaoEmMinutos = moment.duration(horaFim.diff(horaInicio)).asMinutes();
 
-    this.form.controls['horaFim'].setErrors(null)
-
     if (duracaoEmMinutos < 20)
-    {
-      this.form.controls['horaInicio'].setErrors({
-        'periodoInvalido': true
-      });
-    } else
-    {
+      this.form.controls['horaInicio'].setErrors({ 'periodoInvalido': true });
+    else
       this.form.controls['horaInicio'].setErrors(null)
-    }
 
     if (duracaoEmMinutos < 20)
-    {
-      this.form.controls['horaFim'].setErrors({
-        'periodoInvalido': true
-      });
-    } else
-    {
+      this.form.controls['horaFim'].setErrors({ 'periodoInvalido': true });
+    else
       this.form.controls['horaFim'].setErrors(null)
-    }
 
     let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
     let dataHoraOS = moment(this.ordemServico?.dataHoraAberturaOS);
     let dataHoraAgendamento = moment(this.ordemServico?.dataHoraAberturaOS);
 
     if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
-    {
-      this.form.controls['data'].setErrors({
-        'dataRATInvalida': true
-      })
-    } else
-    {
-      this.form.controls['data'].setErrors(null)
-    }
+      this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
+    else
+      this.form.controls['data'].setErrors(null);
 
     if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
-    {
-      this.form.controls['data'].setErrors({
-        'dataRATInvalida': true
-      })
-    } else
-    {
-      this.form.controls['data'].setErrors(null)
-    }
+      this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
+    else
+      this.form.controls['data'].setErrors(null);
   }
 
   private validaBloqueioStatus(): void
@@ -471,28 +455,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
 
     if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO)
-    {
-      this.form.controls['codStatusServico'].setErrors({
-        'bloqueioReincidencia': true
-      })
-    } else
-    {
-      this.form.controls['codStatusServico'].setErrors(null)
-    }
+      this.form.controls['codStatusServico'].setErrors({ 'bloqueioReincidencia': true });
+    else
+      this.form.controls['codStatusServico'].setErrors(null);
 
-    if (
-      (
-        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
-        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
-        this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
-      )
-      && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO
-    )
-    {
-      this.form.controls['codStatusServico'].setErrors({
-        'bloqueioOrcamento': true
-      })
-    }
+    if ((this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
+      this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
+      this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO)
+      && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO)
+      this.form.controls['codStatusServico'].setErrors({ 'bloqueioOrcamento': true });
   }
 
   async salvar()
@@ -562,7 +533,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     };
     await this._ordemServicoService.atualizar(os).toPromise();
 
-    this._snack.exibirToast('Relatório de atendimento inserido com sucesso!', 'success');
+    this._matSnackBar.open("Relatório de atendimento inserido com sucesso!", null, this.snackConfigSuccess);
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
@@ -625,9 +596,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
           if (!dPeca.codRATDetalhePeca && !dPeca.removido)
           {
             dPeca.codRATDetalhe = detalhe.codRATDetalhe;
-
             await this._raDetalhePecaService.criar(dPeca).toPromise();
-          } else if (dPeca.codRATDetalhePeca && dPeca.removido)
+          }
+          else if (dPeca.codRATDetalhePeca && dPeca.removido)
           {
             await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
           }
@@ -646,7 +617,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     };
     await this._ordemServicoService.atualizar(os).toPromise();
 
-    this._snack.exibirToast('Relatório de atendimento atualizado com sucesso!', 'success');
+    this._matSnackBar.open("Relatório de atendimento atualizado com sucesso!", null, this.snackConfigSuccess);
     this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
   }
 
@@ -657,16 +628,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy
     for (let detalhe of relatorioAtendimentoDetalhes)
     {
       const maquina = detalhe.tipoServico?.codETipoServico.substring(0, 1);
-
       retorno += ` ITEM: CAUSA ${maquina == "1" ? "Máquina" : "Extra-Máquina"}, ${detalhe.acao?.nomeAcao?.replace("'", "")} do(a) ${detalhe.causa?.nomeCausa?.replace("'", "")} `;
     }
 
     return retorno;
-  }
-
-  public bloqueiaFormTecnico(ordemServico: OrdemServico)
-  {
-    return (ordemServico?.codStatusServico == 8 && ordemServico?.codTecnico != null);
   }
 
   ngOnDestroy()

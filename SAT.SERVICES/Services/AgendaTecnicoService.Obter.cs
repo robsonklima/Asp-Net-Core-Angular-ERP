@@ -84,58 +84,63 @@ namespace SAT.SERVICES.Services
             List<AgendaTecnico> eventosValidados = new();
             List<AgendaTecnico> listaAtualizar = new();
 
-            if (agendamentos.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
-               .Any(i => i.Fim.Date < DateTime.Now.Date))
-            {
-                var eventosRealocados = this.RealocaEventosComAtraso(agendamentos);
-                eventosValidados.AddRange(eventosRealocados);
-            }
-            else
-            {
-                agendamentos.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
-                {
-                    if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
-                    {
-                        i.IndAtivo = 0;
-                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                        i.DataHoraManut = DateTime.Now;
-                        listaAtualizar.Add(i);
-                    }
-                    else if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO))
-                    {
-                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
-                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                        i.DataHoraManut = DateTime.Now;
-                        listaAtualizar.Add(i);
-                    }
-                    else
-                    {
-                        i.Cor = this.AgendamentoColor;
-                        listaAtualizar.Add(i);
-                    }
+            var agendamentosAgrupados = agendamentos.GroupBy(i => i.CodTecnico).ToList();
 
-                    eventosValidados.Add(i);
-                });
+            agendamentosAgrupados.ForEach(ags =>
+            {
+                var agendamentosDoTecnico = ags.ToList();
 
-                agendamentos
-                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-                .ToList().ForEach(i =>
+                if (agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
+                   .Any(i => i.Fim.Date < DateTime.Now.Date))
                 {
-                    if (i.Fim < DateTime.Now)
+                    var eventosRealocados = this.RealocaEventosComAtraso(agendamentosDoTecnico);
+                    eventosValidados.AddRange(eventosRealocados);
+                }
+                else
+                {
+                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
                     {
                         if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                        {
                             i.IndAtivo = 0;
+                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            i.DataHoraManut = DateTime.Now;
+                            listaAtualizar.Add(i);
+                        }
+                        else if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO))
+                        {
+                            i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
+                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            i.DataHoraManut = DateTime.Now;
+                            listaAtualizar.Add(i);
+                        }
+                        else
+                        {
+                            i.Cor = this.AgendamentoColor;
+                            listaAtualizar.Add(i);
+                        }
+                        eventosValidados.Add(i);
+                    });
 
-                        i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
-                        i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                        i.DataHoraManut = DateTime.Now;
-                        listaAtualizar.Add(i);
-                        eventosValidados.Add(i);
-                    }
-                    else
-                        eventosValidados.Add(i);
-                });
-            }
+                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
+                    .ToList().ForEach(i =>
+                    {
+                        if (i.Fim < DateTime.Now)
+                        {
+                            if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                                i.IndAtivo = 0;
+
+                            i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
+                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            i.DataHoraManut = DateTime.Now;
+                            listaAtualizar.Add(i);
+                            eventosValidados.Add(i);
+                        }
+                        else
+                            eventosValidados.Add(i);
+                    });
+                }
+            });
 
             // Verifica duplicados
             eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)

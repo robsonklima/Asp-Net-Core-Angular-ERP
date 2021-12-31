@@ -234,11 +234,21 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
         sortActive: 'nomeLocal',
         sortDirection: 'asc',
         codCliente: codCliente,
-        codPosto: this.ordemServico?.localAtendimento?.codPosto,
         pageSize: 1000,
       }).toPromise();
 
       this.locais = data.items.slice();
+
+      if (!this.isAddMode)
+      {
+        if (this.locais !== null && !this.locais.filter(i => i.codPosto == this.ordemServico?.codPosto))
+          this.locais.push(this.ordemServico?.localAtendimento);
+        else
+        {
+          this.locais = [];
+          this.locais.push(this.ordemServico?.localAtendimento);
+        }
+      }
     });
   }
 
@@ -257,6 +267,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       .orderByDescending(i => i.indAtivo)
       .thenBy(i => i.numSerie)
       .toArray();
+
+    if (!this.isAddMode)
+    {
+      if (this.equipamentosContrato !== null && !this.equipamentosContrato.filter(i => i.codEquipContrato == this.ordemServico?.codEquipContrato))
+        this.equipamentosContrato.push(this.ordemServico?.equipamentoContrato);
+      else
+      {
+        this.equipamentosContrato = [];
+        this.equipamentosContrato.push(this.ordemServico?.equipamentoContrato);
+      }
+    }
   }
 
   private obterEquipamentosAoTrocarLocal()
@@ -339,7 +360,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       if (!this.isAddMode) return;
 
       var equipContrato = Enumerable.from(this.equipamentosContrato)
-        .firstOrDefault(i => i.codEquipContrato == codEquipContrato);
+        .firstOrDefault(i => i?.codEquipContrato == codEquipContrato);
 
       if (equipContrato != null)
       {

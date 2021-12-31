@@ -52,8 +52,8 @@
 
                         <mat-select formControlName="codTipoIntervencao" [disabled]="!tiposIntervencao?.length">
                             <mat-option *ngFor="let tipoIntervencao of tiposIntervencao"
-                                [value]="tipoIntervencao.codTipoIntervencao">
-                                {{tipoIntervencao.nomTipoIntervencao}}
+                                [value]="tipoIntervencao?.codTipoIntervencao">
+                                {{tipoIntervencao?.nomTipoIntervencao}}
                             </mat-option>
                         </mat-select>
 
@@ -85,8 +85,8 @@
                                     [formControl]="clienteFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
-                                {{ cliente.nomeFantasia }}
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente?.codCliente">
+                                {{ cliente?.nomeFantasia }}
                             </mat-option>
                         </mat-select>
                         <mat-error>Preencher este campo</mat-error>
@@ -102,13 +102,13 @@
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let local of locais"
-                                [matTooltip]="local.endereco + ', ' + local.bairro + ' - ' + local.cidade.nomeCidade"
-                                [value]="local.codPosto">
+                                [matTooltip]="local?.endereco + ', ' + local?.bairro + ' - ' + local?.cidade?.nomeCidade"
+                                [value]="local?.codPosto">
                                 <span class="opacity-60 text-md">
-                                    {{ local.numAgencia }}/{{ local.dcPosto }}
+                                    {{ local?.numAgencia }}/{{ local?.dcPosto }}
                                 </span>
 
-                                {{local.nomeLocal }}
+                                {{local?.nomeLocal }}
                             </mat-option>
                         </mat-select>
 
@@ -121,10 +121,10 @@
                         <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato?.length">
 
                             <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
-                                [value]="equipamentoContrato.codEquipContrato">
-                                <span class="font-semibold" [class.text-red-500]="!equipamentoContrato.indAtivo"
-                                    [class.text-green-500]="equipamentoContrato.indAtivo">
-                                    [N.S] {{ equipamentoContrato.numSerie }}
+                                [value]="equipamentoContrato?.codEquipContrato">
+                                <span class="font-semibold" [class.text-red-500]="!equipamentoContrato?.indAtivo"
+                                    [class.text-green-500]="equipamentoContrato?.indAtivo">
+                                    [N.S] {{ equipamentoContrato?.numSerie }}
                                 </span>
 
                                 <span class="opacity-60">

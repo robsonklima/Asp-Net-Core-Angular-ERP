@@ -21,7 +21,6 @@ import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { Notificacao } from 'app/core/types/notificacao.types';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
-import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { FotoService } from 'app/core/services/foto.service';
 import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
@@ -31,7 +30,16 @@ import { statusConst } from 'app/core/types/status-types';
 @Component({
 	selector: 'app-ordem-servico-detalhe',
 	templateUrl: './ordem-servico-detalhe.component.html',
-	styleUrls: ['./ordem-servico-detalhe.component.scss'],
+	styles: [`
+		#map {
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+		.tool-tip{
+			white-space: pre-line;
+		}
+	`],
 	animations: fuseAnimations,
 	encapsulation: ViewEncapsulation.None,
 })

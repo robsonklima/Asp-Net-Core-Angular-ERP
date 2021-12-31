@@ -236,6 +236,11 @@ namespace SAT.INFRA.Repository
                                 NomeFantasia = i.Cliente.NomeFantasia,
                                 NumBanco = i.Cliente.NumBanco
                             } : null,
+                            Filial = i.Filial != null ? new Filial
+                            {
+                                NomeFilial = i.Filial.NomeFilial,
+                                CodFilial = i.Filial.CodFilial
+                            } : null,
                             Agendamentos = i.Agendamentos
                             .OrderByDescending(i => i.CodAgendamento)
                             .Select(i => new Agendamento

@@ -51,11 +51,11 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Notificacao> ObterPorParametros(NotificacaoParameters parameters)
         {
-            var notificacaoes = _context.Notificacao.AsQueryable();
+            var notificacoes = _context.Notificacao.AsQueryable();
 
             if (parameters.Filter != null)
             {
-                notificacaoes = notificacaoes.Where(
+                notificacoes = notificacoes.Where(
                             p =>
                             p.CodNotificacao.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                             p.Titulo.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
@@ -66,15 +66,15 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodUsuario != null)
             {
-                notificacaoes = notificacaoes.Where(n => n.CodUsuario == parameters.CodUsuario);
+                notificacoes = notificacoes.Where(n => n.CodUsuario == parameters.CodUsuario);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                notificacaoes = notificacaoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                notificacoes = notificacoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<Notificacao>.ToPagedList(notificacaoes, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Notificacao>.ToPagedList(notificacoes, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

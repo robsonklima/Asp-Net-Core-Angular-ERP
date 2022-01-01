@@ -153,6 +153,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<UsuarioDispositivo>(new UsuarioDispositivoMap().Configure);
             modelBuilder.Entity<OrdemServico>(new OrdemServicoMap().Configure);
             modelBuilder.Entity<OrdemServicoHistorico>(new OrdemServicoHistoricoMap().Configure);
+            modelBuilder.Entity<Orcamento>(new OrcamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

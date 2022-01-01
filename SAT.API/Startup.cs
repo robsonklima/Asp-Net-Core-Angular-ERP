@@ -141,6 +141,7 @@ namespace SAT.API
             services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
             services.AddTransient<IPontoPeriodoUsuarioRepository, PontoPeriodoUsuarioRepository>();
             services.AddTransient<IOrcamentoRepository, OrcamentoRepository>();
+            services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -227,6 +228,7 @@ namespace SAT.API
             services.AddTransient<INotificacaoService, NotificacaoService>();
             services.AddTransient<IPontoPeriodoUsuarioService, PontoPeriodoUsuarioService>();
             services.AddTransient<IOrcamentoService, OrcamentoService>();
+            services.AddTransient<IOrcamentoMotivoService, OrcamentoMotivoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

@@ -7,26 +7,26 @@ namespace SAT.SERVICES.Services
 {
     public class NotificacaoService : INotificacaoService
     {
-        private readonly INotificacaoRepository _motivoRepo;
+        private readonly INotificacaoRepository _notificacaoRepo;
 
-        public NotificacaoService(INotificacaoRepository motivoRepo)
+        public NotificacaoService(INotificacaoRepository notificacaoRepo)
         {
-            _motivoRepo = motivoRepo;
+            _notificacaoRepo = notificacaoRepo;
         }
 
         public ListViewModel ObterPorParametros(NotificacaoParameters parameters)
         {
-            var regioes = _motivoRepo.ObterPorParametros(parameters);
+            var notificacoes = _notificacaoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
-                Items = regioes,
-                TotalCount = regioes.TotalCount,
-                CurrentPage = regioes.CurrentPage,
-                PageSize = regioes.PageSize,
-                TotalPages = regioes.TotalPages,
-                HasNext = regioes.HasNext,
-                HasPrevious = regioes.HasPrevious
+                Items = notificacoes,
+                TotalCount = notificacoes.TotalCount,
+                CurrentPage = notificacoes.CurrentPage,
+                PageSize = notificacoes.PageSize,
+                TotalPages = notificacoes.TotalPages,
+                HasNext = notificacoes.HasNext,
+                HasPrevious = notificacoes.HasPrevious
             };
 
             return lista;
@@ -34,23 +34,23 @@ namespace SAT.SERVICES.Services
 
         public Notificacao Criar(Notificacao notificacao)
         {
-            _motivoRepo.Criar(notificacao);
+            _notificacaoRepo.Criar(notificacao);
             return notificacao;
         }
 
         public void Deletar(int codigo)
         {
-            _motivoRepo.Deletar(codigo);
+            _notificacaoRepo.Deletar(codigo);
         }
 
         public void Atualizar(Notificacao notificacao)
         {
-            _motivoRepo.Atualizar(notificacao);
+            _notificacaoRepo.Atualizar(notificacao);
         }
 
         public Notificacao ObterPorCodigo(int codigo)
         {
-            return _motivoRepo.ObterPorCodigo(codigo);
+            return _notificacaoRepo.ObterPorCodigo(codigo);
         }
     }
 }

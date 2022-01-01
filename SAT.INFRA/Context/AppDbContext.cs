@@ -122,6 +122,7 @@ namespace SAT.INFRA.Context
         public DbSet<Foto> Foto { get; set; }
         public DbSet<UsuarioDispositivo> UsuarioDispositivo { get; set; }
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
+        public DbSet<Orcamento> Orcamento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -8,13 +8,35 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Orcamento> builder)
         {
-            builder.ToTable("Orc");
-            builder.HasKey(prop => prop.CodOrc);
             builder
-              .HasOne(i => i.OrdemServico)
-              .WithOne()
-              .HasForeignKey<OrdemServico>(i => i.CodOS)
-              .HasPrincipalKey<Orcamento>(i => i.CodigoOrdemServico);
+                .ToTable("Orc");
+
+            builder
+                .HasKey(prop => prop.CodOrc);
+
+            builder
+                .HasOne(prop => prop.EnderecoFaturamentoNF)
+                .WithMany()
+                .HasForeignKey(prop => new { prop.CodigoCliente, prop.CodigoContrato })
+                .HasPrincipalKey(prop => new { prop.CodCliente, prop.CodContrato });
+
+            builder
+                .HasOne(i => i.OrdemServico)
+                .WithOne()
+                .HasForeignKey<OrdemServico>(i => i.CodOS)
+                .HasPrincipalKey<Orcamento>(i => i.CodigoOrdemServico);
+
+            builder
+                .HasOne(i => i.OrcamentoMotivo)
+                .WithOne()
+                .HasForeignKey<OrcamentoMotivo>(i => i.CodOrcMotivo)
+                .HasPrincipalKey<Orcamento>(i => i.CodigoMotivo);
+
+            builder
+               .HasMany(i => i.Materiais)
+               .WithOne()
+               .HasForeignKey(i => i.CodOrc)
+               .HasPrincipalKey(i => i.CodOrc);
         }
     }
 }

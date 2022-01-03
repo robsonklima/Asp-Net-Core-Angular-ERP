@@ -9,10 +9,13 @@ import { defaultRoutes } from './default.routing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MonitoramentoSatComponent } from '../dashboard/monitoramento-sat/monitoramento-sat.component';
+import { DashboardModule } from '../dashboard/dashboard.module';
 
 @NgModule({
     declarations: [
-        DefaultComponent
+        DefaultComponent,
+        
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),
@@ -22,9 +25,10 @@ import { MatTabsModule } from '@angular/material/tabs';
         TranslocoModule,
         MatButtonToggleModule,
         MatMenuModule,
-        MatTabsModule
+        MatTabsModule,
+    //    MonitoramentoSatComponent
+        DashboardModule
     ]
 })
-export class DefaultModule
-{
+export class DefaultModule {
 }

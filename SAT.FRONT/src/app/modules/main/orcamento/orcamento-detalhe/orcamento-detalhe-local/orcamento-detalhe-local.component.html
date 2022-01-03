@@ -1,0 +1,98 @@
+ <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+     <div class="text-lg font-medium mt-2">{{ obterTitulo() }}</div>
+     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.nroContrato"
+             *ngIf="dadosLocal?.nroContrato">
+             <div class="text-secondary">Nro Contrato</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.nroContrato }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.nomeLocal"
+             *ngIf="dadosLocal?.nomeLocal">
+             <div class="text-secondary">Local</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.nomeLocal }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.agencia"
+             *ngIf="dadosLocal?.agencia">
+             <div class="text-secondary">Agência</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.agencia }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.oscliente"
+             *ngIf="dadosLocal?.oscliente">
+             <div class="text-secondary">OS Cliente</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.oscliente }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.osPerto"
+             *ngIf="dadosLocal?.osPerto">
+             <div class="text-secondary">OS Perto</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.osPerto }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.razaoSocial"
+             *ngIf="dadosLocal?.razaoSocial">
+             <div class="text-secondary">Razão Social</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.razaoSocial }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.cnpj">
+             <div class="text-secondary">CNPJ</div>
+             <div>{{ dadosLocal?.cnpj }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.inscricaoEstadual">
+             <div class="text-secondary">I.E.</div>
+             <div>{{ dadosLocal?.inscricaoEstadual }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.responsavel">
+             <div class="text-secondary">Responsável</div>
+             <div>{{ dadosLocal?.responsavel }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.email" *ngIf="dadosLocal?.email">
+             <div class="text-secondary">E-mail</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.email }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.fone" *ngIf="dadosLocal?.fone">
+             <div class="text-secondary">Fone</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.fone }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.endereco">
+             <div class="text-secondary">Endereço</div>
+             <div>{{ dadosLocal?.endereco }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.numero">
+             <div class="text-secondary">Número</div>
+             <div>{{ dadosLocal?.numero }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.complemento">
+             <div class="text-secondary">Complemento</div>
+             <div>{{ dadosLocal?.complemento }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.bairro">
+             <div class="text-secondary">Bairro</div>
+             <div>{{ dadosLocal?.bairro }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.cep">
+             <div class="text-secondary">CEP</div>
+             <div>{{ dadosLocal?.cep }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.cidade">
+             <div class="text-secondary">Cidade</div>
+             <div>{{ dadosLocal?.cidade }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.uf">
+             <div class="text-secondary">UF</div>
+             <div>{{ dadosLocal?.uf }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.modelo"
+             *ngIf="dadosLocal?.modelo">
+             <div class="text-secondary">Modelo</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.modelo }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.nroSerie"
+             *ngIf="dadosLocal?.nroSerie">
+             <div class="text-secondary">Nro Série</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.nroSerie }}</div>
+         </div>
+         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.motivoOrcamento"
+             *ngIf="dadosLocal?.motivoOrcamento">
+             <div class="text-secondary">Motivo</div>
+             <div class="truncate max-w-1/2">{{ dadosLocal?.motivoOrcamento }}</div>
+         </div>
+     </div>
+ </fuse-card>

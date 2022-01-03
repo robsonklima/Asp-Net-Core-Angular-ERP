@@ -15,6 +15,7 @@ import { ShortcutsModule } from 'app/layout/common/shortcuts/shortcuts.module';
 import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { DenseLayoutComponent } from 'app/layout/layouts/vertical/dense/dense.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { DenseLayoutComponent } from 'app/layout/layouts/vertical/dense/dense.co
         SearchModule,
         ShortcutsModule,
         UserModule,
-        SharedModule
+        SharedModule,
+        TranslocoModule
     ],
     exports     : [
         DenseLayoutComponent

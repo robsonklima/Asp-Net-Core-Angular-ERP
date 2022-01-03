@@ -6,5 +6,6 @@ namespace SAT.INFRA.Interfaces
     public interface IMonitoramentoRepository
     {
         MonitoramentoViewModel ObterListaMonitoramento();
+        List<MonitoramentoClienteViewModel> ObterListaMonitoramentoClientes();
     }
 }

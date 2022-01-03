@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
         {
             Orcamento p = _context.Orcamento.FirstOrDefault(p => p.CodOrc == orcamento.CodOrc);
 
-            if(p != null)
+            if (p != null)
             {
                 _context.Entry(p).CurrentValues.SetValues(orcamento);
                 _context.SaveChanges();
@@ -67,6 +67,15 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(s => s.RelatoriosAtendimento)
                         .ThenInclude(s => s.Laudos)
                             .ThenInclude(s => s.LaudoStatus)
+                .Include(p => p.EnderecoFaturamentoNF)
+                    .ThenInclude(p => p.CidadeEnvioNF)
+                        .ThenInclude(p => p.UnidadeFederativa)
+                .Include(p => p.EnderecoFaturamentoNF)
+                    .ThenInclude(p => p.CidadeFaturamento)
+                        .ThenInclude(p => p.UnidadeFederativa)
+                .Include(p => p.OrcamentoMotivo)
+                .Include(p => p.Materiais)
+                    .ThenInclude(p => p.Peca)
                 .FirstOrDefault(p => p.CodOrc == codigo);
         }
 

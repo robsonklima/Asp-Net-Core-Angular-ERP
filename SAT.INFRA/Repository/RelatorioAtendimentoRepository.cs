@@ -82,8 +82,6 @@ namespace SAT.INFRA.Repository
             relatorios = AplicarIncludes(relatorios, parameters.Include);
             relatorios = AplicarFiltros(relatorios, parameters);
 
-            var temp = relatorios.ToQueryString();
-
             return relatorios.AsNoTracking();
         }
     }

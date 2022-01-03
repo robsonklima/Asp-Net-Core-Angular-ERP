@@ -124,6 +124,8 @@ namespace SAT.INFRA.Context
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
         public DbSet<Orcamento> Orcamento { get; set; }
         public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
+        public DbSet<EnderecoFaturamentoNF> EnderecoFaturamentoNF { get; set; }
+        public DbSet<EnderecoFaturamentoVinculado> EnderecoFaturamentoVinculado { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -156,6 +158,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrdemServicoHistorico>(new OrdemServicoHistoricoMap().Configure);
             modelBuilder.Entity<Orcamento>(new OrcamentoMap().Configure);
             modelBuilder.Entity<OrcamentoMotivo>(new OrcamentoMotivoMap().Configure);
+            modelBuilder.Entity<EnderecoFaturamentoVinculado>(new EnderecoFaturamentoVinculadoMap().Configure);
+            modelBuilder.Entity<EnderecoFaturamentoNF>(new EnderecoFaturamentoNFMap().Configure);
+            modelBuilder.Entity<OrcamentoMaterial>(new OrcamentoMaterialMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -1,0 +1,117 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
+        <div class="flex items-center">
+            <span class="text-lg font-medium">{{ t('material') }}</span>
+        </div>
+        <div class="flex place-content-end">
+            <button mat-icon-button [matTooltip]="t('novo')" [routerLink]="'/orcamento/detalhe' + codOrc">
+                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
+                </mat-icon>
+            </button>
+        </div>
+
+    </div>
+    <div class="flex-auto" *ngIf="!isLoading">
+        <div>
+            <div class="grid h-100">
+                <div class="overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <div class="grid">
+                            <div class="list-grid-material sticky z-10 top-0 grid gap-4 py-4
+							px-6
+							md:px-8
+							shadow
+							text-sm
+							font-semibold
+							text-secondary
+							bg-gray-50
+							dark:bg-black dark:bg-opacity-5
+						  " matSort matSortDisableClear *transloco="let t">
+                                <div>
+                                    {{ t("acao") }}
+                                </div>
+                                <div>
+                                    {{ t("codigo") }}
+                                </div>
+                                <div>
+                                    {{ t("descricao") }}
+                                </div>
+                                <div>
+                                    {{ t("quantidade") }}
+                                </div>
+                                <div>
+                                    {{ t("valor unitario") }}
+                                </div>
+                                <div>
+                                    {{ t("valor desconto") }}
+                                </div>
+                                <div>
+                                    {{ t("valor total") }}
+                                </div>
+                                <div>
+                                    {{ t("valor unitario vencido") }}
+                                </div>
+
+                            </div>
+
+                            <ng-container *ngFor="let material of orcamento.materiais">
+                                <div class="
+								list-grid-material grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 hover:bg-gray-100"
+                                    *transloco="let t">
+                                    <div class="text-left">
+                                        <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
+                                            (click)="excluirMaterial()">
+                                            <mat-icon class="icon-size-5 text-blue-600"
+                                                [svgIcon]="'heroicons_outline:refresh'">
+                                            </mat-icon>
+                                        </button>
+
+                                        <button class="bg-transparent" [matTooltip]="'Alterar valor'"
+                                            (click)="excluirMaterial()">
+                                            <mat-icon class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_outline:cash'">
+                                            </mat-icon>
+                                        </button>
+
+                                        <button class="bg-transparent" [matTooltip]="t('deletar')"
+                                            (click)="excluirMaterial()">
+                                            <mat-icon class="icon-size-5 text-red-600"
+                                                [svgIcon]="'heroicons_outline:trash'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        {{ material?.codigoMagnus }}
+                                    </div>
+                                    <div>
+                                        {{ material?.descricao }}
+                                    </div>
+                                    <div>
+                                        {{ material?.quantidade }}
+                                    </div>
+                                    <div>
+                                        {{ material?.valorUnitario | currency:'BRL':'symbol-narrow' }}
+                                    </div>
+                                    <div>
+                                        {{ material?.valorDesconto | currency:'BRL':'symbol-narrow' }}
+                                    </div>
+                                    <div>
+                                        {{ material?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                    </div>
+                                    <div>
+                                        {{ material?.peca?.isValorAtualizado ? "SIM" : "NÃO" }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="!orcamento?.materiais.length && !isLoading"
+                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                            Nenhum material encontrado!
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

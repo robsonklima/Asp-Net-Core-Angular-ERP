@@ -1,1 +1,108 @@
-<p>orcamento-detalhes works!</p>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="dark bg-card dark:border-b">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/orcamento">
+                                            {{ t('orcamentos') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('orcamento') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <h2
+                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                        {{ codOrc }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+            <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
+                        <mat-tab label="Detalhes">
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2"> {{ "Orçamento " + orcamento?.numero }}
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Motivo</div>
+                                            <div class="truncate max-w-1/2">{{orcamento?.orcamentoMotivo?.descricao }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Detalhe</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.detalhe }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Data</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Utiliza lista específica?</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="{{ t('dados local') }}">
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                    <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
+                                    </app-orcamento-detalhe-local>
+                                    <app-orcamento-detalhe-local [dadosLocal]="dadosLocalFaturamento">
+                                    </app-orcamento-detalhe-local>
+                                    <app-orcamento-detalhe-local [dadosLocal]="dadosLocalEnvioNF">
+                                    </app-orcamento-detalhe-local>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="{{ t('material') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-material [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-material>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

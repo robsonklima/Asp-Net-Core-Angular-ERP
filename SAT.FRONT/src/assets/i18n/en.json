@@ -444,5 +444,12 @@
     "data orcamento": "Budget Date",
     "data abertura": "Openned Date",
     "status os": "SO Status",
-    "status laudo": "Report Status"
+    "status laudo": "Report Status",
+    "orcamento": "Budget",
+    "orcamentos": "Budgets",
+    "dados local": "Location Data",
+    "material": "Material",
+    "valor unitario vencido": "Expired Unit Value",
+    "valor desconto": "Discount Amount",    
+    "gerenciar conta": "Manage account"
 }

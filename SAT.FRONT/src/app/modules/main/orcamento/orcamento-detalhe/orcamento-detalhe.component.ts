@@ -71,12 +71,7 @@ export class OrcamentoDetalheComponent implements OnInit
       cep: this.orcamento?.enderecoFaturamentoNF?.cepFaturamento,
       complemento: this.orcamento?.enderecoFaturamentoNF?.complementoFaturamento,
       cidade: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.nomeCidade,
-      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.unidadeFederativa?.siglaUF,
-      // agencia: this.os?.localAtendimento?.numAgencia,
-      // osPerto: this.os?.codOS.toString(),
-      // oscliente: this.os?.numOSCliente,
-      // modelo: this.os?.equipamento?.nomeEquip,
-      // nroSerie: this.os?.equipamentoContrato?.numSerie
+      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.unidadeFederativa?.siglaUF
     }
 
     this.dadosLocalEnvioNF =
@@ -94,12 +89,7 @@ export class OrcamentoDetalheComponent implements OnInit
       cep: this.orcamento?.enderecoFaturamentoNF?.cepEnvioNF,
       complemento: this.orcamento?.enderecoFaturamentoNF?.complementoEnvioNF,
       cidade: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.nomeCidade,
-      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.unidadeFederativa?.siglaUF,
-      // agencia: this.os?.localAtendimento?.numAgencia,
-      // osPerto: this.os?.codOS.toString(),
-      // oscliente: this.os?.numOSCliente,
-      // modelo: this.os?.equipamento?.nomeEquip,
-      // nroSerie: this.os?.equipamentoContrato?.numSerie
+      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
     }
 
     this.dadosLocalAtendimento =
@@ -118,7 +108,7 @@ export class OrcamentoDetalheComponent implements OnInit
       uf: this.os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF,
       modelo: this.os?.equipamento?.nomeEquip,
       nroSerie: this.os?.equipamentoContrato?.numSerie,
-      motivoOrcamento: this.orcamento?.codigoMotivo.toString()
+      motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao
     }
   }
 

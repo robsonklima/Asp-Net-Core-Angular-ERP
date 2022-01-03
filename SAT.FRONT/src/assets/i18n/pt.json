@@ -458,5 +458,9 @@
     "data orcamento": "Dt Orçamento",
     "data abertura": "Dt Abertura",
     "status os": "Status OS",
-    "status laudo": "Status Laudo"
+    "status laudo": "Status Laudo",
+    "orcamento": "Orçamento",
+    "orcamentos": "Orçamentos",
+    "dados local": "Dados do Local",
+    "material": "Material"
 }

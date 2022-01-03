@@ -28,6 +28,13 @@ export interface Orcamento
     dataEnvioAprovacao: string;
     dataAprovacaoCliente: string;
     enderecoFaturamentoNF?: EnderecoFaturamentoNF;
+    orcamentoMotivo?: OrcamentoMotivo;
+}
+
+export interface OrcamentoMotivo
+{
+    codOrcMotivo: number;
+    descricao: string;
 }
 
 export interface EnderecoFaturamentoNF
@@ -80,7 +87,7 @@ export interface OrcamentoData extends Meta
 
 export interface OrcamentoParameters extends QueryStringParameters
 {
-    
+
 };
 
 export enum OrcamentoDadosLocalEnum

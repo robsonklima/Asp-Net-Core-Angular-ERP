@@ -11,10 +11,7 @@ export class OrcamentoDetalheLocalComponent implements OnInit
 
   constructor () { }
 
-  ngOnInit(): void
-  {
-  }
-
+  ngOnInit(): void { }
 
   obterTitulo()
   {

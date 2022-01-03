@@ -45,7 +45,7 @@
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
                     <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
-                        <mat-tab label="{{ t('dados do local') }}">
+                        <mat-tab label="{{ t('dados local') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
@@ -54,7 +54,6 @@
                                     </app-orcamento-detalhe-local>
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalEnvioNF">
                                     </app-orcamento-detalhe-local>
-
                                 </div>
                             </ng-template>
                         </mat-tab>
@@ -62,10 +61,8 @@
                         <mat-tab>
                             <ng-template matTabLabel>
                                 <span>
-                                    {{ t('materiais') }}
-                                    <span class="bg-orange-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
-                                        0
-                                    </span>
+                                    {{ t('material') }}
+
                                 </span>
                             </ng-template>
 

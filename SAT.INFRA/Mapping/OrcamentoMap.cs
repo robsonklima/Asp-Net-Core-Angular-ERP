@@ -21,10 +21,16 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => new { prop.CodCliente, prop.CodContrato });
 
             builder
-              .HasOne(i => i.OrdemServico)
-              .WithOne()
-              .HasForeignKey<OrdemServico>(i => i.CodOS)
-              .HasPrincipalKey<Orcamento>(i => i.CodigoOrdemServico);
+                .HasOne(i => i.OrdemServico)
+                .WithOne()
+                .HasForeignKey<OrdemServico>(i => i.CodOS)
+                .HasPrincipalKey<Orcamento>(i => i.CodigoOrdemServico);
+
+            builder
+                .HasOne(i => i.OrcamentoMotivo)
+                .WithOne()
+                .HasForeignKey<OrcamentoMotivo>(i => i.CodOrcMotivo)
+                .HasPrincipalKey<Orcamento>(i => i.CodigoMotivo);
         }
     }
 }

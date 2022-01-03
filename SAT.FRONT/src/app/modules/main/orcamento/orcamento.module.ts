@@ -34,6 +34,7 @@ import { TranslocoModule } from "@ngneat/transloco";
 import { SharedModule } from "app/shared/shared.module";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FiltroModule } from "../filtros/filtro.module";
+import { OrcamentoDetalheLocalComponent } from "./orcamento-detalhe/orcamento-detalhe-local/orcamento-detalhe-local.component";
 import { OrcamentoDetalheComponent } from "./orcamento-detalhe/orcamento-detalhe.component";
 import { OrcamentoFiltroComponent } from "./orcamento-filtro/orcamento-filtro.component";
 import { OrcamentoListaComponent } from "./orcamento-lista/orcamento-lista.component";
@@ -44,7 +45,8 @@ import { orcamentoRoutes } from "./orcamento.routing";
     declarations: [
         OrcamentoListaComponent,
         OrcamentoDetalheComponent,
-        OrcamentoFiltroComponent
+        OrcamentoFiltroComponent,
+        OrcamentoDetalheLocalComponent
     ],
     imports: [
         CommonModule,
@@ -75,12 +77,12 @@ import { orcamentoRoutes } from "./orcamento.routing";
         NgxMatSelectSearchModule,
         FuseCardModule,
         MatBadgeModule,
-        MatTooltipModule,
         MatSidenavModule,
         MatListModule,
         MatStepperModule,
         FuseAlertModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
         FiltroModule
     ]
 })

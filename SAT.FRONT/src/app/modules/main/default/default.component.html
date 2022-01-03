@@ -16,11 +16,64 @@
         </div>
     </div>
 
-    <div class="flex flex-col flex-auto min-w-0">
-        <div class="flex-auto p-6 sm:p-10">
+    <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+        <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-start justify-between">
+                <div class="ml-15 text-lg font-semibold tracking-tight leading-6 truncate">
+                    Integrações e Serviços
+                </div>
+            </div>
             <!-- <div class="h-400 min-h-160 max-h-160 border-2 border-dashed border-gray-300 rounded-2xl"></div> -->
             <div #dashboard class="flex flex-col flex-auto mt-6">
-                <app-monitoramento-sat></app-monitoramento-sat>
+                <div class="flex flex-col w-full min-w-0 sm:overflow-hidden py-4" *transloco="let t">
+                    <div class="w-full">
+                        <div class="flex flex-col">
+                            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden">
+                                        <table class="min-w-full text-center" *ngIf="!loading">
+                                            <tbody>
+                                                <tr class="border-b">
+                                                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                                        Cliente
+                                                    </td>
+                                                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                                        Data do último chamado via Integração
+                                                    </td>
+                                                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                                        Ociosidade
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-b" *ngFor="let cliente of listaMonitoramentoClientes">
+                                                    <td
+                                                        class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                                        {{cliente.nomeCliente}}
+                                                    </td>
+                                                    <td
+                                                        class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                                        {{cliente.dataUltimoChamado}}
+                                                    </td>
+                                                    <td
+                                                        class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                                        {{cliente.ociosidade}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="flex justify-center items-center" *ngIf="loading">
+                                            <div class="">
+                                                <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'">
+                                                </mat-progress-spinner>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -9,13 +9,11 @@ import { defaultRoutes } from './default.routing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MonitoramentoSatComponent } from '../dashboard/monitoramento-sat/monitoramento-sat.component';
-import { DashboardModule } from '../dashboard/dashboard.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
-        DefaultComponent,
-        
+        DefaultComponent
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),
@@ -26,8 +24,7 @@ import { DashboardModule } from '../dashboard/dashboard.module';
         MatButtonToggleModule,
         MatMenuModule,
         MatTabsModule,
-    //    MonitoramentoSatComponent
-        DashboardModule
+        MatProgressSpinnerModule
     ]
 })
 export class DefaultModule {

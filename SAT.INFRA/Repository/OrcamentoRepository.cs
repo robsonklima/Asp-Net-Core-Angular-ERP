@@ -20,7 +20,7 @@ namespace SAT.INFRA.Repository
         {
             Orcamento p = _context.Orcamento.FirstOrDefault(p => p.CodOrc == orcamento.CodOrc);
 
-            if(p != null)
+            if (p != null)
             {
                 _context.Entry(p).CurrentValues.SetValues(orcamento);
                 _context.SaveChanges();
@@ -46,7 +46,8 @@ namespace SAT.INFRA.Repository
 
         public Orcamento ObterPorCodigo(int codigo)
         {
-            return _context.Orcamento.FirstOrDefault(p => p.CodOrc == codigo);
+            return _context.Orcamento
+            .FirstOrDefault(p => p.CodOrc == codigo);
         }
 
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)

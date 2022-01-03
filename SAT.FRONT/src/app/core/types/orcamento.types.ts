@@ -37,3 +37,35 @@ export interface OrcamentoParameters extends QueryStringParameters
 {
     codUsuario: string;
 };
+
+export enum OrcamentoDadosLocalEnum
+{
+    FATURAMENTO = 1,
+    NOTA_FISCAL = 2,
+    ATENDIMENTO = 3
+}
+
+export interface OrcamentoDadosLocal
+{
+    tipo: OrcamentoDadosLocalEnum;
+    razaoSocial?: string;
+    endereço?: string;
+    bairro?: string;
+    cnpj?: string;
+    responsavel?: string;
+    cep?: string;
+    complemento?: string;
+    cidade?: string;
+    inscricaoEstadual?: string;
+    email?: string;
+    fax?: string;
+    numero?: string;
+    uf?: string;
+    fone?: string;
+    oscliente?: string;
+    modelo?: string;
+    osPerto?: string;
+    motivoOrcamento?: string;
+    agencia?: string;
+    nroSerie?: string;
+}

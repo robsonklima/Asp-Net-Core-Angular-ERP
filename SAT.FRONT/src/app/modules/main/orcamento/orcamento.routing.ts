@@ -13,7 +13,7 @@ export const orcamentoRoutes: Route[] = [
         component: OrcamentoListaComponent
     },
     {
-        path: 'detalhe/:codContrato',
+        path: 'detalhe/:codOrc',
         component: OrcamentoDetalheComponent
     }
 ];

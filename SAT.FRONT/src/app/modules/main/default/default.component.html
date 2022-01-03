@@ -5,7 +5,8 @@
                 <div class="flex flex-auto items-center min-w-0">
                     <div class="flex flex-col min-w-0 ml-4">
                         <ng-container *transloco="let t">
-                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
+                            <div
+                                class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
                                 {{ t('ola') }} {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}
                             </div>
                         </ng-container>
@@ -16,8 +17,11 @@
     </div>
 
     <div class="flex flex-col flex-auto min-w-0">
-        <div class="flex-auto p-6 sm:p-10">    
-            <div class="h-400 min-h-160 max-h-160 border-2 border-dashed border-gray-300 rounded-2xl"></div>
+        <div class="flex-auto p-6 sm:p-10">
+            <!-- <div class="h-400 min-h-160 max-h-160 border-2 border-dashed border-gray-300 rounded-2xl"></div> -->
+            <div #dashboard class="flex flex-col flex-auto mt-6">
+                <app-monitoramento-sat></app-monitoramento-sat>
+            </div>
         </div>
     </div>
 </div>

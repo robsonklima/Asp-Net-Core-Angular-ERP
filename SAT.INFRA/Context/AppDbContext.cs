@@ -122,6 +122,8 @@ namespace SAT.INFRA.Context
         public DbSet<Foto> Foto { get; set; }
         public DbSet<UsuarioDispositivo> UsuarioDispositivo { get; set; }
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
+        public DbSet<Orcamento> Orcamento { get; set; }
+        public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -152,6 +154,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<UsuarioDispositivo>(new UsuarioDispositivoMap().Configure);
             modelBuilder.Entity<OrdemServico>(new OrdemServicoMap().Configure);
             modelBuilder.Entity<OrdemServicoHistorico>(new OrdemServicoHistoricoMap().Configure);
+            modelBuilder.Entity<Orcamento>(new OrcamentoMap().Configure);
+            modelBuilder.Entity<OrcamentoMotivo>(new OrcamentoMotivoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -47,7 +47,27 @@ namespace SAT.INFRA.Repository
 
         public Orcamento ObterPorCodigo(int codigo)
         {
-            return _context.Orcamento.FirstOrDefault(p => p.CodOrc == codigo);
+            return _context.Orcamento
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.StatusServico)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.TipoIntervencao)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Autorizada)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Regiao)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.LocalAtendimento)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.EquipamentoContrato)
+                        .ThenInclude(e => e.Equipamento)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.RelatoriosAtendimento)
+                        .ThenInclude(s => s.Laudos)
+                            .ThenInclude(s => s.LaudoStatus)
+                .FirstOrDefault(p => p.CodOrc == codigo);
         }
 
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
@@ -81,9 +101,10 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodOrc != null)
+            if (!string.IsNullOrEmpty(parameters.codStatusServicos))
             {
-                query = query.Where(n => n.CodOrc == parameters.CodOrc);
+                var statusServicos = parameters.codStatusServicos.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => statusServicos.Any(f => f == orc.OrdemServico.CodStatusServico.ToString()));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

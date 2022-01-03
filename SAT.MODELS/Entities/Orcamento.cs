@@ -29,5 +29,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataEnvioAprovacao { get; set; }
         public DateTime? DataAprovacaoCliente { get; set; }
         public virtual EnderecoFaturamentoNF EnderecoFaturamentoNF { get; set; }
+        public virtual OrdemServico OrdemServico { get; set; }
     }
 }

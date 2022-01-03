@@ -57,26 +57,46 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
-            var orcamentoes = _context.Orcamento.AsQueryable();
+            var query = _context.Orcamento
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.StatusServico)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.TipoIntervencao)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Autorizada)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Regiao)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.LocalAtendimento)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.EquipamentoContrato)
+                        .ThenInclude(e => e.Equipamento)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.RelatoriosAtendimento)
+                        .ThenInclude(s => s.Laudos)
+                            .ThenInclude(s => s.LaudoStatus)
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                orcamentoes = orcamentoes.Where(p =>
+                query = query.Where(p =>
                     p.CodOrc.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
             if (parameters.CodOrc != null)
             {
-                orcamentoes = orcamentoes.Where(n => n.CodOrc == parameters.CodOrc);
+                query = query.Where(n => n.CodOrc == parameters.CodOrc);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                orcamentoes = orcamentoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<Orcamento>.ToPagedList(orcamentoes, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Orcamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

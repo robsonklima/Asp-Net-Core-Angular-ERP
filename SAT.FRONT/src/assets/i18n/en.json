@@ -439,5 +439,10 @@
     "assunto": "Subject",
     "mensagem": "Message",
     "tutoriais": "Tutorials",
-    "orçamentos": "Budgets"
+    "orçamentos": "Budgets",
+    "data cadastro": "Entry Date",
+    "data orcamento": "Budget Date",
+    "data abertura": "Openned Date",
+    "status os": "SO Status",
+    "status laudo": "Report Status"
 }

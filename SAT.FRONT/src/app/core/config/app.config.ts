@@ -3,8 +3,7 @@ import { apiConst } from './app.config.types';
 export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
 
-export interface AppConfig
-{
+export interface AppConfig {
     layout: Layout;
     scheme: Scheme;
     theme: Theme;

@@ -105,7 +105,6 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         MatStepperModule,
         FuseAlertModule,
         MatProgressSpinnerModule,
-        
         FiltroModule
     ]
 })

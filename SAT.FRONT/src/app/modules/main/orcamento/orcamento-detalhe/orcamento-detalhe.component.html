@@ -58,17 +58,11 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
-                            <ng-template matTabLabel>
-                                <span>
-                                    {{ t('material') }}
-
-                                </span>
-                            </ng-template>
-
+                        <mat-tab label="{{ t('material') }}">
                             <ng-template matTabContent>
-                                <div class="flex flex-col flex-auto p-6 pt-px w-2/3">
-
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                    <app-orcamento-detalhe-material [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-material>
                                 </div>
                             </ng-template>
                         </mat-tab>

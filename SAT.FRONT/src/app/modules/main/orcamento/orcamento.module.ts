@@ -39,6 +39,7 @@ import { OrcamentoDetalheComponent } from "./orcamento-detalhe/orcamento-detalhe
 import { OrcamentoFiltroComponent } from "./orcamento-filtro/orcamento-filtro.component";
 import { OrcamentoListaComponent } from "./orcamento-lista/orcamento-lista.component";
 import { orcamentoRoutes } from "./orcamento.routing";
+import { OrcamentoDetalheMaterialComponent } from './orcamento-detalhe/orcamento-detalhe-material/orcamento-detalhe-material.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { orcamentoRoutes } from "./orcamento.routing";
         OrcamentoListaComponent,
         OrcamentoDetalheComponent,
         OrcamentoFiltroComponent,
-        OrcamentoDetalheLocalComponent
+        OrcamentoDetalheLocalComponent,
+        OrcamentoDetalheMaterialComponent
     ],
     imports: [
         CommonModule,

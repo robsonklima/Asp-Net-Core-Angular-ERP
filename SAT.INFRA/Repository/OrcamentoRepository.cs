@@ -54,6 +54,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(p => p.CidadeFaturamento)
                         .ThenInclude(p => p.UnidadeFederativa)
                 .Include(p => p.OrcamentoMotivo)
+                .Include(p => p.Materiais)
                 .FirstOrDefault(p => p.CodOrc == codigo);
 
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -31,5 +32,6 @@ namespace SAT.MODELS.Entities
         public virtual EnderecoFaturamentoNF EnderecoFaturamentoNF { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }
         public virtual OrcamentoMotivo OrcamentoMotivo { get; set; }
+        public virtual List<OrcamentoMaterial> Materiais { get; set; }
     }
 }

@@ -29,6 +29,7 @@ export interface Orcamento
     dataAprovacaoCliente: string;
     enderecoFaturamentoNF?: EnderecoFaturamentoNF;
     orcamentoMotivo?: OrcamentoMotivo;
+    materiais?: OrcamentoMaterial[];
 }
 
 export interface OrcamentoMotivo
@@ -78,6 +79,23 @@ export interface EnderecoFaturamentoNF
     dataHoraManut: string;
     cidadeEnvioNF?: Cidade;
     cidadeFaturamento?: Cidade;
+}
+
+export interface OrcamentoMaterial
+{
+    codOrcMaterial: number;
+    codOrc: number;
+    codigoMagnus: string;
+    codigoPeca: string;
+    descricao: string;
+    valorUnitario: number;
+    valorDesconto: number;
+    valorTotal: number;
+    quantidade: number;
+    dataCadastro: string;
+    usuarioCadastro: string;
+    valorIpi: number;
+    valorUnitarioFinanceiro: number;
 }
 
 export interface OrcamentoData extends Meta

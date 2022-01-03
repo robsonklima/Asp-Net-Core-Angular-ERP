@@ -160,6 +160,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoMotivo>(new OrcamentoMotivoMap().Configure);
             modelBuilder.Entity<EnderecoFaturamentoVinculado>(new EnderecoFaturamentoVinculadoMap().Configure);
             modelBuilder.Entity<EnderecoFaturamentoNF>(new EnderecoFaturamentoNFMap().Configure);
+            modelBuilder.Entity<OrcamentoMaterial>(new OrcamentoMaterialMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

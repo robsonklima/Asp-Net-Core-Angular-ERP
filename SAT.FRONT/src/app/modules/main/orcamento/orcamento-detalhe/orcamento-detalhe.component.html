@@ -45,6 +45,40 @@
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
                     <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
+                        <mat-tab label="Detalhes">
+                            <ng-template matTabContent>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2"> {{ "Orçamento " + orcamento?.numero }}
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Motivo</div>
+                                            <div class="truncate max-w-1/2">{{orcamento?.orcamentoMotivo?.descricao }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Detalhe</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.detalhe }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Data</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Utiliza lista específica?</div>
+                                            <div class="truncate max-w-1/2">
+                                                {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
                         <mat-tab label="{{ t('dados local') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">

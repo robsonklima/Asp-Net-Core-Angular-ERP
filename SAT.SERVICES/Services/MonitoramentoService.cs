@@ -17,5 +17,10 @@ namespace SAT.SERVICES.Services
         {
             return this._monitoramentoRepository.ObterListaMonitoramento();
         }
+
+        public List<MonitoramentoClienteViewModel> ObterListaMonitoramentoClientes()
+        {
+            return this._monitoramentoRepository.ObterListaMonitoramentoClientes();
+        }
     }
 }

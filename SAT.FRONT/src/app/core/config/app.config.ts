@@ -3,8 +3,7 @@ import { apiConst } from './app.config.types';
 export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
 
-export interface AppConfig
-{
+export interface AppConfig {
     layout: Layout;
     scheme: Scheme;
     theme: Theme;
@@ -22,7 +21,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: apiConst.PROD,
+    api: apiConst.LOCALHOST_5001,
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',

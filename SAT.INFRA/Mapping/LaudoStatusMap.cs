@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<LaudoStatus> builder)
         {
-            builder
-                .ToTable("LaudoStatus");
-
-            builder
-                .HasKey(prop => prop.CodLaudoStatus);
+            builder.ToTable("LaudoStatus");
+            builder.HasKey(prop => prop.CodLaudoStatus);
         }
     }
 }

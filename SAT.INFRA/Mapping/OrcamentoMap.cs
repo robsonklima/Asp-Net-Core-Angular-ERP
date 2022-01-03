@@ -10,6 +10,11 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("Orc");
             builder.HasKey(prop => prop.CodOrc);
+            builder
+              .HasOne(i => i.OrdemServico)
+              .WithOne()
+              .HasForeignKey<OrdemServico>(i => i.CodOS)
+              .HasPrincipalKey<Orcamento>(i => i.CodigoOrdemServico);
         }
     }
 }

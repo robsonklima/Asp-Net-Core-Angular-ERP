@@ -27,5 +27,7 @@ namespace SAT.MODELS.Entities {
         public string UsuarioCadastro { get; set; }
         public DateTime? DataEnvioAprovacao { get; set; }
         public DateTime? DataAprovacaoCliente { get; set; }
+
+        public virtual OrdemServico OrdemServico { get; set; }
     }
 }

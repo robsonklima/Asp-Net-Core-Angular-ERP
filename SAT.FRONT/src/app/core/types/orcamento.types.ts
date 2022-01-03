@@ -35,5 +35,5 @@ export interface OrcamentoData extends Meta
 
 export interface OrcamentoParameters extends QueryStringParameters
 {
-    codUsuario: string;
+    
 };

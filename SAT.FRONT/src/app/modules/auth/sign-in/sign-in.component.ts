@@ -19,8 +19,7 @@ import { JsonIPService } from 'app/core/services/jsonip.service';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     deviceInfo: any;
     ipData: any = '';
@@ -30,7 +29,7 @@ export class AuthSignInComponent implements OnInit
         duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right'
     };
 
-    constructor (
+    constructor(
         private _activatedRoute: ActivatedRoute,
         private _usuarioDispositivoSvc: UsuarioDispositivoService,
         private _emailSvc: EmailService,
@@ -43,8 +42,7 @@ export class AuthSignInComponent implements OnInit
         private _router: Router
     ) { }
 
-    async ngOnInit()
-    {
+    async ngOnInit() {
         this.signInForm = this._formBuilder.group({
             codUsuario: ['', [Validators.required]],
             senha: ['', Validators.required]
@@ -54,8 +52,7 @@ export class AuthSignInComponent implements OnInit
         this.ipData = ''; //await this._jsonIP.obterIP().toPromise();
     }
 
-    async signIn()
-    {
+    async signIn() {
         if (this.signInForm.invalid) return;
         this.signInForm.disable();
 
@@ -78,44 +75,34 @@ export class AuthSignInComponent implements OnInit
 
         let dispositivo = dispositivoData.items.shift();
 
-        if (!usuario || !usuario?.email)
-        {
+        if (!usuario || !usuario?.email) {
             this._snack
                 .open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger)
                 .afterDismissed()
                 .toPromise();
-        } else if (!dispositivo)
-        {
+        } else if (!dispositivo) {
             dispositivo = await this.cadastrarDispositivo();
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
-        } else if (dispositivo?.indAtivo)
-        {
+        } else if (dispositivo?.indAtivo) {
             this._authService
                 .signIn(codUsuario, senha)
-                .subscribe(() =>
-                {
+                .subscribe(() => {
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                    this._router.navigateByUrl(redirectURL).then(() =>
-                    {
-                        window.location.reload();
-                    });
-                }, (e) =>
-                {
+                    this._router.navigateByUrl(redirectURL);
+                }, (e) => {
                     this.signInForm.enable();
                     this.signInNgForm.resetForm();
                 });
 
             this.signInForm.enable();
-        } else
-        {
+        } else {
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
     }
 
-    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo)
-    {
+    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._emailSvc.enviarEmail({
             nomeRemetente: "SAT",
             emailRemetente: "aplicacao.sat@perto.com.br",
@@ -137,10 +124,8 @@ export class AuthSignInComponent implements OnInit
         }).subscribe();
     }
 
-    private cadastrarDispositivo(): Promise<UsuarioDispositivo>
-    {
-        return new Promise((resolve, reject) =>
-        {
+    private cadastrarDispositivo(): Promise<UsuarioDispositivo> {
+        return new Promise((resolve, reject) => {
             let dispositivo: UsuarioDispositivo = {
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
                 indAtivo: 0,
@@ -153,11 +138,9 @@ export class AuthSignInComponent implements OnInit
                 ip: this.ipData.ip
             };
 
-            this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) =>
-            {
+            this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) => {
                 resolve(dispositivo);
-            }, (err) =>
-            {
+            }, (err) => {
                 reject(err);
             });
         })

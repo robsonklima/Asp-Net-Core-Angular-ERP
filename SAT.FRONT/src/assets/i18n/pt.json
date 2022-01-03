@@ -453,5 +453,10 @@
     "assunto": "Assunto",
     "mensagem": "Mensagem",
     "tutoriais": "Tutoriais",
-    "orçamentos": "Orçamentos"
+    "orçamentos": "Orçamentos",
+    "data cadastro": "Data de Cadastro",
+    "data orcamento": "Dt Orçamento",
+    "data abertura": "Dt Abertura",
+    "status os": "Status OS",
+    "status laudo": "Status Laudo"
 }

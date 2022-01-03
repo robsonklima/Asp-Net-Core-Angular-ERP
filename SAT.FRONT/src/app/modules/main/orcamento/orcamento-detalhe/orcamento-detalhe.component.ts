@@ -58,19 +58,68 @@ export class OrcamentoDetalheComponent implements OnInit
   {
     this.dadosLocalFaturamento =
     {
-      tipo: OrcamentoDadosLocalEnum.FATURAMENTO
+      tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
+      razaoSocial: this.os?.cliente?.razaoSocial,
+      cnpj: this.os?.cliente?.cnpj,
+      inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
+      responsavel: this.orcamento?.enderecoFaturamentoNF?.responsavelFaturamento,
+      email: this.orcamento?.enderecoFaturamentoNF?.emailFaturamento,
+      fone: this.orcamento?.enderecoFaturamentoNF?.foneFaturamento,
+      endereco: this.orcamento?.enderecoFaturamentoNF?.enderecoFaturamento,
+      numero: this.orcamento?.enderecoFaturamentoNF?.numeroFaturamento,
+      bairro: this.orcamento?.enderecoFaturamentoNF?.bairroFaturamento,
+      cep: this.orcamento?.enderecoFaturamentoNF?.cepFaturamento,
+      complemento: this.orcamento?.enderecoFaturamentoNF?.complementoFaturamento,
+      cidade: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.nomeCidade,
+      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.unidadeFederativa?.siglaUF,
+      // agencia: this.os?.localAtendimento?.numAgencia,
+      // osPerto: this.os?.codOS.toString(),
+      // oscliente: this.os?.numOSCliente,
+      // modelo: this.os?.equipamento?.nomeEquip,
+      // nroSerie: this.os?.equipamentoContrato?.numSerie
     }
 
     this.dadosLocalEnvioNF =
     {
-      tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL
+      tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
+      razaoSocial: this.os?.cliente?.razaoSocial,
+      cnpj: this.os?.cliente?.cnpj,
+      inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
+      responsavel: this.orcamento?.enderecoFaturamentoNF?.responsavelEnvioNF,
+      email: this.orcamento?.enderecoFaturamentoNF?.emailEnvioNF,
+      fone: this.orcamento?.enderecoFaturamentoNF?.foneEnvioNF,
+      endereco: this.orcamento?.enderecoFaturamentoNF?.enderecoEnvioNF,
+      numero: this.orcamento?.enderecoFaturamentoNF?.numeroEnvioNF,
+      bairro: this.orcamento?.enderecoFaturamentoNF?.bairroEnvioNF,
+      cep: this.orcamento?.enderecoFaturamentoNF?.cepEnvioNF,
+      complemento: this.orcamento?.enderecoFaturamentoNF?.complementoEnvioNF,
+      cidade: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.nomeCidade,
+      uf: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.unidadeFederativa?.siglaUF,
+      // agencia: this.os?.localAtendimento?.numAgencia,
+      // osPerto: this.os?.codOS.toString(),
+      // oscliente: this.os?.numOSCliente,
+      // modelo: this.os?.equipamento?.nomeEquip,
+      // nroSerie: this.os?.equipamentoContrato?.numSerie
     }
 
     this.dadosLocalAtendimento =
     {
-      tipo: OrcamentoDadosLocalEnum.ATENDIMENTO
+      tipo: OrcamentoDadosLocalEnum.ATENDIMENTO,
+      nroContrato: this.os?.equipamentoContrato?.contrato?.nroContrato,
+      nomeLocal: this.os?.localAtendimento?.nomeLocal,
+      oscliente: this.os?.numOSCliente,
+      osPerto: this.os?.codOS.toString(),
+      agencia: this.os?.localAtendimento?.numAgencia + '/' + this.os?.localAtendimento?.dcPosto,
+      endereco: this.os?.localAtendimento?.endereco,
+      bairro: this.os?.localAtendimento?.bairro,
+      cep: this.os?.localAtendimento?.cep,
+      complemento: this.os?.localAtendimento?.enderecoComplemento,
+      cidade: this.os?.localAtendimento?.cidade?.nomeCidade,
+      uf: this.os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF,
+      modelo: this.os?.equipamento?.nomeEquip,
+      nroSerie: this.os?.equipamentoContrato?.numSerie,
+      motivoOrcamento: this.orcamento?.codigoMotivo.toString()
     }
-
   }
 
   trocarTab(tab: any)

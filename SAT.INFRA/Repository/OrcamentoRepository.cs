@@ -4,6 +4,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -44,11 +45,15 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public Orcamento ObterPorCodigo(int codigo)
-        {
-            return _context.Orcamento
-            .FirstOrDefault(p => p.CodOrc == codigo);
-        }
+        public Orcamento ObterPorCodigo(int codigo) =>
+            _context.Orcamento
+                .Include(p => p.EnderecoFaturamentoNF)
+                    .ThenInclude(p => p.CidadeEnvioNF)
+                        .ThenInclude(p => p.UnidadeFederativa)
+                .Include(p => p.EnderecoFaturamentoNF)
+                    .ThenInclude(p => p.CidadeFaturamento)
+                        .ThenInclude(p => p.UnidadeFederativa)
+                .FirstOrDefault(p => p.CodOrc == codigo);
 
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {

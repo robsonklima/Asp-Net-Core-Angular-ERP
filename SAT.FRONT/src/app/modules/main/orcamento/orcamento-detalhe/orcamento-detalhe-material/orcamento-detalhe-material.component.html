@@ -58,8 +58,22 @@
                                 <div class="
 								list-grid-material grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 hover:bg-gray-100"
                                     *transloco="let t">
-                                    <div class="text-right">
-                                        <button class="bg-transparent " [matTooltip]="t('deletar')"
+                                    <div class="text-left">
+                                        <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
+                                            (click)="excluirMaterial()">
+                                            <mat-icon class="icon-size-5 text-blue-600"
+                                                [svgIcon]="'heroicons_outline:refresh'">
+                                            </mat-icon>
+                                        </button>
+
+                                        <button class="bg-transparent" [matTooltip]="'Alterar valor'"
+                                            (click)="excluirMaterial()">
+                                            <mat-icon class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_outline:cash'">
+                                            </mat-icon>
+                                        </button>
+
+                                        <button class="bg-transparent" [matTooltip]="t('deletar')"
                                             (click)="excluirMaterial()">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
@@ -67,7 +81,7 @@
                                         </button>
                                     </div>
                                     <div>
-                                        {{ material?.codOrcMaterial }}
+                                        {{ material?.codigoMagnus }}
                                     </div>
                                     <div>
                                         {{ material?.descricao }}
@@ -76,16 +90,16 @@
                                         {{ material?.quantidade }}
                                     </div>
                                     <div>
-                                        {{ t("valor unitario") }}
+                                        {{ material?.valorUnitario | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ t("valor desconto") }}
+                                        {{ material?.valorDesconto | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ t("valor total") }}
+                                        {{ material?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ t("valor unitario vencido") }}
+                                        {{ material?.peca?.isValorAtualizado ? "SIM" : "NÃO" }}
                                     </div>
                                 </div>
                             </ng-container>

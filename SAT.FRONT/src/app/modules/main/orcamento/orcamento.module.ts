@@ -41,7 +41,6 @@ import { OrcamentoListaComponent } from "./orcamento-lista/orcamento-lista.compo
 import { orcamentoRoutes } from "./orcamento.routing";
 import { OrcamentoDetalheMaterialComponent } from './orcamento-detalhe/orcamento-detalhe-material/orcamento-detalhe-material.component';
 
-
 @NgModule({
     declarations: [
         OrcamentoListaComponent,

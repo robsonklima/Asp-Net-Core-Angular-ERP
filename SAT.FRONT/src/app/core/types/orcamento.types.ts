@@ -1,5 +1,6 @@
 import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Peca } from "./peca.types";
 
 export interface Orcamento
 {
@@ -96,6 +97,7 @@ export interface OrcamentoMaterial
     usuarioCadastro: string;
     valorIpi: number;
     valorUnitarioFinanceiro: number;
+    peca?: Peca;
 }
 
 export interface OrcamentoData extends Meta

@@ -462,5 +462,8 @@
     "orcamento": "Orçamento",
     "orcamentos": "Orçamentos",
     "dados local": "Dados do Local",
-    "material": "Material"
+    "material": "Material",
+    "valor unitario vencido": "Valor Unitário Vencido",
+    "valor desconto": "Valor Desconto"
+
 }

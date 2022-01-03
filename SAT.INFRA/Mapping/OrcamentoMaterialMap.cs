@@ -13,6 +13,12 @@ namespace SAT.INFRA.Mapping
 
             builder
                 .HasKey(prop => prop.CodOrcMaterial);
+
+            builder
+               .HasOne(prop => prop.Peca)
+               .WithMany()
+               .HasForeignKey(prop => prop.CodigoPeca)
+               .HasPrincipalKey(prop => prop.CodPeca);
         }
     }
 }

@@ -448,5 +448,7 @@
     "orcamento": "Budget",
     "orcamentos": "Budgets",
     "dados local": "Location Data",
-    "material": "Material"
+    "material": "Material",
+    "valor unitario vencido": "Expired Unit Value",
+    "valor desconto": "Discount Amount"
 }

@@ -26,6 +26,18 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodStatusServico);
 
             builder
+                .HasOne(p => p.UsuarioCadastro)
+                .WithOne()
+                .HasForeignKey<OrdemServico>("CodUsuarioCadastro")
+                .HasPrincipalKey<Usuario>("CodUsuario");
+
+            builder
+                .HasOne(p => p.UsuarioCad)
+                .WithOne()
+                .HasForeignKey<OrdemServico>("CodUsuarioCad")
+                .HasPrincipalKey<Usuario>("CodUsuario");
+
+            builder
                 .HasOne(prop => prop.TipoIntervencao)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodTipoIntervencao)
@@ -56,10 +68,10 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodOS);
 
             builder
-               .HasOne(prop => prop.Cliente)
-               .WithMany()
-               .HasForeignKey(prop => prop.CodCliente)
-               .HasPrincipalKey(prop => prop.CodCliente);
+                .HasOne(prop => prop.Cliente)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodCliente)
+                .HasPrincipalKey(prop => prop.CodCliente);
 
             builder
                 .HasOne(prop => prop.Tecnico)
@@ -74,10 +86,10 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodFilial);
 
             builder
-               .HasOne(prop => prop.Autorizada)
-               .WithMany()
-               .HasForeignKey(prop => prop.CodAutorizada)
-               .HasPrincipalKey(prop => prop.CodAutorizada);
+                .HasOne(prop => prop.Autorizada)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodAutorizada)
+                .HasPrincipalKey(prop => prop.CodAutorizada);
 
             builder
                 .HasOne(prop => prop.Regiao)

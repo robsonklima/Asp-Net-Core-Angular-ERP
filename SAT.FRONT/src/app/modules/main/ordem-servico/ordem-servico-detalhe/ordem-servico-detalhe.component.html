@@ -110,18 +110,28 @@
                                                 <div class="text-secondary">{{ t('abertura') }}</div>
                                                 <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3"
-                                                *ngIf="usuarioCadastro?.fone || usuarioCadastro?.foneParticular">
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('contato') }}</div>
                                                 <div>
-                                                    {{ usuarioCadastro?.fone ? t('contato perto') + ": " +  usuarioCadastro?.fone : '' }}
-                                                    {{ usuarioCadastro?.foneParticular ? t('contato pessoal') + ": " + usuarioCadastro?.foneParticular : '' }}
+                                                    {{ os?.usuarioCadastro?.fone || os?.usuarioCadastro?.foneParticular }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('aberto por') }}</div>
+                                                <div>
+                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('contato') }}</div>
+                                                <div>
+                                                    {{ os?.usuarioCad?.fone || os?.usuarioCad?.foneParticular }}
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3"

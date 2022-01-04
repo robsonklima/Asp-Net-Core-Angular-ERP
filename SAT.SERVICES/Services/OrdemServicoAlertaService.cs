@@ -75,7 +75,6 @@ namespace SAT.SERVICES.Services
 
         private TimeSpan CalculaHorasConsumidas(OrdemServico os)
         {
-
             var dataSolicitacao = os.DataHoraAberturaOS;
             var dataAtualOuFimRat = os.RelatoriosAtendimento.Any() ? os.RelatoriosAtendimento.LastOrDefault().DataHoraSolucao : DateTime.Now;
 
@@ -133,7 +132,6 @@ namespace SAT.SERVICES.Services
 
         private List<Alerta> ObterAvisoChamadosCidadePinpad(OrdemServico os, List<Alerta> listaAlertas)
         {
-
             var osEquip = _ordemServicoRepo
                     .ObterPorParametros(new OrdemServicoParameters
                     {

@@ -47,8 +47,10 @@ namespace SAT.SERVICES.Services
         {
             OrdemServico os = _ordemServicoRepo.ObterPorCodigo(codigo);
 
-            os.Alertas = _ordemServicoAlertaService.ObterAlertas(os);
-            os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
+            if (os != null) {
+                os.Alertas = _ordemServicoAlertaService.ObterAlertas(os);
+                os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
+            }
 
             return os;
         }

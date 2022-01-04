@@ -15,6 +15,7 @@ import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { StatusServico } from "./status-servico.types";
 import { Tecnico } from "./tecnico.types";
 import { TipoIntervencao } from "./tipo-intervencao.types";
+import { Usuario } from "./usuario.types";
 
 export class OrdemServico
 {
@@ -92,6 +93,8 @@ export class OrdemServico
     indReincidencia?: any;
     dataCadastro: string;
     codUsuarioCadastro: string;
+    usuarioCadastro: Usuario;
+    usuarioCad: Usuario;
     dataManutencao: string;
     codUsuarioManutencao: string;
     indAtrasoSLA: number;

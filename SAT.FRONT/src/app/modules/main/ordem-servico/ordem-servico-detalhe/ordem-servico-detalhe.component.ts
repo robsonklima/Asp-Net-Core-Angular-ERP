@@ -55,7 +55,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	map: L.Map;
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
-	usuarioCadastro: Usuario;
 	isLoading: boolean = false;
 
 	public get perfilEnum(): typeof RoleEnum
@@ -132,7 +131,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = true;
 
 		await this.obterOS();
-		await this.obterUsuarioCadastro();
 		await this.obterFotos();
 		await this.obterAgendamentos();
 
@@ -142,6 +140,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	private async obterOS()
 	{
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+		console.log(this.os);
+		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>
@@ -158,13 +158,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					reject();
 				});
 		})
-	}
-
-	private async obterUsuarioCadastro()
-	{
-		if (this.os?.codUsuarioCad != null)
-			this.usuarioCadastro =
-				(await this._userService.obterPorCodigo(this.os.codUsuarioCad).toPromise());
 	}
 
 	private async obterFotos()
@@ -328,18 +321,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 	}
-
-	// 	getCheckin(relatorioAtendimento: RelatorioAtendimento): string
-	// 	{
-	// 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
-	// 			.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
-	// 	}
-	// 
-	// 	getCheckout(relatorioAtendimento: RelatorioAtendimento): string
-	// 	{
-	// 		return Enumerable.from(relatorioAtendimento?.checkinsCheckouts)
-	// 			.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault()?.dataHoraCadSmartphone;
-	// 	}
 
 	getFotos(): Foto[]
 	{

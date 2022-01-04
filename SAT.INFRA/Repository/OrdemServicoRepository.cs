@@ -76,6 +76,8 @@ namespace SAT.INFRA.Repository
             _context.OrdemServico
                 .Include(os => os.StatusServico)
                 .Include(os => os.Filial)
+                .Include(os => os.UsuarioCadastro)
+                .Include(os => os.UsuarioCad)
                 .Include(os => os.Autorizada)
                 .Include(os => os.Regiao)
                 .Include(os => os.TipoIntervencao)
@@ -140,7 +142,6 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
-                // .ThenInclude(a => a.CheckinsCheckouts)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Laudos)
                         .ThenInclude(a => a.LaudosSituacao)

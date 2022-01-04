@@ -142,5 +142,7 @@ namespace SAT.MODELS.Entities
         public virtual List<AgendaTecnico> AgendaTecnico { get; set; }
         public DispBBEquipamentoContrato DispBBEquipamentoContrato { get; set; }
         public Contrato Contrato { get; set; }
+        public Usuario UsuarioCadastro { get; set; }
+        public Usuario UsuarioCad { get; set; }
     }
 }

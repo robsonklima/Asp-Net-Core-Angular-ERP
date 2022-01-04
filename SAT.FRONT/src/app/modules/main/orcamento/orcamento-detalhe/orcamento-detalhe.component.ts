@@ -11,8 +11,7 @@ import { UserService } from 'app/core/user/user.service';
   selector: 'app-orcamento-detalhes',
   templateUrl: './orcamento-detalhe.component.html'
 })
-export class OrcamentoDetalheComponent implements OnInit
-{
+export class OrcamentoDetalheComponent implements OnInit {
 
   codOrc: number;
   orcamento: Orcamento;
@@ -24,40 +23,29 @@ export class OrcamentoDetalheComponent implements OnInit
   dadosLocalEnvioNF: OrcamentoDadosLocal;
   dadosLocalAtendimento: OrcamentoDadosLocal;
 
-  constructor (
+  constructor(
     private _route: ActivatedRoute,
     private _userService: UserService,
     private _osService: OrdemServicoService,
-    private _orcamentoService: OrcamentoService) 
-  {
+    private _orcamentoService: OrcamentoService) {
     this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.obterDados();
   }
 
-  private async obterDados()
-  {
+  private async obterDados() {
     this.isLoading = true;
-
-    this.orcamento =
-      (await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise());
-
-    this.os =
-      (await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise());
-
+    this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
+    this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
     this.obterEnderecos();
-
     this.isLoading = false;
   }
 
-  private obterEnderecos()
-  {
-    this.dadosLocalFaturamento =
-    {
+  private obterEnderecos() {
+    this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,
       cnpj: this.os?.cliente?.cnpj,
@@ -74,8 +62,7 @@ export class OrcamentoDetalheComponent implements OnInit
       uf: this.orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.unidadeFederativa?.siglaUF
     }
 
-    this.dadosLocalEnvioNF =
-    {
+    this.dadosLocalEnvioNF = {
       tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
       razaoSocial: this.os?.cliente?.razaoSocial,
       cnpj: this.os?.cliente?.cnpj,
@@ -92,8 +79,7 @@ export class OrcamentoDetalheComponent implements OnInit
       uf: this.orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
     }
 
-    this.dadosLocalAtendimento =
-    {
+    this.dadosLocalAtendimento = {
       tipo: OrcamentoDadosLocalEnum.ATENDIMENTO,
       nroContrato: this.os?.equipamentoContrato?.contrato?.nroContrato,
       nomeLocal: this.os?.localAtendimento?.nomeLocal,
@@ -112,10 +98,8 @@ export class OrcamentoDetalheComponent implements OnInit
     }
   }
 
-  trocarTab(tab: any)
-  {
-    if (tab.index !== 5 || !this.orcamento)
-    {
+  trocarTab(tab: any) {
+    if (tab.index !== 5 || !this.orcamento) {
       return;
     }
   }

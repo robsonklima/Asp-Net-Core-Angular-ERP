@@ -92,6 +92,7 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
         sortDirection: this.sort.direction || 'asc',
         indAtivo: statusConst.ATIVO,
         codPontoPeriodo: this.codPontoPeriodo,
+        codFilial: this.userSession?.usuario?.codFilial,
         filter: this.filtro
       })
       .toPromise();

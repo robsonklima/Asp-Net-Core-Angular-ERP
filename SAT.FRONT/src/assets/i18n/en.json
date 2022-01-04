@@ -450,8 +450,9 @@
     "dados local": "Location Data",
     "material": "Material",
     "valor unitario vencido": "Expired Unit Value",
-    "valor desconto": "Discount Amount",
     "mao de obra": "Labor",
     "deslocamento": "Displacement",
-    "previsao horas": "Forecast in Hours"
+    "previsao horas": "Forecast in Hours",
+    "valor desconto": "Discount Amount",    
+    "gerenciar conta": "Manage account"
 }

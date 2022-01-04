@@ -97,6 +97,7 @@ registerLocaleData(ptBR);
     MatFormFieldModule,
     MatSelectModule,
   ],
+  exports:[MonitoramentoSatComponent],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]

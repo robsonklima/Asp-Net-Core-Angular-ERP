@@ -23,3 +23,8 @@ export class MonitoramentoStorage {
     public unidade: string;
     public valor: number;
 }
+
+export class MonitoramentoClienteViewModel {
+    public nomeCliente: string;
+    public dataUltimoChamado: string;
+}

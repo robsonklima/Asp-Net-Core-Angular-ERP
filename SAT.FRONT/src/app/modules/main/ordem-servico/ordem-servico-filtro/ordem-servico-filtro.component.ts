@@ -35,8 +35,7 @@ import { statusConst } from 'app/core/types/status-types';
   selector: 'app-ordem-servico-filtro',
   templateUrl: './ordem-servico-filtro.component.html'
 })
-export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase
-{
+export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
   @Input() sidenav: MatSidenav;
 
   filiais: Filial[] = [];
@@ -56,7 +55,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _filialService: FilialService,
     private _tipoIntervencaoService: TipoIntervencaoService,
     private _equipamentoService: EquipamentoService,
@@ -68,20 +67,16 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     protected _userService: UserService,
     private _localAtendimentoSvc: LocalAtendimentoService,
     protected _formBuilder: FormBuilder
-  )
-  {
+  ) {
     super(_userService, _formBuilder, 'ordem-servico');
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.createForm();
     this.loadData();
-
   }
 
-  loadData(): void
-  {
+  loadData(): void {
     this.pontosEstrategicos = PontoEstrategicoEnum;
     this.obterFiliais();
     this.obterClientes();
@@ -91,11 +86,9 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
     this.aoSelecionarFilial();
     this.aoSelecionarCliente();
-    this.aoSelecionarEquipamento();
   }
 
-  createForm(): void
-  {
+  createForm(): void {
     this.form = this._formBuilder.group({
       codFiliais: [undefined],
       codRegioes: [undefined],
@@ -123,8 +116,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.form.patchValue(this.filter?.parametros);
   }
 
-  async obterFiliais()
-  {
+  async obterFiliais() {
     let params: FilialParameters = {
       indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFilial',
@@ -138,8 +130,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.filiais = data.items;
   }
 
-  async obterEquipamentos()
-  {
+  async obterEquipamentos() {
     const data = await this._equipamentoService
       .obterPorParametros({
         codClientes: this.form.controls['codClientes'].value,
@@ -150,8 +141,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.equipamentos = data.items;
   }
 
-  async obterTiposIntervencao()
-  {
+  async obterTiposIntervencao() {
     let params = {
       indAtivo: statusConst.ATIVO,
       sortActive: 'nomTipoIntervencao',
@@ -165,8 +155,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tiposIntervencao = data.items;
   }
 
-  async obterClientes(filter: string = '')
-  {
+  async obterClientes(filter: string = '') {
     let params: ClienteParameters = {
       filter: filter,
       indAtivo: statusConst.ATIVO,
@@ -182,8 +171,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.clientes = data.items;
   }
 
-  async obterTecnicos(filialFilter: string)
-  {
+  async obterTecnicos(filialFilter: string) {
     let params: TecnicoParameters = {
       indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
@@ -200,14 +188,11 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tecnicos = data.items;
   }
 
-  aoSelecionarFilial()
-  {
+  aoSelecionarFilial() {
     this.form.controls['codFiliais']
       .valueChanges
-      .subscribe(() =>
-      {
-        if ((this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != ''))
-        {
+      .subscribe(() => {
+        if ((this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != '')) {
           var filialFilter: any = this.form.controls['codFiliais'].value;
 
           this.obterTecnicos(filialFilter);
@@ -219,8 +204,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
           this.form.controls['codTecnicos'].enable();
           this.form.controls['codAutorizadas'].enable();
         }
-        else
-        {
+        else {
           this.form.controls['pas'].disable();
           this.form.controls['codRegioes'].disable();
           this.form.controls['codTecnicos'].disable();
@@ -228,45 +212,37 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
         }
       });
 
-    if (this.userSession.usuario.codFilial)
-    {
+    if (this.userSession.usuario.codFilial) {
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
-    else
-    {
+    else {
       this.form.controls['codFiliais'].enable();
     }
   }
 
-  aoSelecionarCliente()
-  {
-    if ((this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != ''))
-    {
+  aoSelecionarCliente() {
+    if ((this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '')) {
       this.obterEquipamentos();
       this.obterLocaisAtendimentos();
       this.form.controls['codPostos'].enable();
       this.form.controls['codEquipamentos'].enable();
     }
-    else
-    {
+    else {
       this.form.controls['codPostos'].disable();
       this.form.controls['codEquipamentos'].disable();
     }
 
     this.form.controls['codClientes']
       .valueChanges
-      .subscribe(() =>
-      {
-        if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '')
-        {
+      .subscribe(() => {
+        if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
           this.obterEquipamentos();
           this.obterLocaisAtendimentos();
           this.form.controls['codPostos'].enable();
           this.form.controls['codEquipamentos'].enable();
         }
-        else
-        {
+        else {
           this.form.controls['codPostos'].setValue(null);
           this.form.controls['codPostos'].disable();
 
@@ -276,34 +252,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       });
   }
 
-  aoSelecionarEquipamento()
-  {
-    //     if ((this.form.controls['codEquipamentos'].value && this.form.controls['codEquipamentos'].value != ''))
-    //     {
-    //       this.obterLocaisAtendimentos();
-    //       this.form.controls['codPostos'].enable();
-    //     }
-    //     else
-    //       this.form.controls['codPostos'].disable();
-    // 
-    //     this.form.controls['codEquipamentos']
-    //       .valueChanges
-    //       .subscribe(() =>
-    //       {
-    //         if (this.form.controls['codEquipamentos'].value && this.form.controls['codEquipamentos'].value != '')
-    //         {
-    //           this.obterLocaisAtendimentos();
-    //         }
-    //         else
-    //         {
-    //           this.form.controls['codPostos'].setValue(null);
-    //           this.form.controls['codPostos'].disable();
-    //         }
-    //       });
-  }
-
-  async obterRegioesAutorizadas(filialFilter: any)
-  {
+  async obterRegioesAutorizadas(filialFilter: any) {
     let params: RegiaoAutorizadaParameters = {
       indAtivo: statusConst.ATIVO,
       codFiliais: filialFilter,
@@ -318,8 +267,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(i => i).toArray();
   }
 
-  async obterAutorizadas(filialFilter: any)
-  {
+  async obterAutorizadas(filialFilter: any) {
     let params: AutorizadaParameters = {
       indAtivo: statusConst.ATIVO,
       codFiliais: filialFilter,
@@ -333,8 +281,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
   }
 
-  async obterLocaisAtendimentos()
-  {
+  async obterLocaisAtendimentos() {
     var filialFilter = this.form.controls['codFiliais'].value;
     var clienteFilter = this.form.controls['codClientes'].value;
     var regiaoFilter = this.form.controls['codRegioes'].value;
@@ -358,8 +305,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
   }
 
-  async obterStatusServicos()
-  {
+  async obterStatusServicos() {
     let params: StatusServicoParameters = {
       indAtivo: statusConst.ATIVO,
       sortActive: 'nomeStatusServico',
@@ -373,33 +319,28 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.statusServicos = data.items;
   }
 
-  registrarEmitters(): void
-  {
+  registrarEmitters(): void {
     this.clienteFilterCtrl.valueChanges
       .pipe(
         takeUntil(this._onDestroy),
         debounceTime(700),
         distinctUntilChanged()
       )
-      .subscribe(() =>
-      {
+      .subscribe(() => {
         this.obterClientes(this.clienteFilterCtrl.value);
       });
   }
 
-  limpar()
-  {
+  limpar() {
     super.limpar();
 
-    if (this.userSession?.usuario?.codFilial)
-    {
+    if (this.userSession?.usuario?.codFilial) {
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
   }
 
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

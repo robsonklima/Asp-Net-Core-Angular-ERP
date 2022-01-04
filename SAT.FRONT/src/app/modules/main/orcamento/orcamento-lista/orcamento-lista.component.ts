@@ -98,6 +98,7 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
       filter: filtro
     };
 
+        console.log(this.filter);
     const data: OrcamentoData = await this._orcamentoSvc
       .obterPorParametros({
         ...params,

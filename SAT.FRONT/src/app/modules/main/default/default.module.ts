@@ -9,6 +9,8 @@ import { defaultRoutes } from './default.routing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
@@ -22,9 +24,10 @@ import { MatTabsModule } from '@angular/material/tabs';
         TranslocoModule,
         MatButtonToggleModule,
         MatMenuModule,
-        MatTabsModule
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        FuseAlertModule
     ]
 })
-export class DefaultModule
-{
+export class DefaultModule {
 }

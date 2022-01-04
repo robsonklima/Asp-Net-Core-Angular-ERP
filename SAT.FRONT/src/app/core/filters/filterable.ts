@@ -10,8 +10,7 @@ import { Parameters, IFilterableCore } from '../types/filtro.types';
     providedIn: 'root'
 })
 
-export class Filterable implements IFilterableCore
-{
+export class Filterable implements IFilterableCore {
     public filterName: string;
     public filter: any;
     public userSession: UserSession;
@@ -20,12 +19,10 @@ export class Filterable implements IFilterableCore
     paginator: MatPaginator;
     sort: MatSort;
 
-    loadFilter(): void
-    {
+    loadFilter(): void {
         this.filter = this._userService.obterFiltro(this.filterName);
 
-        if (!this.filter) 
-        {
+        if (!this.filter) {
             var params: Parameters = {};
             this.filter =
             {
@@ -36,36 +33,31 @@ export class Filterable implements IFilterableCore
             return;
         }
 
-        Object.keys(this.filter.parametros).forEach((key) =>
-        {
+        Object.keys(this.filter.parametros).forEach((key) => {
             if (this.filter.parametros[key] instanceof Array)
                 this.filter.parametros[key] = this.filter.parametros[key].join();
         });
     }
 
-    constructor (protected _userService: UserService, filterName: string)
-    {
+    constructor(protected _userService: UserService, filterName: string) {
         this.filterName = filterName;
         this.userSession = JSON.parse(this._userService.userSession);
         this.loadFilter();
     }
 
-    onSortChanged(): void
-    {
+    onSortChanged(): void {
         this._userService.atualizarPropriedade(this.filterName, "sortActive", this.sort.active);
         this._userService.atualizarPropriedade(this.filterName, "sortDirection", this.sort.direction);
         this.paginator.pageIndex = 0;
         this.loadFilter();
     }
 
-    onPaginationChanged(): void
-    {
+    onPaginationChanged(): void {
         this._userService.atualizarPropriedade(this.filterName, "qtdPaginacaoLista", this.paginator?.pageSize);
         this.loadFilter();
     }
 
-    onSidenavClosed(): void
-    {
+    onSidenavClosed(): void {
         if (this.paginator) this.paginator.pageIndex = 0;
         this.loadFilter();
     }

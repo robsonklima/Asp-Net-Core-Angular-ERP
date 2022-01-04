@@ -78,6 +78,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(p => p.Peca)
                 .Include(p => p.MaoDeObra)
                 .Include(p => p.OutrosServicos)
+                .Include(p => p.Descontos)
                 .FirstOrDefault(p => p.CodOrc == codigo);
         }
 

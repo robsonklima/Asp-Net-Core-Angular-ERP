@@ -9,6 +9,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
+import { CNPJPipe } from './pipes/cnpj.pipe';
 
 export const FORMATO_DATA = {
     parse: {
@@ -24,7 +25,8 @@ export const FORMATO_DATA = {
 
 @NgModule({
     declarations: [
-      ConfirmacaoDialogComponent
+        ConfirmacaoDialogComponent,
+        CNPJPipe
     ],
     imports: [
         CommonModule,
@@ -37,8 +39,8 @@ export const FORMATO_DATA = {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MatSnackBarModule
-        
+        MatSnackBarModule,
+        CNPJPipe
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },
@@ -46,5 +48,6 @@ export const FORMATO_DATA = {
         { provide: MAT_DATE_FORMATS, useValue: FORMATO_DATA },
     ]
 })
-export class SharedModule {
+export class SharedModule
+{
 }

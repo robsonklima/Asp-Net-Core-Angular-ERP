@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { Filial } from 'app/core/types/filial.types';
 import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -16,6 +18,7 @@ export class OrcamentoDetalheComponent implements OnInit {
   codOrc: number;
   orcamento: Orcamento;
   os: OrdemServico;
+  filial: Filial;
   userSession: UsuarioSessao;
   isLoading: boolean = false;
 
@@ -27,7 +30,9 @@ export class OrcamentoDetalheComponent implements OnInit {
     private _route: ActivatedRoute,
     private _userService: UserService,
     private _osService: OrdemServicoService,
-    private _orcamentoService: OrcamentoService) {
+    private _orcamentoService: OrcamentoService,
+    private _filialService: FilialService) 
+  {
     this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -40,6 +45,8 @@ export class OrcamentoDetalheComponent implements OnInit {
     this.isLoading = true;
     this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
     this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
+    this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
+
     this.obterEnderecos();
     this.isLoading = false;
   }

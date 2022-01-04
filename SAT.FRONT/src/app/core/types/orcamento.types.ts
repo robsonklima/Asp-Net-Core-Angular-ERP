@@ -33,6 +33,7 @@ export interface Orcamento
     materiais?: OrcamentoMaterial[];
     maoDeObra?: OrcamentoMaoDeObra;
     outrosServicos?: OrcamentoOutroServico[];
+    descontos?: OrcamentoDesconto[];
 }
 
 export interface OrcamentoMotivo
@@ -123,6 +124,21 @@ export interface OrcamentoOutroServico
     valorUnitario: number;
     quantidade: number;
     valorTotal: number;
+    dataCadastro: string;
+    usuarioCadastro: string;
+}
+
+export interface OrcamentoDesconto
+{
+    codOrcDesconto: number;
+    codOrc: number;
+    indiceCampo: number;
+    indiceTipo: number;
+    nomeCampo: string;
+    nomeTipo: string;
+    valor: number;
+    valorTotal: number;
+    motivo: string;
     dataCadastro: string;
     usuarioCadastro: string;
 }

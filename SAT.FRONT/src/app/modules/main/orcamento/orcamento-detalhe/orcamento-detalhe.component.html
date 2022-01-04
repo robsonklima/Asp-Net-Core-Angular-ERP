@@ -19,20 +19,36 @@
                                         <span class="ml-1 text-secondary">{{ t('orcamento') }}</span>
                                     </div>
                                 </div>
-
                                 <div class="mt-2">
                                     <h2
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                        {{ orcamento?.numero || '...' }}
-                                    </h2>
+                                        {{ codOrc }} </h2>
+                                    <div>
+                                        <div>{{ filial?.nomeFilial }}</div>
+                                        <div>{{ filial?.endereco }}</div>
+                                        <div>{{ filial?.fone }}</div>
+                                        <div>{{ filial?.cnpj | cnpj }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button>
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
+                            <button class="fuse-mat-button-rounded bg-purple-500" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-400" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            </button>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6bc9ecc621f695c9214aac88e3048b2315edccb2
                         </div>
                     </div>
                 </div>
@@ -53,25 +69,54 @@
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Motivo</div>
-                                            <div class="truncate max-w-1/2">{{ orcamento?.orcamentoMotivo?.descricao }}
+                                            <div class="min-h-fit">{{ orcamento?.orcamentoMotivo?.descricao }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Detalhe</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div class="min-h-fit">
                                                 {{ orcamento?.detalhe }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Data</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div>
                                                 {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Utiliza lista específica?</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div>
                                                 {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">Condições
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Valor Total dos Descontos</div>
+                                            <div class="min-h-fit">
+                                                {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Valor Total</div>
+                                            <div class="min-h-fit">
+                                                {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Validade</div>
+                                            <div>
+                                                {{ '3 dias' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Impostos inclusos</div>
+                                            <div>
+                                                {{ 'SIM' }}
                                             </div>
                                         </div>
                                     </fuse-card>
@@ -90,7 +135,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('material') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -99,7 +143,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('mao de obra') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -108,7 +151,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('deslocamento') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -117,12 +159,19 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('servicos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
                                     <app-orcamento-detalhe-outro-servico [orcamento]="orcamento">
                                     </app-orcamento-detalhe-outro-servico>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="{{ t('descontos') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-desconto [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-desconto>
                                 </div>
                             </ng-template>
                         </mat-tab>

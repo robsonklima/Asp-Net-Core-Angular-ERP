@@ -20,14 +20,11 @@
                                     </div>
                                 </div>
                                 <div class="mt-2">
-                                    <h2
+                                    <h6
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                        {{ codOrc }} </h2>
+                                        {{ orcamento?.numero }} </h6>
                                     <div>
-                                        <div>{{ filial?.nomeFilial }}</div>
-                                        <div>{{ filial?.endereco }}</div>
-                                        <div>{{ filial?.fone }}</div>
-                                        <div>{{ filial?.cnpj | cnpj }}</div>
+                                        <div>{{ filial?.nomeFilial }} {{ filial?.endereco }} {{ filial?.fone }} {{ filial?.cnpj | cnpj }}</div>
                                     </div>
                                 </div>
                             </div>

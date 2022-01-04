@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div class="bg-card border-b">
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-8">
@@ -19,7 +19,8 @@
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+                    *ngIf="sessionData?.usuario?.codPerfil === 29 || sessionData?.usuario?.codPerfil === 3">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-semibold tracking-tight leading-6 truncate">
                             Integrações
@@ -27,7 +28,7 @@
                     </div>
         
                     <div class="flex flex-col flex-auto">
-                        <div class="flex flex-col w-full min-w-0 sm:overflow-hidden py-3" *transloco="let t">
+                        <div class="flex flex-col w-full min-w-0 sm:overflow-hidden py-3">
                             <div class="w-full">
                                 <div class="flex flex-col">
                                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

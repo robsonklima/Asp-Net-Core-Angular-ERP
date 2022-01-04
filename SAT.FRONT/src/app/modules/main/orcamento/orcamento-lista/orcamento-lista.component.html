@@ -95,55 +95,55 @@
                                             <div class="list-grid-orcamentos grid items-center mt-1 h-6 gap-4 px-1 text-xs md:px-4 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center">
-                                                    {{ orc.numero }}
+                                                    {{ orc?.numero }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.dataManutencao | date:'dd/MM/yyyy' }}
+                                                    {{ orc?.ordemServico?.dataManutencao | date:'dd/MM/yyyy' }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.codigoOrdemServico }}
+                                                    {{ orc?.codigoOrdemServico }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.dataHoraAberturaOS | date:'dd/MM/yyyy' }}
+                                                    {{ orc?.ordemServico?.dataHoraAberturaOS | date:'dd/MM/yyyy' }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.statusServico.nomeStatusServico }}
+                                                    {{ orc?.ordemServico?.statusServico?.nomeStatusServico }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.relatoriosAtendimento[0]?.laudos[0]?.laudoStatus?.nomeStatus }}
+                                                    {{ orc?.ordemServico?.relatoriosAtendimento[0]?.laudos[0]?.laudoStatus?.nomeStatus }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.tipoIntervencao.nomTipoIntervencao }}
+                                                    {{ orc?.ordemServico?.tipoIntervencao?.nomTipoIntervencao }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.autorizada.nomeFantasia }}
+                                                    {{ orc?.ordemServico?.autorizada?.nomeFantasia }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.regiao.nomeRegiao }}
+                                                    {{ orc?.ordemServico?.regiao?.nomeRegiao }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.cliente.nomeFantasia }}
+                                                    {{ orc?.ordemServico?.cliente?.nomeFantasia }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.localAtendimento.nomeLocal }}
+                                                    {{ orc?.ordemServico?.localAtendimento?.nomeLocal }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.equipamento?.nomeEquip }}
+                                                    {{ orc?.ordemServico?.equipamento?.nomeEquip }}
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc.ordemServico.equipamentoContrato?.numSerie }}
+                                                    {{ orc?.ordemServico?.equipamentoContrato?.numSerie }}
                                                 </div>
                                             </div>
                                         </a>
@@ -152,7 +152,8 @@
                             </div>
 
                             <div *ngIf="!dataSourceData?.items.length && !isLoading"
-                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum orçamento encontrado!</div>
+                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum
+                                orçamento encontrado!</div>
 
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"

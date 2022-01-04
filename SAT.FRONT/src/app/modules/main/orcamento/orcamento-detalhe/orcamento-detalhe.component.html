@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Motivo</div>
-                                            <div class="truncate max-w-1/2">{{orcamento?.orcamentoMotivo?.descricao }}
+                                            <div class="truncate max-w-1/2">{{ orcamento?.orcamentoMotivo?.descricao }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
@@ -97,6 +97,33 @@
                                 <div class="w-full">
                                     <app-orcamento-detalhe-material [orcamento]="orcamento">
                                     </app-orcamento-detalhe-material>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="{{ t('mao de obra') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-mao-de-obra [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-mao-de-obra>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="{{ t('deslocamento') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-deslocamento [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-deslocamento>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="{{ t('servicos') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-outro-servico [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-outro-servico>
                                 </div>
                             </ng-template>
                         </mat-tab>

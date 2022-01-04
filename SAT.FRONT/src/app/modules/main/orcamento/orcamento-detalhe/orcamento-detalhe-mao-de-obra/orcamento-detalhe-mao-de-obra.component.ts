@@ -1,6 +1,10 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { Orcamento } from 'app/core/types/orcamento.types';
+import { OrcamentoMaoDeObra } from 'app/core/types/orcamento.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
+import { IEditableFuseCard } from 'app/shared/components/interfaces/ieditable-fuse-card';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-orcamento-detalhe-mao-de-obra',
@@ -18,14 +22,49 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheMaoDeObraComponent implements OnInit
+export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuseCard
 {
 
-  codOrc: number;
+  @Input() maoDeObra: OrcamentoMaoDeObra;
+  oldMaoDeObra: OrcamentoMaoDeObra;
+  userSession: UserSession
   isLoading: boolean;
-  @Input() orcamento: Orcamento;
+  isEditing: boolean;
 
-  constructor () { }
+  constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
+  {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  editar(): void
+  {
+    this.isEditing = true;
+    this.oldMaoDeObra = Object.assign({}, this.maoDeObra);
+  }
+
+  salvar(): void
+  {
+    this.isEditing = false;
+    this.isLoading = true;
+    this.isLoading = false;
+  }
+
+  cancelar(): void
+  {
+    this.isEditing = false;
+    this.oldMaoDeObra = Object.assign({}, this.maoDeObra);
+    this._cdRef.detectChanges();
+  }
+
+  isEqual(): boolean
+  {
+    return isEqual(this.oldMaoDeObra, this.maoDeObra);
+  }
+
+  toNumber(value)
+  {
+    return +value;
+  }
 
   ngOnInit(): void { }
 }

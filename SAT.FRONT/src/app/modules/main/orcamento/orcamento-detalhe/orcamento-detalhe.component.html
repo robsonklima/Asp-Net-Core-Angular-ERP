@@ -168,7 +168,7 @@
                         <mat-tab label="{{ t('material') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
-                                    <app-orcamento-detalhe-material [orcamento]="orcamento">
+                                    <app-orcamento-detalhe-material [materiais]="orcamento?.materiais">
                                     </app-orcamento-detalhe-material>
                                 </div>
                             </ng-template>
@@ -176,9 +176,10 @@
                         <mat-tab label="{{ t('mao de obra') }} e {{t('deslocamento')}}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
-                                    <app-orcamento-detalhe-deslocamento [orcamento]="orcamento">
+                                    <app-orcamento-detalhe-deslocamento
+                                        [deslocamento]="orcamento?.orcamentoDeslocamento">
                                     </app-orcamento-detalhe-deslocamento>
-                                    <app-orcamento-detalhe-mao-de-obra [orcamento]="orcamento">
+                                    <app-orcamento-detalhe-mao-de-obra [maoDeObra]="orcamento?.maoDeObra">
                                     </app-orcamento-detalhe-mao-de-obra>
                                 </div>
                             </ng-template>
@@ -187,7 +188,7 @@
                         <mat-tab label="{{ t('servicos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
-                                    <app-orcamento-detalhe-outro-servico [orcamento]="orcamento">
+                                    <app-orcamento-detalhe-outro-servico [outrosServicos]="orcamento?.outrosServicos">
                                     </app-orcamento-detalhe-outro-servico>
                                 </div>
                             </ng-template>
@@ -195,7 +196,7 @@
                         <mat-tab label="{{ t('descontos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
-                                    <app-orcamento-detalhe-desconto [orcamento]="orcamento">
+                                    <app-orcamento-detalhe-desconto [descontos]="orcamento?.descontos">
                                     </app-orcamento-detalhe-desconto>
                                 </div>
                             </ng-template>

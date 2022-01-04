@@ -7,10 +7,10 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   templateUrl: './orcamento-detalhe-outro-servico.component.html',
   styles: [`
         .list-grid-servicos {
-            grid-template-columns: 100px auto 100px 100px 100px;
+            grid-template-columns: auto 100px 100px 100px 100px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 100px 100px;
+                grid-template-columns: auto 100px 100px 100px 100px;
             }
         }
     `],

@@ -27,5 +27,4 @@ export class MonitoramentoStorage {
 export class MonitoramentoClienteViewModel {
     public nomeCliente: string;
     public dataUltimoChamado: string;
-    public ociosidade: string;
 }

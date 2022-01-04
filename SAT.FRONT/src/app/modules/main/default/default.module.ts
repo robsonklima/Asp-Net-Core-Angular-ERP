@@ -10,6 +10,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatButtonToggleModule,
         MatMenuModule,
         MatTabsModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        FuseAlertModule
     ]
 })
 export class DefaultModule {

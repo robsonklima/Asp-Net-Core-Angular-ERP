@@ -42,12 +42,7 @@ namespace SAT.INFRA.Repository
                                  select new MonitoramentoClienteViewModel()
                                  {
                                      NomeCliente = listaClientes.FirstOrDefault(s => os.Key == s.CodCliente).NomeFantasia,
-                                     DataUltimoChamado = os.FirstOrDefault().DataHoraAberturaOS.Value.ToString(),
-                                     Ociosidade =
-                                     string.Format("{0:00}:{1:00}:{2:00}",
-                                      (int)hoje.Subtract(os.FirstOrDefault().DataHoraAberturaOS.Value).TotalHours,
-                                     hoje.Subtract(os.FirstOrDefault().DataHoraAberturaOS.Value).Minutes,
-                                      hoje.Subtract(os.FirstOrDefault().DataHoraAberturaOS.Value).Seconds)
+                                     DataUltimoChamado = (DateTime)os.FirstOrDefault().DataHoraAberturaOS
                                  }).Distinct().ToList();
 
             retorno.AddRange(dadosClientes);
@@ -63,12 +58,7 @@ namespace SAT.INFRA.Repository
             // BB Garantia 
             DateTime ultimoChamadoBB = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 1).FirstOrDefault().DataHoraAberturaOS.Value;
             modelBB.NomeCliente = "BB Garantia";
-            modelBB.DataUltimoChamado = ultimoChamadoBB.ToString();
-            modelBB.Ociosidade =
-                 string.Format("{0:00}:{1:00}:{2:00}",
-                  (int)hoje.Subtract(ultimoChamadoBB).TotalHours,
-                 hoje.Subtract(ultimoChamadoBB).Minutes,
-                  hoje.Subtract(ultimoChamadoBB).Seconds);
+            modelBB.DataUltimoChamado = ultimoChamadoBB;
 
             retorno.Add(modelBB);
 
@@ -77,16 +67,11 @@ namespace SAT.INFRA.Repository
             // BB Cobra 
             ultimoChamadoBB = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 0).FirstOrDefault().DataHoraAberturaOS.Value;
             modelBB.NomeCliente = "BB Cobra";
-            modelBB.DataUltimoChamado = ultimoChamadoBB.ToString();
-            modelBB.Ociosidade =
-                 string.Format("{0:00}:{1:00}:{2:00}",
-                  (int)hoje.Subtract(ultimoChamadoBB).TotalHours,
-                 hoje.Subtract(ultimoChamadoBB).Minutes,
-                  hoje.Subtract(ultimoChamadoBB).Seconds);
+            modelBB.DataUltimoChamado = ultimoChamadoBB;
 
             retorno.Add(modelBB);
 
-            return retorno.OrderByDescending(s => s.Ociosidade).ToList();
+            return retorno.OrderByDescending(s => s.DataUltimoChamado).ToList();
         }
 
         private List<IntegracaoServidorModel> ObterListaGeralMonitoramento()

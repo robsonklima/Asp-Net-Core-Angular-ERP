@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { MonitoramentoClienteViewModel } from 'app/core/types/monitoramento.type';
+import { MonitoramentoClienteViewModel } from 'app/core/types/monitoramento.types';
 
 @Component({
   selector: 'app-monitoramento-sat',

@@ -2,8 +2,7 @@ import { ContratoEquipamento } from './../../../../../../core/types/contrato-equ
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ContratoParameters } from '../../../../../../core/types/contrato.types';
-import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, AfterViewInit } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Contrato } from 'app/core/types/contrato.types';
@@ -13,7 +12,6 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoEquipamentoData } from 'app/core/types/contrato-equipamento.types';
 import { MatDialog } from '@angular/material/dialog';
-
 
 @Component({
     selector: 'app-contrato-modelo-lista',

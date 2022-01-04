@@ -13,7 +13,8 @@ import { UserService } from 'app/core/user/user.service';
   selector: 'app-orcamento-detalhes',
   templateUrl: './orcamento-detalhe.component.html'
 })
-export class OrcamentoDetalheComponent implements OnInit {
+export class OrcamentoDetalheComponent implements OnInit
+{
 
   codOrc: number;
   orcamento: Orcamento;
@@ -26,7 +27,7 @@ export class OrcamentoDetalheComponent implements OnInit {
   dadosLocalEnvioNF: OrcamentoDadosLocal;
   dadosLocalAtendimento: OrcamentoDadosLocal;
 
-  constructor(
+  constructor (
     private _route: ActivatedRoute,
     private _userService: UserService,
     private _osService: OrdemServicoService,
@@ -37,11 +38,13 @@ export class OrcamentoDetalheComponent implements OnInit {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.obterDados();
   }
 
-  private async obterDados() {
+  private async obterDados()
+  {
     this.isLoading = true;
     this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
     this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
@@ -51,7 +54,9 @@ export class OrcamentoDetalheComponent implements OnInit {
     this.isLoading = false;
   }
 
-  private obterEnderecos() {
+  private obterEnderecos()
+  {
+
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,
@@ -105,8 +110,10 @@ export class OrcamentoDetalheComponent implements OnInit {
     }
   }
 
-  trocarTab(tab: any) {
-    if (tab.index !== 5 || !this.orcamento) {
+  trocarTab(tab: any)
+  {
+    if (tab.index !== 5 || !this.orcamento)
+    {
       return;
     }
   }

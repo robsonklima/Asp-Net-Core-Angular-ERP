@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { AuthGuard } from 'app/core/auth/guards/auth.guard';
-import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
+import { AuthGuard } from 'app/core/guards/auth.guard';
+import { NoAuthGuard } from 'app/core/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 
@@ -93,6 +93,7 @@ export const appRoutes: Route[] = [
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },
+            { path: '403-forbidden', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-403/erro-403.module').then(m => m.Erro403Module) },
             { path: '500-internal-server-error', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-500/erro-500.module').then(m => m.Erro500Module) },
             { path: '**', redirectTo: '404-not-found' }
         ]

@@ -21,6 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     return next.handle(newReq).pipe(
       catchError((err) => {
+        debugger
         let error: any;
 
         if (err.error instanceof ErrorEvent) {

@@ -20,7 +20,7 @@ namespace SAT.API.Controllers
             _pontoPeriodoService = pontoPeriodoService;
         }
 
-        [Authorize(Roles = "35,82")]
+        [Authorize(Roles = "3,35,82")]
         [HttpGet]
         public ListViewModel Get([FromQuery] PontoPeriodoParameters parameters)
         {

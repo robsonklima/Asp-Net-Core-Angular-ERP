@@ -23,6 +23,12 @@
                                     <h2
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                                         {{ codOrc }} </h2>
+                                    <div>
+                                        <div>{{ filial?.nomeFilial }}</div>
+                                        <div>{{ filial?.endereco }}</div>
+                                        <div>{{ filial?.fone }}</div>
+                                        <div>{{ filial?.cnpj | cnpj }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -32,6 +32,7 @@ export interface Orcamento
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];
     maoDeObra?: OrcamentoMaoDeObra;
+    outrosServicos?: OrcamentoOutroServico[];
 }
 
 export interface OrcamentoMotivo
@@ -109,6 +110,19 @@ export interface OrcamentoMaoDeObra
     valorHoraTecnica: number;
     valorTotal: number;
     redutor: number;
+    dataCadastro: string;
+    usuarioCadastro: string;
+}
+
+export interface OrcamentoOutroServico
+{
+    codOrcOutroServico: number;
+    codOrc: number;
+    tipo: string;
+    descricao: string;
+    valorUnitario: number;
+    quantidade: number;
+    valorTotal: number;
     dataCadastro: string;
     usuarioCadastro: string;
 }

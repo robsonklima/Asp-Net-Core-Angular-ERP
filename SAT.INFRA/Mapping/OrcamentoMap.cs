@@ -43,6 +43,12 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<OrcamentoMaoDeObra>(i => i.CodOrc)
                 .HasPrincipalKey<Orcamento>(i => i.CodOrc);
+
+            builder
+               .HasMany(i => i.OutrosServicos)
+               .WithOne()
+               .HasForeignKey(i => i.CodOrc)
+               .HasPrincipalKey(i => i.CodOrc);
         }
     }
 }

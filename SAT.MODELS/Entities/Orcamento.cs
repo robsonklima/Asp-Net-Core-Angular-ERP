@@ -33,6 +33,7 @@ namespace SAT.MODELS.Entities
         public virtual OrdemServico OrdemServico { get; set; }
         public virtual OrcamentoMotivo OrcamentoMotivo { get; set; }
         public virtual List<OrcamentoMaterial> Materiais { get; set; }
+        public virtual List<OrcamentoOutroServico> OutrosServicos { get; set; }
         public virtual OrcamentoMaoDeObra MaoDeObra { get; set; }
     }
 }

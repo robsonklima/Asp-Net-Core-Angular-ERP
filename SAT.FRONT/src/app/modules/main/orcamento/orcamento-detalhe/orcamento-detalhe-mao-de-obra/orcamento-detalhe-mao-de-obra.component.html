@@ -1,19 +1,40 @@
 <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
-    <div class="text-lg font-medium mt-2"> {{t('mao de obra') }}</div>
-    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+    <div class="flex items-center justify-between mt-2">
+        <div class="text-lg font-medium">{{t('mao de obra')}}</div>
+        <button mat-icon-button (click)="editar()" *ngIf="!isEditing">
+            <mat-icon class="icon-size-5 text-right" [svgIcon]="'heroicons_solid:pencil'">
+            </mat-icon>
+        </button>
+        <div class="text-secondary italic" *ngIf="isEditing">Em edição</div>
+    </div>
+    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">{{ t("valor hora tecnica") }}</div>
             <div class="truncate max-w-1/2">
-                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }} </div>
+                {{ maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }} </div>
         </div>
         <div class="flex items-center justify-between py-3">
-            <div class="text-secondary">{{ t("previsao horas") }}</div>
-            <div class="truncate max-w-1/2"> {{ orcamento?.maoDeObra?.previsaoHoras }} </div>
+            <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">{{ t("previsao horas") }}</div>
+            <div class="truncate max-w-1/2" name="previsaoHoras" ngDefaultControl
+                [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }"
+                [contentEditable]="isEditing ? 'true' : 'false'" [textContent]="maoDeObra?.previsaoHoras "
+                (input)="maoDeObra.previsaoHoras = toNumber($event.target.innerText)">
+                {{ maoDeObra?.previsaoHoras  }} </div>
         </div>
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">{{ t("valor total") }}</div>
-            <div class="truncate max-w-1/2">{{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+            <div class="truncate max-w-1/2">{{ maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
             </div>
         </div>
+    </div>
+    <div class="flex justify-end mt-2" *ngIf="isEditing">
+        <button mat-icon-button (click)="salvar()" [disabled]="isEqual()">
+            <mat-icon class="icon-size-6 text-right text-green-500" [svgIcon]="'heroicons_solid:check'">
+            </mat-icon>
+        </button>
+        <button mat-icon-button (click)="cancelar()">
+            <mat-icon class="icon-size-6 text-right text-red-500" [svgIcon]="'heroicons_solid:minus-circle'">
+            </mat-icon>
+        </button>
     </div>
 </fuse-card>

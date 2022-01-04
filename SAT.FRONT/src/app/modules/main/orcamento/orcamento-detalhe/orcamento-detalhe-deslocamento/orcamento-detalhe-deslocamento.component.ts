@@ -1,6 +1,10 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { Orcamento } from 'app/core/types/orcamento.types';
+import { OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
+import { IEditableFuseCard } from 'app/shared/components/interfaces/ieditable-fuse-card';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-orcamento-detalhe-deslocamento',
@@ -18,13 +22,48 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheDeslocamentoComponent implements OnInit
+export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableFuseCard
 {
-
+  @Input() deslocamento: OrcamentoDeslocamento;
+  oldDeslocamento: OrcamentoDeslocamento;
+  userSession: UserSession
   isLoading: boolean;
-  @Input() orcamento: Orcamento;
+  isEditing: boolean;
 
-  constructor () { }
+  constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
+  {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  editar(): void
+  {
+    this.isEditing = true;
+    this.oldDeslocamento = Object.assign({}, this.deslocamento);
+  }
+
+  salvar(): void
+  {
+    this.isEditing = false;
+    this.isLoading = true;
+    this.isLoading = false;
+  }
+
+  cancelar(): void
+  {
+    this.isEditing = false;
+    this.deslocamento = Object.assign({}, this.oldDeslocamento);
+    this._cdRef.detectChanges();
+  }
+
+  isEqual(): boolean
+  {
+    return isEqual(this.oldDeslocamento, this.deslocamento);
+  }
+
+  toNumber(value)
+  {
+    return +value;
+  }
 
   ngOnInit(): void { }
 }

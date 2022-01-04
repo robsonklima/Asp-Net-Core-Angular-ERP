@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { Orcamento } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoMaterial } from 'app/core/types/orcamento.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhe-material',
@@ -22,11 +24,32 @@ export class OrcamentoDetalheMaterialComponent implements OnInit
 
   codOrc: number;
   isLoading: boolean;
-  @Input() orcamento: Orcamento;
+  @Input() materiais: OrcamentoMaterial[];
 
-  constructor () { }
+  constructor (public _dialog: MatDialog) { }
 
   ngOnInit(): void { }
 
-  excluirMaterial() { }
+  excluirMaterial(material: OrcamentoMaterial) 
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: `Deseja remover o material ${material.codigoMagnus}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      },
+      backdropClass: 'static'
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+
+      }
+    });
+  }
 }

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { Orcamento } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoOutroServico } from 'app/core/types/orcamento.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhe-outro-servico',
@@ -22,9 +24,32 @@ export class OrcamentoDetalheOutroServicoComponent implements OnInit
 {
   codOrc: number;
   isLoading: boolean;
-  @Input() orcamento: Orcamento;
+  @Input() outrosServicos: OrcamentoOutroServico[];
 
-  constructor () { }
+  constructor (public _dialog: MatDialog) { }
 
   ngOnInit(): void { }
+
+  excluirOutroServico(servico: OrcamentoOutroServico) 
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: `Deseja remover o serviço ${servico.descricao}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      },
+      backdropClass: 'static'
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+
+      }
+    });
+  }
 }

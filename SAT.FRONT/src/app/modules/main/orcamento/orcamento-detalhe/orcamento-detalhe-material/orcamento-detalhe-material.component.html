@@ -15,7 +15,7 @@
             <div class="grid h-100">
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <div class="grid" *ngIf="orcamento?.materiais?.length">
+                        <div class="grid" *ngIf="materiais?.length">
                             <div class="list-grid-material sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div>
@@ -45,7 +45,7 @@
 
                             </div>
 
-                            <ng-container *ngFor="let material of orcamento.materiais">
+                            <ng-container *ngFor="let material of materiais">
                                 <div class="
 								list-grid-material grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100"
                                     *transloco="let t">
@@ -73,21 +73,21 @@
                                     </div>
                                     <div class="text-left">
                                         <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
-                                            (click)="excluirMaterial()">
+                                            (click)="excluirMaterial(material)">
                                             <mat-icon class="icon-size-5 text-blue-600"
                                                 [svgIcon]="'heroicons_outline:refresh'">
                                             </mat-icon>
                                         </button>
 
                                         <button class="bg-transparent" [matTooltip]="'Alterar valor'"
-                                            (click)="excluirMaterial()">
+                                            (click)="excluirMaterial(material)">
                                             <mat-icon class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_outline:cash'">
                                             </mat-icon>
                                         </button>
 
                                         <button class="bg-transparent" [matTooltip]="t('deletar')"
-                                            (click)="excluirMaterial()">
+                                            (click)="excluirMaterial(material)">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
                                             </mat-icon>
@@ -96,7 +96,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!orcamento?.materiais?.length && !isLoading"
+                        <div *ngIf="!materiais?.length && !isLoading"
                             class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                             Nenhum material encontrado!
                         </div>

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { Orcamento } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDesconto } from 'app/core/types/orcamento.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhe-desconto',
@@ -22,9 +24,32 @@ export class OrcamentoDetalheDescontoComponent implements OnInit
 {
 
   isLoading: boolean;
-  @Input() orcamento: Orcamento;
+  @Input() descontos: OrcamentoDesconto[];
 
-  constructor () { }
+  constructor (public _dialog: MatDialog) { }
 
   ngOnInit(): void { }
+
+  excluirDesconto(desconto: OrcamentoDesconto) 
+  {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: `Deseja remover o desconto ${desconto.nomeCampo}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      },
+      backdropClass: 'static'
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+
+      }
+    });
+  }
 }

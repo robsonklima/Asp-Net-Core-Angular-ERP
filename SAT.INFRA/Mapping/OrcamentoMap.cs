@@ -55,6 +55,12 @@ namespace SAT.INFRA.Mapping
                .WithOne()
                .HasForeignKey(i => i.CodOrc)
                .HasPrincipalKey(i => i.CodOrc);
+
+            builder
+                .HasOne(i => i.OrcamentoStatus)
+                .WithMany()
+                .HasForeignKey(i => i.CodigoStatus)
+                .HasPrincipalKey(i => i.CodOrcStatus);
         }
     }
 }

@@ -34,6 +34,7 @@ export interface Orcamento
     maoDeObra?: OrcamentoMaoDeObra;
     outrosServicos?: OrcamentoOutroServico[];
     descontos?: OrcamentoDesconto[];
+    orcamentoStatus?: OrcamentoStatus;
 }
 
 export interface OrcamentoMotivo
@@ -141,6 +142,12 @@ export interface OrcamentoDesconto
     motivo: string;
     dataCadastro: string;
     usuarioCadastro: string;
+}
+
+export interface OrcamentoStatus
+{
+    codOrcStatus: number;
+    nome: string;
 }
 
 export interface OrcamentoData extends Meta

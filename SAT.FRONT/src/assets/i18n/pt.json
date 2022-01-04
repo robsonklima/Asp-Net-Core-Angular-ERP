@@ -464,6 +464,9 @@
     "dados local": "Dados do Local",
     "material": "Material",
     "valor unitario vencido": "Valor Unitário Vencido",
-    "valor desconto": "Valor Desconto"
-
+    "valor desconto": "Valor Desconto",
+    "mao de obra": "Mão de Obra",
+    "deslocamento": "Deslocamento",
+    "valor hora tecnica": "Valor Hora Técnica",
+    "previsao horas": "Previsão em Horas"
 }

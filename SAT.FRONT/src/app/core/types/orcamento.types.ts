@@ -31,6 +31,7 @@ export interface Orcamento
     enderecoFaturamentoNF?: EnderecoFaturamentoNF;
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];
+    maoDeObra?: OrcamentoMaoDeObra;
 }
 
 export interface OrcamentoMotivo
@@ -98,6 +99,18 @@ export interface OrcamentoMaterial
     valorIpi: number;
     valorUnitarioFinanceiro: number;
     peca?: Peca;
+}
+
+export interface OrcamentoMaoDeObra
+{
+    codOrcMaoObra: number;
+    codOrc: number;
+    previsaoHoras: number;
+    valorHoraTecnica: number;
+    valorTotal: number;
+    redutor: number;
+    dataCadastro: string;
+    usuarioCadastro: string;
 }
 
 export interface OrcamentoData extends Meta

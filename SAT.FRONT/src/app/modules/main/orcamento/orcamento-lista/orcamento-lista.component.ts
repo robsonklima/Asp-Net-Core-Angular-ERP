@@ -22,7 +22,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+export class OrcamentoListaComponent extends Filterable implements AfterViewInit, IFilterable
+{
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
@@ -34,34 +35,40 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
   isLoading: boolean = false;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _orcamentoSvc: OrcamentoService,
     private _cdr: ChangeDetectorRef,
     protected _userService: UserService
-  ) {
+  )
+  {
     super(_userService, 'orcamento');
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this.obterOrcamentos();
     this.registerEmitters();
 
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
+      map((event: any) =>
+      {
         return event.target.value;
       })
       , debounceTime(1000)
       , distinctUntilChanged()
-    ).subscribe((text: string) => {
+    ).subscribe((text: string) =>
+    {
       this.paginator.pageIndex = 0;
       this.obterOrcamentos(text);
     });
 
-    if (this.sort && this.paginator) {
+    if (this.sort && this.paginator)
+    {
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() => {
+      this.sort.sortChange.subscribe(() =>
+      {
         this.onSortChanged();
         this.obterOrcamentos();
       });
@@ -70,14 +77,17 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
     this._cdr.detectChanges();
   }
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
+  registerEmitters(): void
+  {
+    this.sidenav.closedStart.subscribe(() =>
+    {
       this.onSidenavClosed();
       this.obterOrcamentos();
     })
   }
 
-  private async obterOrcamentos(filtro: string = '') {
+  private async obterOrcamentos(filtro: string = '')
+  {
     this.isLoading = true;
 
     const params: OrcamentoParameters = {
@@ -95,19 +105,18 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
       })
       .toPromise();
 
-    console.log(data.items);
-    
-
     this.dataSourceData = data;
     this.isLoading = false;
   }
 
-  paginar() {
+  paginar()
+  {
     this.onPaginationChanged();
     this.obterOrcamentos();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

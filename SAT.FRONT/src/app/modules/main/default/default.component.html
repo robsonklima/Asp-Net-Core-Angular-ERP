@@ -49,7 +49,14 @@
                                                         </tr>
                                                         <tr [class.border-b]="listaMonitoramentoClientes.length - 1 > i" *ngFor="let cliente of listaMonitoramentoClientes; let i = index">
                                                             <td class="py-3 white space-nowrap text-md text-gray-900 font-light">
-                                                                {{cliente.nomeCliente | uppercase}}
+                                                                <span class="flex items-center">
+                                                                    <span
+                                                                        class="w-2 h-2 rounded-full"
+                                                                        [ngClass]="{'bg-red-500': obterOciosidadeEmHoras(cliente.dataUltimoChamado) >= 3,
+                                                                                    'bg-green-500': obterOciosidadeEmHoras(cliente.dataUltimoChamado) <= 1,
+                                                                                    'bg-amber-500': obterOciosidadeEmHoras(cliente.dataUltimoChamado) < 3 && obterOciosidadeEmHoras(cliente.dataUltimoChamado) > 1}"></span>
+                                                                    <span class="ml-3 leading-4">{{cliente.nomeCliente | uppercase}}</span>
+                                                                </span>
                                                             </td>
                                                             <td class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
                                                                 {{cliente.dataUltimoChamado | date:'dd/MM/yyyy HH:mm'}}

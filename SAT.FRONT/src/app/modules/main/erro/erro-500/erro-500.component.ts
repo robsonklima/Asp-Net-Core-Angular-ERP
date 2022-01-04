@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'error-404',
-    templateUrl    : './error-404.component.html',
+    selector       : 'erro-500',
+    templateUrl    : './erro-500.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Error404Component
+export class Erro500Component
 {
-    /**
-     * Constructor
-     */
     constructor()
     {
     }

@@ -20,7 +20,7 @@ export class GlobalErrorInterceptor implements ErrorHandler {
             const err: any = {
                 type: 'CLIENT_SIDE',
                 status: error?.status,
-                message: error?.message || 'Undefined client error'
+                message: error?.message || error || 'Undefined client error'
             }
 
             this._emailSvc.enviarEmail({

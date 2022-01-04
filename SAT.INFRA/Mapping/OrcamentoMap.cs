@@ -49,6 +49,12 @@ namespace SAT.INFRA.Mapping
                .WithOne()
                .HasForeignKey(i => i.CodOrc)
                .HasPrincipalKey(i => i.CodOrc);
+
+            builder
+               .HasMany(i => i.Descontos)
+               .WithOne()
+               .HasForeignKey(i => i.CodOrc)
+               .HasPrincipalKey(i => i.CodOrc);
         }
     }
 }

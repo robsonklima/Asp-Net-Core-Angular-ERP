@@ -43,6 +43,7 @@ import { OrcamentoDetalheMaterialComponent } from './orcamento-detalhe/orcamento
 import { OrcamentoDetalheMaoDeObraComponent } from './orcamento-detalhe/orcamento-detalhe-mao-de-obra/orcamento-detalhe-mao-de-obra.component';
 import { OrcamentoDetalheDeslocamentoComponent } from './orcamento-detalhe/orcamento-detalhe-deslocamento/orcamento-detalhe-deslocamento.component';
 import { OrcamentoDetalheOutroServicoComponent } from './orcamento-detalhe/orcamento-detalhe-outro-servico/orcamento-detalhe-outro-servico.component';
+import { OrcamentoDetalheDescontoComponent } from './orcamento-detalhe/orcamento-detalhe-desconto/orcamento-detalhe-desconto.component';
 
 @NgModule({
     declarations: [
@@ -53,7 +54,8 @@ import { OrcamentoDetalheOutroServicoComponent } from './orcamento-detalhe/orcam
         OrcamentoDetalheMaterialComponent,
         OrcamentoDetalheMaoDeObraComponent,
         OrcamentoDetalheDeslocamentoComponent,
-        OrcamentoDetalheOutroServicoComponent
+        OrcamentoDetalheOutroServicoComponent,
+        OrcamentoDetalheDescontoComponent
     ],
     imports: [
         CommonModule,

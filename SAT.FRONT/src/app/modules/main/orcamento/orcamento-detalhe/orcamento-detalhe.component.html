@@ -19,22 +19,18 @@
                                         <span class="ml-1 text-secondary">{{ t('orcamento') }}</span>
                                     </div>
                                 </div>
-
                                 <div class="mt-2">
                                     <h2
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                        {{ codOrc }}
-                                    </h2>
+                                        {{ codOrc }} </h2>
                                 </div>
                             </div>
                         </div>
-
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button>
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -54,24 +50,24 @@
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Motivo</div>
-                                            <div class="truncate max-w-1/2">{{ orcamento?.orcamentoMotivo?.descricao }}
+                                            <div class="min-h-fit">{{ orcamento?.orcamentoMotivo?.descricao }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Detalhe</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div class="min-h-fit">
                                                 {{ orcamento?.detalhe }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Data</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div>
                                                 {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Utiliza lista específica?</div>
-                                            <div class="truncate max-w-1/2">
+                                            <div>
                                                 {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
                                             </div>
                                         </div>
@@ -124,6 +120,15 @@
                                 <div class="w-full">
                                     <app-orcamento-detalhe-outro-servico [orcamento]="orcamento">
                                     </app-orcamento-detalhe-outro-servico>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="{{ t('descontos') }}">
+                            <ng-template matTabContent>
+                                <div class="w-full">
+                                    <app-orcamento-detalhe-desconto [orcamento]="orcamento">
+                                    </app-orcamento-detalhe-desconto>
                                 </div>
                             </ng-template>
                         </mat-tab>

@@ -23,9 +23,7 @@
                                     <h6
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                                         {{ orcamento?.numero }} </h6>
-                                    <div>
-                                        <div>{{ filial?.nomeFilial }} {{ filial?.endereco }} {{ filial?.fone }} {{ filial?.cnpj | cnpj }}</div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -58,29 +56,61 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
                                     <fuse-card
                                         class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2"> {{ "Informações"}}
+                                        </div>
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Filial</div>
+                                                <div class="min-h-fit">{{ filial?.nomeFilial }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Endereço</div>
+                                                <div class="min-h-fit">
+                                                    {{ filial?.endereco }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Fone</div>
+                                                <div>
+                                                    {{ filial?.fone }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">CNPJ</div>
+                                                <div>
+                                                    {{ filial?.cnpj | cnpj }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2"> {{ "Orçamento " + orcamento?.numero }}
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Motivo</div>
-                                            <div class="min-h-fit">{{ orcamento?.orcamentoMotivo?.descricao }}
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Motivo</div>
+                                                <div class="min-h-fit">{{ orcamento?.orcamentoMotivo?.descricao }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Detalhe</div>
-                                            <div class="min-h-fit">
-                                                {{ orcamento?.detalhe }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Detalhe</div>
+                                                <div class="min-h-fit">
+                                                    {{ orcamento?.detalhe }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Data</div>
-                                            <div>
-                                                {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Data</div>
+                                                <div>
+                                                    {{ orcamento?.dataCadastro | date:'dd/MM/yy HH:mm' }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Utiliza lista específica?</div>
-                                            <div>
-                                                {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Utiliza lista específica?</div>
+                                                <div>
+                                                    {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </fuse-card>
@@ -88,28 +118,30 @@
                                         class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2">Condições
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Valor Total dos Descontos</div>
-                                            <div class="min-h-fit">
-                                                {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Valor Total dos Descontos</div>
+                                                <div>
+                                                    {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Valor Total</div>
-                                            <div class="min-h-fit">
-                                                {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Valor Total</div>
+                                                <div>
+                                                    {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Validade</div>
-                                            <div>
-                                                {{ '3 dias' }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Validade</div>
+                                                <div>
+                                                    {{ '3 dias' }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">Impostos inclusos</div>
-                                            <div>
-                                                {{ 'SIM' }}
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Impostos inclusos</div>
+                                                <div>
+                                                    {{ 'SIM' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </fuse-card>

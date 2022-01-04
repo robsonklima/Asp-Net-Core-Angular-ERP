@@ -7,10 +7,10 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   templateUrl: './orcamento-detalhe-mao-de-obra.component.html',
   styles: [`
         .list-grid-mao-de-obra {
-            grid-template-columns: 150px 150px auto;
+            grid-template-columns: 150px auto 150px;
             
             @screen sm {
-                grid-template-columns: 150px 150px auto;
+                grid-template-columns: 150px auto 150px;
             }
         }
     `],

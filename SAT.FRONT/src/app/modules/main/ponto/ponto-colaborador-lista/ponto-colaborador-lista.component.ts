@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
+import { perfilConst } from 'app/core/types/perfil.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UsuarioData } from 'app/core/types/usuario.types';
@@ -92,6 +93,7 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
         sortDirection: this.sort.direction || 'asc',
         indAtivo: statusConst.ATIVO,
         codPontoPeriodo: this.codPontoPeriodo,
+        codPerfil: perfilConst.FILIAL_TECNICO_DE_CAMPO,
         codFilial: this.userSession?.usuario?.codFilial,
         filter: this.filtro
       })

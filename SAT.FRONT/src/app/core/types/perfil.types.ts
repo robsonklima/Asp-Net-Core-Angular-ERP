@@ -19,3 +19,7 @@ export interface PerfilParameters extends QueryStringParameters
 {
     codPerfil?: number;
 };
+
+export const perfilConst = {
+    'FILIAL_TECNICO_DE_CAMPO': 35
+}

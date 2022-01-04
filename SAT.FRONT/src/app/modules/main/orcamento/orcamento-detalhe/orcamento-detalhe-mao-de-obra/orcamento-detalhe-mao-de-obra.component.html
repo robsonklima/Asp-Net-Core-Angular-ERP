@@ -1,48 +1,19 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
-        <div class="flex items-center">
-            <span class="text-lg font-medium">{{ t('mao de obra') }}</span>
+<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
+    <div class="text-lg font-medium mt-2"> {{t('mao de obra') }}</div>
+    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">{{ t("valor hora tecnica") }}</div>
+            <div class="truncate max-w-1/2">
+                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }} </div>
         </div>
-    </div>
-    <div class="flex-auto" *ngIf="!isLoading">
-        <div>
-            <div class="grid h-100">
-                <div class="overflow-hidden sm:overflow-y-auto">
-                    <ng-container>
-                        <div class="grid">
-                            <div class="list-grid-mao-de-obra sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                matSort matSortDisableClear *transloco="let t">
-                                <div>
-                                    {{ t("valor hora tecnica") }}
-                                </div>
-                                <div>
-                                    {{ t("previsao horas") }}
-                                </div>
-                                <div>
-                                    {{ t("valor total") }}
-                                </div>
-                            </div>
-
-                            <ng-container>
-                                <div class="
-								list-grid-mao-de-obra grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white
-								 hover:bg-gray-100" *transloco="let t">
-                                    <div>
-                                        {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
-                                    </div>
-                                    <div>
-                                        {{ orcamento?.maoDeObra?.previsaoHoras }}
-                                    </div>
-                                    <div>
-                                        {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                </div>
-
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">{{ t("previsao horas") }}</div>
+            <div class="truncate max-w-1/2"> {{ orcamento?.maoDeObra?.previsaoHoras }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">{{ t("valor total") }}</div>
+            <div class="truncate max-w-1/2">{{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
             </div>
         </div>
     </div>
-</div>
+</fuse-card>

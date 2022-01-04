@@ -35,6 +35,7 @@ export interface Orcamento
     outrosServicos?: OrcamentoOutroServico[];
     descontos?: OrcamentoDesconto[];
     orcamentoStatus?: OrcamentoStatus;
+    orcamentoDeslocamento?: OrcamentoDeslocamento;
 }
 
 export interface OrcamentoMotivo
@@ -148,6 +149,24 @@ export interface OrcamentoStatus
 {
     codOrcStatus: number;
     nome: string;
+}
+
+export interface OrcamentoDeslocamento
+{
+    codOrcDeslocamento: number;
+    codOrc: number;
+    quantidadeHoraCadaSessentaKm: number;
+    valorUnitarioKmRodado: number;
+    quantidadeKm: number;
+    valorTotalKmRodado: number;
+    valorTotalKmDeslocamento: number;
+    valorHoraDeslocamento: number;
+    latitudeOrigem: number;
+    longitudeOrigem: number;
+    latitudeDestino: number;
+    longitudeDestino: number;
+    dataCadastro: string;
+    usuarioCadastro: string;
 }
 
 export interface OrcamentoData extends Meta

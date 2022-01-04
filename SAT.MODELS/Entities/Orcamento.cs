@@ -37,5 +37,6 @@ namespace SAT.MODELS.Entities
         public virtual OrcamentoMaoDeObra MaoDeObra { get; set; }
         public virtual List<OrcamentoDesconto> Descontos { get; set; }
         public virtual OrcamentoStatus OrcamentoStatus { get; set; }
+        public virtual OrcamentoDeslocamento OrcamentoDeslocamento { get; set; }
     }
 }

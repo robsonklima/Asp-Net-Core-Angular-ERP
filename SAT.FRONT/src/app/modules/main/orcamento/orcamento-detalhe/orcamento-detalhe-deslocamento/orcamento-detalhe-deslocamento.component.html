@@ -1,47 +1,37 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
-        <div class="flex items-center">
-            <span class="text-lg font-medium">{{ t('deslocamento') }}</span>
+<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="text-lg font-medium mt-2">Deslocamento</div>
+    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor unitário do KM Rodado (ida e volta)</div>
+            <div class="truncate max-w-1/2">
+                {{ orcamento?.orcamentoDeslocamento?.valorUnitarioKmRodado | currency:'BRL':'symbol-narrow' }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor Hora em Deslocamento</div>
+            <div class="truncate max-w-1/2">
+                {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Quantidade 1 hora cada 60 KM Rodado</div>
+            <div class="truncate max-w-1/2">{{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Percurso (raio)</div>
+            <div class="truncate max-w-1/2">Ida e Volta</div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">KM</div>
+            <div class="truncate max-w-1/2">{{ orcamento?.orcamentoDeslocamento?.quantidadeKm }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor Total KM Rodado</div>
+            <div class="truncate max-w-1/2">
+                {{ orcamento?.orcamentoDeslocamento?.valorTotalKmRodado | currency:'BRL':'symbol-narrow' }} </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor Total Hora em Deslocamento</div>
+            <div class="truncate max-w-1/2">
+                {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
         </div>
     </div>
-    <div class="flex-auto" *ngIf="!isLoading">
-        <div>
-            <div class="grid h-100">
-                <div class="overflow-hidden sm:overflow-y-auto">
-                    <ng-container>
-                        <div class="grid">
-                            <div class="list-grid-deslocamento sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                matSort matSortDisableClear *transloco="let t">
-                                <div>
-                                    --
-                                </div>
-                                <div>
-                                    --
-                                </div>
-                                <div>
-                                    --
-                                </div>
-                            </div>
-
-                            <ng-container>
-                                <div class="list-grid-deslocamento grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white  hover:bg-gray-100"
-                                    *transloco="let t">
-                                    <div>
-                                        --
-                                    </div>
-                                    <div>
-                                        --
-                                    </div>
-                                    <div>
-                                        --
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
+</fuse-card>

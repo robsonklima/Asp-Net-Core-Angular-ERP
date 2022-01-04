@@ -165,6 +165,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoOutroServico>(new OrcamentoOutroServicoMap().Configure);
             modelBuilder.Entity<OrcamentoDesconto>(new OrcamentoDescontoMap().Configure);
             modelBuilder.Entity<OrcamentoStatus>(new OrcamentoStatusMap().Configure);
+            modelBuilder.Entity<OrcamentoDeslocamento>(new OrcamentoDeslocamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

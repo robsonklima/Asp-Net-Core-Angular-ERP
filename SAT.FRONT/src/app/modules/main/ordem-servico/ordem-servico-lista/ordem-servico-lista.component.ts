@@ -66,7 +66,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
     ngAfterViewInit(): void
     {
-        interval(5 * 60 * 1000)
+        interval(3 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)

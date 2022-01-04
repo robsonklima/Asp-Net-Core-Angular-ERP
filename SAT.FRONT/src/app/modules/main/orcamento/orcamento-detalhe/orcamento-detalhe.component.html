@@ -34,8 +34,18 @@
                         </div>
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button>
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
+                            <button class="fuse-mat-button-rounded bg-purple-500" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-400" mat-flat-button>
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -78,6 +88,35 @@
                                             </div>
                                         </div>
                                     </fuse-card>
+                                    <fuse-card
+                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">Condições
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Valor Total dos Descontos</div>
+                                            <div class="min-h-fit">
+                                                {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Valor Total</div>
+                                            <div class="min-h-fit">
+                                                {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Validade</div>
+                                            <div>
+                                                {{ '3 dias' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Impostos inclusos</div>
+                                            <div>
+                                                {{ 'SIM' }}
+                                            </div>
+                                        </div>
+                                    </fuse-card>
                                 </div>
                             </ng-template>
                         </mat-tab>
@@ -93,7 +132,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('material') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -102,7 +140,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('mao de obra') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -111,7 +148,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('deslocamento') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -120,7 +156,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('servicos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
@@ -129,7 +164,6 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-
                         <mat-tab label="{{ t('descontos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">

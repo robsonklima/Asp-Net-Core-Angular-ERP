@@ -64,7 +64,7 @@
                                         {{ t('intervencao') }}
                                     </div>
 
-                                    <div class="md:block">
+                                    <div class="md:block ml-2">
                                         {{ t('autorizada') }}
                                     </div>
 
@@ -98,7 +98,7 @@
                                                     {{ orc?.numero }}
                                                 </div>
 
-                                                <div class="flex items-center">
+                                                <div class="text-center">
                                                     {{ orc?.ordemServico?.dataManutencao | date:'dd/MM/yyyy' }}
                                                 </div>
 
@@ -111,18 +111,23 @@
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc?.ordemServico?.statusServico?.nomeStatusServico }}
+                                                    <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
+                                                        'background-color': orc?.ordemServico?.statusServico?.corFundo, 
+                                                        'color': orc?.ordemServico?.statusServico?.corFonte
+                                                    }">
+                                                    {{ orc?.ordemServico?.statusServico?.nomeStatusServico | titlecase }}
+                                                    </span>
                                                 </div>
 
                                                 <div class="flex items-center">
-                                                    {{ orc?.ordemServico?.relatoriosAtendimento[0]?.laudos[0]?.laudoStatus?.nomeStatus }}
+                                                    {{ orc?.ordemServico?.relatoriosAtendimento[0]?.laudos[0]?.laudoStatus?.nomeStatus || 'Não Contém' }}
                                                 </div>
 
                                                 <div class="flex items-center">
                                                     {{ orc?.ordemServico?.tipoIntervencao?.nomTipoIntervencao }}
                                                 </div>
 
-                                                <div class="flex items-center">
+                                                <div class="text-center">
                                                     {{ orc?.ordemServico?.autorizada?.nomeFantasia }}
                                                 </div>
 
@@ -134,11 +139,11 @@
                                                     {{ orc?.ordemServico?.cliente?.nomeFantasia }}
                                                 </div>
 
-                                                <div class="flex items-center">
+                                                <div class="flex items-center truncate">
                                                     {{ orc?.ordemServico?.localAtendimento?.nomeLocal }}
                                                 </div>
 
-                                                <div class="flex items-center">
+                                                <div class="flex items-center truncate">
                                                     {{ orc?.ordemServico?.equipamento?.nomeEquip }}
                                                 </div>
 

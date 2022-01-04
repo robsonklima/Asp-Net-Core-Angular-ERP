@@ -16,6 +16,18 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.24',
+                releaseDate: '04 de Janeiro de 2022',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Corrigido erro de inserção de chamado que não consistia o modelo do equipamento'
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.23',
                 releaseDate: '04 de Janeiro de 2022',
                 changes: [

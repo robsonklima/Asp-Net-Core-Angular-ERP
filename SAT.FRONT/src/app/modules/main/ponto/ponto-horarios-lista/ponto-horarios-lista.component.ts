@@ -25,14 +25,11 @@ import { PontoUsuarioFormComponent } from '../ponto-usuario-form/ponto-usuario-f
 @Component({
   selector: 'app-ponto-horarios-lista',
   templateUrl: './ponto-horarios-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
+  styles: [`
       .list-grid-relatorios {
           grid-template-columns: 80px 186px 112px 250px 72px auto 196px;
       }
-    `
-  ],
+  `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })

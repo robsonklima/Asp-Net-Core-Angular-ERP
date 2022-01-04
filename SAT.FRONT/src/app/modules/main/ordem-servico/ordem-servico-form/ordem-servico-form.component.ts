@@ -129,7 +129,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       codPosto: [undefined, Validators.required],
       defeitoRelatado: [undefined, Validators.required],
       codEquipContrato: [undefined, Validators.required],
-      codEquip: [undefined],
       codFilial: [undefined, Validators.required],
       codRegiao: [undefined, Validators.required],
       codAutorizada: [undefined, Validators.required],
@@ -457,6 +456,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  private obterModelo(codEquipContrato: number): number {
+    return this.equipamentosContrato.filter(e => e.codEquipContrato === codEquipContrato).shift().codEquip;
+  }
+
   private atualizar(): void {
     this.form.disable();
 
@@ -465,6 +468,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       ...this.ordemServico,
       ...form,
       ...{
+        codEquip: this.obterModelo(form.codEquipContrato),
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario?.codUsuario
       }
@@ -493,6 +497,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
         indStatusEnvioReincidencia: -1,
         indRevisaoReincidencia: 1,
         codStatusServico: 1,
+        codEquip: this.obterModelo(form.codEquipContrato),
         indRevOK: null
       }
     };

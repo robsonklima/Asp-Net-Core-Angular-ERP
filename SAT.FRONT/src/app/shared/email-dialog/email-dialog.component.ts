@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { appConfig } from 'app/core/config/app.config';
 import { EmailService } from 'app/core/services/email.service';
-import { Email } from 'app/core/types/email.types';
+import { Email, EmailAddress } from 'app/core/types/email.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ENTER, COMMA, SEMICOLON } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-email-dialog',
@@ -24,6 +26,10 @@ export class EmailDialogComponent implements OnInit
   conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
   emailRemetente: string = appConfig.email_equipe;
   nomeRemetente: string = 'Equipe SAT';
+
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON];
+  emails: EmailAddress[];
 
   constructor (
     @Inject(MAT_DIALOG_DATA) protected data: any,
@@ -52,6 +58,17 @@ export class EmailDialogComponent implements OnInit
     this.criarForm();
   }
 
+
+  add(event: MatChipInputEvent): void
+  {
+    const value = (event.value || '').trim();
+
+    if (value)
+      this.emails.push({ address: value });
+
+    event.chipInput!.clear();
+  }
+
   async ngOnInit() { }
 
   criarForm()
@@ -59,6 +76,14 @@ export class EmailDialogComponent implements OnInit
     this.form = this._formBuilder.group({
       email: [undefined, [Validators.required]]
     });
+  }
+
+  removerEmail(email): void
+  {
+    const index = this.emails.indexOf(email);
+
+    if (index >= 0)
+      this.emails.splice(index, 1);
   }
 
   async confirmar()

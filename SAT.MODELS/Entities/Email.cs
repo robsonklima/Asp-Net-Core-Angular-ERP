@@ -1,5 +1,7 @@
-namespace SAT.MODELS.Entities {
-    public class Email {
+namespace SAT.MODELS.Entities
+{
+    public class Email
+    {
         public string EmailRemetente { get; set; }
         public string NomeRemetente { get; set; }
         public string NomeCC { get; set; }

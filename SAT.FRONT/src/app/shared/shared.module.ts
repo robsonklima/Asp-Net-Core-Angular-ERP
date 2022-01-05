@@ -18,6 +18,9 @@ import { HttpErrorInterceptor } from 'app/core/interceptors/http-error.intercept
 import { EmailService } from 'app/core/services/email.service';
 import { Router } from '@angular/router';
 import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.interceptor';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 export const FORMATO_DATA = {
     parse: {
@@ -46,7 +49,10 @@ export const FORMATO_DATA = {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatChipsModule
     ],
     exports: [
         CommonModule,

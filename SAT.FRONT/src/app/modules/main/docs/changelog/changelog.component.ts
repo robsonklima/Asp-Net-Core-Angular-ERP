@@ -16,6 +16,18 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.25',
+                releaseDate: '04 de Janeiro de 2022',
+                changes: [
+                    {
+                        type: 'Adições',
+                        list: [
+                            'Captura de erros do frontend enviados por e-mail'
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.24',
                 releaseDate: '04 de Janeiro de 2022',
                 changes: [

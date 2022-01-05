@@ -17,23 +17,23 @@
     </div>
 
     <div class="flex-auto mt-4 sm:mt-6">
-        <div class="w-full max-w-screen-xl mx-auto">
+        <div class="w-full max-w-screen-xl mx-auto p-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
                     *ngIf="sessionData?.usuario?.codPerfil === 29 || sessionData?.usuario?.codPerfil === 3">
-                    <div class="flex items-center justify-between">
-                        <div class="text-2xl font-semibold leading-tight">Integrações</div>
+                    <div class="flex justify-between">
+                        <div class="text-2xl font-semibold">Integrações</div>
                         
-                        <div class="flex flex-col sm:flex-row sm:items-center pt-6 sm:mb-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:mb-6">
                             <div class="flex items-center" *ngIf="horaAtualizacaoMonitoramentoClientes">
                                 <div class="text-md tracking-tight ml-3 text-gray-400">
                                     Última atualização: {{ horaAtualizacaoMonitoramentoClientes }}
                                 </div>
                             </div>
 
-                            <div class="flex items-center mt-0 sm:mt-0">
+                            <div class="flex items-center">
                                 <button mat-icon-button class="ml-3" (click)="obterMonitoramentoClientes()">
-                                    <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:switch-horizontal'">
+                                    <mat-icon class="icon-size-5 text-hint text-green-600" [svgIcon]="'heroicons_solid:refresh'">
                                     </mat-icon>
                                 </button>
                             </div>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="flex flex-col flex-auto">
-                        <div class="flex flex-col w-full min-w-0 sm:overflow-hidden py-3">
+                        <div class="flex flex-col w-full min-w-0">
                             <div class="w-full">
                                 <div class="flex flex-col">
                                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

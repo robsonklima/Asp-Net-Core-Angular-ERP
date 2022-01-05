@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Acao, AcaoData, AcaoParameters } from '../types/acao.types';
-import { appConfig as c } from 'app/core/config/app.config'
+import { appConfig as c } from 'app/core/config/app.config';
 
 @Injectable({
   providedIn: 'root'

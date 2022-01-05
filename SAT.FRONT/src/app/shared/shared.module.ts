@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntl } from '@angular/material/paginator';
@@ -13,6 +13,11 @@ import { CNPJPipe } from './pipes/cnpj.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from 'app/core/interceptors/http-error.interceptor';
+import { EmailService } from 'app/core/services/email.service';
+import { Router } from '@angular/router';
+import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.interceptor';
 
 export const FORMATO_DATA = {
     parse: {
@@ -54,6 +59,17 @@ export const FORMATO_DATA = {
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },
         { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
         { provide: MAT_DATE_FORMATS, useValue: FORMATO_DATA },
+        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorInterceptor,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpErrorInterceptor,
+            multi: true,
+            deps: [EmailService, Router]
+        }
     ]
 })
 export class SharedModule

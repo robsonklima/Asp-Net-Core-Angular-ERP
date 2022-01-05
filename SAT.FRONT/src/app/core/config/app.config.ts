@@ -15,13 +15,14 @@ export interface AppConfig {
     autonomia_veiculo_frota: number;
     rd_centro_de_custo: string;
     system_user: string;
+    email_equipe: string;
 }
 
 export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: apiConst.LOCALHOST_5001,
+    api: apiConst.PROD,
     map_quest_keys: [
         'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
         'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',
@@ -34,5 +35,6 @@ export const appConfig: AppConfig = {
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',
     autonomia_veiculo_frota: 13,
     rd_centro_de_custo: "5001",
-    system_user: 'SAT'
+    system_user: 'SAT',
+    email_equipe: 'equipe.sat@perto.com.br'
 };

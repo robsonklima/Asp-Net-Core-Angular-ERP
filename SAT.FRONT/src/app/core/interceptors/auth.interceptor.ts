@@ -4,13 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
-import { CustomSnackbarService } from '../services/custom-snackbar.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     constructor(
         private _authService: AuthService,
-        private _snack: CustomSnackbarService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -38,13 +36,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 if (error instanceof HttpErrorResponse && error.status === 401) {
                     this._authService.signOut();
                     location.reload();
-                // Catch "500 Internal Server Error" responses
-                } else if (error instanceof HttpErrorResponse && error.status === 500) {
-                    // this is server side error
-                    this._snack.exibirToast(error.error.errorMessage, 'error');
-                } else if (error.error instanceof ErrorEvent) {
-                    // this is client side error
-                    this._snack.exibirToast(error.error.message, 'error');
                 }
                 
                 return throwError(error);

@@ -52,6 +52,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   pas: number[] = [];
   pontosEstrategicos: any;
   clienteFilterCtrl: FormControl = new FormControl();
+  equipamentoCtrl: FormControl = new FormControl();
 
   protected _onDestroy = new Subject<void>();
 
@@ -130,11 +131,12 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.filiais = data.items;
   }
 
-  async obterEquipamentos() {
+  async obterEquipamentos(filtro: string='') {
     const data = await this._equipamentoService
       .obterPorParametros({
         codClientes: this.form.controls['codClientes'].value,
-        filterType: EquipamentoFilterEnum.FILTER_CHAMADOS
+        filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
+        filter: filtro
       })
       .toPromise();
 
@@ -155,9 +157,9 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
     this.tiposIntervencao = data.items;
   }
 
-  async obterClientes(filter: string = '') {
+  async obterClientes(filtro: string = '') {
     let params: ClienteParameters = {
-      filter: filter,
+      filter: filtro,
       indAtivo: statusConst.ATIVO,
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
@@ -222,7 +224,10 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
   }
 
   aoSelecionarCliente() {
-    if ((this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '')) {
+    if (
+      this.form.controls['codClientes'].value &&
+      this.form.controls['codClientes'].value != ''
+    ) {
       this.obterEquipamentos();
       this.obterLocaisAtendimentos();
       this.form.controls['codPostos'].enable();
@@ -328,6 +333,16 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       )
       .subscribe(() => {
         this.obterClientes(this.clienteFilterCtrl.value);
+      });
+
+    this.equipamentoCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterEquipamentos(this.equipamentoCtrl.value);
       });
   }
 

@@ -13,6 +13,9 @@ namespace SAT.INFRA.Repository
                 // .Where(i => i.IndAtivo == 1)
                 .AsQueryable();
 
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                equips = equips.Where(e => e.NomeEquip.Contains(parameters.Filter));
+
             if (!string.IsNullOrEmpty(parameters.CodClientes))
             {
                 int[] clientes = parameters.CodClientes.Split(",").Select(c => int.Parse(c.Trim())).Distinct().ToArray();

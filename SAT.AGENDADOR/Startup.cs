@@ -63,9 +63,6 @@ namespace SAT.AGENDADOR
                 // Inicializa os servicos que serao usados
                 this._indicadorService = serviceProvider.GetService<IIndicadorService>();
                 this._agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
-
-
-
             }
             catch (Exception ex)
             {

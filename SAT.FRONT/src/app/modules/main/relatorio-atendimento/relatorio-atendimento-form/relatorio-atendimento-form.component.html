@@ -384,6 +384,7 @@
 
                     <button class="px-6" mat-button [color]="'primary'"
                         [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid"
+                        *ngIf="relatorioAtendimento.codStatusServico !== 3 && relatorioAtendimento.codStatusServico !== 2"
                         (click)="salvar()">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}

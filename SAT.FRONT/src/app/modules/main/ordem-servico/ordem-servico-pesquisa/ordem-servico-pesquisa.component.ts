@@ -67,14 +67,10 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
     this._cdr.detectChanges();
   }
 
-  registrarEmitters() {
-    
-  }
-
   pesquisar() {
     const form = this.form.getRawValue();
     const isEmpty = Object.values(form).every(x => x === null || x === '');
-    if (isEmpty) this._snack.exibirToast('Favor informar algum campo', 'warning');
+    if (isEmpty) this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
 
     this.isLoading = true;
     this._osSvc.obterPorParametros({
@@ -90,6 +86,8 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
       this.dataSourceData = data;
       this.isLoading = false;
       this._cdr.detectChanges();
+    }, () => {
+      this.isLoading = false;
     });
   }
 

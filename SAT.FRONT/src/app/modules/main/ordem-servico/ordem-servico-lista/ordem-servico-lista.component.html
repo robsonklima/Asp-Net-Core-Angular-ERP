@@ -7,15 +7,17 @@
         <div
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
             <div
-                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
+
                 <div>
-                    <div class="text-4xl font-extrabold tracking-tight">
+                    <div class="text-3xl font-extrabold tracking-tight">
                         {{ t('chamados') }}
                     </div>
                 </div>
+
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
                     <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
@@ -43,7 +45,7 @@
                     <ng-container>
                         <ng-container>
                             <div class="grid">
-                                <div class="list-grid-ordem-servico z-10 sticky top-0 grid gap-4 py-4 px-4 md:px- shadow text-xs font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                <div class="list-grid-ordem-servico z-10 sticky top-0 grid gap-4 py-2 px-4 md:px- shadow text-xs font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                     matSort matSortDisableClear *transloco="let t">
                                     <div class="md:block text-center pl-2" [mat-sort-header]="'codOS'">
                                         {{ t('os') }}
@@ -95,9 +97,9 @@
                                 </div>
 
                                 <ng-container>
-                                    <ng-container *ngFor="let os of dataSourceData?.items">
+                                    <ng-container *ngFor="let os of dataSourceData?.items" class="mt-1">
                                         <a [routerLink]="'/ordem-servico/detalhe/'+os.codOS">
-                                            <div class="list-grid-ordem-servico grid items-center mt-1 h-6 gap-4 px-1 text-xs md:px-4 border-b hover:bg-gray-100"
+                                            <div class="list-grid-ordem-servico grid items-center h-6 gap-4 px-1 text-xs md:px-4 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center">
                                                     {{ os.codOS }}

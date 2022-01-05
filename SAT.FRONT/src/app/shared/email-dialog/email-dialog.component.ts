@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { appConfig } from 'app/core/config/app.config';
 import { EmailService } from 'app/core/services/email.service';
 import { Email } from 'app/core/types/email.types';
 import { UserService } from 'app/core/user/user.service';
@@ -21,7 +22,7 @@ export class EmailDialogComponent implements OnInit
   userSession: UserSession;
   assuntoEmail: string = 'Lorem ipsum';
   conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-  emailRemetente: string = 'equipe.sat@perto.com.br';
+  emailRemetente: string = appConfig.email_equipe;
   nomeRemetente: string = 'Equipe SAT';
 
   constructor (

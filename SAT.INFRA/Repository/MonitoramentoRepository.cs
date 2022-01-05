@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.ViewModels;
 using static SAT.MODELS.ViewModels.MonitoramentoViewModel;
 
@@ -30,7 +31,7 @@ namespace SAT.INFRA.Repository
                 .Include(s => s.Equipamento)
                 .Where(os => os.DataHoraAberturaOS >= hoje.AddDays(-30) &&
                 os.CodCliente != 1 && (os.IndServico == 1 || os.IndIntegracao == 1 || os.CodUsuarioCad == "INTEGRACAO" || os.CodUsuarioCad == "INTEGRACAO-SAT")
-                && (!os.Equipamento.NomeEquip.Contains("POS") && !os.Equipamento.NomeEquip.Contains("PERTOS")))
+                && (!os.Equipamento.NomeEquip.Contains("POS") && !os.Equipamento.NomeEquip.Contains("PERTOS") && os.CodCliente != Constants.SICOOB && os.CodCliente != Constants.SICOOB_CONFEDERACAO))
                 .OrderByDescending(ord => ord.DataHoraAberturaOS)
                 .AsEnumerable()
                 .GroupBy(gr => gr.CodCliente)

@@ -70,5 +70,9 @@
         // Permissoes
         public static string PERFIL_PONTO = "3";
         public static string SEM_NADA = "S/N";
+
+        // Clientes
+        public static int SICOOB = 68;
+        public static int SICOOB_CONFEDERACAO = 246;
     }
 }

@@ -24,7 +24,7 @@ export class GlobalErrorInterceptor implements ErrorHandler {
                 status: error?.status
             }
 
-            if (err.status !== 401 && err.status !== 0) {
+            if (err.status !== 401 && err.status !== 0 && err.status !== 400 && err.status !== 403 && err.status !== 404) {
                 this._emailSvc.enviarEmail({
                     nomeRemetente: c.system_user,
                     emailRemetente: c.email_equipe,

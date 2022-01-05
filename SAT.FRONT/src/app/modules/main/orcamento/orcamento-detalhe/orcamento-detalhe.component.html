@@ -37,7 +37,8 @@
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button>
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button>
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'Enviar e-mail'" (click)="enviarEmail()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                             </button>
                         </div>

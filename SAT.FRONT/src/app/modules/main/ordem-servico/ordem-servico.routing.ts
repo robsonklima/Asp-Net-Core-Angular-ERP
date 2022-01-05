@@ -3,6 +3,7 @@ import { OrdemServicoDetalheComponent } from './ordem-servico-detalhe/ordem-serv
 import { OrdemServicoFormComponent } from './ordem-servico-form/ordem-servico-form.component';
 import { OrdemServicoImpressaoComponent } from './ordem-servico-impressao/ordem-servico-impressao.component';
 import { OrdemServicoListaComponent } from './ordem-servico-lista/ordem-servico-lista.component';
+import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
 
 export const ordemServicoRoutes: Route[] = [
     {
@@ -29,5 +30,9 @@ export const ordemServicoRoutes: Route[] = [
     {
         path: 'impressao/:codOS',
         component: OrdemServicoImpressaoComponent
+    },
+    {
+        path: 'pesquisa',
+        component: OrdemServicoPesquisaComponent
     }
 ];

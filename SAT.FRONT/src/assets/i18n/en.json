@@ -89,7 +89,7 @@
     "transferir": "Nominate",
     "cancelar transferencia": "Cancel nominate",
     "tecnicos": "Technicians",
-    "pesquisar": "Search...",
+    "pesquisar": "Search",
     "fechar": "Close",
     "relatorio": "Report",
     "detalhe": "Detail",
@@ -455,5 +455,7 @@
     "previsao horas": "Forecast in Hours",
     "valor desconto": "Discount Amount",    
     "gerenciar conta": "Manage account",
-    "descontos": "Discounts"
+    "descontos": "Discounts",
+    "pesquisa": "Search",
+    "pesquisa avancada": "Advanced Search"
 }

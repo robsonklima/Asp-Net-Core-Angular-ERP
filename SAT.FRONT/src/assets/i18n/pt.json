@@ -14,7 +14,7 @@
     "cliente": "Cliente",
     "equipamento": "Equipamento",
     "equipamentos": "Equipamentos",
-    "serie": "Série",
+    "serie": "Nro. Série",
     "acoes": "Ações",
     "instalação": "Instalação",
     "nao informado": "Não Informado",
@@ -90,7 +90,7 @@
     "transferir": "Transferir",
     "cancelar transferencia": "Cancelar transferência",
     "tecnicos": "Técnicos",
-    "pesquisar": "Pesquisar...",
+    "pesquisar": "Pesquisar",
     "fechar": "Fechar",
     "relatorio": "Relatório",
     "detalhe": "Detalhe",
@@ -470,6 +470,7 @@
     "valor hora tecnica": "Valor Hora Técnica",
     "previsao horas": "Previsão em Horas",
     "gerenciar conta": "Gerenciar conta",
-    "descontos": "Descontos"
-
+    "descontos": "Descontos",
+    "pesquisa": "Pesquisa",
+    "pesquisa avancada": "Pesquisa Avançada"
 }

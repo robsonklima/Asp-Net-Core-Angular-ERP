@@ -13,10 +13,6 @@ namespace SAT.SERVICES.Services
         {
             this._monitoramentoRepository = monitoramentoRepository;
         }
-        public MonitoramentoViewModel ObterListaMonitoramento()
-        {
-            return this._monitoramentoRepository.ObterListaMonitoramento();
-        }
 
         public List<MonitoramentoClienteViewModel> ObterListaMonitoramentoClientes()
         {

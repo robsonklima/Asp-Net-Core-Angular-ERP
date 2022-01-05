@@ -15,8 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from 'app/core/interceptors/http-error.interceptor';
-import { EmailService } from 'app/core/services/email.service';
-import { Router } from '@angular/router';
 import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.interceptor';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -71,10 +69,9 @@ export const FORMATO_DATA = {
             useClass: GlobalErrorInterceptor,
         },
         {
-            provide: HTTP_INTERCEPTORS,
+            provide : HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
-            multi: true,
-            deps: [EmailService, Router]
+            multi   : true
         }
     ]
 })

@@ -1,71 +1,75 @@
-import { EmailService } from '../services/email.service';
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { appConfig as c } from 'app/core/config/app.config';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { appConfig as c } from 'app/core/config/app.config';
+import { AuthService } from 'app/core/auth/auth.service';
+import { AuthUtils } from 'app/core/auth/auth.utils';
+import { EmailService } from '../services/email.service';
 import { Router } from '@angular/router';
-import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-} from '@angular/common/http';
 
+@Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private _emailSvc: EmailService,
-    private _router: Router
-  ) { }
+    constructor(
+        private _authService: AuthService,
+        private _emailSvc: EmailService,
+        private _router: Router
+    ) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let newReq = req.clone();
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let newReq = req.clone();
 
-    return next.handle(newReq).pipe(
-      catchError((err) => {
-        let error: any;
-
-        if (err.error instanceof ErrorEvent) {
-          error = {
-            type: 'CLIENT_SIDE',
-            status: err.status,
-            message: err.error.message
-          }
-        } else {
-          error = {
-            type: 'SERVER_SIDE',
-            status: err.status,
-            message: err.message
-          }
+        if (this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken)) {
+            newReq = req.clone({
+                headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
+            });
         }
 
-        switch (error.status) {
-          case 500:
-            this.enviarEmail(error); 
-            this._router.navigate(['500-internal-server-error']);
-            break;
-        
-          case 403:
-            this._router.navigate(['403-forbidden']);    
-            break;
+        return next.handle(newReq).pipe(
+            catchError((error) => {
+                switch (error.status) {
+                    case 0:
+                        this._router.navigate(['0-connection-refused']);
+                        break;
 
-          default:
-            this.enviarEmail(error);
-            this._router.navigate(['500-internal-server-error']);
-            break;
-        }
+                    case 401:
+                        if (error instanceof HttpErrorResponse && error.status === 401) {
+                            this._authService.signOut();
+                            location.reload();
+                        }
+                        break;
 
-        return throwError(error);
-      })
-    );
-  }
+                    case 403:
+                        this._router.navigate(['403-forbidden']);
+                        break;
 
-  enviarEmail(error: any) {
-    this._emailSvc.enviarEmail({
-      nomeRemetente: c.system_user,
-      emailRemetente: c.email_equipe,
-      nomeDestinatario: c.system_user,
-      emailDestinatario: c.email_equipe,
-      assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-      corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
-    }).toPromise();
-  }
+                    case 400:
+                        this._router.navigate(['404-not-found']);
+                        break;
+
+                    case 404:
+                        this._router.navigate(['404-not-found']);
+                        break;
+
+                    case 500:
+                        this._emailSvc.enviarEmail({
+                            nomeRemetente: c.system_user,
+                            emailRemetente: c.email_equipe,
+                            nomeDestinatario: c.system_user,
+                            emailDestinatario: c.email_equipe,
+                            assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
+                            corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
+                        }).toPromise();    
+                    
+                        this._router.navigate(['500-internal-server-error']);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return throwError(error);
+            })
+        );
+    }
 }

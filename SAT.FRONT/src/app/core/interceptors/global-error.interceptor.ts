@@ -23,18 +23,18 @@ export class GlobalErrorInterceptor implements ErrorHandler {
                 message: error?.message || error || 'Undefined client error'
             }
 
-            this._emailSvc.enviarEmail({
-                nomeRemetente: c.system_user,
-                emailRemetente: c.email_equipe,
-                nomeDestinatario: c.system_user,
-                emailDestinatario: c.email_equipe,
-                assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-                corpo: `Tipo: ${err.type}\n Status: ${err.status}\n Mensagem: ${err.message}`
-            }).toPromise();
+            if (error.status !== 401 && error.status !== 0) {
+                this._emailSvc.enviarEmail({
+                    nomeRemetente: c.system_user,
+                    emailRemetente: c.email_equipe,
+                    nomeDestinatario: c.system_user,
+                    emailDestinatario: c.email_equipe,
+                    assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
+                    corpo: `Tipo: ${err.type}\n Status: ${err.status}\n Mensagem: ${err.message}`
+                }).toPromise();
 
-            this._router.navigate(['500-internal-server-error']);
+                this._router.navigate(['500-internal-server-error']);
+            }
         });
-
-        console.error('Error from global error handler', error);
     }
 }

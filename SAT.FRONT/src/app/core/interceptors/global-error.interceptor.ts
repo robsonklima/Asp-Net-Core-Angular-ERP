@@ -19,22 +19,25 @@ export class GlobalErrorInterceptor implements ErrorHandler {
         this._zone.run(() => {
             const err: any = {
                 type: 'CLIENT_SIDE',
-                status: error?.status,
-                message: error?.message || error || 'Undefined client error'
+                stack: error?.stack,
+                message: error?.message,
+                status: error?.status
             }
 
-            if (error.status !== 401 && error.status !== 0) {
+            if (err.status !== 401 && err.status !== 0) {
                 this._emailSvc.enviarEmail({
                     nomeRemetente: c.system_user,
                     emailRemetente: c.email_equipe,
                     nomeDestinatario: c.system_user,
                     emailDestinatario: c.email_equipe,
                     assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-                    corpo: `Tipo: ${err.type}\n Status: ${err.status}\n Mensagem: ${err.message}`
+                    corpo: `Tipo: ${err.type}\n Mensagem: ${err.message}\n Stack: ${err.stack}`
                 }).toPromise();
 
                 this._router.navigate(['500-internal-server-error']);
             }
+
+            console.log('Ocorreu um erro',  error);
         });
     }
 }

@@ -15,7 +15,7 @@
             <div class="grid h-100">
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <div class="grid" *ngIf="materiais?.length">
+                        <div class="grid" *ngIf="editableList?.length">
                             <div class="list-grid-material sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div>
@@ -24,10 +24,10 @@
                                 <div>
                                     {{ t("descricao") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("quantidade") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("valor unitario") }}
                                 </div>
                                 <div>
@@ -45,58 +45,66 @@
 
                             </div>
 
-                            <ng-container *ngFor="let material of materiais">
+                            <ng-container *ngFor="let material of editableList">
                                 <div class="
-								list-grid-material grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100"
+								list-grid-material grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100 pointer-events-none"
                                     *transloco="let t">
-
                                     <div>
-                                        {{ material?.codigoMagnus }}
+                                        {{ material?.item?.codigoMagnus }}
                                     </div>
                                     <div>
-                                        {{ material?.descricao }}
+                                        {{ material?.item?.descricao }}
+                                    </div>
+                                    <div name="quantidade" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        material?.isEditing }"
+                                        [contentEditable]="material?.isEditing ? 'true' : 'false'"
+                                        [textContent]="material?.item?.quantidade"
+                                        (input)="material.item.quantidade = toNumber($event.target.innerText)"></div>
+                                    <div name="valorUnitario" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        material?.isEditing }"
+                                        [contentEditable]="material?.isEditing ? 'true' : 'false'"
+                                        [textContent]="material?.item?.valorUnitario | currency:'BRL':'symbol-narrow'"
+                                        (input)="material.item.valorUnitario = toNumber($event.target.innerText)"></div>
+                                    <div>
+                                        {{ material?.item?.valorDesconto | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ material?.quantidade }}
+                                        {{ material?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ material?.valorUnitario | currency:'BRL':'symbol-narrow' }}
+                                        {{ material?.item?.peca?.isValorAtualizado ? "SIM" : "NÃO" }}
                                     </div>
-                                    <div>
-                                        {{ material?.valorDesconto | currency:'BRL':'symbol-narrow' }}
-                                    </div>
-                                    <div>
-                                        {{ material?.valorTotal | currency:'BRL':'symbol-narrow' }}
-                                    </div>
-                                    <div>
-                                        {{ material?.peca?.isValorAtualizado ? "SIM" : "NÃO" }}
-                                    </div>
-                                    <div class="text-left">
-                                        <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
-                                            (click)="excluirMaterial(material)">
-                                            <mat-icon class="icon-size-5 text-blue-600"
-                                                [svgIcon]="'heroicons_outline:refresh'">
+                                    <div class="flex pointer-events-auto">
+                                        <button class="bg-transparent" [matTooltip]="'Editar material'"
+                                            (click)="editar(material)" *ngIf="!material?.isEditing">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
-
-                                        <button class="bg-transparent" [matTooltip]="'Alterar valor'"
-                                            (click)="excluirMaterial(material)">
-                                            <mat-icon class="icon-size-5 text-green-600"
-                                                [svgIcon]="'heroicons_outline:cash'">
-                                            </mat-icon>
-                                        </button>
-
-                                        <button class="bg-transparent" [matTooltip]="t('deletar')"
-                                            (click)="excluirMaterial(material)">
+                                        <button class="bg-transparent" [matTooltip]="t('deletar') + ' material'"
+                                            (click)="excluirMaterial(material)" *ngIf="!material?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
                                             </mat-icon>
                                         </button>
+                                        <button (click)="salvar(material)" [matTooltip]="'Salvar edição'"
+                                            [disabled]="isEqual(material)" *ngIf="material?.isEditing">
+                                            <mat-icon class="icon-size-5 text-green-500"
+                                                [svgIcon]="'heroicons_solid:check'">
+                                            </mat-icon>
+                                        </button>
+                                        <button (click)="cancelar(material)" [matTooltip]="'Cancelar edição'"
+                                            *ngIf="material?.isEditing">
+                                            <mat-icon class="icon-size-5 text-red-500"
+                                                [svgIcon]="'heroicons_solid:minus-circle'">
+                                            </mat-icon>
+                                        </button>
+                                        <div class="ml-4 text-secondary italic" *ngIf="material?.isEditing">Em edição
+                                        </div>
                                     </div>
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!materiais?.length && !isLoading"
+                        <div *ngIf="!editableList?.length && !isLoading"
                             class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                             Nenhum material encontrado!
                         </div>

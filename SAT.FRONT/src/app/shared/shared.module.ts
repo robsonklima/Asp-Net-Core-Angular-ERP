@@ -16,6 +16,9 @@ import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from 'app/core/interceptors/http-error.interceptor';
 import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.interceptor';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 export const FORMATO_DATA = {
     parse: {
@@ -44,7 +47,10 @@ export const FORMATO_DATA = {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatChipsModule
     ],
     exports: [
         CommonModule,

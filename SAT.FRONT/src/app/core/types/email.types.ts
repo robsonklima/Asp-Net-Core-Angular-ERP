@@ -10,3 +10,8 @@ export interface Email
     assunto: string;
     corpo: string;
 }
+
+export interface EmailAddress
+{
+    endereco: string;
+}

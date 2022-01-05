@@ -1,3 +1,4 @@
+using System.Linq;
 using MailKit.Net.Smtp;
 using MimeKit;
 using SAT.MODELS.Entities;
@@ -15,10 +16,13 @@ namespace SAT.SERVICES.Services
             MailboxAddress from = new MailboxAddress(email.NomeRemetente, email.EmailRemetente);
             message.From.Add(from);
 
-            MailboxAddress to = new MailboxAddress(email.NomeDestinatario, email.EmailDestinatario);
-            message.To.Add(to);
+            var destinatarios = email.EmailDestinatario.Split(',').Select(i => i.Trim()).ToList();
+            InternetAddressList recipients = new InternetAddressList();
+            recipients.AddRange(destinatarios.Select(i => new MailboxAddress("", i)));
+            message.To.AddRange(recipients);
 
-            if (!string.IsNullOrWhiteSpace(email.NomeCC) && !string.IsNullOrWhiteSpace(email.EmailCC)) {
+            if (!string.IsNullOrWhiteSpace(email.NomeCC) && !string.IsNullOrWhiteSpace(email.EmailCC))
+            {
                 MailboxAddress cc = new MailboxAddress(email.NomeCC, email.EmailCC);
                 message.Cc.Add(cc);
             }

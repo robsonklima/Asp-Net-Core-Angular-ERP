@@ -1,73 +1,44 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AfterViewInit, Component, Inject } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmailService } from 'app/core/services/email.service';
-import { Email } from 'app/core/types/email.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
+import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
 
 @Component({
   selector: 'app-ordem-servico-email-dialog',
   templateUrl: './ordem-servico-email-dialog.component.html'
 })
-export class OrdemServicoEmailDialogComponent implements OnInit
+export class OrdemServicoEmailDialogComponent extends EmailDialogComponent implements AfterViewInit
 {
 
-  form: FormGroup;
-  userSession: UserSession;
-  codOS: number;
   os: OrdemServico;
 
   constructor (
-    @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<OrdemServicoEmailDialogComponent>,
-    private _formBuilder: FormBuilder,
-    private _snack: MatSnackBar,
-    private _userService: UserService,
-    private _emailSvc: EmailService)
+    @Inject(MAT_DIALOG_DATA) protected data: any,
+    protected _dialog: MatDialog,
+    protected _dialogRef: MatDialogRef<EmailDialogComponent>,
+    protected _snack: MatSnackBar,
+    protected _formBuilder: FormBuilder,
+    protected _userService: UserService,
+    protected _emailSvc: EmailService)
   {
-    if (data)
-    {
-      this.os = data.os;
-    }
+    super(data, _dialogRef, _formBuilder, _snack, _userService, _emailSvc);
 
-    this.userSession = JSON.parse(this._userService.userSession);
-    this.criarForm();
+    this.os = data.os;
   }
 
-  async ngOnInit()
+  ngAfterViewInit(): void
   {
-  }
-
-  criarForm()
-  {
-    this.form = this._formBuilder.group({
-      email: [undefined, [Validators.required]]
-    });
+    this.assuntoEmail = `OS ${this.os.codOS}`;
+    this.conteudoEmail = this.obterImpressao();
   }
 
   obterImpressao()
   {
-    var contentToPrint = document.getElementById("print-area").innerHTML;
+    var contentToPrint = document?.getElementById("print-area")?.innerHTML;
     return `<html><body>${contentToPrint}</body></html>`;
-  }
-
-  async confirmar()
-  {
-    var corpoEmail: string = this.obterImpressao();
-    var mailMessage: Email =
-    {
-      emailRemetente: 'equipe.sat@perto.com.br',
-      nomeRemetente: 'Equipe SAT',
-      emailDestinatario: this.form.controls['email'].value,
-      nomeDestinatario: '',
-      assunto: 'OS ' + this.os.codOS,
-      corpo: corpoEmail
-    };
-
-    this._emailSvc.enviarEmail(mailMessage).toPromise();
-    this.dialogRef.close(true);
   }
 }

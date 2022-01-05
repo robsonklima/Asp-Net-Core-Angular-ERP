@@ -1,0 +1,29 @@
+<div class="min-w-full">
+    <h1 mat-dialog-title>
+        Enviar e-mail
+    </h1>
+
+    <div class="flex flex-col flex-auto items-center justify-center">
+        <div class="flex-auto w-full">
+            <form [formGroup]="form" *transloco="let t">
+                <mat-form-field class="fuse-mat-dense flex-auto w-full">
+                    <mat-label>Email</mat-label>
+                    <input type="email" [autocomplete]="'off'" matInput formControlName="email"
+                        placeholder="Ex.: equipe.sat@perto.com.br" email="true">
+                    <mat-error *ngIf="form.hasError('email') && !form.hasError('required')">
+                        Por favor, informe um e-mail válido.
+                    </mat-error>
+                    <mat-error *ngIf="form.hasError('required')">
+                        Email é <strong>obrigatório</strong>.
+                    </mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+        <div class="mt-4" align="end">
+            <button mat-button mat-dialog-close>Cancelar</button>
+
+            <button mat-button [disabled]="!form?.valid" [color]="'primary'" (click)="confirmar()">
+                Enviar </button>
+        </div>
+    </div>
+</div>

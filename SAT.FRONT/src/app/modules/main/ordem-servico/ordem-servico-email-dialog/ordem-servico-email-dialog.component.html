@@ -35,7 +35,7 @@
                         style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 4px;">
                         <div style="font-size: 32px; letter-spacing: -0.025;">{{ t('os') + " " + os?.codOS }}</div>
                         <div style="font-weight: 500;">
-                            {{ t('abertura').toUpperCase() + ": " + os?.dataHoraAberturaOS | date:'dd/MM/YY HH:mm'  }}
+                            {{ t('abertura').toUpperCase() + ": " + (os?.dataHoraAberturaOS | date:'dd/MM/YY HH:mm')  }}
                         </div>
                         <div style="font-weight: 500;">
                             {{ t('intervencao').toUpperCase() + ": " +  os?.tipoIntervencao?.nomTipoIntervencao }}
@@ -54,7 +54,6 @@
                         {{ os?.localAtendimento?.cidade?.nomeCidade | titlecase }}
                     </div>
                 </div>
-
 
                 <!-- dados abertura -->
                 <div
@@ -212,20 +211,12 @@
                     <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
                     </div>
 
-                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">PAT</div>
-
-                    <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
-                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
-                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
-                    <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
+                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">PAT/Região
                     </div>
 
-                    <div cstyle="height: 0; grid-column: span 4 / span 4; font-size: 16px; font-weight: 500;">
-                        {{ t('regiao') }}</div>
-
                     <div style="height: 0px; grid-column: span 6 / span 6; align-self: center; text-align: right;">
-                        {{ os.equipamentoContrato?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
-                        {{ os.equipamentoContrato?.autorizada?.nomeFantasia || '' }}</div>
+                        {{ os?.regiao?.nomeRegiao || '--' }} {{ ' ' }}
+                        {{ os?.autorizada?.nomeFantasia || '' }}</div>
                     <div style="height: 16px; grid-column: 12 span / 12 span; margin-top: 8px; margin-bottom: 8px;">
                     </div>
 

@@ -5,18 +5,23 @@ import { appConfig as c } from 'app/core/config/app.config';
 import { Router } from "@angular/router";
 
 @Injectable()
-export class GlobalErrorInterceptor implements ErrorHandler {
-    constructor(
+export class GlobalErrorInterceptor implements ErrorHandler
+{
+    constructor (
         private _zone: NgZone,
         private _emailSvc: EmailService,
         private _router: Router
     ) { }
 
-    handleError(error: any) {
-        if (!(error instanceof HttpErrorResponse)) {
+    handleError(error: any)
+    {
+        if (!(error instanceof HttpErrorResponse) || !error)
+        {
             error = error.rejection;
+            return;
         }
-        this._zone.run(() => {
+        this._zone.run(() =>
+        {
             const err: any = {
                 type: 'CLIENT_SIDE',
                 stack: error?.stack,
@@ -37,7 +42,7 @@ export class GlobalErrorInterceptor implements ErrorHandler {
                 this._router.navigate(['500-internal-server-error']);
             }
 
-            console.log('Ocorreu um erro',  error);
+            console.log('Ocorreu um erro', error);
         });
     }
 }

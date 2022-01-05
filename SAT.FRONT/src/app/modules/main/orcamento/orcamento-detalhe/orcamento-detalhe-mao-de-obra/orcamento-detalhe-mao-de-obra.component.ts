@@ -52,7 +52,7 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
   cancelar(): void
   {
     this.isEditing = false;
-    this.oldMaoDeObra = Object.assign({}, this.maoDeObra);
+    this.maoDeObra = Object.assign({}, this.oldMaoDeObra);
     this._cdRef.detectChanges();
   }
 

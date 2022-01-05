@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
@@ -8,6 +9,7 @@ import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum } from 'app/cor
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhes',
@@ -28,6 +30,7 @@ export class OrcamentoDetalheComponent implements OnInit
   dadosLocalAtendimento: OrcamentoDadosLocal;
 
   constructor (
+    private _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userService: UserService,
     private _osService: OrdemServicoService,
@@ -108,6 +111,13 @@ export class OrcamentoDetalheComponent implements OnInit
       nroSerie: this.os?.equipamentoContrato?.numSerie,
       motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao
     }
+  }
+
+  enviarEmail()
+  {
+    this._dialog.open(EmailDialogComponent, {
+      width: '600px',
+    });
   }
 
   trocarTab(tab: any)

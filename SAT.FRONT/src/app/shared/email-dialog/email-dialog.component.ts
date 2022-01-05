@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
@@ -15,17 +15,17 @@ import Enumerable from 'linq';
   selector: 'app-email-dialog',
   templateUrl: './email-dialog.component.html'
 })
-export class EmailDialogComponent implements OnInit
+export class EmailDialogComponent
 {
-  snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
-  snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+  protected snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  protected snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
-  form: FormGroup;
-  userSession: UserSession;
-  assuntoEmail: string = 'Lorem ipsum';
-  conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-  emailRemetente: string = appConfig.email_equipe;
-  nomeRemetente: string = 'Equipe SAT';
+  public form: FormGroup;
+  protected userSession: UserSession;
+  protected assuntoEmail: string = 'Lorem ipsum';
+  protected conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+  protected emailRemetente: string = appConfig.email_equipe;
+  protected nomeRemetente: string = 'Equipe SAT';
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
@@ -49,10 +49,10 @@ export class EmailDialogComponent implements OnInit
 
     this.userSession = JSON.parse(this._userService.userSession);
 
-    if (this.userSession && !data.emailRemetente)
+    if (this.userSession && !data?.emailRemetente)
       this.emailRemetente = this.userSession?.usuario?.email || this.emailRemetente;
 
-    if (this.userSession && !data.nomeRemetente)
+    if (this.userSession && !data?.nomeRemetente)
       this.nomeRemetente = this.userSession?.usuario?.nomeUsuario || this.nomeRemetente;
 
     this.criarForm();
@@ -68,8 +68,6 @@ export class EmailDialogComponent implements OnInit
 
     event.chipInput!.clear();
   }
-
-  async ngOnInit() { }
 
   criarForm()
   {

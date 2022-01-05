@@ -15,7 +15,7 @@ import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.compo
   encapsulation: ViewEncapsulation.None,
 })
 
-export class OrdemServicoEmailDialogComponent extends EmailDialogComponent implements AfterViewInit
+export class OrdemServicoEmailDialogComponent extends EmailDialogComponent
 {
 
   os: OrdemServico;
@@ -34,10 +34,11 @@ export class OrdemServicoEmailDialogComponent extends EmailDialogComponent imple
     this.os = data.os;
   }
 
-  ngAfterViewInit(): void
+  confirmar()
   {
     this.assuntoEmail = `OS ${this.os.codOS}`;
     this.conteudoEmail = this.obterImpressao();
+    return super.confirmar();
   }
 
   obterImpressao()

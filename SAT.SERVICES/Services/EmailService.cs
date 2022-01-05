@@ -16,7 +16,7 @@ namespace SAT.SERVICES.Services
             MailboxAddress from = new MailboxAddress(email.NomeRemetente, email.EmailRemetente);
             message.From.Add(from);
 
-            var destinatarios = email.EmailDestinatario.Split(";").Select(i => i.Trim()).ToList();
+            var destinatarios = email.EmailDestinatario.Split(',').Select(i => i.Trim()).ToList();
             InternetAddressList recipients = new InternetAddressList();
             recipients.AddRange(destinatarios.Select(i => new MailboxAddress("", i)));
             message.To.AddRange(recipients);

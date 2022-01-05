@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { fuseAnimations } from '@fuse/animations';
 import { EmailService } from 'app/core/services/email.service';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
@@ -9,8 +10,11 @@ import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.compo
 
 @Component({
   selector: 'app-ordem-servico-email-dialog',
-  templateUrl: './ordem-servico-email-dialog.component.html'
+  templateUrl: './ordem-servico-email-dialog.component.html',
+  animations: fuseAnimations,
+  encapsulation: ViewEncapsulation.None,
 })
+
 export class OrdemServicoEmailDialogComponent extends EmailDialogComponent implements AfterViewInit
 {
 

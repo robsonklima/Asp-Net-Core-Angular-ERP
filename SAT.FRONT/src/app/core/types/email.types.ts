@@ -13,5 +13,5 @@ export interface Email
 
 export interface EmailAddress
 {
-    address: string;
+    endereco: string;
 }

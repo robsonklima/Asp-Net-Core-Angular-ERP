@@ -9,6 +9,7 @@ import { Email, EmailAddress } from 'app/core/types/email.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ENTER, COMMA, SEMICOLON } from '@angular/cdk/keycodes';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-email-dialog',
@@ -16,9 +17,8 @@ import { ENTER, COMMA, SEMICOLON } from '@angular/cdk/keycodes';
 })
 export class EmailDialogComponent implements OnInit
 {
-  snackConfigInfo: MatSnackBarConfig = { duration: 4000, panelClass: 'info', verticalPosition: 'top', horizontalPosition: 'right' };
-  snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
-  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
   form: FormGroup;
   userSession: UserSession;
@@ -28,8 +28,8 @@ export class EmailDialogComponent implements OnInit
   nomeRemetente: string = 'Equipe SAT';
 
   addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON];
-  emails: EmailAddress[];
+  readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
+  emails: EmailAddress[] = [];
 
   constructor (
     @Inject(MAT_DIALOG_DATA) protected data: any,
@@ -64,7 +64,7 @@ export class EmailDialogComponent implements OnInit
     const value = (event.value || '').trim();
 
     if (value)
-      this.emails.push({ address: value });
+      this.emails.push({ endereco: value });
 
     event.chipInput!.clear();
   }
@@ -74,7 +74,7 @@ export class EmailDialogComponent implements OnInit
   criarForm()
   {
     this.form = this._formBuilder.group({
-      email: [undefined, [Validators.required]]
+      email: [undefined]
     });
   }
 
@@ -92,7 +92,7 @@ export class EmailDialogComponent implements OnInit
     {
       emailRemetente: this.emailRemetente,
       nomeRemetente: this.nomeRemetente,
-      emailDestinatario: this.form.controls['email'].value,
+      emailDestinatario: Enumerable.from(this.emails).select(i => i.endereco).toJoinedString(','),
       assunto: this.assuntoEmail,
       corpo: this.conteudoEmail
     };

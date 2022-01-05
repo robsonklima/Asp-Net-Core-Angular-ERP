@@ -234,7 +234,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	openEmailDialog()
 	{
 		this._dialog.open(OrdemServicoEmailDialogComponent, {
-			width: '400px',
+			width: '600px',
 			data: { os: this.os }
 		});
 	}

@@ -1,26 +1,23 @@
 <div class="min-w-full">
-    <div class="flex items-center justify-between">
-        <h1 mat-dialog-title>
-            Enviar e-mail
-        </h1>
-        <mat-icon [svgIcon]="'heroicons_solid:question-mark-circle'"></mat-icon>
-    </div>
+    <h1 mat-dialog-title>
+        Enviar e-mail
+    </h1>
 
     <div class="flex flex-col flex-auto items-center justify-center">
         <div class="flex-auto w-full">
             <form [formGroup]="form" *transloco="let t">
-                <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-form-field class='min-w-full'>
                     <mat-label>E-mails</mat-label>
-                    <mat-chip-list #emailList aria-label="E-mails">
+                    <mat-chip-list class='m-1 p-1' #emailList aria-label="E-mails">
                         <mat-chip *ngFor="let email of emails" (removed)="removerEmail(email)">
-                            {{ email.address }}
+                            {{ email.endereco }}
                             <button matChipRemove>
-                                <mat-icon>cancel</mat-icon>
+                                <mat-icon style='margin-top:-2px; margin-left: -1px;'>cancel</mat-icon>
                             </button>
                         </mat-chip>
-                        <input placeholder="Novo e-mail..." [matChipInputFor]="emailList"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                            (matChipInputTokenEnd)="add($event)">
+                        <input email='true' placeholder="Novo e-mail..." [matChipInputFor]="emailList"
+                            [autocomplete]="'off'" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>
                 </mat-form-field>
             </form>
@@ -28,7 +25,7 @@
         <div class="mt-4" align="end">
             <button mat-button mat-dialog-close>Cancelar</button>
 
-            <button mat-button [disabled]="!form?.valid" [color]="'primary'" (click)="confirmar()">
+            <button mat-button [disabled]="!emails.length" [color]="'primary'" (click)="confirmar()">
                 Enviar </button>
         </div>
     </div>

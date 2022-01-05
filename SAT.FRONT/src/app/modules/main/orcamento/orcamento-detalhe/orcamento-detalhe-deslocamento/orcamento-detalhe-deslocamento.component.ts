@@ -70,7 +70,21 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
 
   toNumber(value)
   {
-    return +value;
+    if (value && !value.isNaN())
+      return parseFloat(value);
+
+    return null;
+  }
+
+  onkeydown()
+  {
+    document.getElementById("quantidadeKm").addEventListener("keydown", function (event)
+    {
+      const isLetter = (event.key >= "a" && event.key <= "z");
+
+      if (isLetter)
+        event.preventDefault();
+    });
   }
 
   ngOnInit(): void { }

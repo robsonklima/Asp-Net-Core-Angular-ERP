@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaoDeObra } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -22,7 +22,7 @@ import { isEqual } from 'lodash';
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuseCard
+export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEditableFuseCard
 {
 
   @Input() maoDeObra: OrcamentoMaoDeObra;
@@ -34,6 +34,10 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
   constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
   {
     this.userSession = JSON.parse(this._userService.userSession);
+  }
+  ngAfterViewInit(): void
+  {
+    this.onkeydown();
   }
 
   editar(): void
@@ -71,8 +75,20 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
 
   toNumber(value)
   {
-    return +value;
+    if (value && !value.isNaN())
+      return parseFloat(value);
+
+    return null;
   }
 
-  ngOnInit(): void { }
+  onkeydown()
+  {
+    document.getElementById("previsaoHoras").addEventListener("keydown", function (event)
+    {
+      const isLetter = (event.key >= "a" && event.key <= "z");
+
+      if (isLetter)
+        event.preventDefault();
+    });
+  }
 }

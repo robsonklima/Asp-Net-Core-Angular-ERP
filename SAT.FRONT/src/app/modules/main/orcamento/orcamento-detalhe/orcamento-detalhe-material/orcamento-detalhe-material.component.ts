@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
@@ -22,7 +22,7 @@ import { isEqual } from 'lodash';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoDetalheMaterialComponent implements IEditableItemList, AfterViewInit
+export class OrcamentoDetalheMaterialComponent implements IEditableItemList, AfterViewInit, AfterViewChecked
 {
   isLoading: boolean = false;
   isEditing: boolean = false;
@@ -31,6 +31,11 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
   @Input() materiais: OrcamentoMaterial[];
 
   constructor (public _dialog: MatDialog, private _cdRef: ChangeDetectorRef, private _userService: UserService) { }
+
+  ngAfterViewChecked(): void
+  {
+    this.onkeydown();
+  }
 
   ngAfterViewInit(): void
   {
@@ -97,7 +102,10 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   toNumber(value)
   {
-    return +value;
+    if (value && !value.isNaN())
+      return parseFloat(value);
+
+    return null;
   }
 
   excluirMaterial(material: IEditableItem) 
@@ -119,5 +127,22 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
       if (confirmacao)
         console.log("oi");
     });
+  }
+
+  onkeydown()
+  {
+    document.getElementsByName("quantidade").forEach(e =>
+      e.addEventListener("keydown", event =>
+      {
+        if (event.key >= "a" && event.key <= "z")
+          event.preventDefault();
+      }));
+
+    document.getElementsByName("valorUnitario").forEach(e =>
+      e.addEventListener("keydown", event =>
+      {
+        if (event.key >= "a" && event.key <= "z")
+          event.preventDefault();
+      }));
   }
 }

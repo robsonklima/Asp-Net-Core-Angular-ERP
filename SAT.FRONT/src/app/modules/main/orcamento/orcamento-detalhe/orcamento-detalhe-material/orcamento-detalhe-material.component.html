@@ -45,7 +45,7 @@
 
                             </div>
 
-                            <ng-container *ngFor="let material of editableList">
+                            <ng-container *ngFor="let material of editableList" id="editableList">
                                 <div class="
 								list-grid-material grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100 pointer-events-none"
                                     *transloco="let t">
@@ -64,6 +64,7 @@
                                         material?.isEditing }"
                                         [contentEditable]="material?.isEditing ? 'true' : 'false'" [textContent]="material?.isEditing ? material?.item?.valorUnitario :
                                         material?.item?.valorUnitario | currency:'BRL':'symbol-narrow'"
+                                        onkeydown="onkeydown()"
                                         (input)="material.item.valorUnitario = toNumber($event.target.innerText)"></div>
                                     <div>
                                         {{ material?.item?.valorDesconto | currency:'BRL':'symbol-narrow' }}

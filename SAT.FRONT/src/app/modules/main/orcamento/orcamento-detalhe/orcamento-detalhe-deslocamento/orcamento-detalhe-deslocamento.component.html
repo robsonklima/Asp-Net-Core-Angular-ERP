@@ -28,11 +28,10 @@
         </div>
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">KM</div>
-            <div class="truncate max-w-1/2" name="quantidadeKm" ngDefaultControl
+            <div class="truncate max-w-1/2" id="quantidadeKm" ngDefaultControl
                 [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }"
                 [contentEditable]="isEditing ? 'true' : 'false'" [textContent]="deslocamento?.quantidadeKm"
-                (input)="deslocamento.quantidadeKm = toNumber($event.target.innerText)">
-                {{ deslocamento?.quantidadeKm }} </div>
+                (input)="deslocamento.quantidadeKm = toNumber($event.target.innerText)"></div>
         </div>
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Valor Total KM Rodado</div>

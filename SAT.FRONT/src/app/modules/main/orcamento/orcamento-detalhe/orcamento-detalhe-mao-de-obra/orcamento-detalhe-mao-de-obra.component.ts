@@ -26,7 +26,7 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
 {
 
   @Input() maoDeObra: OrcamentoMaoDeObra;
-  oldMaoDeObra: OrcamentoMaoDeObra;
+  oldItem: OrcamentoMaoDeObra;
   userSession: UserSession
   isLoading: boolean;
   isEditing: boolean;
@@ -39,7 +39,7 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
   editar(): void
   {
     this.isEditing = true;
-    this.oldMaoDeObra = Object.assign({}, this.maoDeObra);
+    this.oldItem = Object.assign({}, this.maoDeObra);
   }
 
   salvar(): void
@@ -52,13 +52,21 @@ export class OrcamentoDetalheMaoDeObraComponent implements OnInit, IEditableFuse
   cancelar(): void
   {
     this.isEditing = false;
-    this.maoDeObra = Object.assign({}, this.oldMaoDeObra);
+    this.maoDeObra = Object.assign({}, this.oldItem);
     this._cdRef.detectChanges();
   }
 
   isEqual(): boolean
   {
-    return isEqual(this.oldMaoDeObra, this.maoDeObra);
+    return isEqual(this.oldItem, this.maoDeObra);
+  }
+
+  isInvalid(): boolean
+  {
+    if (this.maoDeObra.previsaoHoras <= 0)
+      return true;
+
+    return false;
   }
 
   toNumber(value)

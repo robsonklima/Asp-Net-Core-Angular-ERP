@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="flex justify-end mt-2" *ngIf="isEditing">
-        <button mat-icon-button (click)="salvar()" [disabled]="isEqual()">
+        <button mat-icon-button (click)="salvar()" [disabled]="isEqual() || isInvalid()">
             <mat-icon class="icon-size-6 text-right text-green-500" [svgIcon]="'heroicons_solid:check'">
             </mat-icon>
         </button>

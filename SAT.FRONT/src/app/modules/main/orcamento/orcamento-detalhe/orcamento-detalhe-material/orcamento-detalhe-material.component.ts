@@ -5,7 +5,6 @@ import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { IEditableItem, IEditableItemList } from 'app/shared/components/interfaces/ieditable-item-list';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import Enumerable from 'linq';
 import { isEqual } from 'lodash';
 
 @Component({
@@ -35,21 +34,26 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   ngAfterViewInit(): void
   {
-    this.createEditableList();
+    this.editableList = this.createEditableList();
   }
 
-  createEditableList()
+  createEditableList(): IEditableItem[]
   {
-    Enumerable.from(this.materiais).forEach(i => 
+    return this.materiais.map(i =>
     {
       var item: IEditableItem =
       {
         item: i,
         oldItem: Object.assign({}, i),
-        isEditing: false
+        isEditing: false,
+        onEdit: () => this.editar(item),
+        onCancel: () => this.cancelar(item),
+        onSave: () => this.salvar(item),
+        onDelete: () => this.excluirMaterial(item),
+        isEqual: () => this.isEqual(item),
+        isInvalid: () => this.isInvalid(item)
       };
-
-      this.editableList.push(item);
+      return item;
     });
   }
 
@@ -83,6 +87,14 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     return isEqual(material.oldItem, material.item);
   }
 
+  isInvalid(material: IEditableItem): boolean
+  {
+    if (material.item.valorUnitario <= 0 || material.item.quantidade <= 0)
+      return true;
+
+    return false;
+  }
+
   toNumber(value)
   {
     return +value;
@@ -105,9 +117,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-      {
-
-      }
+        console.log("oi");
     });
   }
 }

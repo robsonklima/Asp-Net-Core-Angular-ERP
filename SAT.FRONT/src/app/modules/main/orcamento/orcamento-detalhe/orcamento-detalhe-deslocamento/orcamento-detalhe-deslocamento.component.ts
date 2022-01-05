@@ -25,7 +25,7 @@ import { isEqual } from 'lodash';
 export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableFuseCard
 {
   @Input() deslocamento: OrcamentoDeslocamento;
-  oldDeslocamento: OrcamentoDeslocamento;
+  oldItem: OrcamentoDeslocamento;
   userSession: UserSession
   isLoading: boolean;
   isEditing: boolean;
@@ -38,7 +38,7 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
   editar(): void
   {
     this.isEditing = true;
-    this.oldDeslocamento = Object.assign({}, this.deslocamento);
+    this.oldItem = Object.assign({}, this.deslocamento);
   }
 
   salvar(): void
@@ -51,13 +51,21 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
   cancelar(): void
   {
     this.isEditing = false;
-    this.deslocamento = Object.assign({}, this.oldDeslocamento);
+    this.deslocamento = Object.assign({}, this.oldItem);
     this._cdRef.detectChanges();
   }
 
   isEqual(): boolean
   {
-    return isEqual(this.oldDeslocamento, this.deslocamento);
+    return isEqual(this.oldItem, this.deslocamento);
+  }
+
+  isInvalid(): boolean
+  {
+    if (this.deslocamento.quantidadeKm <= 0)
+      return true;
+
+    return false;
   }
 
   toNumber(value)

@@ -22,7 +22,6 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 
 export class OrcamentoDetalheOutroServicoComponent implements OnInit
 {
-  codOrc: number;
   isLoading: boolean;
   @Input() outrosServicos: OrcamentoOutroServico[];
 

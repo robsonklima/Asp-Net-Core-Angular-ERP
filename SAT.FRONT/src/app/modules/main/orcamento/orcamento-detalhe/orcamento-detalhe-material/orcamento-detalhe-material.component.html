@@ -62,8 +62,8 @@
                                         (input)="material.item.quantidade = toNumber($event.target.innerText)"></div>
                                     <div name="valorUnitario" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
                                         material?.isEditing }"
-                                        [contentEditable]="material?.isEditing ? 'true' : 'false'"
-                                        [textContent]="material?.item?.valorUnitario | currency:'BRL':'symbol-narrow'"
+                                        [contentEditable]="material?.isEditing ? 'true' : 'false'" [textContent]="material?.isEditing ? material?.item?.valorUnitario :
+                                        material?.item?.valorUnitario | currency:'BRL':'symbol-narrow'"
                                         (input)="material.item.valorUnitario = toNumber($event.target.innerText)"></div>
                                     <div>
                                         {{ material?.item?.valorDesconto | currency:'BRL':'symbol-narrow' }}
@@ -76,23 +76,24 @@
                                     </div>
                                     <div class="flex pointer-events-auto">
                                         <button class="bg-transparent" [matTooltip]="'Editar material'"
-                                            (click)="editar(material)" *ngIf="!material?.isEditing">
+                                            (click)="material.onEdit()" *ngIf="!material?.isEditing">
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
                                         <button class="bg-transparent" [matTooltip]="t('deletar') + ' material'"
-                                            (click)="excluirMaterial(material)" *ngIf="!material?.isEditing">
+                                            (click)="material.onDelete()" *ngIf="!material?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
                                             </mat-icon>
                                         </button>
-                                        <button (click)="salvar(material)" [matTooltip]="'Salvar edição'"
-                                            [disabled]="isEqual(material)" *ngIf="material?.isEditing">
+                                        <button (click)="material.onSave()" [matTooltip]="'Salvar edição'"
+                                            [disabled]="isEqual(material) || isInvalid(material)"
+                                            *ngIf="material?.isEditing">
                                             <mat-icon class="icon-size-5 text-green-500"
                                                 [svgIcon]="'heroicons_solid:check'">
                                             </mat-icon>
                                         </button>
-                                        <button (click)="cancelar(material)" [matTooltip]="'Cancelar edição'"
+                                        <button (click)="material.onCancel()" [matTooltip]="'Cancelar edição'"
                                             *ngIf="material?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-500"
                                                 [svgIcon]="'heroicons_solid:minus-circle'">

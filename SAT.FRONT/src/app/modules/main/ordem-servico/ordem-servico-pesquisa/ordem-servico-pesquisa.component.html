@@ -1,0 +1,141 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                        {{ t('chamados') }}
+                    </a>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h6
+                    class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+                    {{ t('pesquisa avancada') }}
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-6xl">
+            <form [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('chamado') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'codOS'"
+                            mask="0000000000"
+                            [showMaskTyped]="false" 
+                            [dropSpecialCharacters]="true"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os cliente') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'numOSCliente'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('relatorio de atendimento') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'numRAT'"
+                            mask="AAAAAAAAAA"
+                            [showMaskTyped]="false" 
+                            [dropSpecialCharacters]="true"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('numero agencia') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'numAgencia'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('serie') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'numSerie'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'numOSQuarteirizada'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button
+                        class="ml-2"
+                        (click)="pesquisar()"
+                        [color]="'primary'"
+                        type="button"
+                        mat-flat-button>{{ t('pesquisar') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="max-w-6xl mt-8">
+            <div class="flex flex-auto overflow-hidden">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid z-10 sticky mb-1 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+        
+                                    <div class="hidden md:block" [mat-sort-header]="'codRegiao'">
+                                        {{ t('os') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-container>
+                                <ng-container *ngFor="let os of dataSourceData?.items">
+                                    <a [routerLink]="['/ordem-servico/detalhe/' + os.codOS]">
+                                        <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div class="hidden md:block truncate">
+                                                {{ os.codOS }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="!dataSourceData?.items.length">
+                                    <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
+                                        <div class="hidden md:block truncate">
+                                            {{ t('nenhum registro encontrado') }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                                class=""
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                                [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

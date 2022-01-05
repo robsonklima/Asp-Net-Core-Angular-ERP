@@ -5,9 +5,9 @@
 
     <mat-drawer-content>
         <div class="flex flex-col flex-auto min-w-0">
-            <div class="dark bg-card dark:border-b">
+            <div class="bg-card">
                 <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12"
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
                         *transloco="let t">
                         <div class="flex flex-auto items-center min-w-0">
                             <div class="flex-1 min-w-0">
@@ -23,54 +23,53 @@
                                         <span class="ml-1 text-secondary">{{ t('chamado') }}</span>
                                     </div>
                                 </div>
-
                                 <div class="mt-2">
-                                    <h2
-                                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                    <h6
+                                        class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
                                         {{ codOS }}
-                                    </h2>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                            <button class="fuse-mat-button-rounded bg-green-500" mat-flat-button
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+                            <button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-yellow-500" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-blue-500" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-indigo-700" mat-flat-button
+                            <button class="fuse-mat-button-rounded text-indigo-700 bg-white" mat-flat-button
                                 *ngIf="os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
                                 os?.codStatusServico === 7 || isLoading" [matTooltip]="t('transferir')"
                                 matTooltipPosition="above" (click)="sidenav.toggle()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-red-700" mat-flat-button
+                            <button class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
                                 *ngIf="os?.codStatusServico == 8" [matTooltip]="t('cancelar transferencia')"
                                 [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
                             </button>
                         </div>
 
-                        <button class="ml-3 -mr-2 fuse-mat-button-rounded bg-gray-700" mat-flat-button
+                        <button class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
                             [matMenuTriggerFor]="menu" *transloco="let t" [disabled]="isLoading">
-                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
                             <mat-menu #menu>
                                 <button mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">

@@ -11,7 +11,7 @@ import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import moment from 'moment';
-import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
@@ -140,8 +140,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	private async obterOS()
 	{
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-		console.log(this.os);
-		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>
@@ -235,17 +233,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	openEmailDialog()
 	{
-		const dialogRef = this._dialog.open(OrdemServicoEmailDialogComponent, {
+		this._dialog.open(OrdemServicoEmailDialogComponent, {
 			width: '400px',
 			data: { os: this.os }
-		});
-
-		dialogRef.afterClosed().subscribe((confirmacao: any) =>
-		{
-			if (confirmacao)
-			{
-				this._snack.exibirToast('E-mail enviado com sucesso.', 'success');
-			}
 		});
 	}
 

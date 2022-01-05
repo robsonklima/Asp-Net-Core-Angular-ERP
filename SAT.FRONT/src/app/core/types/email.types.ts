@@ -6,7 +6,7 @@ export interface Email
     nomeCC?: string;
     emailCC?: string;
     emailDestinatario: string;
-    nomeDestinatario: string;
+    nomeDestinatario?: string;
     assunto: string;
     corpo: string;
 }

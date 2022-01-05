@@ -10,6 +10,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
 import { CNPJPipe } from './pipes/cnpj.pipe';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 
 export const FORMATO_DATA = {
     parse: {
@@ -26,20 +29,25 @@ export const FORMATO_DATA = {
 @NgModule({
     declarations: [
         ConfirmacaoDialogComponent,
-        CNPJPipe
+        EmailDialogComponent,
+        CNPJPipe,
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        MatButtonModule
+        MatButtonModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MatSelectModule
     ],
     exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MatSnackBarModule,
+        EmailDialogComponent,
         CNPJPipe
     ],
     providers: [

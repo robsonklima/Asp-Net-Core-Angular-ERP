@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
@@ -13,18 +14,18 @@ import { Subject } from 'rxjs';
   templateUrl: './ordem-servico-pesquisa.component.html',
   styles: [`
     .list-grid-pesquisa {
-      grid-template-columns: 72px auto 32px;
+      grid-template-columns: 72px 90px 158px 158px auto 218px;
       
       @screen sm {
-          grid-template-columns: 72px auto 32px;
+          grid-template-columns: 72px 90px 158px 158px auto 218px;
       }
 
       @screen md {
-          grid-template-columns: 72px auto 72px;
+          grid-template-columns: 72px 90px 158px 158px auto 218px;
       }
 
       @screen lg {
-          grid-template-columns: 72px auto 72px;
+          grid-template-columns: 72px 90px 158px 158px auto 218px;
       }
     }  
   `],
@@ -43,7 +44,8 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
     private _cdr: ChangeDetectorRef,
-    private _osSvc: OrdemServicoService
+    private _osSvc: OrdemServicoService,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -70,19 +72,37 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
   pesquisar() {
     const form = this.form.getRawValue();
     const isEmpty = Object.values(form).every(x => x === null || x === '');
-    if (isEmpty) this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
+    if (isEmpty) {
+      this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
+      return;
+    }
 
+    this.obterChamados();    
+  }
+
+  private obterChamados() {
+    const form = this.form.getRawValue();
     this.isLoading = true;
+
     this._osSvc.obterPorParametros({
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active,
-      sortDirection: this.sort.direction,
+      sortActive: this.sort.active || 'codOS',
+      sortDirection: this.sort.direction || 'desc',
       pageSize: this.paginator?.pageSize,
       codOS: form.codOS,
       numOSQuarteirizada: form.numOSQuarteirizada,
       numOSCliente: form.numOSCliente,
       numSerie: form.numSerie,
     }).subscribe((data: OrdemServicoData) => {
+      if (data.items.length === 1) {
+        this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);
+        return;
+      }
+
+      if (data.items.length === 0) {
+        this._snack.exibirToast('Nenhum chamado encontrado', 'warning');
+      }
+
       this.dataSourceData = data;
       this.isLoading = false;
       this._cdr.detectChanges();

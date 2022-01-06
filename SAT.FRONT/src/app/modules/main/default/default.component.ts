@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { MonitoramentoClienteViewModel } from 'app/core/types/monitoramento.types';
+import { MonitoramentoCliente } from 'app/core/types/monitoramento.types';
 import moment from 'moment';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     sessionData: UsuarioSessao;
     horaAtualizacaoMonitoramentoClientes: string;
     public loading: boolean;
-    public listaMonitoramentoClientes: MonitoramentoClienteViewModel[] = [];
+    public listaMonitoramentoClientes: MonitoramentoCliente[] = [];
     protected _onDestroy = new Subject<void>();
 
     constructor (

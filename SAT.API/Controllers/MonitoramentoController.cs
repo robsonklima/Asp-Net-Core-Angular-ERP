@@ -22,10 +22,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetMonitoramentoClientes")]
-        public List<MonitoramentoClienteViewModel> GetMonitoramentoClientes()
+        public MonitoramentoCliente[] Get([FromQuery] MonitoramentoClienteParameters parameters)
         {
-            return this._monitoramentoService.ObterPorParametros();
+            return this._monitoramentoService.ObterPorParametros(parameters);
         }
     }
 }

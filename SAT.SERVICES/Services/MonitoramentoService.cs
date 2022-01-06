@@ -20,9 +20,9 @@ namespace SAT.SERVICES.Services
             this._osRepository = osRepository;
         }
 
-        public List<MonitoramentoClienteViewModel> ObterPorParametros()
+        public MonitoramentoCliente[] ObterPorParametros(MonitoramentoClienteParameters parameters)
         {
-            List<MonitoramentoClienteViewModel> retorno = new();
+            List<MonitoramentoCliente> retorno = new();
 
             List<Cliente> listaClientes = this._clienteRepository.ObterPorQuery(new ClienteParameters
             {
@@ -40,9 +40,8 @@ namespace SAT.SERVICES.Services
                 .GroupBy(gr => gr.CodCliente)
                 .ToList();
 
-
             retorno.AddRange((from os in clientesViaIntegracao
-                              select new MonitoramentoClienteViewModel
+                              select new MonitoramentoCliente
                               {
                                   Nome = listaClientes.FirstOrDefault(s => os.Key == s.CodCliente).NomeFantasia,
                                   DataProcessamento = (DateTime)os.FirstOrDefault().DataHoraAberturaOS
@@ -59,7 +58,7 @@ namespace SAT.SERVICES.Services
 
             // BB Garantia 
             DateTime ultimoChamadoBBGarantia = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 1).FirstOrDefault().DataHoraAberturaOS.Value;
-            retorno.Add(new MonitoramentoClienteViewModel
+            retorno.Add(new MonitoramentoCliente
             {
                 Nome = "BB Garantia",
                 DataProcessamento = ultimoChamadoBBGarantia
@@ -67,13 +66,13 @@ namespace SAT.SERVICES.Services
 
             // BB Cobra 
             var ultimoChamadoBBCobra = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 0).FirstOrDefault().DataHoraAberturaOS.Value;
-            retorno.Add(new MonitoramentoClienteViewModel
+            retorno.Add(new MonitoramentoCliente
             {
                 Nome = "BB Cobra",
                 DataProcessamento = ultimoChamadoBBCobra
             });
 
-            return retorno.OrderByDescending(s => s.DataProcessamento).ToList();
+            return retorno.OrderByDescending(s => s.DataProcessamento).ToArray();
         }
     }
 }

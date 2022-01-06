@@ -1,3 +1,4 @@
+import { QueryStringParameters } from "./generic.types";
 
 export class Monitoramento
 {
@@ -27,8 +28,12 @@ export class MonitoramentoStorage
     public valor: number;
 }
 
-export class MonitoramentoClienteViewModel
+export interface MonitoramentoCliente
 {
-    public nome: string;
-    public dataProcessamento: string;
+    nome: string;
+    dataProcessamento: string;
+}
+
+export interface MonitoramentoClienteParameters extends QueryStringParameters
+{
 }

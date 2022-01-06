@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SAT.SERVICES.Services;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace SAT.API.Support
             int statusCode = (int)HttpStatusCode.InternalServerError;
             var result = JsonConvert.SerializeObject(
                 new { statusCode = statusCode, errorMessage = exception.Message });
+            LoggerService.LogError(statusCode + exception.Message);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
             return context.Response.WriteAsync(result);

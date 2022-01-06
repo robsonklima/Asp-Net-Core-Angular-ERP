@@ -51,15 +51,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         this._router.navigate(['404-not-found']);
                         break;
 
+                    case 503:
+                        this.enviarEmail(error);   
+
+                        this._router.navigate(['503-service-unavailable']);
+                        break;
+
                     case 500:
-                        this._emailSvc.enviarEmail({
-                            nomeRemetente: c.system_user,
-                            emailRemetente: c.email_equipe,
-                            nomeDestinatario: c.system_user,
-                            emailDestinatario: c.email_equipe,
-                            assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-                            corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
-                        }).toPromise();    
+                        this.enviarEmail(error);
                     
                         this._router.navigate(['500-internal-server-error']);
                         break;
@@ -71,5 +70,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 return throwError(error);
             })
         );
+    }
+
+    enviarEmail(error: any) {
+        this._emailSvc.enviarEmail({
+            nomeRemetente: c.system_user,
+            emailRemetente: c.email_equipe,
+            nomeDestinatario: c.system_user,
+            emailDestinatario: c.email_equipe,
+            assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
+            corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
+        }).toPromise(); 
     }
 }

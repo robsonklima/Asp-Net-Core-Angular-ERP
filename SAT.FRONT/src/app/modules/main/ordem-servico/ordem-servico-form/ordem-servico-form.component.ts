@@ -137,7 +137,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
       observacaoCliente: [undefined],
       descMotivoMarcaEspecial: [undefined],
       agenciaPosto: [undefined],
-      indOSIntervencaoEquipamento: [undefined]
+      indOSIntervencaoEquipamento: [undefined],
+      indBloqueioReincidencia: [undefined]
     });
   }
 

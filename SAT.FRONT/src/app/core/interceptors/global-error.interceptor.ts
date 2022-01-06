@@ -29,18 +29,18 @@ export class GlobalErrorInterceptor implements ErrorHandler
                 status: error?.status
             }
 
-            if (err.status !== 401 && err.status !== 0 && err.status !== 400 && err.status !== 403 && err.status !== 404) {
-                this._emailSvc.enviarEmail({
-                    nomeRemetente: c.system_user,
-                    emailRemetente: c.email_equipe,
-                    nomeDestinatario: c.system_user,
-                    emailDestinatario: c.email_equipe,
-                    assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-                    corpo: `Tipo: ${err.type}\n Mensagem: ${err.message}\n Stack: ${err.stack}`
-                }).toPromise();
+            // if (err.status !== 401 && err.status !== 0 && err.status !== 400 && err.status !== 403 && err.status !== 404) {
+            //     this._emailSvc.enviarEmail({
+            //         nomeRemetente: c.system_user,
+            //         emailRemetente: c.email_equipe,
+            //         nomeDestinatario: c.system_user,
+            //         emailDestinatario: c.email_equipe,
+            //         assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
+            //         corpo: `Tipo: ${err.type}\n Mensagem: ${err.message}\n Stack: ${err.stack}`
+            //     }).toPromise();
 
-                //this._router.navigate(['500-internal-server-error']);
-            }
+            //     this._router.navigate(['500-internal-server-error']);
+            // }
 
             console.log('Ocorreu um erro', error);
         });

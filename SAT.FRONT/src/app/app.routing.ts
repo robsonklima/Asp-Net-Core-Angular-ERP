@@ -96,6 +96,8 @@ export const appRoutes: Route[] = [
             { path: '403-forbidden', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-403/erro-403.module').then(m => m.Erro403Module) },
             { path: '500-internal-server-error', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-500/erro-500.module').then(m => m.Erro500Module) },
             { path: '0-connection-refused', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-0/erro-0.module').then(m => m.Erro0Module) },
+            { path: '503-service-unavailable', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-503/erro-503.module').then(m => m.Erro503Module) },
+             
             { path: '**', redirectTo: '404-not-found' }
         ]
     }

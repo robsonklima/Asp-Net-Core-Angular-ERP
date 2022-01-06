@@ -17,26 +17,24 @@
     </div>
 
     <div class="flex-auto mt-4 sm:mt-6">
-        <div class="w-full max-w-screen-xl mx-auto p-6">
+        <div class="w-full max-w-screen-xl mx-auto">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
-                    *ngIf="sessionData?.usuario?.codPerfil === 29 || sessionData?.usuario?.codPerfil === 3">
-                    <div class="flex justify-between">
-                        <div class="text-2xl font-semibold">Integrações</div>
-                        
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:mb-6">
-                            <div class="flex items-center" *ngIf="horaAtualizacaoMonitoramentoClientes">
-                                <div class="text-md tracking-tight ml-3 text-gray-400">
-                                    Última atualização: {{ horaAtualizacaoMonitoramentoClientes }}
-                                </div>
+                <div class="flex flex-col lg:col-span-2 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                            <div>Integrações</div>
+                            
+                            <div class="text-sm text-secondary tracking-tight"
+                                *ngIf="ultimoProcessamento && !loading">
+                                Atualizado em: {{ ultimoProcessamento }}
                             </div>
+                        </div>
 
-                            <div class="flex items-center">
-                                <button mat-icon-button class="ml-3" (click)="obterMonitoramentoClientes()">
-                                    <mat-icon class="icon-size-5 text-hint text-green-600" [svgIcon]="'heroicons_solid:refresh'">
-                                    </mat-icon>
-                                </button>
-                            </div>
+                        <div class="mt-3 sm:mt-0 sm:ml-2">
+                            <button mat-icon-button class="ml-3" (click)="obterMonitoramentoClientes()" [disabled]="loading">
+                                <mat-icon class="icon-size-5 text-green-600" [svgIcon]="'heroicons_solid:refresh'">
+                                </mat-icon>
+                            </button>
                         </div>
                     </div>
 
@@ -63,34 +61,35 @@
                                                                 Ociosidade
                                                             </td>
                                                         </tr>
-                                                        <tr [class.border-b]="listaMonitoramentoClientes.length - 1 > i"
-                                                            *ngFor="let cliente of listaMonitoramentoClientes; let i = index">
+                                                        <tr [class.border-b]="listaMonitoramento.length - 1 > i"
+                                                            *ngFor="let servico of listaMonitoramento; let i = index">
                                                             <td
                                                                 class="py-3 white space-nowrap text-md text-gray-900 font-light">
                                                                 <span class="flex items-center">
                                                                     <span class="w-2 h-2 rounded-full"
-                                                                        [class.bg-red-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) >= 3"
-                                                                        [class.bg-green-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) <= 1"
-                                                                        [class.bg-amber-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) < 3 && obterOciosidadeEmHoras(cliente.dataUltimoChamado) > 1"
-                                                                        ></span>
-                                                                    <span class="ml-3 leading-4">{{cliente.nomeCliente | uppercase}}</span>
+                                                                        [class.bg-red-600]="obterOciosidadeEmHoras(ultimoProcessamento) >= 3"
+                                                                        [class.bg-green-600]="obterOciosidadeEmHoras(ultimoProcessamento) <= 1"
+                                                                        [class.bg-amber-600]="obterOciosidadeEmHoras(ultimoProcessamento) < 3 && obterOciosidadeEmHoras(ultimoProcessamento) > 1"></span>
+                                                                    <span class="ml-3 leading-4">{{servico.nome | uppercase}}</span>
                                                                 </span>
                                                             </td>
-                                                            <td class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
-                                                                {{cliente.dataUltimoChamado | date:'dd/MM/yyyy HH:mm'}}
+                                                            <td
+                                                                class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
+                                                                {{ultimoProcessamento | date:'dd/MM/yyyy HH:mm'}}
                                                             </td>
-                                                            <td class="py-3 px-6 text-right white space-nowrap text-md text-gray-900 font-light" 
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) >= 3"
-                                                                [class.text-green-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) <= 1"
-                                                                [class.text-amber-600]="obterOciosidadeEmHoras(cliente.dataUltimoChamado) < 3 && obterOciosidadeEmHoras(cliente.dataUltimoChamado) > 1">
-                                                                {{ obterOciosidadePorExtenso(cliente.dataUltimoChamado) | titlecase }}
+                                                            <td class="py-3 px-6 text-right white space-nowrap text-md text-gray-900 font-light"
+                                                                [class.text-red-600]="obterOciosidadeEmHoras(ultimoProcessamento) >= 3"
+                                                                [class.text-green-600]="obterOciosidadeEmHoras(ultimoProcessamento) <= 1"
+                                                                [class.text-amber-600]="obterOciosidadeEmHoras(ultimoProcessamento) < 3 && obterOciosidadeEmHoras(ultimoProcessamento) > 1">
+                                                                {{ obterOciosidadePorExtenso(ultimoProcessamento)
+                                                                | titlecase }}
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
 
                                                 <div class="flex justify-center items-center" *ngIf="loading">
-                                                    <div class="mb-8">
+                                                    <div class="my-4">
                                                         <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'">
                                                         </mat-progress-spinner>
                                                     </div>
@@ -103,6 +102,9 @@
                         </div>
                     </div>
                 </div>
+
+                
+
             </div>
         </div>
     </div>

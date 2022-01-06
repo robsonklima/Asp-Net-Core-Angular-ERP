@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
@@ -12,13 +12,19 @@ import { isEqual } from 'lodash';
   templateUrl: './orcamento-detalhe-material.component.html',
   styles: [`
         .list-grid-material {
-            grid-template-columns: 100px auto 100px 75px 100px 100px 100px 150px;
+            grid-template-columns: 100px auto 100px 75px 100px 100px 100px 200px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 75px 100px 100px 100px 150px;
+                grid-template-columns: 100px auto 100px 75px 100px 100px 100px 200px;
             }
         }
     `],
+  providers: [
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt'
+    }
+  ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
@@ -27,6 +33,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
   isLoading: boolean = false;
   isEditing: boolean = false;
   editableList: IEditableItem[] = [];
+  selectedItem: IEditableItem;
 
   @Input() materiais: OrcamentoMaterial[];
 
@@ -49,7 +56,6 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
       var item: IEditableItem =
       {
         item: i,
-        oldItem: Object.assign({}, i),
         isEditing: false,
         onEdit: () => this.editar(item),
         onCancel: () => this.cancelar(item),
@@ -64,22 +70,20 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   editar(material: IEditableItem): void
   {
-    if (!material) return;
+    material.oldItem = Object.assign({}, material.item);
     this.isEditing = true;
     material.isEditing = true;
   }
 
   salvar(material: IEditableItem): void
   {
-    if (!material) return;
+    material.oldItem = Object.assign({}, material.item);
     this.isEditing = false;
     material.isEditing = false;
   }
 
   cancelar(material: IEditableItem): void
   {
-    if (!material) return;
-
     material.item = Object.assign({}, material.oldItem);
     this.isEditing = false;
     material.isEditing = false;
@@ -88,13 +92,13 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   isEqual(material: IEditableItem): boolean
   {
-    if (!material) return;
-    return isEqual(material.oldItem, material.item);
+    return isEqual(material?.item?.quantidadeKm?.toString(), material?.oldItem?.quantidadeKm?.toString()) ||
+      isEqual(material?.item?.valorUnitario?.toString(), material?.oldItem?.valorUnitario?.toString());
   }
 
   isInvalid(material: IEditableItem): boolean
   {
-    if (material.item.valorUnitario <= 0 || material.item.quantidade <= 0)
+    if (material.item.valorUnitario < 0 || material.item.quantidade < 0)
       return true;
 
     return false;
@@ -102,10 +106,25 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   toNumber(value)
   {
-    if (value && !value.isNaN())
-      return parseFloat(value);
+    value = value.trim();
 
-    return null;
+    var result = value.replace(/[^\d,]+/g, '');
+    var float = parseFloat(result);
+
+    if (isNaN(float))
+      return null;
+
+    return result;
+  }
+
+  inputQuantidadeMaterial(material, value)
+  {
+    material.item.quantidadeKm = this.toNumber(value);
+  }
+
+  inputValorUnitario(material, value)
+  {
+    material.item.valorUnitario = parseFloat(this.toNumber(value));
   }
 
   excluirMaterial(material: IEditableItem) 
@@ -131,18 +150,18 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   onkeydown()
   {
-    document.getElementsByName("quantidade").forEach(e =>
-      e.addEventListener("keydown", event =>
-      {
-        if (event.key >= "a" && event.key <= "z")
-          event.preventDefault();
-      }));
-
-    document.getElementsByName("valorUnitario").forEach(e =>
-      e.addEventListener("keydown", event =>
-      {
-        if (event.key >= "a" && event.key <= "z")
-          event.preventDefault();
-      }));
+    //     document.getElementsByName("quantidade").forEach(e =>
+    //       e.addEventListener("keydown", event =>
+    //       {
+    //         if (event.key >= "a" && event.key <= "z")
+    //           event.preventDefault();
+    //       }));
+    // 
+    //     document.getElementsByName("valorUnitario").forEach(e =>
+    //       e.addEventListener("keydown", event =>
+    //       {
+    //         if (event.key >= "a" && event.key <= "z")
+    //           event.preventDefault();
+    //       }));
   }
 }

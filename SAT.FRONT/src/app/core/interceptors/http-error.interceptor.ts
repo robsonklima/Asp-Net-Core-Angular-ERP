@@ -44,11 +44,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 400:
-                        this._router.navigate(['404-not-found']);
                         break;
 
                     case 404:
-                        this._router.navigate(['404-not-found']);
                         break;
 
                     case 503:

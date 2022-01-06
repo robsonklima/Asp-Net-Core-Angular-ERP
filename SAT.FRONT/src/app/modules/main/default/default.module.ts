@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
         MatMenuModule,
         MatTabsModule,
         MatProgressSpinnerModule,
-        FuseAlertModule
+        FuseAlertModule,
+        NgApexchartsModule
     ]
 })
 export class DefaultModule {

@@ -141,7 +141,7 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoUsuarioRepository, PontoPeriodoUsuarioRepository>();
             services.AddTransient<IOrcamentoRepository, OrcamentoRepository>();
             services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
-            services.AddTransient<ILogAlertaRepository, LogAlertaRepository>();
+            services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

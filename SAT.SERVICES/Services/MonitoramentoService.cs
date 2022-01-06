@@ -1,33 +1,33 @@
 ﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public partial class MonitoramentoService : IMonitoramentoService
+    public class MonitoramentoService : IMonitoramentoService
     {
-        private readonly IClienteRepository _clienteRepository;
-        private readonly IOrdemServicoRepository _osRepository;
-        private readonly ILogAlertaRepository _logAlertRepository;
+        private readonly IMonitoramentoRepository _monitoramentoRepository;
 
-        public MonitoramentoService(IClienteRepository clienteRepository, IOrdemServicoRepository osRepository, ILogAlertaRepository logAlertRepository)
+        public MonitoramentoService(IMonitoramentoRepository monitoramentoRepository)
         {
-            this._clienteRepository = clienteRepository;
-            this._osRepository = osRepository;
-            this._logAlertRepository = logAlertRepository;
+            this._monitoramentoRepository = monitoramentoRepository;
         }
-        public Monitoramento[] ObterPorParametros(MonitoramentoParameters parameters)
+        public ListViewModel ObterPorParametros(MonitoramentoParameters parameters)
         {
-            switch (parameters.Tipo)
+            var monitoramentos = _monitoramentoRepository.ObterPorParametros(parameters);
+
+            return new ListViewModel
             {
-                case MonitoramentoTipoEnum.CLIENTE:
-                    return ObterPorClientes(parameters);
-                case MonitoramentoTipoEnum.SERVICO:
-                    return ObterPorServicos(parameters);
-                default:
-                    return new Monitoramento[] { };
-            }
+                Items = monitoramentos,
+                TotalCount = monitoramentos.TotalCount,
+                CurrentPage = monitoramentos.CurrentPage,
+                PageSize = monitoramentos.PageSize,
+                TotalPages = monitoramentos.TotalPages,
+                HasNext = monitoramentos.HasNext,
+                HasPrevious = monitoramentos.HasPrevious
+            };
         }
     }
 }

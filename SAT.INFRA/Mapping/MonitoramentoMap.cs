@@ -4,9 +4,9 @@ using SAT.MODELS.Entities;
 
 namespace SAT.INFRA.Mapping
 {
-    public class LogAlertaMap : IEntityTypeConfiguration<LogAlerta>
+    public class MonitoramentoMap : IEntityTypeConfiguration<Monitoramento>
     {
-        public void Configure(EntityTypeBuilder<LogAlerta> builder)
+        public void Configure(EntityTypeBuilder<Monitoramento> builder)
         {
             builder
                 .ToTable("LogAlerta");

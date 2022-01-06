@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento, MonitoramentoTipoEnum } from 'app/core/types/monitoramento.types';
+import { Monitoramento } from 'app/core/types/monitoramento.types';
 import moment from 'moment';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
@@ -22,8 +22,8 @@ export class DefaultComponent implements OnInit, OnDestroy
     public listaMonitoramento: Monitoramento[] = [];
     chartData: any = {
         uniqueVisitors: 46085,
-        series        : [25, 75],
-        labels        : [
+        series: [25, 75],
+        labels: [
             'English',
             'Other'
         ]
@@ -50,6 +50,8 @@ export class DefaultComponent implements OnInit, OnDestroy
             {
                 this.obterMonitoramentos();
             });
+
+        this.prepararDadosGraficos();
     }
 
     obterMonitoramentos()
@@ -57,54 +59,56 @@ export class DefaultComponent implements OnInit, OnDestroy
         this.loading = true;
         this._monitoramentoService.obterPorParametros
             ({
-                tipo: MonitoramentoTipoEnum.CHAMADO,
                 sortActive: "dataHoraProcessamento",
-                sortDirection: "desc"
+                sortDirection: "desc",
             }).subscribe(data =>
             {
                 this.listaMonitoramento = data.items;
                 this.ultimoProcessamento = moment().format('HH:mm:ss');
                 this.loading = false;
+                
             }, () =>
             {
                 this.loading = false;
             });
     }
 
-    private prepararDadosGraficos() {
+    filtrarMonitoramentoPorTipo(tipo: string) {
+        return this.listaMonitoramento.filter(m => m.tipo == tipo)
+    }
+
+    private prepararDadosGraficos()
+    {
         this.chart = {
-            chart      : {
+            chart: {
                 animations: {
-                    speed           : 400,
+                    speed: 400,
                     animateGradually: {
                         enabled: false
                     }
                 },
                 fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'donut',
-                sparkline : {
+                foreColor: 'inherit',
+                height: '100%',
+                type: 'donut',
+                sparkline: {
                     enabled: true
                 }
             },
-            colors     : ['#3182CE', '#63B3ED'],
-            labels     : [
-                'A',
-                'B'
-            ],
+            colors: ['#3182CE', '#63B3ED'],
+            labels: [],
             plotOptions: {
                 pie: {
-                    customScale  : 0.9,
+                    customScale: 0.9,
                     expandOnClick: false,
-                    donut        : {
+                    donut: {
                         size: '70%'
                     }
                 }
             },
-            series     : [80, 20],
-            states     : {
-                hover : {
+            series: [],
+            states: {
+                hover: {
                     filter: {
                         type: 'none'
                     }
@@ -115,18 +119,18 @@ export class DefaultComponent implements OnInit, OnDestroy
                     }
                 }
             },
-            tooltip    : {
-                enabled        : true,
+            tooltip: {
+                enabled: true,
                 fillSeriesColor: false,
-                theme          : 'dark',
-                custom         : ({
-                                      seriesIndex,
-                                      w
-                                  }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-                                                    <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-                                                    <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                                    <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-                                                </div>`
+                theme: 'dark',
+                custom: ({
+                    seriesIndex,
+                    w
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                    <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                    <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                    <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                </div>`
             }
         };
     }

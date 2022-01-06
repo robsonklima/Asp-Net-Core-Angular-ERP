@@ -21,15 +21,15 @@ export interface MonitoramentoData extends Meta
 
 export interface MonitoramentoParameters extends QueryStringParameters
 {
-    tipo: MonitoramentoTipoEnum;
+    tipo: string;
 };
 
 export enum MonitoramentoTipoEnum
 {
-    SERVICO = 1,
-    INTEGRACAO = 2,
-    STORAGE = 3,
-    MEMORY = 4,
-    CPU = 5,
-    CHAMADO = 6
+    SERVICO = "SERVICO",
+    INTEGRACAO = 'INTEGRACAO',
+    STORAGE = 'STORAGE',
+    MEMORY = 'MEMORY',
+    CPU = 'CPU',
+    CHAMADO = 'CHAMADO'
 }

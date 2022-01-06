@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities
 {
     public class MonitoramentoParameters : QueryStringParameters
     {
+        public string Tipo { get; set; }
     }
 }

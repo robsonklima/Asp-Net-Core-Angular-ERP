@@ -21,6 +21,10 @@ namespace SAT.INFRA.Repository
         public PagedList<Monitoramento> ObterPorParametros(MonitoramentoParameters parameters)
         {
             var monitoramentos = _context.Monitoramento.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(parameters.Tipo))
+                monitoramentos = monitoramentos.Where(i => i.Tipo == parameters.Tipo);
+
             return PagedList<Monitoramento>.ToPagedList(monitoramentos, parameters.PageNumber, parameters.PageSize);
         }
     }

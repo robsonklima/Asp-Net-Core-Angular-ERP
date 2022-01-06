@@ -25,7 +25,7 @@ namespace SAT.API.Controllers
         [Route("GetMonitoramentoClientes")]
         public List<MonitoramentoClienteViewModel> GetMonitoramentoClientes()
         {
-            return this._monitoramentoService.ObterListaMonitoramentoClientes();
+            return this._monitoramentoService.ObterPorParametros();
         }
     }
 }

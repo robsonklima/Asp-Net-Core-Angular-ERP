@@ -32,6 +32,12 @@ namespace SAT.INFRA.Repository
                 case OrdemServicoFilterEnum.FILTER_GENERIC_TEXT:
                     query = AplicarFiltroGenericText(query, parameters);
                     break;
+                case OrdemServicoFilterEnum.FILTER_OS_INTEGRACAO_MONITORAMENTO_OUTROS_CLIENTES:
+                    query = AplicarFiltroMonitoramentoClientesExcetoBB(query, parameters);
+                    break;
+                case OrdemServicoFilterEnum.FILTER_OS_INTEGRACAO_MONITORAMENTO_BB:
+                    query = AplicarFiltroMonitoramentoBB(query, parameters);
+                    break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);
                     break;

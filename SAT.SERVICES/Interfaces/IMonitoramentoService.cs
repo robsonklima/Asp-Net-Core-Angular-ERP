@@ -5,6 +5,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IMonitoramentoService
     {
-        List<MonitoramentoClienteViewModel> ObterListaMonitoramentoClientes();
+        List<MonitoramentoClienteViewModel> ObterPorParametros();
     }
 }

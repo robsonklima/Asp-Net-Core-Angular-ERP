@@ -13,6 +13,7 @@ namespace SAT.MODELS.Enums
         OS_TECNICO_ATENDIMENTO = 9,
         OS_EQUIPAMENTOS_ATENDIMENTOS = 10,
         OS_DISPONIBILIDADE_BB = 11,
-        OS_LISTA = 12
+        OS_LISTA = 12,
+        OS_INTEGRACAO_MONITORAMENTO = 13
     }
 }

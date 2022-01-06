@@ -3,6 +3,7 @@ using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.MODELS.Enums;
 using System;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.INFRA.Repository
 {
@@ -249,6 +250,19 @@ namespace SAT.INFRA.Repository
             }
 
             return query;
+        }
+
+        public IQueryable<OrdemServico> AplicarFiltroMonitoramentoClientesExcetoBB(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
+        {
+            return query.Where(os => os.DataHoraAberturaOS >= DateTime.Now.AddDays(-30) &&
+               os.CodCliente != Constants.CLIENTE_BB && (os.IndServico == 1 || os.IndIntegracao == 1 || os.CodUsuarioCad == "INTEGRACAO" || os.CodUsuarioCad == "INTEGRACAO-SAT")
+               && (!os.Equipamento.NomeEquip.Contains("POS") && !os.Equipamento.NomeEquip.Contains("PERTOS") && os.CodCliente != Constants.SICOOB && os.CodCliente != Constants.SICOOB_CONFEDERACAO))
+                .OrderByDescending(ord => ord.DataHoraAberturaOS);
+        }
+
+        public IQueryable<OrdemServico> AplicarFiltroMonitoramentoBB(IQueryable<OrdemServico> query, OrdemServicoParameters parameters)
+        {
+            return query.Where(os => os.DataHoraAberturaOS >= DateTime.Now.AddDays(-30) && os.CodCliente == Constants.CLIENTE_BB && os.EquipamentoContrato.IndAtivo == 1).OrderByDescending(g => g.DataHoraAberturaOS);
         }
     }
 }

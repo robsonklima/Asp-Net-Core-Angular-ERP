@@ -6,17 +6,20 @@ import { MonitoramentoClienteViewModel } from 'app/core/types/monitoramento.type
   selector: 'app-monitoramento-sat',
   templateUrl: './monitoramento-sat.component.html'
 })
-export class MonitoramentoSatComponent implements OnInit {
+export class MonitoramentoSatComponent implements OnInit
+{
   public loading: boolean;
   public listaMonitoramentoClientes: MonitoramentoClienteViewModel[] = [];
 
-  constructor(
+  constructor (
     private _monitoramentoService: MonitoramentoService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.loading = true;
-    this._monitoramentoService.obterListaMonitoramentoClientes().subscribe(data => {
+    this._monitoramentoService.obterPorParametros().subscribe(data =>
+    {
       this.listaMonitoramentoClientes = data;
       this.loading = false;
     });

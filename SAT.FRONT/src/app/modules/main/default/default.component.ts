@@ -13,51 +13,61 @@ import { startWith, takeUntil } from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None
 })
 
-export class DefaultComponent implements OnInit, OnDestroy {
+export class DefaultComponent implements OnInit, OnDestroy
+{
     sessionData: UsuarioSessao;
     horaAtualizacaoMonitoramentoClientes: string;
     public loading: boolean;
     public listaMonitoramentoClientes: MonitoramentoClienteViewModel[] = [];
     protected _onDestroy = new Subject<void>();
 
-    constructor(
+    constructor (
         private _userService: UserService,
         private _monitoramentoService: MonitoramentoService
-    ) {
+    )
+    {
         this.sessionData = JSON.parse(this._userService.userSession);
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void
+    {
         interval(1 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
-            .subscribe(() => {
+            .subscribe(() =>
+            {
                 this.obterMonitoramentoClientes();
             });
     }
 
-    async obterMonitoramentoClientes() {
+    async obterMonitoramentoClientes()
+    {
         this.loading = true;
-        this._monitoramentoService.obterListaMonitoramentoClientes().subscribe(data => {
+        this._monitoramentoService.obterPorParametros().subscribe(data =>
+        {
             this.listaMonitoramentoClientes = data;
             this.horaAtualizacaoMonitoramentoClientes = moment().format('HH:mm:ss');
             this.loading = false;
-        }, () => {
+        }, () =>
+        {
             this.loading = false;
         });
     }
 
-    obterOciosidadePorExtenso(dataHora: string): string {
+    obterOciosidadePorExtenso(dataHora: string): string
+    {
         return moment(dataHora).locale('pt').fromNow();
     }
 
-    obterOciosidadeEmHoras(dataHora: string): number {
+    obterOciosidadeEmHoras(dataHora: string): number
+    {
         return moment().diff(moment(dataHora), 'hours');
     }
 
-    ngOnDestroy() {
+    ngOnDestroy()
+    {
         this._onDestroy.next();
         this._onDestroy.complete();
     }

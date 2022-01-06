@@ -1,11 +1,13 @@
 
-export class Monitoramento {
+export class Monitoramento
+{
     public integracaoServidor: MonitoramentoDados[] = [];
     public storageAPL1: MonitoramentoStorage[] = [];
     public storageINT1: MonitoramentoStorage[] = [];
 }
 
-export class MonitoramentoDados {
+export class MonitoramentoDados
+{
     public servidor: string;
     public item: string;
     public mensagem: string;
@@ -19,12 +21,14 @@ export class MonitoramentoDados {
     public servidorOk: boolean;
 }
 
-export class MonitoramentoStorage {
+export class MonitoramentoStorage
+{
     public unidade: string;
     public valor: number;
 }
 
-export class MonitoramentoClienteViewModel {
-    public nomeCliente: string;
-    public dataUltimoChamado: string;
+export class MonitoramentoClienteViewModel
+{
+    public nome: string;
+    public dataProcessamento: string;
 }

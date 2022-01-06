@@ -110,6 +110,11 @@ namespace SAT.INFRA.Repository
                                      .ThenInclude(os => os.DispBBRegiaoUF)
                                         .ThenInclude(os => os.DispBBRegiao);
                     break;
+                case (OrdemServicoIncludeEnum.OS_INTEGRACAO_MONITORAMENTO):
+                    query = query
+                        .Include(os => os.Equipamento)
+                        .Include(os => os.EquipamentoContrato);
+                    break;
                 case (OrdemServicoIncludeEnum.OS_LISTA):
                     query = query
                         .Select(i => new OrdemServico

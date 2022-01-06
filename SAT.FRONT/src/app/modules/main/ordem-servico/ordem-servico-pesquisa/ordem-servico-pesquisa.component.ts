@@ -100,7 +100,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
       }
 
       if (data.items.length === 0) {
-        this._snack.exibirToast('Nenhum chamado encontrado', 'warning');
+        this._snack.exibirToast('Nenhum chamado encontrado', 'error');
       }
 
       this.dataSourceData = data;

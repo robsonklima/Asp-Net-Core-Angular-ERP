@@ -45,15 +45,20 @@ export class DefaultComponent implements OnInit, OnDestroy
     async obterMonitoramentoClientes()
     {
         this.loading = true;
-        this._monitoramentoService.obterPorParametros({ tipo: MonitoramentoTipoEnum.SERVICO }).subscribe(data =>
-        {
-            this.listaMonitoramento = data.items;
-            this.ultimoProcessamento = moment().format('HH:mm:ss');
-            this.loading = false;
-        }, () =>
-        {
-            this.loading = false;
-        });
+        this._monitoramentoService.obterPorParametros
+            ({
+                tipo: MonitoramentoTipoEnum.CHAMADO,
+                sortActive: "dataHoraProcessamento",
+                sortDirection: "desc"
+            }).subscribe(data =>
+            {
+                this.listaMonitoramento = data.items;
+                this.ultimoProcessamento = moment().format('HH:mm:ss');
+                this.loading = false;
+            }, () =>
+            {
+                this.loading = false;
+            });
     }
 
     obterOciosidadePorExtenso(dataHora: string): string

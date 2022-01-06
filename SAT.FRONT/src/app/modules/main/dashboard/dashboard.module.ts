@@ -36,7 +36,6 @@ import { ReincidenciaClientesComponent } from './reincidencia-clientes/reinciden
 import { PecasFaltantesFiliaisComponent } from './pecas-faltantes-filiais/pecas-faltantes-filiais.component';
 import { CincoPecasMaisFaltantesComponent } from './cinco-pecas-mais-faltantes/cinco-pecas-mais-faltantes.component';
 import { PecasFaltantesMaisCriticasComponent } from './pecas-faltantes-mais-criticas/pecas-faltantes-mais-criticas.component';
-import { MonitoramentoSatComponent } from './monitoramento-sat/monitoramento-sat.component';
 import { DensidadeComponent } from './densidade/densidade.component';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { DashboardFiltroComponent } from './dashboard-filtro/dashboard-filtro.component';
@@ -72,7 +71,6 @@ registerLocaleData(ptBR);
     PecasFaltantesFiliaisComponent,
     CincoPecasMaisFaltantesComponent,
     PecasFaltantesMaisCriticasComponent,
-    MonitoramentoSatComponent,
     DensidadeComponent,
     TecnicosDesempenhoSpaComponent
   ],
@@ -97,7 +95,6 @@ registerLocaleData(ptBR);
     MatFormFieldModule,
     MatSelectModule,
   ],
-  exports:[MonitoramentoSatComponent],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]

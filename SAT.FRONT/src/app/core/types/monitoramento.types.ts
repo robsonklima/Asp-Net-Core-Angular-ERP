@@ -1,51 +1,25 @@
-import { QueryStringParameters } from "./generic.types";
+import { Meta, QueryStringParameters } from "./generic.types";
 
 export class Monitoramento
 {
-    public integracaoServidor: MonitoramentoDados[] = [];
-    public storageAPL1: MonitoramentoStorage[] = [];
-    public storageINT1: MonitoramentoStorage[] = [];
+    codLogAlerta: number;
+    servidor: string;
+    item: string;
+    mensagem: string;
+    tipo: string;
+    espacoEmGb: number;
+    tamanhoEmGb: number;
+    disco: string;
+    dataHoraProcessamento: string;
+    dataHoraCad: string;
 }
 
-export class MonitoramentoDados
+export interface MonitoramentoData extends Meta
 {
-    public servidor: string;
-    public item: string;
-    public mensagem: string;
-    public tipo: string;
-    public espacoEmGb: number;
-    public tamanhoEmGb: number;
-    public disco: string;
-    public dataHoraProcessamento: string;
-    public dataHoraCad: Date;
-    public ociosidade: string;
-    public servidorOk: boolean;
-}
+    items: Monitoramento[];
+};
 
-export class MonitoramentoStorage
-{
-    public unidade: string;
-    public valor: number;
-}
-
-export interface MonitoramentoCliente
-{
-    nome: string;
-    dataProcessamento: string;
-}
-
-export interface MonitoramentoClienteParameters extends QueryStringParameters
+export interface MonitoramentoParameters extends QueryStringParameters
 {
 
-}
-
-export enum MonitoramentoTipoEnum
-{
-    CLIENTE = 0,
-    SERVICO = 2,
-    INTEGRACAO = 2,
-    STORAGE = 3,
-    MEMORY = 4,
-    CPU = 5,
-    CHAMADO = 6
-}
+};

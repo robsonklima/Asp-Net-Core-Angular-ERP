@@ -9,7 +9,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
-import { CNPJPipe } from './pipes/cnpj.pipe';
+import { CNPJPipe } from '../core/pipes/cnpj.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
@@ -19,6 +19,7 @@ import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.inter
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export const FORMATO_DATA = {
     parse: {
@@ -50,7 +51,8 @@ export const FORMATO_DATA = {
         MatSelectModule,
         MatIconModule,
         MatTooltipModule,
-        MatChipsModule
+        MatChipsModule,
+        MatProgressSpinnerModule
     ],
     exports: [
         CommonModule,

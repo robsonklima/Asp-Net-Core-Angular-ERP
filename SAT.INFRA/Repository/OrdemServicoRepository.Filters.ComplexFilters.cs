@@ -89,7 +89,7 @@ namespace SAT.INFRA.Repository
 
             var po2 = query.Where(c => c.CodCliente == (int)ClienteEnum.BB &&
                                        c.IndServico == 1 &&
-                                       c.CodUsuarioCadastro == "SERVI�O" &&
+                                       c.CodUsuarioCadastro == "SERVICO" &&
                                        c.DispBBEquipamentoContrato != null &&
                                        c.DispBBEquipamentoContrato.CodContrato == 3145 &&
                                        c.Equipamento != null &&

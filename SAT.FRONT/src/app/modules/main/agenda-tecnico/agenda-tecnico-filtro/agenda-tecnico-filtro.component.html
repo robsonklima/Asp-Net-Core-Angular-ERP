@@ -26,7 +26,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('pa') }}</mat-label>
-                    <mat-select formControlName="pas" multiple="true">
+                    <mat-select formControlName="pas" multiple="true" [disabled]="!pas?.length">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
                             '')" [value]="0">
                             TODOS

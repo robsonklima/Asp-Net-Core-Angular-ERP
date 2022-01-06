@@ -23,9 +23,8 @@
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             <div>Integrações</div>
-                            
-                            <div class="text-sm text-secondary tracking-tight"
-                                *ngIf="ultimoProcessamento && !loading">
+
+                            <div class="text-sm text-secondary tracking-tight" *ngIf="ultimoProcessamento && !loading">
                                 Atualizado em: {{ ultimoProcessamento }}
                             </div>
                         </div>
@@ -67,21 +66,28 @@
                                                                 class="py-3 white space-nowrap text-md text-gray-900 font-light">
                                                                 <span class="flex items-center">
                                                                     <span class="w-2 h-2 rounded-full"
-                                                                        [class.bg-red-600]="obterOciosidadeEmHoras(ultimoProcessamento) >= 3"
-                                                                        [class.bg-green-600]="obterOciosidadeEmHoras(ultimoProcessamento) <= 1"
-                                                                        [class.bg-amber-600]="obterOciosidadeEmHoras(ultimoProcessamento) < 3 && obterOciosidadeEmHoras(ultimoProcessamento) > 1"></span>
-                                                                    <span class="ml-3 leading-4">{{servico.nome | uppercase}}</span>
+                                                                        [class.bg-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                        >= 3" [class.bg-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                        <= 1" [class.bg-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                        < 3 &&
+                                                                            obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
+                                                                            1"></span>
+                                                                    <span
+                                                                        class="ml-3 leading-4">{{servico.item | uppercase}}</span>
                                                                 </span>
                                                             </td>
                                                             <td
                                                                 class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
-                                                                {{ultimoProcessamento | date:'dd/MM/yyyy HH:mm'}}
+                                                                {{servico.dataHoraProcessamento | date:'dd/MM/yyyy HH:mm'}}
                                                             </td>
                                                             <td class="py-3 px-6 text-right white space-nowrap text-md text-gray-900 font-light"
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(ultimoProcessamento) >= 3"
-                                                                [class.text-green-600]="obterOciosidadeEmHoras(ultimoProcessamento) <= 1"
-                                                                [class.text-amber-600]="obterOciosidadeEmHoras(ultimoProcessamento) < 3 && obterOciosidadeEmHoras(ultimoProcessamento) > 1">
-                                                                {{ obterOciosidadePorExtenso(ultimoProcessamento)
+                                                                [class.text-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                >= 3" [class.text-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                <= 1" [class.text-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                < 3 &&
+                                                                    obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
+                                                                    1">
+                                                                {{ obterOciosidadePorExtenso(servico.dataHoraProcessamento)
                                                                 | titlecase }}
                                                             </td>
                                                         </tr>

@@ -19,7 +19,8 @@ import { Subject } from 'rxjs';
   selector: 'app-agenda-tecnico-filtro',
   templateUrl: './agenda-tecnico-filtro.component.html'
 })
-export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
+export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, IFilterBase
+{
   tecnicos: Tecnico[] = [];
   filiais: Filial[] = [];
   @Input() sidenav: MatSidenav;
@@ -27,17 +28,19 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
   regioes: Regiao[] = [];
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _tecnicoSvc: TecnicoService,
     private _filialSvc: FilialService,
     protected _userService: UserService,
     protected _formBuilder: FormBuilder,
     private _regiaoAutorizadaSvc: RegiaoAutorizadaService
-  ) {
+  )
+  {
     super(_userService, _formBuilder, 'agenda-tecnico');
   }
 
-  createForm(): void {
+  createForm(): void
+  {
     this.form = this._formBuilder.group({
       codTecnicos: [undefined],
       codFiliais: [undefined],
@@ -48,46 +51,51 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     this.form.patchValue(this.filter?.parametros);
   }
 
-  async loadData(): Promise<void> {
+  async loadData(): Promise<void>
+  {
     await this.obterFiliais();
     await this.obterTecnicosAoEscolherFilial();
     this.configurarFiltro();
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.createForm();
     this.loadData();
   }
 
-  configurarFiltro() {
-    if (this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != "") {
+  configurarFiltro()
+  {
+    if (this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != "")
       this.obterTecnicos();
-      this.obterRegioesAutorizadas();
-    }
   }
 
-  limpar() {
+  limpar()
+  {
     super.limpar();
 
-    if (this.userSession?.usuario?.codFilial) {
+    if (this.userSession?.usuario?.codFilial)
+    {
       this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
       this.form.controls['codFiliais'].disable();
     }
   }
 
 
-  private async obterTecnicosAoEscolherFilial() {
-    this.form.controls['codFiliais'].valueChanges.subscribe(() => {
+  private async obterTecnicosAoEscolherFilial()
+  {
+    this.form.controls['codFiliais'].valueChanges.subscribe(() =>
+    {
       this.form.controls['pas'].setValue(null);
       this.form.controls['codRegioes'].setValue(null);
       this.form.controls['codTecnicos'].setValue(null);
 
       this.obterTecnicos();
-      this.obterRegioesAutorizadas();
     });
   }
 
-  private async obterTecnicos() {
+  private async obterTecnicos()
+  {
     const data = await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codFiliais: this.form.controls['codFiliais'].value,
@@ -102,15 +110,17 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
     this.tecnicos = data.items;
     this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(r => r.nomeRegiao).toArray();
+    this.pas = Enumerable.from(data.items).where(ra => ra.indPA != null).select(ra => ra.indPA).distinct(r => r).orderBy(r => r).toArray();
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
     var codFilial = this.userSession.usuario?.filial?.codFilial || this.form.controls['codFiliais'].value;
 
-    if (codFilial) {
+    if (codFilial)
+    {
       this.form.controls['codFiliais'].setValue(codFilial);
       await this.obterTecnicos();
-      await this.obterRegioesAutorizadas();
     }
 
     if (this.userSession.usuario?.filial?.codFilial)
@@ -125,20 +135,8 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     this.filiais = data.items;
   }
 
-  async obterRegioesAutorizadas() {
-    let params: RegiaoAutorizadaParameters = {
-      indAtivo: 1,
-      codFiliais: this.form.controls['codFiliais'].value,
-    };
-
-    const data = await this._regiaoAutorizadaSvc
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(r => r).toArray();
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

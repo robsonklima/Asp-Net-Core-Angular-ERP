@@ -1,6 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export class Monitoramento {
+export class Monitoramento
+{
     codLogAlerta: number;
     servidor: string;
     item: string;
@@ -13,10 +14,22 @@ export class Monitoramento {
     dataHoraCad: string;
 }
 
-export interface MonitoramentoData extends Meta {
+export interface MonitoramentoData extends Meta
+{
     items: Monitoramento[];
 };
 
-export interface MonitoramentoParameters extends QueryStringParameters {
-
+export interface MonitoramentoParameters extends QueryStringParameters
+{
+    tipo: string;
 };
+
+export enum MonitoramentoTipoEnum
+{
+    SERVICO = "SERVICO",
+    INTEGRACAO = 'INTEGRACAO',
+    STORAGE = 'STORAGE',
+    MEMORY = 'MEMORY',
+    CPU = 'CPU',
+    CHAMADO = 'CHAMADO'
+}

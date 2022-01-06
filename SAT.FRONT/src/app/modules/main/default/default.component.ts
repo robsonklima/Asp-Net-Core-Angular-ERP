@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento } from 'app/core/types/monitoramento.types';
+import { Monitoramento, MonitoramentoTipoEnum } from 'app/core/types/monitoramento.types';
 import moment from 'moment';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
@@ -45,7 +45,8 @@ export class DefaultComponent implements OnInit, OnDestroy
     async obterMonitoramentoClientes()
     {
         this.loading = true;
-        this._monitoramentoService.obterPorParametros({}).subscribe(data => {
+        this._monitoramentoService.obterPorParametros({ tipo: MonitoramentoTipoEnum.SERVICO }).subscribe(data =>
+        {
             this.listaMonitoramento = data.items;
             this.ultimoProcessamento = moment().format('HH:mm:ss');
             this.loading = false;

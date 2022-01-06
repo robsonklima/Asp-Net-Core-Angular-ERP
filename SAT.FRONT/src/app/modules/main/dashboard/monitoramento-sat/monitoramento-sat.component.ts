@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { MonitoramentoCliente } from 'app/core/types/monitoramento.types';
+import { Monitoramento, MonitoramentoTipoEnum } from 'app/core/types/monitoramento.types';
 
 @Component({
   selector: 'app-monitoramento-sat',
@@ -9,7 +9,7 @@ import { MonitoramentoCliente } from 'app/core/types/monitoramento.types';
 export class MonitoramentoSatComponent implements OnInit
 {
   public loading: boolean;
-  public listaMonitoramentoClientes: MonitoramentoCliente[] = [];
+  public listaMonitoramentoClientes: Monitoramento[] = [];
 
   constructor (
     private _monitoramentoService: MonitoramentoService
@@ -18,7 +18,7 @@ export class MonitoramentoSatComponent implements OnInit
   ngOnInit(): void
   {
     this.loading = true;
-    this._monitoramentoService.obterPorParametros({}).subscribe(data =>
+    this._monitoramentoService.obterPorParametros({ tipo: MonitoramentoTipoEnum.CLIENTE }).subscribe(data =>
     {
       this.listaMonitoramentoClientes = data;
       this.loading = false;

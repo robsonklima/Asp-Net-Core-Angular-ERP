@@ -20,7 +20,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public MonitoramentoCliente[] Get([FromQuery] MonitoramentoClienteParameters parameters)
+        public Monitoramento[] Get([FromQuery] MonitoramentoParameters parameters)
         {
             return this._monitoramentoService.ObterPorParametros(parameters);
         }

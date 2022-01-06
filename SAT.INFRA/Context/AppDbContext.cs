@@ -60,7 +60,6 @@ namespace SAT.INFRA.Context
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<Geolocalizacao> Geolocalizacao { get; set; }
-        public DbSet<Monitoramento> Monitoramento { get; set; }
         public DbSet<DispBBCalcEquipamentoContrato> DispBBCalcEquipamentoContrato { get; set; }
         public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
         public DbSet<DispBBRegiaoFilial> DispBBRegiaoFilial { get; set; }
@@ -126,7 +125,7 @@ namespace SAT.INFRA.Context
         public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
         public DbSet<EnderecoFaturamentoNF> EnderecoFaturamentoNF { get; set; }
         public DbSet<EnderecoFaturamentoVinculado> EnderecoFaturamentoVinculado { get; set; }
-
+        public DbSet<LogAlerta> LogAlerta { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -166,6 +165,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoDesconto>(new OrcamentoDescontoMap().Configure);
             modelBuilder.Entity<OrcamentoStatus>(new OrcamentoStatusMap().Configure);
             modelBuilder.Entity<OrcamentoDeslocamento>(new OrcamentoDeslocamentoMap().Configure);
+            modelBuilder.Entity<LogAlerta>(new LogAlertaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

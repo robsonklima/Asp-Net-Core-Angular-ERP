@@ -9,9 +9,9 @@ namespace SAT.SERVICES.Services
 {
     public partial class MonitoramentoService : IMonitoramentoService
     {
-        public MonitoramentoCliente[] ObterPorParametros(MonitoramentoClienteParameters parameters)
+        public Monitoramento[] ObterPorClientes(MonitoramentoParameters parameters)
         {
-            List<MonitoramentoCliente> retorno = new();
+            List<Monitoramento> retorno = new();
 
             List<Cliente> listaClientes = this._clienteRepository.ObterPorQuery(new ClienteParameters
             {
@@ -30,7 +30,7 @@ namespace SAT.SERVICES.Services
                 .ToList();
 
             retorno.AddRange((from os in clientesViaIntegracao
-                              select new MonitoramentoCliente
+                              select new Monitoramento
                               {
                                   Nome = listaClientes.FirstOrDefault(s => os.Key == s.CodCliente).NomeFantasia,
                                   DataProcessamento = (DateTime)os.FirstOrDefault().DataHoraAberturaOS
@@ -47,7 +47,7 @@ namespace SAT.SERVICES.Services
 
             // BB Garantia 
             DateTime ultimoChamadoBBGarantia = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 1).FirstOrDefault().DataHoraAberturaOS.Value;
-            retorno.Add(new MonitoramentoCliente
+            retorno.Add(new Monitoramento
             {
                 Nome = "BB Garantia",
                 DataProcessamento = ultimoChamadoBBGarantia
@@ -55,7 +55,7 @@ namespace SAT.SERVICES.Services
 
             // BB Cobra 
             var ultimoChamadoBBCobra = dadosBB.Where(s => s.EquipamentoContrato.IndGarantia == 0).FirstOrDefault().DataHoraAberturaOS.Value;
-            retorno.Add(new MonitoramentoCliente
+            retorno.Add(new Monitoramento
             {
                 Nome = "BB Cobra",
                 DataProcessamento = ultimoChamadoBBCobra

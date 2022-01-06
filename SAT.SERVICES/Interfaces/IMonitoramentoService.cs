@@ -4,6 +4,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IMonitoramentoService
     {
-        MonitoramentoCliente[] ObterPorParametros(MonitoramentoClienteParameters parameters);
+        Monitoramento[] ObterPorParametros(MonitoramentoParameters parameters);
     }
 }

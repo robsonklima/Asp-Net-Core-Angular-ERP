@@ -55,6 +55,16 @@ namespace SAT.INFRA.Repository
             return PagedList<Cliente>.ToPagedList(clientes, parameters.PageNumber, parameters.PageSize);
         }
 
+        public IQueryable<Cliente> ObterPorQuery(ClienteParameters parameters)
+        {
+            var clientes = _context.Cliente.AsQueryable();
+
+            if (parameters.IndAtivo.HasValue)
+                clientes = clientes.Where(c => c.IndAtivo == parameters.IndAtivo);
+
+            return clientes;
+        }
+
         public IEnumerable<Cliente> ObterTodos()
         {
             return _context.Cliente;

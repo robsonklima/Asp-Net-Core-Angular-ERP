@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaoDeObra } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -62,12 +62,12 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
 
   isEqual(): boolean
   {
-    return isEqual(this.oldItem, this.maoDeObra);
+    return isEqual(this.oldItem.previsaoHoras.toString(), this.maoDeObra.previsaoHoras.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.maoDeObra.previsaoHoras <= 0)
+    if (this.maoDeObra.previsaoHoras < 0 || this.maoDeObra.previsaoHoras == null)
       return true;
 
     return false;
@@ -75,10 +75,20 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
 
   toNumber(value)
   {
-    if (value && !value.isNaN())
-      return parseFloat(value);
+    value = value.trim();
 
-    return null;
+    var result = value.replace(/[^\d,]+/g, '');
+    var float = parseFloat(result);
+
+    if (isNaN(float))
+      return null;
+
+    return result;
+  }
+
+  inputPrevisaoHoras(value)
+  {
+    this.maoDeObra.previsaoHoras = this.toNumber(value);
   }
 
   onkeydown()

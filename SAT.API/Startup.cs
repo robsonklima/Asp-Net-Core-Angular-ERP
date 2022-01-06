@@ -108,7 +108,6 @@ namespace SAT.API
             services.AddTransient<IPontoUsuarioDataMotivoDivergenciaRepository, PontoUsuarioDataMotivoDivergenciaRepository>();
             services.AddTransient<IPontoUsuarioDataTipoAdvertenciaRepository, PontoUsuarioDataTipoAdvertenciaRepository>();
             services.AddTransient<IPontoUsuarioDataDivergenciaRepository, PontoUsuarioDataDivergenciaRepository>();
-            services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
             services.AddTransient<IDispBBCriticidadeRepository, DispBBCriticidadeRepository>();
             services.AddTransient<IDispBBRegiaoFilialRepository, DispBBRegiaoFilialRepository>();
             services.AddTransient<IDispBBPercRegiaoRepository, DispBBPercRegiaoRepository>();
@@ -142,6 +141,7 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoUsuarioRepository, PontoPeriodoUsuarioRepository>();
             services.AddTransient<IOrcamentoRepository, OrcamentoRepository>();
             services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
+            services.AddTransient<ILogAlertaRepository, LogAlertaRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

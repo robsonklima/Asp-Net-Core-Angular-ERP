@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
@@ -22,10 +20,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetMonitoramentoClientes")]
-        public List<MonitoramentoClienteViewModel> GetMonitoramentoClientes()
+        public Monitoramento[] Get([FromQuery] MonitoramentoParameters parameters)
         {
-            return this._monitoramentoService.ObterListaMonitoramentoClientes();
+            return this._monitoramentoService.ObterPorParametros(parameters);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -22,7 +22,7 @@ import { isEqual } from 'lodash';
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableFuseCard
+export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
 {
   @Input() deslocamento: OrcamentoDeslocamento;
   oldItem: OrcamentoDeslocamento;
@@ -57,12 +57,12 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
 
   isEqual(): boolean
   {
-    return isEqual(this.oldItem, this.deslocamento);
+    return isEqual(this.oldItem.quantidadeKm.toString(), this.deslocamento.quantidadeKm.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.deslocamento.quantidadeKm <= 0)
+    if (this.deslocamento.quantidadeKm < 0 || this.deslocamento.quantidadeKm == null)
       return true;
 
     return false;
@@ -70,10 +70,20 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
 
   toNumber(value)
   {
-    if (value && !value.isNaN())
-      return parseFloat(value);
+    value = value.trim();
 
-    return null;
+    var result = value.replace(/[^\d,]+/g, '');
+    var float = parseFloat(result);
+
+    if (isNaN(float))
+      return null;
+
+    return result;
+  }
+
+  inputQuantidadeKm(value)
+  {
+    this.deslocamento.quantidadeKm = this.toNumber(value);
   }
 
   onkeydown()
@@ -86,6 +96,4 @@ export class OrcamentoDetalheDeslocamentoComponent implements OnInit, IEditableF
         event.preventDefault();
     });
   }
-
-  ngOnInit(): void { }
 }

@@ -1,10 +1,9 @@
-﻿using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+﻿using SAT.MODELS.Entities;
 
 namespace SAT.SERVICES.Interfaces
 {
     public interface IMonitoramentoService
     {
-        List<MonitoramentoClienteViewModel> ObterListaMonitoramentoClientes();
+        Monitoramento[] ObterPorParametros(MonitoramentoParameters parameters);
     }
 }

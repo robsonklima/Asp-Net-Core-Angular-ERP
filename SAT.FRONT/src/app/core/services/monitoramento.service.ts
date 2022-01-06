@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Monitoramento, MonitoramentoData, MonitoramentoParameters } from '../types/monitoramento.types';
+import { MonitoramentoData, MonitoramentoParameters } from '../types/monitoramento.types';
 
 @Injectable({
     providedIn: 'root'

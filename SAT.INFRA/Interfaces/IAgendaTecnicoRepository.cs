@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using SAT.INFRA.Context;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 
@@ -17,6 +15,5 @@ namespace SAT.INFRA.Interfaces
         void AtualizarListaAsync(List<AgendaTecnico> agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
         bool ExisteIntervaloNoDia(int codTecnico);
-        void AtualizaMediaTecnico();
     }
 }

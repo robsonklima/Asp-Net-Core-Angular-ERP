@@ -15,5 +15,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Criar(AgendaTecnico agenda);
         void CriaIntervalosDoDia();
+        void AtualizaMediaTecnico();
     }
 }

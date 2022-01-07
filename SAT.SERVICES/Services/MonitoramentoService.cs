@@ -14,6 +14,7 @@ namespace SAT.SERVICES.Services
         {
             this._monitoramentoRepository = monitoramentoRepository;
         }
+        
         public ListViewModel ObterPorParametros(MonitoramentoParameters parameters)
         {
             var monitoramentos = _monitoramentoRepository.ObterPorParametros(parameters);

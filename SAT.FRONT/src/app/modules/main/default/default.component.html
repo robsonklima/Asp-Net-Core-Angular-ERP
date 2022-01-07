@@ -1,16 +1,32 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="bg-card border-b">
+    <div class="dark bg-card dark:border-b">
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
                 <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img class="w-full h-full object-cover" src="assets/images/avatars/profile.jpg">
+                    </div>
                     <div class="flex flex-col min-w-0 ml-4">
                         <ng-container *transloco="let t">
                             <div
                                 class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-                                {{ t('ola') }} {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}
+                                {{t('bem vindo de volta')}},
+                                {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
                             </div>
                         </ng-container>
+                        <div class="flex items-center">
+                            <div class="ml-0.5 leading-6 truncate text-secondary">Página inicial atualizada as 23:55
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button (click)="obterMonitoramentos()" class="hidden sm:inline-flex ml-3" mat-flat-button
+                        [color]="'primary'">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                        <span class="ml-2">Atualizar</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -18,87 +34,490 @@
 
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                <div class="flex flex-col lg:col-span-2 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                            <div>Integrações</div>
+            <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                <mat-tab label="Serviços">
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full">
+                            <div
+                                class="sm:col-span-12 md:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                        Chamados Abertos via Integração
+                                    </div>
 
-                            <div class="text-sm text-secondary tracking-tight" *ngIf="ultimoProcessamento && !loading">
-                                Atualizado em: {{ ultimoProcessamento }}
+                                    <div class="ml-2">
+                                        <mat-icon
+                                            class="ml-1.5 icon-size-5 text-hintsm"
+                                            [svgIcon]="'heroicons_solid:information-circle'"
+                                            [matTooltip]="'Chamados efetivamente abertos no banco de dados do SAT.'"
+                                            [matTooltipPosition]="'above'"></mat-icon>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col mt-2 divide-y">
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Banco do Brasil</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 34 Minutos
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">
+                                                    Integração Sicredi
+                                                </div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 2 Horas</div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div
+                                class="sm:col-span-12 md:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                        Serviços
+                                    </div>
+
+                                    <div class="ml-2">
+                                        <mat-icon
+                                            class="ml-1.5 icon-size-5 text-hintsm"
+                                            [svgIcon]="'heroicons_solid:information-circle'"
+                                            [matTooltip]="'Aplicações que precisam permancer ativas, comunicando com os clientes.'"
+                                            [matTooltipPosition]="'above'"></mat-icon>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col mt-2 divide-y">
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Banco do Brasil</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 34 Minutos
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Sicredi</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 2 Horas</div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div
+                                class="sm:col-span-12 md:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                        Logs    
+                                    </div>
+
+                                    <div class="ml-2">
+                                        <mat-icon
+                                            class="ml-1.5 icon-size-5 text-hintsm"
+                                            [svgIcon]="'heroicons_solid:information-circle'"
+                                            [matTooltip]="'Movimentações de arquivos no servidor. Ocorrem periodicamente e necessitam ser executados periodicamente.'"
+                                            [matTooltipPosition]="'above'"></mat-icon>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col mt-2 divide-y">
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Banco do Brasil</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 34 Minutos
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Sicredi</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 2 Horas</div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">Integração Banco do Brasil</div>
+                                                <div
+                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Há 34 Minutos
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div class="flex items-center">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:flag'"></mat-icon>
+                                                            <div class="ml-1.5 text-md text-secondary">Rodando</div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
                             </div>
                         </div>
+                    </ng-template>
+                </mat-tab>
 
-                        <div class="mt-3 sm:mt-0 sm:ml-2">
-                            <button mat-icon-button class="ml-3" (click)="obterMonitoramentoClientes()"
-                                [disabled]="loading">
-                                <mat-icon class="icon-size-5 text-green-600" [svgIcon]="'heroicons_solid:refresh'">
-                                </mat-icon>
-                            </button>
+                <mat-tab label="Servidores">
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full">
+                            <!-- <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-6" *ngFor="let servico of filtrarMonitoramentoPorTipo('STORAGE')">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ servico.servidor }}</div>
+                                </div>
+                                <div class="flex flex-col flex-auto mt-6 h-44">
+                                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                                        [chart]="chart.chart" [colors]="['#3182CE', '#63B3ED']"
+                                        [labels]="['B', 'C']" [plotOptions]="chart.plotOptions"
+                                        [series]="[servico.espacoEmGb / servico.tamanhoEmGb * 100, (servico.tamanhoEmGb - servico.espacoEmGb) / servico.espacoEmGb * 100]" [states]="chart.states"
+                                        [tooltip]="chart.tooltip"></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        <ng-container *ngFor="let dataset of chartData.series; let i = index">
+                                            <div class="grid grid-cols-3 py-3">
+                                                <div class="flex items-center">
+                                                    <div class="flex-0 w-2 h-2 rounded-full"
+                                                        [style.backgroundColor]="['#3182CE', '#63B3ED'][i]"></div>
+                                                    <div class="ml-3 truncate">{{chartData.labels[i]}}</div>
+                                                </div>
+                                                <div class="font-medium text-right">{{chartData.uniqueVisitors * dataset / 100 | number:'1.0-0'}}</div>
+                                                <div class="text-right text-secondary">{{dataset}}%</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div
+                                class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-sm tracking-tight leading-6">
+                                        SATINTEGRACAO
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto mt-2 h-44">
+                                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                                        [chart]="chart.chart" [colors]="['#D32F2F', '#4CAF50']" [labels]="['B', 'C']"
+                                        [plotOptions]="chart.plotOptions" [series]="[80, 20]" [states]="chart.states"
+                                        [tooltip]="chart.tooltip"></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Livre</div>
+                                                <div class="text-right text-secondary">30%</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Em uso</div>
+                                                <div class="text-right text-secondary">70%</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-sm tracking-tight leading-6">
+                                        SATINTEGRACAO
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto mt-2 h-44">
+                                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                                        [chart]="chart.chart" [colors]="['#3182CE', '#63B3ED']" [labels]="['B', 'C']"
+                                        [plotOptions]="chart.plotOptions" [series]="[65, 35]" [states]="chart.states"
+                                        [tooltip]="chart.tooltip"></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Livre</div>
+                                                <div class="text-right text-secondary">30%</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Em uso</div>
+                                                <div class="text-right text-secondary">70%</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-sm tracking-tight leading-6">
+                                        SATPRODUCAO
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto mt-2 h-44">
+                                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                                        [chart]="chart.chart" [colors]="['#3182CE', '#63B3ED']" [labels]="['B', 'C']"
+                                        [plotOptions]="chart.plotOptions" [series]="[12, 88]" [states]="chart.states"
+                                        [tooltip]="chart.tooltip"></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Livre</div>
+                                                <div class="text-right text-secondary">30%</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Em uso</div>
+                                                <div class="text-right text-secondary">70%</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-sm tracking-tight leading-6">
+                                        SATPRODUCAO
+                                    </div>
+                                </div>
+                                <div class="flex flex-col flex-auto mt-2 h-44">
+                                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                                        [chart]="chart.chart" [colors]="['#3182CE', '#63B3ED']" [labels]="['B', 'C']"
+                                        [plotOptions]="chart.plotOptions" [series]="[40, 60]" [states]="chart.states"
+                                        [tooltip]="chart.tooltip"></apx-chart>
+                                </div>
+                                <div class="mt-8">
+                                    <div class="-my-3 divide-y">
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Livre</div>
+                                                <div class="text-right text-secondary">30%</div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="grid grid-cols-2 py-3">
+                                                <div class="font-medium text-left">Em uso</div>
+                                                <div class="text-right text-secondary">70%</div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
 
-                    <div class="flex flex-col flex-auto">
-                        <div class="flex flex-col w-full min-w-0">
-                            <div class="w-full">
-                                <div class="flex flex-col">
-                                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div class="inline-block min-w-full sm:px-6 lg:px-8">
-                                            <div class="overflow-hidden">
-                                                <table class="min-w-full" *ngIf="!loading">
-                                                    <tbody>
-                                                        <tr class="border-b">
-                                                            <td
-                                                                class="py-3 white space-nowrap text-md font-semibold text-gray-900">
-                                                                Cliente
-                                                            </td>
-                                                            <td
-                                                                class="py-3 px-6 white space-nowrap text-md font-semibold text-gray-900">
-                                                                Último Chamado
-                                                            </td>
-                                                            <td
-                                                                class="py-3 px-6 text-right white space-nowrap text-md font-semibold text-gray-900">
-                                                                Ociosidade
-                                                            </td>
-                                                        </tr>
-                                                        <tr [class.border-b]="listaMonitoramento.length - 1 > i"
-                                                            *ngFor="let servico of listaMonitoramento; let i = index">
-                                                            <td
-                                                                class="py-3 white space-nowrap text-md text-gray-900 font-light">
-                                                                <span class="flex items-center">
-                                                                    <span class="w-2 h-2 rounded-full"
-                                                                        [class.bg-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                        >= 3" [class.bg-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                        <= 1" [class.bg-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                        < 3 &&
-                                                                            obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
-                                                                            1"></span>
-                                                                    <span
-                                                                        class="ml-3 leading-4">{{servico.item | uppercase}}</span>
-                                                                </span>
-                                                            </td>
-                                                            <td
-                                                                class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
-                                                                {{servico.dataHoraProcessamento | date:'dd/MM/yyyy HH:mm'}}
-                                                            </td>
-                                                            <td class="py-3 px-6 text-right white space-nowrap text-md text-gray-900 font-light"
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                >= 3" [class.text-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                <= 1" [class.text-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
-                                                                < 3 &&
-                                                                    obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
-                                                                    1">
-                                                                {{ obterOciosidadePorExtenso(servico.dataHoraProcessamento)
-                                                                | titlecase }}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+<!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0 my-12">
+                            <div class="flex flex-col lg:col-span-2 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                                        <div>Integrações</div>
 
-                                                <div class="flex justify-center items-center" *ngIf="loading">
-                                                    <div class="my-4">
-                                                        <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'">
-                                                        </mat-progress-spinner>
+                                        <div class="text-sm text-secondary tracking-tight" *ngIf="ultimoProcessamento && !loading">
+                                            Atualizado em: {{ ultimoProcessamento }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col flex-auto">
+                                    <div class="flex flex-col w-full min-w-0">
+                                        <div class="w-full">
+                                            <div class="flex flex-col">
+                                                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                                    <div class="inline-block min-w-full sm:px-6 lg:px-8">
+                                                        <div class="overflow-hidden">
+                                                            <table class="min-w-full" *ngIf="!loading">
+                                                                <tbody>
+                                                                    <tr class="border-b">
+                                                                        <td
+                                                                            class="py-3 white space-nowrap text-md font-semibold text-gray-900">
+                                                                            Cliente
+                                                                        </td>
+                                                                        <td
+                                                                            class="py-3 px-6 white space-nowrap text-md font-semibold text-gray-900">
+                                                                            Último Chamado
+                                                                        </td>
+                                                                        <td
+                                                                            class="py-3 px-6 text-right white space-nowrap text-md font-semibold text-gray-900">
+                                                                            Ociosidade
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngFor="let servico of filtrarMonitoramentoPorTipo('CHAMADO')">
+                                                                        <td
+                                                                            class="py-3 white space-nowrap text-md text-gray-900 font-light">
+                                                                            <span class="flex items-center">
+                                                                                <span class="w-2 h-2 rounded-full"
+                                                                                    [class.bg-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                                    >= 3" [class.bg-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                                    <= 1" [class.bg-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                                    < 3 &&
+                                                                                        obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
+                                                                                        1"></span>
+                                                                                <span class="ml-3 leading-4">{{servico.item |
+                                                                                    uppercase}}</span>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td
+                                                                            class="py-3 px-6 white space-nowrap text-md text-gray-900 font-light">
+                                                                            {{servico.dataHoraProcessamento | date:'dd/MM/yyyy
+                                                                            HH:mm'}}
+                                                                        </td>
+                                                                        <td class="py-3 px-6 text-right white space-nowrap text-md text-gray-900 font-light"
+                                                                            [class.text-red-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                            >= 3" [class.text-green-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                            <= 1" [class.text-amber-600]="obterOciosidadeEmHoras(servico.dataHoraProcessamento)
+                                                                            < 3 &&
+                                                                                obterOciosidadeEmHoras(servico.dataHoraProcessamento)>
+                                                                                1">
+                                                                            {{
+                                                                            obterOciosidadePorExtenso(servico.dataHoraProcessamento)
+                                                                            | titlecase }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                            <div class="flex justify-center items-center" *ngIf="loading">
+                                                                <div class="my-4">
+                                                                    <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'">
+                                                                    </mat-progress-spinner>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,13 +525,4 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
+                        </div> -->

@@ -24,6 +24,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { FuseCardModule } from '@fuse/components/card';
 import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
+import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -35,7 +36,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
   declarations: [
     RelatorioAtendimentoFormComponent,
     RelatorioAtendimentoDetalheFormComponent,
-    RelatorioAtendimentoDetalhePecaFormComponent
+    RelatorioAtendimentoDetalhePecaFormComponent,
+    RelatorioAtendimentoLaudoImpressaoComponent
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),

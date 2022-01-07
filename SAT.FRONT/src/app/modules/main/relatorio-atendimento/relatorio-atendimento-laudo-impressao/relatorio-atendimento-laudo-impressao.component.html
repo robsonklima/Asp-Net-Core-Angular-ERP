@@ -1,0 +1,265 @@
+        <button class="add-button" (click)="print()" [disabled]="loading">
+            <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
+        </button>
+        <div class="flex-auto h-full text-center" *transloco="let t">
+            <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+                <div class="loading-shade" *ngIf="loading">
+                    <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
+                </div>
+                <div id="print-area" class="w-240 m-2 overflow-auto p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none
+            print:bg-transparent" *ngIf="!loading">
+
+                    <div class="items-start grid grid-cols-12 justify-between">
+                        <div class="col-span-6 font-medium text-md mt-10">
+                            <div class="text-xl font-semibold leading-5">
+                                {{ 'Relatório de Avaliação Técnica' | uppercase }}
+                            </div>
+                            <div class="text-xl font-semibold leading-5">
+                                {{ 'Detecção Analítica de Falhas' | uppercase }}
+                            </div>
+                        </div>
+                        <div
+                            class="grid col-span-6 auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
+                            <div class="place-self-center w-24">
+                                <img class="w-24" src="assets/images/logo/logo.png">
+                            </div>
+                            <div class="pl-10 border-l text-md mr-10">
+                                <div class="font-medium">Perto S.A.</div>
+                                <div>Tecnologia para Bancos e Varejo</div>
+                                <div>Rua Nissin Castiel, 640 Distrito Industrial</div>
+                                <div>CEP: 94045-420 | Gravataí | RS | Brasil</div>
+                                <div>(51) 3489-8700</div>
+                                <div>www.perto.com.br</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xl font-semibold text-center leading-5 mt-4">
+                        {{ 'DIRETORIA COMERCIAL - DCM, Gerência de Suporte e Serviço, ' + obterData() | uppercase }}
+                    </div>
+
+                    <!-- DADOS DE ENTRADA -->
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
+                        <div class="text-xl col-span-12 text-left font-medium mb-2">DADOS DE ENTRADA</div>
+
+                        <div class="h-0	col-span-4 text-lg font-medium">{{ t('cliente') }}</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-6 self-center text-right">
+                            {{ os?.cliente?.nomeFantasia }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0	col-span-4 text-lg font-medium">{{ t('contato') }}</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-6 self-center text-right">
+                            {{ (os?.nomeContato || 'Não Informado')| uppercase }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Data Atend.</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ rat?.dataHoraInicio | date:'dd/MM/yyyy' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">OS Perto</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.codOS }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="col-span-12 text-lg font-medium">
+                            {{ t('defeito') }}
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ os?.defeitoRelatado }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+
+                        <!-- dados equipamento -->
+                        <div class="h-0 col-span-4 text-lg font-medium">Emitente</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.tecnico?.nome }}</div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">OS Cliente</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">{{ os?.numOSCliente }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Cód. Pai Equip</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.equipamento?.nomeEquip?.split('-')[1] | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Modelo</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.equipamento?.nomeEquip | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">{{ t('nro serie') }}</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ os?.equipamentoContrato?.numSerie | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Protocolo STN</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ 'protocolo stn' | uppercase}}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+                    </div>
+
+                    <!-- SITUAÇÕES -->
+                    <div *ngFor="let situacao of laudo?.laudosSituacao; let i=index;">
+                        <!-- CAUSA E AÇÃO -->
+                        <div class="grid grid-cols-12 gap-x-1 mt-3">
+                            <div class="text-xl col-span-12 text-left font-medium mb-2">{{'SITUAÇÃO ' + i+1}}</div>
+
+                            <div class="col-span-12 text-lg font-medium">
+                                Causa
+                                <div class="col-span-12 self-center font-light text-base text-justify">
+                                    {{ situacao?.causa }}</div>
+                                <div class="col-span-12 my-2 border-b"></div>
+                            </div>
+
+                            <div class="col-span-12 text-lg font-medium">
+                                Ação
+                                <div class="col-span-12 self-center font-light text-base text-justify">
+                                    {{ situacao?.acao }}</div>
+                                <div class="col-span-12 my-2 border-b"></div>
+                            </div>
+                        </div>
+
+                        <!-- FOTOS -->
+                        <div class="items-start justify-between" *ngIf="obterLaudoSituacaoFotos(i)">
+                            <div class="text-xl text-left font-medium mb-1">{{ 'FOTOS SITUAÇÃO ' + i+1 }}
+                            </div>
+                            <div class="grid grid-cols-2 gap-x-1" *ngFor="let foto of obterLaudoSituacaoFotos(i)">
+                                <img class="object-cover h-56 min-w-full m-2"
+                                    [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto?.nomeFoto">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHECAGEM VISUAL -->
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
+                        <div class="text-xl col-span-12 text-left font-medium mb-2">CHECAGEM VISUAL</div>
+
+                        <div class="col-span-12 text-lg font-medium">
+                            Relato do Cliente Durante o Atendimento
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ laudo?.relatoCliente }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+                    </div>
+
+                    <!-- INFRAESTRUTURA E REDE ELÉTRICA DO SITE -->
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
+                        <div class="text-xl col-span-12 text-left font-medium mb-2">NFRAESTRUTURA E REDE ELÉTRICA DO
+                            SITE</div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Tensão sem carga</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.tensaoSemCarga }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Tensão com carga</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.tensaoComCarga }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Tensão entre terra e neutro</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.tensaoTerraENeutro }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Rede estabilizada</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.indRedeEstabilizada? 'SIM' : 'NÃO' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Possui Nobreak</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.indPossuiNobreak? 'SIM' : 'NÃO' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Temperatura</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.temperatura }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0 col-span-4 text-lg font-medium">Possui ar condicionado</div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 self-center text-right"></div>
+                        <div class="h-0 col-span-6 self-center text-right">
+                            {{ laudo?.indPossuiArCond? 'SIM' : 'NÃO' }}
+                        </div>
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="col-span-12 text-lg font-medium" *ngIf="laudo?.justificativa">
+                            Justificativa
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ laudo?.justificativa }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+                    </div>
+
+                    <!-- CONCLUSÃO GERAL DO LAUDO -->
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
+                        <div class="text-xl col-span-12 text-left font-medium mb-2">CONCLUSÃO GERAL DO LAUDO</div>
+
+                        <div class="col-span-12 text-lg font-medium">
+                            Conclusão
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                {{ laudo?.conclusao }}</div>
+                            <div class="col-span-12 my-2 border-b"></div>
+                        </div>
+                    </div>
+
+                    <!-- ASSINATURA -->
+                    <div class="items-start grid grid-cols-12 justify-between">
+                        <div class="text-xl col-span-12 text-left font-medium mb-2">ASSINATURA</div>
+                        <div *ngFor="let foto of obterAssinaturas()" class="inline-flex col-span-6">
+                            <img class="inline-flex object-cover h-48 col-span-6 m-1"
+                                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto?.nomeFoto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

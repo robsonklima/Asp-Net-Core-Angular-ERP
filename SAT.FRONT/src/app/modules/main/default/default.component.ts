@@ -10,6 +10,7 @@ import { ApexOptions } from 'ng-apexcharts';
 import { fuseAnimations } from '@fuse/animations';
 import { MonitoramentoHistorico } from 'app/core/types/monitoramento-historico.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
+import _ from 'lodash';
 
 @Component({
     selector: 'default',
@@ -53,7 +54,7 @@ export class DefaultComponent implements OnInit, OnDestroy
             });
     }
 
-    async obterMonitoramentos()
+    async obterMonitoramentos(data: string='')
     {
         this.loading = true;
         const monitoramentoData = await this._monitoramentoService.obterPorParametros({
@@ -65,6 +66,8 @@ export class DefaultComponent implements OnInit, OnDestroy
         const historicoCPUData = await this._monitoramentoHistoricoService.obterPorParametros({
             servidor: 'SATAPLPROD',
             tipo: 'CPU',
+            dataHoraProcessamentoInicio: data ||moment().format('yyyy-MM-DD HH:mm:ss'),
+            dataHoraProcessamentoFim: data || moment().format('yyyy-MM-DD HH:mm:ss'),
             sortActive: "dataHoraProcessamento",
             sortDirection: "asc",
         }).toPromise();
@@ -72,17 +75,23 @@ export class DefaultComponent implements OnInit, OnDestroy
         const historicoMemoryData = await this._monitoramentoHistoricoService.obterPorParametros({
             servidor: 'SATAPLPROD',
             tipo: 'MEMORY',
+            dataHoraProcessamentoInicio: data || moment().format('yyyy-MM-DD HH:mm:ss'),
+            dataHoraProcessamentoFim: data || moment().format('yyyy-MM-DD HH:mm:ss'),
             sortActive: "dataHoraProcessamento",
             sortDirection: "asc",
         }).toPromise();
 
-        this.historicoLabels = historicoCPUData.items.map((historico) => {
+        this.historicoLabels = _.union(this.historicoLabels, historicoCPUData.items.map((historico) => {
             return moment(historico.dataHoraProcessamento).format('HH:mm');
-        });
+        }));
 
         this.historicoCPUData = historicoCPUData.items.map((cpu) => {
             return cpu.emUso;
         });
+
+        this.historicoLabels = _.union(this.historicoLabels, historicoCPUData.items.map((historico) => {
+            return moment(historico.dataHoraProcessamento).format('HH:mm');
+        }));
 
         this.historicoMemoryData = historicoMemoryData.items.map((memoria) => {
             return Number((memoria.emUso / memoria.total * 100).toFixed(0));
@@ -221,7 +230,7 @@ export class DefaultComponent implements OnInit, OnDestroy
               offsetY: -25,
               offsetX: -5
             }
-          };
+        };
     }
 
     obterOciosidadePorExtenso(dataHora: string): string
@@ -232,6 +241,11 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadeEmHoras(dataHora: string): number
     {
         return moment().diff(moment(dataHora), 'hours');
+    }
+
+    pesquisarPorData(n: number) {
+        const data = moment().add(n*-1, 'days').format('yyyy-MM-DD HH:mm:ss');
+        this.obterMonitoramentos(data);
     }
 
     ngOnDestroy()

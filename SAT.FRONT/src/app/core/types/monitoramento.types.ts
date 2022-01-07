@@ -21,6 +21,8 @@ export interface MonitoramentoParameters extends QueryStringParameters {
     tipo?: string;
     servidor?: string;
     item?: string;
+    dataHoraProcessamentoInicio?: string;
+    dataHoraProcessamentoFim?: string;
 };
 
 export enum MonitoramentoTipoEnum {

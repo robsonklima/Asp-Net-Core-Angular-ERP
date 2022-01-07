@@ -8,5 +8,7 @@ namespace SAT.MODELS.Entities
         public string Tipo { get; set; }
         public string Item { get; set; }
         public string Servidor { get; set; }
+        public DateTime? DataHoraProcessamentoInicio { get; set; }
+        public DateTime? DataHoraProcessamentoFim { get; set; }
     }
 }

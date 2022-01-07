@@ -28,6 +28,10 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrWhiteSpace(parameters.Item))
                 query = query.Where(i => i.Item == parameters.Item);
+            
+            if (parameters.DataHoraProcessamentoInicio.HasValue && parameters.DataHoraProcessamentoFim.HasValue)
+                query = query.Where(i => i.DataHoraProcessamento.HasValue && i.DataHoraProcessamento.Value.Date >= parameters.DataHoraProcessamentoInicio.Value.Date
+                    && i.DataHoraProcessamento.Value.Date <= parameters.DataHoraProcessamentoFim.Value.Date);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

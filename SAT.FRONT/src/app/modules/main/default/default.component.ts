@@ -41,7 +41,7 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     ngOnInit(): void
     {
-        interval(1 * 60 * 1000)
+        interval(2 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)

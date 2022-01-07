@@ -22,11 +22,11 @@
                 </div>
                 
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button (click)="obterMonitoramentos()" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'">
+                    <button (click)="obterDados()" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'">
                         <mat-icon *ngIf="!loading" class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                         <mat-progress-spinner *ngIf="loading" [diameter]="22" [mode]="'indeterminate'">
                         </mat-progress-spinner>
-                        <span class="ml-2">Atualizar</span>
+                        <span class="ml-2">{{ t('atualizar') }}</span>
                     </button>
                 </div>
             </div>

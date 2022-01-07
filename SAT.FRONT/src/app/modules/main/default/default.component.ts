@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
-import { UserService } from 'app/core/user/user.service';
-import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento } from 'app/core/types/monitoramento.types';
-import moment from 'moment';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { ApexOptions } from 'ng-apexcharts';
 import { fuseAnimations } from '@fuse/animations';
-import { MonitoramentoHistorico } from 'app/core/types/monitoramento-historico.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { MonitoramentoService } from 'app/core/services/monitoramento.service';
+import { Monitoramento, monitoramentoConst } from 'app/core/types/monitoramento.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
+import moment from 'moment';
 import _ from 'lodash';
 
 @Component({
@@ -25,11 +24,10 @@ export class DefaultComponent implements OnInit, OnDestroy
     ultimoProcessamento: string;
     loading: boolean;
     listaMonitoramento: Monitoramento[] = [];
-    historicoLabels: string[] = [];
-    historicoCPUData: number[] = [];
-    historicoMemoryData: number[] = [];
+    historico: any = { labels: [], cpu: [], memory: [] }
     chartPie: ApexOptions;
     chartLine: ApexOptions;
+    dataAtual = moment().format('HH:mm:ss');
     protected _onDestroy = new Subject<void>();
 
     constructor (
@@ -50,56 +48,66 @@ export class DefaultComponent implements OnInit, OnDestroy
             )
             .subscribe(() =>
             {
-                this.obterMonitoramentos();
+                this.obterDados();
             });
     }
 
-    async obterMonitoramentos(data: string='')
+    async obterDados(data: string='')
     {
         this.loading = true;
-        const monitoramentoData = await this._monitoramentoService.obterPorParametros({
-            sortActive: "dataHoraProcessamento",
-            sortDirection: "asc",
-        }).toPromise();
-        this.listaMonitoramento = monitoramentoData.items;
 
-        const historicoCPUData = await this._monitoramentoHistoricoService.obterPorParametros({
-            servidor: 'SATAPLPROD',
-            tipo: 'CPU',
-            dataHoraProcessamentoInicio: data ||moment().format('yyyy-MM-DD HH:mm:ss'),
-            dataHoraProcessamentoFim: data || moment().format('yyyy-MM-DD HH:mm:ss'),
-            sortActive: "dataHoraProcessamento",
-            sortDirection: "asc",
-        }).toPromise();
-
-        const historicoMemoryData = await this._monitoramentoHistoricoService.obterPorParametros({
-            servidor: 'SATAPLPROD',
-            tipo: 'MEMORY',
-            dataHoraProcessamentoInicio: data || moment().format('yyyy-MM-DD HH:mm:ss'),
-            dataHoraProcessamentoFim: data || moment().format('yyyy-MM-DD HH:mm:ss'),
-            sortActive: "dataHoraProcessamento",
-            sortDirection: "asc",
-        }).toPromise();
-
-        this.historicoLabels = _.union(this.historicoLabels, historicoCPUData.items.map((historico) => {
-            return moment(historico.dataHoraProcessamento).format('HH:mm');
-        }));
-
-        this.historicoCPUData = historicoCPUData.items.map((cpu) => {
-            return cpu.emUso;
-        });
-
-        this.historicoLabels = _.union(this.historicoLabels, historicoCPUData.items.map((historico) => {
-            return moment(historico.dataHoraProcessamento).format('HH:mm');
-        }));
-
-        this.historicoMemoryData = historicoMemoryData.items.map((memoria) => {
-            return Number((memoria.emUso / memoria.total * 100).toFixed(0));
-        });
-
+        await this.obterMonitoramentos();
+        await this.obterMonitoramentoHistorico('CPU', data);
+        await this.obterMonitoramentoHistorico('MEMORY', data);
         this.prepararDadosGraficos();
-        this.ultimoProcessamento = moment().format('HH:mm:ss');
+        this.ultimoProcessamento = this.dataAtual;
+
         this.loading = false;
+    }
+
+    private obterMonitoramentos(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._monitoramentoService.obterPorParametros({
+                sortActive: "dataHoraProcessamento",
+                sortDirection: "asc",
+            }).subscribe((data) => {
+                this.listaMonitoramento = data.items;
+                resolve(data);
+            }, () => {
+                reject();
+            });
+        })
+    }
+
+    private obterMonitoramentoHistorico(tipo: string, data: string=''): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._monitoramentoHistoricoService.obterPorParametros({
+                servidor: 'SATAPLPROD',
+                tipo: tipo,
+                dataHoraProcessamentoInicio: data || this.dataAtual,
+                dataHoraProcessamentoFim: data || this.dataAtual,
+                sortActive: "dataHoraProcessamento",
+                sortDirection: "asc",
+            }).subscribe((data) => {
+                this.historico.labels = _.union(this.historico.labels, data.items.map((hist) => {
+                    return moment(hist.dataHoraProcessamento).format('HH:mm');
+                }));
+        
+                if (tipo == monitoramentoConst.CPU)
+                    this.historico.cpu = data.items.map((cpu) => {
+                        return cpu.emUso;
+                    });
+
+                if (tipo == monitoramentoConst.MEMORY)
+                    this.historico.memory = data.items.map((memoria) => {
+                        return Number((memoria.emUso / memoria.total * 100).toFixed(0));
+                    });
+
+                resolve(data);
+            }, () => {
+                reject();
+            });
+        })
     }
 
     filtrarMonitoramento(tipo: string) {
@@ -167,11 +175,11 @@ export class DefaultComponent implements OnInit, OnDestroy
             series: [
               {
                 name: "Processador",
-                data: this.historicoCPUData
+                data: this.historico.cpu
               },
               {
                 name: "Memória",
-                data: this.historicoMemoryData
+                data: this.historico.memory
               }
             ],
             chart: {
@@ -189,16 +197,12 @@ export class DefaultComponent implements OnInit, OnDestroy
                 show: true
               }
             },
-            colors: ["#77B6EA", "#545454"],
+            colors: ["#77B6EA", "#00796B"],
             dataLabels: {
               enabled: false
             },
             stroke: {
               curve: "smooth"
-            },
-            title: {
-              text: "",
-              align: "left"
             },
             grid: {
               borderColor: "#e7e7e7",
@@ -211,15 +215,9 @@ export class DefaultComponent implements OnInit, OnDestroy
               size: 1
             },
             xaxis: {
-              categories:this.historicoLabels,
-              title: {
-                text: "Horário"
-              }
+              categories: this.historico.labels,
             },
             yaxis: {
-              title: {
-                text: "Percentual de Uso"
-              },
               min: 0,
               max: 100
             },
@@ -245,7 +243,7 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     pesquisarPorData(n: number) {
         const data = moment().add(n*-1, 'days').format('yyyy-MM-DD HH:mm:ss');
-        this.obterMonitoramentos(data);
+        this.obterDados(data);
     }
 
     ngOnDestroy()

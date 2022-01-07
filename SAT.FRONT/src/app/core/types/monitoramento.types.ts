@@ -25,7 +25,7 @@ export interface MonitoramentoParameters extends QueryStringParameters {
     dataHoraProcessamentoFim?: string;
 };
 
-export enum MonitoramentoTipoEnum {
+export enum monitoramentoConst {
     SERVICO = "SERVICO",
     INTEGRACAO = 'INTEGRACAO',
     STORAGE = 'STORAGE',

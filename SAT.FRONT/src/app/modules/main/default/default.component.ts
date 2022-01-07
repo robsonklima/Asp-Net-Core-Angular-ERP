@@ -84,7 +84,7 @@ export class DefaultComponent implements OnInit, OnDestroy
                 animations: {
                     speed: 400,
                     animateGradually: {
-                        enabled: false
+                        enabled: true
                     }
                 },
                 fontFamily: 'inherit',
@@ -95,7 +95,7 @@ export class DefaultComponent implements OnInit, OnDestroy
                     enabled: true
                 }
             },
-            colors: ['#3182CE', '#63B3ED'],
+            colors: [],
             labels: [],
             plotOptions: {
                 pie: {
@@ -122,7 +122,7 @@ export class DefaultComponent implements OnInit, OnDestroy
             tooltip: {
                 enabled: true,
                 fillSeriesColor: false,
-                theme: 'dark',
+                theme: 'light',
                 custom: ({
                     seriesIndex,
                     w

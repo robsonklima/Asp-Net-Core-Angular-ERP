@@ -28,7 +28,7 @@ import { isEqual } from 'lodash';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoDetalheMaterialComponent implements IEditableItemList, AfterViewInit, AfterViewChecked
+export class OrcamentoDetalheMaterialComponent implements IEditableItemList, AfterViewInit
 {
   isLoading: boolean = false;
   isEditing: boolean = false;
@@ -38,11 +38,6 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
   @Input() materiais: OrcamentoMaterial[];
 
   constructor (public _dialog: MatDialog, private _cdRef: ChangeDetectorRef, private _userService: UserService) { }
-
-  ngAfterViewChecked(): void
-  {
-    this.onkeydown();
-  }
 
   ngAfterViewInit(): void
   {
@@ -77,6 +72,11 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
   salvar(material: IEditableItem): void
   {
+    material.item.valorUnitario = material.item.valorUnitario.toString().replace(/[^0-9,.]/g, '');
+    material.item.quantidade = material.item.quantidade.toString().replace(/[^0-9,.]/g, '');
+    material.item.valorUnitario = parseFloat(material.item.valorUnitario.toString().replace(',', '.'));
+    material.item.quantidade = parseFloat(material.item.quantidade.toString().replace(',', '.'));
+
     material.oldItem = Object.assign({}, material.item);
     this.isEditing = false;
     material.isEditing = false;
@@ -104,29 +104,6 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     return false;
   }
 
-  toNumber(value)
-  {
-    value = value.trim();
-
-    var result = value.replace(/[^\d,]+/g, '');
-    var float = parseFloat(result);
-
-    if (isNaN(float))
-      return null;
-
-    return result;
-  }
-
-  inputQuantidadeMaterial(material, value)
-  {
-    material.item.quantidadeKm = this.toNumber(value);
-  }
-
-  inputValorUnitario(material, value)
-  {
-    material.item.valorUnitario = parseFloat(this.toNumber(value));
-  }
-
   excluirMaterial(material: IEditableItem) 
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
@@ -146,22 +123,5 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
       if (confirmacao)
         console.log("oi");
     });
-  }
-
-  onkeydown()
-  {
-    //     document.getElementsByName("quantidade").forEach(e =>
-    //       e.addEventListener("keydown", event =>
-    //       {
-    //         if (event.key >= "a" && event.key <= "z")
-    //           event.preventDefault();
-    //       }));
-    // 
-    //     document.getElementsByName("valorUnitario").forEach(e =>
-    //       e.addEventListener("keydown", event =>
-    //       {
-    //         if (event.key >= "a" && event.key <= "z")
-    //           event.preventDefault();
-    //       }));
   }
 }

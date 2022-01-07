@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SAT.INFRA.Repository
 {
-    public class AgendaTecnicoRepository : IAgendaTecnicoRepository
+    public partial class AgendaTecnicoRepository : IAgendaTecnicoRepository
     {
         private readonly AppDbContext _context;
 
@@ -38,28 +38,6 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public async Task<AgendaTecnico> AtualizarAsync(AgendaTecnico agenda)
-        {
-            return await Task.Run(() =>
-            {
-                try
-                {
-                    AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
-
-                    if (a != null)
-                    {
-                        _context.Entry(a).CurrentValues.SetValues(agenda);
-                        _context.SaveChanges();
-                        return agenda;
-                    }
-                    return null;
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            });
-        }
 
         /// <summary>
         /// Atualiza paralelamente ao retorno da API os dados no SQL

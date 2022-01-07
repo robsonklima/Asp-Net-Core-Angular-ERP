@@ -20,22 +20,24 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasMany(i => i.Laudos)
                 .WithOne()
-                .HasForeignKey(i => i.CodRAT);
+                .HasForeignKey(i => i.CodRAT)
+                .HasPrincipalKey(i => i.CodRAT);
 
             builder
                 .HasMany(i => i.RelatorioAtendimentoDetalhes)
                 .WithOne()
-                .HasForeignKey(i => i.CodRAT);
-
+                .HasForeignKey(i => i.CodRAT)
+                .HasPrincipalKey(i => i.CodRAT);
             builder
                 .HasMany(i => i.ProtocolosSTN)
                 .WithOne()
-                .HasForeignKey(i => i.CodRAT);
-
+                .HasForeignKey(i => i.CodRAT)
+                .HasPrincipalKey(i => i.CodRAT);
             builder
                 .HasMany(i => i.CheckinsCheckouts)
                 .WithOne()
-                .HasForeignKey(i => i.CodRAT);
+                .HasForeignKey(i => i.CodRAT)
+                .HasPrincipalKey(i => i.CodRAT);
 
             builder
                 .HasOne(i => i.StatusServico)

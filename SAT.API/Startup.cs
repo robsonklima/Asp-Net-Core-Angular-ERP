@@ -143,6 +143,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
             services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
             services.AddTransient<IMonitoramentoHistoricoRepository, MonitoramentoHistoricoRepository>();
+            services.AddTransient<ILaudoRepository, LaudoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -231,6 +232,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoService, OrcamentoService>();
             services.AddTransient<IOrcamentoMotivoService, OrcamentoMotivoService>();
             services.AddTransient<IMonitoramentoHistoricoService, MonitoramentoHistoricoService>();
+            services.AddTransient<ILaudoService, LaudoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

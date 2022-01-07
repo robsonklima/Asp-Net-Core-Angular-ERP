@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
+import { FotoService } from 'app/core/services/foto.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
@@ -22,29 +23,37 @@ export class OrdemServicoImpressaoComponent implements OnInit
 
   constructor (
     private _ordemServicoService: OrdemServicoService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _fotoService: FotoService
   ) { }
 
   async ngOnInit()
   {
     this.loading = true;
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
+
+    await this.obterFotos();
     await this._ordemServicoService.obterPorCodigo(this.codOS).pipe(
       finalize(() =>
       {
-        this.fotosLaudos = Enumerable.from(this.os?.fotos)
-          .where(i => i.modalidade.includes("LAUDO"))
-          .toArray();
-
         this.loading = false;
       }))
       .subscribe(
-        (successData) =>
+        async (successData) =>
         {
           this.os = successData;
         },
         (err) => { }
       );
+  }
+
+  private async obterFotos()
+  {
+    this.fotosLaudos = (await this._fotoService.obterPorParametros(
+      {
+        codOS: this.codOS
+      }
+    ).toPromise()).items;
   }
 
   print()
@@ -60,9 +69,7 @@ export class OrdemServicoImpressaoComponent implements OnInit
 
   getLaudos(rat: RelatorioAtendimento)
   {
-    if (!this.os?.fotos?.length) return;
-
     return Enumerable.from(this.fotosLaudos)
-      .where(i => i.numRAT == rat.numRAT).toArray();
+      .where(i => i.numRAT == rat.numRAT && i.modalidade.toLowerCase().includes('laudo')).toArray();
   }
 }

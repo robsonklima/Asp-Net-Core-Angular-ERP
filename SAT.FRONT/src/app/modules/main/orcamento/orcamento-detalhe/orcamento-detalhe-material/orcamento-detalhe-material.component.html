@@ -55,16 +55,16 @@
                                     <div>
                                         {{ material?.item?.descricao }}
                                     </div>
-                                    <div name="quantidade" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        material?.isEditing }"
-                                        [contentEditable]="material?.isEditing ? 'true' : 'false'"
+                                    <div [id]="'quantidade' + material.item.codOrcMaterial" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        material?.isEditing }" [contentEditable]="material?.isEditing"
                                         [textContent]="material?.item?.quantidade"
-                                        (input)="inputQuantidadeMaterial(material, $event.target.innerText)"></div>
-                                    <div name="valorUnitario" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        material?.isEditing }"
-                                        [contentEditable]="material?.isEditing ? 'true' : 'false'"
-                                        [textContent]="material?.item?.valorUnitario | currency:'BRL':'symbol-narrow'"
-                                        (input)="inputValorUnitario(material, $event.target.innerText)"></div>
+                                        (input)="material.item.quantidade = $event.target.innerText"></div>
+                                    <div [id]="'valorUnitario' + material.item.codOrcMaterial" ngDefaultControl
+                                        [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        material?.isEditing }" [contentEditable]="material?.isEditing" [textContent]="material?.isEditing ?
+                                        material?.item?.valorUnitario : material?.item?.valorUnitario |
+                                        currency:'BRL':'symbol-narrow'"
+                                        (input)="material.item.valorUnitario = $event.target.innerText"></div>
                                     <div>
                                         {{ material?.item?.valorDesconto | currency:'BRL':'symbol-narrow' }}
                                     </div>

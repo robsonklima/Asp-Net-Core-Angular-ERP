@@ -40,14 +40,16 @@
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button
+                                [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button [color]="'primary'"
+                            <button class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button
+                                [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
@@ -111,13 +113,15 @@
                                                 <div class="text-secondary">{{ t('abertura') }}</div>
                                                 <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCadastro">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
                                                     {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCadastro">
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('contato') }}</div>
                                                 <div>
                                                     {{ os?.usuarioCadastro?.fone || os?.usuarioCadastro?.foneParticular }}
@@ -159,6 +163,15 @@
                                                 *ngIf="os?.tecnico?.nome">
                                                 <div class="text-secondary">{{ t('tecnico') }}</div>
                                                 <div>{{ os?.tecnico?.nome | titlecase }}</div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
+                                                <div>
+                                                    <span
+                                                        class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1">
+                                                        {{ os?.tipoIntervencao?.nomTipoIntervencao }}
+                                                    </span>
+                                                </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('status de servico') }}</div>
@@ -364,8 +377,7 @@
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.alertas?.length">
                                     {{ t('alertas') }}
-                                    <span
-                                        class="bg-orange-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1" 
+                                    <span class="bg-orange-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="os?.alertas?.length">
                                         {{  os?.alertas?.length || 0}}
                                     </span>
@@ -390,8 +402,7 @@
                                 <span [class.opacity-50]="!os?.relatoriosAtendimento?.length">
                                     {{ t('relatorios') }}
 
-                                    <span
-                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="os?.relatoriosAtendimento?.length">
                                         {{ os?.relatoriosAtendimento?.length }}
                                     </span>
@@ -512,8 +523,7 @@
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!getFotos().length">
                                     {{ t('fotos') }}
-                                    <span
-                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="getFotos().length">
                                         {{ getFotos().length }}
                                     </span>
@@ -529,8 +539,7 @@
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!getLaudos().length">
                                     {{ t('laudos') }}
-                                    <span
-                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="getLaudos().length">
                                         {{ getLaudos().length }}
                                     </span>
@@ -555,9 +564,7 @@
                                 </div>
                             </ng-template>
                         </mat-tab>
-                        <mat-tab
-                            [disabled]="!os?.codEquipContrato"    
-                            *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
+                        <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS">

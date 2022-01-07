@@ -5,6 +5,7 @@ namespace SAT.INFRA.Interfaces
 {
     public interface IMediaAtendimentoTecnicoRepository
     {
-        void AtualizarListaAsync(List<MediaAtendimentoTecnico> medias);
+        void AtualizarOuCriar(MediaAtendimentoTecnico media);
+        void AtualizaMediaTecnico();
     }
 }

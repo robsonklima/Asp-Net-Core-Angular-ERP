@@ -7,33 +7,34 @@ import moment from 'moment';
 import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { ApexOptions } from 'ng-apexcharts';
+import { fuseAnimations } from '@fuse/animations';
+import { MonitoramentoHistorico } from 'app/core/types/monitoramento-historico.types';
+import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 
 @Component({
     selector: 'default',
     templateUrl: './default.component.html',
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    animations   : fuseAnimations,
 })
 
 export class DefaultComponent implements OnInit, OnDestroy
 {
     sessionData: UsuarioSessao;
     ultimoProcessamento: string;
-    public loading: boolean;
-    public listaMonitoramento: Monitoramento[] = [];
-    chartData: any = {
-        uniqueVisitors: 46085,
-        series: [25, 75],
-        labels: [
-            'English',
-            'Other'
-        ]
-    }
-    chart: ApexOptions;
+    loading: boolean;
+    listaMonitoramento: Monitoramento[] = [];
+    historicoLabels: string[] = [];
+    historicoCPUData: number[] = [];
+    historicoMemoryData: number[] = [];
+    chartPie: ApexOptions;
+    chartLine: ApexOptions;
     protected _onDestroy = new Subject<void>();
 
     constructor (
         private _userService: UserService,
-        private _monitoramentoService: MonitoramentoService
+        private _monitoramentoService: MonitoramentoService,
+        private _monitoramentoHistoricoService: MonitoramentoHistoricoService
     )
     {
         this.sessionData = JSON.parse(this._userService.userSession);
@@ -50,36 +51,55 @@ export class DefaultComponent implements OnInit, OnDestroy
             {
                 this.obterMonitoramentos();
             });
-
-        this.prepararDadosGraficos();
     }
 
-    obterMonitoramentos()
+    async obterMonitoramentos()
     {
         this.loading = true;
-        this._monitoramentoService.obterPorParametros
-            ({
-                sortActive: "dataHoraProcessamento",
-                sortDirection: "desc",
-            }).subscribe(data =>
-            {
-                this.listaMonitoramento = data.items;
-                this.ultimoProcessamento = moment().format('HH:mm:ss');
-                this.loading = false;
-                
-            }, () =>
-            {
-                this.loading = false;
-            });
+        const monitoramentoData = await this._monitoramentoService.obterPorParametros({
+            sortActive: "dataHoraProcessamento",
+            sortDirection: "asc",
+        }).toPromise();
+        this.listaMonitoramento = monitoramentoData.items;
+
+        const historicoCPUData = await this._monitoramentoHistoricoService.obterPorParametros({
+            servidor: 'SATAPLPROD',
+            tipo: 'CPU',
+            sortActive: "dataHoraProcessamento",
+            sortDirection: "asc",
+        }).toPromise();
+
+        const historicoMemoryData = await this._monitoramentoHistoricoService.obterPorParametros({
+            servidor: 'SATAPLPROD',
+            tipo: 'MEMORY',
+            sortActive: "dataHoraProcessamento",
+            sortDirection: "asc",
+        }).toPromise();
+
+        this.historicoLabels = historicoCPUData.items.map((historico) => {
+            return moment(historico.dataHoraProcessamento).format('HH:mm');
+        });
+
+        this.historicoCPUData = historicoCPUData.items.map((cpu) => {
+            return cpu.emUso;
+        });
+
+        this.historicoMemoryData = historicoMemoryData.items.map((memoria) => {
+            return Number((memoria.emUso / memoria.total * 100).toFixed(0));
+        });
+
+        this.prepararDadosGraficos();
+        this.ultimoProcessamento = moment().format('HH:mm:ss');
+        this.loading = false;
     }
 
-    filtrarMonitoramentoPorTipo(tipo: string) {
+    filtrarMonitoramento(tipo: string) {
         return this.listaMonitoramento.filter(m => m.tipo == tipo)
     }
 
     private prepararDadosGraficos()
     {
-        this.chart = {
+        this.chartPie = {
             chart: {
                 animations: {
                     speed: 400,
@@ -129,10 +149,79 @@ export class DefaultComponent implements OnInit, OnDestroy
                 }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                    <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                    <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex].toFixed(2)}%</div>
                                 </div>`
             }
         };
+
+        this.chartLine = {
+            series: [
+              {
+                name: "Processador",
+                data: this.historicoCPUData
+              },
+              {
+                name: "Memória",
+                data: this.historicoMemoryData
+              }
+            ],
+            chart: {
+              height: 350,
+              type: "line",
+              dropShadow: {
+                enabled: true,
+                color: "#000",
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.2
+              },
+              toolbar: {
+                show: true
+              }
+            },
+            colors: ["#77B6EA", "#545454"],
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: "smooth"
+            },
+            title: {
+              text: "",
+              align: "left"
+            },
+            grid: {
+              borderColor: "#e7e7e7",
+              row: {
+                colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                opacity: 0.5
+              }
+            },
+            markers: {
+              size: 1
+            },
+            xaxis: {
+              categories:this.historicoLabels,
+              title: {
+                text: "Horário"
+              }
+            },
+            yaxis: {
+              title: {
+                text: "Percentual de Uso"
+              },
+              min: 0,
+              max: 100
+            },
+            legend: {
+              position: "top",
+              horizontalAlign: "right",
+              floating: true,
+              offsetY: -25,
+              offsetX: -5
+            }
+          };
     }
 
     obterOciosidadePorExtenso(dataHora: string): string

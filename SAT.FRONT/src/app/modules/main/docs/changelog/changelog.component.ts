@@ -16,6 +16,20 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.26',
+                releaseDate: '06 de Janeiro de 2022',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Novo monitoramento com espaço em disco e memoria dos servidores',
+                            'Corrigido erro de atualização da OS, equipamento nulo',
+                            'Adicionada opção de bloqueio de chamado'
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.25',
                 releaseDate: '04 de Janeiro de 2022',
                 changes: [

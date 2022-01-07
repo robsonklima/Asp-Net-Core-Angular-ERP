@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         FuseAlertModule,
         NgApexchartsModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatProgressBarModule
     ]
 })
 export class DefaultModule {

@@ -126,6 +126,7 @@ namespace SAT.INFRA.Context
         public DbSet<EnderecoFaturamentoNF> EnderecoFaturamentoNF { get; set; }
         public DbSet<EnderecoFaturamentoVinculado> EnderecoFaturamentoVinculado { get; set; }
         public DbSet<Monitoramento> Monitoramento { get; set; }
+        public DbSet<MonitoramentoHistorico> MonitoramentoHistorico { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -166,6 +167,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoStatus>(new OrcamentoStatusMap().Configure);
             modelBuilder.Entity<OrcamentoDeslocamento>(new OrcamentoDeslocamentoMap().Configure);
             modelBuilder.Entity<Monitoramento>(new MonitoramentoMap().Configure);
+            modelBuilder.Entity<MonitoramentoHistorico>(new MonitoramentoHistoricoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

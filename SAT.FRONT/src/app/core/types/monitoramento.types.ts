@@ -6,8 +6,8 @@ export class Monitoramento {
     item: string;
     mensagem: string;
     tipo: string;
-    espacoEmGb: number;
-    tamanhoEmGb: number;
+    emUso: number;
+    total: number;
     disco: string;
     dataHoraProcessamento: string;
     dataHoraCad: string;
@@ -19,6 +19,8 @@ export interface MonitoramentoData extends Meta {
 
 export interface MonitoramentoParameters extends QueryStringParameters {
     tipo?: string;
+    servidor?: string;
+    item?: string;
 };
 
 export enum MonitoramentoTipoEnum {

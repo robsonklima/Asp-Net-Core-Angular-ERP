@@ -1,0 +1,2 @@
+ thread[13] SAT.SERVICES.Services.LoggerService (ERROR): 500Unable to resolve service for type 'SAT.SERVICES.Interfaces.IMonitoramentoHistoricoService' while attempting to activate 'SAT.API.Controllers.MonitoramentoHistoricoController'.. 
+ thread[24] SAT.SERVICES.Services.LoggerService (ERROR): 500Unable to resolve service for type 'SAT.SERVICES.Interfaces.IMonitoramentoHistoricoService' while attempting to activate 'SAT.API.Controllers.MonitoramentoHistoricoController'.. 

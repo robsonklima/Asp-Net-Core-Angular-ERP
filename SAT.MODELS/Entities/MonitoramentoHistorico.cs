@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 namespace SAT.MODELS.Entities
 {
-    public class Monitoramento
+    public class MonitoramentoHistorico
     {
-        public int CodLogAlerta { get; set; }
+        public int CodHistLogAlerta { get; set; }
         public string Servidor { get; set; }
         public string Item { get; set; }
         public string Mensagem { get; set; }

@@ -44,6 +44,14 @@ import { OrcamentoDetalheMaoDeObraComponent } from './orcamento-detalhe/orcament
 import { OrcamentoDetalheDeslocamentoComponent } from './orcamento-detalhe/orcamento-detalhe-deslocamento/orcamento-detalhe-deslocamento.component';
 import { OrcamentoDetalheOutroServicoComponent } from './orcamento-detalhe/orcamento-detalhe-outro-servico/orcamento-detalhe-outro-servico.component';
 import { OrcamentoDetalheDescontoComponent } from './orcamento-detalhe/orcamento-detalhe-desconto/orcamento-detalhe-desconto.component';
+import { IConfig, NgxMaskModule } from "ngx-mask";
+
+const maskConfigFunction: () => Partial<IConfig> = () =>
+{
+    return {
+        validation: false,
+    };
+};
 
 @NgModule({
     declarations: [
@@ -60,6 +68,7 @@ import { OrcamentoDetalheDescontoComponent } from './orcamento-detalhe/orcamento
     imports: [
         CommonModule,
         RouterModule.forChild(orcamentoRoutes),
+        NgxMaskModule.forRoot(maskConfigFunction),
         MatButtonToggleModule,
         MatChipsModule,
         MatDatepickerModule,

@@ -43,6 +43,8 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
 
   salvar(): void
   {
+    this.deslocamento.quantidadeKm = parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
+
     this.isEditing = false;
     this.isLoading = true;
     this.isLoading = false;
@@ -66,24 +68,6 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
       return true;
 
     return false;
-  }
-
-  toNumber(value)
-  {
-    value = value.trim();
-
-    var result = value.replace(/[^\d,]+/g, '');
-    var float = parseFloat(result);
-
-    if (isNaN(float))
-      return null;
-
-    return result;
-  }
-
-  inputQuantidadeKm(value)
-  {
-    this.deslocamento.quantidadeKm = this.toNumber(value);
   }
 
   onkeydown()

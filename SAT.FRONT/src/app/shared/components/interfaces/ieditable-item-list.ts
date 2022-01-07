@@ -8,7 +8,6 @@ export interface IEditableItemList
     isInvalid(item: IEditableItem): boolean;
     isEditing: boolean;
     isLoading: boolean;
-    toNumber(value): number;
     createEditableList(): IEditableItem[];
 };
 

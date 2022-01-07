@@ -7,6 +7,5 @@ export interface IEditableFuseCard
     isInvalid(): boolean;
     isEditing: boolean;
     isLoading: boolean;
-    toNumber(value): number;
     oldItem: any;
 };

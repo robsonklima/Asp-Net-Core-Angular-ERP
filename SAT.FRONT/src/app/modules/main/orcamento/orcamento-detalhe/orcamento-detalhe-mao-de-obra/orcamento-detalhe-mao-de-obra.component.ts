@@ -48,6 +48,7 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
 
   salvar(): void
   {
+    this.maoDeObra.previsaoHoras = parseFloat(this.maoDeObra.previsaoHoras.toString().replace(',', '.'));
     this.isEditing = false;
     this.isLoading = true;
     this.isLoading = false;
@@ -73,23 +74,6 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
     return false;
   }
 
-  toNumber(value)
-  {
-    value = value.trim();
-
-    var result = value.replace(/[^\d,]+/g, '');
-    var float = parseFloat(result);
-
-    if (isNaN(float))
-      return null;
-
-    return result;
-  }
-
-  inputPrevisaoHoras(value)
-  {
-    this.maoDeObra.previsaoHoras = this.toNumber(value);
-  }
 
   onkeydown()
   {

@@ -41,8 +41,6 @@ export class GlobalErrorInterceptor implements ErrorHandler
 
             //     this._router.navigate(['500-internal-server-error']);
             // }
-
-            console.log('Ocorreu um erro', error);
         });
     }
 }

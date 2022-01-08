@@ -249,14 +249,9 @@ export class DefaultComponent implements OnInit, OnDestroy
                 prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
             });
         }
-
-        console.log(this.opcoesDatas);
-        
     }
 
     pesquisarHistoricoPorData(data: string) {
-        console.log(data)
-
         this.obterDados(data);
     }
 

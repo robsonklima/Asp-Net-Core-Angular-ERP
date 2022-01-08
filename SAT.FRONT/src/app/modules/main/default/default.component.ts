@@ -25,6 +25,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     loading: boolean;
     listaMonitoramento: Monitoramento[] = [];
     historico: any = { labels: [], cpu: [], memory: [] }
+    opcoesDatas: any[] = []; 
     chartPie: ApexOptions;
     chartLine: ApexOptions;
     dataAtual = moment().format('HH:mm:ss');
@@ -41,6 +42,8 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     ngOnInit(): void
     {
+        this.obterOpcoesDatas();
+
         interval(2 * 60 * 1000)
             .pipe(
                 startWith(0),
@@ -216,10 +219,18 @@ export class DefaultComponent implements OnInit, OnDestroy
             },
             xaxis: {
               categories: this.historico.labels,
+              labels: {
+                show: false
+              }
             },
             yaxis: {
               min: 0,
-              max: 100
+              max: 100,
+              labels: {
+                formatter: (value) => {
+                  return value + "%";
+                }
+              }
             },
             legend: {
               position: "top",
@@ -231,6 +242,24 @@ export class DefaultComponent implements OnInit, OnDestroy
         };
     }
 
+    private obterOpcoesDatas() {
+        for (let i = 4; i >= 0; i--) {
+            this.opcoesDatas.push({
+                data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
+                prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
+            });
+        }
+
+        console.log(this.opcoesDatas);
+        
+    }
+
+    pesquisarHistoricoPorData(data: string) {
+        console.log(data)
+
+        this.obterDados(data);
+    }
+
     obterOciosidadePorExtenso(dataHora: string): string
     {
         return moment(dataHora).locale('pt').fromNow();
@@ -239,11 +268,6 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadeEmHoras(dataHora: string): number
     {
         return moment().diff(moment(dataHora), 'hours');
-    }
-
-    pesquisarPorData(n: number) {
-        const data = moment().add(n*-1, 'days').format('yyyy-MM-DD HH:mm:ss');
-        this.obterDados(data);
     }
 
     ngOnDestroy()

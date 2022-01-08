@@ -263,13 +263,13 @@
                         </div>
 
                         <div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
-                            <div class="flex flex-col flex-auto col-span-2 bg-card shadow rounded-2xl overflow-hidden p-6"
+                            <div class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6"
                                 *ngFor="let monitoramento of filtrarMonitoramento('STORAGE')"
                                 [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
                                 [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
                                 <div class="flex items-start justify-between">
-                                    <div class="text-sm tracking-tight leading-6">
-                                        <b>Disco {{ monitoramento.disco }}</b> {{ monitoramento.servidor }}
+                                    <div class="text-secondary">
+                                        Disco <b>{{ monitoramento.disco }}</b> {{ monitoramento.servidor }}
                                     </div>
                                 </div>
                                 <div class="flex flex-col flex-auto mt-2 h-44">
@@ -312,7 +312,7 @@
                                 [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
                                 [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
                                 <div class="flex items-start justify-between">
-                                    <div class="text-sm tracking-tight leading-6">
+                                    <div class="text-secondary">
                                         <b>CPU</b> {{ monitoramento.servidor }} 
                                     </div>
                                 </div>
@@ -349,7 +349,7 @@
                                 [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
                                 [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
                                 <div class="flex items-start justify-between">
-                                    <div class="text-sm tracking-tight leading-6">
+                                    <div class="text-secondary">
                                         <b>Memória</b> {{ monitoramento.servidor }} 
                                     </div>
                                 </div>

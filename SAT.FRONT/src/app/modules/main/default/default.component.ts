@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento, monitoramentoConst } from 'app/core/types/monitoramento.types';
+import { Monitoramento, monitoramentoTipoConst, monitoramentoServidorConst } from 'app/core/types/monitoramento.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import moment from 'moment';
 import _ from 'lodash';
@@ -96,12 +96,12 @@ export class DefaultComponent implements OnInit, OnDestroy
                     return moment(hist.dataHoraProcessamento).format('HH:mm');
                 }));
         
-                if (tipo == monitoramentoConst.CPU)
+                if (tipo == monitoramentoTipoConst.CPU)
                     this.historico.cpu = data.items.map((cpu) => {
                         return cpu.emUso;
                     });
 
-                if (tipo == monitoramentoConst.MEMORY)
+                if (tipo == monitoramentoTipoConst.MEMORY)
                     this.historico.memory = data.items.map((memoria) => {
                         return Number((memoria.emUso / memoria.total * 100).toFixed(0));
                     });

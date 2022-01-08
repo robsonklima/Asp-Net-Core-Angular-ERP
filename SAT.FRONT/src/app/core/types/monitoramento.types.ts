@@ -25,11 +25,16 @@ export interface MonitoramentoParameters extends QueryStringParameters {
     dataHoraProcessamentoFim?: string;
 };
 
-export enum monitoramentoConst {
-    SERVICO = "SERVICO",
-    INTEGRACAO = 'INTEGRACAO',
-    STORAGE = 'STORAGE',
-    MEMORY = 'MEMORY',
-    CPU = 'CPU',
-    CHAMADO = 'CHAMADO'
+export const monitoramentoTipoConst = {
+    SERVICO: "SERVICO",
+    INTEGRACAO: 'INTEGRACAO',
+    STORAGE: 'STORAGE',
+    MEMORY: 'MEMORY',
+    CPU: 'CPU',
+    CHAMADO: 'CHAMADO'
+}
+
+export const monitoramentoServidorConst = {
+    SATAPLPROD: "Servidor Principal",
+    SATINTEGRACAO: "Servidor de Integração"
 }

@@ -28,7 +28,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     opcoesDatas: any[] = []; 
     chartPie: ApexOptions;
     chartLine: ApexOptions;
-    dataAtual = moment().format('HH:mm:ss');
+    dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
     protected _onDestroy = new Subject<void>();
 
     constructor (
@@ -84,6 +84,8 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     private obterMonitoramentoHistorico(tipo: string, data: string=''): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (data) this.dataAtual = data;
+
             this._monitoramentoHistoricoService.obterPorParametros({
                 servidor: 'SATAPLPROD',
                 tipo: tipo,

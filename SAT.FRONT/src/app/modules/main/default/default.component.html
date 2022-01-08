@@ -259,7 +259,9 @@
                     <ng-template matTabContent>
                         <div class="w-full">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
-                            <div class="font-medium tracking-tight text-secondary">Acompanhamento da quantidade de espaço de armazenamento </div>
+                            <div class="font-medium tracking-tight text-secondary">
+                                Acompanhamento da quantidade de espaço de armazenamento 
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
@@ -285,7 +287,7 @@
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.emUso | number: '1.0-4' }} de {{ monitoramento.total | number: '1.0-4' }} GB
+                                                    Utilizados  {{ monitoramento.emUso | number: '1.0-4' }} de {{ monitoramento.total | number: '1.0-4' }} GB
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -329,7 +331,7 @@
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.emUso | number: '1.0-4' }}%
+                                                    Utilizados {{ monitoramento.emUso | number: '1.0-1' }} de {{ monitoramento.total | number: '1.0-1' }}%
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -366,7 +368,7 @@
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.emUso | number: '1.0-0' }} de {{ monitoramento.total | number: '1.0-0' }} MB
+                                                    Utilizados {{ monitoramento.emUso | number: '1.0-0' }} de {{ monitoramento.total | number: '1.0-0' }} MB
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -390,7 +392,9 @@
                             <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
                                 <div class="flex flex-col">
                                     <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Processador e Memória</div>
-                                    <div class="font-medium text-secondary">Servidor <b>SATAPLPROD</b>: status a cada 5 minutos</div>
+                                    <div class="font-medium text-secondary">
+                                        Servidor <b>SATAPLPROD</b>: status a cada 5 minutos em {{ dataAtual | date:'dd/MM' }}
+                                    </div>
                                 </div>
                                 
                                 <div class="ml-2">

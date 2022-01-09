@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento, monitoramentoTipoConst, monitoramentoServidorConst } from 'app/core/types/monitoramento.types';
+import { Monitoramento, monitoramentoTipoConst, monitoramentoStatusConst } from 'app/core/types/monitoramento.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import moment from 'moment';
 import _ from 'lodash';
@@ -75,6 +75,9 @@ export class DefaultComponent implements OnInit, OnDestroy
                 sortDirection: "asc",
             }).subscribe((data) => {
                 this.listaMonitoramento = data.items;
+                for (let i = 0; i < data.items.length; i++) {
+                    this.listaMonitoramento[i].status = this.obterStatusMonitoramento(this.listaMonitoramento[i]);
+                }
                 resolve(data);
             }, () => {
                 reject();
@@ -117,6 +120,34 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     filtrarMonitoramento(tipo: string) {
         return this.listaMonitoramento.filter(m => m.tipo == tipo)
+    }
+
+    obterStatusMonitoramento(monitoramento: Monitoramento): string {
+        const qtdHorasOciosidade = moment().diff(moment(monitoramento.dataHoraProcessamento), 'hours');
+
+        switch (monitoramento.tipo) {
+            case 'CHAMADO':
+                if (qtdHorasOciosidade >= 3)
+                    return monitoramentoStatusConst.DANGER;
+
+                if (qtdHorasOciosidade > 1 && qtdHorasOciosidade < 3)
+                    return monitoramentoStatusConst.WARNING;
+
+                return monitoramentoStatusConst.OK;        
+            case 'STORAGE':
+                if (((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30)
+                    return monitoramentoStatusConst.DANGER;
+
+                return monitoramentoStatusConst.OK;
+            
+            case 'MEMORY':
+                if (((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30)
+                    return monitoramentoStatusConst.DANGER;
+
+                return monitoramentoStatusConst.OK;
+            default:
+                return monitoramentoStatusConst.OK;
+        }
     }
 
     private prepararDadosGraficos()
@@ -260,11 +291,6 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadePorExtenso(dataHora: string): string
     {
         return moment(dataHora).locale('pt').fromNow();
-    }
-
-    obterOciosidadeEmHoras(dataHora: string): number
-    {
-        return moment().diff(moment(dataHora), 'hours');
     }
 
     ngOnDestroy()

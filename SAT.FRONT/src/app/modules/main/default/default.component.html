@@ -66,9 +66,9 @@
                                                         <div class="flex items-center">
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:clock'"
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>= 3"
-                                                                [class.text-green-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) <= 1"
-                                                                [class.text-amber-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) < 3 && obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>1">
+                                                                [class.text-red-600]="monitoramento.status == 'DANGER'"
+                                                                [class.text-green-600]="monitoramento.status == 'OK'"
+                                                                [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
                                                                 {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
@@ -137,9 +137,9 @@
                                                         <div class="flex items-center">
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:clock'"
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>= 3"
-                                                                [class.text-green-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) <= 1"
-                                                                [class.text-amber-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) < 3 && obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>1">
+                                                                [class.text-red-600]="monitoramento.status == 'DANGER'"
+                                                                [class.text-green-600]="monitoramento.status == 'OK'"
+                                                                [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
                                                                 {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
@@ -208,9 +208,9 @@
                                                         <div class="flex items-center">
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:clock'"
-                                                                [class.text-red-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>= 3"
-                                                                [class.text-green-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) <= 1"
-                                                                [class.text-amber-600]="obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento) < 3 && obterOciosidadeEmHoras(monitoramento.dataHoraProcessamento)>1">
+                                                                [class.text-red-600]="monitoramento.status == 'DANGER'"
+                                                                [class.text-green-600]="monitoramento.status == 'OK'"
+                                                                [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
                                                                 {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
@@ -267,8 +267,8 @@
                         <div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
                             <div class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6"
                                 *ngFor="let monitoramento of filtrarMonitoramento('STORAGE')"
-                                [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
-                                [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
+                                [class.bg-red-100]="monitoramento.status === 'DANGER'"
+                                [class.bg-card]="monitoramento.status === 'OK'">
                                 <div class="flex items-start justify-between">
                                     <div class="text-secondary">
                                         Disco <b>{{ monitoramento.disco }}</b> {{ monitoramento.servidor }}
@@ -311,8 +311,8 @@
                         <div class="grid grid-cols-6 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
                             <div class="flex flex-col flex-auto col-span-3 shadow rounded-2xl overflow-hidden p-6"
                                 *ngFor="let monitoramento of filtrarMonitoramento('CPU')"
-                                [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
-                                [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
+                                [class.bg-red-100]="monitoramento.status === 'DANGER'"
+                                [class.bg-card]="monitoramento.status === 'OK'">
                                 <div class="flex items-start justify-between">
                                     <div class="text-secondary">
                                         <b>CPU</b> {{ monitoramento.servidor }} 
@@ -348,8 +348,8 @@
 
                             <div class="flex flex-col flex-auto col-span-3 shadow rounded-2xl overflow-hidden p-6"
                                 *ngFor="let monitoramento of filtrarMonitoramento('MEMORY')"
-                                [class.bg-red-100]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30"
-                                [class.bg-card]="((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 > 30">
+                                [class.bg-red-100]="monitoramento.status === 'DANGER'"
+                                [class.bg-card]="monitoramento.status === 'OK'">
                                 <div class="flex items-start justify-between">
                                     <div class="text-secondary">
                                         <b>Memória</b> {{ monitoramento.servidor }} 

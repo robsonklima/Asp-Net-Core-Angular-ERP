@@ -9,6 +9,7 @@ export class Monitoramento {
     emUso: number;
     total: number;
     disco: string;
+    status: string;
     dataHoraProcessamento: string;
     dataHoraCad: string;
 }
@@ -34,7 +35,8 @@ export const monitoramentoTipoConst = {
     CHAMADO: 'CHAMADO'
 }
 
-export const monitoramentoServidorConst = {
-    SATAPLPROD: "Servidor Principal",
-    SATINTEGRACAO: "Servidor de Integração"
+export const monitoramentoStatusConst = {
+    DANGER: "DANGER",
+    WARNING: "WARNING",
+    OK: "OK"
 }

@@ -55,9 +55,7 @@ export class OrdemServicoDetalheOrcamentoComponent
         this._orcamentoService.criarNovoOrcamento(this.codOS).then(orc =>
         {
           console.log(orc)
-
         });
-
       }
     });
 

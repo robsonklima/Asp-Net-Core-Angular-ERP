@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(OrcamentoParameters parameters);
         Orcamento Criar(Orcamento orcamento);
         void Deletar(int codigo);
-        void Atualizar(Orcamento orcamento);
+        Orcamento Atualizar(Orcamento orcamento);
         Orcamento ObterPorCodigo(int codigo);
     }
 }

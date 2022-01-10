@@ -75,7 +75,7 @@ export class OrcamentoService
 
         if (os === null) return;
 
-        var orcamento: Orcamento = this.carregaDadosContrato(os);
+        var orcamento: Orcamento = await this.carregaDadosContrato(os);
         orcamento = this.carregaMateriais(os, orcamento);
         orcamento = this.carregaMaoDeObra(os, orcamento);
         orcamento = this.carregaDeslocamento(os, orcamento);
@@ -83,12 +83,13 @@ export class OrcamentoService
         return orcamento;
     }
 
-    private carregaDadosContrato(os: OrdemServico): Orcamento
+    private async carregaDadosContrato(os: OrdemServico): Promise<Orcamento>
     {
         var orcamento: Orcamento =
         {
             codigoOrdemServico: os?.codOS,
             codigoContrato: os?.codContrato,
+            codigoMotivo: 1,
             codigoPosto: os?.codPosto,
             codigoCliente: os?.codCliente,
             codigoFilial: os?.codFilial,
@@ -96,7 +97,6 @@ export class OrcamentoService
             codigoEquipamento: os?.codEquip,
             codigoSla: os?.equipamentoContrato?.codSLA,
             nomeContrato: os?.equipamentoContrato?.contrato?.nomeContrato,
-            numero: os?.equipamentoContrato?.contrato?.nroContrato,
             isMaterialEspecifico: os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica,
             detalhe: os?.relatoriosAtendimento.find(i => i.relatoSolucao !== null)?.relatoSolucao,
             valorIss: os?.filial.orcamentoISS?.valor,
@@ -104,9 +104,12 @@ export class OrcamentoService
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
-        // cria orcamento
+        var orc = (await this.criar(orcamento).toPromise());
+        debugger;
+        orc.numero = os.filial.nomeFilial + orc.codOrc;
+        orc = (await this.atualizar(orc).toPromise());
 
-        return orcamento;
+        return orc;
     }
 
     private carregaMateriais(os: OrdemServico, orcamento: Orcamento): Orcamento

@@ -19,7 +19,7 @@ export interface Orcamento
     descricaoOutroMotivo?: string;
     detalhe: string;
     nomeContrato: string;
-    numero: string;
+    numero?: string;
     data?: string;
     valorIss: number;
     valorTotal?: number;

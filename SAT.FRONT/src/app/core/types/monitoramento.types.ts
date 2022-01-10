@@ -1,6 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export class Monitoramento {
+export class Monitoramento
+{
     codLogAlerta: number;
     servidor: string;
     item: string;
@@ -15,16 +16,17 @@ export class Monitoramento {
     dataHoraCad: string;
 }
 
-export interface MonitoramentoData extends Meta {
+export interface MonitoramentoData extends Meta
+{
     items: Monitoramento[];
 };
 
-export interface MonitoramentoParameters extends QueryStringParameters {
+export interface MonitoramentoParameters extends QueryStringParameters
+{
     tipo?: string;
     servidor?: string;
     item?: string;
-    dataHoraProcessamentoInicio?: string;
-    dataHoraProcessamentoFim?: string;
+    dataHoraProcessamento?: string;
 };
 
 export const monitoramentoTipoConst = {

@@ -1,6 +1,5 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -14,20 +13,20 @@ namespace SAT.SERVICES.Services
         {
             this._MonitoramentoHistoricoRepository = MonitoramentoHistoricoRepository;
         }
-        
+
         public ListViewModel ObterPorParametros(MonitoramentoParameters parameters)
         {
-            var MonitoramentoHistoricos = _MonitoramentoHistoricoRepository.ObterPorParametros(parameters);
+            var historicos = _MonitoramentoHistoricoRepository.ObterPorParametros(parameters);
 
             return new ListViewModel
             {
-                Items = MonitoramentoHistoricos,
-                TotalCount = MonitoramentoHistoricos.TotalCount,
-                CurrentPage = MonitoramentoHistoricos.CurrentPage,
-                PageSize = MonitoramentoHistoricos.PageSize,
-                TotalPages = MonitoramentoHistoricos.TotalPages,
-                HasNext = MonitoramentoHistoricos.HasNext,
-                HasPrevious = MonitoramentoHistoricos.HasPrevious
+                Items = historicos,
+                TotalCount = historicos.TotalCount,
+                CurrentPage = historicos.CurrentPage,
+                PageSize = historicos.PageSize,
+                TotalPages = historicos.TotalPages,
+                HasNext = historicos.HasNext,
+                HasPrevious = historicos.HasPrevious
             };
         }
     }

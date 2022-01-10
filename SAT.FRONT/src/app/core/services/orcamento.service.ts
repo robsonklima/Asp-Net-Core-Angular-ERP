@@ -112,7 +112,9 @@ export class OrcamentoService
             detalhe: os?.relatoriosAtendimento?.find(i => i.relatoSolucao !== null)?.relatoSolucao ?? '',
             valorIss: os?.filial?.orcamentoISS?.valor,
             usuarioCadastro: this.userSession?.usuario?.codUsuario,
-            dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+            dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
+            data: moment().format('yyyy-MM-DD HH:mm:ss')
+
         }
 
         var orc = (await this.criar(orcamento).toPromise());

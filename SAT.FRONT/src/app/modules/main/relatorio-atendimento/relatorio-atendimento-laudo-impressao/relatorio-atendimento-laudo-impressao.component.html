@@ -148,13 +148,12 @@
                         </div>
 
                         <!-- FOTOS -->
-                        <div class="items-start justify-between" *ngIf="obterLaudoSituacaoFotos(i)">
-                            <div class="text-xl text-left font-medium mb-1">{{ 'FOTOS SITUAÇÃO ' + i+1 }}
+                        <div class="items-start grid grid-cols-12 justify-between" *ngIf="obterLaudoSituacaoFotos(i)">
+                            <div class="text-xl col-span-12 text-left font-medium mb-2">{{ 'FOTOS SITUAÇÃO ' + i+1 }}
                             </div>
-                            <div class="grid grid-cols-2 gap-x-1" *ngFor="let foto of obterLaudoSituacaoFotos(i)">
-                                <img class="object-cover h-56 min-w-full m-2"
+                            <div *ngFor="let foto of obterLaudoSituacaoFotos(i)" class="inline-flex col-span-6">
+                                <img class="inline-flex object-cover min-w-full h-48 col-span-6 m-1"
                                     [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto?.nomeFoto">
-
                             </div>
                         </div>
                     </div>
@@ -256,7 +255,7 @@
                     <div class="items-start grid grid-cols-12 justify-between">
                         <div class="text-xl col-span-12 text-left font-medium mb-2">ASSINATURA</div>
                         <div *ngFor="let foto of obterAssinaturas()" class="inline-flex col-span-6">
-                            <img class="inline-flex object-cover h-48 col-span-6 m-1"
+                            <img class="inline-flex object-cover min-w-full h-48 col-span-6 m-1"
                                 [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto?.nomeFoto">
                         </div>
                     </div>

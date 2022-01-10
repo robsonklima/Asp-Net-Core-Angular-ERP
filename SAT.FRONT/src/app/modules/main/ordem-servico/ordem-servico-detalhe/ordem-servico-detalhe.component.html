@@ -414,11 +414,20 @@
                                     *ngFor="let r of os.relatoriosAtendimento; let i=index;">
                                     <div class="flex items-center justify-between mt-5">
                                         <div class="text-xl font-medium">{{i+1}}&#xaa; RAT</div>
-                                        <button mat-icon-button
-                                            [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]">
-                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
-                                            </mat-icon>
-                                        </button>
+                                        <div>
+                                            <button mat-icon-button
+                                                [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
+                                                matTooltip="Editar RAT">
+                                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
+                                                </mat-icon>
+                                            </button>
+                                            <button mat-icon-button [routerLink]="['/relatorio-atendimento/form/' + codOS + '/' + r.codRAT + '/impressao-laudo/' +
+                                            r?.laudos[0]?.codLaudo]" *ngIf="r?.laudos?.length"
+                                                matTooltip="Visualizar laudo">
+                                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
                                         <div class="flex items-center justify-between py-3">

@@ -9,6 +9,8 @@ export class Monitoramento {
     emUso: number;
     total: number;
     disco: string;
+    status: string;
+    descricao: string;
     dataHoraProcessamento: string;
     dataHoraCad: string;
 }
@@ -25,11 +27,27 @@ export interface MonitoramentoParameters extends QueryStringParameters {
     dataHoraProcessamentoFim?: string;
 };
 
-export enum MonitoramentoTipoEnum {
-    SERVICO = "SERVICO",
-    INTEGRACAO = 'INTEGRACAO',
-    STORAGE = 'STORAGE',
-    MEMORY = 'MEMORY',
-    CPU = 'CPU',
-    CHAMADO = 'CHAMADO'
+export const monitoramentoTipoConst = {
+    SERVICO: "SERVICO",
+    INTEGRACAO: 'INTEGRACAO',
+    STORAGE: 'STORAGE',
+    MEMORY: 'MEMORY',
+    CPU: 'CPU',
+    CHAMADO: 'CHAMADO'
+}
+
+export const monitoramentoStatusConst = {
+    DANGER: "DANGER",
+    WARNING: "WARNING",
+    OK: "OK"
+}
+
+export const monitoramentoItemConst = {
+    SERVICOSATINTEGRACAOBRBV2: "ServicoSatIntegracaoBRBV2",
+    SERVICOSATINTEGRACAOMETROSP: 'ServicoSatIntegracaoMetroSP',
+    SERVICOSATDADOIMPORTACAO: 'ServicoSatDadoImportacao',
+    BANRISULENVIAEMAILSERVICE: 'BanrisulEnviaEmailService',
+    ANALISABLOQUEIOPONTO: 'Analisa Bloqueio Ponto',
+    ANALISAINCONSISTENCIAPONTO: 'Analisa Inconsistencia Ponto',
+    TICKETLOG: 'Ticket Log'
 }

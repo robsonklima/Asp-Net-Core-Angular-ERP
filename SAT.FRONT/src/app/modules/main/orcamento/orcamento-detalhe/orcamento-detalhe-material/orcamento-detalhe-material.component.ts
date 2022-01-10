@@ -120,8 +120,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
-      if (confirmacao)
-        console.log("oi");
+      
     });
   }
 }

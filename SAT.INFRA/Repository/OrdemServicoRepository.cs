@@ -149,6 +149,8 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.Laudos)
                         .ThenInclude(a => a.LaudoStatus)
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
+                .Include(os => os.Orcamentos)
+                    .ThenInclude(orc => orc.OrcamentoMotivo)
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
     }

@@ -138,6 +138,12 @@ namespace SAT.INFRA.Mapping
                .WithOne()
                .HasForeignKey(prop => prop.CodOS)
                .HasPrincipalKey(prop => prop.CodOS);
+
+            builder
+              .HasMany(prop => prop.Orcamentos)
+              .WithOne()
+              .HasForeignKey(prop => prop.CodigoOrdemServico)
+              .HasPrincipalKey(prop => prop.CodOS);
         }
     }
 }

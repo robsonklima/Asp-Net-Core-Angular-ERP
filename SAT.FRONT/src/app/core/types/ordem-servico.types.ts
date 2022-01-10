@@ -8,6 +8,7 @@ import { Filial } from "./filial.types";
 import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { Orcamento } from "./orcamento.types";
 import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
 import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
@@ -155,6 +156,7 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico[];
+    orcamentos?: Orcamento[];
 }
 
 export interface OrdemServicoData extends Meta

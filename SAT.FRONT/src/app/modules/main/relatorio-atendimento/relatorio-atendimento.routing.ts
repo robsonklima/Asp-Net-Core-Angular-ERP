@@ -16,7 +16,7 @@ export const relatorioAtendimentoRoutes: Route[] = [
         component: RelatorioAtendimentoFormComponent
     },
     {
-        path: 'form/:codOS/:codRAT/:codLaudo',
+        path: 'form/:codOS/:codRAT/impressao-laudo/:codLaudo',
         component: RelatorioAtendimentoLaudoImpressaoComponent
     }
 ];

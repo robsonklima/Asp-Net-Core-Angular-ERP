@@ -413,10 +413,10 @@
                                         value="this-year"
                                         #chartSelector="matButtonToggleGroup">
                                         <mat-button-toggle
-                                            *ngFor="let data of opcoesDatas"
+                                            *ngFor="let data of opcoesDatas; let i = index"
                                             (click)="pesquisarHistoricoPorData(data.data)"
                                             class="px-1.5 rounded-full overflow-hidden border-none font-medium">
-                                            {{ data.prompt }}
+                                            {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
                                         </mat-button-toggle>
                                     </mat-button-toggle-group>
                                     <div class="sm:hidden">

@@ -131,7 +131,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = true;
 
 		await this.obterOS();
-		await this.obterFotos();
+		await this.carregarFotos();
 		await this.obterAgendamentos();
 
 		this.isLoading = false;
@@ -158,7 +158,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		})
 	}
 
-	private async obterFotos()
+	private async carregarFotos()
 	{
 		this.os.fotos =
 			(await this._fotoService.obterPorParametros(
@@ -312,14 +312,14 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	getFotos(): Foto[]
+	obterFotos(): Foto[]
 	{
 		return Enumerable.from(this.os?.fotos)
 			.where(i => !i.modalidade.includes("LAUDO"))
 			.toArray();
 	}
 
-	getLaudos(): Foto[]
+	obterLaudos(): Foto[]
 	{
 		return Enumerable.from(this.os?.fotos)
 			.where(i => i.modalidade.includes("LAUDO"))

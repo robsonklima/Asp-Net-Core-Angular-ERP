@@ -519,35 +519,37 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab [disabled]="!getFotos().length">
+                        <mat-tab [disabled]="!obterLaudos().length && !obterFotos().length">
                             <ng-template matTabLabel>
-                                <span [class.opacity-50]="!getFotos().length">
+                                <span [class.opacity-50]="!obterLaudos().length">
                                     {{ t('fotos') }}
                                     <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="getFotos().length">
-                                        {{ getFotos().length }}
+                                        *ngIf="obterLaudos().length || obterFotos().length">
+                                        {{ obterLaudos().length + obterFotos().length }}
                                     </span>
                                 </span>
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <app-ordem-servico-fotos [fotos]="getFotos()"></app-ordem-servico-fotos>
-                            </ng-template>
-                        </mat-tab>
+                                <div class="grid grid-rows-2 w-full">
+                                    <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
+                                        <div class="w-full">
+                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">Fotos
+                                            </div>
+                                        </div>
 
-                        <mat-tab [disabled]="!getLaudos().length">
-                            <ng-template matTabLabel>
-                                <span [class.opacity-50]="!getLaudos().length">
-                                    {{ t('laudos') }}
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="getLaudos().length">
-                                        {{ getLaudos().length }}
-                                    </span>
-                                </span>
-                            </ng-template>
+                                        <app-ordem-servico-fotos [fotos]="obterFotos()"></app-ordem-servico-fotos>
 
-                            <ng-template matTabContent>
-                                <app-ordem-servico-fotos [fotos]="getLaudos()"></app-ordem-servico-fotos>
+                                    </div>
+
+                                    <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
+                                        <div class="w-full">
+                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">Laudos
+                                            </div>
+                                        </div>
+                                        <app-ordem-servico-fotos [fotos]="obterLaudos()"></app-ordem-servico-fotos>
+                                    </div>
+                                </div>
                             </ng-template>
                         </mat-tab>
 

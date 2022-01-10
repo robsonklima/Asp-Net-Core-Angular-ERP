@@ -1,6 +1,5 @@
 <div class="flex flex-wrap items-start w-full max-w-400 gap-6" *transloco="let t">
-    <fuse-card 
-        *ngFor="let foto of fotos"
+    <fuse-card *ngFor="let foto of fotos"
         class="flex flex-col max-w-80 w-full filter-article hover:opacity-80 cursor-pointer"
         (click)="ampliarFoto(foto)">
         <img class="object-cover h-48 w-full"
@@ -11,7 +10,7 @@
         </div>
     </fuse-card>
 
-    <div class="prose prose-sm max-w-3xl ml-5 mt-2" *ngIf="!fotos?.length">
+    <div class="prose prose-sm max-w-3xl" *ngIf=" !fotos?.length">
         <p>
             {{ t('nenhum registro encontrado') }}
         </p>

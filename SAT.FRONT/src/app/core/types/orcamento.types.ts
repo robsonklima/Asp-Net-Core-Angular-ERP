@@ -172,6 +172,7 @@ export interface OrcamentoDeslocamento
     latitudeDestino: string;
     longitudeDestino: string;
     dataCadastro: string;
+    data: string;
     usuarioCadastro: string;
 }
 

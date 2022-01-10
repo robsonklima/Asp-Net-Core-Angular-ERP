@@ -107,7 +107,7 @@ export interface OrcamentoMaterial
     dataCadastro: string;
     usuarioCadastro: string;
     valorIpi: number;
-    valorUnitarioFinanceiro?: number;
+    valorUnitarioFinanceiro: number;
     peca?: Peca;
 }
 

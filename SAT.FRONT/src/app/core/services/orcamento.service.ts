@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { appConfig as c } from 'app/core/config/app.config'
+import { appConfig, appConfig as c } from 'app/core/config/app.config'
 import { Orcamento, OrcamentoData, OrcamentoDeslocamento, OrcamentoMaoDeObra, OrcamentoMaterial, OrcamentoMotivoEnum, OrcamentoParameters } from '../types/orcamento.types';
 import { OrdemServicoService } from './ordem-servico.service';
 import { UserService } from '../user/user.service';
@@ -12,6 +12,7 @@ import { OrdemServico } from '../types/ordem-servico.types';
 import Enumerable from 'linq';
 import { ContratoServico } from '../types/contrato.types';
 import { TipoServicoEnum } from '../types/tipo-servico.types';
+import { Peca } from '../types/peca.types';
 
 @Injectable({
     providedIn: 'root'
@@ -90,6 +91,7 @@ export class OrcamentoService
             codigoOrdemServico: os?.codOS,
             codigoContrato: os?.codContrato,
             codigoMotivo: 1,
+            codigoStatus: 1,
             codigoPosto: os?.codPosto,
             codigoCliente: os?.codCliente,
             codigoFilial: os?.codFilial,
@@ -105,7 +107,6 @@ export class OrcamentoService
         }
 
         var orc = (await this.criar(orcamento).toPromise());
-        debugger;
         orc.numero = os.filial.nomeFilial + orc.codOrc;
         orc = (await this.atualizar(orc).toPromise());
 
@@ -121,11 +122,6 @@ export class OrcamentoService
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-        if (orcamento.isMaterialEspecifico === 1)
-        {
-
-        }
-
         detalhesPeca.forEach(dp =>
         {
             var material: OrcamentoMaterial =
@@ -135,7 +131,8 @@ export class OrcamentoService
                 codigoPeca: dp?.peca?.codPeca.toString(),
                 descricao: dp?.peca?.nomePeca,
                 quantidade: dp?.qtdePecas,
-                valorUnitario: dp?.peca?.valPeca,
+                valorUnitario: this.obterValorMaterial(orcamento, dp?.peca),
+                valorUnitarioFinanceiro: this.obterValorUnitarioFinanceiroMaterial(orcamento, dp?.peca),
                 valorIpi: dp?.peca?.valIPI,
                 usuarioCadastro: this.userSession?.usuario?.codUsuario,
                 dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
@@ -148,6 +145,29 @@ export class OrcamentoService
         orcamento.materiais = materiais;
 
         return orcamento;
+    }
+
+    obterValorMaterial(orcamento: Orcamento, peca: Peca)
+    {
+        if (peca.indValorFixo == 1)
+            return peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
+
+        return orcamento?.isMaterialEspecifico === 1 ?
+            peca?.clientePeca?.find(i => i.codCliente == orcamento?.codigoCliente && i?.codContrato == orcamento?.codigoContrato)?.valorUnitario :
+            ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
+    }
+
+    obterValorUnitarioFinanceiroMaterial(orcamento: Orcamento, peca: Peca)
+    {
+        if (orcamento.isMaterialEspecifico === 1)
+        {
+            if (peca?.valIPI <= 0 || peca?.valIPI === null)
+                return peca?.valPeca;
+
+            return peca?.valPeca / (1 + (peca?.valIPI / 100.0));
+        }
+
+        return (peca?.valPeca * 1.025) / appConfig.parametroReajusteValorOrcamento;
     }
 
     private carregaMaoDeObra(os: OrdemServico, orcamento: Orcamento): Orcamento

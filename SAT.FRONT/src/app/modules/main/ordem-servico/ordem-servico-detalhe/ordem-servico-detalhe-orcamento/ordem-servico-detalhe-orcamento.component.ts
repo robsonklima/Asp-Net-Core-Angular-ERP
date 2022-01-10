@@ -1,5 +1,6 @@
 import { Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
@@ -33,7 +34,7 @@ export class OrdemServicoDetalheOrcamentoComponent
   @Input() orcamentos: Orcamento[] = [];
   @Input() codOS;
 
-  constructor (private _dialog: MatDialog, private _orcamentoService: OrcamentoService) { }
+  constructor (private _dialog: MatDialog, private _orcamentoService: OrcamentoService, private _activatedRoute: ActivatedRoute, private _router: Router) { }
 
   criarNovoOrcamento()
   {
@@ -54,7 +55,7 @@ export class OrdemServicoDetalheOrcamentoComponent
       {
         this._orcamentoService.criarNovoOrcamento(this.codOS).then(orc =>
         {
-          console.log(orc)
+          this._router.navigateByUrl('orcamento/detalhe/' + orc?.codOrc);
         });
       }
     });

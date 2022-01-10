@@ -13,13 +13,13 @@ namespace SAT.MODELS.Entities
         public int? CodEquip { get; set; }
         public decimal Valor { get; set; }
         public string CodUsuarioCad { get; set; }
-        public DateTime? DataHoraCad { get; set; }
+        public string DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
-        public DateTime? DataHoraManut { get; set; }
-        public string CodUsuarioCadastroDel { get; set; }
-        public DateTime? DataHoraCadastroDel { get; set; }
-        public string CodUsuarioManutencaoDel { get; set; }
-        public DateTime? DataHoraManutencaoDel { get; set; }
+        public string DataHoraManut { get; set; }
+        public string CodUsuarioCadastro_DEL { get; set; }
+        public string DataHoraCadastro_DEL { get; set; }
+        public string CodUsuarioManutencao_DEL { get; set; }
+        public string DataHoraManutencao_DEL { get; set; }
         public TipoServico TipoServico { get; set; }
     }
 }

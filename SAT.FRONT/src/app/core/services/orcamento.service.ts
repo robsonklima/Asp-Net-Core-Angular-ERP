@@ -8,7 +8,7 @@ import { OrdemServicoService } from './ordem-servico.service';
 import { UserService } from '../user/user.service';
 import { UserSession } from '../user/user.types';
 import moment from 'moment';
-import { OrdemServico } from '../types/ordem-servico.types';
+import { OrdemServico, OrdemServicoIncludeEnum } from '../types/ordem-servico.types';
 import Enumerable from 'linq';
 import { ContratoServico } from '../types/contrato.types';
 import { TipoServicoEnum } from '../types/tipo-servico.types';
@@ -21,7 +21,10 @@ export class OrcamentoService
 {
     userSession: UserSession;
 
-    constructor (private http: HttpClient, private _osService: OrdemServicoService, private _userService: UserService) { }
+    constructor (private http: HttpClient, private _osService: OrdemServicoService, private _userService: UserService) 
+    {
+        this.userSession = JSON.parse(this._userService.userSession);
+    }
 
     obterPorParametros(parameters: OrcamentoParameters): Observable<OrcamentoData>
     {
@@ -72,7 +75,11 @@ export class OrcamentoService
 
     async criarNovoOrcamento(codOS: number)
     {
-        var os = (await this._osService.obterPorCodigo(codOS).toPromise());
+        var os = (await this._osService.obterPorParametros(
+            {
+                codOS: codOS.toString(),
+                include: OrdemServicoIncludeEnum.OS_ORCAMENTO
+            }).toPromise()).items.shift();
 
         if (os === null) return;
 
@@ -80,8 +87,10 @@ export class OrcamentoService
         orcamento = this.carregaMateriais(os, orcamento);
         orcamento = this.carregaMaoDeObra(os, orcamento);
         orcamento = this.carregaDeslocamento(os, orcamento);
+        orcamento = this.calcularTotal(orcamento);
 
-        return orcamento;
+        var orc = (await this.atualizar(orcamento).toPromise());
+        return orc;
     }
 
     private async carregaDadosContrato(os: OrdemServico): Promise<Orcamento>
@@ -100,14 +109,14 @@ export class OrcamentoService
             codigoSla: os?.equipamentoContrato?.codSLA,
             nomeContrato: os?.equipamentoContrato?.contrato?.nomeContrato,
             isMaterialEspecifico: os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica,
-            detalhe: os?.relatoriosAtendimento.find(i => i.relatoSolucao !== null)?.relatoSolucao,
-            valorIss: os?.filial.orcamentoISS?.valor,
+            detalhe: os?.relatoriosAtendimento?.find(i => i.relatoSolucao !== null)?.relatoSolucao ?? '',
+            valorIss: os?.filial?.orcamentoISS?.valor,
             usuarioCadastro: this.userSession?.usuario?.codUsuario,
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
         var orc = (await this.criar(orcamento).toPromise());
-        orc.numero = os.filial.nomeFilial + orc.codOrc;
+        orc.numero = os?.filial?.nomeFilial + orc?.codOrc;
         orc = (await this.atualizar(orc).toPromise());
 
         return orc;
@@ -138,6 +147,8 @@ export class OrcamentoService
                 dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
             }
 
+            material.valorTotal = (material.quantidade * material.valorUnitario) - material.valorDesconto;
+
             // cria material
             materiais.push(material);
         });
@@ -147,9 +158,9 @@ export class OrcamentoService
         return orcamento;
     }
 
-    obterValorMaterial(orcamento: Orcamento, peca: Peca)
+    private obterValorMaterial(orcamento: Orcamento, peca: Peca)
     {
-        if (peca.indValorFixo == 1)
+        if (peca?.indValorFixo === 1)
             return peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
 
         return orcamento?.isMaterialEspecifico === 1 ?
@@ -157,7 +168,7 @@ export class OrcamentoService
             ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
     }
 
-    obterValorUnitarioFinanceiroMaterial(orcamento: Orcamento, peca: Peca)
+    private obterValorUnitarioFinanceiroMaterial(orcamento: Orcamento, peca: Peca)
     {
         if (orcamento.isMaterialEspecifico === 1)
         {
@@ -174,7 +185,9 @@ export class OrcamentoService
     {
         var maoDeObra: OrcamentoMaoDeObra;
 
-        var codServico: number = orcamento?.codigoMotivo != OrcamentoMotivoEnum.INSTALACAO_DESINSTACALAO ? TipoServicoEnum.ATIVACAO : TipoServicoEnum.HORA_TECNICA;
+        var codServico: number =
+            orcamento?.codigoMotivo == OrcamentoMotivoEnum.INSTALACAO_DESINSTACALAO ?
+                TipoServicoEnum.ATIVACAO : TipoServicoEnum.HORA_TECNICA;
 
         var contratoServico: ContratoServico = os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
             i.codEquip == orcamento?.codigoEquipamento &&
@@ -185,9 +198,12 @@ export class OrcamentoService
         {
             codOrc: orcamento?.codOrc,
             valorHoraTecnica: contratoServico?.valor,
+            previsaoHoras: 1,
             usuarioCadastro: this.userSession?.usuario.codUsuario,
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
+
+        maoDeObra.valorTotal = maoDeObra?.previsaoHoras * maoDeObra?.valorHoraTecnica;
 
         // cria mao de obra
         orcamento.maoDeObra = maoDeObra;
@@ -222,12 +238,31 @@ export class OrcamentoService
             longitudeOrigem: longOrigem,
             latitudeDestino: latDestino,
             longitudeDestino: longDestino,
+            quantidadeKm: 0,
             usuarioCadastro: this.userSession?.usuario.codUsuario,
-            dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+            dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
+            data: moment().format('yyyy-MM-DD HH:mm:ss')
         }
+
+        deslocamento.valorTotalKmRodado = deslocamento.quantidadeKm * deslocamento.valorHoraDeslocamento;
+        deslocamento.quantidadeHoraCadaSessentaKm = deslocamento.quantidadeKm / 65.0;
+        deslocamento.valorTotalKmDeslocamento = deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm;
 
         // cria deslocamento
         orcamento.orcamentoDeslocamento = deslocamento;
+
+        return orcamento;
+    }
+
+    private calcularTotal(orcamento: Orcamento): Orcamento
+    {
+        orcamento.valorTotal =
+            (Enumerable.from(orcamento?.materiais).sum(i => i?.valorTotal) +
+                orcamento?.maoDeObra?.valorTotal +
+                orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento) ?? 0;
+
+        orcamento.valorTotalDesconto =
+            Enumerable.from(orcamento.descontos).sum(i => i.valorTotal) ?? 0;
 
         return orcamento;
     }

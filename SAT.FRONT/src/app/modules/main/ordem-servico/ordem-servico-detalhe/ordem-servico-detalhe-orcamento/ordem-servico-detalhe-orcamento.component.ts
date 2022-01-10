@@ -1,6 +1,9 @@
-import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
   selector: 'app-ordem-servico-detalhe-orcamento',
@@ -23,16 +26,40 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoDetalheOrcamentoComponent implements OnInit
+export class OrdemServicoDetalheOrcamentoComponent
 {
 
   isLoading: boolean = false;
   @Input() orcamentos: Orcamento[] = [];
+  @Input() codOS;
 
-  constructor () { }
+  constructor (private _dialog: MatDialog, private _orcamentoService: OrcamentoService) { }
 
-  ngOnInit(): void
+  criarNovoOrcamento()
   {
-  }
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja criar um novo orçamento?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+        this._orcamentoService.criarNovoOrcamento(this.codOS).then(orc =>
+        {
+          console.log(orc)
+
+        });
+
+      }
+    });
+
+  }
 }

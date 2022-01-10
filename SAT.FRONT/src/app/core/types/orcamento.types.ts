@@ -4,9 +4,9 @@ import { Peca } from "./peca.types";
 
 export interface Orcamento
 {
-    codOrc: number;
-    codigoMotivo: number;
-    codigoStatus: number;
+    codOrc?: number;
+    codigoMotivo?: number;
+    codigoStatus?: number;
     codigoSla: number;
     codigoEquipamento: number;
     codigoCliente: number;
@@ -16,18 +16,18 @@ export interface Orcamento
     isMaterialEspecifico: number;
     codigoOrdemServico: number;
     codigoEquipamentoContrato: number;
-    descricaoOutroMotivo: string;
+    descricaoOutroMotivo?: string;
     detalhe: string;
     nomeContrato: string;
     numero: string;
-    data: string;
+    data?: string;
     valorIss: number;
-    valorTotal: number;
-    valorTotalDesconto: number;
-    dataCadastro: string;
-    usuarioCadastro: string;
-    dataEnvioAprovacao: string;
-    dataAprovacaoCliente: string;
+    valorTotal?: number;
+    valorTotalDesconto?: number;
+    dataCadastro?: string;
+    usuarioCadastro?: string;
+    dataEnvioAprovacao?: string;
+    dataAprovacaoCliente?: string;
     enderecoFaturamentoNF?: EnderecoFaturamentoNF;
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];
@@ -36,12 +36,18 @@ export interface Orcamento
     descontos?: OrcamentoDesconto[];
     orcamentoStatus?: OrcamentoStatus;
     orcamentoDeslocamento?: OrcamentoDeslocamento;
+    orcamentoISS?: OrcamentoISS;
 }
 
 export interface OrcamentoMotivo
 {
     codOrcMotivo: number;
     descricao: string;
+}
+
+export enum OrcamentoMotivoEnum
+{
+    INSTALACAO_DESINSTACALAO = 13
 }
 
 export interface EnderecoFaturamentoNF
@@ -89,30 +95,30 @@ export interface EnderecoFaturamentoNF
 
 export interface OrcamentoMaterial
 {
-    codOrcMaterial: number;
+    codOrcMaterial?: number;
     codOrc: number;
     codigoMagnus: string;
     codigoPeca: string;
     descricao: string;
     valorUnitario: number;
-    valorDesconto: number;
-    valorTotal: number;
+    valorDesconto?: number;
+    valorTotal?: number;
     quantidade: number;
     dataCadastro: string;
     usuarioCadastro: string;
     valorIpi: number;
-    valorUnitarioFinanceiro: number;
+    valorUnitarioFinanceiro?: number;
     peca?: Peca;
 }
 
 export interface OrcamentoMaoDeObra
 {
-    codOrcMaoObra: number;
+    codOrcMaoObra?: number;
     codOrc: number;
-    previsaoHoras: number;
+    previsaoHoras?: number;
     valorHoraTecnica: number;
-    valorTotal: number;
-    redutor: number;
+    valorTotal?: number;
+    redutor?: number;
     dataCadastro: string;
     usuarioCadastro: string;
 }
@@ -153,20 +159,27 @@ export interface OrcamentoStatus
 
 export interface OrcamentoDeslocamento
 {
-    codOrcDeslocamento: number;
+    codOrcDeslocamento?: number;
     codOrc: number;
-    quantidadeHoraCadaSessentaKm: number;
+    quantidadeHoraCadaSessentaKm?: number;
     valorUnitarioKmRodado: number;
-    quantidadeKm: number;
-    valorTotalKmRodado: number;
-    valorTotalKmDeslocamento: number;
+    quantidadeKm?: number;
+    valorTotalKmRodado?: number;
+    valorTotalKmDeslocamento?: number;
     valorHoraDeslocamento: number;
-    latitudeOrigem: number;
-    longitudeOrigem: number;
-    latitudeDestino: number;
-    longitudeDestino: number;
+    latitudeOrigem: string;
+    longitudeOrigem: string;
+    latitudeDestino: string;
+    longitudeDestino: string;
     dataCadastro: string;
     usuarioCadastro: string;
+}
+
+export interface OrcamentoISS
+{
+    codOrcIss: number;
+    codigoFilial: number;
+    valor: number;
 }
 
 export interface OrcamentoData extends Meta

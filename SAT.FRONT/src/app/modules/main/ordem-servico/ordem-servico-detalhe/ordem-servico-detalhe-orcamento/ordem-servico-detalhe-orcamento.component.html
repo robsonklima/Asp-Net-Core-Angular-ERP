@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('orcamentos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')">
+            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarNovoOrcamento()">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>
@@ -23,15 +23,13 @@
                                 <div> {{ t("valor desconto") }} </div>
                                 <div> {{ t("valor total") }} </div>
                             </div>
-
-                            <ng-container *ngFor="let orcamento of orcamentos" id="editableList">
+                            <ng-container *ngFor="let orcamento of orcamentos">
                                 <a [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc">
-                                    <div class="list-grid-orcamentos grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white
-								hover:bg-gray-100">
+                                    <div
+                                        class="list-grid-orcamentos grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
                                         <div> {{ orcamento?.numero }} </div>
                                         <div> {{ orcamento?.orcamentoMotivo?.descricao }} </div>
-                                        <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
-                                        </div>
+                                        <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}</div>
                                         <div> {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }} </div>
                                     </div>
                                 </a>
@@ -43,7 +41,6 @@
                         </div>
                     </ng-container>
                 </div>
-
             </div>
         </div>
     </div>

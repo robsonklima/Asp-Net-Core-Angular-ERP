@@ -1,10 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace SAT.MODELS.Entities
 {
     public class ContratoServico
     {
-        [Key]
         public int CodContratoServico { get; set; }
         public int? CodContrato { get; set; }
         public int CodServico { get; set; }
@@ -14,12 +13,13 @@ namespace SAT.MODELS.Entities
         public int? CodEquip { get; set; }
         public decimal Valor { get; set; }
         public string CodUsuarioCad { get; set; }
-        public string DataHoraCad { get; set; }
+        public DateTime? DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
-        public string DataHoraManut { get; set; }
+        public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioCadastroDel { get; set; }
-        public string DataHoraCadastroDel { get; set; }
+        public DateTime? DataHoraCadastroDel { get; set; }
         public string CodUsuarioManutencaoDel { get; set; }
-        public string DataHoraManutencaoDel { get; set; }
+        public DateTime? DataHoraManutencaoDel { get; set; }
+        public TipoServico TipoServico { get; set; }
     }
 }

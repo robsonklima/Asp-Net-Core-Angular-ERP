@@ -168,6 +168,11 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoDeslocamento>(new OrcamentoDeslocamentoMap().Configure);
             modelBuilder.Entity<Monitoramento>(new MonitoramentoMap().Configure);
             modelBuilder.Entity<MonitoramentoHistorico>(new MonitoramentoHistoricoMap().Configure);
+            modelBuilder.Entity<OrcamentoISS>(new OrcamentoISSMap().Configure);
+            modelBuilder.Entity<Filial>(new FilialMap().Configure);
+            modelBuilder.Entity<Contrato>(new ContratoMap().Configure);
+            modelBuilder.Entity<ContratoServico>(new ContratoServicoMap().Configure);
+
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -179,18 +184,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasOne<Navegacao>(nc => nc.Navegacao)
                         .WithMany(nc => nc.NavegacoesConfiguracao);
-
-            modelBuilder.Entity<OrdemServico>()
-                        .HasMany(ra => ra.AgendaTecnico)
-                        .WithOne(ra => ra.OrdemServico)
-                        .HasForeignKey("CodOS")
-                        .HasPrincipalKey("CodOS");
-
-            modelBuilder.Entity<OrdemServico>()
-                .HasKey(p => p.CodOS);
-
-            modelBuilder.Entity<Tecnico>()
-                        .HasMany<OrdemServico>(os => os.OrdensServico);
 
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
 import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -13,7 +14,15 @@ import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.compo
 
 @Component({
   selector: 'app-orcamento-detalhes',
-  templateUrl: './orcamento-detalhe.component.html'
+  templateUrl: './orcamento-detalhe.component.html',
+  providers: [
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt'
+    }
+  ],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
 export class OrcamentoDetalheComponent implements OnInit
 {
@@ -59,7 +68,6 @@ export class OrcamentoDetalheComponent implements OnInit
 
   private obterEnderecos()
   {
-
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,

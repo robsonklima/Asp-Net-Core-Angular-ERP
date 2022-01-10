@@ -257,7 +257,7 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     private obterOpcoesDatas()
     {
-        for (let i = 4; i >= 0; i--)
+        for (let i = 2; i >= 0; i--)
         {
             this.opcoesDatas.push({
                 data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),

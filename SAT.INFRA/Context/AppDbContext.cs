@@ -173,7 +173,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Filial>(new FilialMap().Configure);
             modelBuilder.Entity<Contrato>(new ContratoMap().Configure);
             modelBuilder.Entity<ContratoServico>(new ContratoServicoMap().Configure);
-
+            modelBuilder.Entity<Peca>(new PecaMap().Configure);
+            modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
+            modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

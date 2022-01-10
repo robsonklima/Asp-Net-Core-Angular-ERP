@@ -128,6 +128,12 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                                 .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
                                     .ThenInclude(rat => rat.Peca)
+                                        .ThenInclude(peca => peca.ClientePeca)
+                    .Include(os => os.RelatoriosAtendimento)
+                        .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
+                                .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
+                                    .ThenInclude(rat => rat.Peca)
+                                        .ThenInclude(peca => peca.ClientePecaGenerica)
                     .Include(os => os.Orcamentos)
                         .ThenInclude(orc => orc.OrcamentoMotivo);
                     break;

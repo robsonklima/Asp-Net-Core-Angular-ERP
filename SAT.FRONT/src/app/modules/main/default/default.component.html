@@ -131,6 +131,11 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">{{ monitoramento.item }}</div>
+
+                                                <div class="text-xs" *ngIf="monitoramento.descricao">
+                                                    {{ monitoramento.descricao }}
+                                                </div>
+
                                                 <div
                                                     class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                                                     <ng-container>
@@ -202,6 +207,11 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">{{ monitoramento.item }}</div>
+
+                                                <div class="text-xs" *ngIf="monitoramento.descricao">
+                                                    {{ monitoramento.descricao }}
+                                                </div>
+
                                                 <div
                                                     class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                                                     <ng-container>

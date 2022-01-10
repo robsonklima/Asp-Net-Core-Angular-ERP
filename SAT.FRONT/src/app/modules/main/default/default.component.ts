@@ -76,7 +76,8 @@ export class DefaultComponent implements OnInit, OnDestroy
             }).subscribe((data) => {
                 this.listaMonitoramento = data.items;
                 for (let i = 0; i < data.items.length; i++) {
-                    this.listaMonitoramento[i].status = this.obterStatusMonitoramento(this.listaMonitoramento[i]);
+                    this.listaMonitoramento[i].status = this._monitoramentoService.obterStatus(this.listaMonitoramento[i]);
+                    this.listaMonitoramento[i].descricao = this._monitoramentoService.obterDescricao(this.listaMonitoramento[i]);
                 }
                 resolve(data);
             }, () => {
@@ -120,34 +121,6 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     filtrarMonitoramento(tipo: string) {
         return this.listaMonitoramento.filter(m => m.tipo == tipo)
-    }
-
-    obterStatusMonitoramento(monitoramento: Monitoramento): string {
-        const qtdHorasOciosidade = moment().diff(moment(monitoramento.dataHoraProcessamento), 'hours');
-
-        switch (monitoramento.tipo) {
-            case 'CHAMADO':
-                if (qtdHorasOciosidade >= 3)
-                    return monitoramentoStatusConst.DANGER;
-
-                if (qtdHorasOciosidade > 1 && qtdHorasOciosidade < 3)
-                    return monitoramentoStatusConst.WARNING;
-
-                return monitoramentoStatusConst.OK;        
-            case 'STORAGE':
-                if (((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30)
-                    return monitoramentoStatusConst.DANGER;
-
-                return monitoramentoStatusConst.OK;
-            
-            case 'MEMORY':
-                if (((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100 <= 30)
-                    return monitoramentoStatusConst.DANGER;
-
-                return monitoramentoStatusConst.OK;
-            default:
-                return monitoramentoStatusConst.OK;
-        }
     }
 
     private prepararDadosGraficos()

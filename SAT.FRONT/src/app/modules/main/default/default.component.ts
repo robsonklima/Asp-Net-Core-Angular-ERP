@@ -229,14 +229,14 @@ export class DefaultComponent implements OnInit, OnDestroy
                 blur: 10,
                 opacity: 0.2
               },
+              zoom: {
+                  enabled: false,
+              },
               toolbar: {
-                show: true
+                show: false
               }
             },
             colors: ["#77B6EA", "#00796B"],
-            dataLabels: {
-              enabled: false
-            },
             stroke: {
               curve: "smooth"
             },
@@ -248,7 +248,7 @@ export class DefaultComponent implements OnInit, OnDestroy
               }
             },
             markers: {
-              size: 1
+              size: 0
             },
             xaxis: {
               categories: this.historico.labels,

@@ -26,7 +26,6 @@ import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.compo
 })
 export class OrcamentoDetalheComponent implements OnInit
 {
-
   codOrc: number;
   orcamento: Orcamento;
   os: OrdemServico;

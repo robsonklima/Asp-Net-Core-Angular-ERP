@@ -50,6 +50,15 @@ export enum OrcamentoMotivoEnum
     INSTALACAO_DESINSTACALAO = 13
 }
 
+export interface OrcamentoMotivoData extends Meta
+{
+    items: OrcamentoMotivo[];
+};
+
+export interface OrcamentoMotivoParameters extends QueryStringParameters
+{
+};
+
 export interface EnderecoFaturamentoNF
 {
     codLocalEnvioNFFaturamento: number;
@@ -156,6 +165,15 @@ export interface OrcamentoStatus
     codOrcStatus: number;
     nome: string;
 }
+
+export interface OrcamentoStatusData extends Meta
+{
+    items: OrcamentoStatus[];
+};
+
+export interface OrcamentoStatusParameters extends QueryStringParameters
+{
+};
 
 export interface OrcamentoDeslocamento
 {

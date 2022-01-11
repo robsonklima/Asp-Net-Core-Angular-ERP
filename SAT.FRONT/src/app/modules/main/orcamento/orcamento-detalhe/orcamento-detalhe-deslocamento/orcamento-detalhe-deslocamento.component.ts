@@ -59,12 +59,12 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
 
   isEqual(): boolean
   {
-    return isEqual(this.oldItem.quantidadeKm.toString(), this.deslocamento.quantidadeKm.toString());
+    return isEqual(this.oldItem?.quantidadeKm?.toString(), this.deslocamento?.quantidadeKm?.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.deslocamento.quantidadeKm < 0 || this.deslocamento.quantidadeKm == null)
+    if (!this.deslocamento || this.deslocamento?.quantidadeKm < 0 || !this.deslocamento?.quantidadeKm)
       return true;
 
     return false;

@@ -27,29 +27,5 @@ namespace SAT.SERVICES.Services
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
-
-        public bool IsTokenValido(string key, string issuer, string token)
-        {
-            var mySecret = Encoding.UTF8.GetBytes(key);
-            var mySecurityKey = new SymmetricSecurityKey(mySecret);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            try
-            {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = issuer,
-                    IssuerSigningKey = mySecurityKey,
-                }, out SecurityToken validatedToken);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }

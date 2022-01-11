@@ -45,6 +45,9 @@ namespace SAT.SERVICES.Services
             if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
 
+            usuarioLogado.UltimoAcesso = DateTime.Now;
+            _usuarioRepo.Atualizar(usuarioLogado);
+            
             return new UsuarioLoginViewModel()
             {
                 Usuario = usuarioLogado,

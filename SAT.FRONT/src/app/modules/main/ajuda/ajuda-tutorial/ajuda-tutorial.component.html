@@ -8,54 +8,18 @@
                 <div class="mt-12 sm:mt-16 text-3xl font-bold leading-tight tracking-tight">Primeiros Passos</div>
                 <mat-accordion class="max-w-4xl mt-8">
                     <ng-container>
-
-                        <mat-expansion-panel>
+                        <mat-expansion-panel *ngFor="let tutorial of tutoriais">
                             <mat-expansion-panel-header [collapsedHeight]="'56px'">
-                                <mat-panel-title class="font-medium leading-tight">01. Logando no sistema</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="col-md-12 text-center text-default">
-                                <video oncontextmenu="return false;" class='min-w-full min-h-full' controls
-                                    controlsList="nodownload">
-                                    <source src="assets/videos/01-logando-no-sistema.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header [collapsedHeight]="'56px'">
-                                <mat-panel-title class="font-medium leading-tight">02. Listando chamados
+                                <mat-panel-title class="font-medium leading-tight">
+                                    <span class="mr-2 text-3xl leading-5">{{ tutorial.id }}</span>
+                                    <span class="leading-5">{{ tutorial.titulo }}</span>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                            <div class="col-md-12 text-center text-default">
-                                <video oncontextmenu="return false;" class='min-w-full min-h-full' controls
-                                    controlsList="nodownload">
-                                    <source src="assets/videos/02-lista-chamados.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </mat-expansion-panel>
 
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header [collapsedHeight]="'56px'">
-                                <mat-panel-title class="font-medium leading-tight">03. Filtrando a lista de chamados
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
                             <div class="col-md-12 text-center text-default">
                                 <video oncontextmenu="return false;" class='min-w-full min-h-full' controls
                                     controlsList="nodownload">
-                                    <source src="assets/videos/03-lista-chamados-filtro.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header [collapsedHeight]="'56px'">
-                                <mat-panel-title class="font-medium leading-tight">04. Exportando a lista de chamados
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="col-md-12 text-center text-default">
-                                <video oncontextmenu="return false;" class='min-w-full min-h-full' controls
-                                    controlsList="nodownload">
-                                    <source src="assets/videos/04-lista-chamados-exportacao.mp4" type="video/mp4">
+                                    <source [src]="'assets/videos/' + tutorial.url" type="video/mp4">
                                 </video>
                             </div>
                         </mat-expansion-panel>

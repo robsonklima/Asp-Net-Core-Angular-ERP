@@ -10,7 +10,6 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("Usuario");
             builder.HasKey(prop => prop.CodUsuario);
-            builder.Ignore(prop => prop.Hash);
 
             builder
                 .HasOne(p => p.Filial)

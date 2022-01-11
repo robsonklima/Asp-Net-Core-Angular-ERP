@@ -10,6 +10,7 @@ import { Monitoramento, monitoramentoTipoConst, monitoramentoStatusConst } from 
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import moment from 'moment';
 import _ from 'lodash';
+import { SpeedTestService } from 'ng-speed-test';
 
 @Component({
     selector: 'default',
@@ -31,10 +32,11 @@ export class DefaultComponent implements OnInit, OnDestroy
     dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
     protected _onDestroy = new Subject<void>();
 
-    constructor (
+    constructor(
         private _userService: UserService,
         private _monitoramentoService: MonitoramentoService,
-        private _monitoramentoHistoricoService: MonitoramentoHistoricoService
+        private _monitoramentoHistoricoService: MonitoramentoHistoricoService,
+        private speedTestService: SpeedTestService
     )
     {
         this.sessionData = JSON.parse(this._userService.userSession);
@@ -44,13 +46,17 @@ export class DefaultComponent implements OnInit, OnDestroy
     {
         this.obterOpcoesDatas();
 
-        interval(2 * 60 * 1000)
+        interval(3 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
             )
             .subscribe(() =>
             {
+                this.speedTestService.getMbps().subscribe((speed) => {
+                    console.log('Your speed is ' + speed);
+                });
+
                 this.obterDados();
             });
     }
@@ -274,6 +280,18 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadePorExtenso(dataHora: string): string
     {
         return moment(dataHora).locale('pt').fromNow();
+    }
+
+    checarPermissao(tipo: string=''): boolean {
+        switch (tipo) {
+            case 'SERVICOS':
+            case 'SERVIDORES':
+            case 'HISTORICO':
+                if (this.sessionData.usuario.codPerfil === 29 || this.sessionData.usuario.codPerfil === 3)
+                    return true;        
+            default:
+                return false;
+        }
     }
 
     ngOnDestroy()

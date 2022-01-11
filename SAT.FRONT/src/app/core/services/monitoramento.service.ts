@@ -81,6 +81,15 @@ export class MonitoramentoService
           return status.DANGER;
 
         return status.OK;
+
+      case tipo.CONEXAO:
+        if (m.ativo)
+          return status.OK;
+        
+        if (!m.ativo)
+          return status.DANGER;
+
+        return status.OK;
       default:
         return status.OK;
     }
@@ -101,7 +110,7 @@ export class MonitoramentoService
       case item.ANALISAINCONSISTENCIAPONTO:
         return 'Rotina checagem de inconsistências dos pontos registrados';
       case item.TICKETLOG:
-        return 'Rotina que integra os combustíveis aprovados com o terceiro';
+        return 'Rotina que integra os combustíveis aprovados no SAT com empresa terceira';
     
       default:
         return null;

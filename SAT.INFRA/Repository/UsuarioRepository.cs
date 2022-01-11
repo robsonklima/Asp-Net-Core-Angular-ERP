@@ -140,5 +140,18 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.FiltroUsuario)
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
+
+        public void Atualizar(Usuario usuario)
+        {
+            _context.ChangeTracker.Clear();
+
+            Usuario u = _context.Usuario.FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
+
+            if (u != null)
+            {
+                _context.Entry(u).CurrentValues.SetValues(usuario);
+                _context.SaveChanges();
+            }
+        }
     }
 }

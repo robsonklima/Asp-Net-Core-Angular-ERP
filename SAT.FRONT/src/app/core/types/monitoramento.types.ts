@@ -12,6 +12,7 @@ export class Monitoramento
     disco: string;
     status: string;
     descricao: string;
+    ativo: number;
     dataHoraProcessamento: string;
     dataHoraCad: string;
 }
@@ -35,7 +36,8 @@ export const monitoramentoTipoConst = {
     STORAGE: 'STORAGE',
     MEMORY: 'MEMORY',
     CPU: 'CPU',
-    CHAMADO: 'CHAMADO'
+    CHAMADO: 'CHAMADO',
+    CONEXAO: 'CONEXAO'
 }
 
 export const monitoramentoStatusConst = {

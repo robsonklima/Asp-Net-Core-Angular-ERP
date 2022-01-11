@@ -56,9 +56,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 500:
-                        this.enviarEmail(error);
+                        if (!error.url.includes('api/Usuario')) {
+                            this.enviarEmail(error);
                     
-                        this._router.navigate(['500-internal-server-error']);
+                            this._router.navigate(['500-internal-server-error']);
+                        }
+                        
                         break;
 
                     default:

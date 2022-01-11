@@ -46,8 +46,7 @@ export class NotificationsComponent implements OnInit, OnDestroy
     {
         interval(5 * 60 * 1000)
             .pipe(startWith(0))
-            .subscribe(() =>
-            {
+            .subscribe(() => {
                 this.obterNotificacoes();
             });
     }

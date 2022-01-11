@@ -14,6 +14,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SpeedTestModule } from 'ng-speed-test';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         NgApexchartsModule,
         MatIconModule,
         MatTooltipModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        SpeedTestModule
     ]
 })
 export class DefaultModule {

@@ -238,10 +238,6 @@ namespace SAT.API
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
 
-            // Utils Services
-            services.AddSingleton<ILoggerService, LoggerService>();
-            services.AddTransient<ITokenService, TokenService>();
-
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -300,10 +296,6 @@ namespace SAT.API
                     context.Request.Headers.Add("Authorization", "Bearer " + token);
                 }
                 await next();
-            });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
             });
             app.UseEndpoints(endpoints =>
             {

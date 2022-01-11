@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
+import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
     selector       : 'user',
@@ -23,6 +24,7 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _router: Router,
         private _userService: UserService,
+        private _authService: AuthService
     )
     {
         this.usuario = this._userService.get();
@@ -41,7 +43,8 @@ export class UserComponent implements OnInit, OnDestroy
     
     signOut(): void
     {
-        this._router.navigate(['/sign-out']);
+        this._authService.signOut();
+        this._router.navigate(['/sign-in']);
     }
 
     navegarParaPerfil(): void {

@@ -9,57 +9,45 @@ import { TipoServicoEnum } from "app/core/types/tipo-servico.types";
 import { UserSession } from "app/core/user/user.types";
 import Enumerable from "linq";
 import moment from "moment";
-import { IOrcamentoOSBuilder, ISpecifyBaseOrcamentoOSBuilder, ISpecifyDeslocamentoOrcamentoOSBuilder, ISpecifyMaoDeObraOrcamentoOSBuilder, ISpecifyMateriaisOrcamentoOSBuilder } from "../interfaces/iorcamento-os-builder";
+import { IOrcamentoOSBuilder, ISpecifyDeslocamentoOrcamentoOSBuilder, ISpecifyMaoDeObraOrcamentoOSBuilder, ISpecifyMateriaisOrcamentoOSBuilder } from "../interfaces/iorcamento-os.builder";
+import { OrcamentoBuilder } from "./orcamento.builder";
 
 @Injectable({
     providedIn: 'root'
 })
-export class OrcamentoOSBuilder
+export class OrcamentoOSBuilder extends OrcamentoBuilder
 {
-    constructor (private _orcamentoService: OrcamentoService) { }
-
-    public async create(ordemServico: OrdemServico, userSession: UserSession): Promise<ISpecifyBaseOrcamentoOSBuilder>
-    {
-        return new OrcamentoOSBuilderImplementation(ordemServico, userSession, this._orcamentoService);
-    }
-}
-
-class OrcamentoOSBuilderImplementation implements
-    ISpecifyBaseOrcamentoOSBuilder,
-    ISpecifyMateriaisOrcamentoOSBuilder,
-    ISpecifyMaoDeObraOrcamentoOSBuilder,
-    ISpecifyDeslocamentoOrcamentoOSBuilder,
-    IOrcamentoOSBuilder
-{
-    private orcamento: Orcamento;
+    private orcamento: Orcamento = null;
     private os: OrdemServico;
     private userSession: UserSession;
 
-    constructor (os: OrdemServico, userSession: UserSession, protected _orcamentoService: OrcamentoService)
+    constructor (protected _orcamentoService: OrcamentoService)
     {
-        this.os = os;
-        this.userSession = userSession;
+        super();
     }
 
     async specifyBase(): Promise<ISpecifyMateriaisOrcamentoOSBuilder>
     {
-        this.orcamento.codigoOrdemServico = this.os?.codOS;
-        this.orcamento.codigoContrato = this.os?.codContrato;
-        this.orcamento.codigoMotivo = 1;
-        this.orcamento.codigoStatus = 1;
-        this.orcamento.codigoPosto = this.os?.codPosto;
-        this.orcamento.codigoCliente = this.os?.codCliente;
-        this.orcamento.codigoFilial = this.os?.codFilial;
-        this.orcamento.codigoEquipamentoContrato = this.os?.codEquipContrato;
-        this.orcamento.codigoEquipamento = this.os?.codEquip;
-        this.orcamento.codigoSla = this.os?.equipamentoContrato?.codSLA;
-        this.orcamento.nomeContrato = this.os?.equipamentoContrato?.contrato?.nomeContrato;
-        this.orcamento.isMaterialEspecifico = this.os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica;
-        this.orcamento.detalhe = this.os?.relatoriosAtendimento?.find(i => i.relatoSolucao !== null)?.relatoSolucao ?? '';
-        this.orcamento.valorIss = this.os?.filial?.orcamentoISS?.valor;
-        this.orcamento.usuarioCadastro = this.userSession?.usuario?.codUsuario;
-        this.orcamento.dataCadastro = moment().format('yyyy-MM-DD HH:mm:ss');
-        this.orcamento.data = moment().format('yyyy-MM-DD HH:mm:ss');
+        this.orcamento =
+        {
+            codigoOrdemServico: this.os?.codOS,
+            codigoContrato: this.os?.codContrato,
+            codigoMotivo: 1,
+            codigoStatus: 1,
+            codigoPosto: this.os?.codPosto,
+            codigoCliente: this.os?.codCliente,
+            codigoFilial: this.os?.codFilial,
+            codigoEquipamentoContrato: this.os?.codEquipContrato,
+            codigoEquipamento: this.os?.codEquip,
+            codigoSla: this.os?.equipamentoContrato?.codSLA,
+            nomeContrato: this.os?.equipamentoContrato?.contrato?.nomeContrato,
+            isMaterialEspecifico: this.os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica,
+            detalhe: this.os?.relatoriosAtendimento?.find(i => i.relatoSolucao !== null)?.relatoSolucao ?? '',
+            valorIss: this.os?.filial?.orcamentoISS?.valor,
+            usuarioCadastro: this.userSession?.usuario?.codUsuario,
+            dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
+            data: moment().format('yyyy-MM-DD HH:mm:ss')
+        }
 
         this.orcamento =
             (await this._orcamentoService.criar(this.orcamento).toPromise());
@@ -206,7 +194,7 @@ class OrcamentoOSBuilderImplementation implements
         return this;
     }
 
-    build(): Orcamento
+    async build(): Promise<Orcamento>
     {
         this.orcamento.valorTotal =
             (Enumerable.from(this.orcamento?.materiais).sum(i => i?.valorTotal) +
@@ -216,6 +204,22 @@ class OrcamentoOSBuilderImplementation implements
         this.orcamento.valorTotalDesconto =
             Enumerable.from(this.orcamento.descontos).sum(i => i.valorTotal) ?? 0;
 
+        this.orcamento =
+            (await this._orcamentoService.atualizar(this.orcamento).toPromise());
+
         return this.orcamento;
+    }
+
+    async create(os: OrdemServico, userSession: UserSession): Promise<Orcamento>
+    {
+        this.os = os;
+        this.userSession = userSession;
+
+        return new Promise((resolve, reject) =>
+            this.specifyBase().then(r =>
+                r.specifyMateriais().then(d =>
+                    d.specifyMaoDeObra().then(p =>
+                        p.specifyDeslocamento().then(l =>
+                            resolve(l.build()))))));
     }
 }

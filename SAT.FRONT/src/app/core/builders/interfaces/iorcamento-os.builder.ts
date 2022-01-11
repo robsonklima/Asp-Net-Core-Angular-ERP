@@ -22,5 +22,5 @@ export interface ISpecifyDeslocamentoOrcamentoOSBuilder
 
 export interface IOrcamentoOSBuilder
 {
-    build(): Orcamento;
+    build(): Promise<Orcamento>;
 };

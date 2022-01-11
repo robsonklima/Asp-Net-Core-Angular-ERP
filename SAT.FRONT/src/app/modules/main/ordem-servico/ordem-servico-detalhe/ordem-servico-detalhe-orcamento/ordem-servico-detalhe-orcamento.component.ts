@@ -2,7 +2,7 @@ import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { OrcamentoOSBuilder } from 'app/core/builders/implementations/orcamento-os-builder';
+import { OrcamentoOSBuilder } from 'app/core/builders/implementations/orcamento-os.builder';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
 import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
@@ -76,11 +76,7 @@ export class OrdemServicoDetalheOrcamentoComponent implements OnInit
       if (confirmacao)
         this._orcamentoOSBuilder
           .create(this.os, this.userSession).then(orc =>
-            orc.specifyBase().then(orc =>
-              orc.specifyMateriais().then(orc =>
-                orc.specifyMaoDeObra().then(orc =>
-                  orc.specifyDeslocamento().then(orc =>
-                    this._router.navigateByUrl('/orcamento/detalhe/' + orc.build().codOrc))))));
+            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc));
     });
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Orcamento } from "app/core/types/orcamento.types";
+import Enumerable from "linq";
 import { IOrcamentoOSBuilder, ISpecifyBaseOrcamentoOSBuilder, ISpecifyDeslocamentoOrcamentoOSBuilder, ISpecifyMaoDeObraOrcamentoOSBuilder, ISpecifyMateriaisOrcamentoOSBuilder } from "../interfaces/iorcamento-os.builder";
 
 @Injectable({
@@ -33,5 +34,18 @@ export class OrcamentoBuilder implements
     build(): Promise<Orcamento>
     {
         throw new Error("Method not implemented.");
+    }
+
+    calculaTotalizacao(orcamento: Orcamento): Orcamento
+    {
+        orcamento.valorTotal =
+            (Enumerable.from(orcamento?.materiais).sum(i => i?.valorTotal) +
+                orcamento?.maoDeObra?.valorTotal +
+                orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento) ?? 0;
+
+        orcamento.valorTotalDesconto =
+            Enumerable.from(orcamento.descontos).sum(i => i.valorTotal) ?? 0;
+
+        return orcamento;
     }
 }

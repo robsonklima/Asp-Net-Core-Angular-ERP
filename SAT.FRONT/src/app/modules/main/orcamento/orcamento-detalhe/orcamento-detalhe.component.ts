@@ -129,6 +129,9 @@ export class OrcamentoDetalheComponent implements OnInit
 
   trocarTab(tab: any)
   {
+    if (tab.index == 0)
+      this.ngOnInit();
+
     if (tab.index !== 5 || !this.orcamento)
     {
       return;

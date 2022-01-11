@@ -208,13 +208,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
 
     async build(): Promise<Orcamento>
     {
-        this.orcamento.valorTotal =
-            (Enumerable.from(this.orcamento?.materiais).sum(i => i?.valorTotal) +
-                this.orcamento?.maoDeObra?.valorTotal +
-                this.orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento) ?? 0;
-
-        this.orcamento.valorTotalDesconto =
-            Enumerable.from(this.orcamento.descontos).sum(i => i.valorTotal) ?? 0;
+        this.orcamento =
+            this.calculaTotalizacao(this.orcamento);
 
         this.orcamento =
             (await this._orcamentoService.atualizar(this.orcamento).toPromise());

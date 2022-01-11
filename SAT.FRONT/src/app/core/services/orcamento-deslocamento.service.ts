@@ -18,4 +18,13 @@ export class OrcamentoDeslocamentoService
             map((obj) => obj)
         );
     }
+
+    atualizar(deslocamento: OrcamentoDeslocamento): Observable<OrcamentoDeslocamento>
+    {
+        const url = `${c.api}/OrcamentoDeslocamento`;
+
+        return this.http.put<OrcamentoDeslocamento>(url, deslocamento).pipe(
+            map((obj) => obj)
+        );
+    }
 }

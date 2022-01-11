@@ -18,5 +18,11 @@ namespace SAT.SERVICES.Services
             _orcDeslocamentoRepo.Criar(deslocamento);
             return deslocamento;
         }
+
+        public OrcamentoDeslocamento Atualizar(OrcamentoDeslocamento deslocamento)
+        {
+            _orcDeslocamentoRepo.Atualizar(deslocamento);
+            return deslocamento;
+        }
     }
 }

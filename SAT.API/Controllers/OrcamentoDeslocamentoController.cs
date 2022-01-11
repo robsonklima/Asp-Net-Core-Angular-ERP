@@ -21,5 +21,9 @@ namespace SAT.API.Controllers
         [HttpPost]
         public OrcamentoDeslocamento Post([FromBody] OrcamentoDeslocamento deslocamento) =>
             _orcDeslocamentoService.Criar(deslocamento);
+
+        [HttpPut]
+        public OrcamentoDeslocamento Put([FromBody] OrcamentoDeslocamento deslocamento) =>
+            _orcDeslocamentoService.Atualizar(deslocamento);
     }
 }

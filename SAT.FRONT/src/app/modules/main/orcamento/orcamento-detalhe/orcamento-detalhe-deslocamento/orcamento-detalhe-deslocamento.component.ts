@@ -5,6 +5,8 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { isEqual } from 'lodash';
+import { OrcamentoDeslocamentoService } from 'app/core/services/orcamento-deslocamento.service';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 
 @Component({
   selector: 'app-orcamento-detalhe-deslocamento',
@@ -30,7 +32,12 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
   isLoading: boolean;
   isEditing: boolean;
 
-  constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
+  constructor (
+    private _cdRef: ChangeDetectorRef,
+    private _userService: UserService,
+    private _orcDeslocamentoService: OrcamentoDeslocamentoService,
+    private _orcService: OrcamentoService
+  )
   {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -41,9 +48,15 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
     this.oldItem = Object.assign({}, this.deslocamento);
   }
 
-  salvar(): void
+  async salvar()
   {
-    this.deslocamento.quantidadeKm = parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
+    this.calcularDeslocamento();
+
+    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(orc =>
+    {
+      this.deslocamento = orc;
+      this._orcService.atualizarTotalizacao(orc.codOrc);
+    });
 
     this.isEditing = false;
     this.isLoading = true;
@@ -68,6 +81,21 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
       return true;
 
     return false;
+  }
+
+  calcularDeslocamento()
+  {
+    this.deslocamento.quantidadeKm =
+      parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
+
+    this.deslocamento.valorTotalKmRodado =
+      this.deslocamento.quantidadeKm * this.deslocamento.valorUnitarioKmRodado;
+
+    this.deslocamento.quantidadeHoraCadaSessentaKm =
+      parseFloat((this.deslocamento.quantidadeKm / 65.0).toFixed(4));
+
+    this.deslocamento.valorTotalKmDeslocamento =
+      this.deslocamento.valorHoraDeslocamento * this.deslocamento.quantidadeHoraCadaSessentaKm;
   }
 
   onkeydown()

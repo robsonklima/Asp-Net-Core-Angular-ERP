@@ -16,6 +16,18 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.27',
+                releaseDate: '11 de Janeiro de 2022',
+                changes: [
+                    {
+                        type: 'Correções',
+                        list: [
+                            'Novo comportamento de logout, sem contador',
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.26',
                 releaseDate: '06 de Janeiro de 2022',
                 changes: [

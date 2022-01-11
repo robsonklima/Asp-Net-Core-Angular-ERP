@@ -52,10 +52,11 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
   {
     this.calcularDeslocamento();
 
-    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(orc =>
+    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(d =>
     {
-      this.deslocamento = orc;
-      this._orcService.atualizarTotalizacao(orc.codOrc);
+      this.deslocamento = d;
+      this._orcService.atualizarTotalizacao(d.codOrc);
+      this.oldItem = Object.assign({}, this.deslocamento);
     });
 
     this.isEditing = false;
@@ -92,7 +93,7 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
       this.deslocamento.quantidadeKm * this.deslocamento.valorUnitarioKmRodado;
 
     this.deslocamento.quantidadeHoraCadaSessentaKm =
-      parseFloat((this.deslocamento.quantidadeKm / 65.0).toFixed(4));
+      parseFloat((this.deslocamento.quantidadeKm / 60.0).toFixed(4));
 
     this.deslocamento.valorTotalKmDeslocamento =
       this.deslocamento.valorHoraDeslocamento * this.deslocamento.quantidadeHoraCadaSessentaKm;

@@ -65,6 +65,6 @@ export class OrcamentoService
         {
             orc = this._builder.calculaTotalizacao(orc);
             this.atualizar(orc).toPromise();
-        })
+        });
     }
 }

@@ -6,11 +6,12 @@ import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Filial } from 'app/core/types/filial.types';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDesconto, OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-orcamento-detalhes',
@@ -36,6 +37,9 @@ export class OrcamentoDetalheComponent implements OnInit
   dadosLocalFaturamento: OrcamentoDadosLocal;
   dadosLocalEnvioNF: OrcamentoDadosLocal;
   dadosLocalAtendimento: OrcamentoDadosLocal;
+
+
+  public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
   constructor (
     private _dialog: MatDialog,

@@ -12,9 +12,18 @@ export class OrcamentoMaoDeObraService
 {
     constructor (private http: HttpClient) { }
 
-    criar(material: OrcamentoMaoDeObra): Observable<OrcamentoMaoDeObra>
+    criar(maoDeObra: OrcamentoMaoDeObra): Observable<OrcamentoMaoDeObra>
     {
-        return this.http.post<OrcamentoMaoDeObra>(`${c.api}/OrcamentoMaoDeObra`, material).pipe(
+        return this.http.post<OrcamentoMaoDeObra>(`${c.api}/OrcamentoMaoDeObra`, maoDeObra).pipe(
+            map((obj) => obj)
+        );
+    }
+
+    atualizar(maoDeObra: OrcamentoMaoDeObra): Observable<OrcamentoMaoDeObra>
+    {
+        const url = `${c.api}/OrcamentoMaoDeObra`;
+
+        return this.http.put<OrcamentoMaoDeObra>(url, maoDeObra).pipe(
             map((obj) => obj)
         );
     }

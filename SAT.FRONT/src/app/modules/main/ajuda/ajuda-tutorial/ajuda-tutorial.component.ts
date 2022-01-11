@@ -36,6 +36,11 @@ export class AjudaTutorialComponent implements OnInit {
         id: '05',
         titulo: 'Abrindo um chamado',
         url: '05-novo-chamado.mp4'
+      },
+      {
+        id: '06',
+        titulo: 'Autenticação em duas etapas',
+        url: '06-autenticacao-duas-etapas.mp4'
       }
     ]
   }

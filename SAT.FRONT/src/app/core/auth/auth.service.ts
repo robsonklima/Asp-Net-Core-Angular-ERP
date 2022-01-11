@@ -95,15 +95,13 @@ export class AuthService {
         return this.signInUsingToken();
     }
 
-    getUserHash(): string {
-        return JSON.parse(localStorage.getItem("hash"));
+    getToken(): string {
+        return JSON.parse(localStorage.getItem("accessToken"));
     }
 
-    setUserHash(hash: string) {
-        localStorage.setItem("hash", JSON.stringify(hash));
-    }
+    decodeJWTToken(): any {
+        const token = this.getToken();
 
-    decodeJWTToken(token: string): any {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {

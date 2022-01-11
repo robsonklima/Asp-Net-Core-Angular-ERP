@@ -13,8 +13,8 @@
             <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">Motivo</div>
             <div *ngIf="!isEditing">{{ orcamento?.orcamentoMotivo?.descricao }}</div>
             <div *ngIf="isEditing">
-                <mat-select (selectionChange)="changeMotivo($event.value)"
-                    [(value)]="orcamento.orcamentoMotivo.codOrcMotivo" *ngIf="isEditing">
+                <mat-select (selectionChange)="changeMotivo($event.value)" [(value)]="orcamento.codigoMotivo"
+                    *ngIf="isEditing">
                     <mat-option class='text-blue-500' *ngFor="let m of motivos" [value]="m.codOrcMotivo">
                         {{ m.descricao }}
                     </mat-option>
@@ -22,14 +22,22 @@
             </div>
         </div>
         <div class="flex items-center justify-between py-3">
-            <div class="text-secondary">Status</div>
-            <div class="min-h-fit">{{ orcamento?.orcamentoStatus?.nome }}
+            <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">Status</div>
+            <div *ngIf="!isEditing">{{ orcamento?.orcamentoStatus?.nome }}</div>
+            <div *ngIf="isEditing">
+                <mat-select (selectionChange)="changeStatus($event.value)" [(value)]="orcamento.codigoStatus"
+                    *ngIf="isEditing">
+                    <mat-option class='text-blue-500' *ngFor="let s of status" [value]="s.codOrcStatus">
+                        {{ s.nome }}
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
         <div class="flex items-center justify-between py-3" [ngClass]="{'text-blue-500': isEditing }">
-            <div class="text-secondary">Detalhe</div>
-            <div class="min-h-fit">
-                {{ orcamento?.detalhe }}
+            <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">Detalhe</div>
+            <div id="orcamentoDetalhe" ngDefaultControl [ngClass]="{'cursor-text text-blue-500': isEditing }"
+                [contentEditable]="isEditing" [textContent]="orcamento?.detalhe"
+                (input)="orcamento.detalhe = $event.target.innerText">
             </div>
         </div>
         <div class="flex items-center justify-between py-3">

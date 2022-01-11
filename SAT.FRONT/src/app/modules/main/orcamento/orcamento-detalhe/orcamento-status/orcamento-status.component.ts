@@ -6,6 +6,7 @@ import { OrcamentoStatusService } from 'app/core/services/orcamento-status.servi
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { Orcamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { UserSession } from 'app/core/user/user.types';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-orcamento-status',
@@ -63,7 +64,7 @@ export class OrcamentoStatusComponent implements OnInit, IEditableFuseCard
 
   isEqual(): boolean
   {
-    return false;
+    return _.isEqual(this.orcamento, this.oldItem);
   }
 
   isInvalid(): boolean
@@ -76,6 +77,13 @@ export class OrcamentoStatusComponent implements OnInit, IEditableFuseCard
     var parsedValue = parseInt(value);
     this.orcamento.codigoMotivo = parsedValue;
     this.orcamento.orcamentoMotivo = this.motivos.find(i => i.codOrcMotivo == parsedValue);
+  }
+
+  changeStatus(value)
+  {
+    var parsedValue = parseInt(value);
+    this.orcamento.codigoStatus = parsedValue;
+    this.orcamento.orcamentoStatus = this.status.find(i => i.codOrcStatus == parsedValue);
   }
 
   private async obterStatus()

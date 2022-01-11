@@ -216,20 +216,10 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         this.userSession = userSession;
 
         return new Promise((resolve, reject) =>
-        {
             this.specifyBase().then(r =>
-            {
                 r.specifyMateriais().then(d =>
-                {
                     d.specifyMaoDeObra().then(p =>
-                    {
                         p.specifyDeslocamento().then(l =>
-                        {
-                            resolve(l.build());
-                        });
-                    })
-                })
-            })
-        });
+                            resolve(l.build()))))));
     }
 }

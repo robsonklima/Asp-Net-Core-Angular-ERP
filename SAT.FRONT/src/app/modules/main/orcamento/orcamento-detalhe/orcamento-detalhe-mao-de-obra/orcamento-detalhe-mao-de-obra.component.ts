@@ -63,12 +63,12 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
 
   isEqual(): boolean
   {
-    return isEqual(this.oldItem.previsaoHoras.toString(), this.maoDeObra.previsaoHoras.toString());
+    return isEqual(this.oldItem?.previsaoHoras?.toString(), this.maoDeObra?.previsaoHoras?.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.maoDeObra.previsaoHoras < 0 || this.maoDeObra.previsaoHoras == null)
+    if (!this.maoDeObra || this.maoDeObra?.previsaoHoras < 0 || !this.maoDeObra?.previsaoHoras)
       return true;
 
     return false;

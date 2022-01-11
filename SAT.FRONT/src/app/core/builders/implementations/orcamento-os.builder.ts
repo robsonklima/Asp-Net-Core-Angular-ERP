@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { appConfig } from "app/core/config/app.config";
+import { OrcamentoDeslocamentoService } from "app/core/services/orcamento-deslocamento.service";
 import { OrcamentoMaoDeObraService } from "app/core/services/orcamento-mao-de-obra.service";
 import { OrcamentoMaterialService } from "app/core/services/orcamento-material.service";
 import { OrcamentoService } from "app/core/services/orcamento.service";
@@ -26,7 +27,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
     constructor (
         private _orcamentoService: OrcamentoService,
         private _orcMaoDeObraService: OrcamentoMaoDeObraService,
-        private _orcMaterialService: OrcamentoMaterialService)
+        private _orcMaterialService: OrcamentoMaterialService,
+        private _orcDeslocamentoService: OrcamentoDeslocamentoService)
     {
         super();
     }
@@ -197,7 +199,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         d.valorTotalKmDeslocamento =
             d.valorHoraDeslocamento * d.quantidadeHoraCadaSessentaKm;
 
-        // cria deslocamento
+        d =
+            await this._orcDeslocamentoService.criar(d).toPromise();
         this.orcamento.orcamentoDeslocamento = d;
 
         return this;

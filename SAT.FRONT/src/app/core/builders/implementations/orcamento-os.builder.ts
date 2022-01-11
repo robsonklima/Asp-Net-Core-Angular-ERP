@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { appConfig } from "app/core/config/app.config";
+import { OrcamentoMaoDeObraService } from "app/core/services/orcamento-mao-de-obra.service";
+import { OrcamentoMaterialService } from "app/core/services/orcamento-material.service";
 import { OrcamentoService } from "app/core/services/orcamento.service";
 import { ContratoServico } from "app/core/types/contrato.types";
 import { Orcamento, OrcamentoDeslocamento, OrcamentoMaoDeObra, OrcamentoMaterial, OrcamentoMotivoEnum } from "app/core/types/orcamento.types";
@@ -21,7 +23,10 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
     private os: OrdemServico;
     private userSession: UserSession;
 
-    constructor (protected _orcamentoService: OrcamentoService)
+    constructor (
+        private _orcamentoService: OrcamentoService,
+        private _orcMaoDeObraService: OrcamentoMaoDeObraService,
+        private _orcMaterialService: OrcamentoMaterialService)
     {
         super();
     }
@@ -70,7 +75,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-        detalhesPeca.forEach(dp =>
+        detalhesPeca.forEach(async dp =>
         {
             var m: OrcamentoMaterial =
             {
@@ -89,7 +94,9 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             m.valorTotal =
                 (m.quantidade * m.valorUnitario) - m.valorDesconto;
 
-            // cria material
+            m =
+                await this._orcMaterialService.criar(m).toPromise();
+
             materiais.push(m);
         });
 
@@ -144,7 +151,9 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         m.valorTotal =
             m?.previsaoHoras * m?.valorHoraTecnica;
 
-        // cria mao de obra
+        m =
+            await this._orcMaoDeObraService.criar(m).toPromise();
+
         this.orcamento.maoDeObra = m;
 
         return this;

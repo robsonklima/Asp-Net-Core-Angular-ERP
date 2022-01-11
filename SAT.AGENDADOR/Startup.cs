@@ -50,8 +50,10 @@ namespace SAT.AGENDADOR
                 services.AddTransient<IDispBBDesvioRepository, DispBBDesvioRepository>();
                 services.AddTransient<IAgendaTecnicoRepository, AgendaTecnicoRepository>();
                 services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
+                services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
+                services.AddTransient<IRelatorioAtendimentoRepository, RelatorioAtendimentoRepository>();
 
-                // Servicos
+
                 services.AddTransient<IFeriadoService, FeriadoService>();
                 services.AddTransient<IDashboardService, DashboardService>();
                 services.AddTransient<IIndicadorService, IndicadorService>();

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SAT.AGENDADOR.Service;
+using System;
+using Topshelf;
 
 namespace SAT.AGENDADOR
 {
@@ -9,7 +11,7 @@ namespace SAT.AGENDADOR
     |      Startup -> 1) criar uma variável de acesso do repositório/serviço/controller/etc                  | 
     |                 2) Iniciar as dependências que serão usadas na função desejada em ConfigureServices()  |
     |                                                                                                        |     
-    |      InicializaAgendamentos ->  Faz o agendamento da tarefa:                                           |
+    |      AgendamentoService.InicializaAgendamentos ->  Faz o agendamento da tarefa:                        |
     |                      1) Tarefas.Agendar : função a ser chamada                                         |
     |                      2) A tarefa possui 3 parâmetros:                                                  |
     |                          a) Nome da tarefa : Importante para o LOG                                     |
@@ -18,37 +20,26 @@ namespace SAT.AGENDADOR
     *--------------------------------------------------------------------------------------------------------*/
     class Program
     {
-        private static Startup services;
-
         public static void Main(string[] args)
         {
-            services = new Startup();
-            InicializaAgendamentos();
-            Console.ReadKey();
-        }
+            var exitCode = HostFactory.Run(x =>
+            {
+                x.Service<AgendamentoService>(s =>
+                {
+                    s.ConstructUsing(serv => new AgendamentoService());
+                    s.WhenStarted(s => { });
+                    s.WhenStopped(s => { });
+                });
 
-        /// <summary>
-        /// Inicializa os agendamentos
-        /// </summary>
-        private static void InicializaAgendamentos()
-        {
-            // Inicializa os agendamentos
-            DateTime agora = DateTime.Now;
+                x.RunAsLocalService();
 
-            // Tarefa 1:
-            Tarefas.Agendar(
-            nome: "Atualiza dados dos indicadores Dashboard",
-            tarefa: () => services.IndicadorService.AtualizaDadosIndicadoresDashboard(
-                            periodoInicio: agora.AddDays(-1),
-                            periodoFim: agora
-            ),
-            intervaloEmSegundos: 10 * 60); // 10 minutos
+                x.SetServiceName("AgendadorSAT");
+                x.SetDisplayName("Agendador de Tarefas SAT");
+                x.SetDescription("Agenda funções, métodos, serviços em rotinas determinadas do SAT");
+            });
 
-            // Tarefa 2:
-            Tarefas.Agendar(
-            nome: "Cria pontos no Agenda Técnico",
-            tarefa: () => services.AgendaTecnicoService.CriaIntervalosDoDia(),
-            intervaloEmSegundos: 30 * 60); // 30 minutos
+            int exitCodValue = (int)Convert.ChangeType(exitCode, exitCode.GetTypeCode());
+            Environment.ExitCode = exitCodValue;
         }
     }
 }

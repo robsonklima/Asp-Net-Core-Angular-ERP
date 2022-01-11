@@ -3,7 +3,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IEditableFuseCard } from 'app/shared/components/interfaces/ieditable-fuse-card';
+import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { isEqual } from 'lodash';
 
 @Component({

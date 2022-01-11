@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
-import { IEditableItem, IEditableItemList } from 'app/shared/components/interfaces/ieditable-item-list';
+import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { isEqual } from 'lodash';
 
@@ -120,7 +120,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
-      
+
     });
   }
 }

@@ -1,9 +1,13 @@
-import { Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
+import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { OrcamentoService } from 'app/core/services/orcamento.service';
+import { OrcamentoOSBuilder } from 'app/core/builders/implementations/orcamento-os-builder';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
+import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
@@ -27,14 +31,32 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoDetalheOrcamentoComponent
+export class OrdemServicoDetalheOrcamentoComponent implements OnInit
 {
 
   isLoading: boolean = false;
   @Input() orcamentos: Orcamento[] = [];
   @Input() codOS;
+  os: OrdemServico;
+  userSession: UserSession;
 
-  constructor (private _dialog: MatDialog, private _orcamentoService: OrcamentoService, private _activatedRoute: ActivatedRoute, private _router: Router) { }
+  constructor (private _dialog: MatDialog,
+    private _router: Router,
+    private _userService: UserService,
+    private _osService: OrdemServicoService,
+    private _orcamentoOSBuilder: OrcamentoOSBuilder)
+  {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  async ngOnInit(): Promise<void>
+  {
+    this.os = (await this._osService.obterPorParametros(
+      {
+        codOS: this.codOS.toString(),
+        include: OrdemServicoIncludeEnum.OS_ORCAMENTO
+      }).toPromise()).items.shift();
+  }
 
   criarNovoOrcamento()
   {
@@ -52,13 +74,13 @@ export class OrdemServicoDetalheOrcamentoComponent
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
       if (confirmacao)
-      {
-        this._orcamentoService.criarNovoOrcamento(this.codOS).then(orc =>
-        {
-          this._router.navigateByUrl('orcamento/detalhe/' + orc?.codOrc);
-        });
-      }
+        this._orcamentoOSBuilder
+          .create(this.os, this.userSession).then(orc =>
+            orc.specifyBase().then(orc =>
+              orc.specifyMateriais().then(orc =>
+                orc.specifyMaoDeObra().then(orc =>
+                  orc.specifyDeslocamento().then(orc =>
+                    this._router.navigateByUrl('/orcamento/detalhe/' + orc.build().codOrc))))));
     });
-
   }
 }

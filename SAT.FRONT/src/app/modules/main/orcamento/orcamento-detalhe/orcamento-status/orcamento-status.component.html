@@ -9,9 +9,16 @@
         <div class="text-secondary italic" *ngIf="isEditing">Em edição</div>
     </div>
     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-        <div class="flex items-center justify-between py-3" [ngClass]="{'text-blue-500': isEditing }">
-            <div class="text-secondary">Motivo</div>
-            <div class="min-h-fit">{{ orcamento?.orcamentoMotivo?.descricao }}
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">Motivo</div>
+            <div *ngIf="!isEditing">{{ orcamento?.orcamentoMotivo?.descricao }}</div>
+            <div *ngIf="isEditing">
+                <mat-select (selectionChange)="changeMotivo($event.value)"
+                    [(value)]="orcamento.orcamentoMotivo.codOrcMotivo" *ngIf="isEditing">
+                    <mat-option class='text-blue-500' *ngFor="let m of motivos" [value]="m.codOrcMotivo">
+                        {{ m.descricao }}
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
         <div class="flex items-center justify-between py-3">

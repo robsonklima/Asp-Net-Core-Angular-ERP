@@ -3,6 +3,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { OrcamentoMotivoService } from 'app/core/services/orcamento-motivo.service';
 import { OrcamentoStatusService } from 'app/core/services/orcamento-status.service';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { Orcamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { UserSession } from 'app/core/user/user.types';
 
@@ -31,7 +32,8 @@ export class OrcamentoStatusComponent implements OnInit, IEditableFuseCard
   constructor (
     private _cdRef: ChangeDetectorRef,
     private _orcStatusService: OrcamentoStatusService,
-    private _orcMotivoService: OrcamentoMotivoService)
+    private _orcMotivoService: OrcamentoMotivoService,
+    private _orcService: OrcamentoService)
   { }
 
   editar(): void
@@ -40,9 +42,13 @@ export class OrcamentoStatusComponent implements OnInit, IEditableFuseCard
     this.oldItem = Object.assign({}, this.orcamento);
   }
 
-  salvar(): void
+  async salvar(): Promise<void>
   {
-    // atribui 
+    this.orcamento =
+      (await this._orcService.atualizar(this.orcamento).toPromise());
+
+    this.oldItem = Object.assign({}, this.orcamento);
+
     this.isEditing = false;
     this.isLoading = true;
     this.isLoading = false;
@@ -63,6 +69,13 @@ export class OrcamentoStatusComponent implements OnInit, IEditableFuseCard
   isInvalid(): boolean
   {
     return false;
+  }
+
+  changeMotivo(value)
+  {
+    var parsedValue = parseInt(value);
+    this.orcamento.codigoMotivo = parsedValue;
+    this.orcamento.orcamentoMotivo = this.motivos.find(i => i.codOrcMotivo == parsedValue);
   }
 
   private async obterStatus()

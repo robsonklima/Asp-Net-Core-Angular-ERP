@@ -254,7 +254,6 @@ export interface OrcamentoDadosLocal
     nroSerie?: string;
 }
 
-
 export enum OrcamentoTipoOutroServicoEnum
 {
     ABERTURA_COFRE = "Abertura de cofre",
@@ -263,4 +262,18 @@ export enum OrcamentoTipoOutroServicoEnum
     OUTROS = "Outros",
     ABERURA_TAMPA_INFERIOR = "Abertura da tampa inferior",
     ABERURA_TAMPA_SUPERIOR = "Abertura da tampa superior"
+}
+
+export enum OrcamentoTipoDescontoEnum
+{
+    TOTAL_MAO_DE_OBRA = "Valor Total Mão de Obra",
+    TOTAL_KM_RODADO_OBRA = "Valor Total KM Rodado",
+    TOTAL_HORA_DESLOCAMENTO = "Valor Total Hora em Deslocamento",
+    TOTAL_ORCAMENTO = "Valor Total Orçamento"
+}
+
+export enum OrcamentoFormaDescontoEnum
+{
+    PERCENTUAL = "% (Percentual)",
+    VALOR = "R$ (Valor)"
 }

@@ -88,7 +88,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
     this._orcMaterialService.atualizar(material.item).subscribe(m =>
     {
       this._orcService.atualizarTotalizacao(m.codOrc);
-      this._snack.open('Material adicionado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
+      this._snack.open('Material atualizado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
       material.oldItem = Object.assign({}, m);
     },
       e =>

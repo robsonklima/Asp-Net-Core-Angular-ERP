@@ -33,16 +33,12 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public OrcamentoDesconto Post([FromBody] OrcamentoDesconto orcamento)
-        {
-            return _orcamentoDescService.Criar(orcamento);
-        }
+        public OrcamentoDesconto Post([FromBody] OrcamentoDesconto desconto) =>
+            _orcamentoDescService.Criar(desconto);
 
         [HttpPut]
-        public OrcamentoDesconto Put([FromBody] OrcamentoDesconto orcamento)
-        {
-            return _orcamentoDescService.Atualizar(orcamento);
-        }
+        public OrcamentoDesconto Put([FromBody] OrcamentoDesconto desconto) =>
+            _orcamentoDescService.Atualizar(desconto);
 
         [HttpDelete("{codOrcamentoDesc}")]
         public void Delete(int codOrcamentoDesc)

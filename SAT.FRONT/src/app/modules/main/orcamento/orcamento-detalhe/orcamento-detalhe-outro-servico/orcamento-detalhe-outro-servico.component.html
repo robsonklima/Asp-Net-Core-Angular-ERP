@@ -51,8 +51,7 @@
                                         servico?.isEditing }" [contentEditable]="servico?.isEditing"
                                         [textContent]="servico?.item?.quantidade"
                                         (input)="servico.item.quantidade = $event.target.innerText"></div>
-                                    <div [id]="'valorUnitario' + servico.item.codOrcMaterial" ngDefaultControl
-                                        [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
                                         servico?.isEditing }" [contentEditable]="servico?.isEditing" [textContent]="servico?.isEditing ?
                                         servico?.item?.valorUnitario : servico?.item?.valorUnitario |
                                         currency:'BRL':'symbol-narrow'"

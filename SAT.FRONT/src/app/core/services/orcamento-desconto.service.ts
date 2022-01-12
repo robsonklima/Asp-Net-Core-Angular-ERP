@@ -12,14 +12,14 @@ export class OrcamentoDescontoService
 {
     constructor (private http: HttpClient) { }
 
-    criar(servico: OrcamentoDesconto): Observable<OrcamentoDesconto>
+    criar(desconto: OrcamentoDesconto): Observable<OrcamentoDesconto>
     {
-        return this.http.post<OrcamentoDesconto>(`${c.api}/OrcamentoDesconto`, servico).pipe(map((obj) => obj));
+        return this.http.post<OrcamentoDesconto>(`${c.api}/OrcamentoDesconto`, desconto).pipe(map((obj) => obj));
     }
 
-    atualizar(servico: OrcamentoDesconto): Observable<OrcamentoDesconto>
+    atualizar(desconto: OrcamentoDesconto): Observable<OrcamentoDesconto>
     {
         const url = `${c.api}/OrcamentoDesconto`;
-        return this.http.put<OrcamentoDesconto>(url, servico).pipe(map((obj) => obj));
+        return this.http.put<OrcamentoDesconto>(url, desconto).pipe(map((obj) => obj));
     }
 }

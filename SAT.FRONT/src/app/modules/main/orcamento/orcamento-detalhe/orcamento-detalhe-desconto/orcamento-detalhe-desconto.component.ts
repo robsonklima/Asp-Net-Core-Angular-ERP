@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { fuseAnimations } from '@fuse/animations';
 import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { OrcamentoDescontoService } from 'app/core/services/orcamento-desconto.service';
@@ -26,6 +26,8 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 
 export class OrcamentoDetalheDescontoComponent implements IEditableItemList<OrcamentoDesconto>, AfterViewInit
 {
+  snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
   isLoading: boolean;
   @Input() descontos: OrcamentoDesconto[];
@@ -51,8 +53,22 @@ export class OrcamentoDetalheDescontoComponent implements IEditableItemList<Orca
     desconto.isEditing = true;
   }
 
-  salvar(desconto: IEditableItem<OrcamentoDesconto>): void
+  async salvar(desconto: IEditableItem<OrcamentoDesconto>): Promise<void>
   {
+    desconto.item.valor = parseFloat((desconto.item.valor.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
+    desconto.item.valorTotal = desconto.item.valor;
+
+    this._orcDescontoService.atualizar(desconto.item).subscribe(d =>
+    {
+      this._orcService.atualizarTotalizacao(d.codOrc);
+      this._snack.open('Desconto atualizado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
+      desconto.oldItem = Object.assign({}, d);
+    },
+      e =>
+      {
+        this._snack.open('Erro ao atualizar o desconto.', null, this.snackConfigDanger).afterDismissed().toPromise();
+      });
+
     this.isEditing = false;
     desconto.isEditing = false;
   }

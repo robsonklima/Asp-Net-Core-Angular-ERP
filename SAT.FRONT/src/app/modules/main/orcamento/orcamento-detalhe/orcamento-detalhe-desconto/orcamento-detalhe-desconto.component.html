@@ -49,8 +49,11 @@
                                     <div>
                                         {{ desconto?.item?.nomeTipo }}
                                     </div>
-                                    <div>
-                                        {{ desconto?.item?.valor | currency:'BRL':'symbol-narrow' }}
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        desconto?.isEditing }" [contentEditable]="desconto?.isEditing" [textContent]="desconto?.isEditing ?
+                                        desconto?.item?.valor : desconto?.item?.valor |
+                                        currency:'BRL':'symbol-narrow'"
+                                        (input)="desconto.item.valor = $event.target.innerText">
                                     </div>
                                     <div>
                                         {{ desconto?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}

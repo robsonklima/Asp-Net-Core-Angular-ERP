@@ -57,7 +57,7 @@ export class JitsiComponent implements OnInit, AfterViewInit {
       videoConferenceJoined: this.handleVideoConferenceJoined,
       videoConferenceLeft: this.handleVideoConferenceLeft,
       audioMuteStatusChanged: this.handleMuteStatus,
-      videoMuteStatusChanged: this.handleVideoStatus
+      videoMuteStatusChanged: this.handleVideoStatus,
     });
   }
 

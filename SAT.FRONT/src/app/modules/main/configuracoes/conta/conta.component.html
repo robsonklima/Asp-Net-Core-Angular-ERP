@@ -8,50 +8,50 @@
                             <table class="min-w-full text-center">
                                 <tbody>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             Login
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.codUsuario}}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             {{ t('perfil acesso') }}
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.perfil?.nomePerfil || 'Sem informações cadastradas' | titlecase}}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             {{ t('cargo') }}
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.cargo?.nomeCargo || 'Sem informações cadastradas' | titlecase}}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             {{ t('ativo') }}
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.indAtivo ? 'Sim' : 'Não'}}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             {{ t('filial perto') }}
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.filial?.nomeFilial || 'Sem filial cadastrada' | titlecase}}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900">
                                             {{ t('numero cracha') }}
                                         </td>
-                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                        <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
                                             {{usuario?.numCracha || 'Sem informações cadastradas'}}
                                         </td>
                                     </tr>

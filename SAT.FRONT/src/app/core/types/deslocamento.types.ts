@@ -29,5 +29,7 @@ export interface DeslocamentoData extends Meta {
 };
 
 export interface DeslocamentoParameters extends QueryStringParameters {
-
+    codTecnico?: number;
+    dataHoraInicioInicio?: string;
+    dataHoraInicioFim?: string;
 };

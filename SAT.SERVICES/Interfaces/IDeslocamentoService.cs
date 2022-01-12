@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
     public interface IDeslocamentoService
     {
-        IEnumerable<Deslocamento> ObterPorParametros(DeslocamentoParameters parameters);
+        ListViewModel ObterPorParametros(DeslocamentoParameters parameters);
     }
 }

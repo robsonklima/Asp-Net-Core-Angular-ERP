@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -23,7 +23,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Deslocamento> Get([FromQuery] DeslocamentoParameters parameters)
+        public ListViewModel Get([FromQuery] DeslocamentoParameters parameters)
         {
             return _deslocamentoService.ObterPorParametros(parameters);
         }

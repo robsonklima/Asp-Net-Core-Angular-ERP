@@ -21,22 +21,25 @@ namespace SAT.SERVICES.Services
             _ordemServicoRepo = ordemServicoRepo;
         }
 
-        public IEnumerable<Deslocamento> ObterPorParametros(DeslocamentoParameters parameters)
+        public ListViewModel ObterPorParametros(DeslocamentoParameters parameters)
         {
             var deslocamentos = new List<Deslocamento>();
+            var deslocamentoParameters = new OrdemServicoParameters() {
+                CodTecnico = parameters.CodTecnico,
+                Include = OrdemServicoIncludeEnum.OS_INTENCAO,
+                DataHoraInicioInicio = parameters.DataHoraInicioInicio,
+                DataHoraInicioFim = parameters.DataHoraInicioFim
+            };
 
             deslocamentos.AddRange(
-                _ordemServicoRepo.ObterPorParametros(new OrdemServicoParameters() {
-                    CodTecnico = 2410,
-                    Include = OrdemServicoIncludeEnum.OS_INTENCAO,
-                    DataHoraInicioInicio = DateTime.Now.AddDays(-15),
-                    DataHoraInicioFim = DateTime.Now
-                }).Select(os => new Deslocamento {
+                _ordemServicoRepo.ObterPorParametros(deslocamentoParameters).Select(os => new Deslocamento {
                     Origem = new DeslocamentoOrigem() {
+                        Descricao = "Intenção",
                         Lat = os.Intencoes.FirstOrDefault().Latitude,
                         Lng = os.Intencoes.FirstOrDefault().Longitude,
                     },
                     Destino = new DeslocamentoDestino() {
+                        Descricao = os.LocalAtendimento.NomeLocal,
                         Lat = Double.Parse(os.LocalAtendimento.Latitude),
                         Lng = Double.Parse(os.LocalAtendimento.Longitude),
                     },
@@ -44,7 +47,19 @@ namespace SAT.SERVICES.Services
                 })
             );
 
-            return deslocamentos;
+            var listaPaginada = PagedList<Deslocamento>.ToPagedList(deslocamentos, parameters.PageNumber, parameters.PageSize);
+            var lista = new ListViewModel
+            {
+                Items = listaPaginada,
+                TotalCount = listaPaginada.TotalCount,
+                CurrentPage = listaPaginada.CurrentPage,
+                PageSize = listaPaginada.PageSize,
+                TotalPages = listaPaginada.TotalPages,
+                HasNext = listaPaginada.HasNext,
+                HasPrevious = listaPaginada.HasPrevious
+            };
+
+            return lista;
         }
     }
 }

@@ -16,6 +16,7 @@ export interface AppConfig
     rd_centro_de_custo: string;
     system_user: string;
     email_equipe: string;
+    parametroReajusteValorOrcamento: number;
 }
 
 export const appConfig: AppConfig = {
@@ -29,5 +30,6 @@ export const appConfig: AppConfig = {
     autonomia_veiculo_frota: 13,
     rd_centro_de_custo: "5001",
     system_user: 'SAT',
-    email_equipe: 'equipe.sat@perto.com.br'
+    email_equipe: 'equipe.sat@perto.com.br',
+    parametroReajusteValorOrcamento: 0.81
 };

@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class Contrato
     {
-        [Key]
         public int CodContrato { get; set; }
         public int? CodContratoPai { get; set; }
         public int? CodCliente { get; set; }
-
-        [ForeignKey("CodCliente")]
-        public Cliente Cliente { get; set; }
-
-        [ForeignKey("CodTipoContrato")]
-        public TipoContrato TipoContrato { get; set; }
-        
         public int? CodTipoContrato { get; set; }
         public string Cnpj { get; set; }
         public string NroContrato { get; set; }
@@ -68,11 +58,10 @@ namespace SAT.MODELS.Entities
         public decimal? PercReajuste { get; set; }
         public byte? IndPermitePecaEspecifica { get; set; }
         public string SemCobertura { get; set; }
-
-        [ForeignKey("CodContrato")]
-        public List<InstalacaoLote> Lotes { get; set; }
-
-        [NotMapped]
-        public ContratoEquipamento ContratoEquipamento { get; set; }
+        public virtual List<InstalacaoLote> Lotes { get; set; }
+        public virtual ContratoEquipamento ContratoEquipamento { get; set; }
+        public virtual List<ContratoServico> ContratoServico { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public virtual TipoContrato TipoContrato { get; set; }
     }
 }

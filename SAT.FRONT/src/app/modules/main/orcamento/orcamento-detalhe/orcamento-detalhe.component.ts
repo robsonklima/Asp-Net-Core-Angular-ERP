@@ -1,23 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
 import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Filial } from 'app/core/types/filial.types';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDesconto, OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-orcamento-detalhes',
-  templateUrl: './orcamento-detalhe.component.html'
+  templateUrl: './orcamento-detalhe.component.html',
+  providers: [
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt'
+    }
+  ],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
 export class OrcamentoDetalheComponent implements OnInit
 {
-
   codOrc: number;
   orcamento: Orcamento;
   os: OrdemServico;
@@ -28,6 +37,9 @@ export class OrcamentoDetalheComponent implements OnInit
   dadosLocalFaturamento: OrcamentoDadosLocal;
   dadosLocalEnvioNF: OrcamentoDadosLocal;
   dadosLocalAtendimento: OrcamentoDadosLocal;
+
+
+  public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
   constructor (
     private _dialog: MatDialog,
@@ -59,7 +71,6 @@ export class OrcamentoDetalheComponent implements OnInit
 
   private obterEnderecos()
   {
-
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,
@@ -122,6 +133,9 @@ export class OrcamentoDetalheComponent implements OnInit
 
   trocarTab(tab: any)
   {
+    if (tab.index == 0)
+      this.ngOnInit();
+
     if (tab.index !== 5 || !this.orcamento)
     {
       return;

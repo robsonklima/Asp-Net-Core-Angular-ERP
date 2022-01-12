@@ -2,12 +2,14 @@ import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
+import { Contrato } from "./contrato.types";
 import { EquipamentoContrato } from "./equipamento-contrato.types";
 import { Equipamento } from "./equipamento.types";
 import { Filial } from "./filial.types";
 import { Foto } from "./foto.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { Orcamento } from "./orcamento.types";
 import { OSPrazoAtendimento } from "./os-prazo-atendimento.types";
 import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
@@ -155,6 +157,7 @@ export class OrdemServico
     prazosAtendimento: OSPrazoAtendimento[];
     indNumRATObrigatorio?: boolean;
     agendaTecnico?: AgendaTecnico[];
+    orcamentos?: Orcamento[];
 }
 
 export interface OrdemServicoData extends Meta
@@ -212,7 +215,8 @@ export enum OrdemServicoIncludeEnum
     OS_TECNICO_ATENDIMENTO = 9,
     OS_EQUIPAMENTOS_ATENDIMENTOS = 10,
     OS_DISPONIBILIDADE_BB = 11,
-    OS_LISTA = 12
+    OS_LISTA = 12,
+    OS_ORCAMENTO = 13
 }
 
 export enum OrdemServicoFilterEnum

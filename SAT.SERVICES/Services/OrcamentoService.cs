@@ -43,9 +43,10 @@ namespace SAT.SERVICES.Services
             _orcamentoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(Orcamento orcamento)
+        public Orcamento Atualizar(Orcamento orcamento)
         {
             _orcamentoRepo.Atualizar(orcamento);
+            return orcamento;
         }
 
         public Orcamento ObterPorCodigo(int codigo)

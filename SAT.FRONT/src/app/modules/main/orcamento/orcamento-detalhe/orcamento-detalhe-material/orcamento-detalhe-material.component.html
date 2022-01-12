@@ -1,18 +1,12 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
+    <div class="grid grid-cols-2 justfy-between p-6 border-b shadow bg-card rounded-t-lg">
         <div class="flex items-center">
             <span class="text-lg font-medium">{{ t('material') }}</span>
-        </div>
-        <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')">
-                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
-                </mat-icon>
-            </button>
         </div>
     </div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div>
-            <div class="grid h-100">
+            <div class="grid">
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
                         <div class="grid" *ngIf="editableList?.length">

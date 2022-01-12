@@ -2,11 +2,12 @@ import { ContratoEquipamento } from "./contrato-equipamento.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { InstalacaoLote } from "./instalacao-lote.types";
 
-export class Contrato {
+export class Contrato
+{
     codContrato: number;
     codContratoPai: number;
     codCliente: number;
-    codTipoContrato: number; 
+    codTipoContrato: number;
     cnpj: string;
     nroContrato: string;
     nomeContrato: string;
@@ -38,7 +39,7 @@ export class Contrato {
     codSla: number;
     numDiasSubsEquip: number;
     codEmpresa: number;
-    dataReauste:  string;
+    dataReauste: string;
     dataCancelamento: string;
     codUsuarioCancelamento: string;
     motivoCancelamento: string;
@@ -58,16 +59,39 @@ export class Contrato {
     semCobertura: string;
     lotes: InstalacaoLote[];
     contratoEquipamento: ContratoEquipamento;
+    contratoServico: ContratoServico[];
 }
 
-export interface ContratoData extends Meta {
+export interface ContratoData extends Meta
+{
     items: Contrato[];
 };
 
-export interface ContratoParameters extends QueryStringParameters {
-    codContrato?:number;
-    codTipoContrato?:number;
+export interface ContratoParameters extends QueryStringParameters
+{
+    codContrato?: number;
+    codTipoContrato?: number;
     indAtivo?: number;
     codCliente?: number;
     filter?: string;
 };
+
+export interface ContratoServico
+{
+    codContratoServico: number;
+    codContrato: number;
+    codServico: number;
+    codSLA: number;
+    codTipoEquip: number;
+    codGrupoEquip: number;
+    codEquip: number;
+    valor: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
+    codUsuarioCadastroDel: string;
+    dataHoraCadastroDel: string;
+    codUsuarioManutencaoDel: string;
+    dataHoraManutencaoDel: string;
+}

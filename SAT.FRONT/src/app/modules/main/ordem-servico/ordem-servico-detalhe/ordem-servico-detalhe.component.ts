@@ -26,6 +26,7 @@ import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historic
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 import { fuseAnimations } from '@fuse/animations';
 import { statusConst } from 'app/core/types/status-types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -400,6 +401,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		if (userRole == RoleEnum.PV_COORDENADOR_DE_CONTRATO || userRole == RoleEnum.ADMIN) return true;
 
 		return false;
+	}
+
+	isOrcamento()
+	{
+		var orcamentos = [
+			TipoIntervencaoEnum.ORCAMENTO,
+			TipoIntervencaoEnum.ORC_APROVADO,
+			TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE,
+			TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO,
+			TipoIntervencaoEnum.ORC_REPROVADO]
+
+		return orcamentos.includes(this.os?.codTipoIntervencao);
 	}
 
 	getTimeFromMins(mins)

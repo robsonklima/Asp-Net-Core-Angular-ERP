@@ -590,6 +590,19 @@
                                 </app-ordem-servico-historico>
                             </ng-template>
                         </mat-tab>
+
+                        <mat-tab *ngIf="isOrcamento()">
+                            <ng-template matTabLabel>
+                                <span>
+                                    {{ t('orcamentos') }}
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <app-ordem-servico-detalhe-orcamento [orcamentos]="os?.orcamentos" [codOS]="codOS">
+                                </app-ordem-servico-detalhe-orcamento>
+                            </ng-template>
+                        </mat-tab>
                     </mat-tab-group>
                 </div>
             </div>

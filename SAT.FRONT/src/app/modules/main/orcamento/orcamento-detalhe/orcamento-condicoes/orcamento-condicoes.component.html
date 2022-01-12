@@ -1,0 +1,30 @@
+<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="text-lg font-medium mt-2">Condições
+    </div>
+    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor Total dos Descontos</div>
+            <div>
+                {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}
+            </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Valor Total</div>
+            <div>
+                {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }}
+            </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Validade</div>
+            <div>
+                {{ '3 dias' }}
+            </div>
+        </div>
+        <div class="flex items-center justify-between py-3">
+            <div class="text-secondary">Impostos inclusos</div>
+            <div>
+                {{ 'SIM' }}
+            </div>
+        </div>
+    </div>
+</fuse-card>

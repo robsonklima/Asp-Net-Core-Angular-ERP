@@ -1,4 +1,4 @@
-<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
+<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow overflow-hidden" *transloco="let t">
     <div class="flex items-center justify-between mt-2">
         <div class="text-lg font-medium">{{t('mao de obra')}}</div>
         <button mat-icon-button (click)="editar()" *ngIf="!isEditing">
@@ -15,10 +15,9 @@
         </div>
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary" [ngClass]="{'text-blue-500': isEditing }">{{ t("previsao horas") }}</div>
-            <div class="truncate max-w-1/2" id="previsaoHoras" ngDefaultControl
-                [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }"
-                [contentEditable]="isEditing ? 'true' : 'false'" [textContent]="maoDeObra?.previsaoHoras"
-                (input)="maoDeObra.previsaoHoras = $event.target.innerText">
+            <div id="previsaoHoras" ngDefaultControl
+                [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }" [contentEditable]="isEditing"
+                [textContent]="maoDeObra?.previsaoHoras" (input)="maoDeObra.previsaoHoras = $event.target.innerText">
             </div>
         </div>
         <div class="flex items-center justify-between py-3">

@@ -33,15 +33,15 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Orcamento orcamento)
+        public Orcamento Post([FromBody] Orcamento orcamento)
         {
-            _orcamentoService.Criar(orcamento);
+            return _orcamentoService.Criar(orcamento);
         }
 
         [HttpPut]
-        public void Put([FromBody] Orcamento orcamento)
+        public Orcamento Put([FromBody] Orcamento orcamento)
         {
-            _orcamentoService.Atualizar(orcamento);
+            return _orcamentoService.Atualizar(orcamento);
         }
 
         [HttpDelete("{codOrcamento}")]

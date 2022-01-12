@@ -48,6 +48,7 @@ import { IConfig, NgxMaskModule } from "ngx-mask";
 import { OrcamentoStatusComponent } from './orcamento-detalhe/orcamento-status/orcamento-status.component';
 import { OrcamentoCondicoesComponent } from './orcamento-detalhe/orcamento-condicoes/orcamento-condicoes.component';
 import { OrcamentoInformacoesComponent } from './orcamento-detalhe/orcamento-informacoes/orcamento-informacoes.component';
+import { OrcamentoAddOutroServicoDialogComponent } from "./orcamento-detalhe/orcamento-detalhe-outro-servico/orcamento-add-outro-servico-dialog/orcamento-add-outro-servico-dialog.component";
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -69,7 +70,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoDetalheDescontoComponent,
         OrcamentoStatusComponent,
         OrcamentoCondicoesComponent,
-        OrcamentoInformacoesComponent
+        OrcamentoInformacoesComponent,
+        OrcamentoAddOutroServicoDialogComponent
     ],
     imports: [
         CommonModule,

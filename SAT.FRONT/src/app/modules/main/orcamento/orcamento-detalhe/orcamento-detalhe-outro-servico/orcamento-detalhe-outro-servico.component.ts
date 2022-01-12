@@ -8,16 +8,17 @@ import { OrcamentoOutroServico } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { OrcamentoAddOutroServicoDialogComponent } from './orcamento-add-outro-servico-dialog/orcamento-add-outro-servico-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhe-outro-servico',
   templateUrl: './orcamento-detalhe-outro-servico.component.html',
   styles: [`
         .list-grid-servicos {
-            grid-template-columns: auto 100px 100px 100px 80px;
+            grid-template-columns: 100px auto 100px 100px 100px 80px;
             
             @screen sm {
-                grid-template-columns: auto 100px 100px 100px 80px;
+                grid-template-columns: 100px auto 100px 100px 100px 80px;
             }
         }
     `],
@@ -106,6 +107,22 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
         }
       },
       backdropClass: 'static'
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
+
+      }
+    });
+  }
+
+  adicionarOutroServico()
+  {
+    const dialogRef = this._dialog.open(OrcamentoAddOutroServicoDialogComponent, {
+      backdropClass: 'static',
+      width: '600px'
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>

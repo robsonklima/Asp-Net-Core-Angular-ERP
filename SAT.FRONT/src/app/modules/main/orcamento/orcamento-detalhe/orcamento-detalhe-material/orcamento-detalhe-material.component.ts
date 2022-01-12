@@ -2,12 +2,10 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, LOCALE_ID, ViewEnca
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
-import { UserService } from 'app/core/user/user.service';
 import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { isEqual } from 'lodash';
 import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
-import { UserSession } from 'app/core/user/user.types';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 
 @Component({
@@ -15,10 +13,10 @@ import { OrcamentoService } from 'app/core/services/orcamento.service';
   templateUrl: './orcamento-detalhe-material.component.html',
   styles: [`
         .list-grid-material {
-            grid-template-columns: 100px auto 100px 100px 100px 100px 130px 100px;
+            grid-template-columns: 100px auto 100px 100px 100px 100px 150px 100px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 100px 100px 100px 130px 100px;
+                grid-template-columns: 100px auto 100px 100px 100px 100px 150px 100px;
             }
         }
     `],

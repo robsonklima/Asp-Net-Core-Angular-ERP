@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('servicos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')">
+            <button [matTooltip]="t('novo')" (click)="adicionarOutroServico()">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>
@@ -12,12 +12,15 @@
     </div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div>
-            <div class="grid h-100">
+            <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
                         <div class="grid" *ngIf="outrosServicos?.length">
                             <div class="list-grid-servicos sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
+                                <div>
+                                    {{ t("tipo") }}
+                                </div>
                                 <div>
                                     {{ t("descricao") }}
                                 </div>
@@ -38,6 +41,9 @@
                             <ng-container *ngFor="let servico of editableList" id="editableList">
                                 <div class="list-grid-servicos grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white  hover:bg-gray-100"
                                     *transloco="let t">
+                                    <div>
+                                        {{ servico?.item?.tipo }}
+                                    </div>
                                     <div>
                                         {{ servico?.item?.descricao }}
                                     </div>

@@ -147,14 +147,14 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Usuario usuario)
         {
+            _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == usuario.CodUsuario);
 
             if (usr != null)
             {
-                _context.Entry(usr).CurrentValues.SetValues(usuario);
-
                 try
                 {
+                    _context.Entry(usr).CurrentValues.SetValues(usuario);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)
@@ -163,18 +163,5 @@ namespace SAT.INFRA.Repository
                 }
             }
         }
-
-        //public void Atualizar(Usuario usuario)
-        //{
-        //    _context.ChangeTracker.Clear();
-
-        //    Usuario u = _context.Usuario.FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
-
-        //    if (u != null)
-        //    {
-        //        _context.Entry(u).CurrentValues.SetValues(usuario);
-        //        _context.SaveChanges();
-        //    }
-        //}
     }
 }

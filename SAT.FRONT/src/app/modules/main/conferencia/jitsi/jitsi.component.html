@@ -1,0 +1,38 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex flex-col items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <ng-container>
+                <div class="text-4xl font-bold leading-tight tracking-tight">
+                    Conferência
+                </div>
+
+                <div class="text-1xl font-secondary leading-tight tracking-tight">
+                    {{ room }}
+                </div>
+
+                <div class="my-6">
+                    <button class="px-6 mr-2" [class.bg-gray-200]="isAudioMuted" mat-raised-button
+                        (click)="executeCommand('toggleAudio')">
+                        Audio
+                    </button>
+
+                    <button class="px-6 mr-2" [class.bg-gray-200]="isVideoMuted" mat-raised-button
+                        (click)="executeCommand('toggleVideo')">
+                        Video
+                    </button>
+
+                    <button class="px-6 mr-2" mat-raised-button
+                        (click)="executeCommand('toggleShareScreen')">
+                        Compartilhar Tela
+                    </button>
+
+                    <button class="px-6 mr-2" mat-raised-button>
+                        Convidar
+                    </button>
+                </div>
+                
+                <div id="jitsi-iframe"></div>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -95,7 +95,8 @@
                         <mat-tab label="{{ t('servicos') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
-                                    <app-orcamento-detalhe-outro-servico [outrosServicos]="orcamento?.outrosServicos">
+                                    <app-orcamento-detalhe-outro-servico [codOrc]="orcamento?.codOrc"
+                                        [outrosServicos]="orcamento?.outrosServicos">
                                     </app-orcamento-detalhe-outro-servico>
                                 </div>
                             </ng-template>

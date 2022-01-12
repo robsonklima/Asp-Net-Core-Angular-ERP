@@ -253,3 +253,14 @@ export interface OrcamentoDadosLocal
     agencia?: string;
     nroSerie?: string;
 }
+
+
+export enum OrcamentoTipoOutroServicoEnum
+{
+    ABERTURA_COFRE = "Abertura de cofre",
+    ABERTURA_COFRE_COM_REFORMA = "Abertura de cofre com reforma na porta",
+    SOLDAGEM_PORTA_COFRE = "Soldagem na porta do cofre",
+    OUTROS = "Outros",
+    ABERURA_TAMPA_INFERIOR = "Abertura da tampa inferior",
+    ABERURA_TAMPA_SUPERIOR = "Abertura da tampa superior"
+}

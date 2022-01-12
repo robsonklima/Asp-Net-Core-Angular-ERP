@@ -11,8 +11,8 @@
                 <mat-form-field>
                     <mat-label>{{ t('tipo') }}</mat-label>
                     <mat-select formControlName="tipo">
-                        <mat-option *ngFor="let tipo of tipoServicos" [value]="tipo.nomeServico">
-                            {{ tipo.nomeServico }}
+                        <mat-option *ngFor="let tipo of tipoServicos" [value]="tipo">
+                            {{ tipo }}
                         </mat-option>
                     </mat-select>
                     <mat-error>{{ t('preencher campo') }}</mat-error>

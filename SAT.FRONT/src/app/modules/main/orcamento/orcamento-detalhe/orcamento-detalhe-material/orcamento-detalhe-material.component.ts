@@ -7,6 +7,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import { isEqual } from 'lodash';
 import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-orcamento-detalhe-material',
@@ -31,6 +32,9 @@ import { OrcamentoService } from 'app/core/services/orcamento.service';
 })
 export class OrcamentoDetalheMaterialComponent implements IEditableItemList<OrcamentoMaterial>, AfterViewInit
 {
+  snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+
   isLoading: boolean = false;
   isEditing: boolean = false;
   editableList: IEditableItem<OrcamentoMaterial>[] = [];
@@ -39,6 +43,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
 
   constructor (public _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
+    private _snack: MatSnackBar,
     private _orcMaterialService: OrcamentoMaterialService,
     private _orcService: OrcamentoService)
   { }
@@ -83,8 +88,13 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
     this._orcMaterialService.atualizar(material.item).subscribe(m =>
     {
       this._orcService.atualizarTotalizacao(m.codOrc);
+      this._snack.open('Material adicionado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
       material.oldItem = Object.assign({}, m);
-    });
+    },
+      e =>
+      {
+        this._snack.open('Erro ao atualizar o material.', null, this.snackConfigSuccess).afterDismissed().toPromise();
+      });
 
     this.isEditing = false;
     material.isEditing = false;

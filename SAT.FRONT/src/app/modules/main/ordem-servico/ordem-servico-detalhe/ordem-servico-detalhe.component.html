@@ -528,12 +528,12 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab [disabled]="!obterLaudos().length && !obterFotos().length">
+                        <mat-tab [disabled]="obterLaudos().length === 0 && obterFotos().length === 0">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!obterLaudos().length">
                                     {{ t('fotos') }}
                                     <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="obterLaudos().length || obterFotos().length">
+                                        *ngIf="obterLaudos().length + obterFotos().length">
                                         {{ obterLaudos().length + obterFotos().length }}
                                     </span>
                                 </span>

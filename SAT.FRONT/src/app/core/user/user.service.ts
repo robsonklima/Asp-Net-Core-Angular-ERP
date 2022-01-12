@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { User } from 'app/core/user/user.types';
+import { SegurancaUsuarioModel, User } from 'app/core/user/user.types';
 import { AppConfig, appConfig as c } from 'app/core/config/app.config'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
@@ -120,5 +120,19 @@ export class UserService {
   logout() {
     localStorage.removeItem("usuario");
     localStorage.removeItem("token");
+  }
+
+  atualizar(usuario: Usuario): Observable<Usuario> {
+    const url = `${c.api}/Usuario`;
+    return this.http.put<Usuario>(url, usuario).pipe(
+      map((obj) => obj)
+    );
+  }
+
+  alterarSenha(segurancaUsuarioModel: SegurancaUsuarioModel): Observable<SegurancaUsuarioModel> {
+    const url = `${c.api}/Usuario/AlterarSenha`;
+    return this.http.put<SegurancaUsuarioModel>(url, segurancaUsuarioModel).pipe(
+      map((obj) => obj)
+    );
   }
 }

@@ -18,10 +18,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogAlterarFotoPerfilComponent } from './dialog-alterar-foto-perfil/dialog-alterar-foto-perfil.component';
 
 @NgModule({
   declarations: [
-    DialogSaveFilterComponent
+    DialogSaveFilterComponent,
+    DialogAlterarFotoPerfilComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule    
   ]
 })
 export class DialogModule { }

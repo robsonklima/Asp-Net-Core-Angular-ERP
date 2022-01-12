@@ -9,24 +9,24 @@ import { Pais, PaisData, PaisParameters } from '../types/pais.types';
     providedIn: 'root'
 })
 export class PaisService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: PaisParameters): Observable<PaisData> {
         let params = new HttpParams();
-        
+
         Object.keys(parameters).forEach(key => {
-          if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
         });
-    
+
         return this.http.get(`${c.api}/Pais`, { params: params }).pipe(
-          map((data: PaisData) => data)
+            map((data: PaisData) => data)
         )
     }
 
     obterPorCodigo(codPais: number): Observable<Pais> {
         const url = `${c.api}/Pais/${codPais}`;
         return this.http.get<Pais>(url).pipe(
-          map((obj) => obj)
+            map((obj) => obj)
         );
     }
 
@@ -38,7 +38,7 @@ export class PaisService {
 
     atualizar(pais: Pais): Observable<Pais> {
         const url = `${c.api}/Pais`;
-        
+
         return this.http.put<Pais>(url, pais).pipe(
             map((obj) => obj)
         );
@@ -46,9 +46,18 @@ export class PaisService {
 
     deletar(codPais: number): Observable<Pais> {
         const url = `${c.api}/Pais/${codPais}`;
-        
+
         return this.http.delete<Pais>(url).pipe(
-          map((obj) => obj)
+            map((obj) => obj)
         );
+    }
+
+    async obterPaises(): Promise<Pais[]> {
+        const params: PaisParameters = {
+            sortActive: 'nomePais',
+            sortDirection: 'asc',
+            pageSize: 200
+        }
+        return (await this.obterPorParametros(params).toPromise()).items;
     }
 }

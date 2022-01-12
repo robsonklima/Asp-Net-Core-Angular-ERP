@@ -1,13 +1,12 @@
-<div class="flex flex-col w-full min-w-0 sm:absolute sm:inset-0 sm:overflow-hidden"
-    *transloco="let t">
-    <mat-drawer-container class="flex-auto sm:h-full">
+<div class="flex flex-col w-full min-w-0 sm:absolute sm:inset-0 sm:overflow-hidden" *transloco="let t">
+
+    <div class="flex justify-center items-center" *ngIf="loading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <mat-drawer-container class="flex-auto sm:h-full bg-white">
         <!-- Drawer -->
-        <mat-drawer
-            class="sm:w-96 dark:bg-gray-900"
-            [autoFocus]="false"
-            [mode]="drawerMode"
-            [opened]="drawerOpened"
-            #drawer>
+        <mat-drawer class="sm:w-96 bg-white" [autoFocus]="false" [mode]="drawerMode" [opened]="drawerOpened" #drawer>
             <!-- Header -->
             <div class="flex items-center justify-between m-8 mr-6 sm:my-10">
                 <!-- Title -->
@@ -16,9 +15,7 @@
                 </div>
                 <!-- Close button -->
                 <div class="lg:hidden">
-                    <button
-                        mat-icon-button
-                        (click)="drawer.close()">
+                    <button mat-icon-button (click)="drawer.close()">
                         <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
                     </button>
                 </div>
@@ -26,9 +23,7 @@
             <!-- Panel links -->
             <div class="flex flex-col divide-y border-t border-b">
                 <ng-container *ngFor="let panel of panels; trackBy: trackByFn">
-                    <div
-                        class="flex px-8 py-5 cursor-pointer"
-                        [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedPanel || selectedPanel !== panel.id,
+                    <div *ngIf="!panel.hidden" class="flex px-8 py-5 cursor-pointer" [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedPanel || selectedPanel !== panel.id,
                                     'bg-primary-50 dark:bg-hover': selectedPanel && selectedPanel === panel.id}"
                         (click)="goToPanel(panel.id)">
                         <mat-icon
@@ -36,14 +31,13 @@
                                         'text-primary dark:text-primary-500': selectedPanel && selectedPanel === panel.id}"
                             [svgIcon]="panel.icon"></mat-icon>
                         <div class="ml-3">
-                            <div
-                                class="font-medium leading-6"
+                            <div class="font-medium leading-6"
                                 [ngClass]="{'text-primary dark:text-primary-500': selectedPanel && selectedPanel === panel.id}">
-                                {{ panel.title }}
+                                {{ panel?.title | transloco }}
                             </div>
-                            <div class="mt-0.5 text-secondary">
+                            <!-- <div class="mt-0.5 text-secondary">
                                 {{ panel.description }}
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </ng-container>
@@ -52,38 +46,98 @@
 
         <!-- Drawer content -->
         <mat-drawer-content class="flex flex-col">
+
+
             <!-- Main -->
             <div class="flex-auto px-6 pt-9 pb-12 md:p-8 md:pb-12 lg:p-12">
+
                 <!-- Panel header -->
-                <div class="flex items-center">
+                <div class="flex items-center" *ngIf="getPanelInfo(selectedPanel)?.id == 'conta' && !loading">
+
+                    <!-- Botão de abrir e fechar menus -->
+                    <button class="lg:hidden -ml-2" mat-icon-button (click)="drawer.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+                    </button>
+
+                    <!-- Foto do usuário -->
+                    <div class="flex-auto text-center">
+                        <div class="mx-auto flex justify-center w-24 h-24 rounded-full">
+
+                            <button (mouseover)="onShowEdit(true)" (mouseout)="onShowEdit(false)"
+                                (click)="alterarFoto()">
+                                <div class="container mx-auto relative">
+
+                                    <img *ngIf="dadosFotoUsuario?.base64"
+                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm"
+                                        src="{{'data:image/jpg;base64,' + dadosFotoUsuario.base64}}"
+                                        alt="foto do usuário" />
+
+                                    <img *ngIf="!dadosFotoUsuario?.base64"
+                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm"
+                                        src="assets/images/avatars/profile.jpg" alt="foto do usuário" />
+
+                                    <div *ngIf="showEdit"
+                                        class="pointer-events-none w-1/2 h-1/3 absolute bottom-0 left-1/4">
+                                        <mat-icon style="color: white;" [svgIcon]="'heroicons_outline:camera'">
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                            </button>
+
+                        </div>
+                        <!-- <button mat-icon-button>
+                            <span>
+                                <img class="w-64" src="assets/images/avatars/profile.jpg">
+                            </span>
+                        </button> -->
+                    </div>
+                </div>
+
+                <!-- Nome do usuário -->
+                <div class="flex items-center" *ngIf="getPanelInfo(selectedPanel)?.id == 'conta' && !loading">
+                    <div class="ml-2 mt-4 lg:ml-0 text-3xl font-bold tracking-tight leading-none flex-auto text-center">
+                        {{ t('bem vindo') }}, {{ usuario?.nomeUsuario | titlecase }}
+                    </div>
+                </div>
+
+                <!-- Panel header -->
+                <div class="flex items-center" *ngIf="getPanelInfo(selectedPanel)?.id != 'conta'">
                     <!-- Drawer toggle -->
-                    <button
-                        class="lg:hidden -ml-2"
-                        mat-icon-button
-                        (click)="drawer.toggle()">
+                    <button class="lg:hidden -ml-2" mat-icon-button (click)="drawer.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
                     </button>
 
                     <!-- Panel title -->
                     <div class="ml-2 lg:ml-0 text-3xl font-bold tracking-tight leading-none">
-                        {{ getPanelInfo(selectedPanel).title }}
+                        {{ getPanelInfo(selectedPanel)?.title | transloco }}
                     </div>
                 </div>
 
                 <!-- Load settings panel -->
-                <div class="mt-8">
+                <div class="mt-2">
                     <ng-container [ngSwitch]="selectedPanel">
-                        <!-- Account -->
+                        <!-- Inicio -->
                         <ng-container *ngSwitchCase="'conta'">
-                            <configuracoes-conta></configuracoes-conta>
+                            <configuracoes-conta (respostaPanel)="panelCarregado($event)"></configuracoes-conta>
                         </ng-container>
-                        <!-- Security -->
+                        <!-- Informações -->
+                        <ng-container *ngSwitchCase="'informacoes-pessoais'">
+                            <informacoes-pessoais (respostaPanel)="panelCarregado($event)"></informacoes-pessoais>
+                        </ng-container>
+                        <!-- Informações Técnicas -->
+                        <ng-container ngIf="usuario?.codTecnico" *ngSwitchCase="'informacoes-tecnicas'">
+                            <informacoes-tecnicas (respostaPanel)="panelCarregado($event)"></informacoes-tecnicas>
+                        </ng-container>
+                        <!-- Segurança -->
                         <ng-container *ngSwitchCase="'seguranca'">
-                            <configuracoes-seguranca></configuracoes-seguranca>
+                            <configuracoes-seguranca (respostaPanel)="panelCarregado($event)">
+                            </configuracoes-seguranca>
                         </ng-container>
                     </ng-container>
                 </div>
             </div>
+
+
         </mat-drawer-content>
     </mat-drawer-container>
 </div>

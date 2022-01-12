@@ -1,92 +1,67 @@
-<div class="w-full max-w-3xl" *transloco="let t">
-    <form [formGroup]="form">
+<div class="flex flex-col w-full min-w-0 sm:overflow-hidden py-4" *transloco="let t">
+    <div *ngIf="carregado">
         <div class="w-full">
-            <div class="text-xl">
-                {{ t('perfil') }}
-            </div>
-            <div class="text-secondary">
-                {{ t('informacoes publicas') }}
-            </div>
-        </div>
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>
-                        {{ t('nome') }}
-                    </mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:user'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'nomeUsuario'"
-                        matInput>
-                </mat-form-field>
-            </div>
-            
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>{{ t('usuario') }}</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:key'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'codUsuario'"
-                        matInput>
-                </mat-form-field>
-            </div>
-        </div>
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full text-center">
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            Login
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.codUsuario}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            {{ t('perfil acesso') }}
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.perfil?.nomePerfil || 'Sem informações cadastradas' | titlecase}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            {{ t('cargo') }}
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.cargo?.nomeCargo || 'Sem informações cadastradas' | titlecase}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            {{ t('ativo') }}
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.indAtivo ? 'Sim' : 'Não'}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            {{ t('filial perto') }}
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.filial?.nomeFilial || 'Sem filial cadastrada' | titlecase}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                                            {{ t('numero cracha') }}
+                                        </td>
+                                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                                            {{usuario?.numCracha || 'Sem informações cadastradas'}}
+                                        </td>
+                                    </tr>
 
-        <div class="my-10 border-t"></div>
-
-        <div class="w-full">
-            <div class="text-xl">{{ t('informacoes pessoais') }}</div>
-            <div class="text-secondary">{{ t('informacoes privadas') }}</div>
-        </div>
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>E-mail</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:mail'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'email'"
-                        matInput>
-                </mat-form-field>
-            </div>
-            
-            <div class="sm:col-span-2">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Fone</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:phone'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'phone'"
-                        matInput>
-                </mat-form-field>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="mt-11 mb-10 border-t"></div>
-
-        <div class="flex items-center justify-end">
-            <button
-                mat-stroked-button
-                type="button">
-                {{ t('cancelar') }}
-            </button>
-            <button
-                class="ml-4"
-                mat-flat-button
-                type="button"
-                [color]="'primary'">
-                {{ t('salvar') }}
-            </button>
-        </div>
-    </form>
+    </div>
 </div>

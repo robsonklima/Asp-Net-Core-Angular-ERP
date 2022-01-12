@@ -20,6 +20,7 @@ export interface FotoParameters extends QueryStringParameters
 {
     codOS?: number;
     numRAT?: string;
+    codUsuario?: string;
 };
 
 export enum FotoModalidadeEnum

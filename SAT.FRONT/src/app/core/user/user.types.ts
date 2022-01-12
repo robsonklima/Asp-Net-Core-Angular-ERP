@@ -2,15 +2,13 @@ import { Filial } from "../types/filial.types";
 import { FiltroUsuarioData } from "../types/filtro.types";
 import { Navegacao } from "../types/navegacao.types";
 
-export interface UserSession
-{
+export interface UserSession {
     usuario: User;
     navegacoes: Navegacao[];
     token: string;
 }
 
-export interface User
-{
+export interface User {
     codUsuario: string;
     codFilial?: number;
     filial?: Filial;
@@ -65,8 +63,7 @@ export interface User
     filtroUsuario?: FiltroUsuarioData[];
 }
 
-export enum RoleEnum
-{
+export enum RoleEnum {
     ADMIN = 3,
     FILIAL_COORDENADOR = 5,
     FINANCEIRO_COORDENADOR = 16,
@@ -89,7 +86,12 @@ export enum RoleEnum
     CLIENTE_BASICO_BIOMETRIA = 93
 }
 
-export enum RoleGroup
-{
+export enum RoleGroup {
     TECNICOS = "32, 35, 61, 79, 84",
+}
+
+export class SegurancaUsuarioModel {
+    public senhaAtual: string;
+    public novaSenha: string;
+    public codUsuario: string;
 }

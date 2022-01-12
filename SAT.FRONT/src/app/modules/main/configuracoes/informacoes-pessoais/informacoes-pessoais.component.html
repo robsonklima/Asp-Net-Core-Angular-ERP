@@ -1,0 +1,175 @@
+<div class="w-full max-w-3xl" *transloco="let t">
+
+    <div *ngIf="carregado">
+        <form [formGroup]="formInformacoes">
+            <div class="w-full">
+                <div class="text-secondary">
+                    {{ t('informacoes publicas') }}
+                </div>
+            </div>
+
+
+            <div class="my-5 border-t"></div>
+
+            <div class="w-full">
+                <div class="text-xl"> {{ t('informacoes basicas') }}</div>
+            </div>
+
+            <div class="grid sm:grid-cols-6 gap-6 w-full mt-4">
+
+                <!-- Linha 1 -->
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            {{ t('nome') }}
+                        </mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
+                        <input [formControlName]="'nomeUsuario'" maxlength="40" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            CPF
+                        </mat-label>
+                        <input [formControlName]="'cpf'" maxlength="14" mask="000.000.000-00" matInput>
+                    </mat-form-field>
+                </div>
+                <!-- Linha 1 -->
+
+                <!-- Linha 2 -->
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            CEP
+                        </mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:location-marker'" matPrefix>
+                        </mat-icon>
+                        <input (change)="buscaCEP($event)" maxlength="10" [formControlName]="'cep'" mask="00.000-000"
+                            matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            {{ t('endereco numero') }}
+                        </mat-label>
+                        <input [formControlName]="'endereco'" maxlength="30" matInput>
+                    </mat-form-field>
+                </div>
+                <!-- Linha 2 -->
+
+                <!-- Linha 3 -->
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            {{ t('bairro') }}
+                        </mat-label>
+                        <input [formControlName]="'bairro'" maxlength="20" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-1">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('pais') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codPais"
+                            [disabled]="!paises.length || formInformacoes.disabled">
+                            <mat-option *ngFor="let pais of paises" [value]="pais.codPais">
+                                {{ pais.nomePais }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-1">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('unidade federativa') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codUF"
+                            [disabled]="!unidadesFederativas.length || formInformacoes.disabled">
+                            <mat-option *ngFor="let uf of unidadesFederativas" [value]="uf.codUF">
+                                {{ uf.siglaUF }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('cidade') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codCidade"
+                            [disabled]="!cidades.length || formInformacoes.disabled">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="cidadeFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                                <span>
+                                    {{ (cidade.nomeCidade || t('nao informado')) | titlecase }}
+                                </span>
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Linha 3 -->
+
+            </div>
+
+            <div class="my-5 border-t"></div>
+
+            <div class="w-full">
+                <div class="text-xl">{{ t('informacoes contato') }}</div>
+            </div>
+            <div class="grid sm:grid-cols-6 gap-8 w-full mt-4">
+                <div class="sm:col-span-3">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('email') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:mail'" matPrefix>
+                        </mat-icon>
+                        <input type="email" [email]="true" [formControlName]="'email'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('fone') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="fone" mask="(00) 00000-0000" [dropSpecialCharacters]="false">
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-1">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('ramal') }}</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix></mat-icon>
+                        <input matInput formControlName="ramal" mask="0000" [dropSpecialCharacters]="false">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mt-11 mb-10 border-t"></div>
+
+            <div class="flex items-center justify-end">
+                <button class="ml-4" mat-flat-button type="button" [color]="'primary'" (click)="salvar()"
+                    [disabled]="!formInformacoes.valid">
+                    <span *ngIf="!formInformacoes.disabled">
+                        {{ t('salvar') }}
+                    </span>
+                    <mat-progress-spinner *ngIf="formInformacoes.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="w-full max-w-3xl" *transloco="let t">
+
+    <div *ngIf="carregado">
+        <form [formGroup]="formInformacoes">
+            <div class="w-full">
+                <div class="text-secondary">
+                    {{ t('informacoes publicas') }}
+                </div>
+            </div>
+
+
+            <div class="my-5 border-t"></div>
+
+            <div class="w-full">
+                <div class="text-xl">Informações básicas</div>
+            </div>
+
+            <div class="grid sm:grid-cols-8 gap-6 w-full mt-4">
+
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            {{ t('nome') }}
+                        </mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
+                        <input [formControlName]="'nomeUsuario'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Data de nacimento</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:calendar'" matPrefix></mat-icon>
+                        <input [formControlName]="'dataNascimento'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Gênero</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
+                        <input [formControlName]="'genero'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            CEP
+                        </mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:location-marker'" matPrefix>
+                        </mat-icon>
+                        <input [formControlName]="'cep'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-6">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            Endereço
+                        </mat-label>
+                        <input [formControlName]="'endereco'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            Número
+                        </mat-label>
+                        <input [formControlName]="'numero'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-6">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            Bairro
+                        </mat-label>
+                        <input [formControlName]="'bairro'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            Cidade
+                        </mat-label>
+                        <input [formControlName]="'cidade'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-4">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>
+                            Estado
+                        </mat-label>
+                        <input [formControlName]="'cidade'" matInput>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="my-5 border-t"></div>
+
+            <div class="w-full">
+                <div class="text-xl">Informações de contato</div>
+            </div>
+            <div class="grid sm:grid-cols-4 gap-8 w-full mt-4">
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>E-mail</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
+                        <input [formControlName]="'email'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Fone</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix></mat-icon>
+                        <input [formControlName]="'fone'" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="sm:col-span-1">
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>Ramal</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix></mat-icon>
+                        <input [formControlName]="'ramal'" matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mt-11 mb-10 border-t"></div>
+
+            <div class="flex items-center justify-end">
+                <button mat-stroked-button type="button">
+                    {{ t('cancelar') }}
+                </button>
+                <button class="ml-4" mat-flat-button type="button" [color]="'primary'">
+                    {{ t('salvar') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { SharedModule } from 'app/shared/shared.module';
 
@@ -10,17 +11,17 @@ import { SharedModule } from 'app/shared/shared.module';
     declarations: [
         UserComponent
     ],
-    imports     : [
+    imports: [
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
         MatMenuModule,
-        SharedModule
+        SharedModule,
+        TranslocoModule
     ],
-    exports     : [
+    exports: [
         UserComponent
     ]
 })
-export class UserModule
-{
+export class UserModule {
 }

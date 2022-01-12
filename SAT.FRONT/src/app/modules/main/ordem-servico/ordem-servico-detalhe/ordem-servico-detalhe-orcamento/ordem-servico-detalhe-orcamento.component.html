@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('orcamentos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarNovoOrcamento()">
+            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarNovoOrcamento()" [disabled]="!os">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>

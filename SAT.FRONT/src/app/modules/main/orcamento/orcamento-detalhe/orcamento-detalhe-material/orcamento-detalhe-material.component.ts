@@ -12,10 +12,10 @@ import { isEqual } from 'lodash';
   templateUrl: './orcamento-detalhe-material.component.html',
   styles: [`
         .list-grid-material {
-            grid-template-columns: 100px auto 100px 75px 100px 100px 100px 200px;
+            grid-template-columns: 100px auto 100px 75px 100px 100px 100px 100px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 75px 100px 100px 100px 200px;
+                grid-template-columns: 100px auto 100px 75px 100px 100px 100px 100px;
             }
         }
     `],

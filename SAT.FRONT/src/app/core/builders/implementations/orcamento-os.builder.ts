@@ -77,7 +77,9 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-        detalhesPeca.forEach(async dp =>
+
+
+        for (const dp of detalhesPeca)
         {
             var m: OrcamentoMaterial =
             {
@@ -94,13 +96,13 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             }
 
             m.valorTotal =
-                (m.quantidade * m.valorUnitario) - m.valorDesconto;
+                (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
 
             m =
                 await this._orcMaterialService.criar(m).toPromise();
 
             materiais.push(m);
-        });
+        };
 
         this.orcamento.materiais = materiais;
 

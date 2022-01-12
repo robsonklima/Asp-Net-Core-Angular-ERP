@@ -1,4 +1,4 @@
-import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -49,7 +49,7 @@ export class OrdemServicoDetalheOrcamentoComponent implements OnInit
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit(): Promise<void>
+  async ngOnInit()
   {
     this.os = (await this._osService.obterPorParametros(
       {

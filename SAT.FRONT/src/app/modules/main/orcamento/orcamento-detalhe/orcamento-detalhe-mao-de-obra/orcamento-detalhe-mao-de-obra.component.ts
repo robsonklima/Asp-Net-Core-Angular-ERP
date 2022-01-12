@@ -3,8 +3,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaoDeObra } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IEditableFuseCard } from 'app/shared/components/interfaces/ieditable-fuse-card';
+import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { isEqual } from 'lodash';
+import { OrcamentoMaoDeObraService } from 'app/core/services/orcamento-mao-de-obra.service';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 
 @Component({
   selector: 'app-orcamento-detalhe-mao-de-obra',
@@ -31,7 +33,10 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
   isLoading: boolean;
   isEditing: boolean;
 
-  constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
+  constructor (private _cdRef: ChangeDetectorRef,
+    private _userService: UserService,
+    private _maoDeObraService: OrcamentoMaoDeObraService,
+    private _orcService: OrcamentoService) 
   {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -48,7 +53,15 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
 
   salvar(): void
   {
-    this.maoDeObra.previsaoHoras = parseFloat(this.maoDeObra.previsaoHoras.toString().replace(',', '.'));
+    this.calcularMaoDeObra();
+
+    this._maoDeObraService.atualizar(this.maoDeObra).subscribe(m =>
+    {
+      this.maoDeObra = m;
+      this._orcService.atualizarTotalizacao(m.codOrc);
+      this.oldItem = Object.assign({}, this.maoDeObra);
+    });
+
     this.isEditing = false;
     this.isLoading = true;
     this.isLoading = false;
@@ -61,19 +74,24 @@ export class OrcamentoDetalheMaoDeObraComponent implements AfterViewInit, IEdita
     this._cdRef.detectChanges();
   }
 
+  calcularMaoDeObra()
+  {
+    this.maoDeObra.previsaoHoras = parseFloat(this.maoDeObra.previsaoHoras.toString().replace(',', '.'));
+    this.maoDeObra.valorTotal = this.maoDeObra.previsaoHoras * this.maoDeObra.valorHoraTecnica;
+  }
+
   isEqual(): boolean
   {
-    return isEqual(this.oldItem.previsaoHoras.toString(), this.maoDeObra.previsaoHoras.toString());
+    return isEqual(this.oldItem?.previsaoHoras?.toString(), this.maoDeObra?.previsaoHoras?.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.maoDeObra.previsaoHoras < 0 || this.maoDeObra.previsaoHoras == null)
+    if (!this.maoDeObra || this.maoDeObra?.previsaoHoras < 0 || !this.maoDeObra?.previsaoHoras)
       return true;
 
     return false;
   }
-
 
   onkeydown()
   {

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
     public class Peca
     {
-        [Key]
         public int CodPeca { get; set; }
         public string CodMagnus { get; set; }
         public string NomePeca { get; set; }
@@ -26,16 +24,11 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public int? CodPecaFamilia { get; set; }
-        [ForeignKey("CodPecaFamilia")]
-        public PecaFamilia PecaFamilia { get; set; }
         public int? CodPecaSubstituicao { get; set; }
         public int CodPecaStatus { get; set; }
-        [ForeignKey("CodPecaStatus")]
-        public PecaStatus PecaStatus { get; set; }
         public int IndObrigRastreabilidade { get; set; }
         public int IndValorFixo { get; set; }
         public DateTime? DataHoraAtualizacaoValor { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int IsValorAtualizado { get; set; }
         public byte? ListaBackup { get; set; }
         public string DtObsoleto { get; set; }
@@ -47,5 +40,9 @@ namespace SAT.MODELS.Entities
         public int? QtdpecaKitTecnico { get; set; }
         public DateTime? DataIntegracaoLogix { get; set; }
         public DateTime? DataAtualizacao { get; set; }
+        public virtual PecaFamilia PecaFamilia { get; set; }
+        public virtual PecaStatus PecaStatus { get; set; }
+        public virtual List<ClientePeca> ClientePeca { get; set; }
+        public virtual ClientePecaGenerica ClientePecaGenerica { get; set; }
     }
 }

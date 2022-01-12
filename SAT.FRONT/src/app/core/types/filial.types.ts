@@ -1,5 +1,6 @@
 import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { OrcamentoISS } from "./orcamento.types";
 
 export interface Filial
 {
@@ -12,6 +13,7 @@ export interface Filial
     fone?: string;
     cnpj?: string;
     bairro: string;
+    orcamentoISS?: OrcamentoISS;
 }
 
 export interface FilialData extends Meta

@@ -32,7 +32,7 @@ namespace SAT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
+                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
             services.AddCors(options =>
@@ -141,9 +141,15 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoUsuarioRepository, PontoPeriodoUsuarioRepository>();
             services.AddTransient<IOrcamentoRepository, OrcamentoRepository>();
             services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
+            services.AddTransient<IOrcamentoOutroServicoRepository, OrcamentoOutroServicoRepository>();
+            services.AddTransient<IOrcamentoMaterialRepository, OrcamentoMaterialRepository>();
+            services.AddTransient<IOrcamentoMaoDeObraRepository, OrcamentoMaoDeObraRepository>();
+            services.AddTransient<IOrcamentoMotivoRepository, OrcamentoMotivoRepository>();
             services.AddTransient<IMonitoramentoRepository, MonitoramentoRepository>();
             services.AddTransient<IMonitoramentoHistoricoRepository, MonitoramentoHistoricoRepository>();
             services.AddTransient<ILaudoRepository, LaudoRepository>();
+            services.AddTransient<IOrcamentoStatusRepository, OrcamentoStatusRepository>();
+            services.AddTransient<IOrcamentoDeslocamentoRepository, OrcamentoDeslocamentoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -231,8 +237,14 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoUsuarioService, PontoPeriodoUsuarioService>();
             services.AddTransient<IOrcamentoService, OrcamentoService>();
             services.AddTransient<IOrcamentoMotivoService, OrcamentoMotivoService>();
+            services.AddTransient<IOrcamentoOutroServicoService, OrcamentoOutroServicoService>();
+            services.AddTransient<IOrcamentoMaterialService, OrcamentoMaterialService>();
+            services.AddTransient<IOrcamentoMaoDeObraService, OrcamentoMaoDeObraService>();
             services.AddTransient<IMonitoramentoHistoricoService, MonitoramentoHistoricoService>();
             services.AddTransient<ILaudoService, LaudoService>();
+            services.AddTransient<IOrcamentoStatusService, OrcamentoStatusService>();
+            services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
+
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

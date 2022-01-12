@@ -39,6 +39,8 @@ export class Peca
     qtdpecaKitTecnico: number;
     dataIntegracaoLogix?: any;
     dataAtualizacao: string;
+    clientePeca?: ClientePeca[];
+    clientePecaGenerica?: ClientePecaGenerica;
 }
 
 export interface PecaData extends Meta 
@@ -49,7 +51,7 @@ export interface PecaData extends Meta
 export interface PecaParameters extends QueryStringParameters 
 {
     codPeca?: string;
-    include? : PecaIncludeEnum;
+    include?: PecaIncludeEnum;
 };
 
 export enum PecaStatus
@@ -63,4 +65,34 @@ export enum PecaStatus
 export enum PecaIncludeEnum
 {
     OS_PECAS = 1
+}
+
+export interface ClientePeca
+{
+    codClientePeca: number;
+    codCliente: number;
+    codContrato: number;
+    codPeca: number;
+    valorUnitario: number;
+    valorIPI: number;
+    vlrSubstituicaoNovo: number;
+    vlrBaseTroca: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
+}
+
+export interface ClientePecaGenerica
+{
+    codClientePecaGenerica: number;
+    codPeca: number;
+    valorUnitario: number;
+    valorIPI: number;
+    vlrSubstituicaoNovo: number;
+    vlrBaseTroca: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
 }

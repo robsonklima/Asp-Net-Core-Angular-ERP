@@ -3,8 +3,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { IEditableFuseCard } from 'app/shared/components/interfaces/ieditable-fuse-card';
+import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { isEqual } from 'lodash';
+import { OrcamentoDeslocamentoService } from 'app/core/services/orcamento-deslocamento.service';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 
 @Component({
   selector: 'app-orcamento-detalhe-deslocamento',
@@ -30,7 +32,12 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
   isLoading: boolean;
   isEditing: boolean;
 
-  constructor (private _cdRef: ChangeDetectorRef, private _userService: UserService) 
+  constructor (
+    private _cdRef: ChangeDetectorRef,
+    private _userService: UserService,
+    private _orcDeslocamentoService: OrcamentoDeslocamentoService,
+    private _orcService: OrcamentoService
+  )
   {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -41,9 +48,16 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
     this.oldItem = Object.assign({}, this.deslocamento);
   }
 
-  salvar(): void
+  async salvar()
   {
-    this.deslocamento.quantidadeKm = parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
+    this.calcularDeslocamento();
+
+    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(d =>
+    {
+      this.deslocamento = d;
+      this._orcService.atualizarTotalizacao(d.codOrc);
+      this.oldItem = Object.assign({}, this.deslocamento);
+    });
 
     this.isEditing = false;
     this.isLoading = true;
@@ -59,15 +73,30 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
 
   isEqual(): boolean
   {
-    return isEqual(this.oldItem.quantidadeKm.toString(), this.deslocamento.quantidadeKm.toString());
+    return isEqual(this.oldItem?.quantidadeKm?.toString(), this.deslocamento?.quantidadeKm?.toString());
   }
 
   isInvalid(): boolean
   {
-    if (this.deslocamento.quantidadeKm < 0 || this.deslocamento.quantidadeKm == null)
+    if (!this.deslocamento || this.deslocamento?.quantidadeKm < 0 || !this.deslocamento?.quantidadeKm)
       return true;
 
     return false;
+  }
+
+  calcularDeslocamento()
+  {
+    this.deslocamento.quantidadeKm =
+      parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
+
+    this.deslocamento.valorTotalKmRodado =
+      this.deslocamento.quantidadeKm * this.deslocamento.valorUnitarioKmRodado;
+
+    this.deslocamento.quantidadeHoraCadaSessentaKm =
+      parseFloat((this.deslocamento.quantidadeKm / 60.0).toFixed(4));
+
+    this.deslocamento.valorTotalKmDeslocamento =
+      this.deslocamento.valorHoraDeslocamento * this.deslocamento.quantidadeHoraCadaSessentaKm;
   }
 
   onkeydown()

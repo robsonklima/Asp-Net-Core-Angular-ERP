@@ -110,10 +110,32 @@ namespace SAT.INFRA.Repository
                                      .ThenInclude(os => os.DispBBRegiaoUF)
                                         .ThenInclude(os => os.DispBBRegiao);
                     break;
-                case (OrdemServicoIncludeEnum.OS_INTEGRACAO_MONITORAMENTO):
+                case (OrdemServicoIncludeEnum.OS_ORCAMENTO):
                     query = query
+                        .Include(os => os.Filial)
+                            .ThenInclude(f => f.OrcamentoISS)
                         .Include(os => os.Equipamento)
-                        .Include(os => os.EquipamentoContrato);
+                        .Include(os => os.EquipamentoContrato)
+                            .ThenInclude(ec => ec.Contrato)
+                                .ThenInclude(ec => ec.ContratoServico)
+                                    .ThenInclude(cs => cs.TipoServico)
+                        .Include(os => os.EquipamentoContrato)
+                        .Include(os => os.LocalAtendimento)
+                            .ThenInclude(os => os.Autorizada)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(a => a.ProtocolosSTN)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
+                                    .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
+                                        .ThenInclude(rat => rat.Peca)
+                                            .ThenInclude(peca => peca.ClientePeca)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
+                                    .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
+                                        .ThenInclude(rat => rat.Peca)
+                                            .ThenInclude(peca => peca.ClientePecaGenerica)
+                        .Include(os => os.Orcamentos)
+                            .ThenInclude(orc => orc.OrcamentoMotivo);
                     break;
                 case (OrdemServicoIncludeEnum.OS_LISTA):
                     query = query

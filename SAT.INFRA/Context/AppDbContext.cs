@@ -122,12 +122,17 @@ namespace SAT.INFRA.Context
         public DbSet<UsuarioDispositivo> UsuarioDispositivo { get; set; }
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
         public DbSet<Orcamento> Orcamento { get; set; }
+        public DbSet<OrcamentoMaterial> OrcamentoMaterial { get; set; }
         public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
+        public DbSet<OrcamentoDesconto> OrcamentoDesconto { get; set; }
+        public DbSet<OrcamentoMaoDeObra> OrcamentoMaoDeObra { get; set; }
+        public DbSet<OrcamentoOutroServico> OrcamentoOutroServico { get; set; }
         public DbSet<EnderecoFaturamentoNF> EnderecoFaturamentoNF { get; set; }
         public DbSet<EnderecoFaturamentoVinculado> EnderecoFaturamentoVinculado { get; set; }
         public DbSet<Monitoramento> Monitoramento { get; set; }
         public DbSet<MonitoramentoHistorico> MonitoramentoHistorico { get; set; }
-        
+        public DbSet<OrcamentoStatus> OrcamentoStatus { get; set; }
+        public DbSet<OrcamentoDeslocamento> OrcamentoDeslocamento { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -169,6 +174,13 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcamentoDeslocamento>(new OrcamentoDeslocamentoMap().Configure);
             modelBuilder.Entity<Monitoramento>(new MonitoramentoMap().Configure);
             modelBuilder.Entity<MonitoramentoHistorico>(new MonitoramentoHistoricoMap().Configure);
+            modelBuilder.Entity<OrcamentoISS>(new OrcamentoISSMap().Configure);
+            modelBuilder.Entity<Filial>(new FilialMap().Configure);
+            modelBuilder.Entity<Contrato>(new ContratoMap().Configure);
+            modelBuilder.Entity<ContratoServico>(new ContratoServicoMap().Configure);
+            modelBuilder.Entity<Peca>(new PecaMap().Configure);
+            modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
+            modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
@@ -180,18 +192,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasOne<Navegacao>(nc => nc.Navegacao)
                         .WithMany(nc => nc.NavegacoesConfiguracao);
-
-            modelBuilder.Entity<OrdemServico>()
-                        .HasMany(ra => ra.AgendaTecnico)
-                        .WithOne(ra => ra.OrdemServico)
-                        .HasForeignKey("CodOS")
-                        .HasPrincipalKey("CodOS");
-
-            modelBuilder.Entity<OrdemServico>()
-                .HasKey(p => p.CodOS);
-
-            modelBuilder.Entity<Tecnico>()
-                        .HasMany<OrdemServico>(os => os.OrdensServico);
 
             modelBuilder.Entity<DespesaPeriodoTecnico>()
                         .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });

@@ -48,6 +48,7 @@ import { OrdemServicoCancelamentoComponent } from './ordem-servico-cancelamento/
 import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-foto.component';
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
+import { OrdemServicoDetalheOrcamentoComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamento/ordem-servico-detalhe-orcamento.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -70,7 +71,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrdemServicoCancelamentoComponent,
         OrdemServicoEmailDialogComponent,
         OrdemServicoFotoComponent,
-        OrdemServicoPesquisaComponent
+        OrdemServicoPesquisaComponent,
+        OrdemServicoDetalheOrcamentoComponent
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

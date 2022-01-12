@@ -6,11 +6,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
-import { Monitoramento, monitoramentoTipoConst, monitoramentoStatusConst } from 'app/core/types/monitoramento.types';
+import { Monitoramento, monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import moment from 'moment';
 import _ from 'lodash';
-import { SpeedTestService } from 'ng-speed-test';
 
 @Component({
     selector: 'default',
@@ -35,8 +34,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     constructor(
         private _userService: UserService,
         private _monitoramentoService: MonitoramentoService,
-        private _monitoramentoHistoricoService: MonitoramentoHistoricoService,
-        private speedTestService: SpeedTestService
+        private _monitoramentoHistoricoService: MonitoramentoHistoricoService
     )
     {
         this.sessionData = JSON.parse(this._userService.userSession);
@@ -53,10 +51,6 @@ export class DefaultComponent implements OnInit, OnDestroy
             )
             .subscribe(() =>
             {
-                this.speedTestService.getMbps().subscribe((speed) => {
-                    console.log('Your speed is ' + speed);
-                });
-
                 this.obterDados();
             });
     }

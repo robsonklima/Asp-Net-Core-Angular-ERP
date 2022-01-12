@@ -90,6 +90,7 @@ export const appRoutes: Route[] = [
             { path: 'filtros', loadChildren: () => import('app/modules/main/filtros/filtro.module').then(m => m.FiltroModule) },
             { path: 'ajuda', loadChildren: () => import('app/modules/main/ajuda/ajuda.module').then(m => m.AjudaModule) },
             { path: 'orcamento', loadChildren: () => import('app/modules/main/orcamento/orcamento.module').then(m => m.OrcamentoModule) },
+            { path: 'conferencia', loadChildren: () => import('app/modules/main/conferencia/conferencia.module').then(m => m.ConferenciaModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { appConfig as c } from '../../core/config/app.config';
-import { Coordenada } from './haversine.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,17 +21,21 @@ export class NominatimService
     );
   }
 
-  private buscarRota(latOrigem: string, lngOrigem: string, latDestino: string, lngDestino: string) 
+  buscarRota(latOrigem: number, lngOrigem: number, latDestino: number, lngDestino: number) 
   {
-    let key = Math.floor(Math.random() * c.map_quest_keys.length);
-    const url = `https://www.mapquestapi.com/directions/v2/route?key=${c.map_quest_keys[key]}&from=${latOrigem},${lngOrigem}&to=${latDestino},${lngDestino}`;
+    
 
-    return fetch(url).then(p => { return p.json() });
-  }
+    const head = new HttpHeaders().append('accept', 'application/json') .append('content-type', 'application/json').append('Access-Control-Allow-Origin', '*');
+    const url = `https://www.mapquestapi.com/directions/v2/route?key=nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2&from=${latOrigem},${lngOrigem}&to=${latDestino},${lngDestino}`;
 
-  public async deslocamentoEmMinutos(origem: Coordenada, destino: Coordenada): Promise<number>
-  {
-    return (await this.buscarRota(origem.coordenadas[0], origem.coordenadas[1],
-      destino.coordenadas[0], destino.coordenadas[1])).route.time / 60.0;
+    return this.http.get<any>(url, {headers:head}).pipe(
+      map((data: any) => data)
+    );
   }
 }
+
+// 'Io2YoCuiLJ8SFAW14pXwozOSYgxPAOM1', 'nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2',
+// 'KDVU5s6t3bOZkAksJfpuUiygIFPlXH9U', 'klrano7LC8Vk88QmjXvAt9jUrjzGReiz',
+// 'bP1zqnkhSVsAj5gL8GucMipVqDRPNmID', 'A0bAhXKQNNEqjFWUUOvR2HhAStiElB0L',
+// 'EDvdlS7xGN5U8WqHFiXMWXmXGwNSAhvh', 'XsjlWnkAo5fPMGhJ8l3RTwEpQfPINIGU',
+// 'tbYhdvKIFCxkDFjoGATSHmVPL54ItdlC', 'l19CNtzjRZmwVCncGjBycgFV5WSUGYQ1',

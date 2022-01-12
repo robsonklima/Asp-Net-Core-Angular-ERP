@@ -29,7 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             catchError((error) => {
                 switch (error.status) {
                     case 0:
-                        this._router.navigate(['0-connection-refused']);
+                        //this._router.navigate(['0-connection-refused']);
                         break;
 
                     case 401:
@@ -40,7 +40,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 403:
-                        this._router.navigate(['403-forbidden']);
+                        //this._router.navigate(['403-forbidden']);
                         break;
 
                     case 400:
@@ -52,14 +52,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     case 503:
                         this.enviarEmail(error);   
 
-                        this._router.navigate(['503-service-unavailable']);
+                        //this._router.navigate(['503-service-unavailable']);
                         break;
 
                     case 500:
                         if (!error.url.includes('api/Usuario')) {
                             this.enviarEmail(error);
                     
-                            this._router.navigate(['500-internal-server-error']);
+                            //this._router.navigate(['500-internal-server-error']);
                         }
                         
                         break;

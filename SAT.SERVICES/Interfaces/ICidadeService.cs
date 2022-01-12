@@ -10,5 +10,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(Cidade cidade);
         Cidade ObterPorCodigo(int codigo);
+        Cidade BuscaCidadePorNome(string nomeCidade);
     }
 }

@@ -8,5 +8,8 @@ namespace SAT.SERVICES.Interfaces
         UsuarioLoginViewModel Login(Usuario usuario);
         ListViewModel ObterPorParametros(UsuarioParameters parameters);
         Usuario ObterPorCodigo(string codigo);
+        void Atualizar(Usuario usuario);
+        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel);
+        
     }
 }

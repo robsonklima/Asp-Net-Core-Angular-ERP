@@ -25,6 +25,11 @@ namespace SAT.SERVICES.Services
             _tokenService = tokenService;
         }
 
+        public void Atualizar(Usuario usuario)
+        {
+            this._usuarioRepo.Atualizar(usuario);
+        }
+
         public UsuarioLoginViewModel Login(Usuario usuario)
         {
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
@@ -77,6 +82,11 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
+        }
+
+        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

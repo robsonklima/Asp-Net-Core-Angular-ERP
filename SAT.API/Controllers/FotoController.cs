@@ -43,5 +43,19 @@ namespace SAT.API.Controllers
         {
             _fotoService.Deletar(codFoto);
         }
+
+        [HttpPost("{imageUrl}")]
+        public void AlterarFotoPerfil([FromBody] ImagemPerfilModel model)
+        {
+            _fotoService.AlterarFotoPerfil(model);
+        }
+
+        [HttpGet]
+        [Route("BuscaFotoUsuario/{codUsuario}")]
+        public ImagemPerfilModel BuscaFotoUsuario(string codUsuario)
+        {
+            return _fotoService.BuscarFotoUsuario(codUsuario);
+        }
+
     }
 }

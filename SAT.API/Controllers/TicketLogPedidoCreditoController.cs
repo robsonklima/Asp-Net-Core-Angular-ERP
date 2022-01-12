@@ -19,6 +19,7 @@ namespace SAT.API.Controllers
             _ticketLogPedidoCreditoService = ticketLogPedidoCreditoService;
         }
 
+        [HttpPost]
         public void Post([FromBody] TicketLogPedidoCredito pedidoCredito)
         {
             _ticketLogPedidoCreditoService.Criar(pedidoCredito);

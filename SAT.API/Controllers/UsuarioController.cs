@@ -39,5 +39,19 @@ namespace SAT.API.Controllers
         {
             return _usuarioService.Login(usuario);
         }
+
+
+        [HttpPut]
+        public void Put([FromBody] Usuario usuario)
+        {
+            _usuarioService.Atualizar(usuario);
+        }
+
+        [HttpPut]
+        [Route("AlterarSenha")]
+        public void AlterarSenha([FromBody] SegurancaUsuarioModel segurancaUsuarioModel)
+        {
+            _usuarioService.AlterarSenha(segurancaUsuarioModel);
+        }
     }
 }

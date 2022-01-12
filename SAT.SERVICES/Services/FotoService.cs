@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
@@ -64,9 +65,53 @@ namespace SAT.SERVICES.Services
 
                 string imageName = foto.NomeFoto;
                 string imgPath = Path.Combine(target, imageName);
+
+                string existsFile = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == imageName.Split('.')[0]);
+
+                if (!string.IsNullOrWhiteSpace(existsFile))
+                {
+                    File.Delete(existsFile);
+                }
+
                 byte[] imageBytes = Convert.FromBase64String(foto.Base64.Replace("data:image/jpeg;base64,", "").Replace("data:image/png;base64,", ""));
                 File.WriteAllBytes(imgPath, imageBytes);
             }
+        }
+
+        public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
+        {
+            string target = Directory.GetCurrentDirectory() + "/Upload";
+            string imgPath = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == codUsuario);
+
+            string base64 = string.Empty;
+            string extension = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(imgPath))
+            {
+                extension = Path.GetExtension(imgPath);
+                byte[] bytes = File.ReadAllBytes(imgPath);
+
+                if (bytes.Length > 0)
+                {
+                    base64 = Convert.ToBase64String(bytes);
+                }
+            }
+
+            return new ImagemPerfilModel()
+            {
+                Base64 = base64,
+                CodUsuario = codUsuario,
+                Mime = Path.GetExtension(extension)
+            };
+        }
+
+        public void AlterarFotoPerfil(ImagemPerfilModel model)
+        {
+            this.SalvarFotoServer(new Foto()
+            {
+                Base64 = model.Base64,
+                NomeFoto = $"{model.CodUsuario}.{model.Mime}"
+            });
         }
     }
 }

@@ -9,5 +9,7 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         Foto ObterPorCodigo(int codigo);
         ListViewModel ObterPorParametros(FotoParameters parameters);
+        void AlterarFotoPerfil(ImagemPerfilModel model);
+        ImagemPerfilModel BuscarFotoUsuario(string codUsuario);
     }
 }

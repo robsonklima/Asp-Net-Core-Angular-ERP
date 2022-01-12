@@ -6,5 +6,7 @@ namespace SAT.MODELS.Entities
     {
         public string NumRAT { get; set; }
         public int? CodOS { get; set; }
+
+        public string CodUsuario { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace SAT.INFRA.Repository
 {
@@ -26,6 +27,28 @@ namespace SAT.INFRA.Repository
                 _context.Entry(c).CurrentValues.SetValues(cidade);
                 _context.SaveChanges();
             }
+        }
+
+        public Cidade BuscaCidadePorNome(string nomeCidade)
+        {
+            Cidade[] listaCidades = _context.Cidade
+                .Include(f => f.UnidadeFederativa)
+                .ThenInclude(f => f.Pais)
+                .Where(c => c.NomeCidade.StartsWith(nomeCidade.Substring(0, 1))).ToArray();
+
+            Cidade retorno = null;
+            foreach (Cidade cidade in listaCidades)
+            {
+                string regex = Regex.Replace(cidade.NomeCidade, "[^a-zA-Z]+", "").ToLower();
+
+                if (regex == nomeCidade)
+                {
+                    retorno = cidade;
+                    break;
+                }
+            }
+
+            return retorno;
         }
 
         public void Criar(Cidade cidade)

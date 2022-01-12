@@ -7,6 +7,7 @@ import { OrcamentoDescontoService } from 'app/core/services/orcamento-desconto.s
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrcamentoDesconto } from 'app/core/types/orcamento.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { OrcamentoAddDescontoDialogComponent } from './orcamento-add-desconto-dialog/orcamento-add-desconto-dialog.component';
 
 @Component({
   selector: 'app-orcamento-detalhe-desconto',
@@ -129,6 +130,31 @@ export class OrcamentoDetalheDescontoComponent implements IEditableItemList<Orca
 
   adicionarDesconto()
   {
+    const dialogRef = this._dialog.open(OrcamentoAddDescontoDialogComponent, {
+      data: {
+        codOrc: this.codOrc
+      },
+      backdropClass: 'static',
+      width: '600px'
+    });
 
+    dialogRef.afterClosed().subscribe((desconto: OrcamentoDesconto) =>
+    {
+      if (desconto)
+      {
+        var item: IEditableItem<OrcamentoDesconto> =
+        {
+          item: desconto,
+          isEditing: false,
+          onEdit: () => this.editar(item),
+          onCancel: () => this.cancelar(item),
+          onSave: () => this.salvar(item),
+          onDelete: () => this.excluirDesconto(item),
+          isEqual: () => this.isEqual(item),
+          isInvalid: () => this.isInvalid(item)
+        };
+        this.editableList.push(item);
+      }
+    });
   }
 }

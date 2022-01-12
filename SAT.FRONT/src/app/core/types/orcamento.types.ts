@@ -259,9 +259,9 @@ export enum OrcamentoTipoOutroServicoEnum
     ABERTURA_COFRE = "Abertura de cofre",
     ABERTURA_COFRE_COM_REFORMA = "Abertura de cofre com reforma na porta",
     SOLDAGEM_PORTA_COFRE = "Soldagem na porta do cofre",
-    OUTROS = "Outros",
-    ABERURA_TAMPA_INFERIOR = "Abertura da tampa inferior",
-    ABERURA_TAMPA_SUPERIOR = "Abertura da tampa superior"
+    OUTROS = "Outros    ",
+    ABERTURA_TAMPA_INFERIOR = "Abertura da tampa inferior",
+    ABERTURA_TAMPA_SUPERIOR = "Abertura da tampa superior"
 }
 
 export enum OrcamentoTipoDescontoEnum
@@ -274,6 +274,6 @@ export enum OrcamentoTipoDescontoEnum
 
 export enum OrcamentoFormaDescontoEnum
 {
-    PERCENTUAL = "% (Percentual)",
-    VALOR = "R$ (Valor)"
+    PERCENTUAL = "Percentual",
+    VALOR = "Valor"
 }

@@ -49,7 +49,7 @@
                                     <div>
                                         {{ material?.item?.descricao }}
                                     </div>
-                                    <div [id]="'quantidade' + material.item.codOrcMaterial" ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
                                         material?.isEditing }" [contentEditable]="material?.isEditing"
                                         [textContent]="material?.item?.quantidade"
                                         (input)="material.item.quantidade = $event.target.innerText"></div>

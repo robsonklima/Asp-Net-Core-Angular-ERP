@@ -145,6 +145,15 @@ export interface OrcamentoOutroServico
     usuarioCadastro: string;
 }
 
+export interface OrcamentoOutroServicoData extends Meta
+{
+    items: OrcamentoOutroServico[];
+};
+
+export interface OrcamentoOutroServicoParameters extends QueryStringParameters
+{
+};
+
 export interface OrcamentoDesconto
 {
     codOrcDesconto: number;

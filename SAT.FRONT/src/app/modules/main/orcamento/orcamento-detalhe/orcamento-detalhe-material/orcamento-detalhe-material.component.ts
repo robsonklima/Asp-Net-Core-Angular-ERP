@@ -31,35 +31,30 @@ import { OrcamentoService } from 'app/core/services/orcamento.service';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoDetalheMaterialComponent implements IEditableItemList, AfterViewInit
+export class OrcamentoDetalheMaterialComponent implements IEditableItemList<OrcamentoMaterial>, AfterViewInit
 {
   isLoading: boolean = false;
   isEditing: boolean = false;
-  editableList: IEditableItem[] = [];
-  selectedItem: IEditableItem;
-  userSession: UserSession;
-
+  editableList: IEditableItem<OrcamentoMaterial>[] = [];
+  selectedItem: IEditableItem<OrcamentoMaterial>;
   @Input() materiais: OrcamentoMaterial[];
 
   constructor (public _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
-    private _userService: UserService,
     private _orcMaterialService: OrcamentoMaterialService,
-    private _orcService: OrcamentoService) 
-  {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _orcService: OrcamentoService)
+  { }
 
   ngAfterViewInit(): void
   {
     this.editableList = this.createEditableList();
   }
 
-  createEditableList(): IEditableItem[]
+  createEditableList(): IEditableItem<OrcamentoMaterial>[]
   {
     return this.materiais.map(i =>
     {
-      var item: IEditableItem =
+      var item: IEditableItem<OrcamentoMaterial> =
       {
         item: i,
         isEditing: false,
@@ -74,19 +69,17 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     });
   }
 
-  editar(material: IEditableItem): void
+  editar(material: IEditableItem<OrcamentoMaterial>): void
   {
     material.oldItem = Object.assign({}, material.item);
     this.isEditing = true;
     material.isEditing = true;
   }
 
-  async salvar(material: IEditableItem): Promise<void>
+  async salvar(material: IEditableItem<OrcamentoMaterial>): Promise<void>
   {
-    material.item.valorUnitario = material.item.valorUnitario.toString().replace(/[^0-9,.]/g, '');
-    material.item.quantidade = material.item.quantidade.toString().replace(/[^0-9,.]/g, '');
-    material.item.valorUnitario = parseFloat(material.item.valorUnitario.toString().replace(',', '.'));
-    material.item.quantidade = parseFloat(material.item.quantidade.toString().replace(',', '.'));
+    material.item.valorUnitario = parseFloat((material.item.valorUnitario.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
+    material.item.quantidade = parseFloat((material.item.quantidade.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
     material.item.valorTotal = material.item.valorUnitario * material.item.quantidade;
 
     this._orcMaterialService.atualizar(material.item).subscribe(m =>
@@ -95,12 +88,11 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
       material.oldItem = Object.assign({}, m);
     });
 
-
     this.isEditing = false;
     material.isEditing = false;
   }
 
-  cancelar(material: IEditableItem): void
+  cancelar(material: IEditableItem<OrcamentoMaterial>): void
   {
     material.item = Object.assign({}, material.oldItem);
     this.isEditing = false;
@@ -108,13 +100,13 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     this._cdRef.detectChanges();
   }
 
-  isEqual(material: IEditableItem): boolean
+  isEqual(material: IEditableItem<OrcamentoMaterial>): boolean
   {
-    return isEqual(material?.item?.quantidadeKm?.toString(), material?.oldItem?.quantidadeKm?.toString()) ||
+    return isEqual(material?.item?.quantidade?.toString(), material?.oldItem?.quantidade?.toString()) ||
       isEqual(material?.item?.valorUnitario?.toString(), material?.oldItem?.valorUnitario?.toString());
   }
 
-  isInvalid(material: IEditableItem): boolean
+  isInvalid(material: IEditableItem<OrcamentoMaterial>): boolean
   {
     if (material.item.valorUnitario < 0 || material.item.quantidade < 0)
       return true;
@@ -122,7 +114,7 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     return false;
   }
 
-  excluirMaterial(material: IEditableItem) 
+  excluirMaterial(material: IEditableItem<OrcamentoMaterial>) 
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {

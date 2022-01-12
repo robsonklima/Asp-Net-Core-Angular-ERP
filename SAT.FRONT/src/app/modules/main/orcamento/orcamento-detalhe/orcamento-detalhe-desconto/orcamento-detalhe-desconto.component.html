@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('descontos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')">
+            <button [matTooltip]="t('novo')" (click)="adicionarDesconto()">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>
@@ -12,10 +12,10 @@
     </div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div>
-            <div class="grid h-100">
+            <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <div class="grid" *ngIf="descontos?.length">
+                        <div class="grid" *ngIf="editableList?.length">
                             <div class="list-grid-descontos sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div>
@@ -27,7 +27,7 @@
                                 <div>
                                     {{ t("tipo") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("valor desconto") }}
                                 </div>
                                 <div>
@@ -37,50 +37,53 @@
                                     {{ t("acao") }}
                                 </div>
                             </div>
-                            <ng-container *ngFor="let desconto of descontos">
+                            <ng-container *ngFor="let desconto of editableList">
                                 <div class="list-grid-descontos grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white  hover:bg-gray-100"
                                     *transloco="let t">
                                     <div>
-                                        {{ desconto?.nomeCampo }}
+                                        {{ desconto?.item?.nomeCampo }}
                                     </div>
                                     <div>
-                                        {{ desconto?.motivo }}
+                                        {{ desconto?.item?.motivo }}
                                     </div>
                                     <div>
-                                        {{ desconto?.nomeTipo }}
+                                        {{ desconto?.item?.nomeTipo }}
                                     </div>
                                     <div>
-                                        {{ desconto?.valor | currency:'BRL':'symbol-narrow' }}
+                                        {{ desconto?.item?.valor | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div>
-                                        {{ desconto?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                        {{ desconto?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>
-                                    <div class="text-left">
-                                        <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
-                                            (click)="excluirDesconto(desconto)">
-                                            <mat-icon class="icon-size-5 text-blue-600"
-                                                [svgIcon]="'heroicons_outline:refresh'">
+                                    <div class="flex pointer-events-auto">
+                                        <button class="bg-transparent" [matTooltip]="'Editar desconto'"
+                                            (click)="desconto.onEdit()" *ngIf="!desconto?.isEditing">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
-
-                                        <button class="bg-transparent" [matTooltip]="'Alterar valor'"
-                                            (click)="excluirDesconto(desconto)">
-                                            <mat-icon class="icon-size-5 text-green-600"
-                                                [svgIcon]="'heroicons_outline:cash'">
-                                            </mat-icon>
-                                        </button>
-
-                                        <button class="bg-transparent" [matTooltip]="t('deletar')"
-                                            (click)="excluirDesconto(desconto)">
+                                        <button class="bg-transparent" [matTooltip]="t('deletar') + ' desconto'"
+                                            (click)="desconto.onDelete()" *ngIf="!desconto?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
+                                            </mat-icon>
+                                        </button>
+                                        <button class="bg-transparent" [matTooltip]="'Salvar edição'"
+                                            (click)="desconto.onSave()" *ngIf="desconto?.isEditing">
+                                            <mat-icon class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_outline:check-circle'">
+                                            </mat-icon>
+                                        </button>
+                                        <button class="bg-transparent" [matTooltip]="'Cancelar edição'"
+                                            (click)="desconto.onCancel()" *ngIf="desconto?.isEditing">
+                                            <mat-icon class="icon-size-5 text-red-600"
+                                                [svgIcon]="'heroicons_outline:minus-circle'">
                                             </mat-icon>
                                         </button>
                                     </div>
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!descontos?.length && !isLoading"
+                        <div *ngIf="!editableList?.length && !isLoading"
                             class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                             Nenhum desconto encontrado!
                         </div>

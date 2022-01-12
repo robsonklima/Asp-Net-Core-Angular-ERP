@@ -23,8 +23,6 @@ export class NominatimService
 
   buscarRota(latOrigem: number, lngOrigem: number, latDestino: number, lngDestino: number) 
   {
-    
-
     const head = new HttpHeaders().append('accept', 'application/json') .append('content-type', 'application/json').append('Access-Control-Allow-Origin', '*');
     const url = `https://www.mapquestapi.com/directions/v2/route?key=nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2&from=${latOrigem},${lngOrigem}&to=${latDestino},${lngDestino}`;
 

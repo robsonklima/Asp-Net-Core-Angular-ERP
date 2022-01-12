@@ -244,7 +244,7 @@ namespace SAT.API
             services.AddTransient<ILaudoService, LaudoService>();
             services.AddTransient<IOrcamentoStatusService, OrcamentoStatusService>();
             services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
-
+            services.AddTransient<IDeslocamentoService, DeslocamentoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

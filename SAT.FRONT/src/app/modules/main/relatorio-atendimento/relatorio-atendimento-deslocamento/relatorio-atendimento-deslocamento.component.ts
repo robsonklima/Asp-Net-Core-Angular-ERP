@@ -4,6 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { DeslocamentoService } from 'app/core/services/deslocamento.service';
 import { NominatimService } from 'app/core/services/nominatim.service';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { Orcamento, OrcamentoData } from 'app/core/types/orcamento.types';
@@ -45,7 +46,7 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
 
   constructor (
     private _cdr: ChangeDetectorRef,
-    private _nominatimService: NominatimService,
+    private _deslocamentoService: DeslocamentoService, 
     protected _userService: UserService
   )
   {
@@ -98,6 +99,10 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
   {
     this.isLoading = true;
 
+    const d = await this._deslocamentoService.obterPorParametros({}).toPromise();
+    console.log(d);
+
+
     const data = {
       items: [{
         tecnico: 'João da Silva',
@@ -113,12 +118,6 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
         distancia: 0,
         tempo: 0
       }] 
-    }
-
-    for (let d of data.items) {
-      this._nominatimService.buscarRota(d.origem.lat, d.origem.lng, d.destino.lat, d.destino.lng).subscribe((r) => {
-        console.log(r)
-      })
     }
 
     this.dataSourceData = data;

@@ -3,7 +3,6 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.MODELS.Enums;
-using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -34,6 +33,7 @@ namespace SAT.INFRA.Repository
                                     .ThenInclude(os => os.Peca)
                         .Include(os => os.PrazosAtendimento);
                     break;
+
                 case (OrdemServicoIncludeEnum.OS_AGENDA):
                     query = query
                         .Include(os => os.StatusServico)
@@ -294,6 +294,14 @@ namespace SAT.INFRA.Repository
                             }).ToList(),
                         });
                     break;
+
+                case (OrdemServicoIncludeEnum.OS_INTENCAO):
+                    query = query
+                        .Include(os => os.Intencoes)
+                        .Include(os => os.LocalAtendimento)
+                        .Include(os => os.RelatoriosAtendimento);
+                    break;
+
                 default:
                     query = query
                         .Include(os => os.StatusServico)

@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
@@ -6,16 +6,19 @@ import { UserService } from 'app/core/user/user.service';
 import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { isEqual } from 'lodash';
+import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
+import { UserSession } from 'app/core/user/user.types';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 
 @Component({
   selector: 'app-orcamento-detalhe-material',
   templateUrl: './orcamento-detalhe-material.component.html',
   styles: [`
         .list-grid-material {
-            grid-template-columns: 100px auto 100px 75px 100px 100px 100px 100px;
+            grid-template-columns: 100px auto 100px 100px 100px 100px 130px 100px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 75px 100px 100px 100px 100px;
+                grid-template-columns: 100px auto 100px 100px 100px 100px 130px 100px;
             }
         }
     `],
@@ -34,10 +37,18 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
   isEditing: boolean = false;
   editableList: IEditableItem[] = [];
   selectedItem: IEditableItem;
+  userSession: UserSession;
 
   @Input() materiais: OrcamentoMaterial[];
 
-  constructor (public _dialog: MatDialog, private _cdRef: ChangeDetectorRef, private _userService: UserService) { }
+  constructor (public _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
+    private _userService: UserService,
+    private _orcMaterialService: OrcamentoMaterialService,
+    private _orcService: OrcamentoService) 
+  {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   ngAfterViewInit(): void
   {
@@ -70,14 +81,21 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList, Aft
     material.isEditing = true;
   }
 
-  salvar(material: IEditableItem): void
+  async salvar(material: IEditableItem): Promise<void>
   {
     material.item.valorUnitario = material.item.valorUnitario.toString().replace(/[^0-9,.]/g, '');
     material.item.quantidade = material.item.quantidade.toString().replace(/[^0-9,.]/g, '');
     material.item.valorUnitario = parseFloat(material.item.valorUnitario.toString().replace(',', '.'));
     material.item.quantidade = parseFloat(material.item.quantidade.toString().replace(',', '.'));
+    material.item.valorTotal = material.item.valorUnitario * material.item.quantidade;
 
-    material.oldItem = Object.assign({}, material.item);
+    this._orcMaterialService.atualizar(material.item).subscribe(m =>
+    {
+      this._orcService.atualizarTotalizacao(m.codOrc);
+      material.oldItem = Object.assign({}, m);
+    });
+
+
     this.isEditing = false;
     material.isEditing = false;
   }

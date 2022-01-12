@@ -21,33 +21,23 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrcamentoMaterialParameters parameters)
-        {
-            return _orcamentoMatService.ObterPorParametros(parameters);
-        }
+        public ListViewModel Get([FromQuery] OrcamentoMaterialParameters parameters) =>
+            _orcamentoMatService.ObterPorParametros(parameters);
 
         [HttpGet("{codOrcamentoMat}")]
-        public OrcamentoMaterial Get(int codOrcamentoMat)
-        {
-            return _orcamentoMatService.ObterPorCodigo(codOrcamentoMat);
-        }
+        public OrcamentoMaterial Get(int codOrcamentoMat) =>
+            _orcamentoMatService.ObterPorCodigo(codOrcamentoMat);
 
         [HttpPost]
-        public OrcamentoMaterial Post([FromBody] OrcamentoMaterial orcamentoMat)
-        {
-            return _orcamentoMatService.Criar(orcamentoMat);
-        }
+        public OrcamentoMaterial Post([FromBody] OrcamentoMaterial orcamentoMat) =>
+            _orcamentoMatService.Criar(orcamentoMat);
 
         [HttpPut]
-        public OrcamentoMaterial Put([FromBody] OrcamentoMaterial orcamentoMat)
-        {
-            return _orcamentoMatService.Atualizar(orcamentoMat);
-        }
+        public OrcamentoMaterial Put([FromBody] OrcamentoMaterial orcamentoMat) =>
+            _orcamentoMatService.Atualizar(orcamentoMat);
 
         [HttpDelete("{codOrcamentoMat}")]
-        public void Delete(int codOrcamentoMat)
-        {
+        public void Delete(int codOrcamentoMat) =>
             _orcamentoMatService.Deletar(codOrcamentoMat);
-        }
     }
 }

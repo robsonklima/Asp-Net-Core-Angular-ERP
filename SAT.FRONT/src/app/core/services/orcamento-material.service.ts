@@ -14,8 +14,12 @@ export class OrcamentoMaterialService
 
     criar(material: OrcamentoMaterial): Observable<OrcamentoMaterial>
     {
-        return this.http.post<OrcamentoMaterial>(`${c.api}/OrcamentoMaterial`, material).pipe(
-            map((obj) => obj)
-        );
+        return this.http.post<OrcamentoMaterial>(`${c.api}/OrcamentoMaterial`, material).pipe(map((obj) => obj));
+    }
+
+    atualizar(material: OrcamentoMaterial): Observable<OrcamentoMaterial>
+    {
+        const url = `${c.api}/OrcamentoMaterial`;
+        return this.http.put<OrcamentoMaterial>(url, material).pipe(map((obj) => obj));
     }
 }

@@ -60,5 +60,14 @@ namespace SAT.MODELS.Entities
         public Geometry geometry { get; set; }
         public string place_id { get; set; }
         public List<string> types { get; set; }
+
+        public DadosSAT dadosSAT;
+    }
+
+    public class DadosSAT
+    {
+        public int CodCidade { get; set; }
+        public int CodUF { get; set; }
+        public int CodPais { get; set; }
     }
 }

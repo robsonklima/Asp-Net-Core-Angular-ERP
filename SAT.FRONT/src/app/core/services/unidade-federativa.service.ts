@@ -3,14 +3,16 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { UnidadeFederativa, UnidadeFederativaData,
-         UnidadeFederativaParameters } from '../types/unidade-federativa.types';
+import {
+    UnidadeFederativa, UnidadeFederativaData,
+    UnidadeFederativaParameters
+} from '../types/unidade-federativa.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UnidadeFederativaService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: UnidadeFederativaParameters): Observable<UnidadeFederativaData> {
         let params = new HttpParams();
@@ -51,5 +53,15 @@ export class UnidadeFederativaService {
         return this.http.delete<UnidadeFederativa>(url).pipe(
             map((obj) => obj)
         );
+    }
+
+    async obterUnidadesFederativas(codPais: number): Promise<UnidadeFederativa[]> {
+        const params: UnidadeFederativaParameters = {
+            sortActive: 'nomeUF',
+            sortDirection: 'asc',
+            codPais: codPais,
+            pageSize: 50
+        }
+        return (await this.obterPorParametros(params).toPromise()).items;
     }
 }

@@ -29,6 +29,14 @@ export class SharedService {
             return this._listEvents.find((element) => element == data).Event.asObservable();
         }
     }
+
+    listenEvent(fromComponent: any): Observable<any> {
+        return this.getClickEvent(fromComponent);
+    }
+
+    invokeEvent(toComponent: any, params?: any[]) {
+        return this.sendClickEvent(toComponent, params);
+    }
 }
 
 export class SharedData {

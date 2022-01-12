@@ -15,15 +15,31 @@ import { ConfiguracoesContaComponent } from 'app/modules/main/configuracoes/cont
 import { ConfiguracoesSegurancaComponent } from 'app/modules/main/configuracoes/seguranca/seguranca.component';
 import { configuracoesRoutes } from 'app/modules/main/configuracoes/configuracoes.routing';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InformacoesPessoaisComponent } from './informacoes-pessoais/informacoes-pessoais.component';
+import { InformacoesTecnicasComponent } from './informacoes-tecnicas/informacoes-tecnicas.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+    return {
+        validation: false,
+    };
+};
 
 @NgModule({
     declarations: [
         ConfiguracoesComponent,
         ConfiguracoesContaComponent,
-        ConfiguracoesSegurancaComponent
+        ConfiguracoesSegurancaComponent,
+        InformacoesPessoaisComponent,
+        InformacoesTecnicasComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(configuracoesRoutes),
+        NgxMaskModule.forRoot(maskConfigFunction),
+        NgxMatSelectSearchModule,
         SharedModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -35,8 +51,10 @@ import { TranslocoModule } from '@ngneat/transloco';
         MatSlideToggleModule,
         FuseAlertModule,
         TranslocoModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        NgxMaskModule
     ]
 })
-export class ConfiguracoesModule
-{
+export class ConfiguracoesModule {
 }

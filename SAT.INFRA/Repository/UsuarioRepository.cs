@@ -134,23 +134,33 @@ namespace SAT.INFRA.Repository
         {
             return _context.Usuario
                 .Include(u => u.Perfil)
+                .Include(u => u.Cargo)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Filial)
                 .Include(u => u.Localizacoes)
                 .Include(u => u.FiltroUsuario)
+                .Include(u => u.Cidade)
+                    .ThenInclude(u => u.UnidadeFederativa)
+                    .ThenInclude(u => u.Pais)
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
 
         public void Atualizar(Usuario usuario)
         {
             _context.ChangeTracker.Clear();
+            Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == usuario.CodUsuario);
 
-            Usuario u = _context.Usuario.FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);
-
-            if (u != null)
+            if (usr != null)
             {
-                _context.Entry(u).CurrentValues.SetValues(usuario);
-                _context.SaveChanges();
+                try
+                {
+                    _context.Entry(usr).CurrentValues.SetValues(usuario);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                }
             }
         }
     }

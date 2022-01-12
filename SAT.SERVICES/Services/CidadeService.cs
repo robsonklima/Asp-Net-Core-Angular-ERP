@@ -52,5 +52,10 @@ namespace SAT.SERVICES.Services
         {
             return _cidadeRepo.ObterPorCodigo(codigo);
         }
+
+        public Cidade BuscaCidadePorNome(string nomeCidade)
+        {
+            return _cidadeRepo.BuscaCidadePorNome(nomeCidade);            
+        }
     }
 }

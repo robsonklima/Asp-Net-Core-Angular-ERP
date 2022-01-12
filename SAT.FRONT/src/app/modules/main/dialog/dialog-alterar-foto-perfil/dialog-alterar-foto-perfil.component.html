@@ -1,0 +1,39 @@
+<div *transloco="let t">
+    <button type="button" [matTooltip]="t('fechar')" mat-dialog-close>
+        <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+    </button>
+
+    <div mat-dialog-content>
+        <div class="flex-auto w-full" *transloco="let t">
+            <div class="mx-auto flex justify-center w-96 h-96 rounded-full">
+                <img *ngIf="fotoUsuario" class="rounded-full border border-gray-100 shadow-sm"
+                    src="{{'data:image/jpg;base64,' + fotoUsuario}}" alt="user image" />
+                <img *ngIf="!fotoUsuario" class="rounded-full border border-gray-100 shadow-sm"
+                    src="assets/images/avatars/profile.jpg" alt="user image" />
+
+
+            </div>
+
+            <span class="w-full flex font-bold justify-center text-2xl text-center"> Foto do perfil</span>
+            <span class="w-full flex justify-center text-base text-center"> Uma foto ajuda as pessoas a reconhecerem você</span>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions *transloco="let t" align="end">
+
+    <input style="display: none" type="file" (change)="onFileSelect($event)" #hiddenfileinput>
+
+    <button *ngIf="!loading" (click)="hiddenfileinput.click()" mat-button
+        class="text-white text-center w-full bg-blue-500">
+        <mat-icon class="mr-2 " style="color: white;" [svgIcon]="'heroicons_outline:pencil'">
+        </mat-icon>
+        {{ t('alterar') }}
+    </button>
+
+    <div *ngIf="loading" class="flex-auto">
+        <mat-progress-spinner style="margin:0 auto" [diameter]="24" [mode]="'indeterminate'">
+        </mat-progress-spinner>
+    </div>
+
+</div>

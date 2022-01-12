@@ -55,6 +55,7 @@ namespace SAT.API.Controllers
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
+        [HttpGet]
         [Route("getDiasUteis")]
         public int GetDiasUteis([FromQuery] FeriadoParameters parameters)
         {

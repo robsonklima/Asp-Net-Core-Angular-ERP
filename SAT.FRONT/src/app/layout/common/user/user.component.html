@@ -1,22 +1,24 @@
-<button
-    mat-icon-button
-    [matMenuTriggerFor]="userActions">
+<button mat-icon-button [matMenuTriggerFor]="userActions">
     <span class="relative">
-        <img
-            class="w-7 h-7 rounded-full"
-            src="assets/images/avatars/profile.jpg">
+
+        <img *ngIf="dadosFotoUsuario?.base64 && !loading" class="w-7 h-7 rounded-full"
+            src="{{'data:image/jpg;base64,' + dadosFotoUsuario.base64}}" />
+
+        <img *ngIf="!dadosFotoUsuario?.base64 && !loading" class="w-7 h-7 rounded-full"
+            src="assets/images/avatars/profile.jpg" />
+
     </span>
 </button>
 
 <mat-menu [xPosition]="'before'" #userActions="matMenu">
     <button mat-menu-item (click)="navegarParaPerfil()">
         <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        <span>{{ usuario.nomeUsuario }}</span>
+        <div *transloco="let t">
+            <span> {{ t('gerenciar conta') }}</span>
+        </div>
     </button>
     <mat-divider class="my-2"></mat-divider>
-    <button
-        mat-menu-item
-        (click)="signOut()">
+    <button mat-menu-item (click)="signOut()">
         <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
         <span>Sair</span>
     </button>

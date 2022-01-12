@@ -1,115 +1,107 @@
 <div class="w-full max-w-3xl" *transloco="let t">
-    <!-- Form -->
-    <form [formGroup]="securityForm">
 
-        <!-- Section -->
+    <div *ngIf="carregado">
+
+        <!-- Form -->
+        <!-- SENHA -->
+        <form [formGroup]="securityForm">
+            <!-- Section -->
+            <div class="w-full mt-4">
+                <div class="text-xl">{{ t('altere sua senha') }}</div>
+                <div class="text-secondary">
+                    {{ t('altere sua senha com frequencia') }}
+                </div>
+            </div>
+            <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                <!-- Senha Atual -->
+                <div class="sm:col-span-4">
+                    <mat-step [formGroupName]="'FormSenhaAtual'">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('senha atual') }}</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                            <input [formControlName]="'senhaAtual'" type="password" autocomplete='off' autocorrect='off'
+                                autocapitalize='none' spellcheck='false' matInput>
+                        </mat-form-field>
+                    </mat-step>
+                </div>
+                <!-- Nova Senha -->
+                <div class="sm:col-span-4">
+                    <mat-step [formGroupName]="'FormNovaSenha'">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>{{ t('nova senha') }}</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                            <input [formControlName]="'novaSenha'" type="password" autocomplete='off' autocorrect='off'
+                                autocapitalize='none' spellcheck='false' matInput>
+                        </mat-form-field>
+                    </mat-step>
+                    <div class="mt-1 text-md text-hint">
+                        {{ t('orientacoes senha') }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <button class="ml-4" mat-flat-button type="button" [color]="'primary'" (click)="salvar()"
+                    [disabled]="!securityForm.valid">
+                    <span *ngIf="!securityForm.disabled">
+                        {{ t('salvar') }}
+                    </span>
+                    <mat-progress-spinner *ngIf="securityForm.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </form>
+        <!-- Form -->
+        <!-- SENHA -->
+
+        <div class="my-5 border-t"></div>
+
+        <!-- DISPOSITIVOS -->
         <div class="w-full">
-            <div class="text-xl">{{ t('altere sua senha') }}</div>
-            <div class="text-secondary">
-                {{ t('altere sua senha com frequencia') }}
-            </div>
-        </div>
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- Current password -->
-            <div class="sm:col-span-4">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>{{ t('senha atual') }}</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:key'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'currentPassword'"
-                        type="password"
-                        matInput>
-                </mat-form-field>
-            </div>
-            <!-- New password -->
-            <div class="sm:col-span-4">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>{{ t('nova senha') }}</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:key'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'newPassword'"
-                        type="password"
-                        matInput>
-                </mat-form-field>
-                <div class="mt-1 text-md text-hint">
-                    {{ t('orientacoes senha') }}
-                </div>
+            <div class="text-xl"> {{ t('dispositivos conectados') }}</div>
+            <div class="text-secondary"> {{ t('dispositivos conectados descricao') }}
             </div>
         </div>
 
-        <!-- Divider -->
-        <div class="my-10 border-t"></div>
+        <table class="min-w-full text-center">
+            <tbody>
+                <tr class="border-b">
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:desktop-computer'" matPrefix>
+                        </mat-icon>
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        Chrome 96.0.4664.110 - Windows 10
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        30/12/2021
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        <button class="ml-4" mat-flat-button type="button" [color]="'warn'">
+                            {{ t('desconectar') }}
+                        </button>
+                    </td>
+                </tr>
+                <tr class="border-b">
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:device-mobile'" matPrefix>
+                        </mat-icon>
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        Chrome 96.0.4664.110 - Android 8
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        28/12/2021
+                    </td>
+                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                        <button class="ml-4" mat-flat-button type="button" [color]="'warn'">
+                            {{ t('desconectar') }}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- DISPOSITIVOS -->
 
-        <!-- Section -->
-        <div class="w-full">
-            <div class="text-xl">{{ t('preferencias de seguranca') }}</div>
-            <div class="text-secondary">{{ t('mantenha sua senha segura') }}</div>
-        </div>
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- 2-step auth -->
-            <div class="sm:col-span-4 flex items-center justify-between">
-                <div
-                    class="flex-auto cursor-pointer"
-                    (click)="twoStepToggle.toggle()">
-                    <div class="leading-6 font-medium">
-                        {{t('habilitar autenticacao de 2 passos')}}
-                    </div>
-                    <div class="text-md text-secondary">
-                        {{ t('proteja sua senha contra ataques') }}
-                    </div>
-                </div>
-                <mat-slide-toggle
-                    class="ml-4"
-                    [color]="'primary'"
-                    [formControlName]="'twoStep'"
-                    #twoStepToggle>
-                </mat-slide-toggle>
-            </div>
-            <!-- Ask to change password -->
-            <div class="sm:col-span-4 flex items-center justify-between">
-                <div
-                    class="flex-auto cursor-pointer"
-                    (click)="askPasswordChangeToggle.toggle()">
-                    <div class="leading-6 font-medium">
-                        {{ t('trocar senha a cada 6 meses') }}
-                    </div>
-                    <div class="text-md text-secondary">
-                        {{ t('jeito simples de evitar roubo de senha') }}
-                    </div>
-                </div>
-                <mat-slide-toggle
-                    class="ml-4"
-                    [color]="'primary'"
-                    [formControlName]="'askPasswordChange'"
-                    #askPasswordChangeToggle>
-                </mat-slide-toggle>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="my-10 border-t"></div>
-
-        <!-- Actions -->
-        <div class="flex items-center justify-end">
-            <button
-                mat-stroked-button
-                type="button">
-                {{ t('cancelar') }}
-            </button>
-            <button
-                class="ml-4"
-                mat-flat-button
-                type="button"
-                [color]="'primary'">
-                {{ t('salvar') }}
-            </button>
-        </div>
-    </form>
-
+    </div>
 </div>

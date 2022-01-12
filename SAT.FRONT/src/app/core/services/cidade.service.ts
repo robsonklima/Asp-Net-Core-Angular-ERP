@@ -4,12 +4,13 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { Cidade, CidadeData, CidadeParameters } from '../types/cidade.types';
+import { statusConst } from '../types/status-types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CidadeService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: CidadeParameters): Observable<CidadeData> {
         let params = new HttpParams();
@@ -26,7 +27,7 @@ export class CidadeService {
     obterPorCodigo(codCidade: number): Observable<Cidade> {
         const url = `${c.api}/Cidade/${codCidade}`;
         return this.http.get<Cidade>(url).pipe(
-          map((obj) => obj)
+            map((obj) => obj)
         );
     }
 
@@ -50,5 +51,18 @@ export class CidadeService {
         return this.http.delete<Cidade>(url).pipe(
             map((obj) => obj)
         );
+    }
+
+    async obterCidades(codUF?: number, filtro: string = ''): Promise<Cidade[]> {
+
+        const params: CidadeParameters = {
+            sortActive: 'nomeCidade',
+            sortDirection: 'asc',
+            indAtivo: statusConst.ATIVO,
+            codUF: codUF,
+            pageSize: 1000,
+            filter: filtro
+        }
+        return (await this.obterPorParametros(params).toPromise()).items;
     }
 }

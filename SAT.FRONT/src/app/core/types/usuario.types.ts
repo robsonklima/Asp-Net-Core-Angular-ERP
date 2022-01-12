@@ -1,3 +1,5 @@
+import { Cargo } from "./cargo.types";
+import { Cidade } from "./cidade.types";
 import { Filial } from "./filial.types";
 import { FiltroUsuarioData } from "./filtro.types";
 import { Meta, QueryStringParameters } from "./generic.types";
@@ -7,8 +9,7 @@ import { Perfil } from "./perfil.types";
 import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
 
-export class Usuario
-{
+export class Usuario {
     codUsuario: string;
     codFilial?: any;
     filial?: Filial;
@@ -16,11 +17,11 @@ export class Usuario
     codTecnico?: any;
     codCliente?: any;
     cliente?: any;
-    codCargo: number;
+    cargo: Cargo;
     codDepartamento?: any;
     codTurno?: any;
     codCidade: number;
-    cidade?: any;
+    cidade?: Cidade;
     codFilialPonto?: any;
     codFusoHorario: number;
     codLingua: number;
@@ -62,21 +63,18 @@ export class Usuario
     filtroUsuario?: FiltroUsuarioData[];
 }
 
-export interface UsuarioData extends Meta
-{
+export interface UsuarioData extends Meta {
     items: Usuario[];
 };
 
-export interface UsuarioSessao
-{
+export interface UsuarioSessao {
     usuario?: Usuario,
     navegacoes?: Navegacao[];
     filtros?: any[];
     token?: string;
 };
 
-export interface UsuarioParameters extends QueryStringParameters
-{
+export interface UsuarioParameters extends QueryStringParameters {
     codUsuario?: string;
     nomeUsuario?: string;
     codPerfil?: number;

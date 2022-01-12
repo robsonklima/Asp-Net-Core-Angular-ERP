@@ -123,7 +123,19 @@ export class OrcamentoDetalheDescontoComponent implements IEditableItemList<Orca
     {
       if (confirmacao)
       {
+        this._orcDescontoService.deletar(desconto.item.codOrcDesconto).subscribe(d =>
+        {
+          this._snack.open('Desconto removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
+          const index = this.editableList.indexOf(desconto);
+          if (index > -1)
+            this.editableList.splice(index, 1);
+          console.log(index);
+        },
+          e =>
+          {
+            this._snack.open('Erro ao remover o desconto.', null, this.snackConfigDanger).afterDismissed().toPromise();
+          });
       }
     });
   }

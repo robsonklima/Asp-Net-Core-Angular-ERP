@@ -38,9 +38,9 @@ namespace SAT.SERVICES.Services
             var navegacoes = usuarioLogado.Perfil?.NavegacoesConfiguracao
                 .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
 
-            if (navegacoes.Count == 0) {
-                throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
-            }
+            // if (navegacoes.Count == 0) {
+            //     throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
+            // }
 
             if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);

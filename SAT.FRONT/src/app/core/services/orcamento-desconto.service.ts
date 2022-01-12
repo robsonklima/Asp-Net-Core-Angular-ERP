@@ -22,4 +22,10 @@ export class OrcamentoDescontoService
         const url = `${c.api}/OrcamentoDesconto`;
         return this.http.put<OrcamentoDesconto>(url, desconto).pipe(map((obj) => obj));
     }
+
+    deletar(codOrcamentoDesc: number): Observable<OrcamentoDesconto>
+    {
+        const url = `${c.api}/OrcamentoDesconto/${codOrcamentoDesc}`;
+        return this.http.delete<OrcamentoDesconto>(url).pipe(map((obj) => obj));
+    }
 }

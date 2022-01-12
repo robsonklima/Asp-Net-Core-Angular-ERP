@@ -41,9 +41,7 @@ namespace SAT.API.Controllers
             _orcamentoDescService.Atualizar(desconto);
 
         [HttpDelete("{codOrcamentoDesc}")]
-        public void Delete(int codOrcamentoDesc)
-        {
+        public void Delete(int codOrcamentoDesc) =>
             _orcamentoDescService.Deletar(codOrcamentoDesc);
-        }
     }
 }

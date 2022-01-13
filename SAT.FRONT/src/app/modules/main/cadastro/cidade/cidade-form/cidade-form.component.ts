@@ -7,11 +7,11 @@ import { delay, first, map, takeUntil } from 'rxjs/operators';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FilialService } from 'app/core/services/filial.service';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Cidade } from 'app/core/types/cidade.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
-import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
+import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { UnidadeFederativa, UnidadeFederativaData } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -25,7 +25,8 @@ import { statusConst } from 'app/core/types/status-types';
   templateUrl: './cidade-form.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class CidadeFormComponent implements OnInit {
+export class CidadeFormComponent implements OnInit
+{
 
   codCidade: number;
   isAddMode: boolean;
@@ -37,23 +38,25 @@ export class CidadeFormComponent implements OnInit {
 
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _cidadeService: CidadeService,
     private _filialService: FilialService,
     private _unidadeFederativaService: UnidadeFederativaService,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
-    private _googleGeolocationService: GoogleGeolocationService,
+    private _geolocationService: GeolocalizacaoService,
     private _userService: UserService,
     private _location: Location,
     private _dialog: MatDialog,
     private _router: Router
-  ) {
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
 
     this.codCidade = +this._route.snapshot.paramMap.get('codCidade');
     this.isAddMode = !this.codCidade;
@@ -62,7 +65,8 @@ export class CidadeFormComponent implements OnInit {
     this.obterUnidadesFederativas();
 
     this.form.controls['nomeCidade'].valueChanges.pipe(
-      map(async text => {
+      map(async text =>
+      {
         this.obterLatLngPorEndereco();
       }),
       delay(500),
@@ -70,17 +74,20 @@ export class CidadeFormComponent implements OnInit {
     ).subscribe(() => { });
 
     this.form.controls['codUF'].valueChanges.pipe(
-      map(async text => {
+      map(async text =>
+      {
         this.obterLatLngPorEndereco();
       }),
       delay(500),
       takeUntil(this._onDestroy)
     ).subscribe(() => { });
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode)
+    {
       this._cidadeService.obterPorCodigo(this.codCidade)
         .pipe(first())
-        .subscribe(autorizada => {
+        .subscribe(autorizada =>
+        {
           this.cidade = autorizada;
           this.form.patchValue(this.cidade);
           this.form.controls['codUF'].setValue(this.cidade.codUF);
@@ -88,7 +95,8 @@ export class CidadeFormComponent implements OnInit {
     }
   }
 
-  private inicializarForm() {
+  private inicializarForm()
+  {
     this.form = this._formBuilder.group({
       codCidade: [
         {
@@ -115,24 +123,30 @@ export class CidadeFormComponent implements OnInit {
     });
   }
 
-  private async obterLatLngPorEndereco() {
+  private async obterLatLngPorEndereco()
+  {
 
     const uf = this.form.controls['codUF']?.value;
     const nomeCidade = this.form.controls['nomeCidade']?.value;
 
-    if (nomeCidade !== null && uf !== null) {
+    if (nomeCidade !== null && uf !== null)
+    {
       const query = `${nomeCidade}, ${uf}`;
-      this._googleGeolocationService.obterPorParametros({ enderecoCep: query.trim()}).subscribe((data: GoogleGeolocation) => {
-        if (data && data.results.length > 0) {
-          const res = data.results.shift();
-          this.form.controls['latitude'].setValue(res.geometry.location.lat);
-          this.form.controls['longitude'].setValue(res.geometry.location.lng);
-        }
-      });
+      this._geolocationService.obterPorParametros({ enderecoCep: query.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .subscribe((data: Geolocalizacao) =>
+        {
+          if (data)
+          {
+            const res = data;
+            this.form.controls['latitude'].setValue(res.latitude);
+            this.form.controls['longitude'].setValue(res.longitude);
+          }
+        });
     }
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
@@ -143,23 +157,27 @@ export class CidadeFormComponent implements OnInit {
     this.filiais = data.items;
   }
 
-  obterUnidadesFederativas(): void {
+  obterUnidadesFederativas(): void
+  {
     const codPais = 1; // Brasil
 
     this._unidadeFederativaService.obterPorParametros({
       pageSize: 50,
       codPais: codPais
-    }).subscribe((data: UnidadeFederativaData) => {
+    }).subscribe((data: UnidadeFederativaData) =>
+    {
       this.unidadesFederativas = data.items;
     })
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.form.disable();
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private atualizar(): void {
+  private atualizar(): void
+  {
     const form: any = this.form.getRawValue();
 
     let obj = {
@@ -172,15 +190,18 @@ export class CidadeFormComponent implements OnInit {
       }
     };
 
-    this._cidadeService.atualizar(obj).subscribe(() => {
+    this._cidadeService.atualizar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Cidade atualizada com sucesso!", "success");
       this._location.back();
-    }, e => {
+    }, e =>
+    {
       this.form.enable();
     });
   }
 
-  private criar(): void {
+  private criar(): void
+  {
     const form = this.form.getRawValue();
 
     let obj = {
@@ -193,15 +214,18 @@ export class CidadeFormComponent implements OnInit {
       }
     };
 
-    this._cidadeService.criar(obj).subscribe(() => {
+    this._cidadeService.criar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Cidade inserida com sucesso!", "success");
       this._location.back();
-    }, e => {
+    }, e =>
+    {
       this.form.enable();
     });
   }
 
-  async deletar() {
+  async deletar()
+  {
 
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
@@ -214,14 +238,18 @@ export class CidadeFormComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+    {
+      if (confirmacao)
+      {
         this.form.disable();
-        this._cidadeService.deletar(this.codCidade).subscribe(() => {
+        this._cidadeService.deletar(this.codCidade).subscribe(() =>
+        {
           this._snack.exibirToast('Cidade removida com sucesso!', 'success');
           this._router.navigate(['/cidade']);
           this.form.enable();
-        }, e => {
+        }, e =>
+        {
           this._snack.exibirToast('Erro ao remover cidade', 'error');
           this.form.enable();
         })
@@ -229,7 +257,8 @@ export class CidadeFormComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

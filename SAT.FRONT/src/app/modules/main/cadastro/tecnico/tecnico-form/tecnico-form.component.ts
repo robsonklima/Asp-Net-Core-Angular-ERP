@@ -7,7 +7,7 @@ import { CidadeService } from 'app/core/services/cidade.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { FilialService } from 'app/core/services/filial.service';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
@@ -16,7 +16,7 @@ import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.type
 import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { DespesaCartaoCombustivel, DespesaCartaoCombustivelParameters } from 'app/core/types/despesa-cartao-combustivel.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
-import { GoogleGeolocation } from 'app/core/types/google-geolocation.types';
+import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais, PaisParameters } from 'app/core/types/pais.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
@@ -34,7 +34,8 @@ import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators
   selector: 'app-tecnico-form',
   templateUrl: './tecnico-form.component.html'
 })
-export class TecnicoFormComponent implements OnInit, OnDestroy {
+export class TecnicoFormComponent implements OnInit, OnDestroy
+{
   codTecnico: number;
   tecnico: Tecnico;
   isAddMode: boolean;
@@ -52,7 +53,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   despesaCartoesCombustivel: DespesaCartaoCombustivel[] = [];
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
@@ -66,12 +67,14 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _userService: UserService,
     private _despesaCartaoCombustivelService: DespesaCartaoCombustivelService,
-    private _googleGeolocationService: GoogleGeolocationService
-  ) {
+    private _googleGeolocationService: GeolocalizacaoService
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.codTecnico = +this._route.snapshot.paramMap.get('codTecnico');
     this.isAddMode = !this.codTecnico;
     this.inicializarForm();
@@ -81,19 +84,23 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.obterFrotaCobrancasGaragem();
     this.obterCartoesCombustivel();
 
-    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
+    this.form.controls['codFilial'].valueChanges.subscribe(async () =>
+    {
       this.obterAutorizadas();
     });
 
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async () =>
+    {
       this.obterRegioes();
     });
 
-    this.form.controls['codPais'].valueChanges.subscribe(async () => {
+    this.form.controls['codPais'].valueChanges.subscribe(async () =>
+    {
       this.obterUFs();
     });
 
-    this.form.controls['codUF'].valueChanges.subscribe(async () => {
+    this.form.controls['codUF'].valueChanges.subscribe(async () =>
+    {
       this.obterCidades();
     });
 
@@ -101,8 +108,10 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text => {
-        if (text.length === 9) {
+      map(async text =>
+      {
+        if (text.length === 9)
+        {
           const cep = this.form.controls['cep']?.value || '';
 
           this.obterLatLngPorEndereco(cep);
@@ -116,7 +125,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text => {
+      map(async text =>
+      {
         const endereco = this.form.controls['endereco']?.value || '';
         const numero = this.form.controls['numero']?.value || '';
         const codCidade = this.form.controls['codCidade'].value;
@@ -128,10 +138,12 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       takeUntil(this._onDestroy)
     ).subscribe(() => { });
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode)
+    {
       this._tecnicoService.obterPorCodigo(this.codTecnico)
         .pipe(first())
-        .subscribe(data => {
+        .subscribe(data =>
+        {
           this.form.patchValue(data);
           this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
           this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
@@ -140,7 +152,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private inicializarForm() {
+  private inicializarForm()
+  {
     this.form = this._formBuilder.group({
       codTecnico: [
         {
@@ -191,7 +204,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
@@ -203,7 +217,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.filiais = data.items;
   }
 
-  private async obterAutorizadas() {
+  private async obterAutorizadas()
+  {
     const codFilial = this.form.controls['codFilial'].value;
 
     const params: AutorizadaParameters = {
@@ -218,7 +233,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.autorizadas = data.items;
   }
 
-  private async obterRegioes() {
+  private async obterRegioes()
+  {
     const codAutorizada = this.form.controls['codAutorizada'].value;
 
     const params: RegiaoAutorizadaParameters = {
@@ -231,7 +247,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.regioes = data.items.map(ra => ra.regiao);
   }
 
-  private async obterPaises() {
+  private async obterPaises()
+  {
     const params: PaisParameters = {
       sortActive: 'nomePais',
       sortDirection: 'asc',
@@ -242,7 +259,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.paises = data.items;
   }
 
-  private async obterUFs() {
+  private async obterUFs()
+  {
     const codPais = this.form.controls['codPais'].value;
 
     const params: UnidadeFederativaParameters = {
@@ -256,7 +274,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.ufs = data.items;
   }
 
-  private async obterCidades(filtro: string = '') {
+  private async obterCidades(filtro: string = '')
+  {
     const codUF = this.form.controls['codUF'].value;
 
     const params: CidadeParameters = {
@@ -272,27 +291,40 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.cidades = data.items;
   }
 
-  private async obterLatLngPorEndereco(end: string) {
-    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim() }).subscribe((data: GoogleGeolocation) => {
-      if (data && data.results.length > 0) {
-        const res = data.results.shift();
+  private async obterLatLngPorEndereco(end: string)
+  {
+    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).subscribe((data: Geolocalizacao) =>
+    {
+      if (data)
+      {
+        const res = data;
+        this.form.controls['endereco'].setValue(res.endereco);
+        this.form.controls['latitude'].setValue(res.latitude);
+        this.form.controls['longitude'].setValue(res.longitude);
+        this.form.controls['bairro'].setValue(res.bairro);
 
-        this.form.controls['endereco'].setValue(res.formatted_address);
-        this.form.controls['latitude'].setValue(res.geometry.location.lat);
-        this.form.controls['longitude'].setValue(res.geometry.location.lng);
-
-        const bairros: any = res.address_components.filter(ac => ac.types.includes('sublocality'));
-        this.form.controls['bairro'].setValue(bairros.shift()?.long_name);
+        this._cidadeService.obterCidades(null, res.cidade).then(c =>
+        {
+          const data = c[0];
+          if (data)
+          {
+            this.form.controls['codUF'].setValue(data.codUF);
+            this.form.controls['codCidade'].setValue(data.codCidade);
+          }
+        });
       }
     });
   }
 
-  private obterFrotaFinalidadesUso(): void {
-    const data = Object.keys(FrotaFinalidadeUsoEnum).filter((element) => {
+  private obterFrotaFinalidadesUso(): void
+  {
+    const data = Object.keys(FrotaFinalidadeUsoEnum).filter((element) =>
+    {
       return isNaN(Number(element));
     });
 
-    data.forEach((tr, i) => {
+    data.forEach((tr, i) =>
+    {
       this.frotaFinalidadesUso.push({
         codFrotaFinalidadeUso: i + 1,
         nome: tr
@@ -300,12 +332,15 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private obterFrotaCobrancasGaragem(): void {
-    const data = Object.keys(FrotaCobrancaGaragemEnum).filter((element) => {
+  private obterFrotaCobrancasGaragem(): void
+  {
+    const data = Object.keys(FrotaCobrancaGaragemEnum).filter((element) =>
+    {
       return isNaN(Number(element));
     });
 
-    data.forEach((tr, i) => {
+    data.forEach((tr, i) =>
+    {
       this.frotaCobrancasGaragem.push({
         codFrotaCobrancaGaragem: i + 1,
         nome: tr
@@ -313,7 +348,8 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterCartoesCombustivel() {
+  private async obterCartoesCombustivel()
+  {
     const params: DespesaCartaoCombustivelParameters = {
       sortActive: 'numero',
       sortDirection: 'asc',
@@ -325,11 +361,13 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     this.despesaCartoesCombustivel = data.items;
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  atualizar(): void {
+  atualizar(): void
+  {
     const form: any = this.form.getRawValue();
 
 
@@ -345,13 +383,15 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    this._tecnicoService.atualizar(obj).subscribe(() => {
+    this._tecnicoService.atualizar(obj).subscribe(() =>
+    {
       this._snack.exibirToast(`Técnico ${obj.nome} atualizado com sucesso!`, "success");
       this._location.back();
     });
   }
 
-  criar(): void {
+  criar(): void
+  {
     const form = this.form.getRawValue();
 
     let obj = {
@@ -366,13 +406,15 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    this._tecnicoService.criar(obj).subscribe(() => {
+    this._tecnicoService.criar(obj).subscribe(() =>
+    {
       this._snack.exibirToast(`Técnico ${obj.nome} adicionado com sucesso!`, "success");
       this._location.back();
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

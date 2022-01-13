@@ -7,7 +7,7 @@ import { CidadeService } from 'app/core/services/cidade.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { FilialService } from 'app/core/services/filial.service';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
@@ -21,7 +21,8 @@ import { first } from 'rxjs/internal/operators/first';
   selector: 'app-usuario-form',
   templateUrl: './usuario-form.component.html'
 })
-export class UsuarioFormComponent implements OnInit, OnDestroy {
+export class UsuarioFormComponent implements OnInit, OnDestroy
+{
   codUsuario: string;
   usuario: Usuario;
   isAddMode: boolean;
@@ -29,7 +30,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
@@ -42,27 +43,32 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _userService: UserService,
     private _despesaCartaoCombustivelService: DespesaCartaoCombustivelService,
-    private _googleGeolocationService: GoogleGeolocationService
-  ) {
+    private _geolocationService: GeolocalizacaoService
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.codUsuario = this._route.snapshot.paramMap.get('codUsuario');
     this.isAddMode = !this.codUsuario;
     this.inicializarForm();
-    
-    if (!this.isAddMode) {
+
+    if (!this.isAddMode)
+    {
       this._userService.obterPorCodigo(this.codUsuario)
-      .pipe(first())
-      .subscribe(data => {
-        this.form.patchValue(data);
-        this.usuario = data;
-      });
+        .pipe(first())
+        .subscribe(data =>
+        {
+          this.form.patchValue(data);
+          this.usuario = data;
+        });
     }
   }
 
-  private inicializarForm() {
+  private inicializarForm()
+  {
     this.form = this._formBuilder.group({
       codUsuario: [
         {
@@ -75,11 +81,13 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  atualizar(): void {
+  atualizar(): void
+  {
     const form: any = this.form.getRawValue();
 
 
@@ -92,14 +100,15 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         indAtivo: +form.indAtivo
       }
     };
-    
+
     // this._userService.atualizar(obj).subscribe(() => {
     //   this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
     //   this._location.back();
     // });
   }
 
-  criar(): void {
+  criar(): void
+  {
     const form = this.form.getRawValue();
 
     let obj = {
@@ -118,7 +127,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     // });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

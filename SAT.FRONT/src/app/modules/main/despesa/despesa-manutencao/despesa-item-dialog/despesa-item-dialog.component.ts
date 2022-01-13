@@ -4,10 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { appConfig } from 'app/core/config/app.config';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
-import { Result } from 'app/core/types/google-geolocation.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -19,6 +18,7 @@ import 'leaflet';
 import 'leaflet-routing-machine';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { statusConst } from 'app/core/types/status-types';
+import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 declare var L: any;
 
 
@@ -53,7 +53,7 @@ export class DespesaItemDialogComponent implements OnInit
     private _despesaItemSvc: DespesaItemService,
     private _userSvc: UserService,
     private _cidadeSvc: CidadeService,
-    private _geolocationService: GoogleGeolocationService,
+    private _geolocationService: GeolocalizacaoService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>)
   {
     if (data)
@@ -280,87 +280,57 @@ export class DespesaItemDialogComponent implements OnInit
 
     if (!cep) return;
 
-    var googleAddress =
-      await this._geolocationService.obterPorEndereco(cep);
+    var address =
+      (await this._geolocationService.obterPorParametros({ enderecoCep: cep.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
 
-    if (googleAddress)
-      this.updateGoogleAddress(googleAddress);
+    if (address)
+      this.updateGoogleAddress(address);
   }
 
-  private updateGoogleAddress(googleAddress: Result): void
+  private updateGoogleAddress(address: Geolocalizacao): void
   {
-    var lat = googleAddress.geometry.location.lng;
-    var long = googleAddress.geometry.location.lat;
+    var lat = address.latitude;
+    var long = address.longitude;
 
     if (lat == (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].value &&
       long == (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].value) return;
 
     (this.despesaItemForm.get('step2') as FormGroup)
       .controls['longitudeOrigem']
-      .setValue(googleAddress.geometry.location.lng);
+      .setValue(address.longitude);
 
     (this.despesaItemForm.get('step2') as FormGroup)
       .controls['latitudeOrigem']
-      .setValue(googleAddress.geometry.location.lat);
+      .setValue(address.latitude);
 
-    var endereco = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("route"))
-      .firstOrDefault();
-
-    if (endereco)
+    if (address.endereco)
       (this.despesaItemForm.get('step2') as FormGroup)
         .controls['enderecoOrigem']
-        .setValue(endereco.short_name);
+        .setValue(address.endereco);
 
-    var numero = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("street_number"))
-      .firstOrDefault();
-
-    if (numero)
+    if (address.numero)
       (this.despesaItemForm.get('step2') as FormGroup)
         .controls['numeroOrigem']
-        .setValue(numero.long_name);
+        .setValue(address.numero);
 
-    var bairro = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("sublocality_level_1"))
-      .firstOrDefault();
-
-    if (bairro) (this.despesaItemForm.get('step2') as FormGroup)
+    if (address.bairro) (this.despesaItemForm.get('step2') as FormGroup)
       .controls['bairroOrigem']
-      .setValue(bairro.long_name);
+      .setValue(address.bairro);
 
-    var cidade = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("administrative_area_level_2"))
-      .firstOrDefault();
-
-    if (cidade)
+    if (address.cidade)
       (this.despesaItemForm.get('step2') as FormGroup)
         .controls['cidadeOrigem']
-        .setValue(cidade.long_name);
+        .setValue(address.cidade);
 
-    var estado = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("administrative_area_level_1"))
-      .firstOrDefault();
-
-    if (estado)
+    if (address.estado)
       (this.despesaItemForm.get('step2') as FormGroup)
         .controls['ufOrigem']
-        .setValue(estado.short_name);
+        .setValue(address.estado);
 
-    var pais = Enumerable.from(googleAddress.address_components)
-      .where(i => Enumerable.from(i.types)
-        .contains("country"))
-      .firstOrDefault();
-
-    if (pais)
+    if (address.pais)
       (this.despesaItemForm.get('step2') as FormGroup)
         .controls['paisOrigem']
-        .setValue(pais.short_name);
+        .setValue(address.pais);
   }
 
   calculaConsumoCombustivel(): number
@@ -482,10 +452,11 @@ export class DespesaItemDialogComponent implements OnInit
       latitudeDestino: dLat,
       longitudeDestino: dLong,
       latitudeOrigem: oLat,
-      longitudeOrigem: oLong
+      longitudeOrigem: oLong,
+      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.NOMINATIM
     }).subscribe(result =>
     {
-      resolve(result.rows[0]?.elements[0]?.distance?.value / 1000);
+      resolve(result.distancia / 1000);
     }));
   }
 

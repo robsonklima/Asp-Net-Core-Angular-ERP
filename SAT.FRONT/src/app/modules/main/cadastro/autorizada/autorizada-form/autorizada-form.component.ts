@@ -16,17 +16,19 @@ import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.s
 import { Cidade, CidadeData } from 'app/core/types/cidade.types';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { TipoRotaService } from 'app/core/services/tipo-rota.services';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import moment from 'moment';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 
 @Component({
   selector: 'app-autorizada-form',
   templateUrl: './autorizada-form.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class AutorizadaFormComponent implements OnInit {
+export class AutorizadaFormComponent implements OnInit
+{
   codAutorizada: number;
   isAddMode: boolean;
   form: FormGroup;
@@ -42,7 +44,7 @@ export class AutorizadaFormComponent implements OnInit {
 
   protected _onDestroy = new Subject<void>();
 
-  constructor(
+  constructor (
     private _formBuilder: FormBuilder,
     private _autorizadaService: AutorizadaService,
     private _filialService: FilialService,
@@ -53,24 +55,28 @@ export class AutorizadaFormComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private _location: Location,
     private _route: ActivatedRoute,
-    private _googleGeolocationService: GoogleGeolocationService,
+    private _googleGeolocationService: GeolocalizacaoService,
     private _userService: UserService
-  ) {
+  )
+  {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.codAutorizada = +this._route.snapshot.paramMap.get('codAutorizada');
     this.isAddMode = !this.codAutorizada;
     this.inicializarForm();
     this.obterFilial();
     this.obterPaises();
 
-    this.form.controls['codPais'].valueChanges.subscribe(async () => {
+    this.form.controls['codPais'].valueChanges.subscribe(async () =>
+    {
       this.obterUnidadesFederativas();
     });
 
-    this.form.controls['codUF'].valueChanges.subscribe(async () => {
+    this.form.controls['codUF'].valueChanges.subscribe(async () =>
+    {
       this.obterCidades();
     });
 
@@ -79,8 +85,10 @@ export class AutorizadaFormComponent implements OnInit {
       debounceTime(700),
       delay(500),
       takeUntil(this._onDestroy),
-      map(async cep => {
-        if (cep.length === 9) {
+      map(async cep =>
+      {
+        if (cep.length === 9)
+        {
           this.obterLatLngPorCep(cep);
         }
       })
@@ -94,10 +102,12 @@ export class AutorizadaFormComponent implements OnInit {
       map(async filtro => { this.obterCidades(filtro) })
     ).subscribe(() => { });
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode)
+    {
       this._autorizadaService.obterPorCodigo(this.codAutorizada)
         .pipe(first())
-        .subscribe(autorizada => {
+        .subscribe(autorizada =>
+        {
           this.autorizada = autorizada;
           this.form.patchValue(this.autorizada);
           this.form.controls['codPais'].setValue(this.autorizada.cidade?.unidadeFederativa?.codPais);
@@ -106,7 +116,8 @@ export class AutorizadaFormComponent implements OnInit {
     }
   }
 
-  private inicializarForm() {
+  private inicializarForm()
+  {
     this.form = this._formBuilder.group({
       codAutorizada: [
         {
@@ -143,36 +154,43 @@ export class AutorizadaFormComponent implements OnInit {
     });
   }
 
-  obterFilial(): void {
+  obterFilial(): void
+  {
     this._filialService.obterPorParametros({
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
       pageSize: 50
-    }).subscribe((data: FilialData) => {
+    }).subscribe((data: FilialData) =>
+    {
       this.filiais = data.items;
     });
   }
 
-  obterPaises(): void {
+  obterPaises(): void
+  {
     this._paisService.obterPorParametros({
       pageSize: 150
-    }).subscribe((paisData: PaisData) => {
+    }).subscribe((paisData: PaisData) =>
+    {
       this.paises = paisData.items;
     });
   }
 
-  obterUnidadesFederativas(): void {
+  obterUnidadesFederativas(): void
+  {
     const codPais = this.form.controls['codPais'].value;
 
     this._unidadeFederativaService.obterPorParametros({
       pageSize: 50,
       codPais: codPais
-    }).subscribe((data: UnidadeFederativaData) => {
+    }).subscribe((data: UnidadeFederativaData) =>
+    {
       this.unidadesFederativas = data.items;
     })
   }
 
-  obterCidades(filter: string = ''): void {
+  obterCidades(filter: string = ''): void
+  {
     const codUF = this.form.controls['codUF'].value;
 
     this._cidadeService.obterPorParametros({
@@ -182,31 +200,34 @@ export class AutorizadaFormComponent implements OnInit {
       pageSize: 1000,
       indAtivo: 1,
       codUF: codUF
-    }).subscribe((data: CidadeData) => {
+    }).subscribe((data: CidadeData) =>
+    {
       this.cidades = data.items;
     });
   }
 
-  private async obterLatLngPorCep(cep: string = '') {
-    const data = await this._googleGeolocationService.obterPorParametros({ enderecoCep: cep}).toPromise();
+  private async obterLatLngPorCep(cep: string = '')
+  {
+    const data = await this._googleGeolocationService.obterPorParametros({ enderecoCep: cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise();
 
-    if (data.results.length) {
-      const resultado = data.results.shift();
+    if (data)
+    {
+      const resultado = data;
 
-      this.form.controls['endereco'].setValue(resultado.formatted_address);
-      this.form.controls['latitude'].setValue(resultado.geometry.location.lat);
-      this.form.controls['longitude'].setValue(resultado.geometry.location.lng);
-
-      const localidades: any = resultado.address_components.filter(ac => ac.types.includes('sublocality'));
-      this.form.controls['bairro'].setValue(localidades.shift()?.long_name);
+      this.form.controls['endereco'].setValue(resultado.endereco);
+      this.form.controls['latitude'].setValue(resultado.latitude);
+      this.form.controls['longitude'].setValue(resultado.longitude);
+      this.form.controls['bairro'].setValue(resultado.bairro);
     }
   }
 
-  salvar(): void {
+  salvar(): void
+  {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  private atualizar(): void {
+  private atualizar(): void
+  {
     const form: any = this.form.getRawValue();
 
     let obj = {
@@ -220,13 +241,15 @@ export class AutorizadaFormComponent implements OnInit {
       }
     };
 
-    this._autorizadaService.atualizar(obj).subscribe(() => {
+    this._autorizadaService.atualizar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Técnico atualizado com sucesso!", "success");
       this._location.back();
     });
   }
 
-  private criar(): void {
+  private criar(): void
+  {
     const form = this.form.getRawValue();
 
     let obj = {
@@ -240,13 +263,15 @@ export class AutorizadaFormComponent implements OnInit {
       }
     };
 
-    this._autorizadaService.criar(obj).subscribe(() => {
+    this._autorizadaService.criar(obj).subscribe(() =>
+    {
       this._snack.exibirToast("Técnico inserido com sucesso!", "success");
       this._location.back();
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy()
+  {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

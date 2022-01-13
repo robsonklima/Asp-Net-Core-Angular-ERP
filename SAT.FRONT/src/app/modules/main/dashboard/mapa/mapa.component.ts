@@ -9,12 +9,12 @@ import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-import { GoogleGeolocationService } from 'app/core/services/google-geolocation.service';
-import { NominatimService } from 'app/core/services/nominatim.service';
 import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
+import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 
 @Component({
   selector: 'app-mapa',
@@ -23,7 +23,8 @@ import { MatSidenav } from '@angular/material/sidenav';
   ]
 })
 
-export class MapaComponent extends Filterable implements AfterViewInit {
+export class MapaComponent extends Filterable implements AfterViewInit
+{
   private map: Map;
   private filiais: Filial[] = [];
 
@@ -43,27 +44,30 @@ export class MapaComponent extends Filterable implements AfterViewInit {
     center: latLng([-15.7801, -47.9292])
   };
 
-  constructor(
+  constructor (
     protected _userService: UserService,
     private _sharedService: SharedService,
     private _filialService: FilialService,
     private _indicadorService: IndicadorService,
-    private _googleGeolocationService: GoogleGeolocationService,
-    private _nominatimService: NominatimService,
-    private _http: HttpClient) {
+    private _geolocacationService: GeolocalizacaoService,
+    private _http: HttpClient)
+  {
     super(_userService, 'dashboard-filtro')
   }
 
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void
+  {
     this._sharedService.clearListEvents();
     this.obterFiliais();
 
     this.registerEmitters();
   }
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
+  registerEmitters(): void
+  {
+    this.sidenav.closedStart.subscribe(() =>
+    {
       this.onSidenavClosed();
       this.filiais = [];
       this.loading = true;
@@ -71,22 +75,26 @@ export class MapaComponent extends Filterable implements AfterViewInit {
     })
   }
 
-  loadFilter(): void {
+  loadFilter(): void
+  {
     super.loadFilter();
   }
 
-  onMapReady(map: Map): void {
+  onMapReady(map: Map): void
+  {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
-    this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
+    this._http.get('assets/geojson/uf.json').subscribe((json: any) =>
+    {
       L.geoJSON(json, {
         style: {
           weight: 1,
           color: '#254441',
           fillColor: '#43AA8B'
         },
-        onEachFeature: (feature, layer) => {
+        onEachFeature: (feature, layer) =>
+        {
           this.colorlayer(feature, layer, this._sharedService);
         }
 
@@ -94,8 +102,10 @@ export class MapaComponent extends Filterable implements AfterViewInit {
     });
   }
 
-  private colorlayer(feature, layer, _sharedService: SharedService): void {
-    layer.on('mouseover', function () {
+  private colorlayer(feature, layer, _sharedService: SharedService): void
+  {
+    layer.on('mouseover', function ()
+    {
       layer.setStyle({
         color: "blue",
         fillColor: 'blue',
@@ -103,7 +113,8 @@ export class MapaComponent extends Filterable implements AfterViewInit {
       });
       _sharedService.sendClickEvent(MapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
     });
-    layer.on('mouseout', function () {
+    layer.on('mouseout', function ()
+    {
       layer.setStyle({
         weight: 1,
         color: '#254441',
@@ -113,10 +124,12 @@ export class MapaComponent extends Filterable implements AfterViewInit {
     });
   }
 
-  private async obterFiliais() {
+  private async obterFiliais()
+  {
 
     // Filiais
-    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) => {
+    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) =>
+    {
       this.filiais.push(...data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33)); // Remover EXP,OUT,IND
     });
 
@@ -136,18 +149,20 @@ export class MapaComponent extends Filterable implements AfterViewInit {
 
     let markers: any[] = [];
 
-    this.filiais.forEach(async (filial) => {
+    this.filiais.forEach(async (filial) =>
+    {
 
       // Google
       // Tenta pelo cep (nem sempre os endereços são corretos)
-      let mapService = (await this._googleGeolocationService.obterPorParametros
-        ({ enderecoCep: filial.cep }).toPromise()).results.shift();
+      let mapService = (await this._geolocacationService.obterPorParametros
+        ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
 
       // Se não encontra pelo cep, tenta pelo endereço
-      if (!mapService) {
+      if (!mapService)
+      {
         let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
-        mapService = (await this._googleGeolocationService.obterPorParametros
-          ({ enderecoCep: endereco }).toPromise()).results.shift();
+        mapService = (await this._geolocacationService.obterPorParametros
+          ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
       }
 
       // Nominatim
@@ -159,11 +174,12 @@ export class MapaComponent extends Filterable implements AfterViewInit {
       //   mapService = (await this._nominatimService.buscarEndereco(endereco).toPromise()).results.shift();
       // }
 
-      if (mapService) {
+      if (mapService)
+      {
 
         let mark = {
-          lat: +mapService.geometry.location.lat,
-          lng: +mapService.geometry.location.lng,
+          lat: +mapService.latitude,
+          lng: +mapService.longitude,
           toolTip: filial.nomeFilial,
           count: 1
         };
@@ -183,7 +199,7 @@ export class MapaComponent extends Filterable implements AfterViewInit {
           popupAnchor: [1, -32]
         });
 
-        let marker = new L.Marker([+mapService.geometry.location.lat, +mapService.geometry.location.lng],
+        let marker = new L.Marker([+mapService.latitude, +mapService.longitude],
           { icon: icon }).bindPopup(filial.nomeFilial);
 
         marker.addTo(this.map);

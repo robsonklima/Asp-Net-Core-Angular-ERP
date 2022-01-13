@@ -4,25 +4,26 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { DeslocamentoService } from 'app/core/services/deslocamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { Orcamento, OrcamentoData } from 'app/core/types/orcamento.types';
+import { Orcamento } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
-import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-relatorio-atendimento-deslocamento',
   templateUrl: './relatorio-atendimento-deslocamento.component.html',
   styles: [`
         .list-grid-deslocamentos {
-            grid-template-columns: 98px 72px;
+            grid-template-columns: 200px auto 128px;
             
             @screen md {
-              grid-template-columns: 98px 72px;
+              grid-template-columns: 200px auto 128px;
             }
 
             @screen lg {
-              grid-template-columns: 98px 72px;
+              grid-template-columns: 200px auto 128px;
           }
         }
     `],
@@ -44,7 +45,7 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
 
   constructor (
     private _cdr: ChangeDetectorRef,
-    /* private _nominatimService: NominatimService, */
+    private _deslocamentoService: DeslocamentoService,
     protected _userService: UserService
   )
   {
@@ -55,32 +56,6 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
   {
     this.obterDados();
     this.registerEmitters();
-
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
-        return event.target.value;
-      })
-      , debounceTime(1000)
-      , distinctUntilChanged()
-    ).subscribe((text: string) =>
-    {
-      this.paginator.pageIndex = 0;
-      this.obterDados(text);
-    });
-
-    if (this.sort && this.paginator)
-    {
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
-
-      this.sort.sortChange.subscribe(() =>
-      {
-        this.onSortChanged();
-        this.obterDados();
-      });
-    }
-
     this._cdr.detectChanges();
   }
 
@@ -93,34 +68,17 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
     })
   }
 
-  private async obterDados(filtro: string = '')
+  private async obterDados()
   {
     this.isLoading = true;
 
-    const data = {
-      items: [{
-        tecnico: 'João da Silva',
-        numRAT: '8876744',
-        origem: {
-          lat: -29.950113739140246,
-          lng: -51.09963131523978
-        },
-        destino: {
-          lat: -29.993157876813363,
-          lng: -51.274954971424926
-        },
-        distancia: 0,
-        tempo: 0
-      }]
-    }
-
-    for (let d of data.items)
-    {
-      /* this._nominatimService.buscarRota(d.origem.lat, d.origem.lng, d.destino.lat, d.destino.lng).subscribe((r) =>
-      {
-        console.log(r)
-      }) */
-    }
+    const data = await this._deslocamentoService.obterPorParametros({
+      codTecnico: 2460,
+      dataHoraInicioInicio: moment().add(-60, 'days').format('yyyy-MM-DD 00:00:01'),
+      dataHoraInicioFim: moment().format('yyyy-MM-DD 23:59:59'),
+      pageNumber: this.paginator.pageIndex + 1,
+      pageSize: this.paginator?.pageSize,
+    }).toPromise();
 
     this.dataSourceData = data;
     this.isLoading = false;

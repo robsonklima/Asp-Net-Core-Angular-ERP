@@ -22,4 +22,10 @@ export class OrcamentoMaterialService
         const url = `${c.api}/OrcamentoMaterial`;
         return this.http.put<OrcamentoMaterial>(url, material).pipe(map((obj) => obj));
     }
+
+    deletar(codOrcMaterial: number): Observable<OrcamentoMaterial>
+    {
+        const url = `${c.api}/OrcamentoMaterial/${codOrcMaterial}`;
+        return this.http.delete<OrcamentoMaterial>(url).pipe(map((obj) => obj));
+    }
 }

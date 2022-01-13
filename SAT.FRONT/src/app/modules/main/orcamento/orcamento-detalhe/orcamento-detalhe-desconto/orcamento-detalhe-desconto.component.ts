@@ -105,12 +105,12 @@ export class OrcamentoDetalheDescontoComponent implements IEditableItemList<Orca
     });
   }
 
-  excluirDesconto(desconto: IEditableItem<OrcamentoDesconto>) 
+  excluirDesconto(d: IEditableItem<OrcamentoDesconto>) 
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
-        message: `Deseja remover o desconto ${desconto.item.nomeCampo}?`,
+        message: `Deseja remover o desconto ${d.item.nomeCampo}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
@@ -123,14 +123,15 @@ export class OrcamentoDetalheDescontoComponent implements IEditableItemList<Orca
     {
       if (confirmacao)
       {
-        this._orcDescontoService.deletar(desconto.item.codOrcDesconto).subscribe(d =>
+        this._orcDescontoService.deletar(d.item.codOrcDesconto).subscribe(r =>
         {
           this._snack.open('Desconto removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
-          const index = this.editableList.indexOf(desconto);
+          const index = this.editableList.indexOf(d);
           if (index > -1)
             this.editableList.splice(index, 1);
-          console.log(index);
+
+          this._orcService.atualizarTotalizacao(d.item.codOrc);
         },
           e =>
           {

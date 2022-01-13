@@ -104,12 +104,12 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
     });
   }
 
-  excluirOutroServico(servico: IEditableItem<OrcamentoOutroServico>) 
+  excluirOutroServico(s: IEditableItem<OrcamentoOutroServico>) 
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
-        message: `Deseja remover o serviço ${servico.item.descricao}?`,
+        message: `Deseja remover o serviço ${s.item.descricao}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
@@ -122,7 +122,20 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
     {
       if (confirmacao)
       {
+        this._orcOutroServicoService.deletar(s.item.codOrcOutroServico).subscribe(d =>
+        {
+          this._snack.open('Serviço removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
+          const index = this.editableList.indexOf(s);
+          if (index > -1)
+            this.editableList.splice(index, 1);
+
+          this._orcService.atualizarTotalizacao(s.item.codOrc);
+        },
+          e =>
+          {
+            this._snack.open('Erro ao remover serviço.', null, this.snackConfigDanger).afterDismissed().toPromise();
+          });
       }
     });
   }

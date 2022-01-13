@@ -122,12 +122,12 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
     return false;
   }
 
-  excluirMaterial(material: IEditableItem<OrcamentoMaterial>) 
+  excluirMaterial(m: IEditableItem<OrcamentoMaterial>) 
   {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
-        message: `Deseja remover o material ${material?.item.codigoMagnus}?`,
+        message: `Deseja remover o material ${m?.item.codigoMagnus}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
@@ -138,7 +138,23 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {
+      if (confirmacao)
+      {
+        this._orcMaterialService.deletar(m.item.codOrcMaterial).subscribe(d =>
+        {
+          this._snack.open('Material removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
+          const index = this.editableList.indexOf(m);
+          if (index > -1)
+            this.editableList.splice(index, 1);
+
+          this._orcService.atualizarTotalizacao(m.item.codOrc);
+        },
+          e =>
+          {
+            this._snack.open('Erro ao remover material.', null, this.snackConfigDanger).afterDismissed().toPromise();
+          });
+      }
     });
   }
 }

@@ -21,16 +21,12 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrcamentoDescontoParameters parameters)
-        {
-            return _orcamentoDescService.ObterPorParametros(parameters);
-        }
+        public ListViewModel Get([FromQuery] OrcamentoDescontoParameters parameters) =>
+            _orcamentoDescService.ObterPorParametros(parameters);
 
         [HttpGet("{codOrcamentoDesc}")]
-        public OrcamentoDesconto Get(int codOrcamentoDesc)
-        {
-            return _orcamentoDescService.ObterPorCodigo(codOrcamentoDesc);
-        }
+        public OrcamentoDesconto Get(int codOrcamentoDesc) =>
+            _orcamentoDescService.ObterPorCodigo(codOrcamentoDesc);
 
         [HttpPost]
         public OrcamentoDesconto Post([FromBody] OrcamentoDesconto desconto) =>

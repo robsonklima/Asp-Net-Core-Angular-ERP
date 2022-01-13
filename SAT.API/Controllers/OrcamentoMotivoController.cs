@@ -21,33 +21,23 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrcamentoMotivoParameters parameters)
-        {
-            return _orcamentoMotivoService.ObterPorParametros(parameters);
-        }
+        public ListViewModel Get([FromQuery] OrcamentoMotivoParameters parameters) =>
+            _orcamentoMotivoService.ObterPorParametros(parameters);
 
         [HttpGet("{codOrcMotivo}")]
-        public OrcamentoMotivo Get(int codOrcMotivo)
-        {
-            return _orcamentoMotivoService.ObterPorCodigo(codOrcMotivo);
-        }
+        public OrcamentoMotivo Get(int codOrcMotivo) =>
+            _orcamentoMotivoService.ObterPorCodigo(codOrcMotivo);
 
         [HttpPost]
-        public void Post([FromBody] OrcamentoMotivo orcamentoMotivo)
-        {
+        public OrcamentoMotivo Post([FromBody] OrcamentoMotivo orcamentoMotivo) =>
             _orcamentoMotivoService.Criar(orcamentoMotivo);
-        }
 
         [HttpPut("{codOrcMotivo}")]
-        public void Put([FromBody] OrcamentoMotivo orcamentoMotivo)
-        {
+        public void Put([FromBody] OrcamentoMotivo orcamentoMotivo) =>
             _orcamentoMotivoService.Atualizar(orcamentoMotivo);
-        }
 
         [HttpDelete("{codOrcMotivo}")]
-        public void Delete(int codOrcMotivo)
-        {
+        public void Delete(int codOrcMotivo) =>
             _orcamentoMotivoService.Deletar(codOrcMotivo);
-        }
     }
 }

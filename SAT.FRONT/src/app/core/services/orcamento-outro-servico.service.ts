@@ -22,4 +22,10 @@ export class OrcamentoOutroServicoService
         const url = `${c.api}/OrcamentoOutroServico`;
         return this.http.put<OrcamentoOutroServico>(url, servico).pipe(map((obj) => obj));
     }
+
+    deletar(codOrcOutroServico: number): Observable<OrcamentoOutroServico>
+    {
+        const url = `${c.api}/OrcamentoOutroServico/${codOrcOutroServico}`;
+        return this.http.delete<OrcamentoOutroServico>(url).pipe(map((obj) => obj));
+    }
 }

@@ -1,5 +1,6 @@
 import { Autorizada } from "./autorizada.types";
 import { Cidade } from "./cidade.types";
+import { Cliente } from "./cliente.types";
 import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from "./despesa-cartao-combustivel.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
@@ -76,6 +77,7 @@ export class Tecnico
     despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
     tecnicoConta?: TecnicoConta[];
     tecnicoCategoriaCredito?: TecnicoCategoriaCredito;
+    tecnicoCliente?: TecnicoCliente[];
 }
 
 export interface TecnicoData extends Meta
@@ -168,4 +170,12 @@ export interface TecnicoCategoriaCredito
     categoriaCredito: TecnicoCategoriaCreditoEnum;
     media: number;
     valor: number;
+}
+
+export interface TecnicoCliente
+{
+    codTecnicoCliente: number;
+    codTecnico: number;
+    codCliente: number;
+    cliente: Cliente;
 }

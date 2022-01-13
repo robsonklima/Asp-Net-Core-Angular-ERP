@@ -180,6 +180,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Peca>(new PecaMap().Configure);
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
+            modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

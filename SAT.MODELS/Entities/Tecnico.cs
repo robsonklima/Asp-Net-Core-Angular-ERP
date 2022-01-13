@@ -65,6 +65,7 @@ namespace SAT.MODELS.Entities
         public Cidade Cidade { get; set; }
         public List<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public virtual List<TecnicoConta> TecnicoConta { get; set; }
+        public virtual List<TecnicoCliente> TecnicoCliente { get; set; }
         public int MediaTempoAtendMin { get; set; }
         public TecnicoCategoriaCredito TecnicoCategoriaCredito { get; set; }
     }

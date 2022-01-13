@@ -3,7 +3,6 @@ using SAT.MODELS.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Enums;
-using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -25,7 +24,9 @@ namespace SAT.INFRA.Repository
                             .Include(t => t.TipoRota)
                             .Include(t => t.Regiao)
                             .Include(t => t.Usuario)
-                            .Include(t => t.RegiaoAutorizada);
+                            .Include(t => t.RegiaoAutorizada)
+                            .Include(t => t.TecnicoCliente)
+                                .ThenInclude(tc => tc.Cliente);
                     break;
             }
 

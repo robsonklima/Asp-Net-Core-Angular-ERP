@@ -221,14 +221,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }).toPromise()).items;
 
     this.events = [];
-    this.resources = Enumerable.from(this.tecnicos).select(tecnico =>
+    this.resources = Enumerable.from(this.tecnicos).select(t =>
     {
       return {
-        id: tecnico.codTecnico,
-        name: tecnico.nome.toUpperCase(),
-        indFerias: this._validator.isOnVacation(tecnico),
-        contato: tecnico.fonePerto,
-        img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
+        id: t.codTecnico,
+        name: t.nome.toUpperCase(),
+        indFerias: this._validator.isOnVacation(t),
+        contato: t.fonePerto,
+        descricao: this.obterDescricaoTecnico(t),
+        img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${t.usuario.codUsuario}.jpg`,
       }
     }).toArray();
 
@@ -688,6 +689,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     return Enumerable.from(this.events)
       .where(i => i.resource == resource.id && i.agendaTecnico?.tipo ==
         AgendaTecnicoTypeEnum.PONTO).count();
+  }
+
+  private obterDescricaoTecnico(t: Tecnico)
+  {
+    console.log(t.tecnicoCliente);
+
+    if (t.tecnicoCliente?.length > 0)
+      return t.nome.split(' ')[0] + ' atende os clientes: ' + Enumerable.from(t.tecnicoCliente).where(i => i.cliente != null && i.cliente.indAtivo == 1).select(i => i.cliente.nomeFantasia).distinct().toJoinedString(', ') + '.';
+    return null;
   }
 
   private validaIntervalos()

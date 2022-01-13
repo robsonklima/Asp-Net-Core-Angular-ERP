@@ -81,9 +81,9 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
 
   async salvar(material: IEditableItem<OrcamentoMaterial>): Promise<void>
   {
-    material.item.valorUnitario = parseFloat((material.item.valorUnitario.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
+    material.item.valorDesconto = parseFloat((material.item.valorDesconto.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
     material.item.quantidade = parseFloat((material.item.quantidade.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
-    material.item.valorTotal = material.item.valorUnitario * material.item.quantidade;
+    material.item.valorTotal = (material.item.valorUnitario * material.item.quantidade) - material.item.valorDesconto;
 
     this._orcMaterialService.atualizar(material.item).subscribe(m =>
     {
@@ -111,12 +111,12 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
   isEqual(material: IEditableItem<OrcamentoMaterial>): boolean
   {
     return isEqual(material?.item?.quantidade?.toString(), material?.oldItem?.quantidade?.toString()) ||
-      isEqual(material?.item?.valorUnitario?.toString(), material?.oldItem?.valorUnitario?.toString());
+      isEqual(material?.item?.valorDesconto?.toString(), material?.oldItem?.valorDesconto?.toString());
   }
 
   isInvalid(material: IEditableItem<OrcamentoMaterial>): boolean
   {
-    if (material.item.valorUnitario < 0 || material.item.quantidade < 0)
+    if (material.item.valorDesconto < 0 || material.item.quantidade < 0)
       return true;
 
     return false;

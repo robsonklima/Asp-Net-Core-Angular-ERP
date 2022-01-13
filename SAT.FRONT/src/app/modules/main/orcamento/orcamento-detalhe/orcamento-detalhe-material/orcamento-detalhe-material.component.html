@@ -21,10 +21,10 @@
                                 <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("quantidade") }}
                                 </div>
-                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
+                                <div>
                                     {{ t("valor unitario") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("valor desconto") }}
                                 </div>
                                 <div>
@@ -53,15 +53,14 @@
                                         material?.isEditing }" [contentEditable]="material?.isEditing"
                                         [textContent]="material?.item?.quantidade"
                                         (input)="material.item.quantidade = $event.target.innerText"></div>
-                                    <div [id]="'valorUnitario' + material.item.codOrcMaterial" ngDefaultControl
-                                        [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        material?.isEditing }" [contentEditable]="material?.isEditing" [textContent]="material?.isEditing ?
-                                        material?.item?.valorUnitario : material?.item?.valorUnitario |
-                                        currency:'BRL':'symbol-narrow'"
-                                        (input)="material.item.valorUnitario = $event.target.innerText"></div>
                                     <div>
-                                        {{ material?.item?.valorDesconto | currency:'BRL':'symbol-narrow' }}
+                                        {{ material?.item?.valorUnitario | currency:'BRL':'symbol-narrow' }}
                                     </div>
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        material?.isEditing }" [contentEditable]="material?.isEditing" [textContent]="material?.isEditing ?
+                                        material?.item?.valorDesconto : material?.item?.valorDesconto |
+                                        currency:'BRL':'symbol-narrow'"
+                                        (input)="material.item.valorDesconto = $event.target.innerText"></div>
                                     <div>
                                         {{ material?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>

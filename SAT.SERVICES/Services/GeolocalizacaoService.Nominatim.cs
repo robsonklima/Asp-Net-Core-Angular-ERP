@@ -44,21 +44,26 @@ namespace SAT.SERVICES.Services
 
         public async Task<Geolocalizacao> NominatimRouteService(GeolocalizacaoParameters parameters)
         {
-            DistanceMatrixResponse model = new();
+            DistanceMatrix model = new();
+
+            var latDestino = parameters.LatitudeDestino.Replace(',', '.');
+            var longDestino = parameters.LongitudeDestino.Replace(',', '.');
+            var latOrigem = parameters.LatitudeOrigem.Replace(',', '.');
+            var longOrigem = parameters.LongitudeOrigem.Replace(',', '.');
 
             var response =
-            await new HttpClient().GetAsync($"https://www.mapquestapi.com/directions/v2/route?key={Constants.MAP_QUEST_KEY}&from={parameters.LatitudeOrigem},{parameters.LongitudeOrigem}&to={parameters.LatitudeDestino},{parameters.LongitudeDestino}");
+            await new HttpClient().GetAsync($"https://www.mapquestapi.com/directions/v2/route?key={Constants.MAP_QUEST_KEY}&from={latOrigem},{longOrigem}&to={latDestino},{longDestino}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var conteudo = await response.Content.ReadAsStringAsync();
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<DistanceMatrixResponse>(conteudo);
+                model = Newtonsoft.Json.JsonConvert.DeserializeObject<DistanceMatrix>(conteudo);
 
                 return new Geolocalizacao
                 {
                     EnderecoCEP = parameters.EnderecoCEP,
-                    Distancia = model.Rows.FirstOrDefault()?.Elements.FirstOrDefault()?.Distance?.Value,
-                    Duracao = model.Rows.FirstOrDefault()?.Elements.FirstOrDefault()?.Duration?.Value
+                    Distancia = model.route.distance,
+                    Duracao = model.route.time / 60.0
                 };
             }
 

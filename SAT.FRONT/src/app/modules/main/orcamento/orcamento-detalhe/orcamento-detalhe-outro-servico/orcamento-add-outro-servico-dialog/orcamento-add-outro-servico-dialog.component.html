@@ -1,0 +1,51 @@
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-4 border-b" *transloco="let t">
+        <div class="flex justify-between">
+            <div class="text-3xl font-extrabold tracking-tight leading-none mt-0">
+                Adicionar serviço
+            </div>
+        </div>
+    </div>
+    <div *transloco="let t">
+        <form [formGroup]="form" name="form">
+            <div class="grid grid-cols-1">
+                <mat-form-field>
+                    <mat-label>{{ t('tipo') }}</mat-label>
+                    <mat-select formControlName="tipo">
+                        <mat-option *ngFor="let tipo of tipoServicos" [value]="tipo">
+                            {{ tipo }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>{{ t('descricao') }}</mat-label>
+                    <textarea matInput autocomplete="off" [formControlName]="'descricao'" [rows]="3"></textarea>
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <div class="grid grid-cols-2">
+                    <mat-form-field class='m-1'>
+                        <mat-label>{{ t('valor unitario') }}</mat-label>
+                        <input matInput mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$"
+                            [showMaskTyped]="false" [dropSpecialCharacters]="true" autocomplete="off"
+                            [formControlName]="'valorUnitario'">
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class='m-1'>
+                        <mat-label>{{ t('quantidade') }}</mat-label>
+                        <input [type]="'number'" matInput autocomplete="off" [formControlName]="'quantidade'">
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions *transloco="let t" align="end">
+        <button mat-button mat-dialog-close>{{ t('cancelar') }}</button>
+
+        <button mat-button [color]="'primary'" [disabled]="!form.valid" (click)="inserir()">
+            {{ t('inserir') }}
+        </button>
+    </div>

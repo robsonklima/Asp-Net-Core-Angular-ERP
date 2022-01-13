@@ -18,7 +18,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(OrcamentoOutroServico orcOutrServ)
         {
-            OrcamentoOutroServico p = _context.OrcamentoOutroServico.FirstOrDefault(p => p.CodOrc == orcOutrServ.CodOrc);
+            OrcamentoOutroServico p = _context.OrcamentoOutroServico.FirstOrDefault(p => p.CodOrcOutroServico == orcOutrServ.CodOrcOutroServico);
 
             if (p != null)
             {

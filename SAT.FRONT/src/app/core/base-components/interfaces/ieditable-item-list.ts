@@ -1,25 +1,25 @@
-export interface IEditableItemList
+export interface IEditableItemList<Type>
 {
-    editableList: IEditableItem[];
-    editar(item: IEditableItem): void;
-    salvar(item: IEditableItem): void;
-    cancelar(item: IEditableItem): void;
-    isEqual(item: IEditableItem): boolean;
-    isInvalid(item: IEditableItem): boolean;
+    editableList: IEditableItem<Type>[];
+    editar(item: IEditableItem<Type>): void;
+    salvar(item: IEditableItem<Type>): void;
+    cancelar(item: IEditableItem<Type>): void;
+    isEqual(item: IEditableItem<Type>): boolean;
+    isInvalid(item: IEditableItem<Type>): boolean;
     isEditing: boolean;
     isLoading: boolean;
-    createEditableList(): IEditableItem[];
+    createEditableList(): IEditableItem<Type>[];
 };
 
-export interface IEditableItem
+export interface IEditableItem<Type>
 {
-    item: any;
-    oldItem?: any;
+    item: Type;
+    oldItem?: Type;
     isEditing: boolean;
-    onEdit?: (e: IEditableItem) => void;
-    onCancel?: (e: IEditableItem) => void;
-    onSave?: (e: IEditableItem) => void;
-    onDelete?: (e: IEditableItem) => void;
-    isEqual?: (e: IEditableItem) => boolean;
-    isInvalid?: (e: IEditableItem) => boolean;
+    onEdit?: (e: IEditableItem<Type>) => void;
+    onCancel?: (e: IEditableItem<Type>) => void;
+    onSave?: (e: IEditableItem<Type>) => void;
+    onDelete?: (e: IEditableItem<Type>) => void;
+    isEqual?: (e: IEditableItem<Type>) => boolean;
+    isInvalid?: (e: IEditableItem<Type>) => boolean;
 };

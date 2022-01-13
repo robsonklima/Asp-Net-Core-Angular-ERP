@@ -21,33 +21,23 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrcamentoMaoDeObraParameters parameters)
-        {
-            return _orcamentoMaoDeObraService.ObterPorParametros(parameters);
-        }
+        public ListViewModel Get([FromQuery] OrcamentoMaoDeObraParameters parameters) =>
+            _orcamentoMaoDeObraService.ObterPorParametros(parameters);
 
         [HttpGet("{codOrcamentoMaoDeObra}")]
-        public OrcamentoMaoDeObra Get(int codOrcamentoMaoDeObra)
-        {
-            return _orcamentoMaoDeObraService.ObterPorCodigo(codOrcamentoMaoDeObra);
-        }
+        public OrcamentoMaoDeObra Get(int codOrcamentoMaoDeObra) =>
+            _orcamentoMaoDeObraService.ObterPorCodigo(codOrcamentoMaoDeObra);
 
         [HttpPost]
-        public OrcamentoMaoDeObra Post([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra)
-        {
-            return _orcamentoMaoDeObraService.Criar(orcamentoMaoDeObra);
-        }
+        public OrcamentoMaoDeObra Post([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra) =>
+            _orcamentoMaoDeObraService.Criar(orcamentoMaoDeObra);
 
         [HttpPut]
-        public OrcamentoMaoDeObra Put([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra)
-        {
-            return _orcamentoMaoDeObraService.Atualizar(orcamentoMaoDeObra);
-        }
+        public OrcamentoMaoDeObra Put([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra) =>
+            _orcamentoMaoDeObraService.Atualizar(orcamentoMaoDeObra);
 
         [HttpDelete("{codOrcamentoMaoDeObra}")]
-        public void Delete(int codOrcamentoMaoDeObra)
-        {
+        public void Delete(int codOrcamentoMaoDeObra) =>
             _orcamentoMaoDeObraService.Deletar(codOrcamentoMaoDeObra);
-        }
     }
 }

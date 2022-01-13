@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('servicos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')">
+            <button [matTooltip]="t('novo')" (click)="adicionarOutroServico()">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>
@@ -12,19 +12,22 @@
     </div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div>
-            <div class="grid h-100">
+            <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <div class="grid" *ngIf="outrosServicos?.length">
+                        <div class="grid" *ngIf="editableList?.length">
                             <div class="list-grid-servicos sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div>
+                                    {{ t("tipo") }}
+                                </div>
+                                <div>
                                     {{ t("descricao") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("quantidade") }}
                                 </div>
-                                <div>
+                                <div [ngClass]="{'pointer-events-auto cursor-text text-blue-500': isEditing }">
                                     {{ t("valor unitario") }}
                                 </div>
                                 <div>
@@ -35,47 +38,56 @@
                                 </div>
                             </div>
 
-                            <ng-container *ngFor="let servico of outrosServicos">
+                            <ng-container *ngFor="let servico of editableList" id="editableList">
                                 <div class="list-grid-servicos grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white  hover:bg-gray-100"
                                     *transloco="let t">
                                     <div>
-                                        {{ servico?.descricao }}
+                                        {{ servico?.item?.tipo }}
                                     </div>
                                     <div>
-                                        {{ servico?.quantidade }}
+                                        {{ servico?.item?.descricao }}
                                     </div>
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        servico?.isEditing }" [contentEditable]="servico?.isEditing"
+                                        [textContent]="servico?.item?.quantidade"
+                                        (input)="servico.item.quantidade = $event.target.innerText"></div>
+                                    <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        servico?.isEditing }" [contentEditable]="servico?.isEditing" [textContent]="servico?.isEditing ?
+                                        servico?.item?.valorUnitario : servico?.item?.valorUnitario |
+                                        currency:'BRL':'symbol-narrow'"
+                                        (input)="servico.item.valorUnitario = $event.target.innerText"></div>
                                     <div>
-                                        {{ servico?.valorUnitario | currency:'BRL':'symbol-narrow' }}
+                                        {{ servico?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>
-                                    <div>
-                                        {{ servico?.valorTotal | currency:'BRL':'symbol-narrow' }}
-                                    </div>
-                                    <div class="text-left">
-                                        <button class="bg-transparent" [matTooltip]="'Alterar quantidade'"
-                                            (click)="excluirOutroServico(servico)">
-                                            <mat-icon class="icon-size-5 text-blue-600"
-                                                [svgIcon]="'heroicons_outline:refresh'">
+                                    <div class="flex pointer-events-auto">
+                                        <button class="bg-transparent" [matTooltip]="'Editar serviço'"
+                                            (click)="servico.onEdit()" *ngIf="!servico?.isEditing">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
-
-                                        <button class="bg-transparent" [matTooltip]="'Alterar valor'"
-                                            (click)="excluirOutroServico(servico)">
-                                            <mat-icon class="icon-size-5 text-green-600"
-                                                [svgIcon]="'heroicons_outline:cash'">
-                                            </mat-icon>
-                                        </button>
-
-                                        <button class="bg-transparent" [matTooltip]="t('deletar')"
-                                            (click)="excluirOutroServico(servico)">
+                                        <button class="bg-transparent" [matTooltip]="t('deletar') + ' serviço'"
+                                            (click)="servico.onDelete()" *ngIf="!servico?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
+                                            </mat-icon>
+                                        </button>
+                                        <button class="bg-transparent" [matTooltip]="'Salvar edição'"
+                                            (click)="servico.onSave()" *ngIf="servico?.isEditing">
+                                            <mat-icon class="icon-size-5 text-green-600"
+                                                [svgIcon]="'heroicons_outline:check-circle'">
+                                            </mat-icon>
+                                        </button>
+                                        <button class="bg-transparent" [matTooltip]="'Cancelar edição'"
+                                            (click)="servico.onCancel()" *ngIf="servico?.isEditing">
+                                            <mat-icon class="icon-size-5 text-red-600"
+                                                [svgIcon]="'heroicons_outline:minus-circle'">
                                             </mat-icon>
                                         </button>
                                     </div>
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!outrosServicos?.length && !isLoading"
+                        <div *ngIf="!editableList?.length && !isLoading"
                             class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                             Nenhum serviço encontrado!
                         </div>

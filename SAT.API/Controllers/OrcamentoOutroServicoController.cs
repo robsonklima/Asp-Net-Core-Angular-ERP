@@ -17,37 +17,27 @@ namespace SAT.API.Controllers
 
         public OrcamentoOutroServicoController(IOrcamentoOutroServicoService orcamentoOutroServicoService)
         {
-            _orcamentoOutroServicoService= orcamentoOutroServicoService;
+            _orcamentoOutroServicoService = orcamentoOutroServicoService;
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrcamentoOutroServicoParameters parameters)
-        {
-            return _orcamentoOutroServicoService.ObterPorParametros(parameters);
-        }
+        public ListViewModel Get([FromQuery] OrcamentoOutroServicoParameters parameters) =>
+            _orcamentoOutroServicoService.ObterPorParametros(parameters);
 
-        [HttpGet("{codOrcamentoOutroServico}")]
-        public OrcamentoOutroServico Get(int codOrcamentoOutroServico)
-        {
-            return _orcamentoOutroServicoService.ObterPorCodigo(codOrcamentoOutroServico);
-        }
+        [HttpGet("{codOrcOutroServico}")]
+        public OrcamentoOutroServico Get(int codOrcOutroServico) =>
+            _orcamentoOutroServicoService.ObterPorCodigo(codOrcOutroServico);
 
         [HttpPost]
-        public OrcamentoOutroServico Post([FromBody] OrcamentoOutroServico orcamento)
-        {
-            return _orcamentoOutroServicoService.Criar(orcamento);
-        }
+        public OrcamentoOutroServico Post([FromBody] OrcamentoOutroServico orcamento) =>
+            _orcamentoOutroServicoService.Criar(orcamento);
 
         [HttpPut]
-        public OrcamentoOutroServico Put([FromBody] OrcamentoOutroServico orcamentoOutroServico)
-        {
-            return _orcamentoOutroServicoService.Atualizar(orcamentoOutroServico);
-        }
+        public OrcamentoOutroServico Put([FromBody] OrcamentoOutroServico orcamentoOutroServico) =>
+            _orcamentoOutroServicoService.Atualizar(orcamentoOutroServico);
 
-        [HttpDelete("{codOrcamentoOutroServico}")]
-        public void Delete(int codOrcamentoOutroServico)
-        {
-            _orcamentoOutroServicoService.Deletar(codOrcamentoOutroServico);
-        }
+        [HttpDelete("{codOrcOutroServico}")]
+        public void Delete(int codOrcOutroServico) =>
+            _orcamentoOutroServicoService.Deletar(codOrcOutroServico);
     }
 }

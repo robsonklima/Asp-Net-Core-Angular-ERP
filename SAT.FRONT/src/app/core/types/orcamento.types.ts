@@ -145,6 +145,15 @@ export interface OrcamentoOutroServico
     usuarioCadastro: string;
 }
 
+export interface OrcamentoOutroServicoData extends Meta
+{
+    items: OrcamentoOutroServico[];
+};
+
+export interface OrcamentoOutroServicoParameters extends QueryStringParameters
+{
+};
+
 export interface OrcamentoDesconto
 {
     codOrcDesconto: number;
@@ -243,4 +252,28 @@ export interface OrcamentoDadosLocal
     motivoOrcamento?: string;
     agencia?: string;
     nroSerie?: string;
+}
+
+export enum OrcamentoTipoOutroServicoEnum
+{
+    ABERTURA_COFRE = "Abertura de cofre",
+    ABERTURA_COFRE_COM_REFORMA = "Abertura de cofre com reforma na porta",
+    SOLDAGEM_PORTA_COFRE = "Soldagem na porta do cofre",
+    OUTROS = "Outros    ",
+    ABERTURA_TAMPA_INFERIOR = "Abertura da tampa inferior",
+    ABERTURA_TAMPA_SUPERIOR = "Abertura da tampa superior"
+}
+
+export enum OrcamentoTipoDescontoEnum
+{
+    TOTAL_MAO_DE_OBRA = "Valor Total Mão de Obra",
+    TOTAL_KM_RODADO_OBRA = "Valor Total KM Rodado",
+    TOTAL_HORA_DESLOCAMENTO = "Valor Total Hora em Deslocamento",
+    TOTAL_ORCAMENTO = "Valor Total Orçamento"
+}
+
+export enum OrcamentoFormaDescontoEnum
+{
+    PERCENTUAL = "Percentual",
+    VALOR = "Valor"
 }

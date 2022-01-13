@@ -1,4 +1,5 @@
 ﻿using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using System.Linq;
 using System.Net;
@@ -15,7 +16,9 @@ namespace SAT.SERVICES.Services
             HttpClient client = new();
 
             var response = await client.GetAsync
-                ($"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key=AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM");
+                    (string.IsNullOrWhiteSpace(parameters.EnderecoCEP) ?
+                    $"https://maps.googleapis.com/maps/api/geocode/json?latlng={parameters.LatitudeOrigem.Replace(',', '.')},{parameters.LongitudeOrigem.Replace(',', '.')}&key={Constants.GOOGLE_API_KEY}" :
+                    $"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key={Constants.GOOGLE_API_KEY}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

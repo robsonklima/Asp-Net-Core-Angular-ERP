@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] DeslocamentoParameters parameters)
-        {
-            return _deslocamentoService.ObterPorParametros(parameters);
-        }
+        public async Task<ListViewModel> Get([FromQuery] DeslocamentoParameters parameters) =>
+            await _deslocamentoService.ObterPorParametrosAsync(parameters);
     }
 }

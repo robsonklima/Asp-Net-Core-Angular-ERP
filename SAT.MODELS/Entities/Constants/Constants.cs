@@ -9,6 +9,7 @@
         public static string SMTP_USER = "aplicacao.sat@perto.com.br";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
         public static string MAP_QUEST_KEY = "nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2";
+        public static string GOOGLE_API_KEY = "AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM";
         public static string SMTP_PASSWORD = "S@aPlic20(v";
         public static string DB_PROD = "Prod";
         public static string DB_HOMOLOG = "Homolog";

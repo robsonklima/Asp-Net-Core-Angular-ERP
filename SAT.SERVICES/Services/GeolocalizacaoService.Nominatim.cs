@@ -51,6 +51,7 @@ namespace SAT.SERVICES.Services
             var latOrigem = parameters.LatitudeOrigem.Replace(',', '.');
             var longOrigem = parameters.LongitudeOrigem.Replace(',', '.');
 
+
             var response =
             await new HttpClient().GetAsync($"https://www.mapquestapi.com/directions/v2/route?key={Constants.MAP_QUEST_KEY}&from={latOrigem},{longOrigem}&to={latDestino},{longDestino}");
 
@@ -63,7 +64,7 @@ namespace SAT.SERVICES.Services
                 {
                     EnderecoCEP = parameters.EnderecoCEP,
                     Distancia = model.route.distance,
-                    Duracao = model.route.time / 60.0
+                    Duracao = model.route.time / 60
                 };
             }
 

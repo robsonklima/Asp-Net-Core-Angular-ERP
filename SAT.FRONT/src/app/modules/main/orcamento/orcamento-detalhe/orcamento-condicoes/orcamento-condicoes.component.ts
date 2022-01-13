@@ -1,4 +1,4 @@
-import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { Orcamento } from 'app/core/types/orcamento.types';
 
@@ -14,15 +14,10 @@ import { Orcamento } from 'app/core/types/orcamento.types';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoCondicoesComponent implements OnInit
+export class OrcamentoCondicoesComponent
 {
 
   @Input() orcamento: Orcamento;
 
   constructor () { }
-
-  ngOnInit(): void
-  {
-  }
-
 }

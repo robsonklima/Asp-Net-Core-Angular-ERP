@@ -227,6 +227,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         id: tecnico.codTecnico,
         name: tecnico.nome.toUpperCase(),
         indFerias: this._validator.isOnVacation(tecnico),
+        contato: tecnico.fonePerto,
         img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${tecnico.usuario.codUsuario}.jpg`,
       }
     }).toArray();
@@ -590,6 +591,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.sidenavAjuda.open();
   }
 
+  public abrirWhatsApp(selectedResource: any)
+  {
+    var fone = selectedResource?.contato.replace(/\D/g, "");
+    var url = "https://wa.me/55" + fone;
+    window.open(url, '_blank').focus();
+  }
   /**  */
 
   public hideEventInfo()

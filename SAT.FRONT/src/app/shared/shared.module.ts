@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PhonePipe } from 'app/core/pipes/fone.pipe';
 
 export const FORMATO_DATA = {
     parse: {
@@ -38,6 +39,7 @@ export const FORMATO_DATA = {
         ConfirmacaoDialogComponent,
         EmailDialogComponent,
         CNPJPipe,
+        PhonePipe
     ],
     imports: [
         CommonModule,
@@ -59,7 +61,8 @@ export const FORMATO_DATA = {
         FormsModule,
         ReactiveFormsModule,
         EmailDialogComponent,
-        CNPJPipe
+        CNPJPipe,
+        PhonePipe
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },
@@ -71,9 +74,9 @@ export const FORMATO_DATA = {
             useClass: GlobalErrorInterceptor,
         },
         {
-            provide : HTTP_INTERCEPTORS,
+            provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
-            multi   : true
+            multi: true
         }
     ]
 })

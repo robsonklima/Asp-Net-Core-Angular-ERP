@@ -15,10 +15,10 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   templateUrl: './ordem-servico-detalhe-orcamento.component.html',
   styles: [`
         .list-grid-orcamentos {
-            grid-template-columns: 100px auto 100px 100px;
+            grid-template-columns: 100px auto 100px 100px 60px;
             
             @screen sm {
-                grid-template-columns: 100px auto 100px 100px;
+                grid-template-columns: 100px auto 100px 100px 60px;
             }
         }
     `],

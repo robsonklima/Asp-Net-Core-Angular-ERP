@@ -22,17 +22,28 @@
                                 <div> {{ t("motivo") }} </div>
                                 <div> {{ t("valor desconto") }} </div>
                                 <div> {{ t("valor total") }} </div>
+                                <div> {{ t("acoes") }} </div>
                             </div>
                             <ng-container *ngFor="let orcamento of orcamentos">
-                                <a [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc">
-                                    <div
-                                        class="list-grid-orcamentos grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
-                                        <div> {{ orcamento?.numero }} </div>
-                                        <div> {{ orcamento?.orcamentoMotivo?.descricao }} </div>
-                                        <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}</div>
-                                        <div> {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }} </div>
+                                <div
+                                    class="list-grid-orcamentos grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
+                                    <div> {{ orcamento?.numero }} </div>
+                                    <div> {{ orcamento?.orcamentoMotivo?.descricao }} </div>
+                                    <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}</div>
+                                    <div> {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }} </div>
+                                    <div>
+                                        <button class="bg-transparent" [matTooltip]="'Imprimir orçamento'"
+                                            [routerLink]="'/orcamento/impressao/' + orcamento?.codOrc">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:printer'">
+                                            </mat-icon>
+                                        </button>
+                                        <button class="bg-transparent" [matTooltip]="'Editar orcamento'"
+                                            [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
+                                            </mat-icon>
+                                        </button>
                                     </div>
-                                </a>
+                                </div>
                             </ng-container>
                         </div>
                         <div *ngIf="!orcamentos?.length && !isLoading"

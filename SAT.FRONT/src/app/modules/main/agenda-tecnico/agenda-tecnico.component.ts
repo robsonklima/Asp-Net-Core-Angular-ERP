@@ -690,8 +690,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private obterDescricaoTecnico(t: Tecnico)
   {
-    console.log(t.tecnicoCliente);
-
     if (t.tecnicoCliente?.length > 0)
       return t.nome.split(' ')[0] + ' atende os clientes: ' + Enumerable.from(t.tecnicoCliente).where(i => i.cliente != null && i.cliente.indAtivo == 1).select(i => i.cliente.nomeFantasia).distinct().toJoinedString(', ') + '.';
     return null;

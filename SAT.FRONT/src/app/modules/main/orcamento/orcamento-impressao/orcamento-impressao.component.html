@@ -15,13 +15,13 @@
                                 {{ 'ORÇAMENTO DE SERVIÇOS EXTRAS' | uppercase }}
                             </div>
                             <div class="text-base font-semibold leading-5">
-                                {{ filial?.nomeFilial + ' ' + filial?.endereco | uppercase }}
+                                {{ filial?.nomeFilial + ' - ' + filial?.endereco | uppercase }}
                             </div>
                             <div class="text-base font-semibold leading-5 mb-1">
                                 {{ filial?.fone | fone }}
                             </div>
                             <div class="text-lg font-semibold leading-5">
-                                {{ 'Orc. ' + orcamento?.numero + " - " + obterData() | uppercase }}
+                                {{ orcamento?.numero + " - " + obterData() | uppercase }}
                             </div>
 
                         </div>
@@ -506,10 +506,10 @@
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                        <div class="h-0	col-span-4 text-lg font-medium">Qtd 1h a cada 65km rodados</div>
+                        <div class="h-0	col-span-5 text-lg font-medium">Qtd 1h a cada 65km rodados</div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	col-span-6 self-center text-right">
+                        <div class="h-0	col-span-5 self-center text-right">
                             {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
@@ -605,7 +605,7 @@
                         <div class="h-0	col-span-4 text-lg font-medium">Descontos</div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	col-span-6 self-center text-right">
+                        <div class="h-0	col-span-6 self-center text-right font-bold text-red-600">
                             {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow'}}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
@@ -613,7 +613,7 @@
                         <div class="h-0	col-span-4 text-lg font-medium">Valor total</div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	col-span-6 self-center text-right">
+                        <div class="h-0	col-span-6 self-center font-bold text-right">
                             {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow'}}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>

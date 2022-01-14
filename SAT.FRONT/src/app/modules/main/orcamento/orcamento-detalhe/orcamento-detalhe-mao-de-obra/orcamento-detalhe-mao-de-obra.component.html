@@ -10,7 +10,7 @@
     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">{{ t("valor hora tecnica") }}</div>
-            <div class="truncate max-w-1/2">
+            <div class="truncate">
                 {{ maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }} </div>
         </div>
         <div class="flex items-center justify-between py-3">
@@ -22,7 +22,7 @@
         </div>
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">{{ t("valor total") }}</div>
-            <div class="truncate max-w-1/2">{{ maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+            <div class="truncate">{{ maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
             </div>
         </div>
     </div>

@@ -5,8 +5,7 @@
              <div class="text-secondary mb-1">Local</div>
              <div>{{ dadosLocal?.nomeLocal }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.nroContrato"
-             *ngIf="dadosLocal?.nroContrato">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.nroContrato">
              <div class="text-secondary">Nro Contrato</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.nroContrato }}</div>
          </div>
@@ -15,13 +14,11 @@
              <div class="text-secondary">Agência</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.agencia }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.oscliente"
-             *ngIf="dadosLocal?.oscliente">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.oscliente">
              <div class="text-secondary">OS Cliente</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.oscliente }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.osPerto"
-             *ngIf="dadosLocal?.osPerto">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.osPerto">
              <div class="text-secondary">OS Perto</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.osPerto }}</div>
          </div>
@@ -45,7 +42,7 @@
              <div class="text-secondary mb-1">E-mail</div>
              <div class='break-all'>{{ dadosLocal?.email }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.fone" *ngIf="dadosLocal?.fone">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.fone">
              <div class="text-secondary">Fone</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.fone }}</div>
          </div>
@@ -73,13 +70,11 @@
              <div class="text-secondary">UF</div>
              <div>{{ dadosLocal?.uf }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.modelo"
-             *ngIf="dadosLocal?.modelo">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.modelo">
              <div class="text-secondary">Modelo</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.modelo }}</div>
          </div>
-         <div class="flex items-center justify-between py-3" [matTooltip]="dadosLocal?.nroSerie"
-             *ngIf="dadosLocal?.nroSerie">
+         <div class="flex items-center justify-between py-3" *ngIf="dadosLocal?.nroSerie">
              <div class="text-secondary">Nro Série</div>
              <div class="truncate max-w-1/2">{{ dadosLocal?.nroSerie }}</div>
          </div>

@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PhonePipe } from 'app/core/pipes/fone.pipe';
+import { CEPPipe } from 'app/core/pipes/cep.pipe';
 
 export const FORMATO_DATA = {
     parse: {
@@ -39,7 +40,8 @@ export const FORMATO_DATA = {
         ConfirmacaoDialogComponent,
         EmailDialogComponent,
         CNPJPipe,
-        PhonePipe
+        PhonePipe,
+        CEPPipe
     ],
     imports: [
         CommonModule,
@@ -62,7 +64,8 @@ export const FORMATO_DATA = {
         ReactiveFormsModule,
         EmailDialogComponent,
         CNPJPipe,
-        PhonePipe
+        PhonePipe,
+        CEPPipe
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPortugueseIntl() },

@@ -137,8 +137,6 @@ export class OrcamentoDetalheComponent implements OnInit
       this.ngOnInit();
 
     if (tab.index !== 5 || !this.orcamento)
-    {
       return;
-    }
   }
 }

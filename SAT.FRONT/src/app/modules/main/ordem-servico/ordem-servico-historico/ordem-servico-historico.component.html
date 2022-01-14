@@ -8,14 +8,14 @@
             <ng-container *ngFor="let os of ordensServico;">
                 <div class="flex flex-row items-center justify-between py-4 px-0.5">
                     <div class="flex flex-col">
-                        <div class="font-medium">{{ os.codOS }}</div>
+                        <div class="font-medium">{{ os?.codOS }}</div>
                         <div
                             class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                             <ng-container>
                                 <div class="flex items-center">
                                     <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'">
                                     </mat-icon>
-                                    <div class="ml-1.5 text-md text-secondary">{{ os.dataHoraAberturaOS | date:'dd/MM/yy
+                                    <div class="ml-1.5 text-md text-secondary">{{ os?.dataHoraAberturaOS | date:'dd/MM/yy
                                         HH:mm' }}</div>
                                 </div>
                             </ng-container>
@@ -24,7 +24,7 @@
                                 <div class="flex items-center">
                                     <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:bookmark'">
                                     </mat-icon>
-                                    <div class="ml-1.5 text-md text-secondary">{{ os.tipoIntervencao?.nomTipoIntervencao
+                                    <div class="ml-1.5 text-md text-secondary">{{ os?.tipoIntervencao?.nomTipoIntervencao
                                         }}</div>
                                 </div>
                             </ng-container>
@@ -33,7 +33,7 @@
                                 <div class="flex items-center">
                                     <mat-icon class="icon-size-5 text-hint"
                                         [svgIcon]="'heroicons_solid:clipboard-list'"></mat-icon>
-                                    <div class="ml-1.5 text-md text-secondary">{{ os.relatoriosAtendimento?.length }}
+                                    <div class="ml-1.5 text-md text-secondary">{{ os?.relatoriosAtendimento?.length }}
                                     </div>
                                 </div>
                             </ng-container>
@@ -58,7 +58,7 @@
     <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *ngIf="ordemServico">
         <div class="flex flex-col sm:flex-row items-start justify-between pb-4">
-            <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ ordemServico.codOS }}</div>
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ ordemServico?.codOS }}</div>
         </div>
 
         <div class="flex flex-col mt-2 divide-y">
@@ -66,23 +66,25 @@
                 <tbody>
                     <tr>
                         <td class="w-1/4 text-left p-2">Filial</td>
-                        <td class="w-1/2 text-left p-2">{{ ordemServico.filial?.nomeFilial || 'Não Informado' }}</td>
+                        <td class="w-1/2 text-left p-2">{{ ordemServico?.filial?.nomeFilial || 'Não Informado' }}</td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Data da Abertura</td>
-                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico.dataHoraAberturaOS | date:'dd/MM/yy HH:mm' }}</td>
+                        <td class="w-1/2 text-left border-t p-2">
+                            {{ ordemServico?.dataHoraAberturaOS | date:'dd/MM/yy HH:mm' }}</td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Cliente</td>
-                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico.cliente.nomeFantasia }}</td>
+                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico?.cliente?.nomeFantasia }}</td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Status</td>
-                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico.statusServico.nomeStatusServico }}</td>
+                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico?.statusServico?.nomeStatusServico }}
+                        </td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Defeito</td>
-                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico.defeitoRelatado }}</td>
+                        <td class="w-1/2 text-left border-t p-2">{{ ordemServico?.defeitoRelatado }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -92,41 +94,42 @@
             <div class="text-lg font-medium tracking-tight leading-6 truncate">RATs</div>
         </div>
 
-        <div class="flex flex-col mt-2 divide-y" *ngFor="let rat of ordemServico.relatoriosAtendimento">
+        <div class="flex flex-col mt-2 divide-y" *ngFor="let rat of ordemServico?.relatoriosAtendimento">
             <table class="table-fixed border-collapse">
                 <tbody>
                     <tr>
                         <td class="w-1/4 text-left p-2">Num. RAT</td>
-                        <td class="w-1/2 text-left p-2">{{ rat.numRAT }}</td>
+                        <td class="w-1/2 text-left p-2">{{ rat?.numRAT }}</td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Status</td>
-                        <td class="w-1/2 text-left border-t p-2">{{ rat.statusServico.nomeStatusServico }}</td>
+                        <td class="w-1/2 text-left border-t p-2">{{ rat?.statusServico?.nomeStatusServico }}</td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Período</td>
                         <td class="w-1/2 text-left border-t p-2">
-                            {{ rat.dataHoraInicio | date:'dd/MM/yy HH:mm' }} - {{ rat.dataHoraSolucao | date:'dd/MM/yy HH:mm' }}
+                            {{ rat.dataHoraInicio | date:'dd/MM/yy HH:mm' }} -
+                            {{ rat.dataHoraSolucao | date:'dd/MM/yy HH:mm' }}
                         </td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Técnico</td>
                         <td class="w-1/2 text-left border-t p-2">
-                            {{ rat.tecnico.nome }}
+                            {{ rat?.tecnico?.nome }}
                         </td>
                     </tr>
                     <tr>
                         <td class="w-1/4 text-left border-t p-2">Solução</td>
                         <td class="w-1/2 text-left border-t p-2">
-                            {{ rat.relatoSolucao }} <br><br>
-                            {{ rat.obsRAT }}
+                            {{ rat?.relatoSolucao }} <br><br>
+                            {{ rat?.obsRAT }}
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="flex flex-col mt-2 divide-y" *ngIf="!ordemServico.relatoriosAtendimento.length">
+        <div class="flex flex-col mt-2 divide-y" *ngIf="!ordemServico?.relatoriosAtendimento?.length">
             <p>{{ t('nenhum registro encontrado') }}</p>
         </div>
     </div>

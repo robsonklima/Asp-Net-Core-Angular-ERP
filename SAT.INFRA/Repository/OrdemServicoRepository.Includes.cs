@@ -305,6 +305,7 @@ namespace SAT.INFRA.Repository
                 default:
                     query = query
                         .Include(os => os.StatusServico)
+                        .Include(os => os.Filial)
                         .Include(os => os.TipoIntervencao)
                         .Include(os => os.LocalAtendimento)
                         .Include(os => os.LocalAtendimento.Cidade)

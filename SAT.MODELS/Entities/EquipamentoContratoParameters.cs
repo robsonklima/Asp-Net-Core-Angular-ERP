@@ -12,5 +12,7 @@ namespace SAT.MODELS.Entities
         public string CodFiliais { get; set; }
         public int? CodContrato { get; set; }
         public string CodEquipamentos { get; set; }
+        public string NumSerie { get; set; }
+
     }
 }

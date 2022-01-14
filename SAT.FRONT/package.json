@@ -45,6 +45,7 @@
         "highlight.js": "11.0.1",
         "i": "^0.3.7",
         "indent-string": "^5.0.0",
+        "jspreadsheet-ce": "^4.9.10",
         "leaflet": "^1.7.1",
         "leaflet-routing-machine": "^3.2.12",
         "leaflet.heat": "^0.2.0",

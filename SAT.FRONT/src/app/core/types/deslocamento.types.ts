@@ -1,34 +1,42 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export class Deslocamento {
+export class Deslocamento
+{
     origem: DeslocamentoOrigem;
     destino: DeslocamentoDestino;
     distancia: number;
     tempo: number;
+    tempoCheckin: number;
+    data: string;
     tipo: DeslocamentoTipoEnum;
 }
 
-export interface DeslocamentoOrigem {
+export interface DeslocamentoOrigem
+{
     descricao: string;
     lat: number;
     lng: number;
 }
 
-export interface DeslocamentoDestino {
+export interface DeslocamentoDestino
+{
     descricao: string;
     lat: number;
     lng: number;
 }
 
-export enum DeslocamentoTipoEnum {
+export enum DeslocamentoTipoEnum
+{
     INTENCAO = 1,
 }
 
-export interface DeslocamentoData extends Meta {
+export interface DeslocamentoData extends Meta
+{
     items: Deslocamento[];
 };
 
-export interface DeslocamentoParameters extends QueryStringParameters {
+export interface DeslocamentoParameters extends QueryStringParameters
+{
     codTecnico?: number;
     dataHoraInicioInicio?: string;
     dataHoraInicioFim?: string;

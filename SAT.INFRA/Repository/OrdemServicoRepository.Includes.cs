@@ -299,7 +299,9 @@ namespace SAT.INFRA.Repository
                     query = query
                         .Include(os => os.Intencoes)
                         .Include(os => os.LocalAtendimento)
-                        .Include(os => os.RelatoriosAtendimento);
+                            .ThenInclude(os => os.Cidade)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(r => r.CheckinsCheckouts);
                     break;
 
                 default:

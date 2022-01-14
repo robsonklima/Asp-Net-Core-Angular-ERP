@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { DateTimeExtensions } from 'app/core/extensions/date-time.extensions';
 import { Filterable } from 'app/core/filters/filterable';
 import { DeslocamentoService } from 'app/core/services/deslocamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
@@ -16,14 +17,14 @@ import { Subject } from 'rxjs';
   templateUrl: './relatorio-atendimento-deslocamento.component.html',
   styles: [`
         .list-grid-deslocamentos {
-            grid-template-columns: 200px auto 128px;
+            grid-template-columns: 400px auto 60px 128px 128px 128px;
             
             @screen md {
-              grid-template-columns: 200px auto 128px;
+              grid-template-columns: 400px auto 60px 128px 128px 128px;
             }
 
             @screen lg {
-              grid-template-columns: 200px auto 128px;
+              grid-template-columns: 400px auto 60px 128px 128px 128px;
           }
         }
     `],
@@ -73,7 +74,7 @@ export class RelatorioAtendimentoDeslocamentoComponent extends Filterable implem
     this.isLoading = true;
 
     const data = await this._deslocamentoService.obterPorParametros({
-      codTecnico: 2460,
+      codTecnico: 1550,
       dataHoraInicioInicio: moment().add(-60, 'days').format('yyyy-MM-DD 00:00:01'),
       dataHoraInicioFim: moment().format('yyyy-MM-DD 23:59:59'),
       pageNumber: this.paginator.pageIndex + 1,

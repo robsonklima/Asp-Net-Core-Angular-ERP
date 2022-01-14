@@ -14,7 +14,7 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { StringExtensions } from 'app/core/extensions/string-extensions';
+import { StringExtensions } from 'app/core/extensions/string.extensions';
 
 @Component({
     selector: 'ordem-servico-lista',

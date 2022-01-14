@@ -51,9 +51,8 @@ namespace SAT.SERVICES.Services
             var latOrigem = parameters.LatitudeOrigem.Replace(',', '.');
             var longOrigem = parameters.LongitudeOrigem.Replace(',', '.');
 
-
             var response =
-            await new HttpClient().GetAsync($"https://www.mapquestapi.com/directions/v2/route?key={Constants.MAP_QUEST_KEY}&from={latOrigem},{longOrigem}&to={latDestino},{longDestino}");
+            await new HttpClient().GetAsync($"https://www.mapquestapi.com/directions/v2/route?key={Constants.MAP_QUEST_KEY}&useTraffic=true&timeType=1&from={latOrigem},{longOrigem}&to={latDestino},{longDestino}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -63,8 +62,11 @@ namespace SAT.SERVICES.Services
                 return new Geolocalizacao
                 {
                     EnderecoCEP = parameters.EnderecoCEP,
+                    EnderecoOrigem = model?.route?.locations?.FirstOrDefault()?.street,
+                    CidadeOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea5,
+                    EstadoOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea3,
                     Distancia = model.route.distance,
-                    Duracao = model.route.time / 60
+                    Duracao = model.route.time / 60.0
                 };
             }
 

@@ -1,3 +1,4 @@
+using System;
 using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities
@@ -8,7 +9,9 @@ namespace SAT.MODELS.Entities
         public DeslocamentoDestino Destino { get; set; }
         public double? Distancia { get; set; }
         public double? Tempo { get; set; }
+        public double? TempoCheckin { get; set; }
         public DeslocamentoTipoEnum? Tipo { get; set; }
+        public DateTime? Data { get; set; }
     }
 
     public class DeslocamentoOrigem

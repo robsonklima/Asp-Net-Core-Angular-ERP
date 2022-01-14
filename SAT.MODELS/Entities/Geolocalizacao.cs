@@ -6,10 +6,15 @@
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Bairro { get; set; }
+        public string BairroOrigem { get; set; }
         public string Cidade { get; set; }
+        public string CidadeOrigem { get; set; }
         public string Estado { get; set; }
+        public string EstadoOrigem { get; set; }
         public string Endereco { get; set; }
+        public string EnderecoOrigem { get; set; }
         public string Pais { get; set; }
+        public string NumeroOrigem { get; set; }
         public string Numero { get; set; }
         // Em minutos
         public double? Duracao { get; set; }

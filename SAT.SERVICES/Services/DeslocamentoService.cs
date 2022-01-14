@@ -37,38 +37,43 @@ namespace SAT.SERVICES.Services
             };
 
             deslocamentos.AddRange(
-                _ordemServicoRepo.ObterPorParametros(deslocamentoParameters).Select(os =>
+                _ordemServicoRepo.ObterQuery(deslocamentoParameters).Take(parameters.PageSize).ToList().Select(os =>
                 {
                     double latDestino, lngDestino;
                     double.TryParse(os?.LocalAtendimento?.Latitude, NumberStyles.Number, CultureInfo.InvariantCulture, out latDestino);
                     double.TryParse(os?.LocalAtendimento?.Longitude, NumberStyles.Number, CultureInfo.InvariantCulture, out lngDestino);
+                    var intencao = os?.Intencoes?.FirstOrDefault(i => i.CodTecnico == parameters.CodTecnico);
+                    var checkin = os?.RelatoriosAtendimento?.FirstOrDefault(i => i.CodTecnico == parameters.CodTecnico)?.CheckinsCheckouts?.FirstOrDefault(i => i.Tipo == "CHECKIN");
 
                     return new Deslocamento
                     {
                         Origem = new DeslocamentoOrigem
                         {
                             Descricao = "Intenção",
-                            Lat = os?.Intencoes.FirstOrDefault()?.Latitude,
-                            Lng = os?.Intencoes.FirstOrDefault()?.Longitude,
+                            Lat = intencao?.Latitude,
+                            Lng = intencao?.Longitude,
                         },
                         Destino = new DeslocamentoDestino
                         {
-                            Descricao = os?.LocalAtendimento?.NomeLocal,
+                            Descricao = $"{os?.LocalAtendimento?.NomeLocal} - {os?.LocalAtendimento?.Endereco}, {os?.LocalAtendimento?.Cidade?.NomeCidade}.",
                             Lat = latDestino != 0 ? latDestino : null,
                             Lng = lngDestino != 0 ? lngDestino : null,
                         },
-                        Tipo = DeslocamentoTipoEnum.INTENCAO
+                        TempoCheckin = intencao != null && checkin != null ? (checkin.DataHoraCadSmartphone - intencao.DataHoraCad).Value.TotalMinutes : 0,
+                        Data = checkin?.DataHoraCadSmartphone ?? intencao.DataHoraCad,
+                        Tipo = DeslocamentoTipoEnum.INTENCAO,
                     };
                 }));
 
-            //             foreach (var d in deslocamentos.Where(d => d.Origem.Lat.HasValue && d.Origem.Lng.HasValue && d.Destino.Lat.HasValue && d.Destino.Lng.HasValue))
-            //             {
-            //                 var dCalculated = await this.ObterDeslocamentoAsync(d);
-            //                 d.Distancia = dCalculated.Distancia;
-            //                 d.Tempo = dCalculated.Duracao;
-            //             }
+            foreach (var d in deslocamentos.Where(d => d.Origem.Lat.HasValue && d.Origem.Lng.HasValue && d.Destino.Lat.HasValue && d.Destino.Lng.HasValue))
+            {
+                var l = await this.ObterDeslocamentoAsync(d);
+                d.Distancia = l.Distancia;
+                d.Tempo = l.Duracao;
+                d.Origem.Descricao = $"{l.EnderecoOrigem}, {l.CidadeOrigem}, {l.EstadoOrigem}.";
+            }
 
-            var listaPaginada = PagedList<Deslocamento>.ToPagedList(deslocamentos, parameters.PageNumber, parameters.PageSize);
+            var listaPaginada = PagedList<Deslocamento>.ToPagedList(deslocamentos.OrderBy(i => i.Data).ToList(), parameters.PageNumber, parameters.PageSize);
             var lista = new ListViewModel
             {
                 Items = listaPaginada,
@@ -88,7 +93,7 @@ namespace SAT.SERVICES.Services
          {
              LatitudeOrigem = d.Origem.Lat.ToString(),
              LongitudeOrigem = d.Origem.Lng.ToString(),
-             LatitudeDestino = d.Destino.Lng.ToString(),
+             LatitudeDestino = d.Destino.Lat.ToString(),
              LongitudeDestino = d.Destino.Lng.ToString(),
              GeolocalizacaoServiceEnum = GeolocalizacaoServiceEnum.NOMINATIM
          });

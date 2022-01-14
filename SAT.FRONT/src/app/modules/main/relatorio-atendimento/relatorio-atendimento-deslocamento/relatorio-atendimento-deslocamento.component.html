@@ -4,8 +4,10 @@
     </mat-drawer>
 
     <mat-drawer-content *transloco="let t">
-        <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-            <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
@@ -15,7 +17,7 @@
                         {{ t('deslocamentos') }}
                     </div>
                 </div>
-                
+
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
@@ -39,6 +41,18 @@
                                     </div>
 
                                     <div>
+                                        {{ t('data') }}
+                                    </div>
+
+                                    <div>
+                                        Tempo calculado
+                                    </div>
+
+                                    <div>
+                                        Tempo checkin
+                                    </div>
+
+                                    <div>
                                         {{ t('status') }}
                                     </div>
                                 </div>
@@ -48,11 +62,23 @@
                                         <div class="list-grid-deslocamentos grid items-center h-7 gap-4 px-2 text-xs md:px-4 border-b"
                                             *transloco="let t">
                                             <div class="flex items-center">
-                                                {{ d.origem.descricao }}
+                                                {{ d.origem.descricao | uppercase }}
                                             </div>
 
                                             <div class="flex items-center">
-                                                {{ d.destino.descricao }}
+                                                {{ d.destino.descricao | uppercase }}
+                                            </div>
+
+                                            <div class="flex items-center">
+                                                {{ d.data | date:'dd/MM/yy' }}
+                                            </div>
+
+                                            <div class="flex items-center">
+                                                {{ d.tempo }}
+                                            </div>
+
+                                            <div class="flex items-center">
+                                                {{ d.tempoCheckin }}
                                             </div>
 
                                             <div class="flex items-center">
@@ -66,14 +92,14 @@
                             </div>
 
                             <div *ngIf="!dataSourceData?.items.length && !isLoading"
-                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum registro encontrado!</div>
+                                class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum
+                                registro encontrado!</div>
 
                             <mat-paginator [hidden]="!dataSourceData?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 20"
-                                [pageSizeOptions]="[20, 30, 50]" [showFirstLastButtons]="true"
-                                (page)="paginar()">
+                                [pageSize]="filter?.parametros.qtdPaginacaoLista ?? 20" [pageSizeOptions]="[20, 30, 50]"
+                                [showFirstLastButtons]="true" (page)="paginar()">
                             </mat-paginator>
                         </ng-container>
                     </ng-container>

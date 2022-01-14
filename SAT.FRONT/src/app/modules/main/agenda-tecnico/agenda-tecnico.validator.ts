@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DateTimeExtensions } from 'app/core/extensions/date-time.extensions';
 import { Coordenada, HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
@@ -14,7 +15,8 @@ import moment, { Moment } from 'moment';
 export class AgendaTecnicoValidator
 {
     constructor (private _tecnicoService: TecnicoService,
-        private _haversineSvc: HaversineService) { }
+        private _haversineSvc: HaversineService,
+        private _dateTimeExtensions: DateTimeExtensions) { }
 
     /**
      * valida se a região do chamado e a região do técnico são iguais
@@ -230,8 +232,6 @@ export class AgendaTecnicoValidator
 
     private getTimeFromMins(mins)
     {
-        var h = mins / 60 | 0,
-            m = mins % 60 | 0;
-        return moment.utc().hours(h).minutes(m).format("HH:mm");
+        return this._dateTimeExtensions.getTimeFromMins(mins);
     }
 }

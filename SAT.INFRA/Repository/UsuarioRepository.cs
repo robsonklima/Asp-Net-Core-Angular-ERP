@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -52,6 +56,20 @@ namespace SAT.INFRA.Repository
             }
 
             return false;
+        }
+
+        private bool PWDENCRYPT(string codUsuario, string senha)
+        {
+            using DbCommand command = _context.Database.GetDbConnection().CreateCommand();
+
+            command.CommandText = string.Format("UPDATE Usuario SET Senha = PWDENCRYPT('{0}') WHERE CodUsuario = '{1}'", senha, codUsuario);
+            command.CommandType = System.Data.CommandType.Text;
+
+            _context.Database.OpenConnection();
+
+            using DbDataReader reader = command.ExecuteReader();
+
+            return reader.RecordsAffected == 1;
         }
 
         public PagedList<Usuario> ObterPorParametros(UsuarioParameters parameters)
@@ -156,6 +174,38 @@ namespace SAT.INFRA.Repository
                 {
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
                     _context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                }
+            }
+        }
+
+        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel)
+        {
+            _context.ChangeTracker.Clear();
+            Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == segurancaUsuarioModel.CodUsuario);
+
+            if (usr != null)
+            {
+                try
+                {
+                    if (this.ValidateLogin(new Usuario() { CodUsuario = segurancaUsuarioModel.CodUsuario, Senha = segurancaUsuarioModel.SenhaAtual }))
+                    {
+                        if (this.PWDENCRYPT(segurancaUsuarioModel.CodUsuario, segurancaUsuarioModel.NovaSenha))
+                        {
+                            _context.SaveChanges();
+                        }
+                        else
+                        {
+                            throw new Exception(Constants.ERRO_ALTERAR_SENHA);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(Constants.SENHA_INVALIDA);
+                    }
                 }
                 catch (DbUpdateException ex)
                 {

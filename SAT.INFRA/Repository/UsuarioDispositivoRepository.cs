@@ -45,6 +45,11 @@ namespace SAT.INFRA.Repository
             var dispositivos = _context.UsuarioDispositivo
                 .AsQueryable();
 
+            if (parameters.IndAtivo != null)
+            {
+                dispositivos = dispositivos.Where(d => d.IndAtivo == parameters.IndAtivo);
+            }
+
             if (parameters.CodUsuario != null)
             {
                 dispositivos = dispositivos.Where(d => d.CodUsuario == parameters.CodUsuario);

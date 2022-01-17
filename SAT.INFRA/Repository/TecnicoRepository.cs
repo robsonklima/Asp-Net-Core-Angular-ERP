@@ -18,6 +18,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Tecnico tecnico)
         {
+            _context.ChangeTracker.Clear();
             Tecnico t = _context.Tecnico.FirstOrDefault(t => t.CodTecnico == tecnico.CodTecnico);
 
             if (t != null)
@@ -55,6 +56,8 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(t => t.Localizacoes)
                 .Include(t => t.Cidade)
                 .Include(t => t.Cidade.UnidadeFederativa)
+                .Include(t => t.DespesaCartaoCombustivelTecnico)
+                     .ThenInclude(t => t.DespesaCartaoCombustivel)
                 .FirstOrDefault(t => t.CodTecnico == codigo);
         }
 

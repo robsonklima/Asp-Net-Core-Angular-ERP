@@ -1,5 +1,6 @@
 ﻿using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -9,5 +10,6 @@ namespace SAT.INFRA.Interfaces
         PagedList<Usuario> ObterPorParametros(UsuarioParameters parameters);
         Usuario ObterPorCodigo(string codigo);
         void Atualizar(Usuario usuario);
+        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel);
     }
 }

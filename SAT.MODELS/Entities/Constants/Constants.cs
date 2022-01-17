@@ -48,6 +48,8 @@
         public static string NAO_FOI_POSSIVEL_CRIAR = "Não foi possível criar o registro";
         public static string NAO_FOI_POSSIVEL_OBTER = "Não foi possível atualizar o(s) registro(s)";
         public static string USUARIO_OU_SENHA_INVALIDOS = "Usuário ou senha inválidos";
+        public static string SENHA_INVALIDA = "Senha inválida";
+        public static string ERRO_ALTERAR_SENHA = "Erro ao alterar a senha";
 
         // Filiais
         public static int FRS = 4;

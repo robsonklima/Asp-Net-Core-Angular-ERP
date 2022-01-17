@@ -9,7 +9,6 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(UsuarioParameters parameters);
         Usuario ObterPorCodigo(string codigo);
         void Atualizar(Usuario usuario);
-        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel);
-        
+        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel);        
     }
 }

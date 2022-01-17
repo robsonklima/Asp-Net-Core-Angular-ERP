@@ -4,7 +4,7 @@
 
         <!-- Form -->
         <!-- SENHA -->
-        <form [formGroup]="securityForm">
+        <form [formGroup]="formSenhaAtual">
             <!-- Section -->
             <div class="w-full mt-4">
                 <div class="text-xl">{{ t('altere sua senha') }}</div>
@@ -15,25 +15,26 @@
             <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
                 <!-- Senha Atual -->
                 <div class="sm:col-span-4">
-                    <mat-step [formGroupName]="'FormSenhaAtual'">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>{{ t('senha atual') }}</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                            <input [formControlName]="'senhaAtual'" type="password" autocomplete='off' autocorrect='off'
-                                autocapitalize='none' spellcheck='false' matInput>
-                        </mat-form-field>
-                    </mat-step>
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('senha atual') }}</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                        <input [formControlName]="'senhaAtual'" type="password" autocomplete='off' autocorrect='off'
+                            autocapitalize='none' spellcheck='false' matInput>
+                    </mat-form-field>
                 </div>
+            </div>
+        </form>
+
+        <form [formGroup]="formNovaSenha">
+            <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
                 <!-- Nova Senha -->
                 <div class="sm:col-span-4">
-                    <mat-step [formGroupName]="'FormNovaSenha'">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>{{ t('nova senha') }}</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                            <input [formControlName]="'novaSenha'" type="password" autocomplete='off' autocorrect='off'
-                                autocapitalize='none' spellcheck='false' matInput>
-                        </mat-form-field>
-                    </mat-step>
+                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                        <mat-label>{{ t('nova senha') }}</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                        <input [formControlName]="'novaSenha'" type="password" autocomplete='off' autocorrect='off'
+                            autocapitalize='none' spellcheck='false' matInput>
+                    </mat-form-field>
                     <div class="mt-1 text-md text-hint">
                         {{ t('orientacoes senha') }}
                     </div>
@@ -42,11 +43,12 @@
 
             <div class="flex items-center justify-end">
                 <button class="ml-4" mat-flat-button type="button" [color]="'primary'" (click)="salvar()"
-                    [disabled]="!securityForm.valid">
-                    <span *ngIf="!securityForm.disabled">
+                    [disabled]="!formSenhaAtual.valid && !formNovaSenha.valid">
+                    <span *ngIf="!formSenhaAtual.disabled && !formNovaSenha.disabled">
                         {{ t('salvar') }}
                     </span>
-                    <mat-progress-spinner *ngIf="securityForm.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    <mat-progress-spinner *ngIf="formSenhaAtual.disabled && formNovaSenha.disabled" [diameter]="24"
+                        [mode]="'indeterminate'">
                     </mat-progress-spinner>
                 </button>
             </div>
@@ -63,38 +65,34 @@
             </div>
         </div>
 
-        <table class="min-w-full text-center">
+        <div class="w-full" *ngIf="usuarioDispositivos.length == 0">
+            <div class="text-xl text-center mt-10"> {{ t('sem dispositivos') }}
+            </div>
+        </div>
+
+        <table class="min-w-full text-center" *ngIf="usuarioDispositivos.length > 0">
             <tbody>
-                <tr class="border-b">
+                <tr class="border-b" *ngFor="let dispositivo of usuarioDispositivos">
                     <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:desktop-computer'" matPrefix>
+                        <mat-icon *ngIf="dispositivo.tipoDispositivo == 'desktop'" class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:desktop-computer'" matPrefix>
+                        </mat-icon>
+                        <mat-icon *ngIf="dispositivo.tipoDispositivo != 'desktop'" class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:device-mobile'" matPrefix>
                         </mat-icon>
                     </td>
-                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        Chrome 96.0.4664.110 - Windows 10
+                    <td class="py-4 white text-left space-nowrap text-lg text-gray-900 font-light">
+                        {{dispositivo.navegador | titlecase}} {{dispositivo.versaoNavegador}}
+                    </td>
+                    <td class="py-4 white text-left space-nowrap text-lg text-gray-900 font-light">
+                        {{dispositivo.versaoSO | uppercase}}
                     </td>
                     <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        30/12/2021
+                        {{dispositivo.dataHoraCad | date:'dd/MM/yyyy' }}
                     </td>
                     <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        <button class="ml-4" mat-flat-button type="button" [color]="'warn'">
-                            {{ t('desconectar') }}
-                        </button>
-                    </td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:device-mobile'" matPrefix>
-                        </mat-icon>
-                    </td>
-                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        Chrome 96.0.4664.110 - Android 8
-                    </td>
-                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        28/12/2021
-                    </td>
-                    <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
-                        <button class="ml-4" mat-flat-button type="button" [color]="'warn'">
+                        <button class="ml-4" mat-flat-button type="button" (click)="desconectar(dispositivo)"
+                            [disabled]="carregandoDispositivos" [color]="'warn'">
                             {{ t('desconectar') }}
                         </button>
                     </td>

@@ -472,6 +472,10 @@
     "dispositivos conectados": "Conected devices",
     "dispositivos conectados descricao": "All devices connected with your account",
     "desconectar": "Disconnect",
+    "sem dispositivos": "You do not have any registered devices",
+    "data de nascimento": "Birth date",
+    "informacoes veiculares": "Vehicle information",
+    "veiculo": "Vehicle",
     "origem": "Origin",
     "destino": "Destiny"
 }

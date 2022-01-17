@@ -34,9 +34,16 @@ export class DialogAlterarFotoPerfilComponent implements OnInit {
     this._cdr.detectChanges();
   }
 
-  onFileSelect(fileInput: any) {
-    let me = this;
+  private delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async onFileSelect(fileInput: any) {
     this.loading = true;
+    this._cdr.detectChanges();
+    await this.delay(1000);
+
+    let me = this;
     let arquivo = fileInput.target.files[0];
 
     if (arquivo) {

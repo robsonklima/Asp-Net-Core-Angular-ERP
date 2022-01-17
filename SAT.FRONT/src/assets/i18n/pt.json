@@ -488,5 +488,8 @@
     "desconectar": "Desconectar",
     "deslocamentos": "Deslocamentos",
     "origem": "Origem",
-    "destino": "Destino"
+    "destino": "Destino",
+    "data de nascimento" : "Data de nascimento",
+    "informacoes veiculares" :"Informações veiculares",
+    "veiculo" : "Veículo"
 }

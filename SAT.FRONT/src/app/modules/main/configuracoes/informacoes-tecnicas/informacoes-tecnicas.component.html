@@ -15,131 +15,135 @@
                 <div class="text-xl">Informações básicas</div>
             </div>
 
-            <div class="grid sm:grid-cols-8 gap-6 w-full mt-4">
+            <div class="grid sm:grid-cols-9 gap-6 w-full mt-4">
 
                 <div class="sm:col-span-4">
                     <mat-form-field class="fuse-mat-no-subscript w-full">
                         <mat-label>
-                            {{ t('nome') }}
+                            {{ t('apelido') }}
                         </mat-label>
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
-                        <input [formControlName]="'nomeUsuario'" matInput>
+                        <input [formControlName]="'apelido'" maxlength="40" matInput>
                     </mat-form-field>
                 </div>
 
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-3">
                     <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Data de nacimento</mat-label>
+                        <mat-label> {{ t('data de nascimento') }}</mat-label>
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:calendar'" matPrefix></mat-icon>
-                        <input [formControlName]="'dataNascimento'" matInput>
+                        <input type="date" [formControlName]="'dataNascimento'" matInput>
                     </mat-form-field>
                 </div>
 
-                <div class="sm:col-span-2">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Gênero</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
-                        <input [formControlName]="'genero'" matInput>
-                    </mat-form-field>
-                </div>
 
                 <div class="sm:col-span-2">
                     <mat-form-field class="fuse-mat-no-subscript w-full">
                         <mat-label>
-                            CEP
+                            RG
                         </mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:location-marker'" matPrefix>
-                        </mat-icon>
-                        <input [formControlName]="'cep'" matInput>
+                        <input [formControlName]="'rg'" maxlength="10" minlength="10" mask="0000000000"
+                            [dropSpecialCharacters]="false" matInput>
                     </mat-form-field>
                 </div>
-
-                <div class="sm:col-span-6">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>
-                            Endereço
-                        </mat-label>
-                        <input [formControlName]="'endereco'" matInput>
-                    </mat-form-field>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>
-                            Número
-                        </mat-label>
-                        <input [formControlName]="'numero'" matInput>
-                    </mat-form-field>
-                </div>
-
-                <div class="sm:col-span-6">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>
-                            Bairro
-                        </mat-label>
-                        <input [formControlName]="'bairro'" matInput>
-                    </mat-form-field>
-                </div>
-
-                <div class="sm:col-span-4">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>
-                            Cidade
-                        </mat-label>
-                        <input [formControlName]="'cidade'" matInput>
-                    </mat-form-field>
-                </div>
-
-                <div class="sm:col-span-4">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>
-                            Estado
-                        </mat-label>
-                        <input [formControlName]="'cidade'" matInput>
-                    </mat-form-field>
-                </div>
-
             </div>
 
             <div class="my-5 border-t"></div>
 
             <div class="w-full">
-                <div class="text-xl">Informações de contato</div>
+                <div class="text-xl">{{ t('informacoes contato') }}</div>
             </div>
-            <div class="grid sm:grid-cols-4 gap-8 w-full mt-4">
+
+            <div class="grid sm:grid-cols-7 gap-8 w-full mt-4">
+
                 <div class="sm:col-span-2">
                     <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>E-mail</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'" matPrefix></mat-icon>
-                        <input [formControlName]="'email'" matInput>
+                        <mat-label>{{ t('telefone particular') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="foneParticular" mask="(00) 00000-0000"
+                            [dropSpecialCharacters]="false">
                     </mat-form-field>
                 </div>
 
                 <div class="sm:col-span-2">
                     <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Fone</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix></mat-icon>
-                        <input [formControlName]="'fone'" matInput>
-                    </mat-form-field>
-                </div>
-
-                <div class="sm:col-span-1">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Ramal</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:phone'" matPrefix></mat-icon>
-                        <input [formControlName]="'ramal'" matInput>
+                        <mat-label>{{ t('telefone perto') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="fonePerto" mask="(00) 00000-0000"
+                            [dropSpecialCharacters]="false">
                     </mat-form-field>
                 </div>
             </div>
 
-            <div class="mt-11 mb-10 border-t"></div>
+            <div class="my-5 border-t"></div>
+
+            <div class="w-full">
+                <div class="text-xl">{{ t('informacoes veiculares') }}</div>
+            </div>
+
+            <table class="min-w-full text-center my-5">
+                <tbody>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            {{ t('veiculo') }}
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.carro}}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            Placa
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.placa}}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            Ano
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.ano}}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            Cor
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.cor}}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            Combustivel
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.combustivel}}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900">
+                            {{ t('cartao combustivel') }}
+                        </td>
+                        <td class="py-4 white space-nowrap text-sm text-lg text-gray-900 font-light">
+                            {{despesaCartaoCombustivel.numero}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
 
             <div class="flex items-center justify-end">
-                <button mat-stroked-button type="button">
-                    {{ t('cancelar') }}
-                </button>
-                <button class="ml-4" mat-flat-button type="button" [color]="'primary'">
-                    {{ t('salvar') }}
+                <button class="ml-4" mat-flat-button type="button" [color]="'primary'" (click)="salvar()"
+                    [disabled]="!formInformacoes.valid">
+                    <span *ngIf="!formInformacoes.disabled">
+                        {{ t('salvar') }}
+                    </span>
+                    <mat-progress-spinner *ngIf="formInformacoes.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
                 </button>
             </div>
         </form>

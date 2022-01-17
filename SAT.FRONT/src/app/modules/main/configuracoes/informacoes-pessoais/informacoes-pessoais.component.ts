@@ -4,6 +4,7 @@ import { CidadeService } from 'app/core/services/cidade.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
+import { TecnicoService } from 'app/core/services/tecnico.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Cidade } from 'app/core/types/cidade.types';
 import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
@@ -22,8 +23,7 @@ import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InformacoesPessoaisComponent implements OnInit, OnDestroy
-{
+export class InformacoesPessoaisComponent implements OnInit, OnDestroy {
 
     @Output() respostaPanel = new EventEmitter();
     carregado: boolean;
@@ -39,7 +39,7 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
 
     protected _onDestroy = new Subject<void>();
 
-    constructor (
+    constructor(
         private _formBuilder: FormBuilder,
         private _userService: UserService,
         private _googleGeolocationService: GeolocalizacaoService,
@@ -47,34 +47,30 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
         private _cidadeService: CidadeService,
         private _paisService: PaisService,
         private _cdr: ChangeDetectorRef,
-        private _snack: CustomSnackbarService
-    )
-    {
+        private _snack: CustomSnackbarService,
+        private _tecnicoService: TecnicoService
+    ) {
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
     }
 
-    async ngOnInit()
-    {
+    async ngOnInit() {
         this.buscandoCEP = false;
         this.carregado = false;
         this.inicializarForm();
         this.paises = await this._paisService.obterPaises();
 
-        this.formInformacoes.controls['codPais'].valueChanges.subscribe(async () =>
-        {
+        this.formInformacoes.controls['codPais'].valueChanges.subscribe(async () => {
             this.unidadesFederativas = [];
             this.unidadesFederativas = await this._unidadeFederativaService.obterUnidadesFederativas(this.formInformacoes.controls['codPais'].value);
             this._cdr.detectChanges();
         });
 
-        this.formInformacoes.controls['codUF'].valueChanges.subscribe(async () =>
-        {
+        this.formInformacoes.controls['codUF'].valueChanges.subscribe(async () => {
             this.cidades = [];
             this.cidades = await this._cidadeService.obterCidades(this.formInformacoes.controls['codUF'].value);
             this._cdr.detectChanges();
@@ -85,15 +81,13 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
             debounceTime(700),
             delay(500),
             takeUntil(this._onDestroy),
-            map(async filtro =>
-            {
+            map(async filtro => {
                 this.cidades = await this._cidadeService.obterCidades(this.formInformacoes.controls['codUF'].value, filtro);
                 this._cdr.detectChanges();
             })
         ).toPromise();
 
-        this._userService.obterPorCodigo(this.userSession.usuario.codUsuario).subscribe(dadosUsuario =>
-        {
+        this._userService.obterPorCodigo(this.userSession.usuario.codUsuario).subscribe(dadosUsuario => {
             this.formInformacoes.patchValue(dadosUsuario);
             this.formInformacoes.controls['codPais'].setValue(dadosUsuario?.cidade?.unidadeFederativa?.pais?.codPais);
             this.formInformacoes.controls['codUF'].setValue(dadosUsuario?.cidade?.unidadeFederativa?.codUF);
@@ -105,8 +99,7 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
         });
     }
 
-    private inicializarForm(): void
-    {
+    private inicializarForm(): void {
         this.formInformacoes = this._formBuilder.group({
             codUsuario: [
                 {
@@ -128,26 +121,21 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
         });
     }
 
-    async buscaCEP(cepCmp: any)
-    {
-        if (cepCmp.target.value)
-        {
+    async buscaCEP(cepCmp: any) {
+        if (cepCmp.target.value) {
             this.formInformacoes.disable();
             // Google
             // Tenta pelo cep (nem sempre os endereços são corretos)
             let mapService = (await this._googleGeolocationService.obterPorParametros
                 ({ enderecoCep: cepCmp.target.value.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
 
-            if (mapService)
-            {
+            if (mapService) {
                 this.formInformacoes.controls['endereco'].setValue(mapService.enderecoCEP);
                 this.formInformacoes.controls['bairro'].setValue(mapService.enderecoCEP);
 
-                this._cidadeService.obterCidades(null, mapService.cidade).then(c =>
-                {
+                this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
                     const data = c[0];
-                    if (data)
-                    {
+                    if (data) {
                         this.formInformacoes.controls['codUF'].setValue(data.codUF);
                         this.formInformacoes.controls['codCidade'].setValue(data.codCidade);
                     }
@@ -158,8 +146,7 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
         }
     }
 
-    salvar()
-    {
+    salvar() {
         this.formInformacoes.disable();
         const form: any = this.formInformacoes.getRawValue();
 
@@ -168,10 +155,25 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy
             ...form
         };
 
-        this._userService.atualizar(updateUsuario).subscribe(() =>
-        {
-            this._snack.exibirToast(`Usuário atualizado com sucesso!`, "success");
-            this.formInformacoes.enable();
+        this._userService.atualizar(updateUsuario).subscribe(() => {
+
+            if (this.usuario.codTecnico) {
+                this.usuario.tecnico.cpf = this.usuario.cpf;
+                this.usuario.tecnico.cep = this.usuario.cep;
+                this.usuario.tecnico.endereco = this.usuario.endereco;
+                this.usuario.tecnico.bairro = this.usuario.bairro;
+                this.usuario.tecnico.codCidade = this.usuario.codCidade;
+                this.usuario.tecnico.email = this.usuario.email;
+                this.usuario.tecnico.foneParticular = this.usuario.fone;
+
+                this._tecnicoService.atualizar(this.usuario.tecnico).subscribe(() => {
+                    this._snack.exibirToast(`Usuário atualizado com sucesso!`, "success");
+                    this.formInformacoes.enable();
+                });
+            } else {
+                this._snack.exibirToast(`Usuário atualizado com sucesso!`, "success");
+                this.formInformacoes.enable();
+            }
         });
     }
 }

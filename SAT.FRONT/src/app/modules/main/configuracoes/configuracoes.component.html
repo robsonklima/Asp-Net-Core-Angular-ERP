@@ -35,9 +35,6 @@
                                 [ngClass]="{'text-primary dark:text-primary-500': selectedPanel && selectedPanel === panel.id}">
                                 {{ panel?.title | transloco }}
                             </div>
-                            <!-- <div class="mt-0.5 text-secondary">
-                                {{ panel.description }}
-                            </div> -->
                         </div>
                     </div>
                 </ng-container>
@@ -85,11 +82,6 @@
                             </button>
 
                         </div>
-                        <!-- <button mat-icon-button>
-                            <span>
-                                <img class="w-64" src="assets/images/avatars/profile.jpg">
-                            </span>
-                        </button> -->
                     </div>
                 </div>
 
@@ -125,7 +117,7 @@
                             <informacoes-pessoais (respostaPanel)="panelCarregado($event)"></informacoes-pessoais>
                         </ng-container>
                         <!-- Informações Técnicas -->
-                        <ng-container ngIf="usuario?.codTecnico" *ngSwitchCase="'informacoes-tecnicas'">
+                        <ng-container *ngSwitchCase="'informacoes-tecnicas'">
                             <informacoes-tecnicas (respostaPanel)="panelCarregado($event)"></informacoes-tecnicas>
                         </ng-container>
                         <!-- Segurança -->

@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { DespesaCartaoCombustivel } from 'app/core/types/despesa-cartao-combustivel.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import Enumerable from 'linq';
+import moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'informacoes-tecnicas',
@@ -11,32 +19,52 @@ import { UserSession } from 'app/core/user/user.types';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InformacoesTecnicasComponent implements OnInit {
+export class InformacoesTecnicasComponent implements OnInit, OnDestroy {
 
     @Output() respostaPanel = new EventEmitter();
     carregado: boolean;
-
     formInformacoes: FormGroup;
     userSession: UserSession;
-    usuario: Usuario;
+    tecnico: Tecnico;
+
+    protected _onDestroy = new Subject<void>();
+
+    public despesaCartaoCombustivel: DespesaCartaoCombustivel;
 
     constructor(
         private _formBuilder: FormBuilder,
-        private _userSvc: UserService
+        private _userSvc: UserService,
+        private _tecnicoService: TecnicoService,
+        private _snack: CustomSnackbarService
     ) {
         this.userSession = JSON.parse(this._userSvc.userSession);
+    }
+
+    ngOnDestroy() {
+        this._onDestroy.next();
+        this._onDestroy.complete();
     }
 
     async ngOnInit() {
         this.carregado = false;
         this.inicializarForm();
-        this.usuario = await this._userSvc.obterPorCodigo(this.userSession.usuario.codUsuario).toPromise();
+        this.tecnico = await this._tecnicoService.obterPorCodigo(this.userSession.usuario.codTecnico).toPromise();
+        let dadosVeiculos = Enumerable.from(this.tecnico.despesaCartaoCombustivelTecnico).toArray();
 
-        this.formInformacoes.controls['nomeUsuario'].setValue(this.usuario.nomeUsuario);
-        this.formInformacoes.controls['dataNascimento'].setValue("02/08/1992");
-        this.formInformacoes.controls['genero'].setValue("Masculino");
-        this.formInformacoes.controls['email'].setValue(this.usuario.email);
-        this.formInformacoes.controls['fone'].setValue(this.usuario.fone);
+        for (let dados of dadosVeiculos) {
+            //if (dados.despesaCartaoCombustivel.indAtivo) {
+            this.despesaCartaoCombustivel = dados.despesaCartaoCombustivel;
+            break;
+            // }
+        }
+
+        // Unico jeito válido até o momento para preencher certo a data no form
+        this.formInformacoes.get('dataNascimento').setValue(new Date(this.tecnico.dataNascimento).toISOString().split('T')[0]);
+
+        this.formInformacoes.controls['apelido'].setValue(this.tecnico.apelido);
+        this.formInformacoes.controls['rg'].setValue(this.tecnico.rg);
+        this.formInformacoes.controls['fonePerto'].setValue(this.tecnico.fonePerto);
+        this.formInformacoes.controls['foneParticular'].setValue(this.tecnico.foneParticular);
 
         this.carregado = true;
         this.respostaPanel.emit(this.carregado);
@@ -44,17 +72,27 @@ export class InformacoesTecnicasComponent implements OnInit {
 
     private inicializarForm(): void {
         this.formInformacoes = this._formBuilder.group({
-            nomeUsuario: [undefined, [Validators.required]],
-            dataNascimento: [undefined, [Validators.required]],
-            endereco: [undefined, [Validators.required]],
-            bairro: [undefined, [Validators.required]],
-            cidade: [undefined, [Validators.required]],
-            cep: [undefined, [Validators.required]],
-            genero: [undefined, [Validators.required]],
-            numero: [undefined, [Validators.required]],
-            ramal: [undefined, [Validators.required]],
-            email: [undefined],
-            fone: [undefined]
+            apelido: [undefined, [Validators.required]],
+            dataNascimento: new FormControl('', Validators.required),
+            rg: [undefined, [Validators.required]],
+            fonePerto: [undefined, [Validators.required]],
+            foneParticular: [undefined, [Validators.required]]
+        });
+    }
+
+    salvar() {
+
+        this.formInformacoes.disable();
+        const form: any = this.formInformacoes.getRawValue();
+
+        let updateTecnico = {
+            ...this.tecnico,
+            ...form
+        };
+
+        this._tecnicoService.atualizar(updateTecnico).subscribe(() => {
+            this._snack.exibirToast(`Técnico atualizado com sucesso!`, "success");
+            this.formInformacoes.enable();
         });
     }
 }

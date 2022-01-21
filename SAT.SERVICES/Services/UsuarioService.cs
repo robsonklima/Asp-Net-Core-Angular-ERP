@@ -5,6 +5,9 @@ using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Linq;
+using System.Globalization;
+using System.Collections.Generic;
+using SAT.MODELS.Helpers;
 
 namespace SAT.SERVICES.Services
 {
@@ -83,9 +86,124 @@ namespace SAT.SERVICES.Services
             this._usuarioRepo.Atualizar(usuario);
         }
 
-        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel)
+        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel, bool forcaTrocarSenha = false)
         {
-            this._usuarioRepo.AlterarSenha(segurancaUsuarioModel);
+            this._usuarioRepo.AlterarSenha(segurancaUsuarioModel, forcaTrocarSenha);
+        }
+
+        public RecuperaSenha CriarRecuperaSenha(RecuperaSenha recuperaSenha)
+        {
+            return this._usuarioRepo.CriarRecuperaSenha(recuperaSenha);
+        }
+
+        public void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha)
+        {
+            this._usuarioRepo.AtualizarRecuperaSenha(recuperaSenha);
+        }
+
+        public RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha)
+        {
+            return this._usuarioRepo.ObterRecuperaSenha(codRecuperaSenha);
+        }
+
+        /// <summary>
+        /// Faz a solicitação de nova senha
+        /// </summary>
+        /// <param name="codUsuario"></param>
+        /// <returns></returns>
+        public ResponseObject EsqueceuSenha(string codUsuario)
+        {
+            ResponseObject response = new();
+
+            try
+            {
+                Usuario usuario = this._usuarioRepo.ObterPorCodigo(codUsuario);
+
+                if (usuario == null)
+                {
+                    response.RequestValido = false;
+                    response.Mensagem = "Código do usuário não encontrado";
+                }
+                else
+                {
+                    RecuperaSenha model = new() { CodUsuario = usuario.CodUsuario, Email = usuario.Email, DataHoraCad = DateTime.Now };
+
+                    this.AtualizarRecuperaSenha(model);
+
+                    model.IndAtivo = 1;
+
+                    response.RequestValido = true;
+                    response.Data = new Dictionary<string, object>
+                    {
+                        ["email"] = usuario.Email,
+                        ["nomeUsuario"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(usuario.NomeUsuario.ToLower()),
+                        ["codRecuperaSenha"] = CriptoHelper.EnryptString(this.CriarRecuperaSenha(model).CodRecuperaSenha.ToString())
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogError($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}");
+                response.RequestValido = false;
+                response.Mensagem = "Um erro ocorreu ao solicitar nova senha";
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gera a nova senha
+        /// </summary>
+        /// <param name="codRecuperaSenhaCripto"></param>
+        /// <returns></returns>
+        public ResponseObject ConfirmaNovaSenha(string codRecuperaSenhaCripto)
+        {
+            ResponseObject response = new()
+            {
+                RequestValido = false
+            };
+
+            try
+            {
+                if (int.TryParse(CriptoHelper.DecryptString(codRecuperaSenhaCripto), out int codRecuperaSenha))
+                {
+                    RecuperaSenha recSenha = this.ObterRecuperaSenha(codRecuperaSenha);
+
+                    if (recSenha != null)
+                    {
+                        if (!Convert.ToBoolean(recSenha.SolicitacaoConfirmada))
+                        {
+                            string novaSenha = PasswordHelper.GerarNovaSenha();
+
+                            this.AlterarSenha(new SegurancaUsuarioModel() { CodUsuario = recSenha.CodUsuario, NovaSenha = novaSenha }, forcaTrocarSenha: true);
+
+                            recSenha.SolicitacaoConfirmada = 1;
+                            recSenha.IndAtivo = 0;
+
+                            this.AtualizarRecuperaSenha(recSenha);
+
+                            response.RequestValido = true;
+
+                            Usuario usuario = this.ObterPorCodigo(recSenha.CodUsuario);
+
+                            response.Data = new Dictionary<string, object>
+                            {
+                                ["email"] = usuario.Email,
+                                ["nomeUsuario"] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(usuario.NomeUsuario.ToLower()),
+                                ["senha"] = novaSenha
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogError($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}");
+                response.RequestValido = false;
+                response.Mensagem = "Um erro ocorreu ao solicitar nova senha";
+            }
+
+            return response;
         }
     }
 }

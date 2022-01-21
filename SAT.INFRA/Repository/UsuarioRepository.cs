@@ -182,7 +182,7 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel)
+        public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel, bool forcaTrocarSenha = false)
         {
             _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == segurancaUsuarioModel.CodUsuario);
@@ -191,7 +191,7 @@ namespace SAT.INFRA.Repository
             {
                 try
                 {
-                    if (this.ValidateLogin(new Usuario() { CodUsuario = segurancaUsuarioModel.CodUsuario, Senha = segurancaUsuarioModel.SenhaAtual }))
+                    if (this.ValidateLogin(new Usuario() { CodUsuario = segurancaUsuarioModel.CodUsuario, Senha = segurancaUsuarioModel.SenhaAtual }) || forcaTrocarSenha)
                     {
                         if (this.PWDENCRYPT(segurancaUsuarioModel.CodUsuario, segurancaUsuarioModel.NovaSenha))
                         {
@@ -212,6 +212,54 @@ namespace SAT.INFRA.Repository
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
             }
+        }
+
+        public RecuperaSenha CriarRecuperaSenha(RecuperaSenha recuperaSenha)
+        {
+            try
+            {
+                _context.Add(recuperaSenha);
+                _context.SaveChanges();
+
+                return recuperaSenha;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha)
+        {
+            _context.ChangeTracker.Clear();
+            RecuperaSenha usr = _context.RecuperaSenha.FirstOrDefault(r => r.CodRecuperaSenha == recuperaSenha.CodRecuperaSenha);
+
+            try
+            {
+                if (usr != null)
+                {
+                    _context.Entry(usr).CurrentValues.SetValues(recuperaSenha);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    usr = _context.RecuperaSenha.FirstOrDefault(r => r.CodUsuario == recuperaSenha.CodUsuario && r.IndAtivo == 1);
+                    if (usr != null)
+                    {
+                        usr.IndAtivo = 0;
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+            }
+        }
+
+        public RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha)
+        {
+            return _context.RecuperaSenha.FirstOrDefault(us => us.CodRecuperaSenha == codRecuperaSenha);
         }
     }
 }

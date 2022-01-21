@@ -132,6 +132,8 @@ namespace SAT.INFRA.Context
         public DbSet<MonitoramentoHistorico> MonitoramentoHistorico { get; set; }
         public DbSet<OrcamentoStatus> OrcamentoStatus { get; set; }
         public DbSet<OrcamentoDeslocamento> OrcamentoDeslocamento { get; set; }
+        public DbSet<RecuperaSenha> RecuperaSenha { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -10,6 +10,9 @@ namespace SAT.INFRA.Interfaces
         PagedList<Usuario> ObterPorParametros(UsuarioParameters parameters);
         Usuario ObterPorCodigo(string codigo);
         void Atualizar(Usuario usuario);
-        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel);
+        void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel, bool forcaTrocarSenha = false);
+        RecuperaSenha CriarRecuperaSenha(RecuperaSenha recuperaSenha);
+        RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha);
+        void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha);
     }
 }

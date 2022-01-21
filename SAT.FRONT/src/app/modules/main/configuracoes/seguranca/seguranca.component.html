@@ -43,8 +43,8 @@
 
             <div class="flex items-center justify-end">
                 <button class="ml-4" mat-flat-button type="button" [color]="'primary'" (click)="salvar()"
-                    [disabled]="!formSenhaAtual.valid && !formNovaSenha.valid">
-                    <span *ngIf="!formSenhaAtual.disabled && !formNovaSenha.disabled">
+                    [disabled]="!formSenhaAtual.valid || !formNovaSenha.valid">
+                    <span *ngIf="!formSenhaAtual.disabled || !formNovaSenha.disabled">
                         {{ t('salvar') }}
                     </span>
                     <mat-progress-spinner *ngIf="formSenhaAtual.disabled && formNovaSenha.disabled" [diameter]="24"

@@ -167,7 +167,7 @@
     "usuario": "User",
     "informacoes pessoais": "Personal Information",
     "informacoes privadas": "Communication details in case we want to connect with you. These will be kept private.",
-    "orientacoes senha": "Minimum 8 characters. Must include numbers, letters and special characters.",
+    "orientacoes senha": "Minimum of 8 characters. Must include numbers, letters (upper and lowercase) and special characters.",
     "preferencias de seguranca": "Security preferences",
     "altere sua senha": "Change your password",
     "altere sua senha com frequencia": "Change your passward frequently",

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { appConfig as c } from 'app/core/config/app.config'
+import { Usuario } from '../types/usuario.types';
 
 @Injectable()
 export class AuthService {
@@ -25,12 +26,26 @@ export class AuthService {
         return localStorage.getItem('accessToken') ?? '';
     }
 
-    forgotPassword(email: string): Observable<any> {
-        return this._httpClient.post('api/auth/forgot-password', email);
+    confirmaNovaSenha(codRecuperaSenhaCripto: string): Observable<any> {
+        return this._httpClient.post<any>(`${c.api}/Usuario/ConfirmaNovaSenha/` + codRecuperaSenhaCripto, {}, {
+            headers: { Accept: 'application/json', 'No-Auth': 'True' }
+        }).pipe(
+            map(
+                (result) => { return result; },
+                (error) => { return error; }
+            )
+        );
     }
 
-    resetPassword(password: string): Observable<any> {
-        return this._httpClient.post('api/auth/reset-password', password);
+    esqueceuSenha(codUsuario: string): Observable<any> {
+        return this._httpClient.post<any>(`${c.api}/Usuario/EsqueceuSenha/` + codUsuario, {}, {
+            headers: { Accept: 'application/json', 'No-Auth': 'True' }
+        }).pipe(
+            map(
+                (result) => { return result; },
+                (error) => { return error; }
+            )
+        );
     }
 
     signIn(codUsuario: string, senha: string): Observable<any> {

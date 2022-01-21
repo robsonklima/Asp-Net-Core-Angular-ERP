@@ -20,8 +20,8 @@ export const appRoutes: Route[] = [
         children: [
             { path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.module').then(m => m.AuthConfirmationRequiredModule) },
             { path: 'confirmation-submit', loadChildren: () => import('app/modules/auth/confirmation-submit/confirmation-submit.module').then(m => m.AuthConfirmationSubmitModule) },
-            { path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule) },
-            { path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule) },
+            { path: 'esqueceu-senha', loadChildren: () => import('app/modules/auth/esqueceu-senha/esqueceu-senha.module').then(m => m.EsqueceuSenhaModule) },
+            { path: 'confirmacao-nova-senha', loadChildren: () => import('app/modules/auth/confirmacao-nova-senha/confirmacao-nova-senha.module').then(m => m.ConfirmacaoNovaSenhaModule) },
             { path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule) },
             { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) }
         ]

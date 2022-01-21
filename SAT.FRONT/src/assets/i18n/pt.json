@@ -168,7 +168,7 @@
     "usuario": "Usuário",
     "informacoes pessoais": "Informações Pessoais",
     "informacoes privadas": "Detalhes de comunicação, caso queiramos entrar em contato com você. Serão mantidas em sigilo.",
-    "orientacoes senha": "Mínimo de 8 caracteres. Precisa incluir números, letras e caracteres especiais.",
+    "orientacoes senha": "Mínimo de 8 caracteres. Precisa incluir números, letras (maiúsculas e minúsculas) e caracteres especiais.",
     "preferencias de seguranca": "Preferências de Segurança",
     "altere sua senha": "Altere sua Senha",
     "altere sua senha com frequencia": "Altere sua senha sempre que possível",

@@ -8,15 +8,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { AuthResetPasswordComponent } from 'app/modules/auth/reset-password/reset-password.component';
-import { authResetPasswordRoutes } from 'app/modules/auth/reset-password/reset-password.routing';
+import { ConfirmacaoNovaSenhaComponent } from 'app/modules/auth/confirmacao-nova-senha/confirmacao-nova-senha.component';
+import { confirmacaoNovaSenhaRoutes } from 'app/modules/auth/confirmacao-nova-senha/confirmacao-nova-senha.routing';
 
 @NgModule({
     declarations: [
-        AuthResetPasswordComponent
+        ConfirmacaoNovaSenhaComponent
     ],
-    imports     : [
-        RouterModule.forChild(authResetPasswordRoutes),
+    imports: [
+        RouterModule.forChild(confirmacaoNovaSenhaRoutes),
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
@@ -27,6 +27,5 @@ import { authResetPasswordRoutes } from 'app/modules/auth/reset-password/reset-p
         SharedModule
     ]
 })
-export class AuthResetPasswordModule
-{
+export class ConfirmacaoNovaSenhaModule {
 }

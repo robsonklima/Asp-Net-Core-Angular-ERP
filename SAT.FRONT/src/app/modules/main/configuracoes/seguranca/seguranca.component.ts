@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioDispositivoService } from 'app/core/services/usuario-dispositivo.service';
 import { UsuarioDispositivo } from 'app/core/types/usuario-dispositivo.types';
@@ -49,10 +49,13 @@ export class ConfiguracoesSegurancaComponent implements OnInit {
 
     private inicializarForm(): void {
         this.formSenhaAtual = this._formBuilder.group({
-            senhaAtual: [undefined]
+            senhaAtual: [undefined, [Validators.required]]
         }),
             this.formNovaSenha = this._formBuilder.group({
-                novaSenha: [undefined]
+                novaSenha: [undefined, [
+                    Validators.required,
+                    //Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
+                    Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-\'\"~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-\'\"~,.;<>:@$!%*?&]{8,}$')]]
             })
     }
 
@@ -65,13 +68,22 @@ export class ConfiguracoesSegurancaComponent implements OnInit {
         model.novaSenha = this.formNovaSenha.getRawValue().novaSenha;
         model.senhaAtual = this.formSenhaAtual.getRawValue().senhaAtual;
 
-        this._userService.alterarSenha(model).subscribe(() => {
-            this._snack.exibirToast(`Senha alterada com sucesso!`, "success");
-            this.formSenhaAtual.reset();
-            this.formNovaSenha.reset();
-            this.formSenhaAtual.enable();
-            this.formNovaSenha.enable();
-        });
+        this._userService.alterarSenha(model).subscribe(
+            // Success
+            (response) => {
+                this._snack.exibirToast(`Senha alterada com sucesso!`, "success");
+                this.formSenhaAtual.reset();
+                this.formNovaSenha.reset();
+                this.formSenhaAtual.enable();
+                this.formNovaSenha.enable();
+            },
+            // Success
+            (response) => {
+                this._snack.exibirToast(response.error.errorMessage, "error");
+                this.formSenhaAtual.enable();
+                this.formNovaSenha.enable();
+            }
+        );
     }
 
     desconectar(codUsuarioDispositivo: UsuarioDispositivo) {

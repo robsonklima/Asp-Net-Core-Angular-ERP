@@ -77,6 +77,7 @@ export interface UsuarioSessao {
 export interface UsuarioParameters extends QueryStringParameters {
     codUsuario?: string;
     nomeUsuario?: string;
+    email?: string;
     codPerfil?: number;
     codFilial?: number;
     indAtivo?: number;

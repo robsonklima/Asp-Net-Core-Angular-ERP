@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
     {
         public string CodUsuario { get; set; }
         public string NomeUsuario { get; set; }
+        public string Email { get; set; }
         public int? CodFilial { get; set; }
         public int? CodPerfil { get; set; }
         public int? IndAtivo { get; set; }

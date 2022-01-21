@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Threading.Tasks;
 
 namespace SAT.API.Controllers
 {
@@ -52,6 +53,36 @@ namespace SAT.API.Controllers
         public void AlterarSenha([FromBody] SegurancaUsuarioModel segurancaUsuarioModel)
         {
             _usuarioService.AlterarSenha(segurancaUsuarioModel);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("EsqueceuSenha/{codUsuario}")]
+        public IActionResult EsqueceuSenha([FromRoute] string codUsuario)
+        {
+            // Valida se o parâmetro recebido é válido
+            if (ModelState.IsValid)
+            {
+                ResponseObject response = _usuarioService.EsqueceuSenha(codUsuario);
+
+                return response.RequestValido ? Ok(response) : BadRequest(response);
+            }
+
+            return BadRequest("Valores enviados inválidos");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ConfirmaNovaSenha/{CodRecuperaSenhaCripto}")]
+        public IActionResult ConfirmaNovaSenha([FromRoute] string CodRecuperaSenhaCripto)
+        {
+            // Valida se o parâmetro recebido é válido
+            if (ModelState.IsValid)
+            {
+                ResponseObject response = _usuarioService.ConfirmaNovaSenha(CodRecuperaSenhaCripto);
+
+                return response.RequestValido ? Ok(response) : BadRequest(response);
+            }
+
+            return BadRequest("Valores enviados inválidos");
         }
     }
 }

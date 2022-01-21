@@ -471,5 +471,6 @@
     "ramal": "Branch line",
     "dispositivos conectados": "Conected devices",
     "dispositivos conectados descricao": "All devices connected with your account",
-    "desconectar": "Disconnect"
+    "desconectar": "Disconnect",
+    "enviar": "Send"
 }

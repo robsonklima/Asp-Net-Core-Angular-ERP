@@ -35,6 +35,8 @@ namespace SAT.API
                 options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
+            services.AddHttpContextAccessor();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "CorsApi",

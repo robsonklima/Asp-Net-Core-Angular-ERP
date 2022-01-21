@@ -9,35 +9,36 @@
                             <div class="flex-1 min-w-0">
                                 <div class="mt-2">
                                     <h6
-                                        class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
-                                        Importação em Massa
-                                    </h6>
-                                </div>
+                                    class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+                                    Importação em Massa
+                                </h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        </div>
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="grid grid-cols-2 w-full max-w-screen-xl mx-auto">
                     <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                        <mat-button-toggle (click)="configuraPlanilha(0)" >Atualização Implantação</mat-button-toggle>
-                        <mat-button-toggle (click)="configuraPlanilha(1)" >Abertura de Chamados</mat-button-toggle>
-                        <mat-button-toggle (click)="configuraPlanilha(2)" >Criação de Lotes</mat-button-toggle>
+                        <mat-button-toggle (click)="configura(configuracao.atualizaImplantacao)" >Atualização Implantação</mat-button-toggle>
+                        <mat-button-toggle (click)="configura(configuracao.aberturaChamados)" >Abertura de Chamados</mat-button-toggle>
+                        <mat-button-toggle (click)="configura(configuracao.criacaoLotes)" >Criação de Lotes</mat-button-toggle>
                     </mat-button-toggle-group>
 
-                    <div class="justify-self-end">
-                        <button class="ml-2" mat-icon-button matTooltip="{{ t('Enviar') }}" (click)="enviarDados()">
+                    <div class="flex justify-self-end mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                        <button class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'" [disabled]="!idPlanilha" (click)="enviarDados()" >
                             <mat-icon [svgIcon]="'heroicons_outline:cloud-upload'"></mat-icon>
-                        </button>               
+                            
+                            <span class="ml-2">{{t('enviar')}}</span>
+                        </button>
                     </div>
                  </div>
             </div>
 
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto">
-                    <div
+                    <div *ngIf="!isLoading"
                         class="
                         px-2
                         pb-2
@@ -45,12 +46,18 @@
                         bg-card
                         shadow
                         rounded
-                        w-auto
-                        max-h-180
+                        max-w-6/7
+                        max-h-140
                         overflow-auto"
                         >
-                            <div class="mt-2" #spreadsheet></div>
-                        </div>
+                        <app-planilha class="mt-2" [data]="config" (sheetData)="retornaPlanilha($event)"></app-planilha>
+                    </div>
+                    <div class="grid justify-items-center mt-10" *ngIf="isLoading">  
+                        <mat-progress-spinner [diameter]="84" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                        <br>
+                        <h3>ESTA AÇÃO PODE DEMORAR ATÉ ALGUNS MINUTOS, POR FAVOR AGUARDE </h3>
+                    </div>
                 </div>
             </div>
         </div>

@@ -74,5 +74,16 @@
         // Clientes
         public static int SICOOB = 68;
         public static int SICOOB_CONFEDERACAO = 246;
+
+        //Email
+
+        public static string ASSINATURA_EMAIL = @"
+                                                <br><br>
+                                                Equipe SAT<br> 
+                                                Perto S.A. – Tecnologia para Bancos e Varejo<br> 
+                                                Ramal (51) 2126-6944<br> 
+                                                Whatsapp: (51) 997144990<br>";
+
+
     }
 }

@@ -1,86 +1,88 @@
+import { DespesaCartaoCombustivelDetalheComponent } from './../despesa/despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
+import { ConfirmacaoDialogComponent } from './../../../shared/confirmacao-dialog/confirmacao-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { ImportacaoService } from './../../../core/services/importacao.service';
-import { ImportacaoEnum, ImportacaoColunas, ImportacaoDados } from './../../../core/types/importacao.types';
-import { Component, ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import * as jspreadsheet from "jspreadsheet-ce";
-import Enumerable from 'linq';
+import { ImportacaoAberturaOrdemServico, ImportacaoColunas, ImportacaoDados, ImportacaoEnum } from './../../../core/types/importacao.types';
+import { Component, AfterViewInit } from '@angular/core';
+
 
 @Component({
 	selector: 'app-importacao',
 	templateUrl: './importacao.component.html',
 	styleUrls: ['./importacao.component.scss']
 })
+
 export class ImportacaoComponent implements AfterViewInit {
 
+	configuracao = {
 
+		atualizaImplantacao: {
+			id: ImportacaoEnum.ATUALIZA_IMPLANTACAO,
+			dados: ImportacaoDados.atualizaImplantacao,
+			colunas: ImportacaoColunas.atualizaImplantacao
+		},
 
-	@ViewChild("spreadsheet") spreadsheet: ElementRef;
+		aberturaChamados: {
+			id: ImportacaoEnum.ABERTURA_CHAMADOS,
+			dados: ImportacaoDados.aberturaChamados,
+			colunas: ImportacaoColunas.aberturaChamados
+		},
 
-	table: any;
-	dados: object[] = [];
-	colunas: object[] = [];
+		criacaoLotes: {
+			id: ImportacaoEnum.CRIACAO_LOTES,
+			dados: ImportacaoDados.criacaoLotes,
+			colunas: ImportacaoColunas.criacaoLotes
+		}
+
+	}
+	isLoading: boolean = false;
+	config: any;
+	planilha: ImportacaoAberturaOrdemServico[];
+	idPlanilha: number;
 
 	constructor(
 		private _importacaoService: ImportacaoService,
-		
-		) { }
+		public _dialog: MatDialog
+
+	) { }
 
 	ngAfterViewInit() {
 
-		this.criaPlanilha();
 
 	}
 
-	criaPlanilha() {
-		this.table = jspreadsheet(this.spreadsheet.nativeElement, {
-			data: this.dados,
-			columns: this.colunas,
-			minDimensions: [
-				this.colunas.length > 0 ? this.colunas.length : 27
-				, 30],
-		});
+	configura(newConfig: object) {
+
+		this.idPlanilha = newConfig['id'];
+		this.config = newConfig;
 	}
 
-	atualizaPlanilha() {
-		this.spreadsheet.nativeElement.innerHTML = '';
-		this.criaPlanilha();
-	}
-
-	configuraPlanilha(codConfig: number) {
-		switch (codConfig) {
-			case ImportacaoEnum.ATUALIZA_IMPLANTACAO:
-
-				this.dados = ImportacaoDados.atualizaImplantacao;
-
-				this.colunas = ImportacaoColunas.atualizaImplantacao;
-
-				break;
-			case ImportacaoEnum.ABERTURA_CHAMADOS:
-
-				this.dados =ImportacaoDados.aberturaChamados;
-
-				this.colunas =ImportacaoColunas.aberturaChamados;
-
-				break;
-			case ImportacaoEnum.CRIACAO_LOTES:
-
-				this.dados = ImportacaoDados.criacaoLotes;
-
-				this.colunas = ImportacaoColunas.criacaoLotes;
-
-				break;
-			default:
-				break;
-		}
-
-		this.atualizaPlanilha();
-
+	retornaPlanilha(json: any) {
+		this.planilha = json;
 	}
 
 	async enviarDados() {
+		this.isLoading = true;
 
-		this._importacaoService.aberturaChamadosEmMassa(this.table.getJson()).subscribe();
+		await this._importacaoService.aberturaChamadosEmMassa({
 
-		console.log(this.table.getJson())
+			id: this.idPlanilha,
+			jsonImportacao: JSON.stringify(this.planilha)
+
+		}).subscribe(r => {
+
+			this._dialog.open(ConfirmacaoDialogComponent, {
+				data: {
+					titulo: 'Aviso!',
+					message: Array.from(new Set(r)),
+					hideCancel: true,
+					buttonText: {
+						ok: 'Ok',
+					}
+				}
+			});
+
+			this.isLoading = false;
+		});
 	}
-
 }

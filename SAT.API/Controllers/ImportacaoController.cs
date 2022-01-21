@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -18,12 +19,14 @@ namespace SAT.API.Controllers
         public ImportacaoController(IImportacaoService importacaoService)
         {
             _importacaoService = importacaoService;
+
         }
 
         [HttpPost("AberturaOs")]
-        public List<int> Post([FromBody] List<ImportacaoAberturaOrdemServico> importacaoOs)
+        public List<string> Post([FromBody] ImportacaoBase importacao)
         {
-            return _importacaoService.AberturaChamadosEmMassa(importacaoOs);
+
+            return _importacaoService.Importacao(importacao);
         }
     }
 }

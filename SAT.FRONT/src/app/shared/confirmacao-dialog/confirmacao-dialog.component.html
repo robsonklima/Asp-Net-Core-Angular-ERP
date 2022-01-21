@@ -4,8 +4,15 @@
 
 <div mat-dialog-content>
     <div class="flex-auto w-full">
-        <div class="flex overflow-hidden">
+        
+        <div class="flex overflow-hidden" *ngIf="!isArray">
             {{ mensagem }}
+        </div>
+
+        <div class="flex overflow-hidden" *ngIf="isArray">
+            <ul>
+                <li *ngFor="let item of mensagem">{{ item }}</li>
+            </ul>
         </div>
     </div>
 </div>

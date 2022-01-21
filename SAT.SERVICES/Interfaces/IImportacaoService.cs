@@ -7,6 +7,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IImportacaoService
     {
-       List<int> AberturaChamadosEmMassa(List<ImportacaoAberturaOrdemServico> importacaoOs);
+       List<string> Importacao(ImportacaoBase importacao);
     }
 }

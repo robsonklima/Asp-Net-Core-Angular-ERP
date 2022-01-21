@@ -1,3 +1,4 @@
+import { PlanilhaModule } from './../planilha/planilha.module';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from './../../../shared/shared.module';
 import { ImportacaoComponent } from './importacao.component';
@@ -42,7 +43,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     ImportacaoComponent,
   ],
   imports: [
-    SharedModule,
+    PlanilhaModule,
     RouterModule.forChild(ImportacaoRoutes),
     MatButtonToggleModule,
         MatChipsModule,
@@ -77,6 +78,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         FuseAlertModule,
         MatProgressSpinnerModule
   ],
-  bootstrap: [ImportacaoComponent]
+  bootstrap: []
 })
 export class ImportacaoModule { }

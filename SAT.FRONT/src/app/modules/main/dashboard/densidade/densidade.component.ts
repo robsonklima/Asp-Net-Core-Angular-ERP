@@ -27,7 +27,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
   map: Map;
   markerClusterGroup: L.MarkerClusterGroup;
   markerClusterData = [];
-  codFilial: number = 4;
+  codFilial: number;
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
 
@@ -66,6 +66,9 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   loadFilter(): void {
     super.loadFilter();
+    
+    if (this.userSession?.usuario?.codFilial && this.filter)
+    this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
   }
 
   onMapReady(map: Map): void {

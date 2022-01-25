@@ -24,8 +24,11 @@ export class CincoPecasMaisFaltantesComponent implements OnInit {
   private async obterDados() {
     this.loading = true;
 
-    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
-    let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
+    //let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
+    //let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
+    
+    let dataInicio = moment().add(-30, 'days').format('YYYY-MM-DD 00:00');
+    let dataFim = moment().format('YYYY-MM-DD 23:59');
 
     this._indicadorService.obterPorParametros({
       tipo: IndicadorTipoEnum.PECA_FALTANTE,

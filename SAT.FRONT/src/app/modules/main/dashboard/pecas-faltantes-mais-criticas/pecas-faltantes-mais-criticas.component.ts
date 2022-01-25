@@ -65,8 +65,10 @@ export class PecasFaltantesMaisCriticasComponent extends Filterable implements O
           agrupador: IndicadorAgrupadorEnum.TOP_PECAS_FALTANTES,
           tipo: IndicadorTipoEnum.PECA_FALTANTE,
           include: OrdemServicoIncludeEnum.OS_PECAS,
-          dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-          dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
+          //dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+          //dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
+          dataInicio: moment().add(-30, 'days').format('YYYY-MM-DD 00:00'),
+          dataFim: moment().format('YYYY-MM-DD 23:59')
         }
       ).toPromise();
 

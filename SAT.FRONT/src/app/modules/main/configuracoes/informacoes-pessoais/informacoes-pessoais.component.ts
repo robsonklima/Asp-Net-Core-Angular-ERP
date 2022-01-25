@@ -130,8 +130,8 @@ export class InformacoesPessoaisComponent implements OnInit, OnDestroy {
                 ({ enderecoCep: cepCmp.target.value.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
 
             if (mapService) {
-                this.formInformacoes.controls['endereco'].setValue(mapService.enderecoCEP);
-                this.formInformacoes.controls['bairro'].setValue(mapService.enderecoCEP);
+                this.formInformacoes.controls['endereco'].setValue(mapService.endereco);
+                this.formInformacoes.controls['bairro'].setValue(mapService.bairro);
 
                 this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
                     const data = c[0];

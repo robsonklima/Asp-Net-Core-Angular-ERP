@@ -295,7 +295,7 @@ namespace SAT.INFRA.Repository
                         });
                     break;
 
-                case (OrdemServicoIncludeEnum.OS_INTENCAO):
+                case (OrdemServicoIncludeEnum.OS_DESLOCAMENTOS):
                     query = query
                         .Include(os => os.Intencoes)
                         .Include(os => os.LocalAtendimento)

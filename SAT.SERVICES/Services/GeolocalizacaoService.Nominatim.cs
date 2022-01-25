@@ -66,7 +66,7 @@ namespace SAT.SERVICES.Services
                     CidadeOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea5,
                     EstadoOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea3,
                     Distancia = model.route.distance,
-                    Duracao = model.route.time / 60.0
+                    Duracao = model.route.time
                 };
             }
 

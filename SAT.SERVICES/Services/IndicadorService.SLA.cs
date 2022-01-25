@@ -78,7 +78,8 @@ namespace SAT.SERVICES.Services
 
             foreach (var filial in chamados.Select(s => new { s.Filial.CodFilial, s.Filial.NomeFilial }).Distinct())
             {
-                var chamadosFilial = chamados.Where(r => r.CodFilial == filial.CodFilial && r.CodStatusServico != (int)StatusServicoEnum.CANCELADO)
+                var chamadosFilial = chamados.Where(r => r.CodFilial == filial.CodFilial && r.CodStatusServico != (int)StatusServicoEnum.CANCELADO
+                              && r.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA)
                              .GroupBy(g => g.CodCliente).FirstOrDefault();
 
                 // Não encontrou dados
@@ -105,7 +106,7 @@ namespace SAT.SERVICES.Services
                     Label = filial.NomeFilial,
                     Valor = decimal.Round(percent, 2, MidpointRounding.AwayFromZero),
                     Filho = new List<Indicador>() { new Indicador() { Label = "SLA" } }
-                });
+                }); ;
             }
 
             return indicadores;

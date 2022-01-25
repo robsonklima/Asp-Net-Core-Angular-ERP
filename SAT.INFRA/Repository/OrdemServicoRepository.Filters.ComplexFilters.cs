@@ -36,7 +36,7 @@ namespace SAT.INFRA.Repository
                     && os.DataHoraAberturaOS <= parameters.DataAberturaFim);
             }
 
-            if (parameters.DataFechamentoInicio != DateTime.MinValue && parameters.DataFechamentoFim != DateTime.MinValue)
+            if (parameters.DataFechamentoInicio.HasValue && parameters.DataFechamentoFim.HasValue)
             {
                 query = query.Where(os => os.DataHoraFechamento >= parameters.DataFechamentoInicio
                     && os.DataHoraFechamento <= parameters.DataFechamentoFim);

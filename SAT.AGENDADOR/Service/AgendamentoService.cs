@@ -28,7 +28,7 @@ namespace SAT.AGENDADOR.Service
             AgendarTarefa(
             nome: "Atualiza dados dos indicadores Dashboard",
             tarefa: () => services.IndicadorService.AtualizaDadosIndicadoresDashboard(
-                            periodoInicio: agora.AddDays(-1),
+                            periodoInicio: agora.AddDays(-30),
                             periodoFim: agora
             ),
             intervaloEmSegundos: 10 * 60); // 10 minutos

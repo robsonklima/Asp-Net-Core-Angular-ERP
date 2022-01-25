@@ -77,8 +77,10 @@ export class EquipamentosMaisReincidentesComponent extends Filterable implements
       agrupador: IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES,
       include: OrdemServicoIncludeEnum.OS_EQUIPAMENTOS_ATENDIMENTOS,
       filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
-      dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
+      //dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+      //dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
+      dataInicio: moment().add(-30, 'days').format('YYYY-MM-DD 00:00'),
+      dataFim: moment().format('YYYY-MM-DD 23:59')
     }
     return await this._indicadorService.obterPorParametros(indicadorParams).toPromise();
   }

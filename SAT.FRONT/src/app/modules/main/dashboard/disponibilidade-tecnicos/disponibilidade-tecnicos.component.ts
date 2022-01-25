@@ -41,8 +41,10 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
   private async obterTecnicos() {
 
     this.loading = true;
-    let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
-    let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
+    //let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
+    //let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
+    let dataInicio = moment().add(-30, 'days').format('YYYY-MM-DD 00:00');
+    let dataFim = moment().format('YYYY-MM-DD 23:59');
 
     let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos({
       dataInicio: dataInicio,

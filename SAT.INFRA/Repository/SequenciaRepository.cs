@@ -24,7 +24,6 @@ namespace SAT.INFRA.Repository
             }
 
             sequencia.Contador = sequencia.Contador + 1;
-            _context.ChangeTracker.Clear();
             _context.SaveChanges();
 
             return sequencia.Contador;

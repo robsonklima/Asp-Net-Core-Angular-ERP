@@ -34,7 +34,6 @@ namespace SAT.INFRA.Repository
                 _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

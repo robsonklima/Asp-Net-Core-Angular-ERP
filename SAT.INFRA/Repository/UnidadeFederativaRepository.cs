@@ -24,7 +24,6 @@ namespace SAT.INFRA.Repository
             if (unid != null)
             {
                 _context.Entry(unid).CurrentValues.SetValues(uf);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

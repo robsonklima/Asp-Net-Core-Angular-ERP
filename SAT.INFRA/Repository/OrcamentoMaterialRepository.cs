@@ -24,7 +24,6 @@ namespace SAT.INFRA.Repository
             if (p != null)
             {
                 _context.Entry(p).CurrentValues.SetValues(orcamentoMaterial);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

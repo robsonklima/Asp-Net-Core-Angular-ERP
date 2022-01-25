@@ -24,7 +24,6 @@ namespace SAT.INFRA.Repository
             {
                 detalhe.RelatorioAtendimentoDetalhePecas = null;
                 _context.Entry(d).CurrentValues.SetValues(detalhe);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

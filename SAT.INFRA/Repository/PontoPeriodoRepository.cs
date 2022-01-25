@@ -29,7 +29,6 @@ namespace SAT.INFRA.Repository
 
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)
@@ -54,7 +53,6 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            _context.ChangeTracker.Clear();
             PontoPeriodo per = _context.PontoPeriodo.SingleOrDefault(p => p.CodPontoPeriodo == codigo);
 
             if (per != null)

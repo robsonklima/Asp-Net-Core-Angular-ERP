@@ -24,7 +24,6 @@ namespace SAT.INFRA.Repository
             if (t != null)
             {
                 _context.Entry(t).CurrentValues.SetValues(transportadora);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

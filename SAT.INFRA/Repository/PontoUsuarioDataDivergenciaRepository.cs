@@ -29,7 +29,6 @@ namespace SAT.INFRA.Repository
 
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

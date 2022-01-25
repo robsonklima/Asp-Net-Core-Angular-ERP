@@ -28,7 +28,6 @@ namespace SAT.INFRA.Repository
                 if (c != null)
                 {
                     _context.Entry(c).CurrentValues.SetValues(contrato);
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
             }

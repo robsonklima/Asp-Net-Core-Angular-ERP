@@ -17,8 +17,6 @@ namespace SAT.INFRA.Repository
 
         public void AtualizarOuCriar(MediaAtendimentoTecnico media)
         {
-            _context.ChangeTracker.Clear();
-
             MediaAtendimentoTecnico m = _context.MediaAtendimentoTecnico
                 .FirstOrDefault(a => a.CodTecnico == media.CodTecnico && a.CodTipoIntervencao == media.CodTipoIntervencao);
 
@@ -30,7 +28,6 @@ namespace SAT.INFRA.Repository
             else
                 _context.Add(media);
 
-            _context.ChangeTracker.Clear();
             _context.SaveChanges();
         }
     }

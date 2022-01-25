@@ -25,7 +25,6 @@ namespace SAT.INFRA.Repository
             if (c != null)
             {
                 _context.Entry(c).CurrentValues.SetValues(cidade);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

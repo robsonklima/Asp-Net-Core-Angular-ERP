@@ -21,6 +21,7 @@ namespace SAT.INFRA.Repository
             try
             {
                 _context.Add(detalhePeca);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
             catch (DbUpdateException ex)

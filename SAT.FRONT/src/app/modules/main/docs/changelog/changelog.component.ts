@@ -16,6 +16,18 @@ export class ChangelogComponent implements OnInit
     {
         this.changelog = [
             {
+                version: '1.1.28',
+                releaseDate: '25 de Janeiro de 2022',
+                changes: [
+                    {
+                        type: 'Adições',
+                        list: [
+                            'Módulo Ponto',
+                        ],
+                    }
+                ]
+            },
+            {
                 version: '1.1.27',
                 releaseDate: '11 de Janeiro de 2022',
                 changes: [

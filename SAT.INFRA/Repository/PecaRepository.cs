@@ -25,6 +25,7 @@ namespace SAT.INFRA.Repository
             if (p != null)
             {
                 _context.Entry(p).CurrentValues.SetValues(peca);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

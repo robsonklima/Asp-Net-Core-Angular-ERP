@@ -23,6 +23,7 @@ namespace SAT.INFRA.Repository
             if (ts != null)
             {
                 _context.Entry(ts).CurrentValues.SetValues(tipoServico);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

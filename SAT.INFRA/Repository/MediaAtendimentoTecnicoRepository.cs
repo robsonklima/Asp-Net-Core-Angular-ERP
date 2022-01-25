@@ -30,6 +30,7 @@ namespace SAT.INFRA.Repository
             else
                 _context.Add(media);
 
+            _context.ChangeTracker.Clear();
             _context.SaveChanges();
         }
     }

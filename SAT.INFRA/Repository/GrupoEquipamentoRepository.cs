@@ -24,11 +24,10 @@ namespace SAT.INFRA.Repository
             GrupoEquipamento grupo = _context.GrupoEquipamento.SingleOrDefault(g => g.CodGrupoEquip == grupoEquipamento.CodGrupoEquip);
             if (grupo != null)
             {
-                _context.Entry(grupo).CurrentValues.SetValues(grupoEquipamento);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(grupo).CurrentValues.SetValues(grupoEquipamento);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

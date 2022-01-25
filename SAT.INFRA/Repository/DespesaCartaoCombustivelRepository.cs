@@ -20,17 +20,14 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaCartaoCombustivel cartao)
         {
-            DespesaCartaoCombustivel d =
-            _context.DespesaCartaoCombustivel
-            .FirstOrDefault(l => l.CodDespesaCartaoCombustivel == cartao.CodDespesaCartaoCombustivel);
+            DespesaCartaoCombustivel d = _context.DespesaCartaoCombustivel.FirstOrDefault(l => l.CodDespesaCartaoCombustivel == cartao.CodDespesaCartaoCombustivel);
 
             if (d != null)
             {
-                _context.Entry(d).CurrentValues.SetValues(cartao);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(d).CurrentValues.SetValues(cartao);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

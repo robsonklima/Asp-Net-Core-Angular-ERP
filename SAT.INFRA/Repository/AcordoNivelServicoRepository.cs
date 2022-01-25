@@ -25,11 +25,10 @@ namespace SAT.INFRA.Repository
 
             if (ans != null)
             {
-                _context.Entry(ans).CurrentValues.SetValues(acordoNivelServico);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(ans).CurrentValues.SetValues(acordoNivelServico);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

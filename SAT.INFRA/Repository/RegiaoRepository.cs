@@ -25,11 +25,10 @@ namespace SAT.INFRA.Repository
 
             if (reg != null)
             {
-                _context.Entry(reg).CurrentValues.SetValues(regiao);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(reg).CurrentValues.SetValues(regiao);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -8,7 +9,6 @@ import { OrcamentoStatusService } from 'app/core/services/orcamento-status.servi
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Filial } from 'app/core/types/filial.types';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -84,6 +84,8 @@ export class OrcamentoDetalheComponent implements OnInit
 
   private obterEnderecos()
   {
+    
+
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,

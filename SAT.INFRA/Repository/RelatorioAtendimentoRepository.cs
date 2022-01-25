@@ -23,8 +23,8 @@ namespace SAT.INFRA.Repository
 
             if (rat != null)
             {
-                _context.Entry(rat).CurrentValues.SetValues(relatorioAtendimento);
                 _context.ChangeTracker.Clear();
+                _context.Entry(rat).CurrentValues.SetValues(relatorioAtendimento);
                 _context.SaveChanges();
             }
         }

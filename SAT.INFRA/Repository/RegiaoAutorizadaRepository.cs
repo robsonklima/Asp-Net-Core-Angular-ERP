@@ -31,8 +31,8 @@ namespace SAT.INFRA.Repository
             {
                 try
                 {
-                    _context.Entry(ra).CurrentValues.SetValues(regiaoAutorizada);
                     _context.ChangeTracker.Clear();
+                    _context.Entry(ra).CurrentValues.SetValues(regiaoAutorizada);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

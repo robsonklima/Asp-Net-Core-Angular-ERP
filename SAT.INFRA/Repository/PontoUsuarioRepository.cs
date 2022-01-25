@@ -25,11 +25,10 @@ namespace SAT.INFRA.Repository
 
             if (per != null)
             {
-                _context.Entry(per).CurrentValues.SetValues(pontoUsuario);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(per).CurrentValues.SetValues(pontoUsuario);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

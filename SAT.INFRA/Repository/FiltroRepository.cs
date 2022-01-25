@@ -27,8 +27,8 @@ namespace SAT.INFRA.Repository
             {
                 try
                 {
-                    _context.Entry(data).CurrentValues.SetValues(filtroUsuario);
                     _context.ChangeTracker.Clear();
+                    _context.Entry(data).CurrentValues.SetValues(filtroUsuario);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

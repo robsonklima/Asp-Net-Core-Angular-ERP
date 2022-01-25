@@ -24,11 +24,10 @@ namespace SAT.INFRA.Repository
             TipoEquipamento t = _context.TipoEquipamento.SingleOrDefault(t => t.CodTipoEquip == tipoEquipamento.CodTipoEquip);
             if (t != null)
             {
-                _context.Entry(t).CurrentValues.SetValues(tipoEquipamento);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(t).CurrentValues.SetValues(tipoEquipamento);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

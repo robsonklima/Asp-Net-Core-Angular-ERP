@@ -28,8 +28,8 @@ namespace SAT.INFRA.Repository
 
             if (f != null)
             {
-                _context.Entry(f).CurrentValues.SetValues(feriado);
                 _context.ChangeTracker.Clear();
+                _context.Entry(f).CurrentValues.SetValues(feriado);
                 _context.SaveChanges();
             }
         }

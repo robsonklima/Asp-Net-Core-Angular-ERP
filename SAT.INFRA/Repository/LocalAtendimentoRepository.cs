@@ -24,11 +24,10 @@ namespace SAT.INFRA.Repository
             LocalAtendimento local = _context.LocalAtendimento.SingleOrDefault(l => l.CodPosto == localAtendimento.CodPosto);
             if (local != null)
             {
-                _context.Entry(local).CurrentValues.SetValues(localAtendimento);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(local).CurrentValues.SetValues(localAtendimento);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

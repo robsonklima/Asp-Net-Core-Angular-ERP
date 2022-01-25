@@ -22,9 +22,9 @@ namespace SAT.INFRA.Repository
 
             if (d != null)
             {
+                _context.ChangeTracker.Clear();
                 detalhe.RelatorioAtendimentoDetalhePecas = null;
                 _context.Entry(d).CurrentValues.SetValues(detalhe);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

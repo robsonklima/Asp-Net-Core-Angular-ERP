@@ -29,11 +29,10 @@ namespace SAT.INFRA.Repository
 
             if (d != null)
             {
-                _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

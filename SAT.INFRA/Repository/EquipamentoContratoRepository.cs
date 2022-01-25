@@ -24,11 +24,10 @@ namespace SAT.INFRA.Repository
             EquipamentoContrato equip = _context.EquipamentoContrato.SingleOrDefault(e => e.CodEquipContrato == equipamentoContrato.CodEquipContrato);
             if (equip != null)
             {
-                _context.Entry(equip).CurrentValues.SetValues(equipamentoContrato);
-
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(equip).CurrentValues.SetValues(equipamentoContrato);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

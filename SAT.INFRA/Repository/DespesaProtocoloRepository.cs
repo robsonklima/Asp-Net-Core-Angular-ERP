@@ -25,8 +25,8 @@ namespace SAT.INFRA.Repository
 
             if (d != null)
             {
-                _context.Entry(d).CurrentValues.SetValues(protocolo);
                 _context.ChangeTracker.Clear();
+                _context.Entry(d).CurrentValues.SetValues(protocolo);
                 _context.SaveChanges();
             }
         }

@@ -57,10 +57,10 @@ namespace SAT.INFRA.Repository
                 DashboardIndicadores indicadorAtualizado = indicador;
                 indicadorAtualizado.DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores);
                 indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
-                _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
                 try
                 {
                     _context.ChangeTracker.Clear();
+                    _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

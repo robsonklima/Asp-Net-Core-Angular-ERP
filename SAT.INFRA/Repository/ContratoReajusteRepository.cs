@@ -22,10 +22,9 @@ namespace SAT.INFRA.Repository
             
             if (tc != null)
             {
-                contratoReajuste.CodContratoReajuste = tc.CodContratoReajuste;        
-
-                _context.Entry(tc).CurrentValues.SetValues(contratoReajuste);
                 _context.ChangeTracker.Clear();
+                contratoReajuste.CodContratoReajuste = tc.CodContratoReajuste;        
+                _context.Entry(tc).CurrentValues.SetValues(contratoReajuste);
                 _context.SaveChanges();
             }
         }

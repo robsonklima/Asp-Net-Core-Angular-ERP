@@ -16,6 +16,7 @@ namespace SAT.INFRA.Repository
 
         public int ObterContador(string tabela)
         {
+            _context.ChangeTracker.Clear();
             var sequencia = _context.Sequencia.FirstOrDefault(s => s.Tabela == tabela);
 
             if (sequencia == null)
@@ -24,7 +25,6 @@ namespace SAT.INFRA.Repository
             }
 
             sequencia.Contador = sequencia.Contador + 1;
-            _context.ChangeTracker.Clear();
             _context.SaveChanges();
 
             return sequencia.Contador;

@@ -15,6 +15,8 @@ import { UserService } from 'app/core/user/user.service';
 import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
 import { Subject } from 'rxjs';
 import _ from 'lodash';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
   selector: 'app-orcamento-detalhes',
@@ -40,6 +42,7 @@ export class OrcamentoDetalheComponent implements OnInit
   motivos: OrcamentoMotivo[] = [];
   oldItem: any;
   isEditing: boolean;
+  form: FormGroup;
 
   dadosLocalFaturamento: OrcamentoDadosLocal;
   dadosLocalEnvioNF: OrcamentoDadosLocal;
@@ -57,18 +60,19 @@ export class OrcamentoDetalheComponent implements OnInit
     private _orcService: OrcamentoService,
     private _orcMotivoService: OrcamentoMotivoService,
     private _orcStatusService: OrcamentoStatusService,
-    private _cdRef: ChangeDetectorRef
+    private _cdRef: ChangeDetectorRef,
+    private _formBuilder: FormBuilder
   ) 
   {
     this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void
+  async ngOnInit()
   {
-    this.obterDados();
-    this.obterStatus();
-    this.obterMotivos();
+    await this.obterStatus();
+    await this.obterMotivos();
+    await this.obterDados();
   }
 
   private async obterDados()
@@ -78,14 +82,49 @@ export class OrcamentoDetalheComponent implements OnInit
     this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
     this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
 
+    this.form = this._formBuilder.group({
+      codOrcMotivo: this.orcamento.orcamentoMotivo.codOrcMotivo,
+      detalhes: this.orcamento.detalhe,
+      codOrcStatus: this.orcamento.orcamentoStatus.codOrcStatus,
+      data: [
+        {
+          value: moment(this.orcamento?.dataCadastro).format('DD/MM/yyyy'),
+          disabled: true,
+        }
+      ],
+      utilizaListaEspecifica: [
+        {
+          value: this.orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO',
+          disabled: true
+        }
+      ],
+      filial: this.filial.nomeFilial,
+      endereco: [
+        {
+          value: this.filial?.endereco,
+          disabled: true
+        }
+      ],
+      fone: [
+        {
+          value: this.filial?.fone,
+          disabled: true
+        }
+      ],
+      cnpj: [
+        {
+          value: this.filial?.cnpj,
+          disabled: true
+        }
+      ],
+    });
+
     this.obterEnderecos();
     this.isLoading = false;
   }
 
   private obterEnderecos()
   {
-    
-
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
       razaoSocial: this.os?.cliente?.razaoSocial,

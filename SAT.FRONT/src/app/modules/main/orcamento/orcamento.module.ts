@@ -69,7 +69,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoDetalheDescontoComponent,
         OrcamentoAddOutroServicoDialogComponent,
         OrcamentoAddDescontoDialogComponent,
-        OrcamentoImpressaoComponent
+        OrcamentoImpressaoComponent,
     ],
     imports: [
         CommonModule,

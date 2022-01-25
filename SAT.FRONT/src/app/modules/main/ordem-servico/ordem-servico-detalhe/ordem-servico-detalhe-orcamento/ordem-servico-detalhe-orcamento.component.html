@@ -1,5 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between p-4 border-b shadow bg-card">
+    <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-t-lg">
         <div class="flex items-center">
             <span class="text-lg font-medium">{{ t('orcamentos') }}</span>
         </div>
@@ -46,8 +46,9 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!orcamentos?.length && !isLoading"
-                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                        <div
+                            *ngIf="!orcamentos?.length && !isLoading"
+                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center bg-card">
                             Nenhum orçamento encontrado!
                         </div>
                     </ng-container>

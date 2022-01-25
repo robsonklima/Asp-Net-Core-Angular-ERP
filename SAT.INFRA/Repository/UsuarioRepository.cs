@@ -174,7 +174,7 @@ namespace SAT.INFRA.Repository
                     _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
@@ -207,7 +207,7 @@ namespace SAT.INFRA.Repository
                         throw new Exception(Constants.SENHA_INVALIDA);
                     }
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
@@ -253,7 +253,7 @@ namespace SAT.INFRA.Repository
                     }
                 }
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
             }

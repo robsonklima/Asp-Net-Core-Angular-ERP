@@ -111,7 +111,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Exportar'"
                                             matTooltipPosition="above"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto'"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto' || true"
                                             *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"
@@ -125,7 +125,7 @@
                                             color="primary"
                                             [routerLink]="'/ponto/ponto-periodo-form/' + data.codPontoPeriodo"
                                             matTooltipPosition="above"
-                                            *ngIf="userSession.usuario.codPerfil !== 35">
+                                            *ngIf="userSession.usuario.codPerfil == 44">
                                             <mat-icon
                                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>

@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-pc {
-          grid-template-columns: auto 116px 198px 218px 72px 218px 72px;
+          grid-template-columns: auto 136px 198px 218px 72px 218px 72px;
       }
     `
   ],

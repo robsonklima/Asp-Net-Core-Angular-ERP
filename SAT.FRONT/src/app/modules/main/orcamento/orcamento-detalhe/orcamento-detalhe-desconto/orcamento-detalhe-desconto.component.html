@@ -1,12 +1,11 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between p-6 border-b shadow bg-card rounded-t-lg">
+    <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-t-lg">
         <div class="flex items-center">
             <span class="text-lg font-medium">{{ t('descontos') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button [matTooltip]="t('novo')" (click)="adicionarDesconto()">
-                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
-                </mat-icon>
+            <button mat-button [color]="'primary'" (click)="adicionarDesconto()">
+                {{ t('adicionar') }}
             </button>
         </div>
     </div>
@@ -86,9 +85,10 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!editableList?.length && !isLoading"
-                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
-                            Nenhum desconto encontrado!
+                        <div
+                            *ngIf="!editableList?.length && !isLoading"
+                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center bg-card">
+                            Nenhum serviço encontrado!
                         </div>
                     </ng-container>
                 </div>

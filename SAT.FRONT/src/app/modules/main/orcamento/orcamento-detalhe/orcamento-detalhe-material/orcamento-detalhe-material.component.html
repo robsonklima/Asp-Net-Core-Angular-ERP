@@ -1,6 +1,6 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="grid grid-cols-2 justfy-between p-6 border-b shadow bg-card rounded-t-lg">
-        <div class="flex items-center">
+    <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-t-lg">
+        <div class="flex items-center leading-10">
             <span class="text-lg font-medium">{{ t('material') }}</span>
         </div>
     </div>
@@ -95,9 +95,10 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="!editableList?.length && !isLoading"
-                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
-                            Nenhum material encontrado!
+                        <div
+                            *ngIf="!editableList?.length && !isLoading"
+                            class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center bg-card">
+                            Nenhum serviço encontrado!
                         </div>
                     </ng-container>
                 </div>

@@ -1,6 +1,5 @@
 ﻿using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace SAT.INFRA.Interfaces

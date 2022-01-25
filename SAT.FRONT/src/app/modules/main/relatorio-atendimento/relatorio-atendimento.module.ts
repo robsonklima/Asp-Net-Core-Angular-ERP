@@ -25,7 +25,6 @@ import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendiment
 import { FuseCardModule } from '@fuse/components/card';
 import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
 import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
-import { RelatorioAtendimentoDeslocamentoComponent } from './relatorio-atendimento-deslocamento/relatorio-atendimento-deslocamento.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
@@ -41,7 +40,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     RelatorioAtendimentoDetalheFormComponent,
     RelatorioAtendimentoDetalhePecaFormComponent,
     RelatorioAtendimentoLaudoImpressaoComponent,
-    RelatorioAtendimentoDeslocamentoComponent
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),

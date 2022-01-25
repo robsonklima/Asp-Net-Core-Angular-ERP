@@ -22,6 +22,7 @@ namespace SAT.INFRA.Repository
             try
             {
                 _context.Add(deslocamento);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
             catch (DbUpdateException)

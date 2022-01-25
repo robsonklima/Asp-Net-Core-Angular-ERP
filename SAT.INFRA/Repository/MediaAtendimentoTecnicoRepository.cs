@@ -17,14 +17,13 @@ namespace SAT.INFRA.Repository
 
         public void AtualizarOuCriar(MediaAtendimentoTecnico media)
         {
-            _context.ChangeTracker.Clear();
-
             MediaAtendimentoTecnico m = _context.MediaAtendimentoTecnico
                 .FirstOrDefault(a => a.CodTecnico == media.CodTecnico && a.CodTipoIntervencao == media.CodTipoIntervencao);
 
             if (m != null)
             {
                 media.CodMediaAtendimentoTecnico = m.CodMediaAtendimentoTecnico;
+                _context.ChangeTracker.Clear();
                 _context.Entry(m).CurrentValues.SetValues(media);
             }
             else

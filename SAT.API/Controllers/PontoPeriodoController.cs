@@ -34,18 +34,21 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "44")]
         public void Post([FromBody] PontoPeriodo pontoPeriodo)
         {
             _pontoPeriodoService.Criar(pontoPeriodo: pontoPeriodo);
         }
 
         [HttpPut]
+        [Authorize(Roles = "44")]
         public void Put([FromBody] PontoPeriodo pontoPeriodo)
         {
             _pontoPeriodoService.Atualizar(pontoPeriodo: pontoPeriodo);
         }
 
         [HttpDelete("{codPontoPeriodo}")]
+        [Authorize(Roles = "44")]
         public void Delete(int codPontoPeriodo)
         {
             _pontoPeriodoService.Deletar(codPontoPeriodo);

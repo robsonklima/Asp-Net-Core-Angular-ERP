@@ -29,6 +29,7 @@ namespace SAT.INFRA.Repository
                 _context.Entry(d).CurrentValues.SetValues(despesa);
                 try
                 {
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

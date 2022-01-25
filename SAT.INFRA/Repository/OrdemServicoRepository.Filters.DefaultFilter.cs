@@ -24,7 +24,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.IndServico == parameters.IndServico.Value);
 
             if (parameters.CodTecnico.HasValue)
-                query = query.Where(os => os.CodTecnico == parameters.CodTecnico);
+                query = query.Where(os => os.CodTecnico == parameters.CodTecnico || os.RelatoriosAtendimento.Any(r => r.CodTecnico == parameters.CodTecnico));
 
             if (parameters.CodEquipContrato.HasValue)
                 query = query.Where(os => os.CodEquipContrato == parameters.CodEquipContrato);

@@ -23,6 +23,7 @@ namespace SAT.INFRA.Repository
             if (gc != null)
             {
                 _context.Entry(gc).CurrentValues.SetValues(grupoCausa);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

@@ -295,15 +295,6 @@ namespace SAT.INFRA.Repository
                         });
                     break;
 
-                case (OrdemServicoIncludeEnum.OS_INTENCAO):
-                    query = query
-                        .Include(os => os.Intencoes)
-                        .Include(os => os.LocalAtendimento)
-                            .ThenInclude(os => os.Cidade)
-                        .Include(os => os.RelatoriosAtendimento)
-                            .ThenInclude(r => r.CheckinsCheckouts);
-                    break;
-
                 default:
                     query = query
                         .Include(os => os.StatusServico)

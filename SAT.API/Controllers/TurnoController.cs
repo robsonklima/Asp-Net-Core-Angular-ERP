@@ -33,12 +33,14 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "44")]
         public void Post([FromBody] Turno turno)
         {
             _turnoService.Criar(turno);
         }
 
         [HttpPut]
+        [Authorize(Roles = "44")]
         public void Put([FromBody] Turno turno)
         {
             _turnoService.Atualizar(turno);

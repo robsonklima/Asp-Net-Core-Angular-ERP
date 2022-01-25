@@ -63,7 +63,7 @@ export class DefaultComponent implements OnInit, OnDestroy
         await this.obterMonitoramentoHistorico('CPU', data);
         await this.obterMonitoramentoHistorico('MEMORY', data);
         this.prepararDadosGraficos();
-        this.ultimoProcessamento = this.dataAtual;
+        this.ultimoProcessamento = moment().format('yyyy-MM-DD HH:mm:ss');
 
         this.loading = false;
     }

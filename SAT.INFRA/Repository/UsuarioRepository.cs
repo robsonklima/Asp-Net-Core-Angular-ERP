@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -7,7 +6,6 @@ using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -165,7 +163,6 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Usuario usuario)
         {
-            _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == usuario.CodUsuario);
 
             if (usr != null)
@@ -173,9 +170,10 @@ namespace SAT.INFRA.Repository
                 try
                 {
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
@@ -184,7 +182,6 @@ namespace SAT.INFRA.Repository
 
         public void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel, bool forcaTrocarSenha = false)
         {
-            _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == segurancaUsuarioModel.CodUsuario);
 
             if (usr != null)
@@ -195,6 +192,7 @@ namespace SAT.INFRA.Repository
                     {
                         if (this.PWDENCRYPT(segurancaUsuarioModel.CodUsuario, segurancaUsuarioModel.NovaSenha))
                         {
+                            _context.ChangeTracker.Clear();
                             _context.SaveChanges();
                         }
                         else
@@ -207,7 +205,7 @@ namespace SAT.INFRA.Repository
                         throw new Exception(Constants.SENHA_INVALIDA);
                     }
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
@@ -231,7 +229,6 @@ namespace SAT.INFRA.Repository
 
         public void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha)
         {
-            _context.ChangeTracker.Clear();
             RecuperaSenha usr = _context.RecuperaSenha.FirstOrDefault(r => r.CodRecuperaSenha == recuperaSenha.CodRecuperaSenha);
 
             try
@@ -239,6 +236,7 @@ namespace SAT.INFRA.Repository
                 if (usr != null)
                 {
                     _context.Entry(usr).CurrentValues.SetValues(recuperaSenha);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 else
@@ -247,11 +245,12 @@ namespace SAT.INFRA.Repository
                     if (usr != null)
                     {
                         usr.IndAtivo = 0;
+                        _context.ChangeTracker.Clear();
                         _context.SaveChanges();
                     }
                 }
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
             }

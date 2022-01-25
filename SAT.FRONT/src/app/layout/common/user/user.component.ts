@@ -20,7 +20,7 @@ import { ConfiguracoesComponent } from 'app/modules/main/configuracoes/configura
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UserComponent implements OnInit, OnDestroy {
     static ngAcceptInputType_showAvatar: BooleanInput;
     @Input() showAvatar: boolean = true;
     usuario: any;
@@ -44,9 +44,7 @@ export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dadosFotoUsuario = (await this._fotoService.buscarFotoUsuario(this.usuario.codUsuario).toPromise());
         this.loading = false;
         this._cdr.detectChanges();
-    }
 
-    async ngAfterViewInit() {
         this._sharedService.listenEvent(ConfiguracoesComponent).subscribe(async (params) => {
             this.dadosFotoUsuario = (await this._fotoService.buscarFotoUsuario(this.usuario.codUsuario).toPromise());
             this._cdr.detectChanges();

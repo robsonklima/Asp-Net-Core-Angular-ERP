@@ -23,6 +23,7 @@ namespace SAT.INFRA.Repository
             if (m != null)
             {
                 media.CodMediaAtendimentoTecnico = m.CodMediaAtendimentoTecnico;
+                _context.ChangeTracker.Clear();
                 _context.Entry(m).CurrentValues.SetValues(media);
             }
             else

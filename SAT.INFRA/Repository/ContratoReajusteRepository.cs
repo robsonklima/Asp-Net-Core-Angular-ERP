@@ -25,6 +25,7 @@ namespace SAT.INFRA.Repository
                 contratoReajuste.CodContratoReajuste = tc.CodContratoReajuste;        
 
                 _context.Entry(tc).CurrentValues.SetValues(contratoReajuste);
+                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

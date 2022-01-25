@@ -28,6 +28,7 @@ namespace SAT.INFRA.Repository
                 try
                 {
                     _context.Entry(a).CurrentValues.SetValues(acao);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

@@ -27,6 +27,7 @@ namespace SAT.INFRA.Repository
                 if (a != null)
                 {
                     _context.Entry(a).CurrentValues.SetValues(agenda);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                     return agenda;
                 }

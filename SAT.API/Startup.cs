@@ -32,11 +32,8 @@ namespace SAT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => {
-                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                    options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD));
-                }
-            );
+                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
+                sqlServerOptions => sqlServerOptions.CommandTimeout(360)));
 
             services.AddCors(options =>
             {

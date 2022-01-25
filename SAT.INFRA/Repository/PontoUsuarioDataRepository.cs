@@ -24,6 +24,7 @@ namespace SAT.INFRA.Repository
 
             if (pontoData != null)
             {
+                _context.ChangeTracker.Clear();
                 _context.Entry(pontoData).CurrentValues.SetValues(pontoUsuarioData);
                 _context.SaveChanges();
             }

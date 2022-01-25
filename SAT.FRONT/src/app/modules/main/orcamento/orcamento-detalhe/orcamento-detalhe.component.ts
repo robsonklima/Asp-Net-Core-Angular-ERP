@@ -1,17 +1,20 @@
-import { Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FilialService } from 'app/core/services/filial.service';
+import { OrcamentoMotivoService } from 'app/core/services/orcamento-motivo.service';
+import { OrcamentoStatusService } from 'app/core/services/orcamento-status.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Filial } from 'app/core/types/filial.types';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDesconto, OrcamentoDeslocamento } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-orcamento-detalhes',
@@ -33,11 +36,14 @@ export class OrcamentoDetalheComponent implements OnInit
   filial: Filial;
   userSession: UsuarioSessao;
   isLoading: boolean = false;
+  status: OrcamentoStatus[] = [];
+  motivos: OrcamentoMotivo[] = [];
+  oldItem: any;
+  isEditing: boolean;
 
   dadosLocalFaturamento: OrcamentoDadosLocal;
   dadosLocalEnvioNF: OrcamentoDadosLocal;
   dadosLocalAtendimento: OrcamentoDadosLocal;
-
 
   public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
@@ -47,7 +53,12 @@ export class OrcamentoDetalheComponent implements OnInit
     private _userService: UserService,
     private _osService: OrdemServicoService,
     private _orcamentoService: OrcamentoService,
-    private _filialService: FilialService) 
+    private _filialService: FilialService,
+    private _orcService: OrcamentoService,
+    private _orcMotivoService: OrcamentoMotivoService,
+    private _orcStatusService: OrcamentoStatusService,
+    private _cdRef: ChangeDetectorRef
+  ) 
   {
     this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
     this.userSession = JSON.parse(this._userService.userSession);
@@ -56,6 +67,8 @@ export class OrcamentoDetalheComponent implements OnInit
   ngOnInit(): void
   {
     this.obterDados();
+    this.obterStatus();
+    this.obterMotivos();
   }
 
   private async obterDados()
@@ -134,9 +147,68 @@ export class OrcamentoDetalheComponent implements OnInit
   trocarTab(tab: any)
   {
     if (tab.index == 0)
-      this.ngOnInit();
+      this.obterDados();
 
     if (tab.index !== 5 || !this.orcamento)
       return;
+  }
+
+  editar(): void
+  {
+    this.isEditing = true;
+    this.oldItem = Object.assign({}, this.orcamento);
+  }
+
+  async salvar(): Promise<void>
+  {
+    this.orcamento =
+      (await this._orcService.atualizar(this.orcamento).toPromise());
+
+    this.oldItem = Object.assign({}, this.orcamento);
+
+    this.isEditing = false;
+    this.isLoading = true;
+    this.isLoading = false;
+  }
+
+  cancelar(): void
+  {
+    this.isEditing = false;
+    this.orcamento = Object.assign({}, this.oldItem);
+    this._cdRef.detectChanges();
+  }
+
+  isEqual(): boolean
+  {
+    return _.isEqual(this.orcamento, this.oldItem);
+  }
+
+  isInvalid(): boolean
+  {
+    return false;
+  }
+
+  changeMotivo(value)
+  {
+    var parsedValue = parseInt(value);
+    this.orcamento.codigoMotivo = parsedValue;
+    this.orcamento.orcamentoMotivo = this.motivos.find(i => i.codOrcMotivo == parsedValue);
+  }
+
+  changeStatus(value)
+  {
+    var parsedValue = parseInt(value);
+    this.orcamento.codigoStatus = parsedValue;
+    this.orcamento.orcamentoStatus = this.status.find(i => i.codOrcStatus == parsedValue);
+  }
+
+  private async obterStatus()
+  {
+    this.status = (await this._orcStatusService.obterPorParametros({}).toPromise()).items;
+  }
+
+  private async obterMotivos()
+  {
+    this.motivos = (await this._orcMotivoService.obterPorParametros({}).toPromise()).items;
   }
 }

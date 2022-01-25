@@ -45,9 +45,6 @@ import { OrcamentoDetalheDeslocamentoComponent } from './orcamento-detalhe/orcam
 import { OrcamentoDetalheOutroServicoComponent } from './orcamento-detalhe/orcamento-detalhe-outro-servico/orcamento-detalhe-outro-servico.component';
 import { OrcamentoDetalheDescontoComponent } from './orcamento-detalhe/orcamento-detalhe-desconto/orcamento-detalhe-desconto.component';
 import { IConfig, NgxMaskModule } from "ngx-mask";
-import { OrcamentoStatusComponent } from './orcamento-detalhe/orcamento-status/orcamento-status.component';
-import { OrcamentoCondicoesComponent } from './orcamento-detalhe/orcamento-condicoes/orcamento-condicoes.component';
-import { OrcamentoInformacoesComponent } from './orcamento-detalhe/orcamento-informacoes/orcamento-informacoes.component';
 import { OrcamentoAddOutroServicoDialogComponent } from "./orcamento-detalhe/orcamento-detalhe-outro-servico/orcamento-add-outro-servico-dialog/orcamento-add-outro-servico-dialog.component";
 import { OrcamentoAddDescontoDialogComponent } from './orcamento-detalhe/orcamento-detalhe-desconto/orcamento-add-desconto-dialog/orcamento-add-desconto-dialog.component';
 import { OrcamentoImpressaoComponent } from './orcamento-impressao/orcamento-impressao.component';
@@ -70,9 +67,6 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoDetalheDeslocamentoComponent,
         OrcamentoDetalheOutroServicoComponent,
         OrcamentoDetalheDescontoComponent,
-        OrcamentoStatusComponent,
-        OrcamentoCondicoesComponent,
-        OrcamentoInformacoesComponent,
         OrcamentoAddOutroServicoDialogComponent,
         OrcamentoAddDescontoDialogComponent,
         OrcamentoImpressaoComponent

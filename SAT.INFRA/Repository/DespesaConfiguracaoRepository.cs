@@ -20,15 +20,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaConfiguracao config)
         {
-            DespesaConfiguracao d =
-             _context.DespesaConfiguracao
-             .FirstOrDefault(l => l.CodDespesaConfiguracao == config.CodDespesaConfiguracao);
+            _context.ChangeTracker.Clear();
+            DespesaConfiguracao d = _context.DespesaConfiguracao.FirstOrDefault(l => l.CodDespesaConfiguracao == config.CodDespesaConfiguracao);
 
             if (d != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(d).CurrentValues.SetValues(config);
                     _context.SaveChanges();
                 }

@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(RelatorioAtendimento relatorioAtendimento)
         {
+            _context.ChangeTracker.Clear();
             RelatorioAtendimento rat = _context.RelatorioAtendimento.FirstOrDefault(rat => rat.CodRAT == relatorioAtendimento.CodRAT);
 
             if (rat != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(rat).CurrentValues.SetValues(relatorioAtendimento);
                 _context.SaveChanges();
             }

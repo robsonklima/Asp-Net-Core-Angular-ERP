@@ -21,15 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaItem despesaItem)
         {
-            DespesaItem d =
-             _context.DespesaItem
-             .FirstOrDefault(l => l.CodDespesaItem == despesaItem.CodDespesaItem);
+            _context.ChangeTracker.Clear();
+            DespesaItem d = _context.DespesaItem.FirstOrDefault(l => l.CodDespesaItem == despesaItem.CodDespesaItem);
 
             if (d != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(d).CurrentValues.SetValues(despesaItem);
                     _context.SaveChanges();
                 }

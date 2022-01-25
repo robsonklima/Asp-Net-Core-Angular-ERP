@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Instalacao instalacao)
         {
+            _context.ChangeTracker.Clear();
             Instalacao inst = _context.Instalacao.FirstOrDefault(i => i.CodInstalacao == instalacao.CodInstalacao);
 
             if (inst != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(inst).CurrentValues.SetValues(instalacao);
                 _context.SaveChanges();
             }

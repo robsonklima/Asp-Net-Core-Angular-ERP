@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Orcamento orcamento)
         {
+            _context.ChangeTracker.Clear();
             Orcamento p = _context.Orcamento.FirstOrDefault(p => p.CodOrc == orcamento.CodOrc);
 
             if (p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(orcamento);
                 _context.SaveChanges();
             }

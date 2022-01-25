@@ -21,6 +21,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(RegiaoAutorizada regiaoAutorizada)
         {
+            _context.ChangeTracker.Clear();
             RegiaoAutorizada ra = _context.RegiaoAutorizada
                                 .SingleOrDefault(ra =>
                                                  ra.CodAutorizada == regiaoAutorizada.CodAutorizada &&
@@ -31,7 +32,6 @@ namespace SAT.INFRA.Repository
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(ra).CurrentValues.SetValues(regiaoAutorizada);
                     _context.SaveChanges();
                 }

@@ -18,12 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(UsuarioDispositivo usuarioDispositivo)
         {
-            UsuarioDispositivo d = _context.UsuarioDispositivo
-                .FirstOrDefault(d => d.CodUsuarioDispositivo == usuarioDispositivo.CodUsuarioDispositivo);
+            _context.ChangeTracker.Clear();
+            UsuarioDispositivo d = _context.UsuarioDispositivo.FirstOrDefault(d => d.CodUsuarioDispositivo == usuarioDispositivo.CodUsuarioDispositivo);
 
             if (d != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(d).CurrentValues.SetValues(usuarioDispositivo);
                 _context.SaveChanges();
             }

@@ -20,13 +20,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(ContratoSLA contratoSla)
         {
+            _context.ChangeTracker.Clear();
             ContratoSLA cs = _context.ContratoSLA.FirstOrDefault(d => d.CodContrato == contratoSla.CodContrato);
 
             try
             {
                 if (cs != null)
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(cs).CurrentValues.SetValues(contratoSla);
                     _context.SaveChanges();
                 }

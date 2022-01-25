@@ -17,12 +17,12 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(RelatorioAtendimentoDetalhe detalhe)
         {
+            _context.ChangeTracker.Clear();
             RelatorioAtendimentoDetalhe d = _context.RelatorioAtendimentoDetalhe
                 .FirstOrDefault(d => d.CodRATDetalhe == detalhe.CodRATDetalhe);
 
             if (d != null)
             {
-                _context.ChangeTracker.Clear();
                 detalhe.RelatorioAtendimentoDetalhePecas = null;
                 _context.Entry(d).CurrentValues.SetValues(detalhe);
                 _context.SaveChanges();

@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(OrcamentoOutroServico orcOutrServ)
         {
+            _context.ChangeTracker.Clear();
             OrcamentoOutroServico p = _context.OrcamentoOutroServico.FirstOrDefault(p => p.CodOrcOutroServico == orcOutrServ.CodOrcOutroServico);
 
             if (p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(orcOutrServ);
                 _context.SaveChanges();
             }

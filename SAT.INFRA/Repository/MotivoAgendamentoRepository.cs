@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(MotivoAgendamento motivoAgendamento)
         {
+            _context.ChangeTracker.Clear();
             MotivoAgendamento a = _context.MotivoAgendamento.SingleOrDefault(a => a.CodMotivo == motivoAgendamento.CodMotivo);
 
             if (a != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(a).CurrentValues.SetValues(motivoAgendamento);
                     _context.SaveChanges();
                 }

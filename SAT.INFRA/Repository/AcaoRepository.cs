@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Acao acao)
         {
+            _context.ChangeTracker.Clear();
             Acao a = _context.Acao.SingleOrDefault(a => a.CodAcao == acao.CodAcao);
 
             if (a != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(a).CurrentValues.SetValues(acao);
                     _context.SaveChanges();
                 }

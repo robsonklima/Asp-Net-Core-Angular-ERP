@@ -20,12 +20,12 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Cidade cidade)
         {
+            _context.ChangeTracker.Clear();
             Cidade c = _context.Cidade.FirstOrDefault(c => c.CodCidade == cidade.CodCidade);
 
             if (c != null)
             {
                 _context.Entry(c).CurrentValues.SetValues(cidade);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

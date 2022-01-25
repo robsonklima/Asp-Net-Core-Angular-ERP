@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoUsuario pontoUsuario)
         {
+            _context.ChangeTracker.Clear();
             PontoUsuario per = _context.PontoUsuario.SingleOrDefault(p => p.CodPontoUsuario == pontoUsuario.CodPontoUsuario);
 
             if (per != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(per).CurrentValues.SetValues(pontoUsuario);
                     _context.SaveChanges();
                 }

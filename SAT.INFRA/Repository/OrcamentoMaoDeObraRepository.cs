@@ -19,12 +19,12 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(OrcamentoMaoDeObra orcMaoDeObra)
         {
+            _context.ChangeTracker.Clear();
             OrcamentoMaoDeObra p = _context.OrcamentoMaoDeObra.FirstOrDefault(p => p.CodOrc == orcMaoDeObra.CodOrc);
 
             if (p != null)
             {
                 _context.Entry(p).CurrentValues.SetValues(orcMaoDeObra);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

@@ -21,6 +21,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Contrato contrato)
         {
+            _context.ChangeTracker.Clear();
             Contrato c = _context.Contrato.FirstOrDefault(d => d.CodContrato == contrato.CodContrato);
 
             try
@@ -28,7 +29,6 @@ namespace SAT.INFRA.Repository
                 if (c != null)
                 {
                     _context.Entry(c).CurrentValues.SetValues(contrato);
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
             }

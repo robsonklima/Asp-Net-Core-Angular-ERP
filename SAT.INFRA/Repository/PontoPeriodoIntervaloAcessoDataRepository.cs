@@ -21,6 +21,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoPeriodoIntervaloAcessoData pontoPeriodoIntervaloAcessoData)
         {
+            _context.ChangeTracker.Clear();
             PontoPeriodoIntervaloAcessoData per = _context.PontoPeriodoIntervaloAcessoData
                 .SingleOrDefault(p => p.CodPontoPeriodoIntervaloAcessoData == pontoPeriodoIntervaloAcessoData.CodPontoPeriodoIntervaloAcessoData);
 
@@ -28,7 +29,6 @@ namespace SAT.INFRA.Repository
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(per).CurrentValues.SetValues(pontoPeriodoIntervaloAcessoData);
                     _context.SaveChanges();
                 }

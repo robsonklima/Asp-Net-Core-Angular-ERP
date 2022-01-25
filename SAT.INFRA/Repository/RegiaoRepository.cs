@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Regiao regiao)
         {
+            _context.ChangeTracker.Clear();
             Regiao reg = _context.Regiao.SingleOrDefault(r => r.CodRegiao == regiao.CodRegiao);
 
             if (reg != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(reg).CurrentValues.SetValues(regiao);
                     _context.SaveChanges();
                 }

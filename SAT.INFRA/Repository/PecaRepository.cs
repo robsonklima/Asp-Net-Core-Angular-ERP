@@ -20,11 +20,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Peca peca)
         {
+            _context.ChangeTracker.Clear();
             Peca p = _context.Peca.FirstOrDefault(p => p.CodPeca == peca.CodPeca);
 
             if (p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(peca);
                 _context.SaveChanges();
             }

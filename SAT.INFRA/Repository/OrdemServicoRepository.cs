@@ -32,11 +32,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(OrdemServico ordemServico)
         {
+            _context.ChangeTracker.Clear();
             OrdemServico os = _context.OrdemServico.FirstOrDefault(os => os.CodOS == ordemServico.CodOS);
 
             if (os != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(os).CurrentValues.SetValues(ordemServico);
                 _context.SaveChanges();
             }

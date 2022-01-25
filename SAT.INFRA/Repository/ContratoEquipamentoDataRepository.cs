@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(ContratoEquipamentoData contrato)
         {
+            _context.ChangeTracker.Clear();
             ContratoEquipamentoData c = _context.ContratoEquipamentoData.FirstOrDefault(d => d.CodContratoEquipData == contrato.CodContratoEquipData);
             
             if (c != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(c).CurrentValues.SetValues(contrato);
                 _context.SaveChanges();
             }

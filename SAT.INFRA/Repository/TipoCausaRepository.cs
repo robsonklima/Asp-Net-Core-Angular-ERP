@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoCausa tipoCausa)
         {
+            _context.ChangeTracker.Clear();
             TipoCausa tc = _context.TipoCausa.FirstOrDefault(tc => tc.CodTipoCausa == tipoCausa.CodTipoCausa);
 
             if (tc != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(tc).CurrentValues.SetValues(tipoCausa);
                 _context.SaveChanges();
             }

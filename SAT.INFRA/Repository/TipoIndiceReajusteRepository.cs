@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoIndiceReajuste tipoIndiceReajuste)
         {
+            _context.ChangeTracker.Clear();
             TipoIndiceReajuste tc = _context.TipoIndiceReajuste.FirstOrDefault(tc => tc.CodTipoIndiceReajuste == tipoIndiceReajuste.CodTipoIndiceReajuste);
 
             if (tc != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(tc).CurrentValues.SetValues(tipoIndiceReajuste);
                 _context.SaveChanges();
             }

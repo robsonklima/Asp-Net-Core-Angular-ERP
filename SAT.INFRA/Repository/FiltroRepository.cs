@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(FiltroUsuario filtroUsuario)
         {
+            _context.ChangeTracker.Clear();
             FiltroUsuario data = _context.FiltroUsuario.SingleOrDefault(a => a.CodFiltroUsuario == filtroUsuario.CodFiltroUsuario);
 
             if (data != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(data).CurrentValues.SetValues(filtroUsuario);
                     _context.SaveChanges();
                 }

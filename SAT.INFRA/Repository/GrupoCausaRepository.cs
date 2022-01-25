@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(GrupoCausa grupoCausa)
         {
+            _context.ChangeTracker.Clear();
             GrupoCausa gc = _context.GrupoCausa.FirstOrDefault(gc => gc.CodGrupoCausa == grupoCausa.CodGrupoCausa);
 
             if (gc != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(gc).CurrentValues.SetValues(grupoCausa);
                 _context.SaveChanges();
             }

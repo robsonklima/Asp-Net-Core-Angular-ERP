@@ -21,12 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(GrupoEquipamento grupoEquipamento)
         {
+            _context.ChangeTracker.Clear();
             GrupoEquipamento grupo = _context.GrupoEquipamento.SingleOrDefault(g => g.CodGrupoEquip == grupoEquipamento.CodGrupoEquip);
+            
             if (grupo != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(grupo).CurrentValues.SetValues(grupoEquipamento);
                     _context.SaveChanges();
                 }

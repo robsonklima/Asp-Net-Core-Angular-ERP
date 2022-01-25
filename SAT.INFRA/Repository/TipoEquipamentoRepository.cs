@@ -21,12 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoEquipamento tipoEquipamento)
         {
+            _context.ChangeTracker.Clear();
             TipoEquipamento t = _context.TipoEquipamento.SingleOrDefault(t => t.CodTipoEquip == tipoEquipamento.CodTipoEquip);
+            
             if (t != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(t).CurrentValues.SetValues(tipoEquipamento);
                     _context.SaveChanges();
                 }

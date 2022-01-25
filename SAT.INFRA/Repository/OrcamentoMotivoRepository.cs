@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(OrcamentoMotivo motivo)
         {
+            _context.ChangeTracker.Clear();
             OrcamentoMotivo p = _context.OrcamentoMotivo.FirstOrDefault(p => p.CodOrcMotivo == motivo.CodOrcMotivo);
 
             if(p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(motivo);
                 _context.SaveChanges();
             }

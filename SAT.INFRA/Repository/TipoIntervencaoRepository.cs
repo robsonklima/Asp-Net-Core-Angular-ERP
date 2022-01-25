@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoIntervencao tipoIntervencao)
         {
+            _context.ChangeTracker.Clear();
             TipoIntervencao ti = _context.TipoIntervencao.FirstOrDefault(ti => ti.CodTipoIntervencao == tipoIntervencao.CodTipoIntervencao);
 
             if (ti != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(ti).CurrentValues.SetValues(tipoIntervencao);
                 _context.SaveChanges();
             }

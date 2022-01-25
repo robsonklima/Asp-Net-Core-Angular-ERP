@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoUsuarioDataDivergencia pontoUsuarioDataDivergencia)
         {
+            _context.ChangeTracker.Clear();
             PontoUsuarioDataDivergencia per = _context.PontoUsuarioDataDivergencia.SingleOrDefault(p => p.CodPontoUsuarioDataDivergencia == pontoUsuarioDataDivergencia.CodPontoUsuarioDataDivergencia);
 
             if (per != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(per).CurrentValues.SetValues(pontoUsuarioDataDivergencia);
                     _context.SaveChanges();
                 }

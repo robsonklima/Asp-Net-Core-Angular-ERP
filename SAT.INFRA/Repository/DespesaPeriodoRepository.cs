@@ -20,16 +20,14 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaPeriodo despesa)
         {
-            DespesaPeriodo d =
-              _context.DespesaPeriodo
-              .FirstOrDefault(l => l.CodDespesaPeriodo == despesa.CodDespesaPeriodo);
+            _context.ChangeTracker.Clear();
+            DespesaPeriodo d = _context.DespesaPeriodo.FirstOrDefault(l => l.CodDespesaPeriodo == despesa.CodDespesaPeriodo);
 
             if (d != null)
             {
                 _context.Entry(d).CurrentValues.SetValues(despesa);
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

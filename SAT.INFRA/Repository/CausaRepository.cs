@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Causa causa)
         {
+            _context.ChangeTracker.Clear();
             Causa c = _context.Causa.FirstOrDefault(c => c.CodCausa == causa.CodCausa);
 
             if (c != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(c).CurrentValues.SetValues(causa);
                 _context.SaveChanges();
             }

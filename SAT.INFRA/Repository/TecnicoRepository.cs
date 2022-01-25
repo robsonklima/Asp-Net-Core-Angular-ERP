@@ -18,12 +18,12 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Tecnico tecnico)
         {
+            _context.ChangeTracker.Clear();
             Tecnico t = _context.Tecnico.FirstOrDefault(t => t.CodTecnico == tecnico.CodTecnico);
 
             if (t != null)
             {
                 _context.Entry(t).CurrentValues.SetValues(tecnico);
-                _context.ChangeTracker.Clear();
                 _context.SaveChanges();
             }
         }

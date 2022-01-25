@@ -23,15 +23,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaPeriodoTecnico despesaTecnico)
         {
-            DespesaPeriodoTecnico d =
-            _context.DespesaPeriodoTecnico
-            .SingleOrDefault(l => l.CodDespesaPeriodoTecnico == despesaTecnico.CodDespesaPeriodoTecnico);
+            _context.ChangeTracker.Clear();
+            DespesaPeriodoTecnico d = _context.DespesaPeriodoTecnico.SingleOrDefault(l => l.CodDespesaPeriodoTecnico == despesaTecnico.CodDespesaPeriodoTecnico);
 
             if (d != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
                     _context.SaveChanges();
                 }

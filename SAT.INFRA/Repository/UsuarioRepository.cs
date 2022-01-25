@@ -163,13 +163,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Usuario usuario)
         {
+            _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == usuario.CodUsuario);
 
             if (usr != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
                     _context.SaveChanges();
                 }

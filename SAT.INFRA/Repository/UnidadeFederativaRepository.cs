@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(UnidadeFederativa uf)
         {
+            _context.ChangeTracker.Clear();
             UnidadeFederativa unid = _context.UnidadeFederativa.FirstOrDefault(p => p.CodUF == uf.CodUF);
 
             if (unid != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(unid).CurrentValues.SetValues(uf);
                 _context.SaveChanges();
             }

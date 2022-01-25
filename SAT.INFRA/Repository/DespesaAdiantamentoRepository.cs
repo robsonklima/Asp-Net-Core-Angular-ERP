@@ -20,9 +20,8 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaAdiantamento despesa)
         {
-            DespesaAdiantamento d =
-            _context.DespesaAdiantamento
-            .FirstOrDefault(l => l.CodDespesaAdiantamento == despesa.CodDespesaAdiantamento);
+            _context.ChangeTracker.Clear();
+            DespesaAdiantamento d = _context.DespesaAdiantamento.FirstOrDefault(l => l.CodDespesaAdiantamento == despesa.CodDespesaAdiantamento);
 
             if (d != null)
             {
@@ -30,7 +29,6 @@ namespace SAT.INFRA.Repository
 
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)

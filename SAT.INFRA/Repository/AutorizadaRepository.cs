@@ -22,13 +22,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Autorizada autorizada)
         {
+            _context.ChangeTracker.Clear();
             Autorizada aut = _context.Autorizada.SingleOrDefault(a => a.CodAutorizada == autorizada.CodAutorizada);
 
             if (aut != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(aut).CurrentValues.SetValues(autorizada);
                     _context.SaveChanges();
                 }

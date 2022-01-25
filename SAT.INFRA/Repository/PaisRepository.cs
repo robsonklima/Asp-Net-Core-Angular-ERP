@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Pais pais)
         {
+            _context.ChangeTracker.Clear();
             Pais p = _context.Pais.FirstOrDefault(p => p.CodPais == pais.CodPais);
 
             if(p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(pais);
                 _context.SaveChanges();
             }

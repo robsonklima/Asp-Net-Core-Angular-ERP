@@ -17,11 +17,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Intencao intencao)
         {
+            _context.ChangeTracker.Clear();
             Intencao inst = _context.Intencao.FirstOrDefault(i => i.CodIntencao == intencao.CodIntencao);
 
             if (inst != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(inst).CurrentValues.SetValues(intencao);
                 _context.SaveChanges();
             }

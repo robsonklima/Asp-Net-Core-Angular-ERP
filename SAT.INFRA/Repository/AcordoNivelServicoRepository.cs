@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(AcordoNivelServico acordoNivelServico)
         {
+            _context.ChangeTracker.Clear();
             AcordoNivelServico ans = _context.AcordoNivelServico.SingleOrDefault(a => a.CodSLA == acordoNivelServico.CodSLA);
 
             if (ans != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(ans).CurrentValues.SetValues(acordoNivelServico);
                     _context.SaveChanges();
                 }

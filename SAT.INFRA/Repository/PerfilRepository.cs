@@ -21,13 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Perfil perfil)
         {
+            _context.ChangeTracker.Clear();
             Perfil per = _context.Perfil.SingleOrDefault(p => p.CodPerfil == perfil.CodPerfil);
 
             if (per != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(per).CurrentValues.SetValues(perfil);
                     _context.SaveChanges();
                 }

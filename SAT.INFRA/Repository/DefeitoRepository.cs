@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Defeito defeito)
         {
+            _context.ChangeTracker.Clear();
             Defeito d = _context.Defeito.FirstOrDefault(d => d.CodDefeito == defeito.CodDefeito);
 
             if (d != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(d).CurrentValues.SetValues(defeito);
                 _context.SaveChanges();
             }

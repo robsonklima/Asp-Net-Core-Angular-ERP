@@ -24,6 +24,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
         {
+            _context.ChangeTracker.Clear();
             DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
 
             if (indicador != null)
@@ -34,7 +35,6 @@ namespace SAT.INFRA.Repository
                 _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException ex)
@@ -50,6 +50,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
         {
+            _context.ChangeTracker.Clear();
             DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
 
             if (indicador != null)
@@ -59,7 +60,6 @@ namespace SAT.INFRA.Repository
                 indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
                     _context.SaveChanges();
                 }

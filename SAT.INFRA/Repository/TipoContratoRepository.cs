@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoContrato tipoContrato)
         {
+            _context.ChangeTracker.Clear();
             TipoContrato tc = _context.TipoContrato.FirstOrDefault(tc => tc.CodTipoContrato == tipoContrato.CodTipoContrato);
 
             if (tc != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(tc).CurrentValues.SetValues(tipoContrato);
                 _context.SaveChanges();
             }

@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Turno turno)
         {
+            _context.ChangeTracker.Clear();
             Turno t = _context.Turno.FirstOrDefault(t => t.CodTurno == turno.CodTurno);
 
             if (t != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(t).CurrentValues.SetValues(turno);
                 _context.SaveChanges();
             }

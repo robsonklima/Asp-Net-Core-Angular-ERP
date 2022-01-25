@@ -20,13 +20,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaCartaoCombustivel cartao)
         {
+            _context.ChangeTracker.Clear();
             DespesaCartaoCombustivel d = _context.DespesaCartaoCombustivel.FirstOrDefault(l => l.CodDespesaCartaoCombustivel == cartao.CodDespesaCartaoCombustivel);
 
             if (d != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(d).CurrentValues.SetValues(cartao);
                     _context.SaveChanges();
                 }

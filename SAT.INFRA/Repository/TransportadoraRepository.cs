@@ -19,11 +19,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Transportadora transportadora)
         {
+            _context.ChangeTracker.Clear();
             Transportadora t = _context.Transportadora.FirstOrDefault(t => t.CodTransportadora == transportadora.CodTransportadora);
 
             if (t != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(t).CurrentValues.SetValues(transportadora);
                 _context.SaveChanges();
             }

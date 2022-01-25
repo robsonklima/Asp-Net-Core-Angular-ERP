@@ -24,11 +24,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Feriado feriado)
         {
+            _context.ChangeTracker.Clear();
             Feriado f = _context.Feriado.FirstOrDefault(f => f.CodFeriado == feriado.CodFeriado);
 
             if (f != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(f).CurrentValues.SetValues(feriado);
                 _context.SaveChanges();
             }

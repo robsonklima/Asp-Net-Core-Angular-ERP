@@ -21,12 +21,13 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(LocalAtendimento localAtendimento)
         {
+            _context.ChangeTracker.Clear();
             LocalAtendimento local = _context.LocalAtendimento.SingleOrDefault(l => l.CodPosto == localAtendimento.CodPosto);
+            
             if (local != null)
             {
                 try
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(local).CurrentValues.SetValues(localAtendimento);
                     _context.SaveChanges();
                 }

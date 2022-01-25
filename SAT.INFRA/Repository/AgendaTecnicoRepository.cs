@@ -21,12 +21,12 @@ namespace SAT.INFRA.Repository
         }
         public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
+            _context.ChangeTracker.Clear();
             AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
             try
             {
                 if (a != null)
                 {
-                    _context.ChangeTracker.Clear();
                     _context.Entry(a).CurrentValues.SetValues(agenda);
                     _context.SaveChanges();
                     return agenda;

@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Notificacao notificacao)
         {
+            _context.ChangeTracker.Clear();
             Notificacao p = _context.Notificacao.FirstOrDefault(p => p.CodNotificacao == notificacao.CodNotificacao);
 
             if(p != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(p).CurrentValues.SetValues(notificacao);
                 _context.SaveChanges();
             }

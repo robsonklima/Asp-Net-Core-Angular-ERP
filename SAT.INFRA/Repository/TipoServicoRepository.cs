@@ -18,11 +18,11 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(TipoServico tipoServico)
         {
+            _context.ChangeTracker.Clear();
             TipoServico ts = _context.TipoServico.FirstOrDefault(ts => ts.CodServico == tipoServico.CodServico);
 
             if (ts != null)
             {
-                _context.ChangeTracker.Clear();
                 _context.Entry(ts).CurrentValues.SetValues(tipoServico);
                 _context.SaveChanges();
             }

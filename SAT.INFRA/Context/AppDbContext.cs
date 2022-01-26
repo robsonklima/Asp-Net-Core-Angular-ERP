@@ -133,6 +133,9 @@ namespace SAT.INFRA.Context
         public DbSet<MonitoramentoHistorico> MonitoramentoHistorico { get; set; }
         public DbSet<OrcamentoStatus> OrcamentoStatus { get; set; }
         public DbSet<OrcamentoDeslocamento> OrcamentoDeslocamento { get; set; }
+        public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
+        public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -181,6 +184,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Peca>(new PecaMap().Configure);
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
+            modelBuilder.Entity<ImportacaoConfiguracao>(new ImportacaoConfiguracaoMap().Configure);
+            modelBuilder.Entity<ImportacaoTipo>(new ImportacaoTipoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

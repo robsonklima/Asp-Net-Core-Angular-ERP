@@ -1,9 +1,11 @@
-import { DespesaCartaoCombustivelDetalheComponent } from './../despesa/despesa-cartao-combustivel-detalhe/despesa-cartao-combustivel-detalhe.component';
 import { ConfirmacaoDialogComponent } from './../../../shared/confirmacao-dialog/confirmacao-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ImportacaoService } from './../../../core/services/importacao.service';
-import { ImportacaoAberturaOrdemServico, ImportacaoColunas, ImportacaoDados, ImportacaoEnum } from './../../../core/types/importacao.types';
+import { ImportacaoAberturaOrdemServico, ImportacaoEnum } from './../../../core/types/importacao.types';
 import { Component, AfterViewInit } from '@angular/core';
+import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-configuracao.service';
+import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service copy';
+import { ImportacaoTipo, ImportacaoTipoData } from 'app/core/types/importacao-configuracao.type';
 
 
 @Component({
@@ -14,51 +16,71 @@ import { Component, AfterViewInit } from '@angular/core';
 
 export class ImportacaoComponent implements AfterViewInit {
 
-	configuracao = {
-
-		atualizaImplantacao: {
-			id: ImportacaoEnum.ATUALIZA_IMPLANTACAO,
-			dados: ImportacaoDados.atualizaImplantacao,
-			colunas: ImportacaoColunas.atualizaImplantacao
-		},
-
-		aberturaChamados: {
-			id: ImportacaoEnum.ABERTURA_CHAMADOS,
-			dados: ImportacaoDados.aberturaChamados,
-			colunas: ImportacaoColunas.aberturaChamados
-		},
-
-		criacaoLotes: {
-			id: ImportacaoEnum.CRIACAO_LOTES,
-			dados: ImportacaoDados.criacaoLotes,
-			colunas: ImportacaoColunas.criacaoLotes
-		}
-
-	}
+	
 	isLoading: boolean = false;
-	config: any;
+	planilhaConfig: any;
 	planilha: ImportacaoAberturaOrdemServico[];
 	idPlanilha: number;
+	importacaoTipos: ImportacaoTipo[];
 
 	constructor(
 		private _importacaoService: ImportacaoService,
+		private _importacaoConfService: ImportacaoConfiguracaoService,
+		private _importacaoTipoService: ImportacaoTipoService,
 		public _dialog: MatDialog
 
 	) { }
 
 	ngAfterViewInit() {
 
-
+		this.obterDados();
+	
 	}
 
-	configura(newConfig: object) {
+	async obterDados(){
+		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({}).toPromise()).items
+	}
 
-		this.idPlanilha = newConfig['id'];
-		this.config = newConfig;
+
+	async configura(codImportacaoTipo: number) {
+
+		const config = (await this._importacaoConfService.obterPorParametros({codImportacaoTipo: codImportacaoTipo}).toPromise()).items;
+
+		let configData = config.map((conf) => {
+			return {
+				
+				dados: {
+					[conf.propriedade]: ''
+				},
+				colunas: {
+					title: conf.titulo,
+					width: conf.largura,
+					type: conf.tipoHeader,
+					mask: conf.mascara
+				}
+			}
+		});
+		
+		let dadosMap = [{}]
+		configData.map(({dados}) => dados).forEach(dado => {
+			dadosMap[0][Object.keys(dado)[0]] = '';
+		});
+
+		this.idPlanilha = codImportacaoTipo;
+		this.planilhaConfig = {
+			id: codImportacaoTipo,
+			dados: dadosMap,
+			colunas: configData.map(({colunas}) => colunas)
+		}
 	}
 
 	retornaPlanilha(json: any) {
 		this.planilha = json;
+
+		console.log({
+			id:this.idPlanilha,
+			jsonImportacao: JSON.stringify(this.planilha)
+		})
 	}
 
 	async enviarDados() {

@@ -32,7 +32,7 @@ namespace SAT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
+                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
             services.AddHttpContextAccessor();
@@ -153,6 +153,8 @@ namespace SAT.API
             services.AddTransient<IOrcamentoStatusRepository, OrcamentoStatusRepository>();
             services.AddTransient<IOrcamentoDeslocamentoRepository, OrcamentoDeslocamentoRepository>();
             services.AddTransient<IImportacaoService, ImportacaoService>();
+            services.AddTransient<IImportacaoConfiguracaoService, ImportacaoConfiguracaoService>();
+            services.AddTransient<IImportacaoTipoService, ImportacaoTipoService>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -247,6 +249,8 @@ namespace SAT.API
             services.AddTransient<ILaudoService, LaudoService>();
             services.AddTransient<IOrcamentoStatusService, OrcamentoStatusService>();
             services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
+            services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
+            services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
 
 
             // Utils Services

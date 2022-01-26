@@ -46,12 +46,15 @@ export class PlanilhaComponent implements AfterViewInit {
 		let me = this;
 		this.table = jspreadsheet(this.spreadsheet.nativeElement, {
 			onafterchanges: function () {
+
 				me.sheetData.emit(me.table.getJson());
 			},
 			data: this.dados,
 			columns: this.colunas,
 			csvFileName: this.nomePlanilha,
 			csvDelimiter: ';',
+			allowInsertColumn: false,
+			allowManualInsertColumn: false,
 			minDimensions: [
 				this.colunas.length > 0 ? this.colunas.length : 27
 				, 30],

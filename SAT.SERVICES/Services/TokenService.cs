@@ -10,7 +10,7 @@ namespace SAT.SERVICES.Services
 {
     public class TokenService : ITokenService
     {
-        private const double TEMPO_VIDA_MINUTOS = 2 * 60;
+        private const double TEMPO_VIDA_MINUTOS = 10 * 60;
 
         public string GerarToken(string key, string issuer, Usuario usuario)
         {

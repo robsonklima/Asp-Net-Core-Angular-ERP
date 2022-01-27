@@ -6,6 +6,7 @@
                     {{ t('documentacao') }}
                 </a>
             </div>
+            
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ t('versoes') }}
@@ -16,24 +17,32 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="prose prose-sm max-w-5xl">
-            <ng-container *ngFor="let item of changelog">
-                <div class="mb-12 p-8 rounded-2xl shadow bg-card">
+            <ng-container *ngFor="let versao of versoes">
+                <div class="mb-6 p-8 rounded-2xl shadow bg-card">
                     <div>
-                        <h2 class="my-0">{{item.version}}</h2>
-                        <div class="font-semibold text-md text-secondary">{{item.releaseDate}}</div>
+                        <h2 class="my-0">v{{ versao.nome }}</h2>
+
+                        <div class="font-semibold text-md text-secondary">
+                            {{ versao.dataHoraCad | date:'dd/MM/yyyy' }}
+                        </div>
                     </div>
-                    <hr class="mt-6">
-                    <ng-container *ngFor="let change of item.changes">
-                        <div class="mt-8">
-                            <span 
-                                class="inline-flex text-white rounded px-3 py-1 font-bold"
-                                [class.bg-red-500]="change.type == 'Correções'"
-                                [class.bg-green-500]="change.type == 'Adições'">
-                                {{change.type}}
-                            </span>
+
+                    <ng-container>
+                        <div>
                             <ul>
-                                <ng-container *ngFor="let listItem of change.list">
-                                    <li>{{listItem}}</li>
+                                <ng-container>
+                                    <li *ngFor="let alteracao of versao.alteracoes">
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="alteracao.tipo.nome == 'Correção'"
+                                            [class.text-green-500]="alteracao.tipo.nome == 'Adição'">
+                                            {{ alteracao.tipo.nome }}
+                                        </span>
+
+                                        <span>
+                                            {{ alteracao.nome }}
+                                        </span>
+                                    </li>
                                 </ng-container>
                             </ul>
                         </div>

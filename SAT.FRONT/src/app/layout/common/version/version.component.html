@@ -1,0 +1,12 @@
+<div>
+    <a *ngIf="ultimaVersao === versao" class="font-semibold mr-2 text-md" [routerLink]="['/docs/changelog']">
+        v{{ versao }}
+    </a>
+</div>
+
+<button
+    *ngIf="ultimaVersao !== versao" mat-icon-button (click)="atualizar()"
+    [matTooltip]="'Nova versão disponível! Clique para atualizar'"
+    matTooltipPosition="above">
+    <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+</button>

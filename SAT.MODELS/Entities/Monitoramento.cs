@@ -12,7 +12,7 @@ namespace SAT.MODELS.Entities
         public double? EmUso { get; set; }
         public double? Total { get; set; }
         public string Disco { get; set; }
-        public byte Ativo { get; set; }
+        public byte? Ativo { get; set; }
         public DateTime? DataHoraProcessamento { get; set; }
         public DateTime? DataHoraCad { get; set; }
     }

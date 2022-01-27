@@ -3,6 +3,7 @@
     public class OrdemServicoExcelViewModel
     {
         public int Chamado { get; set; }
+        public string NumOSCliente { get; set; }
         public string DataAbertura { get; set; }
         public string DataSolicitacao { get; set; }
         public string LimiteAtendimento { get; set; }

@@ -27,9 +27,7 @@
         </div>
 
         <div class="flex items-center pl-2 ml-auto space-x-2">
-            <a class="text-secondary" [routerLink]="['/docs/changelog']" routerLinkActive="router-link-active">
-                {{ version }}
-            </a>
+            <version></version>
             <languages></languages>
             <fuse-fullscreen></fuse-fullscreen>
             <search [appearance]="'bar'"></search>

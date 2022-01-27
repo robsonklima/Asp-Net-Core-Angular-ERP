@@ -16,6 +16,7 @@ import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { DenseLayoutComponent } from 'app/layout/layouts/vertical/dense/dense.component';
 import { TranslocoModule } from '@ngneat/transloco';
+import { VersionModule } from 'app/layout/common/version/version.module';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { TranslocoModule } from '@ngneat/transloco';
         SearchModule,
         ShortcutsModule,
         UserModule,
+        VersionModule,
         SharedModule,
         TranslocoModule
     ],

@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import _ from 'lodash';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import moment from 'moment';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
   selector: 'app-orcamento-detalhes',
@@ -61,7 +62,8 @@ export class OrcamentoDetalheComponent implements OnInit
     private _orcMotivoService: OrcamentoMotivoService,
     private _orcStatusService: OrcamentoStatusService,
     private _cdRef: ChangeDetectorRef,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _snack: CustomSnackbarService
   ) 
   {
     this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
@@ -84,7 +86,7 @@ export class OrcamentoDetalheComponent implements OnInit
 
     this.form = this._formBuilder.group({
       codOrcMotivo: this.orcamento.orcamentoMotivo.codOrcMotivo,
-      detalhes: this.orcamento.detalhe,
+      detalhe: this.orcamento.detalhe,
       codOrcStatus: this.orcamento.orcamentoStatus.codOrcStatus,
       data: [
         {
@@ -117,13 +119,37 @@ export class OrcamentoDetalheComponent implements OnInit
           disabled: true
         }
       ],
+      valorTotalDesconto: [
+        {
+          value: this.orcamento?.valorTotalDesconto,
+          disabled: true
+        }
+      ],
+      valorTotal: [
+        {
+          value: this.orcamento?.valorTotal,
+          disabled: true
+        }
+      ],
+      validade: [
+        {
+          value: '3 dias',
+          disabled: true
+        }
+      ],
+      impostosInclusos: [
+        {
+          value: 'SIM',
+          disabled: true
+        }
+      ],
     });
 
-    this.obterEnderecos();
+    this.obterLocais();
     this.isLoading = false;
   }
 
-  private obterEnderecos()
+  private obterLocais()
   {
     this.dadosLocalFaturamento = {
       tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
@@ -200,16 +226,14 @@ export class OrcamentoDetalheComponent implements OnInit
     this.oldItem = Object.assign({}, this.orcamento);
   }
 
-  async salvar(): Promise<void>
+  async salvar()
   {
-    this.orcamento =
-      (await this._orcService.atualizar(this.orcamento).toPromise());
-
-    this.oldItem = Object.assign({}, this.orcamento);
-
-    this.isEditing = false;
-    this.isLoading = true;
-    this.isLoading = false;
+    const form = this.form.getRawValue();
+    this.orcamento.detalhe = form.detalhe;
+    this.orcamento.codigoStatus = form.codOrcStatus;
+    this.orcamento.codigoMotivo = form.codOrcMotivo;
+    this.orcamento = await this._orcService.atualizar(this.orcamento).toPromise();
+    this._snack.exibirToast('Orçamento atualizado com sucesso!', 'success');
   }
 
   cancelar(): void

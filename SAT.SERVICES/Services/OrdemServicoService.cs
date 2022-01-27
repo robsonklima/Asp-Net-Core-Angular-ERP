@@ -150,6 +150,7 @@ namespace SAT.SERVICES.Services
                 new OrdemServicoExcelViewModel
                 {
                     Chamado = os.CodOS,
+                    NumOSCliente = os.NumOSCliente,
                     DataAbertura = os.DataHoraAberturaOS?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
                     DataSolicitacao = os.DataHoraSolicitacao?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
                     LimiteAtendimento = os.PrazosAtendimento?.OrderByDescending(i => i.CodOSPrazoAtendimento)?.FirstOrDefault()?.DataHoraLimiteAtendimento?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,

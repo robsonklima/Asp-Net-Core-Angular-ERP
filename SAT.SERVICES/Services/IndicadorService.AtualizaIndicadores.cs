@@ -173,126 +173,126 @@ namespace SAT.SERVICES.Services
                         parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
                         parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
                         break;
-                    //case NomeIndicadorEnum.SLA_FILIAL:
-                    //    parameters.Tipo = IndicadorTipoEnum.SLA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.SLA_CLIENTE:
-                    //    parameters.Tipo = IndicadorTipoEnum.SLA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.SPA_CLIENTE:
-                    //    parameters.Tipo = IndicadorTipoEnum.SPA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.SPA_FILIAL:
-                    //    parameters.Tipo = IndicadorTipoEnum.SPA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.SPA_TECNICO_PERCENT:
-                    //    parameters.Tipo = IndicadorTipoEnum.SPA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.SPA_TECNICO_QNT_CHAMADOS:
-                    //    parameters.Tipo = IndicadorTipoEnum.SPA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.PENDENCIA_CLIENTE:
-                    //    parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.PENDENCIA_FILIAL:
-                    //    parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.PENDENCIA_TECNICO_PERCENT:
-                    //    parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.PENDENCIA_TECNICO_QNT_CHAMADOS:
-                    //    parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.REINCIDENCIA_CLIENTE:
-                    //    parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.REINCIDENCIA_FILIAL:
-                    //    parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.REINCIDENCIA_TECNICO_PERCENT:
-                    //    parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.REINCIDENCIA_TECNICO_QNT_CHAMADOS:
-                    //    parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.REINCIDENCIA_EQUIPAMENTO_PERCENT:
-                    //    parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_EQUIPAMENTOS_ATENDIMENTOS;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
-                    //    break;
-                    //case NomeIndicadorEnum.PECAS_FILIAL:
-                    //    parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
-                    //    break;
-                    //case NomeIndicadorEnum.PECAS_TOP_CINCO_MAIS_FALTANTES:
-                    //    parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.TOP_CINCO_PECAS_MAIS_FALTANTES;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
-                    //    break;
-                    //case NomeIndicadorEnum.PECAS_CRITICAS_MAIS_FALTANTES:
-                    //    parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
-                    //    break;
-                    //case NomeIndicadorEnum.PECAS_NOVAS_CADASTRADAS:
-                    //    parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.NOVAS_CADASTRADAS;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
-                    //    break;
-                    //case NomeIndicadorEnum.PECAS_NOVAS_LIBERADAS:
-                    //    parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
-                    //    parameters.Agrupador = IndicadorAgrupadorEnum.NOVAS_LIBERADAS;
-                    //    parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
-                    //    parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
-                    //    break;
+                    case NomeIndicadorEnum.SLA_FILIAL:
+                       parameters.Tipo = IndicadorTipoEnum.SLA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.SLA_CLIENTE:
+                       parameters.Tipo = IndicadorTipoEnum.SLA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.SPA_CLIENTE:
+                       parameters.Tipo = IndicadorTipoEnum.SPA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.SPA_FILIAL:
+                       parameters.Tipo = IndicadorTipoEnum.SPA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.SPA_TECNICO_PERCENT:
+                       parameters.Tipo = IndicadorTipoEnum.SPA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_SPA;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.SPA_TECNICO_QNT_CHAMADOS:
+                       parameters.Tipo = IndicadorTipoEnum.SPA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_SPA;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.PENDENCIA_CLIENTE:
+                       parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.PENDENCIA_FILIAL:
+                       parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.PENDENCIA_TECNICO_PERCENT:
+                       parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_PENDENTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.PENDENCIA_TECNICO_QNT_CHAMADOS:
+                       parameters.Tipo = IndicadorTipoEnum.PENDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_PENDENTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.REINCIDENCIA_CLIENTE:
+                       parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.CLIENTE;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.REINCIDENCIA_FILIAL:
+                       parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.REINCIDENCIA_TECNICO_PERCENT:
+                       parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_PERCENT_REINCIDENTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.REINCIDENCIA_TECNICO_QNT_CHAMADOS:
+                       parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TECNICO_QNT_CHAMADOS_REINCIDENTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_TECNICO_ATENDIMENTO;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.REINCIDENCIA_EQUIPAMENTO_PERCENT:
+                       parameters.Tipo = IndicadorTipoEnum.REINCIDENCIA;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.EQUIPAMENTO_PERCENT_REINCIDENTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_EQUIPAMENTOS_ATENDIMENTOS;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_INDICADOR;
+                       break;
+                    case NomeIndicadorEnum.PECAS_FILIAL:
+                       parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
+                       break;
+                    case NomeIndicadorEnum.PECAS_TOP_CINCO_MAIS_FALTANTES:
+                       parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.TOP_CINCO_PECAS_MAIS_FALTANTES;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
+                       break;
+                    case NomeIndicadorEnum.PECAS_CRITICAS_MAIS_FALTANTES:
+                       parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.FILIAL;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
+                       break;
+                    case NomeIndicadorEnum.PECAS_NOVAS_CADASTRADAS:
+                       parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.NOVAS_CADASTRADAS;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
+                       break;
+                    case NomeIndicadorEnum.PECAS_NOVAS_LIBERADAS:
+                       parameters.Tipo = IndicadorTipoEnum.PECA_FALTANTE;
+                       parameters.Agrupador = IndicadorAgrupadorEnum.NOVAS_LIBERADAS;
+                       parameters.FilterType = OrdemServicoFilterEnum.FILTER_PECAS_FALTANTES;
+                       parameters.Include = OrdemServicoIncludeEnum.OS_PECAS;
+                       break;
                     default:
                         continue;
                 }

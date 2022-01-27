@@ -14,6 +14,7 @@
     "cliente": "Cliente",
     "equipamento": "Equipamento",
     "equipamentos": "Equipamentos",
+    "equipamentos contrato": "Equipamentos Contrato",
     "serie": "Nro. Série",
     "acoes": "Ações",
     "instalação": "Instalação",
@@ -492,5 +493,9 @@
     "data de nascimento" : "Data de nascimento",
     "informacoes veiculares" :"Informações veiculares",
     "veiculo" : "Veículo",
-    "utiliza lista especifica": "Utiliza Lista Específica"
+    "utiliza lista especifica": "Utiliza Lista Específica",
+    "valor total desconto": "Valor total de descontos",
+    "validade": "Validade",
+    "impostos inclusos": "Impostos Inclusos",
+    "responsavel": "Responsável"
 }

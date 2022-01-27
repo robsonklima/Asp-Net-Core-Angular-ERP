@@ -14,6 +14,7 @@
     "cliente": "Customer",
     "equipamento": "Equipment",
     "equipamentos": "Equipaments",
+    "equipamentos contrato": "Contract Equipaments",
     "serie": "Serial",
     "acoes": "Actions",
     "instalação": "Installation",
@@ -478,5 +479,9 @@
     "veiculo": "Vehicle",
     "origem": "Origin",
     "destino": "Destiny",
-    "utiliza lista especifica": "Uses Specific List"
+    "utiliza lista especifica": "Uses Specific List",
+    "valor total desconto": "Total discount amount",
+    "validade": "Validity",
+    "impostos inclusos": "Taxes included",
+    "responsavel": "Host"
 }

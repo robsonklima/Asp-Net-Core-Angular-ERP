@@ -100,6 +100,7 @@ export class AuthSignInComponent implements OnInit
                 {
                     this.signInForm.enable();
                     this.signInNgForm.resetForm();
+                    this._snack.open(e?.error?.errorMessage || 'Ocorreu um erro');
                 });
 
             this.signInForm.enable();

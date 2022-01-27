@@ -32,7 +32,7 @@ namespace SAT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG),
+                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(360)));
 
             services.AddCors(options =>
@@ -151,6 +151,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoDeslocamentoRepository, OrcamentoDeslocamentoRepository>();
             services.AddTransient<IOrcamentoDescontoRepository, OrcamentoDescontoRepository>();
             services.AddTransient<IIntencaoRepository, IntencaoRepository>();
+            services.AddTransient<IVersaoRepository, VersaoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -246,7 +247,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoStatusService, OrcamentoStatusService>();
             services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
             services.AddTransient<IOrcamentoDescontoService, OrcamentoDescontoService>();
-
+            services.AddTransient<IVersaoService, VersaoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

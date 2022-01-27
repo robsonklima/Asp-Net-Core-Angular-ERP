@@ -6,7 +6,6 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
-import packageInfo from '../../../../../../package.json';
 
 
 @Component({
@@ -15,16 +14,12 @@ import packageInfo from '../../../../../../package.json';
     encapsulation: ViewEncapsulation.None
 })
 export class DenseLayoutComponent implements OnInit, OnDestroy {
-    public version: string = packageInfo.version;
-    public name: string = packageInfo.name;
     isScreenSmall: boolean;
     navigation: Navigation;
     navigationAppearance: 'default' | 'dense' = 'dense';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService
@@ -69,9 +64,5 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
 
     toggleNavigationAppearance(): void {
         this.navigationAppearance = (this.navigationAppearance === 'default' ? 'dense' : 'default');
-    }
-
-    toolTip(): string {
-        return this.name + "  2006-" + this.currentYear + "  v" + this.version;
     }
 }

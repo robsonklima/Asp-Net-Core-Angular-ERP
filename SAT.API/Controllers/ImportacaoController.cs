@@ -19,14 +19,12 @@ namespace SAT.API.Controllers
         public ImportacaoController(IImportacaoService importacaoService)
         {
             _importacaoService = importacaoService;
-
         }
 
-        [HttpPost("AberturaOs")]
-        public List<string> Post([FromBody] ImportacaoBase importacao)
+        [HttpPost()]
+        public Importacao Post([FromBody] Importacao importacao)
         {
-
-            return _importacaoService.Importacao(importacao);
+            return _importacaoService.Importar(importacao);
         }
     }
 }

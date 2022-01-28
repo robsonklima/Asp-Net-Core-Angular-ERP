@@ -1,5 +1,3 @@
-import { TipoIntervencaoConst} from './tipo-intervencao.types';
-
 
 export interface ImportacaoAberturaOrdemServico {
     nomeFantasia: string;
@@ -14,10 +12,18 @@ export interface ImportacaoAberturaOrdemServico {
     dataHoraCad?: string;
 }
 
-export enum ImportacaoEnum
-{
-    ATUALIZA_IMPLANTACAO,
-    ABERTURA_CHAMADOS,
-    CRIACAO_LOTES
+export interface Importacao {
+    id: number;
+    importacaoLinhas: ImportacaoLinha[];
 }
 
+export interface ImportacaoLinha {
+    importacaoColunas: ImportacaoColuna[];
+    erro?: number;
+    mensagem?: string;
+}
+
+export interface ImportacaoColuna {
+    campo?: string;
+    valor?: string;
+}

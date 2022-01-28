@@ -2,7 +2,7 @@
 
 namespace SAT.MODELS.Entities
 {
-    public class ImportacaoInstalacao : ImportacaoBase
+    public class ImportacaoInstalacao : Importacao
     {
         public string CodInstalacao { get; set; }
         public string NumSerie { get; set; }

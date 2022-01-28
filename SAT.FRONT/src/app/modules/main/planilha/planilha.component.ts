@@ -1,4 +1,7 @@
+import { map } from 'rxjs/operators';
+import { ImportacaoColuna } from './../../../core/types/importacao.types';
 import { Component, ElementRef, ViewChild, AfterViewInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Importacao } from 'app/core/types/importacao.types';
 import * as jspreadsheet from "jspreadsheet-ce";
 
 @Component({
@@ -45,8 +48,7 @@ export class PlanilhaComponent implements AfterViewInit {
 	criaPlanilha() {
 		let me = this;
 		this.table = jspreadsheet(this.spreadsheet.nativeElement, {
-			onafterchanges: function () {
-
+			onafterchanges: function (x,y,cell,table) {
 				me.sheetData.emit(me.table.getJson());
 			},
 			data: this.dados,

@@ -1,7 +1,8 @@
+import { map } from 'rxjs/operators';
 import { ConfirmacaoDialogComponent } from './../../../shared/confirmacao-dialog/confirmacao-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ImportacaoService } from './../../../core/services/importacao.service';
-import { ImportacaoAberturaOrdemServico, ImportacaoEnum } from './../../../core/types/importacao.types';
+import { Importacao, ImportacaoAberturaOrdemServico, ImportacaoColuna } from './../../../core/types/importacao.types';
 import { Component, AfterViewInit } from '@angular/core';
 import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-configuracao.service';
 import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service copy';
@@ -75,36 +76,48 @@ export class ImportacaoComponent implements AfterViewInit {
 	}
 
 	retornaPlanilha(json: any) {
+		this.jsonImportacaoMap(json);	
 		this.planilha = json;
+	}
 
-		console.log({
-			id:this.idPlanilha,
-			jsonImportacao: JSON.stringify(this.planilha)
-		})
+	jsonImportacaoMap(planilhaJson: any) {
+
+		// let planilhaLinhasMap = planilhaJson.map((row) => {
+			// let importacaoCol: ImportacaoColuna[];
+			// Object.keys(row).forEach( r => importacaoCol.push({campo: r}));
+			
+			// row.forEach(element => {
+			// 	importacaoCol.push({
+			// 		campo: Object.keys(element).toString(),
+			// 		valor: element
+			// 	});
+			// });
+		// 	console.log(importacaoCol);
+		// 	console.log(row);
+		// });
+
+
+
+		let importacao: Importacao = {
+			id: 1,
+			importacaoLinhas: [{
+				importacaoColunas: [{
+					campo: '',
+					valor: ''
+				}],
+				erro: 0,
+				mensagem: ''
+			}]
+		}
+
+		return importacao;
 	}
 
 	async enviarDados() {
-		this.isLoading = true;
-
-		await this._importacaoService.aberturaChamadosEmMassa({
-
-			id: this.idPlanilha,
-			jsonImportacao: JSON.stringify(this.planilha)
-
-		}).subscribe(r => {
-
-			this._dialog.open(ConfirmacaoDialogComponent, {
-				data: {
-					titulo: 'Aviso!',
-					message: Array.from(new Set(r)),
-					hideCancel: true,
-					buttonText: {
-						ok: 'Ok',
-					}
-				}
-			});
-
-			this.isLoading = false;
-		});
+		
+		// this._importacaoService.importar({
+		// 	id: this.idPlanilha,
+		// 	jsonImportacao: JSON.stringify(this.planilha)
+		// }).subscribe();
 	}
 }

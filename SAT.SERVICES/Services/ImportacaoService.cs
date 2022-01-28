@@ -41,22 +41,25 @@ namespace SAT.SERVICES.Services
             _usuarioService = usuarioService;
         }
 
-        public List<string> Importacao(ImportacaoBase importacao)
-        {
-            switch (importacao.Id)
-            {
-                case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
+        public Importacao Importar(Importacao importacao)
+        { 
 
-                    return AtualizacaoInstalacao(JsonConvert.DeserializeObject<List<ImportacaoInstalacao>>(importacao.JsonImportacao));
+            //switch (importacao.Id)
+            //{
+            //    case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
 
-                case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
+            //        return AtualizacaoInstalacao(JsonConvert.DeserializeObject<List<ImportacaoInstalacao>>(importacao.JsonImportacao));
 
-                    return AberturaChamadosEmMassa(JsonConvert.DeserializeObject<List<ImportacaoAberturaOrdemServico>>(importacao.JsonImportacao));
+            //    case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
 
-                default:
+            //        return AberturaChamadosEmMassa(JsonConvert.DeserializeObject<List<ImportacaoAberturaOrdemServico>>(importacao.JsonImportacao));
 
-                    return null;
-            }
-        }
+            //    default:
+
+            //        return null;
+            
+            return importacao;
+
+        }    
     }
 }

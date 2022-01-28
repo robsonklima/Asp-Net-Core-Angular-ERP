@@ -282,6 +282,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					if (historicoOS.length)
 						ultimoStatus = Enumerable.from(historicoOS)
 							.orderByDescending(i => i.codHistOS)
+							.where(i => i.codStatusServico !== StatusServicoEnum.FECHADO)
 							.firstOrDefault()
 							.codStatusServico;
 

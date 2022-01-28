@@ -9,6 +9,7 @@
         public string LimiteAtendimento { get; set; }
         public string Status { get; set; }
         public string Intervencao { get; set; }
+        public string Tecnico { get; set; }
         public string Defeito { get; set; }
         public int? PA { get; set; }
         public string Local { get; set; }

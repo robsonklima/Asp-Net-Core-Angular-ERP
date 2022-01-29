@@ -13,7 +13,7 @@ export interface AppConfig
     tempo_atualizacao_dashboard_minutos: number;
     tailwind_css: string;
     autonomia_veiculo_frota: number;
-    rd_centro_de_custo: string;ß
+    rd_centro_de_custo: string;
     system_user: string;
     email_equipe: string;
     parametroReajusteValorOrcamento: number;

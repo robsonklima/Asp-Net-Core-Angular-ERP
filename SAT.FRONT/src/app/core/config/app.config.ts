@@ -13,7 +13,7 @@ export interface AppConfig
     tempo_atualizacao_dashboard_minutos: number;
     tailwind_css: string;
     autonomia_veiculo_frota: number;
-    rd_centro_de_custo: string;
+    rd_centro_de_custo: string;ß
     system_user: string;
     email_equipe: string;
     parametroReajusteValorOrcamento: number;
@@ -23,7 +23,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: apiConst.LOCALHOST_5001,
+    api: apiConst.PROD,
     tempo_atualizacao_dashboard_minutos: 5,
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',

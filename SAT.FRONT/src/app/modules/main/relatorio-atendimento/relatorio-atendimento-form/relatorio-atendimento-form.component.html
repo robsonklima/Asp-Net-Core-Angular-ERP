@@ -42,7 +42,8 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
                 </div>
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
@@ -183,6 +184,23 @@
                 </div>
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('inicio intervalo') }}</mat-label>
+                        <input matInput formControlName="horarioInicioIntervalo" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('termino intervalo') }}</mat-label>
+                        <input matInput formControlName="horarioTerminoIntervalo" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('observacao') }}</mat-label>

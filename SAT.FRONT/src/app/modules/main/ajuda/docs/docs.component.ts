@@ -29,15 +29,28 @@ export class DocsComponent implements OnInit, OnDestroy
     {
         this.menuData = [
             {
-                id      : 'documentacao',
-                title   : 'Documentação',
+                id      : 'inicio',
+                title   : 'Início',
                 type    : 'group',
                 children: [
                     {
                         id   : 'introducao',
                         title: 'Introdução',
                         type : 'basic',
-                        link : '/inicio/introducao'
+                        link : '/ajuda/docs/inicio/introducao'
+                    }
+                ]
+            },
+            {
+                id      : 'autenticacao',
+                title   : 'Autenticação',
+                type    : 'group',
+                children: [
+                    {
+                        id   : 'login',
+                        title: 'Login',
+                        type : 'basic',
+                        link : '/ajuda/docs/autenticacao/login'
                     }
                 ]
             }

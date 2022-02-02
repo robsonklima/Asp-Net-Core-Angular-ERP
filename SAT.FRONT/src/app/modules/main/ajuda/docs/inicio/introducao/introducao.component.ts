@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { DocsComponent } from '../docs.component';
+import { DocsComponent } from '../../docs.component';
+
 
 @Component({
     selector   : 'app-introducao',

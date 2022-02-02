@@ -18,19 +18,19 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ajudaRoutes } from './ajuda.routing';
-import { TutorialComponent } from './tutorial/tutorial.component';
 import { SuporteComponent } from './suporte/suporte.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs/docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
-import { IntroducaoComponent } from './docs/introducao/introducao.component';
+import { LoginComponent } from './docs/autenticacao/login/login.component';
+import { IntroducaoComponent } from './docs/inicio/introducao/introducao.component';
 
 @NgModule({
   declarations: [
-    TutorialComponent,
     SuporteComponent,
     DocsComponent,
-    IntroducaoComponent
+    IntroducaoComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

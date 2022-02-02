@@ -92,6 +92,8 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.EquipamentoContrato)
                     .ThenInclude(ec => ec.DispBBCriticidade)
                 .Include(os => os.EquipamentoContrato)
+                    .ThenInclude(os => os.Equipamento)
+                .Include(os => os.EquipamentoContrato)
                     .ThenInclude(ec => ec.Filial)
                 .Include(os => os.EquipamentoContrato)
                     .ThenInclude(ec => ec.Autorizada)

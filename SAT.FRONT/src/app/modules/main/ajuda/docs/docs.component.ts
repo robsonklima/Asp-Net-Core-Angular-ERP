@@ -53,6 +53,25 @@ export class DocsComponent implements OnInit, OnDestroy
                         link : '/ajuda/docs/autenticacao/login'
                     }
                 ]
+            },
+            {
+                id      : 'ordem-servico',
+                title   : 'Ordem de Serviço',
+                type    : 'group',
+                children: [
+                    {
+                        id   : 'lista',
+                        title: 'Lista',
+                        type : 'basic',
+                        link : '/ajuda/docs/ordem-servico/listagem'
+                    },
+                    {
+                        id   : 'filtro',
+                        title: 'Filtros',
+                        type : 'basic',
+                        link : '/ajuda/docs/ordem-servico/filtro'
+                    }
+                ]
             }
         ];
     }

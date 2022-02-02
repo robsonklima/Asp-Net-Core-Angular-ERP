@@ -24,13 +24,17 @@ import { DocsComponent } from './docs/docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { LoginComponent } from './docs/autenticacao/login/login.component';
 import { IntroducaoComponent } from './docs/inicio/introducao/introducao.component';
+import { ListagemComponent } from './docs/ordem-servico/listagem/listagem.component';
+import { FiltragemComponent } from './docs/ordem-servico/filtragem/filtragem.component';
 
 @NgModule({
   declarations: [
     SuporteComponent,
     DocsComponent,
     IntroducaoComponent,
-    LoginComponent
+    LoginComponent,
+    ListagemComponent,
+    FiltragemComponent
   ],
   imports: [
     CommonModule,

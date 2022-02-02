@@ -6,11 +6,11 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 
 @Component({
-  selector: 'app-ajuda-suporte',
-  templateUrl: './ajuda-suporte.component.html',
+  selector: 'app-suporte',
+  templateUrl: './suporte.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class AjudaSuporteComponent implements OnInit {
+export class SuporteComponent implements OnInit {
   @ViewChild('supportNgForm') supportNgForm: NgForm;
   userSession: UserSession;
   alert: any;

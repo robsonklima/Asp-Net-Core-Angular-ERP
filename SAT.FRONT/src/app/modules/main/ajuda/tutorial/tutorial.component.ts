@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-ajuda-tutorial',
-  templateUrl: './ajuda-tutorial.component.html',
-  styleUrls: ['./ajuda-tutorial.component.scss']
+  selector: 'app-tutorial',
+  templateUrl: './tutorial.component.html'
 })
-export class AjudaTutorialComponent implements OnInit {
+export class TutorialComponent implements OnInit {
   tutoriais: any[] = [];
 
   constructor() { }

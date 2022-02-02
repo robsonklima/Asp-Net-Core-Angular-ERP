@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AjudaFaqComponent } from './ajuda-faq/ajuda-faq.component';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,16 +18,19 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ajudaRoutes } from './ajuda.routing';
-import { AjudaTutorialComponent } from './ajuda-tutorial/ajuda-tutorial.component';
-import { AjudaSuporteComponent } from './ajuda-suporte/ajuda-suporte.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { SuporteComponent } from './suporte/suporte.component';
 import { FuseAlertModule } from '@fuse/components/alert';
-
+import { DocsComponent } from './docs/docs.component';
+import { FuseNavigationModule } from '@fuse/components/navigation';
+import { IntroducaoComponent } from './docs/introducao/introducao.component';
 
 @NgModule({
   declarations: [
-    AjudaFaqComponent,
-    AjudaTutorialComponent,
-    AjudaSuporteComponent
+    TutorialComponent,
+    SuporteComponent,
+    DocsComponent,
+    IntroducaoComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
     MatOptionModule,
     MatIconModule,
     FuseAlertModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FuseNavigationModule,
   ]
 })
 export class AjudaModule { }

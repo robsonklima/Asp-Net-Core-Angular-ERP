@@ -1,24 +1,36 @@
 import { Route } from '@angular/router';
-import { AjudaFaqComponent } from './ajuda-faq/ajuda-faq.component';
-import { AjudaSuporteComponent } from './ajuda-suporte/ajuda-suporte.component';
-import { AjudaTutorialComponent } from './ajuda-tutorial/ajuda-tutorial.component';
+import { IntroducaoComponent } from './docs/introducao/introducao.component';
+import { DocsComponent } from './docs/docs.component';
+import { SuporteComponent } from './suporte/suporte.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 
 export const ajudaRoutes: Route[] = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'faq'
-    },
-    {
-        path: 'faq',
-        component: AjudaFaqComponent
+        redirectTo: 'docs'
     },
     {
         path: 'suporte',
-        component: AjudaSuporteComponent
+        component: SuporteComponent
     },
     {
         path: 'tutorial',
-        component: AjudaTutorialComponent
+        component: TutorialComponent
+    },
+    {
+        path    : 'docs',
+        component: DocsComponent,
+        children: [
+            {
+                path      : '',
+                pathMatch : 'full',
+                redirectTo: 'introducao'
+            },
+            {
+                path     : 'introducao',
+                component: IntroducaoComponent
+            }
+        ]
     },
 ];

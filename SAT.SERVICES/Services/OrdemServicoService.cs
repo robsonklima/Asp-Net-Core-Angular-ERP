@@ -156,7 +156,7 @@ namespace SAT.SERVICES.Services
                     LimiteAtendimento = os.PrazosAtendimento?.OrderByDescending(i => i.CodOSPrazoAtendimento)?.FirstOrDefault()?.DataHoraLimiteAtendimento?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
                     Status = os.StatusServico?.NomeStatusServico?.ToUpperInvariant() ?? Constants.SEM_NADA,
                     Intervencao = os.TipoIntervencao?.CodETipoIntervencao?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    Tecnico = os.Tecnico.Nome ?? Constants.SEM_NADA,
+                    Tecnico = os.Tecnico?.Nome ?? Constants.SEM_NADA,
                     NumBanco = os.Cliente?.NumBanco ?? Constants.SEM_NADA,
                     Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
                     Equipamento = os.Equipamento?.NomeEquip ?? Constants.SEM_NADA,

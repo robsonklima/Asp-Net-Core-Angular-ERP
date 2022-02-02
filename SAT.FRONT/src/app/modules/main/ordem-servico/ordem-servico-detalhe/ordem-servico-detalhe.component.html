@@ -117,20 +117,23 @@
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não
+                                                    informado" }}
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3"
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('contato') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCadastro?.fone || os?.usuarioCadastro?.foneParticular }}
+                                                    {{ os?.usuarioCadastro?.fone || os?.usuarioCadastro?.foneParticular
+                                                    }}
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não
+                                                    informado" }}
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
@@ -277,7 +280,8 @@
                                                     <span class="cursor-help"
                                                         [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
                                                         matTooltipPosition="above">
-                                                        {{ os?.equipamento?.nomeEquip || '--' }}
+                                                        {{ os?.equipamento?.nomeEquip ||
+                                                        os?.equipamentoContrato?.equipamento?.nomeEquip || '--' }}
                                                     </span>
                                                 </div>
                                             </div>
@@ -297,7 +301,8 @@
                                                     <span class="cursor-help"
                                                         [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
                                                         matTooltipPosition="above">
-                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não Informado' }}
+                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não
+                                                        Informado' }}
                                                     </span>
                                                 </div>
                                             </div>
@@ -306,14 +311,16 @@
                                                 *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
                                                 <div class="text-secondary">{{ t('fim sla') }}</div>
                                                 <div>
-                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
+                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length -
+                                                    1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
                                                 </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('contrato') }}</div>
                                                 <div>
-                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
+                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não
+                                                    Informado' }}
                                                 </div>
                                             </div>
 
@@ -358,11 +365,11 @@
                                             <div class="py-3">
                                                 <ng-container>
                                                     <div>
-                                                        {{  
-                                                            os?.localAtendimento?.cep || '' + ' - ' +
-                                                            os?.localAtendimento?.endereco + ' - ' + 
-                                                            os?.localAtendimento?.cidade?.nomeCidade + ' - ' + 
-                                                            os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
+                                                        {{
+                                                        os?.localAtendimento?.cep || '' + ' - ' +
+                                                        os?.localAtendimento?.endereco + ' - ' +
+                                                        os?.localAtendimento?.cidade?.nomeCidade + ' - ' +
+                                                        os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
                                                         }}
                                                     </div>
                                                 </ng-container>
@@ -379,7 +386,7 @@
                                     {{ t('alertas') }}
                                     <span class="bg-orange-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="os?.alertas?.length">
-                                        {{  os?.alertas?.length || 0}}
+                                        {{ os?.alertas?.length || 0}}
                                     </span>
                                 </span>
                             </ng-template>
@@ -445,19 +452,26 @@
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Solicitação</div>
                                             <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM
-                                                    HH:mm') : 'Não Informado' }}</div>
+                                                HH:mm') : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horas Gastas</div>
                                             <div>
-                                                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não Informado' }}
+                                                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não
+                                                Informado' }}
                                             </div>
+                                        </div>
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Horário atendimendo</div>
+                                            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não
+                                                Informado' }} - {{ r?.dataHoraSolucao ?
+                                                (r?.dataHoraSolucao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Intervalo</div>
                                             <div> {{ r?.horarioInicioIntervalo ? (r?.horarioInicioIntervalo) : 'Não
-                                                    Informado' }} - {{ r?.horarioTerminoIntervalo ?
-                                                    (r?.horarioTerminoIntervalo) : 'Não Informado' }}</div>
+                                                Informado' }} - {{ r?.horarioTerminoIntervalo ?
+                                                (r?.horarioTerminoIntervalo) : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Acompanhante</div>

@@ -26,6 +26,9 @@ import { LoginComponent } from './docs/autenticacao/login/login.component';
 import { IntroducaoComponent } from './docs/inicio/introducao/introducao.component';
 import { ListagemComponent } from './docs/ordem-servico/listagem/listagem.component';
 import { FiltragemComponent } from './docs/ordem-servico/filtragem/filtragem.component';
+import { ExportacaoComponent } from './docs/ordem-servico/exportacao/exportacao.component';
+import { NovoComponent } from './docs/ordem-servico/novo/novo.component';
+import { DuasEtapasComponent } from './docs/autenticacao/duas-etapas/duas-etapas.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { FiltragemComponent } from './docs/ordem-servico/filtragem/filtragem.com
     IntroducaoComponent,
     LoginComponent,
     ListagemComponent,
-    FiltragemComponent
+    FiltragemComponent,
+    ExportacaoComponent,
+    NovoComponent,
+    DuasEtapasComponent
   ],
   imports: [
     CommonModule,

@@ -37,7 +37,13 @@ export class DocsComponent implements OnInit, OnDestroy
                         id   : 'introducao',
                         title: 'Introdução',
                         type : 'basic',
-                        link : '/ajuda/docs/inicio/introducao'
+                        link : '/docs/inicio/introducao'
+                    },
+                    {
+                        id   : 'versoes',
+                        title: 'Versões',
+                        type : 'basic',
+                        link : '/docs/inicio/versoes'
                     }
                 ]
             },
@@ -50,13 +56,13 @@ export class DocsComponent implements OnInit, OnDestroy
                         id   : 'login',
                         title: 'Login',
                         type : 'basic',
-                        link : '/ajuda/docs/autenticacao/login'
+                        link : '/docs/autenticacao/login'
                     },
                     {
                         id   : 'duas-etaoas',
                         title: 'Duas Etapas',
                         type : 'basic',
-                        link : '/ajuda/docs/autenticacao/duas-etapas'
+                        link : '/docs/autenticacao/duas-etapas'
                     }
                 ]
             },
@@ -69,25 +75,25 @@ export class DocsComponent implements OnInit, OnDestroy
                         id   : 'lista',
                         title: 'Lista',
                         type : 'basic',
-                        link : '/ajuda/docs/ordem-servico/listagem'
+                        link : '/docs/ordem-servico/listagem'
                     },
                     {
                         id   : 'filtro',
                         title: 'Filtros',
                         type : 'basic',
-                        link : '/ajuda/docs/ordem-servico/filtro'
+                        link : '/docs/ordem-servico/filtro'
                     },
                     {
                         id   : 'exportacao',
                         title: 'Exportação',
                         type : 'basic',
-                        link : '/ajuda/docs/ordem-servico/exportacao'
+                        link : '/docs/ordem-servico/exportacao'
                     },
                     {
                         id   : 'novo',
                         title: 'Novo',
                         type : 'basic',
-                        link : '/ajuda/docs/ordem-servico/novo'
+                        link : '/docs/ordem-servico/novo'
                     }
                 ]
             }

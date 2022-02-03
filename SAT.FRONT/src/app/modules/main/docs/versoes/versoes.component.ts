@@ -3,10 +3,10 @@ import { VersaoService } from 'app/core/services/versao.service';
 import { Versao } from 'app/core/types/versao.types';
 
 @Component({
-    selector: 'changelog',
-    templateUrl: './changelog.component.html'
+    selector: 'versoes',
+    templateUrl: './versoes.component.html'
 })
-export class ChangelogComponent implements OnInit
+export class VersoesComponent implements OnInit
 {
     versoes: Versao[] = [];
 

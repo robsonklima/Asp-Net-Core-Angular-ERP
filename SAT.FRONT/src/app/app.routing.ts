@@ -76,7 +76,6 @@ export const appRoutes: Route[] = [
             { path: 'tecnico', loadChildren: () => import('app/modules/main/cadastro/tecnico/tecnico.module').then(m => m.TecnicoModule) },
             { path: 'default', loadChildren: () => import('app/modules/main/default/default.module').then(m => m.DefaultModule) },
             { path: 'dashboard', loadChildren: () => import('app/modules/main/dashboard/dashboard.module').then(m => m.DashboardModule) },
-            { path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule) },
             { path: 'agenda-tecnico', loadChildren: () => import('app/modules/main/agenda-tecnico/agenda-tecnico.module').then(m => m.AgendaTecnicoModule) },
             { path: 'configuracoes', loadChildren: () => import('app/modules/main/configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule) },
             { path: 'peca', loadChildren: () => import('app/modules/main/cadastro/peca/peca.module').then(m => m.PecaModule) },
@@ -88,7 +87,7 @@ export const appRoutes: Route[] = [
             { path: 'instalacao', loadChildren: () => import('app/modules/main/instalacao/instalacao.module').then(m => m.InstalacaoModule) },
             { path: 'dialog', loadChildren: () => import('app/modules/main/dialog/dialog.module').then(m => m.DialogModule) },
             { path: 'filtros', loadChildren: () => import('app/modules/main/filtros/filtro.module').then(m => m.FiltroModule) },
-            { path: 'ajuda', loadChildren: () => import('app/modules/main/ajuda/ajuda.module').then(m => m.AjudaModule) },
+            { path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule) },
             { path: 'orcamento', loadChildren: () => import('app/modules/main/orcamento/orcamento.module').then(m => m.OrcamentoModule) },
             { path: 'conferencia', loadChildren: () => import('app/modules/main/conferencia/conferencia.module').then(m => m.ConferenciaModule) },
 

@@ -480,9 +480,14 @@
     "veiculo": "Vehicle",
     "origem": "Origin",
     "destino": "Destiny",
+    "usuario existente": "User already exists",
     "utiliza lista especifica": "Uses Specific List",
     "valor total desconto": "Total discount amount",
     "validade": "Validity",
     "impostos inclusos": "Taxes included",
-    "responsavel": "Host"
+    "responsavel": "Host",
+    "inicio intervalo": "Start interval",
+    "termino intervalo": "End interval",
+    "texto limite exportar": "Data limit for export cannot exceed 20,000 records",
+    "serie cliente" : "Client serial number"
 }

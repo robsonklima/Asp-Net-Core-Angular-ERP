@@ -15,5 +15,6 @@ namespace SAT.MODELS.Enums
         OS_DISPONIBILIDADE_BB = 11,
         OS_LISTA = 12,
         OS_ORCAMENTO = 13,
+        OS_EXPORTAR = 14
     }
 }

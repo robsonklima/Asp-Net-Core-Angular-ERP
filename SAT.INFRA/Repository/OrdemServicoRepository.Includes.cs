@@ -297,8 +297,9 @@ namespace SAT.INFRA.Repository
 
                 case (OrdemServicoIncludeEnum.OS_EXPORTAR):
                     query = query
-                        .Include(os => os.PrazosAtendimento)
-                         .Include(os => os.StatusServico)
+                          .Include(os => os.PrazosAtendimento)
+                          .Include(os => os.RegiaoAutorizada)
+                          .Include(os => os.StatusServico)
                           .Include(os => os.TipoIntervencao)
                           .Include(os => os.Tecnico)
                           .Include(os => os.Cliente)

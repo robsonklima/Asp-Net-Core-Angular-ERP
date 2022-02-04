@@ -135,7 +135,6 @@ namespace SAT.INFRA.Context
         public DbSet<RecuperaSenha> RecuperaSenha { get; set; }
         public DbSet<Intencao> Intencao { get; set; }
         public DbSet<Versao> Versao { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -185,10 +184,10 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
             modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);
-            modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
             modelBuilder.Entity<Versao>(new VersaoMap().Configure);
             modelBuilder.Entity<VersaoAlteracao>(new VersaoAlteracaoMap().Configure);
             modelBuilder.Entity<VersaoAlteracaoTipo>(new VersaoAlteracaoTipoMap().Configure);
+            modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

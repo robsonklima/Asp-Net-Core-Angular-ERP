@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SAT.MODELS.Entities;
+using System.Linq;
 
 namespace SAT.INFRA.Mapping
 {
@@ -58,6 +59,11 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey(i => i.CodUsuario)
                 .HasPrincipalKey(i => i.CodUsuario);
+
+            builder
+                 .Property(p => p.CodUsuario)
+                 .HasConversion(v => v.ToString(),
+                                v => v.ToLower());
 
             builder
                 .HasMany(p => p.PontosPeriodoUsuario)

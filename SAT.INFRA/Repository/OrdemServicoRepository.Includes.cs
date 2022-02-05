@@ -295,6 +295,26 @@ namespace SAT.INFRA.Repository
                         });
                     break;
 
+                case (OrdemServicoIncludeEnum.OS_EXPORTAR):
+                    query = query
+                          .Include(os => os.PrazosAtendimento)
+                          .Include(os => os.RegiaoAutorizada)
+                          .Include(os => os.StatusServico)
+                          .Include(os => os.TipoIntervencao)
+                          .Include(os => os.Tecnico)
+                          .Include(os => os.Cliente)
+                          .Include(os => os.LocalAtendimento)
+                          .Include(os => os.Equipamento)
+                          .Include(os => os.EquipamentoContrato)
+                            .ThenInclude(os => os.AcordoNivelServico)
+                          .Include(os => os.Regiao)
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(os => os.Tecnico)
+                             .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(os => os.StatusServico)
+                             .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(os => os.TipoServico);
+                    break;
                 default:
                     query = query
                         .Include(os => os.StatusServico)

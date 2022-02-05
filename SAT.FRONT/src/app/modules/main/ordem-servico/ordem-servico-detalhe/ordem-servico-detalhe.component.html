@@ -296,6 +296,15 @@
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('serie cliente') }}</div>
+                                                <div>
+                                                    <span>
+                                                        {{ os?.equipamentoContrato?.numSerieCliente || t('nao informado') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('sla') }}</div>
                                                 <div>
                                                     <span class="cursor-help"

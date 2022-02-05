@@ -216,7 +216,8 @@ export enum OrdemServicoIncludeEnum
     OS_EQUIPAMENTOS_ATENDIMENTOS = 10,
     OS_DISPONIBILIDADE_BB = 11,
     OS_LISTA = 12,
-    OS_ORCAMENTO = 13
+    OS_ORCAMENTO = 13,
+    OS_EXPORTAR = 14
 }
 
 export enum OrdemServicoFilterEnum

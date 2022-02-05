@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
-using SAT.MODELS.Entities.Constants;
 
 namespace SAT.SERVICES.Services
 {
@@ -47,7 +47,8 @@ namespace SAT.SERVICES.Services
         {
             OrdemServico os = _ordemServicoRepo.ObterPorCodigo(codigo);
 
-            if (os != null) {
+            if (os != null)
+            {
                 os.Alertas = _ordemServicoAlertaService.ObterAlertas(os);
                 os.IndNumRATObrigatorio = VerificarNumeroRATObrigatorio(os);
             }
@@ -158,6 +159,7 @@ namespace SAT.SERVICES.Services
                     Intervencao = os.TipoIntervencao?.CodETipoIntervencao?.ToUpperInvariant() ?? Constants.SEM_NADA,
                     Tecnico = os.Tecnico?.Nome ?? Constants.SEM_NADA,
                     NumBanco = os.Cliente?.NumBanco ?? Constants.SEM_NADA,
+                    NumAgencia = os.LocalAtendimento != null ? ($"{os.LocalAtendimento.NumAgencia}/{os.LocalAtendimento.DCPosto}") : Constants.SEM_NADA,
                     Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
                     Equipamento = os.Equipamento?.NomeEquip ?? Constants.SEM_NADA,
                     Serie = os.EquipamentoContrato?.NumSerie ?? Constants.SEM_NADA,

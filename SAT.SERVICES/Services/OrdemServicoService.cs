@@ -166,6 +166,7 @@ namespace SAT.SERVICES.Services
                     Regiao = os.Regiao?.NomeRegiao?.ToUpperInvariant() ?? Constants.SEM_NADA,
                     PA = os.RegiaoAutorizada?.PA ?? 0,
                     Autorizada = os.Autorizada?.NomeFantasia?.ToUpperInvariant() ?? Constants.SEM_NADA,
+                    Filial = os.Filial?.NomeFilial,
                     SLA = os.EquipamentoContrato?.AcordoNivelServico?.NomeSLA ?? Constants.SEM_NADA,
                     Reincidencia = os.NumReincidencia ?? 0,
                     Defeito = os.DefeitoRelatado ?? Constants.SEM_NADA

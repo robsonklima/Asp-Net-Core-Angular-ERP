@@ -97,6 +97,7 @@ export class OrdemServico
     codUsuarioCadastro: string;
     usuarioCadastro: Usuario;
     usuarioCad: Usuario;
+    usuarioManutencao: Usuario;
     dataManutencao: string;
     codUsuarioManutencao: string;
     indAtrasoSLA: number;

@@ -144,6 +144,7 @@ namespace SAT.MODELS.Entities
         public Contrato Contrato { get; set; }
         public Usuario UsuarioCadastro { get; set; }
         public Usuario UsuarioCad { get; set; }
+        public Usuario UsuarioManutencao { get; set; }
         public virtual List<Orcamento> Orcamentos { get; set; }
     }
 }

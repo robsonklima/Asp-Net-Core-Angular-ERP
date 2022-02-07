@@ -206,6 +206,11 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
                         .select(dp => dp.peca?.codMagnus))).toArray();
 
             if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
+
+            description = description + "\nUsuário Manutenção: " + os.usuarioManutencao.nomeUsuario + "\nData Manutenção: " + moment(os.dataManutencao).format('DD/MM HH:mm');
+        }
+        else if (os.statusServico?.codStatusServico == 6 || os.statusServico?.codStatusServico == 9) {
+            description = description + "\nUsuário Manutenção: " + os.usuarioManutencao.nomeUsuario + "\nData Manutenção: " + moment(os.dataManutencao).format('DD/MM HH:mm');
         }
 
         return description;

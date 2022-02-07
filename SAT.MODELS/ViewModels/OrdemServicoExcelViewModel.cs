@@ -20,6 +20,7 @@
         public string Regiao { get; set; }
         public string Defeito { get; set; }
         public string Autorizada { get; set; }
+        public string Filial { get; set; }
         public int? Reincidencia { get; set; }
     }
 }

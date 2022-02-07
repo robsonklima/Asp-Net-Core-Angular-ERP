@@ -299,6 +299,7 @@ namespace SAT.INFRA.Repository
                     query = query
                           .Include(os => os.PrazosAtendimento)
                           .Include(os => os.RegiaoAutorizada)
+                          .Include(os => os.Filial)
                           .Include(os => os.StatusServico)
                           .Include(os => os.TipoIntervencao)
                           .Include(os => os.Tecnico)

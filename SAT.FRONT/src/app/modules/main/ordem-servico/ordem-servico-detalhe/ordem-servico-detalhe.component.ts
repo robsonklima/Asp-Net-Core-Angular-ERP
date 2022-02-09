@@ -395,15 +395,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				});
 	}
 
-	isUserPosVenda()
-	{
-		var userRole: RoleEnum = this.userSession?.usuario?.codPerfil;
-
-		if (userRole == RoleEnum.PV_COORDENADOR_DE_CONTRATO || userRole == RoleEnum.ADMIN) return true;
-
-		return false;
-	}
-
 	isOrcamento()
 	{
 		var orcamentos = [

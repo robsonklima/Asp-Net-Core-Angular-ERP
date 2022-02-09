@@ -155,12 +155,17 @@ namespace SAT.INFRA.Repository
                             CodAutorizada = i.CodAutorizada ?? null,
                             DataHoraAberturaOS = i.DataHoraAberturaOS ?? null,
                             DataHoraFechamento = i.DataHoraFechamento ?? null,
+                            DataManutencao = i.DataManutencao ?? null,
                             DefeitoRelatado = i.DefeitoRelatado,
                             NumOSQuarteirizada = i.NumOSQuarteirizada,
                             NumOSCliente = i.NumOSCliente,
                             CodRegiao = i.CodRegiao ?? null,
                             DataHoraTransf = i.DataHoraTransf ?? null,
                             DataHoraOSMobileLida = i.DataHoraOSMobileLida ?? null,
+                            UsuarioManutencao = i.CodUsuarioManutencao != null ? new Usuario
+                            {
+                                NomeUsuario = i.UsuarioManutencao.NomeUsuario
+                            } : null,
                             Tecnico = i.Tecnico != null ? new Tecnico
                             {
                                 CodTecnico = i.Tecnico.CodTecnico,
@@ -299,6 +304,7 @@ namespace SAT.INFRA.Repository
                     query = query
                           .Include(os => os.PrazosAtendimento)
                           .Include(os => os.RegiaoAutorizada)
+                          .Include(os => os.Filial)
                           .Include(os => os.StatusServico)
                           .Include(os => os.TipoIntervencao)
                           .Include(os => os.Tecnico)

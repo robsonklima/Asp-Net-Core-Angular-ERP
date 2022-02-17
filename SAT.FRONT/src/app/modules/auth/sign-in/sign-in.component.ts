@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,8 +19,7 @@ import { JsonIPService } from 'app/core/services/jsonip.service';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     deviceInfo: any;
     ipData: any = '';
@@ -30,7 +29,10 @@ export class AuthSignInComponent implements OnInit
         duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right'
     };
 
-    constructor (
+    public atendeRequisitos: boolean = true;
+    public campoSenhaVazio: boolean = false;
+
+    constructor(
         private _activatedRoute: ActivatedRoute,
         private _usuarioDispositivoSvc: UsuarioDispositivoService,
         private _emailSvc: EmailService,
@@ -40,23 +42,40 @@ export class AuthSignInComponent implements OnInit
         private _jsonIP: JsonIPService,
         private _formBuilder: FormBuilder,
         private device: DeviceDetectorService,
-        private _router: Router
+        private _router: Router,
+        private _cdr: ChangeDetectorRef,
     ) { }
 
-    async ngOnInit()
-    {
+    async ngOnInit() {
         this.signInForm = this._formBuilder.group({
-            codUsuario: ['', [Validators.required]],
-            senha: ['', Validators.required]
+            codUsuario: [undefined, [Validators.required]],
+            senha: [undefined, [Validators.required,
+            //Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
+            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-\'\"~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-\'\"~,.;<>:@$!%*?&]{8,}$')]]
         });
 
         this.deviceInfo = this.device.getDeviceInfo();
         this.ipData = ''; //await this._jsonIP.obterIP().toPromise();
+
+        this.signInForm.get("senha").valueChanges.subscribe(value => {
+            this.campoSenhaVazio = value.length == 0;
+            if (this.campoSenhaVazio && !this.atendeRequisitos) {
+                this.atendeRequisitos = true;
+            }
+        })
     }
 
-    async signIn()
-    {
-        if (this.signInForm.invalid) return;
+    async signIn() {
+        this.atendeRequisitos = true;
+        if (this.signInForm.invalid) {
+            // Invalido porque pode não estar batendo no pattern da senha
+            if (this.signInForm.controls['senha'].value.length > 0) {
+                this.atendeRequisitos = false;
+                this._cdr.detectChanges();
+            }
+            return;
+        }
+
         this.signInForm.disable();
 
         const form = this.signInForm.getRawValue();
@@ -77,42 +96,35 @@ export class AuthSignInComponent implements OnInit
 
         let dispositivo = dispositivoData.items.shift();
 
-        if (!usuario || !usuario?.email)
-        {
+        if (!usuario || !usuario?.email) {
             this._snack
                 .open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger)
                 .afterDismissed()
                 .toPromise();
-        } else if (!dispositivo)
-        {
+        } else if (!dispositivo) {
             dispositivo = await this.cadastrarDispositivo();
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
-        } else if (dispositivo?.indAtivo)
-        {
+        } else if (dispositivo?.indAtivo) {
             this._authService
                 .signIn(codUsuario, senha)
-                .subscribe(() =>
-                {
+                .subscribe(() => {
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                     this._router.navigateByUrl(redirectURL);
-                }, (e) =>
-                {
+                }, (e) => {
                     this.signInForm.enable();
                     this.signInNgForm.resetForm();
                     this._snack.open(e?.error?.errorMessage || 'Ocorreu um erro');
                 });
 
             this.signInForm.enable();
-        } else
-        {
+        } else {
             this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
     }
 
-    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo)
-    {
+    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._emailSvc.enviarEmail({
             nomeRemetente: "SAT",
             emailRemetente: "aplicacao.sat@perto.com.br",
@@ -134,10 +146,8 @@ export class AuthSignInComponent implements OnInit
         }).subscribe();
     }
 
-    private cadastrarDispositivo(): Promise<UsuarioDispositivo>
-    {
-        return new Promise((resolve, reject) =>
-        {
+    private cadastrarDispositivo(): Promise<UsuarioDispositivo> {
+        return new Promise((resolve, reject) => {
             let dispositivo: UsuarioDispositivo = {
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
                 indAtivo: 0,
@@ -150,11 +160,9 @@ export class AuthSignInComponent implements OnInit
                 ip: this.ipData.ip
             };
 
-            this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) =>
-            {
+            this._usuarioDispositivoSvc.criar(dispositivo).subscribe((dispositivo) => {
                 resolve(dispositivo);
-            }, (err) =>
-            {
+            }, (err) => {
                 reject(err);
             });
         })

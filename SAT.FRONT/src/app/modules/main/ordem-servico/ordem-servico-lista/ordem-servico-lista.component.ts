@@ -198,6 +198,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
     statusServicoDescricao(os: OrdemServico) {
         var description = os.statusServico?.nomeStatusServico;
+        var usuarioManutencao = os.usuarioManutencao != undefined ? os.usuarioManutencao?.nomeUsuario : '-----';
+        var dataManutencao = os.dataManutencao != undefined ? moment(os.dataManutencao).format('DD/MM HH:mm') : '-----';
 
         if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
             var pecas = Enumerable.from(os.relatoriosAtendimento)
@@ -207,10 +209,10 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
             if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
 
-            description = description + "\nUsuário Manutenção: " + os.usuarioManutencao.nomeUsuario + "\nData Manutenção: " + moment(os.dataManutencao).format('DD/MM HH:mm');
+            description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
         }
         else if (os.statusServico?.codStatusServico == 6 || os.statusServico?.codStatusServico == 9) {
-            description = description + "\nUsuário Manutenção: " + os.usuarioManutencao.nomeUsuario + "\nData Manutenção: " + moment(os.dataManutencao).format('DD/MM HH:mm');
+            description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
         }
 
         return description;

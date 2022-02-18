@@ -51,7 +51,7 @@ export class AuthSignInComponent implements OnInit {
             codUsuario: [undefined, [Validators.required]],
             senha: [undefined, [Validators.required,
             //Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
-            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-\'\"~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-\'\"~,.;<>:@$!%*?&]{8,}$')]]
+            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$')]]
         });
 
         this.deviceInfo = this.device.getDeviceInfo();

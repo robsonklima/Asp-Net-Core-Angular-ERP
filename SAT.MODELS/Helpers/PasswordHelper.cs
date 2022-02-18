@@ -8,7 +8,7 @@ namespace SAT.MODELS.Helpers
     {
         // Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
         private static readonly string requisitos = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$";
-        private static readonly string[] caracteresEspeciais = new string[] { "(", ")", "[", "]", "{", "}", "=", "-", "'", "\"", "~", ",", ".", ";", "<", ">", ":", "@", "$", "!", "%", "*", "?", "&" };
+        private static readonly string[] caracteresEspeciais = new string[] { "(", ")", "[", "]", "{", "}", "=", "-", "~", ",", ".", ";", "<", ">", ":", "@", "$", "!", "%", "*", "?", "&" };
         public static string GerarNovaSenha(int length = 8)
         {
             StringBuilder builder = new();

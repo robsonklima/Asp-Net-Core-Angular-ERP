@@ -131,7 +131,7 @@ export class AuthSignInComponent implements OnInit {
             nomeDestinatario: usuario.nomeUsuario,
             emailDestinatario: usuario.email,
             nomeCC: 'Equipe SAT',
-            emailCC: 'equipe.sat@perto.com.br',
+            //emailCC: 'equipe.sat@perto.com.br',
             assunto: "Ativação de Acesso ao Sistema SAT",
             corpo: `<p>Solicitação de Permissão de Acesso à sua Conta no SAT</p>
                     <p>Sistema Operacional: ${this.deviceInfo.os}</p>

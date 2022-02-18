@@ -36,8 +36,6 @@ namespace SAT.MODELS.Helpers
             }
 
             // Valida se o sorteio bate com os requisitos de senha
-            var cu = "{E:C8SC"
-                    bool c = Regex.Match(builder.ToString(), requisitos, RegexOptions.IgnoreCase).Success
             bool validaSenha = Regex.Match(builder.ToString(), requisitos, RegexOptions.IgnoreCase).Success;
 
             // Senha valida

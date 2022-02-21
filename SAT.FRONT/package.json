@@ -1,6 +1,6 @@
 {
     "name": "sat2.0",
-    "version": "1.1.30",
+    "version": "1.1.32",
     "license": "",
     "private": true,
     "scripts": {
@@ -57,6 +57,7 @@
         "moment-timezone": "^0.5.34",
         "ng-apexcharts": "1.5.12",
         "ng-mat-select-infinite-scroll": "^3.0.1",
+        "ng-speed-test": "^2.2.0",
         "ngx-device-detector": "^3.0.0",
         "ngx-markdown": "12.0.1",
         "ngx-mask": "12.0.0",

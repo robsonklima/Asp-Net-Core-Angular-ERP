@@ -29,6 +29,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     chartPie: ApexOptions;
     chartLine: ApexOptions;
     dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
+    velocidadeInternet: string;
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -43,6 +44,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.obterOpcoesDatas();
+        
 
         interval(3 * 60 * 1000)
             .pipe(
@@ -276,13 +278,15 @@ export class DefaultComponent implements OnInit, OnDestroy
         return moment(dataHora).locale('pt').fromNow();
     }
 
-    checarPermissao(tipo: string=''): boolean {
-        switch (tipo) {
+    checarPermissao(tipo: string = ''): boolean
+    {
+        switch (tipo)
+        {
             case 'SERVICOS':
             case 'SERVIDORES':
             case 'HISTORICO':
                 if (this.sessionData.usuario.codPerfil === 29 || this.sessionData.usuario.codPerfil === 3)
-                    return true;        
+                    return true;
             default:
                 return false;
         }

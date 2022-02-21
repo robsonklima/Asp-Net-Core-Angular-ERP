@@ -21,6 +21,7 @@ import { InformacoesPessoaisComponent } from './informacoes-pessoais/informacoes
 import { InformacoesTecnicasComponent } from './informacoes-tecnicas/informacoes-tecnicas.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { SpeedTestModule } from 'ng-speed-test';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
     return {
@@ -53,7 +54,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
         TranslocoModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
-        NgxMaskModule
+        NgxMaskModule,
+        SpeedTestModule
     ]
 })
 export class ConfiguracoesModule {

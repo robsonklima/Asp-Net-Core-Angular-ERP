@@ -503,5 +503,6 @@
     "termino intervalo": "Término do intervalo",
     "texto limite exportar": "Limite de dados para exportar não pode, passar de 20 mil registros",
     "serie cliente" : "Nro. Série Cliente",
-    "documentação": "Documentação" 
+    "documentação": "Documentação",
+    "velocidade da internet": "Velocidade da internet"
 }

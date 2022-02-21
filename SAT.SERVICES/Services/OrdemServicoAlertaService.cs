@@ -47,8 +47,10 @@ namespace SAT.SERVICES.Services
             }
 
             alertas = ObterAvisoChamadoVisualizado(os, alertas);
-            alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
-            alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
+            if (os.CodEquipContrato != null) {
+                alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
+                alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
+            }
 
             return alertas;
         }

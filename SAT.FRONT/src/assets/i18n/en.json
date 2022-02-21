@@ -489,5 +489,6 @@
     "inicio intervalo": "Start interval",
     "termino intervalo": "End interval",
     "texto limite exportar": "Data limit for export cannot exceed 20,000 records",
-    "serie cliente" : "Client serial number"
+    "serie cliente": "Client serial number",
+    "documentação": "Documentation" 
 }

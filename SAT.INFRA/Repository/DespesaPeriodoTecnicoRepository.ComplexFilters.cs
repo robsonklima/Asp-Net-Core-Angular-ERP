@@ -35,7 +35,7 @@ namespace SAT.INFRA.Repository
             query = query.Where(i =>
                 i.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
                 && i.Tecnico.DespesaCartaoCombustivelTecnico.Any() && i.DespesaProtocoloPeriodoTecnico != null &&
-                i.DataHoraCad.Year >= 2020).OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
+                i.DataHoraCad.Year >= 2022).OrderByDescending(i => i.DespesaProtocoloPeriodoTecnico.DataHoraCad);
 
             if (parameters.CodCreditoCartaoStatus.HasValue)
             {

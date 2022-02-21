@@ -12,7 +12,7 @@ import { SuporteComponent } from './suporte/suporte.component';
 
 export const docsRoutes: Route[] = [
     {
-        path     : 'docs',
+        path     : '',
         component: DocsComponent,
         children : [
             {
@@ -25,7 +25,6 @@ export const docsRoutes: Route[] = [
                 children: [
                     {
                         path      : '',
-                        pathMatch : 'full',
                         redirectTo: 'introducao'
                     },
                     {

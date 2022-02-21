@@ -125,6 +125,12 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         filter: filter
       }
     ).toPromise());
+
+    this.periodos.items = this.periodos.items.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.codDespesaPeriodoTecnico === value.codDespesaPeriodoTecnico
+      ))
+    )
   }
 
   private criarListView()

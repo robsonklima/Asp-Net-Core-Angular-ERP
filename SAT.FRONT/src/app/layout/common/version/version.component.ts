@@ -1,6 +1,8 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { VersaoService } from 'app/core/services/versao.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { interval, Subject } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import packageInfo from '../../../../../package.json';
@@ -14,39 +16,53 @@ import packageInfo from '../../../../../package.json';
 })
 export class VersionComponent implements OnInit, OnDestroy {
     versao: string = packageInfo.version;
-    ultimaVersao: string;
 
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _versaoService: VersaoService,
-        private _cdr: ChangeDetectorRef
+        private _cdr: ChangeDetectorRef,
+        private _dialog: MatDialog,
     ) {}
 
-    ngOnInit(): void
+    async ngOnInit()
     {
-        interval(15 * 60 * 1000)
+        interval(30 * 60 * 1000)
             .pipe(startWith(0))
             .subscribe(() => {
-                this.obterUltimaVersao();
+                 this._versaoService.obterPorParametros({ 
+                    sortActive: 'codSatVersao',
+                    sortDirection: 'desc',
+                    pageSize: 1
+                }).subscribe((versao) => {
+                    if (versao.items.shift().nome !== this.versao) {
+                        this.atualizar();
+                        this._cdr.markForCheck();
+                    }
+                });
             });
     }
 
-    private async obterUltimaVersao()
-    {
-        const data = await this._versaoService.obterPorParametros({ 
-            sortActive: 'codSatVersao',
-            sortDirection: 'desc',
-            pageSize: 1
-        }).toPromise();
-
-        this.ultimaVersao = data.items.shift().nome;
-        this._cdr.markForCheck();
-    }
-
     atualizar() {
-        window.location.reload();
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Nova Versão',
+				message: 'Uma nova versão do sistema foi encontrada! Deseja atualizar seu aplicativo agora?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+                window.location.reload();
+            }
+        });
     }
 
     ngOnDestroy(): void

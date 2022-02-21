@@ -501,6 +501,7 @@
     "responsavel": "Responsável",
     "inicio intervalo": "início do intervalo",
     "termino intervalo": "Término do intervalo",
-    "texto limite exportar": "Limite de dados para exportar não pode passar de 20 mil registros",
-    "serie cliente" : "Nro. Série Cliente"
+    "texto limite exportar": "Limite de dados para exportar não pode, passar de 20 mil registros",
+    "serie cliente" : "Nro. Série Cliente",
+    "documentação": "Documentação" 
 }

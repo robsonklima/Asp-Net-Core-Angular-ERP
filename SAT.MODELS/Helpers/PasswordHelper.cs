@@ -7,7 +7,7 @@ namespace SAT.MODELS.Helpers
     public class PasswordHelper
     {
         // Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
-        private static readonly string requisitos = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$";
+        private static readonly string requisitos = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[()[\]{}=\-~,.;<>:@$!%*?&])[A-Za-z\d()[\]{}=\-~,.;<>:@$!%*?&]{8,}$";
         private static readonly string[] caracteresEspeciais = new string[] { "(", ")", "[", "]", "{", "}", "=", "-", "~", ",", ".", ";", "<", ">", ":", "@", "$", "!", "%", "*", "?", "&" };
         public static string GerarNovaSenha(int length = 8)
         {
@@ -36,7 +36,7 @@ namespace SAT.MODELS.Helpers
             }
 
             // Valida se o sorteio bate com os requisitos de senha
-            bool validaSenha = Regex.Match(builder.ToString(), requisitos, RegexOptions.IgnoreCase).Success;
+            bool validaSenha = Regex.Match(builder.ToString(), requisitos).Success;
 
             // Senha valida
             if (validaSenha)

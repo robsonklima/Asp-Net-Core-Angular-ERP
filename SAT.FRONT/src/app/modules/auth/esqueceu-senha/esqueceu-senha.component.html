@@ -19,30 +19,13 @@
             <!-- Form -->
             <form class="mt-8" [formGroup]="esqueceuSenhaFormGroup" #esqueceuSenhaForm="ngForm">
 
-                <!-- Email -->
-                <!-- <mat-form-field class="w-full">
-                    <mat-label>E-mail</mat-label>
-                    <input id="email" style="text-transform: lowercase;" matInput [formControlName]="'email'">
-                    <mat-error *ngIf="esqueceuSenhaFormGroup.get('email').hasError('required')">
-                        favor informar o seu e-mail cadastrado no grupo Digicon
-                    </mat-error>
-                    <mat-error
-                        *ngIf="esqueceuSenhaFormGroup.get('email').value.length > 0 && (esqueceuSenhaFormGroup.get('email').hasError('email') || mostrarErro)">
-                        Favor informar um e-mail válido do grupo Digicon
-                    </mat-error>
-                </mat-form-field> -->
-
                 <!-- Código do usuário -->
                 <mat-form-field class="w-full">
-                    <mat-label>Código de acesso do usuário</mat-label>
+                    <mat-label>Código de usuário</mat-label>
                     <input style="text-transform: lowercase;" matInput [formControlName]="'codUsuario'">
                     <mat-error *ngIf="esqueceuSenhaFormGroup.get('codUsuario').hasError('required')">
-                        favor informar o seu código de acesso
+                        favor informar o seu usuário
                     </mat-error>
-                    <!-- <mat-error
-                        *ngIf="esqueceuSenhaFormGroup.get('email').value.length > 0 && (esqueceuSenhaFormGroup.get('email').hasError('email') || mostrarErro)">
-                        Favor informar um e-mail válido do grupo Digicon
-                    </mat-error> -->
                 </mat-form-field>
 
                 <!-- Submit button -->

@@ -188,6 +188,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<VersaoAlteracao>(new VersaoAlteracaoMap().Configure);
             modelBuilder.Entity<VersaoAlteracaoTipo>(new VersaoAlteracaoTipoMap().Configure);
             modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
+            modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

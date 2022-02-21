@@ -180,7 +180,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   private obterCartaoAtual(p: DespesaPeriodoTecnico)
   {
-    return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
+    return Enumerable
+      .from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.numero;
   }

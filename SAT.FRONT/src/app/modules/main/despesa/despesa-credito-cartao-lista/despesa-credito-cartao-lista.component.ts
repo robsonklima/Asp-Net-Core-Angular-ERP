@@ -8,7 +8,9 @@ import { appConfig } from 'app/core/config/app.config';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
-import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
+import {
+  DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum
+} from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';

@@ -49,12 +49,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 503:
-                        this.enviarEmail(error);   
+                        // this.enviarEmail(error);   
                         break;
 
                     case 500:
-                        if (!error.url.includes('api/Usuario'))
-                            this.enviarEmail(error);
+                        // if (!error.url.includes('api/Usuario'))
+                        //     this.enviarEmail(error);
                         
                         break;
 

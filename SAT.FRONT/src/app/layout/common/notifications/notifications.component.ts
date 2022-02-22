@@ -55,6 +55,8 @@ export class NotificationsComponent implements OnInit, OnDestroy
     {
         const data = this._notificacaoService.obterPorParametros({ 
             codUsuario: this.userSession?.usuario?.codUsuario,
+            sortActive: "CodNotificacao",
+            sortDirection: "desc",
             pageSize: 20
         }).toPromise();
         this.notifications = (await data).items;

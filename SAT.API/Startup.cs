@@ -252,6 +252,7 @@ namespace SAT.API
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IIISLogService, IISLogService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

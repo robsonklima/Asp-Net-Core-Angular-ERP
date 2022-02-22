@@ -39,7 +39,7 @@
                             {{ event.regiao }} - {{ event.autorizada }}
                         </div>
                         <div>{{ event.ordemServico?.codOS }} - {{ event.cliente }} - {{ event.intervencao }} - {{ "Série: " + event.serie }}</div>
-                        <div *ngIf="event.ordemServico?.prazosAtendimento[event.ordemServico?.prazosAtendimento?.length">
+                        <div *ngIf="event.ordemServico?.prazosAtendimento?.length">
                             {{ "SLA: " + (event.ordemServico?.prazosAtendimento[event.ordemServico?.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
                         </div>
                         <div class="font-bold" *ngIf="event.indAgendamento == 1">

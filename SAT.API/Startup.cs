@@ -33,7 +33,7 @@ namespace SAT.API
         {
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
-                sqlServerOptions => sqlServerOptions.CommandTimeout(360)));
+                sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
             services.AddCors(options =>
             {

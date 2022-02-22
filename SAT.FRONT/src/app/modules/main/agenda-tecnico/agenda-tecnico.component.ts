@@ -195,8 +195,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   loadFilter(): void
   {
     super.loadFilter();
-
-    // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
     if (this.userSession?.usuario?.codFilial && this.filter)
       this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
   }

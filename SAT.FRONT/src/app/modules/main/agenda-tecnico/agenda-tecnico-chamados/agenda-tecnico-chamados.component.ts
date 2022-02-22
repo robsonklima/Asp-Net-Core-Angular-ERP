@@ -82,7 +82,9 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
         return {
           title: os.localAtendimento?.nomeLocal.toUpperCase(),
           nomeLocal: os.localAtendimento?.nomeLocal,
-          cliente: os.cliente?.razaoSocial,
+          cliente: os.cliente?.nomeFantasia,
+          serie: os.equipamentoContrato?.numSerie,
+          intervencao: os.tipoIntervencao?.nomTipoIntervencao,
           regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
           autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
           color: !os.agendamentos?.length ? this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS) : this._validator.agendamentoColor(),

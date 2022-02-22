@@ -18,9 +18,10 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'">
+                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3"
+                        mat-flat-button [color]="'primary'">
                         <mat-icon *ngIf="!loading" class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                         <mat-progress-spinner *ngIf="loading" [diameter]="22" [mode]="'indeterminate'">
                         </mat-progress-spinner>
@@ -45,8 +46,7 @@
                                     </div>
 
                                     <div class="ml-2">
-                                        <mat-icon
-                                            class="ml-1.5 icon-size-5 text-hintsm cursor-help"
+                                        <mat-icon class="ml-1.5 icon-size-5 text-hintsm cursor-help"
                                             [svgIcon]="'heroicons_solid:information-circle'"
                                             [matTooltip]="'Chamados efetivamente abertos no banco de dados do SAT.'"
                                             [matTooltipPosition]="'above'"></mat-icon>
@@ -58,8 +58,7 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">
-                                                    <span class="cursor-help"
-                                                        [matTooltip]="monitoramento.mensagem"
+                                                    <span class="cursor-help" [matTooltip]="monitoramento.mensagem"
                                                         [matTooltipPosition]="'right'">
                                                         {{ monitoramento.item }}
                                                     </span>
@@ -76,7 +75,9 @@
                                                                 [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
+                                                                {{
+                                                                obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento)
+                                                                | titlecase }}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -86,7 +87,8 @@
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'}}
+                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM
+                                                                HH:mm'}}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -123,8 +125,7 @@
                                     </div>
 
                                     <div class="ml-2">
-                                        <mat-icon
-                                            class="ml-1.5 icon-size-5 text-hintsm cursor-help"
+                                        <mat-icon class="ml-1.5 icon-size-5 text-hintsm cursor-help"
                                             [svgIcon]="'heroicons_solid:information-circle'"
                                             [matTooltip]="'Aplicações que precisam permancer ativas, comunicando com os clientes.'"
                                             [matTooltipPosition]="'above'"></mat-icon>
@@ -136,8 +137,7 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">
-                                                    <span class="cursor-help"
-                                                        [matTooltip]="monitoramento.mensagem"
+                                                    <span class="cursor-help" [matTooltip]="monitoramento.mensagem"
                                                         [matTooltipPosition]="'right'">
                                                         {{ monitoramento.item }}
                                                     </span>
@@ -158,7 +158,9 @@
                                                                 [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
+                                                                {{
+                                                                obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento)
+                                                                | titlecase }}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -168,7 +170,8 @@
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'}}
+                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM
+                                                                HH:mm'}}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -191,8 +194,7 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">
-                                                    <span class="cursor-help"
-                                                        [matTooltip]="monitoramento.mensagem"
+                                                    <span class="cursor-help" [matTooltip]="monitoramento.mensagem"
                                                         [matTooltipPosition]="'right'">
                                                         {{ monitoramento.item }}
                                                     </span>
@@ -212,7 +214,9 @@
                                                                 [class.text-green-600]="monitoramento.status == 'OK'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
+                                                                {{
+                                                                obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento)
+                                                                | titlecase }}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -222,7 +226,8 @@
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'}}
+                                                                {{ monitoramento.dataHoraProcessamento | date:'dd/MM
+                                                                HH:mm'}}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -241,7 +246,8 @@
                                         </div>
                                     </ng-container>
 
-                                    <ng-container *ngIf="!filtrarMonitoramento('SERVICO').length && !filtrarMonitoramento('CONEXAO').length">
+                                    <ng-container
+                                        *ngIf="!filtrarMonitoramento('SERVICO').length && !filtrarMonitoramento('CONEXAO').length">
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
@@ -255,12 +261,11 @@
                                 class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex flex-col sm:flex-row items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                                        Logs    
+                                        Logs
                                     </div>
 
                                     <div class="ml-2">
-                                        <mat-icon
-                                            class="ml-1.5 icon-size-5 text-hintsm cursor-help"
+                                        <mat-icon class="ml-1.5 icon-size-5 text-hintsm cursor-help"
                                             [svgIcon]="'heroicons_solid:information-circle'"
                                             [matTooltip]="'Movimentações de arquivos no servidor. Ocorrem periodicamente e necessitam ser executados periodicamente.'"
                                             [matTooltipPosition]="'above'"></mat-icon>
@@ -272,8 +277,7 @@
                                         <div class="flex flex-row items-center justify-between py-2 px-0.5">
                                             <div class="flex flex-col">
                                                 <div class="font-medium">
-                                                    <span class="cursor-help"
-                                                        [matTooltip]="monitoramento.mensagem"
+                                                    <span class="cursor-help" [matTooltip]="monitoramento.mensagem"
                                                         [matTooltipPosition]="'right'">
                                                         {{ monitoramento.item }}
                                                     </span>
@@ -294,7 +298,9 @@
                                                                 [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
+                                                                {{
+                                                                obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento)
+                                                                | titlecase }}
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -304,11 +310,12 @@
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'}}
+                                                                {{monitoramento.dataHoraProcessamento | date:'dd/MM
+                                                                HH:mm'}}
                                                             </div>
                                                         </div>
                                                     </ng-container>
-                                                    
+
                                                     <ng-container>
                                                         <div class="flex items-center">
                                                             <mat-icon class="icon-size-5 text-hint"
@@ -341,7 +348,7 @@
                         <div class="w-full">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
                             <div class="font-medium tracking-tight text-secondary">
-                                Acompanhamento da quantidade de espaço de armazenamento 
+                                Acompanhamento da quantidade de espaço de armazenamento
                             </div>
                         </div>
 
@@ -357,25 +364,25 @@
                                 </div>
                                 <div class="flex flex-col flex-auto mt-2 h-44">
                                     <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
-                                        [chart]="chartPie.chart" [colors]="['#805AD5', '#B794F4']" [labels]="['Em Uso', 'Livre']"
-                                        [plotOptions]="chartPie.plotOptions"
+                                        [chart]="chartPie.chart" [colors]="['#805AD5', '#B794F4']"
+                                        [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
                                         [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
-                                        [states]="chartPie.states"
-                                        [tooltip]="chartPie.tooltip"></apx-chart>
+                                        [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
                                 </div>
                                 <div class="mt-8">
                                     <div class="-my-3 divide-y">
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    Utilizados  {{ monitoramento.emUso | number: '1.0-4' }} de {{ monitoramento.total | number: '1.0-4' }} GB
+                                                    Utilizados {{ monitoramento.emUso | number: '1.0-4' }} de {{
+                                                    monitoramento.total | number: '1.0-4' }} GB
                                                 </div>
                                             </div>
                                         </ng-container>
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'  }}
+                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -386,7 +393,8 @@
 
                         <div class="w-full mt-2">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Processadores e Memória</div>
-                            <div class="font-medium tracking-tight text-secondary">Acompanhamento de uso de CPU e Memória </div>
+                            <div class="font-medium tracking-tight text-secondary">Acompanhamento de uso de CPU e
+                                Memória </div>
                         </div>
 
                         <div class="grid grid-cols-6 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
@@ -396,30 +404,30 @@
                                 [class.bg-card]="monitoramento.status === 'OK'">
                                 <div class="flex items-start justify-between">
                                     <div class="text-secondary">
-                                        <b>CPU</b> {{ monitoramento.servidor }} 
+                                        <b>CPU</b> {{ monitoramento.servidor }}
                                     </div>
                                 </div>
                                 <div class="flex flex-col flex-auto mt-2 h-44">
                                     <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
-                                        [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']" [labels]="['Em Uso', 'Livre']"
-                                        [plotOptions]="chartPie.plotOptions"
+                                        [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']"
+                                        [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
                                         [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
-                                        [states]="chartPie.states"
-                                        [tooltip]="chartPie.tooltip"></apx-chart>
+                                        [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
                                 </div>
                                 <div class="mt-8">
                                     <div class="-my-3 divide-y">
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    Utilizados {{ monitoramento.emUso | number: '1.0-1' }} de {{ monitoramento.total | number: '1.0-1' }}%
+                                                    Utilizados {{ monitoramento.emUso | number: '1.0-1' }} de {{
+                                                    monitoramento.total | number: '1.0-1' }}%
                                                 </div>
                                             </div>
                                         </ng-container>
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'  }}
+                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -433,30 +441,30 @@
                                 [class.bg-card]="monitoramento.status === 'OK'">
                                 <div class="flex items-start justify-between">
                                     <div class="text-secondary">
-                                        <b>Memória</b> {{ monitoramento.servidor }} 
+                                        <b>Memória</b> {{ monitoramento.servidor }}
                                     </div>
                                 </div>
                                 <div class="flex flex-col flex-auto mt-2 h-44">
                                     <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
-                                        [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']" [labels]="['Em Uso', 'Livre']"
-                                        [plotOptions]="chartPie.plotOptions"
+                                        [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']"
+                                        [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
                                         [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
-                                        [states]="chartPie.states"
-                                        [tooltip]="chartPie.tooltip"></apx-chart>
+                                        [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
                                 </div>
                                 <div class="mt-8">
                                     <div class="-my-3 divide-y">
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    Utilizados {{ monitoramento.emUso | number: '1.0-0' }} de {{ monitoramento.total | number: '1.0-0' }} MB
+                                                    Utilizados {{ monitoramento.emUso | number: '1.0-0' }} de {{
+                                                    monitoramento.total | number: '1.0-0' }} MB
                                                 </div>
                                             </div>
                                         </ng-container>
                                         <ng-container>
                                             <div class="grid grid-cols-1 py-3">
                                                 <div class="text-center text-secondary">
-                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm'  }}
+                                                    {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
                                                 </div>
                                             </div>
                                         </ng-container>
@@ -469,37 +477,33 @@
 
                 <mat-tab label="Histórico" *ngIf="checarPermissao('HISTORICO')">
                     <ng-template matTabContent>
-                        <div class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                        <div
+                            class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                             <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
                                 <div class="flex flex-col">
-                                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Processador e Memória</div>
+                                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                                        Processador e Memória</div>
                                     <div class="font-medium text-secondary">
-                                        Servidor <b>SATAPLPROD</b>: status a cada 5 minutos em {{ dataAtual | date:'dd/MM' }}
+                                        Servidor <b>SATAPLPROD</b>: status a cada 5 minutos em {{ dataAtual |
+                                        date:'dd/MM' }}
                                     </div>
                                 </div>
-                                
+
                                 <div class="ml-2">
-                                    <mat-button-toggle-group
-                                        class="hidden sm:inline-flex"
-                                        value="this-year"
+                                    <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year"
                                         #chartSelector="matButtonToggleGroup">
-                                        <mat-button-toggle
-                                            *ngFor="let data of opcoesDatas; let i = index"
+                                        <mat-button-toggle *ngFor="let data of opcoesDatas; let i = index"
                                             (click)="pesquisarHistoricoPorData(data.data)"
                                             class="px-1.5 rounded-full overflow-hidden border-none font-medium">
                                             {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
                                         </mat-button-toggle>
                                     </mat-button-toggle-group>
                                     <div class="sm:hidden">
-                                        <button
-                                            mat-icon-button
-                                            [matMenuTriggerFor]="visitorsMenu">
+                                        <button mat-icon-button [matMenuTriggerFor]="visitorsMenu">
                                             <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
                                         </button>
                                         <mat-menu #visitorsMenu="matMenu">
-                                            <button
-                                                mat-menu-item
-                                                *ngFor="let data of opcoesDatas"
+                                            <button mat-menu-item *ngFor="let data of opcoesDatas"
                                                 (click)="pesquisarHistoricoPorData(data.data)">
                                                 {{ data.prompt }}
                                             </button>
@@ -508,18 +512,45 @@
                                 </div>
                             </div>
                             <div class="flex flex-col flex-auto px-8 py-2">
-                                <apx-chart
-                                    [series]="chartLine.series"
-                                    [chart]="chartLine.chart"
-                                    [xaxis]="chartLine.xaxis"
-                                    [stroke]="chartLine.stroke"
-                                    [colors]="chartLine.colors"
-                                    [dataLabels]="chartLine.dataLabels"
-                                    [legend]="chartLine.legend"
-                                    [markers]="chartLine.markers"
-                                    [grid]="chartLine.grid"
-                                    [yaxis]="chartLine.yaxis"
-                                ></apx-chart>
+                                <apx-chart [series]="chartLine.series" [chart]="chartLine.chart"
+                                    [xaxis]="chartLine.xaxis" [stroke]="chartLine.stroke" [colors]="chartLine.colors"
+                                    [dataLabels]="chartLine.dataLabels" [legend]="chartLine.legend"
+                                    [markers]="chartLine.markers" [grid]="chartLine.grid" [yaxis]="chartLine.yaxis">
+                                </apx-chart>
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab label="Travamentos" [disabled]="!eventosTravamento.length">
+                    <ng-template matTabContent>
+                        <div *ngIf="!loading">
+                            <div
+                                class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-center justify-between m-6">
+                                    <table class="w-full table-auto text-md font-medium tracking-tight">
+                                        <thead class="text-left">
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>IP</th>
+                                                <th class="text-center">Porta</th>
+                                                <th>Recurso</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Tempo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let evento of eventosTravamento">
+                                                <td>{{ evento.dateTimeEvent | date:'dd/MM HH:mm' }}</td>
+                                                <td>{{ evento.sIp }}</td>
+                                                <td class="text-center">{{ evento.sPort }}</td>
+                                                <td>{{ evento.csUriStem }}</td>
+                                                <td class="text-center">{{ evento.scStatus }}</td>
+                                                <td class="text-center">{{ evento.timeTaken | date:'mm:ss'}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </ng-template>

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using IISLogParser;
 
 namespace SAT.SERVICES.Interfaces
 {
     public interface IIISLogService
     {
-        List<string> Get();
+        List<IISLogEvent> Get();
     }
 }

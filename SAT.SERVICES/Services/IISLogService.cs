@@ -4,16 +4,17 @@ using SAT.SERVICES.Interfaces;
 using System.IO;
 using System.Linq;
 using IISLogParser;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.SERVICES.Services
 {
     public class IISLogService : IIISLogService
     {
-        public List<string> Get()
+        public List<IISLogEvent> Get()
         {
-            List<string> eventos = new List<string>();
+            List<IISLogEvent> eventos = new List<IISLogEvent>();
             //string path = @"C:\inetpub\logs\LogFiles\W3SVC2\u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
-            string path = @"C:\Users\rklima\Desktop\u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
+            string path = Constants.IIS_LOG_PATH + "\\u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
             
             if (System.IO.File.Exists(path)) {
                 string filename = Path.GetFileName(path);
@@ -21,13 +22,13 @@ namespace SAT.SERVICES.Services
                 using (ParserEngine parser = new ParserEngine(path))
                 {
                     while (parser.MissingRecords)
-                    {
-                        logs = parser.ParseLog().ToList();
-                    }
+                        foreach (var log in parser.ParseLog().ToList())
+                            if (log.timeTaken > Constants.TEMPO_IISLOG_MS)
+                                eventos.Add(log);
                 }
             }
 
-            return eventos;
+            return eventos.OrderByDescending(e => e.timeTaken).ToList();
         }
     }
 }

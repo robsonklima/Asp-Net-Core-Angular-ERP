@@ -8,6 +8,8 @@ import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
 import { Monitoramento, monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
+import { IISLogService } from 'app/core/services/iislog.service';
+import { IISLog } from 'app/core/types/iislog.types';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -30,12 +32,14 @@ export class DefaultComponent implements OnInit, OnDestroy
     chartLine: ApexOptions;
     dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
     velocidadeInternet: string;
+    eventosTravamento: IISLog[] = [];
     protected _onDestroy = new Subject<void>();
 
     constructor(
         private _userService: UserService,
         private _monitoramentoService: MonitoramentoService,
-        private _monitoramentoHistoricoService: MonitoramentoHistoricoService
+        private _monitoramentoHistoricoService: MonitoramentoHistoricoService,
+        private _iisLogService: IISLogService
     )
     {
         this.sessionData = JSON.parse(this._userService.userSession);
@@ -64,6 +68,7 @@ export class DefaultComponent implements OnInit, OnDestroy
         await this.obterMonitoramentos();
         await this.obterMonitoramentoHistorico('CPU', data);
         await this.obterMonitoramentoHistorico('MEMORY', data);
+        await this.obterEventosTravamento();
         this.prepararDadosGraficos();
         this.ultimoProcessamento = moment().format('yyyy-MM-DD HH:mm:ss');
 
@@ -85,6 +90,21 @@ export class DefaultComponent implements OnInit, OnDestroy
                     this.listaMonitoramento[i].status = this._monitoramentoService.obterStatus(this.listaMonitoramento[i]);
                     this.listaMonitoramento[i].descricao = this._monitoramentoService.obterDescricao(this.listaMonitoramento[i]);
                 }
+                resolve(data);
+            }, () =>
+            {
+                reject();
+            });
+        })
+    }
+
+    private obterEventosTravamento(): Promise<any>
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._iisLogService.obter().subscribe((data: IISLog[]) =>
+            {
+                this.eventosTravamento = data;
                 resolve(data);
             }, () =>
             {

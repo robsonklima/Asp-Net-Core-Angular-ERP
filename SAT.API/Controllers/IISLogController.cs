@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using IISLogParser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace SAT.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public List<string> Get([FromQuery] FotoParameters parameters)
+        public List<IISLogEvent> Get([FromQuery] FotoParameters parameters)
         {
             return _iisLogService.Get();
         }

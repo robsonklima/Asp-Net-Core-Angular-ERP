@@ -33,7 +33,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         NgApexchartsModule,
         MatIconModule,
         MatTooltipModule,
-        MatProgressBarModule
+        MatProgressBarModule,
     ]
 })
 export class DefaultModule {

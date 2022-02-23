@@ -526,27 +526,31 @@
                     <ng-template matTabContent>
                         <div *ngIf="!loading">
                             <div
-                                class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                                <div class="flex items-center justify-between m-6">
+                                class="flex flex-col flex-auto bg-card overflow-hidden">
+                                <div class="flex items-center justify-between">
                                     <table class="w-full table-auto text-md font-medium tracking-tight">
                                         <thead class="text-left">
                                             <tr>
-                                                <th>Data</th>
-                                                <th>IP</th>
-                                                <th class="text-center">Porta</th>
-                                                <th>Recurso</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Tempo</th>
+                                                <th class="py-1 px-2 border border-zinc-300">Hora</th>
+                                                <th class="py-1 px-2 border border-zinc-300">Recurso</th>
+                                                <th class="py-1 px-2 border border-zinc-300 text-center">Status</th>
+                                                <th class="py-1 px-2 border border-zinc-300 text-center">Tempo</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let evento of eventosTravamento">
-                                                <td>{{ evento.dateTimeEvent | date:'dd/MM HH:mm' }}</td>
-                                                <td>{{ evento.sIp }}</td>
-                                                <td class="text-center">{{ evento.sPort }}</td>
-                                                <td>{{ evento.csUriStem }}</td>
-                                                <td class="text-center">{{ evento.scStatus }}</td>
-                                                <td class="text-center">{{ evento.timeTaken | date:'mm:ss'}}</td>
+                                                <td class="py-1 px-2 border border-zinc-300">{{ evento.dateTimeEvent | date:'HH:mm' }}</td>
+                                                <td class="py-1 px-2 border border-zinc-300 break-all">
+                                                    <div>
+                                                        {{ evento.csUriStem }}
+                                                    </div>
+
+                                                    <div *ngIf="evento.csUriQuery" class="text-xs text-gray-400">
+                                                        {{ evento.csUriQuery }}
+                                                    </div>
+                                                </td>
+                                                <td class="py-1 px-2 border border-zinc-300 text-center">{{ evento.scStatus }}</td>
+                                                <td class="py-1 px-2 border border-zinc-300 text-center">{{ evento.timeTaken | date:'mm:ss'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

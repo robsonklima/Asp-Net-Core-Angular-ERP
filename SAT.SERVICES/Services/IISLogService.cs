@@ -13,8 +13,7 @@ namespace SAT.SERVICES.Services
         public List<IISLogEvent> Get()
         {
             List<IISLogEvent> eventos = new List<IISLogEvent>();
-            //string path = @"C:\inetpub\logs\LogFiles\W3SVC2\u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
-            string path = Constants.IIS_LOG_PATH + "\\u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
+            string path = Constants.IIS_LOG_PATH + "u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
             
             if (System.IO.File.Exists(path)) {
                 string filename = Path.GetFileName(path);

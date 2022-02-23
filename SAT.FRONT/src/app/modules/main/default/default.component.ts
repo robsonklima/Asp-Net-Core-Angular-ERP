@@ -32,7 +32,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     chartLine: ApexOptions;
     dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
     velocidadeInternet: string;
-    eventosTravamento: IISLog[] = [];
+    eventosOciosos: IISLog[] = [];
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -68,7 +68,7 @@ export class DefaultComponent implements OnInit, OnDestroy
         await this.obterMonitoramentos();
         await this.obterMonitoramentoHistorico('CPU', data);
         await this.obterMonitoramentoHistorico('MEMORY', data);
-        await this.obterEventosTravamento();
+        await this.obterEventosOciosos(data);
         this.prepararDadosGraficos();
         this.ultimoProcessamento = moment().format('yyyy-MM-DD HH:mm:ss');
 
@@ -98,13 +98,15 @@ export class DefaultComponent implements OnInit, OnDestroy
         })
     }
 
-    private obterEventosTravamento(): Promise<any>
+    private obterEventosOciosos(data: string=null): Promise<any>
     {
         return new Promise((resolve, reject) =>
         {
-            this._iisLogService.obter().subscribe((data: IISLog[]) =>
+            this._iisLogService.obterPorParametros({
+                data: data || moment().format('yyyy-MM-DD HH:mm:ss')
+            }).subscribe((data: IISLog[]) =>
             {
-                this.eventosTravamento = data;
+                this.eventosOciosos = data;
                 resolve(data);
             }, () =>
             {
@@ -279,7 +281,7 @@ export class DefaultComponent implements OnInit, OnDestroy
 
     private obterOpcoesDatas()
     {
-        for (let i = 2; i >= 0; i--)
+        for (let i = 4; i >= 0; i--)
         {
             this.opcoesDatas.push({
                 data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
@@ -288,7 +290,41 @@ export class DefaultComponent implements OnInit, OnDestroy
         }
     }
 
-    pesquisarHistoricoPorData(data: string)
+    obterNomeRecurso(nome: string): string {
+        if (nome.toUpperCase().includes('SAT.V2.API'))
+            return 'SAT V2 API';
+
+        if (nome.toUpperCase().includes('PRJSATWEB'))
+            return 'SAT Antigo';
+
+        if (nome.toUpperCase().includes('PRJSATWEBAPI'))
+            return 'API Smartphone';
+
+        if (nome.toUpperCase().includes('PRJSATWEBTECNICO'))
+            return 'SAT Web Técnico';
+
+        if (nome.toUpperCase().includes('PRJSATWEBOLD'))
+            return 'SAT ASP';
+    }
+
+    obterCorRecurso(nome: string): string {
+        if (nome.toUpperCase().includes('SAT.V2.API'))
+            return 'text-amber-500';
+
+        if (nome.toUpperCase().includes('PRJSATWEB'))
+            return 'text-blue-500';
+
+        if (nome.toUpperCase().includes('PRJSATWEBAPI'))
+            return 'text-orange-500';
+
+        if (nome.toUpperCase().includes('PRJSATWEBTECNICO'))
+            return 'text-pink-500';
+
+        if (nome.toUpperCase().includes('PRJSATWEBOLD'))
+            return 'text-orange-900';
+    }
+
+    pesquisarDadosPorData(data: string)
     {
         this.obterDados(data);
     }

@@ -1,3 +1,5 @@
+import { QueryStringParameters } from "./generic.types";
+
 export interface IISLog
 {
     dateTimeEvent: string;
@@ -22,3 +24,8 @@ export interface IISLog
     csBytes?: string;
     timeTaken: number;
 }
+
+export interface IISLogParameters extends QueryStringParameters {
+    data?: string;
+};
+

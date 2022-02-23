@@ -23,9 +23,9 @@ namespace SAT.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public List<IISLogEvent> Get([FromQuery] FotoParameters parameters)
+        public List<IISLogEvent> Get([FromQuery] IISLogParameters parameters)
         {
-            return _iisLogService.Get();
+            return _iisLogService.Get(parameters);
         }
     }
 }

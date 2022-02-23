@@ -7,13 +7,17 @@
                         <ng-container *transloco="let t">
                             <div
                                 class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-                                {{t('ola')}},
-                                {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
+                                {{t('ola')}}, {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
                             </div>
                         </ng-container>
                         <div class="flex items-center">
                             <div class="ml-0.5 leading-6 truncate text-secondary">
-                                Página inicial atualizada as {{ ultimoProcessamento | date:'HH:mm:ss' }}
+                                <span *ngIf="!ultimoProcessamento || loading">
+                                    Carregando...
+                                </span>
+                                <span *ngIf="ultimoProcessamento && !loading">
+                                    Dados atualizados {{ obterOciosidadePorExtenso(ultimoProcessamento) }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -475,11 +479,11 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Histórico" *ngIf="checarPermissao('HISTORICO')">
+                <mat-tab label="Disponibilidade" *ngIf="checarPermissao('HISTORICO')">
                     <ng-template matTabContent>
                         <div
                             class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                            <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
+                            <div class="flex items-center justify-between mt-6 ml-10 mr-6 sm:mr-10">
                                 <div class="flex flex-col">
                                     <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
                                         Processador e Memória</div>
@@ -493,7 +497,7 @@
                                     <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year"
                                         #chartSelector="matButtonToggleGroup">
                                         <mat-button-toggle *ngFor="let data of opcoesDatas; let i = index"
-                                            (click)="pesquisarHistoricoPorData(data.data)"
+                                            (click)="pesquisarDadosPorData(data.data)"
                                             class="px-1.5 rounded-full overflow-hidden border-none font-medium">
                                             {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
                                         </mat-button-toggle>
@@ -504,7 +508,7 @@
                                         </button>
                                         <mat-menu #visitorsMenu="matMenu">
                                             <button mat-menu-item *ngFor="let data of opcoesDatas"
-                                                (click)="pesquisarHistoricoPorData(data.data)">
+                                                (click)="pesquisarDadosPorData(data.data)">
                                                 {{ data.prompt }}
                                             </button>
                                         </mat-menu>
@@ -522,44 +526,79 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Travamentos" [disabled]="!eventosTravamento.length">
+                <mat-tab label="Ociosidade" [disabled]="!eventosOciosos.length">
                     <ng-template matTabContent>
-                        <div *ngIf="!loading">
-                            <div
-                                class="flex flex-col flex-auto bg-card overflow-hidden">
-                                <div class="flex items-center justify-between">
-                                    <table class="w-full table-auto text-md font-medium tracking-tight">
-                                        <thead class="text-left">
-                                            <tr>
-                                                <th class="py-1 px-2 border border-zinc-300">Hora</th>
-                                                <th class="py-1 px-2 border border-zinc-300">Recurso</th>
-                                                <th class="py-1 px-2 border border-zinc-300 text-center">Status</th>
-                                                <th class="py-1 px-2 border border-zinc-300 text-center">Tempo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let evento of eventosTravamento">
-                                                <td class="py-1 px-2 border border-zinc-300">{{ evento.dateTimeEvent | date:'HH:mm' }}</td>
-                                                <td class="py-1 px-2 border border-zinc-300 break-all">
-                                                    <div
-                                                        [class.text-red-500]="evento.csUriStem.toUpperCase().includes('SAT.V2.API')"
-                                                        [class.text-orange-500]="evento.csUriStem.toUpperCase().includes('PRJSATWEB/')"
-                                                        [class.text-pink-500]="evento.csUriStem.toUpperCase().includes('PRJSATWEBAPI')"
-                                                        [class.text-yellow-700]="evento.csUriStem.toUpperCase().includes('PRJSATWEBOLD')">
-                                                        {{ evento.csUriStem }}
-                                                    </div>
+                        <div class="bg-card overflow-hidden shadow rounded-2xl px-6">
+                            <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
+                                <div class="flex flex-col">
+                                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                                        Ociosidade
+                                    </div>
+                                    <div class="font-medium text-secondary">
+                                        Recursos com alto tempo de processamento
+                                    </div>
+                                </div>
 
-                                                    <div *ngIf="evento.csUriQuery" class="text-xs text-gray-400">
-                                                        {{ evento.csUriQuery }}
-                                                    </div>
-                                                </td>
-                                                <td class="py-1 px-2 border border-zinc-300 text-center">{{ evento.scStatus }}</td>
-                                                <td class="py-1 px-2 border border-zinc-300 text-center">{{ evento.timeTaken | date:'mm:ss'}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="ml-7 lg:-mr-7">
+                                    <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year"
+                                        #tableSelector="matButtonToggleGroup">
+                                        <mat-button-toggle *ngFor="let data of opcoesDatas; let i = index"
+                                            (click)="pesquisarDadosPorData(data.data)"
+                                            class="px-1.5 rounded-full overflow-hidden border-none font-medium">
+                                            {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
+                                        </mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                    <div class="sm:hidden">
+                                        <button mat-icon-button [matMenuTriggerFor]="visitorsMenu">
+                                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #visitorsMenu="matMenu">
+                                            <button mat-menu-item *ngFor="let data of opcoesDatas"
+                                                (click)="pesquisarDadosPorData(data.data)">
+                                                {{ data.prompt }}
+                                            </button>
+                                        </mat-menu>
+                                    </div>
                                 </div>
                             </div>
+
+                            <table class="w-full table-auto text-md font-medium tracking-tight">
+                                <thead *ngIf="eventosOciosos.length" class="text-left">
+                                    <tr>
+                                        <th class="py-1 px-2 border-0">Hora</th>
+                                        <th class="py-1 px-2 border-0">Recurso</th>
+                                        <th class="py-1 px-2 border-0">Status</th>
+                                        <th class="py-1 px-2 border-0"><span class="px-2">Tempo</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let evento of eventosOciosos">
+                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300">{{
+                                            evento.dateTimeEvent | date:'HH:mm' }}</td>
+                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 break-all">
+                                            <div>
+                                                <span [ngClass]="obterCorRecurso(evento.csUriStem)">{{ obterNomeRecurso(evento.csUriStem) }}</span>
+                                                <span>{{ evento.csUriStem }}</span>
+                                            </div>
+
+                                            <div *ngIf="evento.csUriQuery" class="text-xs text-gray-400">
+                                                {{ evento.csUriQuery }}
+                                            </div>
+                                        </td>
+                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 text-center">{{
+                                            evento.scStatus }}</td>
+                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 text-center">
+                                            {{ (evento.timeTaken / 1000 / 60).toFixed(1) }} min
+                                        </td>
+                                    </tr>
+
+                                    <tr *ngIf="!eventosOciosos.length">
+                                        <td colspan="4" class="py-4 px-2 text-lg text-center">
+                                            Nenhuma ociosidade encontrada!
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </ng-template>
                 </mat-tab>

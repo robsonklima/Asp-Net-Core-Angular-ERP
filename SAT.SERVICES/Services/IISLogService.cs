@@ -5,15 +5,17 @@ using System.IO;
 using System.Linq;
 using IISLogParser;
 using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Entities;
 
 namespace SAT.SERVICES.Services
 {
     public class IISLogService : IIISLogService
     {
-        public List<IISLogEvent> Get()
+        public List<IISLogEvent> Get(IISLogParameters parameters)
         {
             List<IISLogEvent> eventos = new List<IISLogEvent>();
-            string path = Constants.IIS_LOG_PATH + "u_ex" + DateTime.Now.ToString("yyMMdd") + ".log";
+            string path = Constants.IIS_LOG_PATH + "u_ex" +  (parameters.Data.ToString("yyMMdd") != DateTime.MinValue.ToString("yyMMdd") ? 
+                            parameters.Data.ToString("yyMMdd") : DateTime.Now.ToString("yyMMdd")) + ".log";
             
             if (System.IO.File.Exists(path)) {
                 string filename = Path.GetFileName(path);

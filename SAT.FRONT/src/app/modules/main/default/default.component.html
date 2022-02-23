@@ -541,7 +541,11 @@
                                             <tr *ngFor="let evento of eventosTravamento">
                                                 <td class="py-1 px-2 border border-zinc-300">{{ evento.dateTimeEvent | date:'HH:mm' }}</td>
                                                 <td class="py-1 px-2 border border-zinc-300 break-all">
-                                                    <div>
+                                                    <div
+                                                        [class.text-red-500]="evento.csUriStem.toUpperCase().includes('SAT.V2.API')"
+                                                        [class.text-orange-500]="evento.csUriStem.toUpperCase().includes('PRJSATWEB/')"
+                                                        [class.text-pink-500]="evento.csUriStem.toUpperCase().includes('PRJSATWEBAPI')"
+                                                        [class.text-yellow-700]="evento.csUriStem.toUpperCase().includes('PRJSATWEBOLD')">
                                                         {{ evento.csUriStem }}
                                                     </div>
 

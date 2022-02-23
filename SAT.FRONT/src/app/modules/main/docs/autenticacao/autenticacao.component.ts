@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { DocsComponent } from '../../docs.component';
+import { DocsComponent } from '../docs.component';
 
 @Component({
-  selector: 'app-listagem',
-  templateUrl: './listagem.component.html'
+  selector: 'app-autenticacao',
+  templateUrl: './autenticacao.component.html'
 })
-export class ListagemComponent {
+export class AutenticacaoComponent {
   constructor(
     private _guidesComponent: DocsComponent
   ) {}

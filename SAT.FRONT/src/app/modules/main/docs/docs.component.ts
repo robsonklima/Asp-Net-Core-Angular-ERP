@@ -38,62 +38,31 @@ export class DocsComponent implements OnInit, OnDestroy
                         title: 'Introdução',
                         type : 'basic',
                         link : '/docs/inicio/introducao'
+                    }
+                ]
+            },
+            {
+                id      : 'sistema',
+                title   : 'Sistema',
+                type    : 'group',
+                children: [
+                    {
+                        id   : 'autenticacao',
+                        title: 'Autenticação',
+                        type : 'basic',
+                        link : '/docs/autenticacao'
+                    },
+                    {
+                        id   : 'ordem-servico',
+                        title: 'Ordem de Serviço',
+                        type : 'basic',
+                        link : '/docs/ordem-servico'
                     },
                     {
                         id   : 'versoes',
                         title: 'Versões',
                         type : 'basic',
                         link : '/docs/inicio/versoes'
-                    }
-                ]
-            },
-            {
-                id      : 'autenticacao',
-                title   : 'Autenticação',
-                type    : 'group',
-                children: [
-                    {
-                        id   : 'login',
-                        title: 'Login',
-                        type : 'basic',
-                        link : '/docs/autenticacao/login'
-                    },
-                    {
-                        id   : 'duas-etaoas',
-                        title: 'Duas Etapas',
-                        type : 'basic',
-                        link : '/docs/autenticacao/duas-etapas'
-                    }
-                ]
-            },
-            {
-                id      : 'ordem-servico',
-                title   : 'Ordem de Serviço',
-                type    : 'group',
-                children: [
-                    {
-                        id   : 'lista',
-                        title: 'Lista',
-                        type : 'basic',
-                        link : '/docs/ordem-servico/listagem'
-                    },
-                    {
-                        id   : 'filtro',
-                        title: 'Filtros',
-                        type : 'basic',
-                        link : '/docs/ordem-servico/filtro'
-                    },
-                    {
-                        id   : 'exportacao',
-                        title: 'Exportação',
-                        type : 'basic',
-                        link : '/docs/ordem-servico/exportacao'
-                    },
-                    {
-                        id   : 'novo',
-                        title: 'Novo',
-                        type : 'basic',
-                        link : '/docs/ordem-servico/novo'
                     }
                 ]
             }

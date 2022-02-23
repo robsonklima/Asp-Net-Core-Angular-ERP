@@ -22,27 +22,19 @@ import { SuporteComponent } from './suporte/suporte.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
-import { LoginComponent } from './autenticacao/login/login.component';
 import { IntroducaoComponent } from './inicio/introducao/introducao.component';
-import { ListagemComponent } from './ordem-servico/listagem/listagem.component';
-import { FiltragemComponent } from './ordem-servico/filtragem/filtragem.component';
-import { ExportacaoComponent } from './ordem-servico/exportacao/exportacao.component';
-import { NovoComponent } from './ordem-servico/novo/novo.component';
-import { DuasEtapasComponent } from './autenticacao/duas-etapas/duas-etapas.component';
 import { VersoesComponent } from './versoes/versoes.component';
+import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
+import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 
 @NgModule({
   declarations: [
     SuporteComponent,
     DocsComponent,
     IntroducaoComponent,
-    LoginComponent,
-    ListagemComponent,
-    FiltragemComponent,
-    ExportacaoComponent,
-    NovoComponent,
-    DuasEtapasComponent,
-    VersoesComponent
+    VersoesComponent,
+    OrdemServicoComponent,
+    AutenticacaoComponent
   ],
   imports: [
     CommonModule,

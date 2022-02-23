@@ -12,19 +12,13 @@
                     <mat-icon
                         class="icon-size-5 text-secondary"
                         [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <a class="ml-1 text-primary-500">Ordem de Serviço</a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <span class="ml-1 text-secondary">Lista</span>
+                    <span class="ml-1 text-secondary">Ordem de Serviço</span>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Lista
+                    Ordem de Serviço
                 </h2>
             </div>
         </div>
@@ -34,6 +28,36 @@
             (click)="toggleDrawer()">
             <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
         </button>
+    </div>
+
+    <div class="flex-auto max-w-3xl p-6 sm:p-10 prose prose-sm">
+        <h2>Exportando a lista dos chamados</h2>
+
+        <p>
+            Siga os passos do tutorial para exportar os chamados de acordo com 
+            a sua preferência no SAT.
+        </p>
+
+        <div>
+            <video class='min-w-full min-h-full' controls controlsList="nodownload">
+                <source [src]="'assets/videos/04-lista-chamados-exportacao.mp4'" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="flex-auto max-w-3xl p-6 sm:p-10 prose prose-sm">
+        <h2>Filtrando os chamados</h2>
+
+        <p>
+            Siga os passos do tutorial para filtrar os chamados de acordo com 
+            a sua preferência no SAT.
+        </p>
+
+        <div>
+            <video class='min-w-full min-h-full' controls controlsList="nodownload">
+                <source [src]="'assets/videos/03-lista-chamados-filtro.mp4'" type="video/mp4">
+            </video>
+        </div>
     </div>
 
     <div class="flex-auto max-w-3xl p-6 sm:p-10 prose prose-sm">
@@ -47,6 +71,20 @@
         <div>
             <video class='min-w-full min-h-full' controls controlsList="nodownload">
                 <source [src]="'assets/videos/02-lista-chamados.mp4'" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="flex-auto max-w-3xl p-6 sm:p-10 prose prose-sm">
+        <h2>Criando um novo chamado</h2>
+
+        <p>
+            Siga os passos do tutorial para criar chamados no SAT.
+        </p>
+
+        <div>
+            <video class='min-w-full min-h-full' controls controlsList="nodownload">
+                <source [src]="'assets/videos/05-novo-chamado.mp4'" type="video/mp4">
             </video>
         </div>
     </div>

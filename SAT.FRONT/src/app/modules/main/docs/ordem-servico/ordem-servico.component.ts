@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { DocsComponent } from '../../docs.component';
+import { DocsComponent } from '../docs.component';
 
 @Component({
-  selector: 'app-filtragem',
-  templateUrl: './filtragem.component.html'
+  selector: 'app-ordem-servico',
+  templateUrl: './ordem-servico.component.html'
 })
-export class FiltragemComponent {
+export class OrdemServicoComponent {
+
   constructor(
     private _guidesComponent: DocsComponent
   ) {}

@@ -83,14 +83,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	ngAfterViewInit(): void
 	{
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
-		this.obterDadosOrdemServico();
 
-		this.perfis = RoleEnum;
-
-		this.sidenav.closedStart.subscribe(() =>
-		{
+		if (this.codOS) {
 			this.obterDadosOrdemServico();
-		})
+
+			this.perfis = RoleEnum;
+
+			this.sidenav.closedStart.subscribe(() =>
+			{
+				this.obterDadosOrdemServico();
+			});
+		}
 
 		this._cdr.detectChanges();
 	}
@@ -134,7 +137,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		await this.obterOS();
 		await this.carregarFotos();
 		await this.obterAgendamentos();
-
+		
 		this.isLoading = false;
 	}
 

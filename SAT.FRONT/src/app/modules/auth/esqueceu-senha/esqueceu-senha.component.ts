@@ -5,6 +5,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { EmailService } from 'app/core/services/email.service';
+import { Router } from '@angular/router';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
     selector: 'esqueceu-senha',
@@ -26,25 +28,21 @@ export class EsqueceuSenhaComponent implements OnInit {
     mostrarAlerta: boolean = false;
 
     constructor(
+        private _router: Router,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _emailSvc: EmailService,
+        private _emailService: EmailService,
+        private _snack: CustomSnackbarService
     ) {
     }
 
     ngOnInit(): void {
         this.esqueceuSenhaFormGroup = this._formBuilder.group({
             codUsuario: ['', [Validators.required]]
-            // email: ['', [
-            //     Validators.required,
-            //     Validators.email,
-            //     Validators.pattern('^[A-Za-z0-9._%+-]+@(perto|digicon).com.br$')]]
         });
     }
 
     sendResetLink(): void {
-
-        //  this.mostrarErro = this.esqueceuSenhaFormGroup.invalid;
 
         // Verifica se é válido o form
         if (this.esqueceuSenhaFormGroup.invalid) {
@@ -68,15 +66,14 @@ export class EsqueceuSenhaComponent implements OnInit {
             .subscribe(
                 // Success
                 (response) => {
-                    let url = 'https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmacao-nova-senha/' + encodeURIComponent(response.data.codRecuperaSenha);
-                    this._emailSvc.enviarEmail({
+                    this._emailService.enviarEmail({
                         nomeRemetente: "SAT",
                         emailRemetente: "aplicacao.sat@perto.com.br",
                         nomeDestinatario: response.data.nomeUsuario,
                         emailDestinatario: response.data.email,
                         nomeCC: 'Equipe SAT',
                         emailCC: 'equipe.sat@perto.com.br',
-                        assunto: "Solicitação de nova senha de acesso ao Sistema SAT",
+                        assunto: "Nova senha de acesso ao Sistema SAT",
                         corpo: `<!DOCTYPE html>
                                 <html>
                                 <head>
@@ -90,8 +87,9 @@ export class EsqueceuSenhaComponent implements OnInit {
                                 </head>
                                 <body>                                
                                     <h3>Olá ${response.data.nomeUsuario},</h3>
-                                    <p>Você solicitou uma nova senha de acesso ao Sistema SAT. Clique <a href="${url}"><b>aqui</b></a> para confirmar a solicitação e receber sua nova senha.</p>
-                                    <p>Caso não tenha sido você, por favor, entre em contato com o setor resposável.</p>             
+                                    <p>Recebemos a solicitação para sua nova senha.</p>
+                                    <p>Sua nova senha de acesso ao Sistema SAT é:</p>  
+                                    <h4>${response.data.senha}</h4>             
                                     <p>Atenciosamente,<br> 
                                 Equipe SAT<br> 
                                 Perto S.A. – Tecnologia para Bancos e Varejo<br> 
@@ -101,23 +99,19 @@ export class EsqueceuSenhaComponent implements OnInit {
                                 </html>`
                     }).subscribe(
                         (success) => {
-                            this.alert.message = "Um e-mail de confirmação foi enviado para " + this.esconderEmail(response.data.email);
-                            this.alert.type = 'success';
-                            this.mostrarAlerta = true;
+                            this._snack.exibirToast("Uma nova senha foi enviada para o seu e-mail", "success");
+                            this._router.navigate(['sign-in'], {});
                         },
                         (fail) => {
-                            this.alert.message = response.error;
-                            this.alert.type = 'error';
-                            this.mostrarAlerta = true;
+                            this._snack.exibirToast("Não foi possível enviar uma nova senha para o seu e-mail", "error");
+                            this._router.navigate(['sign-in'], {});
                         }
                     );
-
                 },
                 // Fail
                 (response) => {
-                    this.alert.message = response.error;
-                    this.alert.type = 'error';
-                    this.mostrarAlerta = true;
+                    this._snack.exibirToast("Não foi possível enviar uma nova senha para o seu e-mail", "error");
+                    this._router.navigate(['sign-in'], {});
                 }
             );
     }

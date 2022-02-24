@@ -305,6 +305,9 @@ export class DefaultComponent implements OnInit, OnDestroy
 
         if (nome.toUpperCase().includes('PRJSATWEBOLD'))
             return 'SAT ASP';
+
+        if (nome.toUpperCase().includes('POS/'))
+            return 'SAT POS';
     }
 
     obterCorRecurso(nome: string): string {
@@ -322,6 +325,9 @@ export class DefaultComponent implements OnInit, OnDestroy
 
         if (nome.toUpperCase().includes('PRJSATWEBOLD'))
             return 'text-orange-900';
+
+        if (nome.toUpperCase().includes('POS/'))
+            return 'text-green-500';
     }
 
     pesquisarDadosPorData(data: string)

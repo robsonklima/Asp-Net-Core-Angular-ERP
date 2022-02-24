@@ -13,7 +13,7 @@
         public static string SMTP_PASSWORD = "S@aPlic20(v";
         public static string DB_PROD = "Prod";
         public static string DB_HOMOLOG = "Homolog";
-        public static int TEMPO_IISLOG_MS = 120000;
+        public static int TEMPO_IISLOG_MS = 3 * 60 * 1000;
         public static string IIS_LOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\IIS\";
 
         // Status de Serviço

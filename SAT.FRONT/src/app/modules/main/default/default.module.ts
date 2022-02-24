@@ -21,9 +21,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),
+        SharedModule,
         MatButtonModule,
         MatIconModule,
-        SharedModule,
         TranslocoModule,
         MatButtonToggleModule,
         MatMenuModule,
@@ -33,7 +33,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         NgApexchartsModule,
         MatIconModule,
         MatTooltipModule,
-        MatProgressBarModule,
+        MatProgressBarModule
     ]
 })
 export class DefaultModule {

@@ -21,7 +21,7 @@
 
                 <!-- Código do usuário -->
                 <mat-form-field class="w-full">
-                    <mat-label>Código de usuário</mat-label>
+                    <mat-label>Login de usuário</mat-label>
                     <input style="text-transform: lowercase;" matInput [formControlName]="'codUsuario'">
                     <mat-error *ngIf="esqueceuSenhaFormGroup.get('codUsuario').hasError('required')">
                         favor informar o seu usuário

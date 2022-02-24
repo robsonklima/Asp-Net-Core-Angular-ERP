@@ -32,11 +32,6 @@ import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 	selector: 'app-ordem-servico-detalhe',
 	templateUrl: './ordem-servico-detalhe.component.html',
 	styles: [`
-		#map {
-			width: 100%;
-			height: 100%;
-			z-index: 1;
-		}
 		.tool-tip{
 			white-space: pre-line;
 		}
@@ -53,7 +48,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	perfis: any;
 	userSession: UsuarioSessao;
 	fotos: Foto[] = [];
-	map: L.Map;
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
@@ -96,38 +90,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}
 
 		this._cdr.detectChanges();
-	}
-
-	trocarTab(tab: any)
-	{
-		if (tab.index !== 5 || !this.os)
-		{
-			return;
-		}
-
-		this.map = L.map('map', {
-			scrollWheelZoom: false,
-		}).setView([
-			+this.os.localAtendimento.latitude,
-			+this.os.localAtendimento.longitude
-		], 14);
-
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: 'SAT 2.0'
-		}).addTo(this.map);
-
-		var icon = new L.Icon.Default();
-		icon.options.shadowSize = [0, 0];
-
-		L.marker([
-			+this.os.localAtendimento.latitude,
-			+this.os.localAtendimento.longitude
-		])
-			.addTo(this.map)
-			.setIcon(icon)
-			.bindPopup(this.os.localAtendimento.nomeLocal);
-
-		this.map.invalidateSize();
 	}
 
 	private async obterDadosOrdemServico()
@@ -317,18 +279,20 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	obterFotos(): Foto[]
+	obterFotos(tipo: string=''): Foto[]
 	{
-		return Enumerable.from(this.os?.fotos)
-			.where(i => !i.modalidade.includes("LAUDO"))
-			.toArray();
-	}
+		if (tipo === 'RAT') {
+			return Enumerable.from(this.os?.fotos)
+				.where(i => !i.modalidade.includes("LAUDO") && !i.modalidade.includes("ASSINATURA"))
+				.toArray();
+		}
 
-	obterLaudos(): Foto[]
-	{
-		return Enumerable.from(this.os?.fotos)
-			.where(i => i.modalidade.includes("LAUDO"))
-			.toArray();
+		if (tipo === 'LAUDO') {
+			return Enumerable.from(this.os?.fotos)
+				.where(i => i.modalidade.includes("LAUDO") && !i.modalidade.includes("ASSINATURA"))
+				.toArray();
+		}
+		
 	}
 
 	private createAgendaTecnico()

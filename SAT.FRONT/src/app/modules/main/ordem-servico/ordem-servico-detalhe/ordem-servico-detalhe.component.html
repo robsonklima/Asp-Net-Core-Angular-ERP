@@ -101,9 +101,10 @@
             <div *ngIf="isLoading">
                 <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
             </div>
+
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
-                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
@@ -556,13 +557,14 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab [disabled]="obterLaudos().length === 0 && obterFotos().length === 0">
+                        <mat-tab [disabled]="obterFotos('LAUDO').length === 0 && obterFotos('RAT').length === 0">
                             <ng-template matTabLabel>
-                                <span [class.opacity-50]="!obterLaudos().length">
+                                <span [class.opacity-50]="!obterFotos('LAUDO').length">
                                     {{ t('fotos') }}
-                                    <span class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="obterLaudos().length + obterFotos().length">
-                                        {{ obterLaudos().length + obterFotos().length }}
+                                    <span
+                                        class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="obterFotos('LAUDO').length + obterFotos('RAT').length">
+                                        {{ obterFotos('LAUDO').length + obterFotos('RAT').length }}
                                     </span>
                                 </span>
                             </ng-template>
@@ -571,38 +573,27 @@
                                 <div class="flex flex-col w-full">
                                     <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
                                         <div class="w-full">
-                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">Fotos
+                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">
+                                                RATs
                                             </div>
                                         </div>
 
-                                        <app-ordem-servico-fotos [fotos]="obterFotos()"></app-ordem-servico-fotos>
-
+                                        <app-ordem-servico-fotos [fotos]="obterFotos('RAT')"></app-ordem-servico-fotos>
                                     </div>
 
                                     <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
                                         <div class="w-full">
-                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">Laudos
+                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">
+                                                Laudos
                                             </div>
                                         </div>
-                                        <app-ordem-servico-fotos [fotos]="obterLaudos()"></app-ordem-servico-fotos>
+
+                                        <app-ordem-servico-fotos [fotos]="obterFotos('LAUDO')"></app-ordem-servico-fotos>
                                     </div>
                                 </div>
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
-                            <ng-template matTabLabel>
-                                <span>
-                                    {{ t('mapa') }}
-                                </span>
-                            </ng-template>
-
-                            <ng-template matTabContent>
-                                <div class="h-120 w-full shadow">
-                                    <div class="shadow" id="map"></div>
-                                </div>
-                            </ng-template>
-                        </mat-tab>
                         <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&

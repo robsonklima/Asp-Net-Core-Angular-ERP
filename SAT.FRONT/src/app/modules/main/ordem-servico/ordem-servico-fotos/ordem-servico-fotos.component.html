@@ -1,12 +1,12 @@
 <div class="flex flex-wrap items-start w-full max-w-400 gap-6" *transloco="let t">
     <fuse-card *ngFor="let foto of fotos"
-        class="flex flex-col max-w-80 w-full filter-article hover:opacity-80 cursor-pointer"
+        class="flex flex-col max-w-40 w-full filter-article hover:opacity-80 cursor-pointer"
         (click)="ampliarFoto(foto)">
-        <img class="object-cover h-48 w-full"
-            [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto" alt="Card cover image">
-        <div class="m-8">
-            <div class="text-2xl font-semibold leading-tight">RAT {{ foto.numRAT }}</div>
-            <div class="text-secondary text-md mt-1">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
+        <img class="object-cover h-28 w-full"
+            [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto">
+        <div class="m-4">
+            <div class="text-md font-semibold leading-tight">RAT {{ foto.numRAT }}</div>
+            <div class="text-secondary text-xs mt-1">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
         </div>
     </fuse-card>
 

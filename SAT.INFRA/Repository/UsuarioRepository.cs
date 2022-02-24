@@ -161,9 +161,26 @@ namespace SAT.INFRA.Repository
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
 
+        public void Criar(Usuario usuario)
+        {
+            try
+            {
+                _context.Add(usuario);
+                _context.SaveChanges();
+
+                if (!this.PWDENCRYPT(usuario.CodUsuario, usuario.Senha))
+                {
+                    throw new Exception(Constants.ERRO_ALTERAR_SENHA);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
         public void Atualizar(Usuario usuario)
         {
-            _context.ChangeTracker.Clear();
             Usuario usr = _context.Usuario.SingleOrDefault(r => r.CodUsuario == usuario.CodUsuario);
 
             if (usr != null)
@@ -171,6 +188,7 @@ namespace SAT.INFRA.Repository
                 try
                 {
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)
@@ -192,6 +210,7 @@ namespace SAT.INFRA.Repository
                     {
                         if (this.PWDENCRYPT(segurancaUsuarioModel.CodUsuario, segurancaUsuarioModel.NovaSenha))
                         {
+                            _context.ChangeTracker.Clear();
                             _context.SaveChanges();
                         }
                         else
@@ -228,7 +247,6 @@ namespace SAT.INFRA.Repository
 
         public void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha)
         {
-            _context.ChangeTracker.Clear();
             RecuperaSenha usr = _context.RecuperaSenha.FirstOrDefault(r => r.CodRecuperaSenha == recuperaSenha.CodRecuperaSenha);
 
             try
@@ -236,6 +254,7 @@ namespace SAT.INFRA.Repository
                 if (usr != null)
                 {
                     _context.Entry(usr).CurrentValues.SetValues(recuperaSenha);
+                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 else
@@ -244,6 +263,7 @@ namespace SAT.INFRA.Repository
                     if (usr != null)
                     {
                         usr.IndAtivo = 0;
+                        _context.ChangeTracker.Clear();
                         _context.SaveChanges();
                     }
                 }

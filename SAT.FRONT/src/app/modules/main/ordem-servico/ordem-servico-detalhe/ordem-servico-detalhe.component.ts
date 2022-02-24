@@ -47,7 +47,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	statusServico: StatusServico;
 	perfis: any;
 	userSession: UsuarioSessao;
-	fotos: Foto[] = [];
+	qtdFotos: number = 0;
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
@@ -97,7 +97,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = true;
 
 		await this.obterOS();
-		await this.carregarFotos();
+		await this.obterFotosRAT();
 		await this.obterAgendamentos();
 		
 		this.isLoading = false;
@@ -122,16 +122,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					reject();
 				});
 		})
-	}
-
-	private async carregarFotos()
-	{
-		this.os.fotos =
-			(await this._fotoService.obterPorParametros(
-				{
-					codOS: this.codOS
-				}
-			).toPromise()).items;
 	}
 
 	private async obterAgendamentos()
@@ -279,20 +269,33 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	obterFotos(tipo: string=''): Foto[]
+	private async obterFotosRAT()
 	{
+		for (const [i, rat] of this.os.relatoriosAtendimento.entries()) {
+			this.os.relatoriosAtendimento[i].fotos = 
+				(await this._fotoService.obterPorParametros(
+					{
+						codOS: rat.codOS,
+						numRAT: rat.numRAT,
+						sortActive: 'CodRATFotoSmartphone',
+						sortDirection: 'desc'
+					}
+				).toPromise()).items.filter(f => !f.modalidade.includes('ASSINATURA'));
+
+			this.qtdFotos = this.qtdFotos + this.os.relatoriosAtendimento[i].fotos.length;
+		}
+	}
+
+	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] {
+		let fotosFiltered: Foto[];
+
 		if (tipo === 'RAT') {
-			return Enumerable.from(this.os?.fotos)
-				.where(i => !i.modalidade.includes("LAUDO") && !i.modalidade.includes("ASSINATURA"))
-				.toArray();
+			fotosFiltered = fotos.filter(f => !f.modalidade.includes('LAUDO'));
+		} else if (tipo === 'LAUDO') {
+			fotosFiltered = fotos.filter(f => f.modalidade.includes('LAUDO'));
 		}
 
-		if (tipo === 'LAUDO') {
-			return Enumerable.from(this.os?.fotos)
-				.where(i => i.modalidade.includes("LAUDO") && !i.modalidade.includes("ASSINATURA"))
-				.toArray();
-		}
-		
+		return fotosFiltered;
 	}
 
 	private createAgendaTecnico()

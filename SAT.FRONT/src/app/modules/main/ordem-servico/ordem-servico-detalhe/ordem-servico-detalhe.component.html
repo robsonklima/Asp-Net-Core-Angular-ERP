@@ -557,38 +557,48 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab [disabled]="obterFotos('LAUDO').length === 0 && obterFotos('RAT').length === 0">
+                        <mat-tab [disabled]="!qtdFotos">
                             <ng-template matTabLabel>
-                                <span [class.opacity-50]="!obterFotos('LAUDO').length">
+                                <span [class.opacity-50]="false">
                                     {{ t('fotos') }}
                                     <span
                                         class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="obterFotos('LAUDO').length + obterFotos('RAT').length">
-                                        {{ obterFotos('LAUDO').length + obterFotos('RAT').length }}
+                                        *ngIf="true">
+                                        {{ qtdFotos }}
                                     </span>
                                 </span>
                             </ng-template>
 
                             <ng-template matTabContent>
-                                <div class="flex flex-col w-full">
-                                    <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
-                                        <div class="w-full">
-                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">
-                                                RATs
+                                <div
+                                    *ngFor="let rat of os?.relatoriosAtendimento"
+                                    class="mb-4 sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="flex items-center justify-between mt-6 ml-8 mr-6 sm:mr-10">
+                                        <div class="flex flex-col">
+                                            <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                                                {{ rat.numRAT }}
+                                            </div>
+
+                                            <div class="font-medium text-secondary">
+                                                {{ rat.fotos.length }} Fotos
                                             </div>
                                         </div>
-
-                                        <app-ordem-servico-fotos [fotos]="obterFotos('RAT')"></app-ordem-servico-fotos>
                                     </div>
 
-                                    <div class="flex flex-col flex-auto col-span-4 rounded-2xl overflow-hidden p-3">
-                                        <div class="w-full">
-                                            <div class="text-2xl font-semibold tracking-tight leading-6 mb-2">
-                                                Laudos
-                                            </div>
+                                    <div class="flex flex-col flex-auto px-8 py-2">
+                                        <div class="font-semibold mb-2">
+                                            Relatório de Atendimento
                                         </div>
 
-                                        <app-ordem-servico-fotos [fotos]="obterFotos('LAUDO')"></app-ordem-servico-fotos>
+                                        <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('RAT', rat.fotos)"></app-ordem-servico-fotos>
+                                    </div>
+
+                                    <div class="flex flex-col flex-auto px-8 py-2">
+                                        <div class="font-semibold mb-2">
+                                            Laudo
+                                        </div>
+
+                                        <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('LAUDO', rat.fotos)"></app-ordem-servico-fotos>
                                     </div>
                                 </div>
                             </ng-template>

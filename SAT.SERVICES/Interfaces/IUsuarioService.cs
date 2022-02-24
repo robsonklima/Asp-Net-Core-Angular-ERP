@@ -1,5 +1,5 @@
 ﻿using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {

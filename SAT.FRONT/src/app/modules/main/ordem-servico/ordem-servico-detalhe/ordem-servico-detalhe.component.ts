@@ -48,6 +48,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	perfis: any;
 	userSession: UsuarioSessao;
 	qtdFotos: number = 0;
+	qtdLaudos: number = 0;
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
@@ -79,26 +80,27 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
 
 		if (this.codOS) {
-			this.obterDadosOrdemServico();
+			this.obterDados();
 
 			this.perfis = RoleEnum;
 
 			this.sidenav.closedStart.subscribe(() =>
 			{
-				this.obterDadosOrdemServico();
+				this.obterDados();
 			});
 		}
 
 		this._cdr.detectChanges();
 	}
 
-	private async obterDadosOrdemServico()
+	private async obterDados()
 	{
 		this.isLoading = true;
 
 		await this.obterOS();
 		this.obterAgendamentos();
 		this.obterFotosRAT();
+		this.obterQtdLaudos();
 		
 		this.isLoading = false;
 	}
@@ -106,6 +108,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	private async obterOS()
 	{
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+		console.log(this.os);
+		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>
@@ -172,7 +176,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 							{
 								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
 								this.createAgendaTecnico();
-								this.obterDadosOrdemServico();
+								this.obterDados();
 							},
 							error =>
 							{
@@ -206,7 +210,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		{
 			if (os)
 			{
-				this.obterDadosOrdemServico();
+				this.obterDados();
 			}
 		});
 	}
@@ -258,7 +262,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						{
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 							this.deleteAgendaTecnico();
-							this.obterDadosOrdemServico();
+							this.obterDados();
 						},
 						() =>
 						{
@@ -326,7 +330,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}
 	}
 
-	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] {
+	private obterQtdLaudos()
+	{
+		this.os.relatoriosAtendimento.forEach((rat) => {
+			this.qtdLaudos += rat.laudos.length;
+		});
+	}
+
+	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] 
+	{
 		let fotosFiltered: Foto[];
 
 		if (tipo === 'RAT') {

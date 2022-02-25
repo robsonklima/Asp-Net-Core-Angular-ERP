@@ -59,7 +59,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       sortDirection: 'asc',
       codFiliais: this.sessionData?.usuario?.filial?.codFilial?.toString(),
       filter: this.searchInputControl.nativeElement.val,
-      pageSize: 100
+      pageSize: 20
     }
 
     const data = await this._tecnicoService

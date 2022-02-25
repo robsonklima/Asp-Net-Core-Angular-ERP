@@ -80,6 +80,12 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
     this.obterChamados();    
   }
 
+  monitorarDigitacaoForm(e) {
+    if(e.keyCode === 13){
+      this.pesquisar()    
+    }
+  }
+
   private obterChamados() {
     const form = this.form.getRawValue();
     this.isLoading = true;

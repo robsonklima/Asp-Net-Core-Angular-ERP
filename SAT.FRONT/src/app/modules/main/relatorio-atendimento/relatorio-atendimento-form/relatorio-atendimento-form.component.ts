@@ -32,6 +32,8 @@ import Enumerable from 'linq';
 import { statusConst } from 'app/core/types/status-types';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AcaoEnum } from 'app/core/types/acao.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { RoleEnum } from 'app/core/user/user.types';
 
 
 @Component({
@@ -59,6 +61,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   statusServicos: StatusServico[] = [];
   searching: boolean;
   loading: boolean = true;
+
+  public get perfilEnum(): typeof RoleEnum
+	{
+		return RoleEnum;
+	}
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -73,9 +80,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     private _statusServicoService: StatusServicoService,
     private _tecnicoService: TecnicoService,
     private _matSnackBar: MatSnackBar,
-    private _cdr: ChangeDetectorRef,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _snack: CustomSnackbarService
   ) {
     this.sessionData = JSON.parse(this._userService.userSession);
   }
@@ -330,6 +337,46 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       reader.readAsBinaryString(file);
     }
   }
+
+  async reabrir()
+	{
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja reabrir este relatório de atendimento?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+				let rat: RelatorioAtendimento = {
+					...this.relatorioAtendimento,
+					...{
+						codStatusServico: statusServicoConst.ABERTO,
+						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+						codUsuarioManut: this.sessionData.usuario?.codUsuario
+					}
+				  };
+			  
+				  Object.keys(rat).forEach((key) =>
+				  {
+					typeof rat[key] == "boolean" ? rat[key] = +rat[key] : rat[key] = rat[key];
+				  });
+			  
+				  this._raService.atualizar(rat).subscribe((rat) =>
+				  {
+					this._snack.exibirToast("Relatório de atendimento reaberto!", "success");
+					this.obterRelatorioAtendimento();
+				  });
+			}
+		});
+	}
 
   private transformarBase64(readerEvt) {
     var binaryString = readerEvt.target.result;

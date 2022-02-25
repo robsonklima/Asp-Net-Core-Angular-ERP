@@ -491,5 +491,6 @@
     "texto limite exportar": "Data limit for export cannot exceed 20,000 records",
     "serie cliente": "Client serial number",
     "documentação": "Documentation",
-    "velocidade da internet": "Internet Speed" 
+    "velocidade da internet": "Internet Speed",
+    "reabrir": "Reopen"
 }

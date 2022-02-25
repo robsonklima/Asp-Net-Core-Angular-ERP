@@ -88,6 +88,13 @@
                                     {{ t('cancelar') }}
                                 </button>
 
+                                <button mat-menu-item (click)="reabrir()"
+                                    [disabled]="os?.codStatusServico !== 3 &&  
+                                                (userSession.usuario.perfil?.codPerfil !== perfilEnum.PV_COORDENADOR_DE_CONTRATO)">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
+                                    {{ t('reabrir') }}
+                                </button>
+
                                 <button mat-menu-item (click)="openEmailDialog()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                                     Enviar por e-mail

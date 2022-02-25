@@ -269,6 +269,46 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
+	async reabrir()
+	{
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja reabrir este chamado?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+				let obj: OrdemServico = {
+					...this.os,
+					...{
+						codStatusServico: statusServicoConst.ABERTO,
+						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+						codUsuarioManut: this.userSession.usuario?.codUsuario
+					}
+				  };
+			  
+				  Object.keys(obj).forEach((key) =>
+				  {
+					typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+				  });
+			  
+				  this._ordemServicoService.atualizar(obj).subscribe((os) =>
+				  {
+					this._snack.exibirToast("Ordem de serviço reaberta!", "success");
+					this.obterOS();
+				  });
+			}
+		});
+	}
+
 	private async obterFotosRAT()
 	{
 		for (const [i, rat] of this.os.relatoriosAtendimento.entries()) {

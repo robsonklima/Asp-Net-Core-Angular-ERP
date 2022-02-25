@@ -409,6 +409,13 @@
                         <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
                         </mat-progress-spinner>
                     </button>
+
+                    <button
+                        class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="reabrir()"
+                        *ngIf="relatorioAtendimento?.codStatusServico === 3 && ordemServico.codStatusServico !== 3 &&
+                        (sessionData.usuario.perfil?.codPerfil === perfilEnum.ADMIN)">
+                        {{ t('reabrir') }}
+                    </button>
                 </div>
             </form>
         </div>

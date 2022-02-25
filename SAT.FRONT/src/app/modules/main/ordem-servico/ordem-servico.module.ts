@@ -49,6 +49,7 @@ import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/o
 import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-foto.component';
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
 import { OrdemServicoDetalheOrcamentoComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamento/ordem-servico-detalhe-orcamento.component';
+import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -72,7 +73,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrdemServicoEmailDialogComponent,
         OrdemServicoFotoComponent,
         OrdemServicoPesquisaComponent,
-        OrdemServicoDetalheOrcamentoComponent
+        OrdemServicoDetalheOrcamentoComponent,
+        OrdemServicoLaudoComponent
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

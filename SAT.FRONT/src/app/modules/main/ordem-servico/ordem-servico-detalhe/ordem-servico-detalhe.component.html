@@ -104,7 +104,8 @@
 
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
-                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
+                        <!-- DETALHES DA OS -->
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
@@ -255,12 +256,8 @@
                                         <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}
                                         </div>
 
-                                        <div class="flex items-center justify-between mt-8">
-                                            <div class="text-lg font-medium">{{ t('local') }}</div>
-                                        </div>
-
-                                        <div class="flex mt-2 border-t">
-                                            <div class="py-3">
+                                        <div class="flex mt-2">
+                                            <div class="pt-2">
                                                 <ng-container>
                                                     <div>
                                                         {{ os?.cliente?.nomeFantasia }} -
@@ -393,6 +390,7 @@
                             </ng-template>
                         </mat-tab>
 
+                        <!-- ALERTAS -->
                         <mat-tab [disabled]="!os?.alertas?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.alertas?.length">
@@ -417,6 +415,7 @@
                             </ng-template>
                         </mat-tab>
 
+                        <!-- RELATORIOS DE ATENDIMENTO -->
                         <mat-tab [disabled]="!os?.relatoriosAtendimento?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.relatoriosAtendimento?.length">
@@ -557,13 +556,14 @@
                             </ng-template>
                         </mat-tab>
 
+                        <!-- FOTOS -->
                         <mat-tab [disabled]="!qtdFotos">
                             <ng-template matTabLabel>
-                                <span [class.opacity-50]="false">
+                                <span [class.opacity-50]="!qtdFotos">
                                     {{ t('fotos') }}
                                     <span
                                         class="bg-blue-500 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        *ngIf="true">
+                                        *ngIf="qtdFotos">
                                         {{ qtdFotos }}
                                     </span>
                                 </span>
@@ -572,38 +572,43 @@
                             <ng-template matTabContent>
                                 <div
                                     *ngFor="let rat of os?.relatoriosAtendimento"
-                                    class="mb-4 sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                                    <div class="flex items-center justify-between mt-6 ml-8 mr-6 sm:mr-10">
-                                        <div class="flex flex-col">
-                                            <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
-                                                {{ rat.numRAT }}
+                                    class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mb-4">
+                                    <div *ngIf="rat.fotos.length">
+                                        <div class="flex items-center justify-between mt-6 -mb-3 ml-8 mr-6 sm:mr-10">
+                                            <div class="flex flex-col">
+                                                <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                                                    {{ rat.numRAT }}
+                                                </div>
+    
+                                                <div class="font-medium text-secondary">
+                                                    {{ rat.fotos.length }} Fotos
+                                                </div>
                                             </div>
-
-                                            <div class="font-medium text-secondary">
-                                                {{ rat.fotos.length }} Fotos
+                                        </div>
+    
+                                        <hr>
+    
+                                        <div class="flex flex-col flex-auto px-8 pb-4" *ngIf="filtrarFotosRAT('RAT', rat.fotos).length">
+                                            <div class="font-semibold text-secondary mb-3">
+                                                Relatório de Atendimento
                                             </div>
+    
+                                            <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('RAT', rat.fotos)"></app-ordem-servico-fotos>
                                         </div>
-                                    </div>
-
-                                    <div class="flex flex-col flex-auto px-8 py-2">
-                                        <div class="font-semibold mb-2">
-                                            Relatório de Atendimento
+    
+                                        <div class="flex flex-col flex-auto px-8 pb-6" *ngIf="filtrarFotosRAT('LAUDO', rat.fotos).length">
+                                            <div class="font-semibold text-secondary mb-3">
+                                                Laudo
+                                            </div>
+    
+                                            <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('LAUDO', rat.fotos)"></app-ordem-servico-fotos>
                                         </div>
-
-                                        <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('RAT', rat.fotos)"></app-ordem-servico-fotos>
-                                    </div>
-
-                                    <div class="flex flex-col flex-auto px-8 py-2">
-                                        <div class="font-semibold mb-2">
-                                            Laudo
-                                        </div>
-
-                                        <app-ordem-servico-fotos [fotos]="filtrarFotosRAT('LAUDO', rat.fotos)"></app-ordem-servico-fotos>
                                     </div>
                                 </div>
                             </ng-template>
                         </mat-tab>
 
+                        <!-- HISTORICO -->
                         <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
@@ -620,9 +625,10 @@
                             </ng-template>
                         </mat-tab>
 
-                        <mat-tab>
+                        <!-- ORCAMENTOS -->
+                        <mat-tab [disabled]="true">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="true">
                                     {{ t('orcamentos') }}
                                 </span>
                             </ng-template>

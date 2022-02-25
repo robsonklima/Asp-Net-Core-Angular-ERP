@@ -2,7 +2,7 @@
     <div *ngFor="let foto of fotos"
         class="flex flex-col max-w-40 w-full filter-article hover:opacity-80 cursor-pointer"
         (click)="ampliarFoto(foto)">
-        <img class="object-cover h-28 w-full"
+        <img class="object-cover h-28 rounded-md w-full"
             [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto">
         <div class="my-2 text-center">
             <div class="text-secondary text-xs mt-1">{{ formatarModalidadeFoto(foto.modalidade) }}</div>

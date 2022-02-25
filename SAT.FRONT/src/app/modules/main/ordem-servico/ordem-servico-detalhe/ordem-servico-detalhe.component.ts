@@ -97,8 +97,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = true;
 
 		await this.obterOS();
-		await this.obterFotosRAT();
-		await this.obterAgendamentos();
+		this.obterAgendamentos();
+		this.obterFotosRAT();
 		
 		this.isLoading = false;
 	}
@@ -382,5 +382,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		var h = mins / 60 | 0,
 			m = mins % 60 | 0;
 		return moment.utc().hours(h).minutes(m).format("HH:mm");
+	}
+
+	trocarTab(tab: any)
+	{
 	}
 }

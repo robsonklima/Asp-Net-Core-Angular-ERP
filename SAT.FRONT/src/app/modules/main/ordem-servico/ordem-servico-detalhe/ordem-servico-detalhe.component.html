@@ -440,8 +440,10 @@
                                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                                 </mat-icon>
                                             </button>
-                                            <button mat-icon-button [routerLink]="['/relatorio-atendimento/form/' + codOS + '/' + r.codRAT + '/impressao-laudo/' +
-                                            r?.laudos[0]?.codLaudo]" *ngIf="r?.laudos?.length"
+                                            <button
+                                                class="ml-2"
+                                                mat-icon-button
+                                                [routerLink]="['/relatorio-atendimento/form/'+codOS+'/'+r.codRAT+'/impressao-laudo/'+r?.laudos[0]?.codLaudo]" *ngIf="r?.laudos?.length"
                                                 matTooltip="Visualizar laudo">
                                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'">
                                                 </mat-icon>

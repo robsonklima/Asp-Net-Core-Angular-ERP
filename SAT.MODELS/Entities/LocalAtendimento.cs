@@ -48,12 +48,6 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string NumeroEnd { get; set; }
-        public int? CodRegiao { get; set; }
-        [ForeignKey("CodRegiao")]
-        public Regiao Regiao { get; set; }
-        public int? CodAutorizada { get; set; }
-        [ForeignKey("CodAutorizada")]
-        public Autorizada Autorizada { get; set; }
         public int? CodFilial { get; set; }
         [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }

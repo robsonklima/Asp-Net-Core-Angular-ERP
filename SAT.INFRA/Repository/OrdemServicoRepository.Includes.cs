@@ -120,8 +120,6 @@ namespace SAT.INFRA.Repository
                                 .ThenInclude(ec => ec.ContratoServico)
                                     .ThenInclude(cs => cs.TipoServico)
                         .Include(os => os.EquipamentoContrato)
-                        .Include(os => os.LocalAtendimento)
-                            .ThenInclude(os => os.Autorizada)
                         .Include(os => os.RelatoriosAtendimento)
                             .ThenInclude(a => a.ProtocolosSTN)
                         .Include(os => os.RelatoriosAtendimento)
@@ -230,16 +228,6 @@ namespace SAT.INFRA.Repository
                                 {
                                     CodFilial = i.LocalAtendimento.Filial.CodFilial,
                                     NomeFilial = i.LocalAtendimento.Filial.NomeFilial,
-                                } : null,
-                                Autorizada = i.LocalAtendimento.Autorizada != null ? new Autorizada
-                                {
-                                    CodAutorizada = i.LocalAtendimento.Autorizada.CodAutorizada,
-                                    NomeFantasia = i.LocalAtendimento.Autorizada.NomeFantasia,
-                                } : null,
-                                Regiao = i.LocalAtendimento.Regiao != null ? new Regiao
-                                {
-                                    CodRegiao = i.LocalAtendimento.Regiao.CodRegiao,
-                                    NomeRegiao = i.LocalAtendimento.Regiao.NomeRegiao,
                                 } : null,
                             } : null,
                             Regiao = i.Regiao != null ? new Regiao

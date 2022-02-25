@@ -79,16 +79,12 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Cliente)
                 .Include(l => l.TipoRota)
                 .Include(l => l.Filial)
-                .Include(l => l.Autorizada)
-                .Include(l => l.Regiao)
                 .FirstOrDefault(f => f.CodPosto == codigo);
         }
 
         public PagedList<LocalAtendimento> ObterPorParametros(LocalAtendimentoParameters parameters)
         {
             var locais = _context.LocalAtendimento
-                .Include(l => l.Regiao)
-                .Include(l => l.Autorizada)
                 .Include(l => l.Filial)
                 .Include(l => l.Cliente)
                 .Include(l => l.Cidade)
@@ -116,12 +112,6 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.DCPosto))
                 locais = locais.Where(l => l.DCPosto == parameters.DCPosto);
 
-            if (parameters.CodAutorizada.HasValue)
-                locais = locais.Where(l => l.CodAutorizada == parameters.CodAutorizada);
-
-            if (parameters.CodRegiao.HasValue)
-                locais = locais.Where(l => l.CodRegiao == parameters.CodRegiao);
-
             if (parameters.CodFilial.HasValue)
                 locais = locais.Where(l => l.CodFilial == parameters.CodFilial);
 
@@ -138,12 +128,6 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 locais = locais.Where(l => cods.Contains(l.CodCliente));
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
-            {
-                int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                locais = locais.Where(l => cods.Contains(l.CodRegiao.Value));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))

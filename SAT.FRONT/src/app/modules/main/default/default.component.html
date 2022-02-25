@@ -515,6 +515,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="flex flex-col flex-auto px-8 py-2">
                                 <apx-chart [series]="chartLine.series" [chart]="chartLine.chart"
                                     [xaxis]="chartLine.xaxis" [stroke]="chartLine.stroke" [colors]="chartLine.colors"
@@ -562,20 +563,21 @@
                                 </div>
                             </div>
 
-                            <table class="w-full table-auto text-md font-medium tracking-tight">
+                            <table class="w-full table-auto text-md font-medium tracking-tight mb-4">
                                 <thead *ngIf="eventosOciosos.length" class="text-left">
                                     <tr>
-                                        <th class="py-1 px-2 border-0">Hora</th>
-                                        <th class="py-1 px-2 border-0">Recurso</th>
-                                        <th class="py-1 px-2 border-0">Status</th>
-                                        <th class="py-1 px-2 border-0"><span class="px-2">Tempo</span></th>
+                                        <th class="py-1 px-2">Hora</th>
+                                        <th class="py-1 px-2">Recurso</th>
+                                        <th class="py-1 px-2">Status</th>
+                                        <th class="py-1 px-2"><span class="px-2">Tempo</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let evento of eventosOciosos">
-                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300">{{
-                                            evento.dateTimeEvent | date:'HH:mm' }}</td>
-                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 break-all">
+                                    <tr *ngFor="let evento of eventosOciosos; let i = index;">
+                                        <td class="py-1 px-2 border-b border-t border-zinc-300">{{
+                                            evento.dateTimeEvent | date:'HH:mm' }}
+                                        </td>
+                                        <td class="py-1 px-2 border-b border-t border-zinc-300 break-all">
                                             <div>
                                                 <span [ngClass]="obterCorRecurso(evento.csUriStem)">{{ obterNomeRecurso(evento.csUriStem) }}</span>
                                                 <span>{{ evento.csUriStem }}</span>
@@ -585,9 +587,10 @@
                                                 {{ evento.csUriQuery }}
                                             </div>
                                         </td>
-                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 text-center">{{
-                                            evento.scStatus }}</td>
-                                        <td class="py-1 px-2 border-0 border-b border-t border-zinc-300 text-center">
+                                        <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">{{
+                                            evento.scStatus }}
+                                        </td>
+                                        <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">
                                             {{ (evento.timeTaken / 1000 / 60).toFixed(1) }} min
                                         </td>
                                     </tr>

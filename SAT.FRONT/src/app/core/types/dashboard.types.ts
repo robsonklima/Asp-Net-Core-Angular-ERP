@@ -11,7 +11,6 @@ export enum DashboardEnum {
 	PENDENCIA_FILIAIS = 'Pendência por Filiais',
 	PECAS_FALTANTES_FILIAIS = 'Peças Faltantes por Filial',
 	TOP_PECAS_FALTANTES = 'Peças Faltantes Mais Críticas',
-	MONITORAMENTO_SAT = 'Monitoramento SAT',
 	DENSIDADE = 'Dashboard Densidade'
 }
 

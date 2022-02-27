@@ -15,6 +15,7 @@ import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { StringExtensions } from 'app/core/extensions/string.extensions';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
     selector: 'ordem-servico-lista',
@@ -57,7 +58,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         private _ordemServicoService: OrdemServicoService,
         protected _userService: UserService,
         private _stringExtensions: StringExtensions,
-        private _fileService: FileService
+        private _fileService: FileService,
+        private _snack: CustomSnackbarService
     ) {
         super(_userService, 'ordem-servico')
     }
@@ -99,6 +101,11 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
     }
 
     async obterOrdensServico(filter: string = '') {
+        if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
+            this._snack.exibirToast("Favor aplicar seus filtros!", "error");
+            return
+        }
+
         this.isLoading = true;
 
         const params: OrdemServicoParameters = {

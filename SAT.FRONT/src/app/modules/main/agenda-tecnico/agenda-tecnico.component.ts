@@ -175,7 +175,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   )
   {
     super(_userSvc, 'agenda-tecnico')
-    this.carregaDados();
+    this.obterDados();
   }
 
   registerEmitters(): void
@@ -183,7 +183,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();
-      this.carregaDados();
+      this.obterDados();
     });
   }
 
@@ -199,14 +199,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
   }
 
-  private async carregaDados(showLoading: boolean = true)
+  private async obterDados(showLoading: boolean=true)
   {
-    this.loading = showLoading;
-    await this.obterDados();
-  }
+    if (!this.filter.parametros.length) {
+      await this._snack.open('Por favor selecione o seu filtro.', null, this.snackConfigDanger).afterDismissed().toPromise();
+      return
+    }
 
-  private async obterDados()
-  {
+    this.loading = showLoading;
+
     this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
       indAtivo: 1,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
@@ -349,10 +350,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
   }
 
-  /**  */
-
-  /** Mobiscroll */
-
   public mouseEnter(): void
   {
     if (this.timer)
@@ -374,9 +371,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   {
     this.weekStart = moment(args.date).add(-1, 'days').format('yyyy-MM-DD HH:mm:ss');
     this.weekEnd = moment(args.date).add(2, 'days').format('yyyy-MM-DD HH:mm:ss');
-
-
-    await this.carregaDados(false);
+    await this.obterDados(false);
   }
 
   private async validateNewEvent(args, inst)

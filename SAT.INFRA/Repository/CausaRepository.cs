@@ -1,5 +1,6 @@
 ﻿using SAT.INFRA.Context;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System;

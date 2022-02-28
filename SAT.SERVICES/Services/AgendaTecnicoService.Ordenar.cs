@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 

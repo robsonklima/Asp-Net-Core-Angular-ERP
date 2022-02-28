@@ -13,7 +13,7 @@ namespace SAT.MODELS.Helpers
                 b = Convert.FromBase64String(encrString);
                 decrypted = System.Text.Encoding.ASCII.GetString(b);
             }
-            catch (FormatException fe)
+            catch (FormatException)
             {
                 decrypted = "";
             }

@@ -7,6 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using SAT.MODELS.Entities.Constants;
 using System;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.INFRA.Repository
 {

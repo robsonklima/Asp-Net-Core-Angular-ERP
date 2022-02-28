@@ -135,4 +135,10 @@ export class UserService {
       map((obj) => obj)
     );
   }
+
+  verificarSenhaForte(str: string): boolean {
+    var patt = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$');
+
+    return patt.test(str);
+} 
 }

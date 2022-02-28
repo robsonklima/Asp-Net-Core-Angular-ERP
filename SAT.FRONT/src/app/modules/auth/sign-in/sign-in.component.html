@@ -27,17 +27,16 @@
                 <mat-form-field class="w-full">
                     <mat-label>Senha</mat-label>
                     <input id="senha" matInput type="password" [formControlName]="'senha'" #senhaField>
+                    <mat-error *ngIf="signInForm.get('senha').dirty">
+                        <div *ngIf="signInForm.get('senha').hasError('senha-fraca')">
+                            Sua senha não atende aos requisitos de segurança.
+                            Clique em Esqueci minha senha e siga as instruções.
+                        </div>
+                    </mat-error>
                 </mat-form-field>
-                <div *ngIf="!atendeRequisitos" class="mt-1 text-md text-red-500">
-                    Sua senha não atende aos requisitos de segurança do sistema. Por favor, clique em <u>Esqueci minha
-                        senha</u> e siga as instruções.
-                </div>
-                <div *ngIf="campoSenhaVazio" class="mt-1 text-md text-red-500">
-                    Favor informar sua senha
-                </div>
 
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'"
-                    [disabled]="signInForm.disabled" (click)="signIn()">
+                    [disabled]="signInForm.disabled || signInForm.invalid" (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         Entrar
                     </span>

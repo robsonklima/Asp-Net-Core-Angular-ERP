@@ -28,9 +28,6 @@ export class AuthSignInComponent implements OnInit {
         duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right'
     };
 
-    public atendeRequisitos: boolean = true;
-    public campoSenhaVazio: boolean = false;
-
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _usuarioDispositivoSvc: UsuarioDispositivoService,
@@ -47,33 +44,21 @@ export class AuthSignInComponent implements OnInit {
     async ngOnInit() {
         this.signInForm = this._formBuilder.group({
             codUsuario: [undefined, [Validators.required]],
-            senha: [undefined, [Validators.required,
-            //Minimo 8 caracteres, pelo menos uma letra maiuscula, uma letra minuscula, um numero e um caractere especial
-            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$')]]
+            senha: [undefined, [Validators.required]]
         });
 
         this.deviceInfo = this.device.getDeviceInfo();
         this.ipData = '';
 
-        this.signInForm.get("senha").valueChanges.subscribe(value => {
-            this.campoSenhaVazio = value.length == 0;
-            if (this.campoSenhaVazio && !this.atendeRequisitos) {
-                this.atendeRequisitos = true;
-            }
-        })
+        this.signInForm.get("senha").valueChanges.subscribe(txt => {
+            const senhaForte = this._userSvc.verificarSenhaForte(txt);
+            
+            if (!senhaForte)
+                this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
+        });
     }
 
     async signIn() {
-        this.atendeRequisitos = true;
-        if (this.signInForm.invalid) {
-            // Invalido porque pode não estar batendo no pattern da senha
-            if (this.signInForm.controls['senha'].value.length > 0) {
-                this.atendeRequisitos = false;
-                this._cdr.detectChanges();
-            }
-            return;
-        }
-
         this.signInForm.disable();
 
         const form = this.signInForm.getRawValue();

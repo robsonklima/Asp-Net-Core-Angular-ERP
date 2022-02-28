@@ -74,13 +74,13 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.responsavelFaturamento }}
+                            {{ orcamento?.localEnvioNFFaturamento?.responsavelFaturamento }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="col-span-12 text-lg font-medium" *ngIf="orcamento?.detalhe">E-mail
                             <div class="col-span-12 self-center font-light text-base text-justify">
-                                {{ orcamento?.enderecoFaturamentoNF?.emailFaturamento }}</div>
+                                {{ orcamento?.localEnvioNFFaturamento?.emailFaturamento }}</div>
                             <div class="col-span-12 my-2 border-b"></div>
                         </div>
 
@@ -88,7 +88,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.foneFaturamento | fone }}
+                            {{ orcamento?.localEnvioNFFaturamento?.foneFaturamento | fone }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -96,7 +96,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.enderecoFaturamento | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.enderecoFaturamento | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -104,7 +104,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.numeroFaturamento }}
+                            {{ orcamento?.localEnvioNFFaturamento?.numeroFaturamento }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -112,7 +112,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.complementoFaturamento | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.complementoFaturamento | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -120,7 +120,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.bairroFaturamento | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.bairroFaturamento | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -128,7 +128,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.nomeCidade | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cidadeFaturamento?.nomeCidade | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -136,7 +136,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cidadeFaturamento?.unidadeFederativa?.siglaUF | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -144,7 +144,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cepFaturamento | cep }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cepFaturamento | cep }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -183,13 +183,13 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.responsavelEnvioNF }}
+                            {{ orcamento?.localEnvioNFFaturamento?.responsavelEnvioNF }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="col-span-12 text-lg font-medium" *ngIf="orcamento?.detalhe">E-mail
                             <div class="col-span-12 self-center font-light text-base text-justify">
-                                {{ orcamento?.enderecoFaturamentoNF?.emailEnvioNF }}</div>
+                                {{ orcamento?.localEnvioNFFaturamento?.emailEnvioNF }}</div>
                             <div class="col-span-12 my-2 border-b"></div>
                         </div>
 
@@ -197,7 +197,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.foneEnvioNF | fone }}
+                            {{ orcamento?.localEnvioNFFaturamento?.foneEnvioNF | fone }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -205,7 +205,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.enderecoEnvioNF | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.enderecoEnvioNF | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -213,7 +213,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.numeroEnvioNF }}
+                            {{ orcamento?.localEnvioNFFaturamento?.numeroEnvioNF }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -221,7 +221,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.complementoEnvioNF | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.complementoEnvioNF | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -229,7 +229,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.bairroEnvioNF | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.bairroEnvioNF | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -237,7 +237,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.nomeCidade | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -245,7 +245,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cidadeEnvioNF?.unidadeFederativa?.siglaUF | uppercase }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF | uppercase }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
@@ -253,7 +253,7 @@
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	self-center text-right"></div>
                         <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.enderecoFaturamentoNF?.cepEnvioNF | cep }}
+                            {{ orcamento?.localEnvioNFFaturamento?.cepEnvioNF | cep }}
                         </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
                     </div>

@@ -28,10 +28,10 @@ namespace SAT.API.Controllers
             return _localEnvioNFFaturamentoVinculadoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{CodLocalEnvioNffaturamento}")]
-        public LocalEnvioNFFaturamentoVinculado Get(int CodLocalEnvioNffaturamento)
+        [HttpGet("{CodLocalEnvioNFFaturamento}/{CodPosto}/{CodContrato}")]
+        public LocalEnvioNFFaturamentoVinculado Get(int codLocalEnvioNFFaturamento, int codPosto, int codContrato)
         {
-            return _localEnvioNFFaturamentoVinculadoService.ObterPorCodigo(CodLocalEnvioNffaturamento);
+            return _localEnvioNFFaturamentoVinculadoService.ObterPorCodigo(codLocalEnvioNFFaturamento, codPosto, codContrato);
         }
 
         [HttpPost]

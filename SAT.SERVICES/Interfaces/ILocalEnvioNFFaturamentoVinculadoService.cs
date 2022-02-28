@@ -9,6 +9,6 @@ namespace SAT.SERVICES.Interfaces
         LocalEnvioNFFaturamentoVinculado Criar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
         void Deletar(int codigo);
         void Atualizar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
-        LocalEnvioNFFaturamentoVinculado ObterPorCodigo(int codigo);
+        LocalEnvioNFFaturamentoVinculado ObterPorCodigo(int codLocalEnvioNFFaturamento, int codPosto, int codContrato);
     }
 }

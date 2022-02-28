@@ -150,6 +150,8 @@ namespace SAT.API
             services.AddTransient<IOrcamentoStatusRepository, OrcamentoStatusRepository>();
             services.AddTransient<IOrcamentoDeslocamentoRepository, OrcamentoDeslocamentoRepository>();
             services.AddTransient<IOrcamentoDescontoRepository, OrcamentoDescontoRepository>();
+            services.AddTransient<ILocalEnvioNFFaturamentoRepository, LocalEnvioNFFaturamentoRepository>();
+            services.AddTransient<ILocalEnvioNFFaturamentoVinculadoRepository, LocalEnvioNFFaturamentoVinculadoRepository>();
             services.AddTransient<IIntencaoRepository, IntencaoRepository>();
             services.AddTransient<IVersaoRepository, VersaoRepository>();
 
@@ -245,6 +247,8 @@ namespace SAT.API
             services.AddTransient<IMonitoramentoHistoricoService, MonitoramentoHistoricoService>();
             services.AddTransient<ILaudoService, LaudoService>();
             services.AddTransient<IOrcamentoStatusService, OrcamentoStatusService>();
+            services.AddTransient<ILocalEnvioNFFaturamentoVinculadoService, LocalEnvioNFFaturamentoVinculadoService>();
+            services.AddTransient<ILocalEnvioNFFaturamentoService, LocalEnvioNFFaturamentoService>();
             services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
             services.AddTransient<IOrcamentoDescontoService, OrcamentoDescontoService>();
             services.AddTransient<IVersaoService, VersaoService>();

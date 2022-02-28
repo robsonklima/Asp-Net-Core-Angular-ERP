@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -40,5 +41,10 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
+        public Cliente Cliente { get; set; }
+        public Contrato Contrato { get; set; }
+        public Cidade CidadeFaturamento { get; set; }
+        public Cidade CidadeEnvioNF { get; set; }
+        public List<LocalEnvioNFFaturamentoVinculado> LocaisVinculados { get; set; }
     }
 }

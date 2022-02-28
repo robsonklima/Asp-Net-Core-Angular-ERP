@@ -11,5 +11,8 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
+
+        public LocalAtendimento LocalAtendimento { get; set; }
+        public Contrato Contrato { get; set; }
     }
 }

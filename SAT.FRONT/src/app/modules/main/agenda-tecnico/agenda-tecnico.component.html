@@ -33,9 +33,11 @@
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
         </div>
-        <div class="font-bold" *ngIf="!loading && resources?.length == 0">
+
+        <div class="font-bold p-6" *ngIf="!loading && resources?.length == 0">
             Nenhum técnico encontrado. Por favor, verifique seus filtros.
         </div>
+
         <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
             <div class="text-center p-2" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
                 <div class="md-tooltip-header">

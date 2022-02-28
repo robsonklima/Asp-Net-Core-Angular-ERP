@@ -68,6 +68,7 @@ import { DespesaAdiantamentoFormComponent } from './despesa-adiantamento-form/de
 import { DespesaCartaoCombustivelFormComponent } from './despesa-cartao-combustivel-form/despesa-cartao-combustivel-form.component';
 import { DespesaConfiguracaoListaComponent } from './despesa-configuracao-lista/despesa-configuracao-lista.component';
 import { DespesaConfiguracaoFormComponent } from './despesa-configuracao-form/despesa-configuracao-form.component';
+import { FiltroModule } from '../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -148,7 +149,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     FuseAlertModule,
     MatProgressSpinnerModule,
     TranslocoModule,
-    MatRadioModule
+    MatRadioModule,
+    FiltroModule
   ]
 })
 export class DespesaModule { }

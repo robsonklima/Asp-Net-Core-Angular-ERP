@@ -87,7 +87,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
 
   transferir(tecnico: Tecnico): void
   {
-    debugger
     this.isLoading = true;
     this.os.codTecnico = tecnico.codTecnico;
     this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;

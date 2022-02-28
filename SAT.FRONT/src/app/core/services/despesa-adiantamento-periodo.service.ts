@@ -12,7 +12,7 @@ export class DespesaAdiantamentoPeriodoService
 {
     constructor (private http: HttpClient) { }
 
-    obterConsultaTecnicos(parameters: DespesaAdiantamentoPeriodoParameters): Observable<DespesaAdiantamentoPeriodoConsultaTecnicoData>
+    obterTecnicos(parameters: DespesaAdiantamentoPeriodoParameters): Observable<DespesaAdiantamentoPeriodoConsultaTecnicoData>
     {
         let params = new HttpParams();
 

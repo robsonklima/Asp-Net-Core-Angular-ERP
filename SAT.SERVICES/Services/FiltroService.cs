@@ -35,23 +35,5 @@ namespace SAT.SERVICES.Services
         {
             return _filtroRepo.ObterPorCodigo(codigo);
         }
-
-        public ListViewModel ObterPorParametros(AcaoParameters parameters)
-        {
-            var acoes = _filtroRepo.ObterPorParametros(parameters);
-
-            var lista = new ListViewModel
-            {
-                Items = acoes,
-                TotalCount = acoes.TotalCount,
-                CurrentPage = acoes.CurrentPage,
-                PageSize = acoes.PageSize,
-                TotalPages = acoes.TotalPages,
-                HasNext = acoes.HasNext,
-                HasPrevious = acoes.HasPrevious
-            };
-
-            return lista;
-        }
     }
 }

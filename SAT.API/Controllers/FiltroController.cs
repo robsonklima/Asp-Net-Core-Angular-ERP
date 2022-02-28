@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -19,18 +18,6 @@ namespace SAT.API.Controllers
         {
             _filtroService = filtroService;
         }
-
-        [HttpGet]
-        public ListViewModel Get([FromQuery] AcaoParameters parameters)
-        {
-            return _filtroService.ObterPorParametros(parameters);
-        }
-
-        //[HttpGet("{codAcao}")]
-        //public Acao Get(int codAcao)
-        //{
-        //    return _filtroService.ObterPorCodigo(codAcao);
-        //}
 
         [HttpPost]
         public void Post([FromBody] FiltroUsuario filtroUsuario)

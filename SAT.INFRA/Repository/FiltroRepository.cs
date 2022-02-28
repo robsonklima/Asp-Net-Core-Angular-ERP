@@ -73,37 +73,5 @@ namespace SAT.INFRA.Repository
         {
             return _context.FiltroUsuario.SingleOrDefault(a => a.CodFiltroUsuario == codigo);
         }
-
-        public PagedList<FiltroUsuario> ObterPorParametros(AcaoParameters parameters)
-        {
-            var acoes = _context.FiltroUsuario.AsQueryable();
-
-            //if (parameters.Filter != null)
-            //{
-            //    acoes = acoes.Where(
-            //        c =>
-            //        c.NomeAcao.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-            //        c.CodEAcao.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-            //        c.CodAcao.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-            //    );
-            //}
-
-            //if (parameters.CodAcao != null)
-            //{
-            //    acoes = acoes.Where(a => a.CodAcao == parameters.CodAcao);
-            //}
-
-            //if (parameters.IndAtivo != null)
-            //{
-            //    acoes = acoes.Where(a => a.IndAtivo == parameters.IndAtivo);
-            //}
-
-            //if (parameters.SortActive != null && parameters.SortDirection != null)
-            //{
-            //    acoes = acoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            //}
-
-            return PagedList<FiltroUsuario>.ToPagedList(acoes, parameters.PageNumber, parameters.PageSize);
-        }
     }
 }

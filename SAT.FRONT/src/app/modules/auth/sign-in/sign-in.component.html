@@ -27,20 +27,12 @@
                 <mat-form-field class="w-full">
                     <mat-label>Senha</mat-label>
                     <input id="senha" matInput type="password" [formControlName]="'senha'" #senhaField>
-                    <button mat-icon-button type="button"
-                        (click)="senhaField.type === 'senha' ? senhaField.type = 'text' : senhaField.type = 'senha'"
-                        matSuffix>
-                        <mat-icon class="icon-size-5" *ngIf="senhaField.type === 'senha'"
-                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                        <mat-icon class="icon-size-5" *ngIf="senhaField.type === 'text'"
-                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
-                    </button>
                 </mat-form-field>
-                <div *ngIf="!atendeRequisitos" class="mt-1 text-md text-hint text-red-500">
+                <div *ngIf="!atendeRequisitos" class="mt-1 text-md text-red-500">
                     Sua senha não atende aos requisitos de segurança do sistema. Por favor, clique em <u>Esqueci minha
                         senha</u> e siga as instruções.
                 </div>
-                <div *ngIf="campoSenhaVazio" class="mt-1 text-md text-hint text-red-500">
+                <div *ngIf="campoSenhaVazio" class="mt-1 text-md text-red-500">
                     Favor informar sua senha
                 </div>
 

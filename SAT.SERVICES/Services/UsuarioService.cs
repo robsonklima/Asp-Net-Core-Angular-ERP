@@ -106,11 +106,6 @@ namespace SAT.SERVICES.Services
             return this._usuarioRepo.ObterRecuperaSenha(codRecuperaSenha);
         }
 
-        /// <summary>
-        /// Faz a solicitação de nova senha
-        /// </summary>
-        /// <param name="codUsuario"></param>
-        /// <returns></returns>
         public ResponseObject EsqueceuSenha(string codUsuario)
         {
             ResponseObject response = new();

@@ -11,7 +11,6 @@ import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
-import { JsonIPService } from 'app/core/services/jsonip.service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -39,7 +38,6 @@ export class AuthSignInComponent implements OnInit {
         private _userSvc: UserService,
         private _snack: MatSnackBar,
         private _authService: AuthService,
-        private _jsonIP: JsonIPService,
         private _formBuilder: FormBuilder,
         private device: DeviceDetectorService,
         private _router: Router,
@@ -55,7 +53,7 @@ export class AuthSignInComponent implements OnInit {
         });
 
         this.deviceInfo = this.device.getDeviceInfo();
-        this.ipData = ''; //await this._jsonIP.obterIP().toPromise();
+        this.ipData = '';
 
         this.signInForm.get("senha").valueChanges.subscribe(value => {
             this.campoSenhaVazio = value.length == 0;

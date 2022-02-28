@@ -126,8 +126,6 @@ namespace SAT.INFRA.Context
         public DbSet<OrcamentoDesconto> OrcamentoDesconto { get; set; }
         public DbSet<OrcamentoMaoDeObra> OrcamentoMaoDeObra { get; set; }
         public DbSet<OrcamentoOutroServico> OrcamentoOutroServico { get; set; }
-        public DbSet<EnderecoFaturamentoNF> EnderecoFaturamentoNF { get; set; }
-        public DbSet<EnderecoFaturamentoVinculado> EnderecoFaturamentoVinculado { get; set; }
         public DbSet<Monitoramento> Monitoramento { get; set; }
         public DbSet<MonitoramentoHistorico> MonitoramentoHistorico { get; set; }
         public DbSet<OrcamentoStatus> OrcamentoStatus { get; set; }
@@ -135,6 +133,9 @@ namespace SAT.INFRA.Context
         public DbSet<RecuperaSenha> RecuperaSenha { get; set; }
         public DbSet<Intencao> Intencao { get; set; }
         public DbSet<Versao> Versao { get; set; }
+        public DbSet<LocalEnvioNFFaturamento> LocalEnvioNFFaturamento { get; set; }
+        public DbSet<LocalEnvioNFFaturamentoVinculado> LocalEnvioNFFaturamentoVinculado { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -166,8 +167,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrdemServicoHistorico>(new OrdemServicoHistoricoMap().Configure);
             modelBuilder.Entity<Orcamento>(new OrcamentoMap().Configure);
             modelBuilder.Entity<OrcamentoMotivo>(new OrcamentoMotivoMap().Configure);
-            modelBuilder.Entity<EnderecoFaturamentoVinculado>(new EnderecoFaturamentoVinculadoMap().Configure);
-            modelBuilder.Entity<EnderecoFaturamentoNF>(new EnderecoFaturamentoNFMap().Configure);
             modelBuilder.Entity<OrcamentoMaterial>(new OrcamentoMaterialMap().Configure);
             modelBuilder.Entity<OrcamentoMaoDeObra>(new OrcamentoMaoDeObraMap().Configure);
             modelBuilder.Entity<OrcamentoOutroServico>(new OrcamentoOutroServicoMap().Configure);
@@ -189,6 +188,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<VersaoAlteracaoTipo>(new VersaoAlteracaoTipoMap().Configure);
             modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
             modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
+            modelBuilder.Entity<LocalEnvioNFFaturamento>(new LocalEnvioNFFaturamentoMap().Configure);
+            modelBuilder.Entity<LocalEnvioNFFaturamentoVinculado>(new LocalEnvioNFFaturamentoVinculadoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                         .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

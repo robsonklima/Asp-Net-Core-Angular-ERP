@@ -10,6 +10,36 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("LocalEnvioNFFaturamento");
             builder.HasKey(prop => prop.CodLocalEnvioNFFaturamento);
+
+            builder
+                .HasOne(p => p.Cliente)
+                .WithOne()
+                .HasForeignKey<LocalEnvioNFFaturamento>("CodCliente")
+                .HasPrincipalKey<Cliente>("CodCliente");
+
+            builder
+                .HasOne(p => p.Contrato)
+                .WithOne()
+                .HasForeignKey<LocalEnvioNFFaturamento>("CodContrato")
+                .HasPrincipalKey<Contrato>("CodContrato"); 
+
+            builder
+                .HasOne(prop => prop.CidadeEnvioNF)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodCidadeEnvioNF)
+                .HasPrincipalKey(prop => prop.CodCidade);
+
+            builder
+               .HasOne(prop => prop.CidadeFaturamento)
+               .WithMany()
+               .HasForeignKey(prop => prop.CodCidadeFaturamento)
+               .HasPrincipalKey(prop => prop.CodCidade);                 
+
+            builder
+                .HasMany(prop => prop.LocaisVinculados)
+                .WithOne()
+            .HasForeignKey(prop => prop.CodLocalEnvioNFFaturamento)
+                .HasPrincipalKey(prop => prop.CodLocalEnvioNFFaturamento);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { LocalEnvioNFFaturamento } from "./local-envio-nf-faturamento.types";
 import { Peca } from "./peca.types";
 
 export interface Orcamento
@@ -28,7 +29,7 @@ export interface Orcamento
     usuarioCadastro?: string;
     dataEnvioAprovacao?: string;
     dataAprovacaoCliente?: string;
-    enderecoFaturamentoNF?: EnderecoFaturamentoNF;
+    localEnvioNFFaturamento?: LocalEnvioNFFaturamento;
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];
     maoDeObra?: OrcamentoMaoDeObra;

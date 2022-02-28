@@ -1,8 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
-using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 

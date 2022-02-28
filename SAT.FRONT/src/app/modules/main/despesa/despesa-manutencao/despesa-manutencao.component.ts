@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -27,19 +27,11 @@ import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-d
 @Component({
   selector: 'app-despesa-manutencao',
   templateUrl: './despesa-manutencao.component.html',
-  styles: [`
-        .list-grid-despesa-manutencao  {
-            grid-template-columns: 100px 100px 100px 100px 100px;
-            @screen sm { grid-template-columns: 100px 100px 100px 100px 100px;}
-            @screen md { grid-template-columns: 100px 100px 100px 100px 100px; }
-            @screen lg { grid-template-columns: 100px 100px 100px 100px 100px; }
-        }
-    `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaManutencaoComponent implements AfterContentInit, OnInit
+export class DespesaManutencaoComponent implements OnInit
 {
   isLoading: boolean;
   isDespesaLoading: boolean;
@@ -59,7 +51,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
 
   constructor (
-    private _userService: UserService,
+    public _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _despesaSvc: DespesaService,
@@ -78,14 +70,11 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     this.codDespesaPeriodo = +this._route.snapshot.paramMap.get('codDespesaPeriodo');
   }
 
-  ngOnInit()
+  async ngOnInit()
   {
     this.isDespesaLoading = false;
     this.isLoading = false;
-  }
 
-  async ngAfterContentInit()
-  {
     await this.obterDados();
 
     if (this.sort && this.paginator)

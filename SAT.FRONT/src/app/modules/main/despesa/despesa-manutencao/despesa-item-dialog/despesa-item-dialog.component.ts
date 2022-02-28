@@ -147,7 +147,6 @@ export class DespesaItemDialogComponent implements OnInit
 
   async confirmar()
   {
-    debugger
     var despesaItem: DespesaItem = this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
     
     this._despesaItemSvc.criar(despesaItem)
@@ -222,7 +221,7 @@ export class DespesaItemDialogComponent implements OnInit
       despesaValor: this.despesaItemForm.value.step2.valor,
       codUsuarioCad: this.userSession.usuario.codUsuario,
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta,
+      codDespesaItemAlerta: this.despesaItemForm.value.step2.codDespesaItemAlerta != 0 ? this.despesaItemForm.value.step2.codDespesaItemAlerta : null,
       codDespesaConfiguracao: this.despesaConfiguracao.codDespesaConfiguracao,
       obs: this.despesaItemForm.value.step3.obs,
       indAtivo: statusConst.ATIVO

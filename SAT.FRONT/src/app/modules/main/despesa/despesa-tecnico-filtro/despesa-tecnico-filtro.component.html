@@ -14,35 +14,12 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('ativo') }}</mat-label>
-
-                    <mat-select formControlName="indAtivo">
-
-                        <mat-option [value]="null"></mat-option>
-                        <mat-option [value]="1">{{ t('sim') }}</mat-option>
-                        <mat-option [value]="0">{{ t('nao') }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <!-- 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('liberado') }}</mat-label>
-
-                    <mat-select formControlName="indTecnicoLiberado">
-
-                        <mat-option [value]="null"></mat-option>
-                        <mat-option [value]="1">{{ t('sim') }}</mat-option>
-                        <mat-option [value]="0">{{ t('nao') }}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
 
                     <mat-select formControlName="codFiliais" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
-                            'codFilial')" [value]="0">
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codFiliais, filiais, 'codFilial')">
                             {{t('todas') | uppercase }}
                         </mat-option>
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
@@ -51,11 +28,19 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('ativo') }}</mat-label>
+
+                    <mat-select formControlName="indAtivo">
+                        <mat-option [value]="1">{{ t('sim') }}</mat-option>
+                        <mat-option [value]="0">{{ t('nao') }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div class="mt-6 border-t"></div>
 
-            <div class="flex items-center justify-start px-8 py-5">
+            <div class="flex items-center justify-start px-8 py-3 relative">
                 <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
@@ -63,6 +48,9 @@
                 <button side (click)="limpar()" color="warn" mat-button>
                     {{ t('limpar') }}
                 </button>
+
+                <salvar-filtro-usuario [filterName]="'despesa-tecnico'" [filterBase]="this">
+                </salvar-filtro-usuario>
             </div>
         </form>
     </ng-container>

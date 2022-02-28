@@ -37,7 +37,7 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
   isLoading: boolean = false;
   tecnicos: DespesaAdiantamentoPeriodoConsultaTecnicoData;
 
-  constructor (
+  constructor(
     private _cdr: ChangeDetectorRef,
     protected _userService: UserService,
     private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService)
@@ -65,9 +65,17 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
     this._cdr.detectChanges();
   }
 
-  private async obterConsultaTecnicos(filter?: string)
+  loadFilter(): void
   {
-    this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterConsultaTecnicos({
+    super.loadFilter();
+
+    if (this.userSession?.usuario?.codFilial && this.filter)
+      this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
+  }
+
+  private async obterTecnicos(filter?: string)
+  {
+    this.tecnicos = (await this._despesaAdiantamentoPeriodoSvc.obterTecnicos({
       codFiliais: this.filter?.parametros?.codFiliais,
       indAtivoTecnico: this.filter?.parametros?.indAtivo || 1,
       indTecnicoLiberado: this.filter?.parametros?.indTecnicoLiberado,
@@ -83,7 +91,7 @@ export class DespesaTecnicoListaComponent extends Filterable implements AfterVie
   {
     this.isLoading = true;
 
-    await this.obterConsultaTecnicos(filter);
+    await this.obterTecnicos(filter);
 
     this.isLoading = false;
   }

@@ -4,7 +4,7 @@
             class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
             <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8
                 border-b">
-                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading || isDespesaLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
                 <div class="flex flex-auto items-center min-w-0">
@@ -60,9 +60,7 @@
                         <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>
-                <div class="flex justify-center align-middle items-center" *ngIf="isDespesaLoading && !isLoading">
-                    <mat-progress-spinner diameter="50" [mode]="'indeterminate'"></mat-progress-spinner>
-                </div>
+
                 <div class="flex flex-col fuse-mat-dense my-2 max-h-screen overflow-auto"
                     *ngIf="despesaItens.length > 0 && !isDespesaLoading">
                     <table mat-table [dataSource]="despesaItens" class="mat-elevation-z4">
@@ -101,8 +99,8 @@
                         </ng-container>
 
                         <ng-container matColumnDef="acao">
-                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black"> {{ t('acao') }} </th>
-                            <td mat-cell *matCellDef="let di">
+                            <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black text-center"> {{ t('acao') }} </th>
+                            <td mat-cell *matCellDef="let di" class="text-center">
                                 <button mat-icon-button (click)="excluirDespesaItem(di)">
                                     <mat-icon class="text-xs text-red-500" [svgIcon]="'heroicons_outline:trash'">
                                     </mat-icon>
@@ -116,7 +114,8 @@
                 </div>
                 <div *ngIf="!despesaItens.length && !isLoading"
                     class="p-8 sm:p-16 border-t fuse-mat-dense text-2xl font-semibold tracking-tight text-center">
-                    Nenhuma despesa lançada até o momento.</div>
+                    Nenhuma despesa lançada até o momento.
+                </div>
             </div>
         </div>
     </mat-drawer-content>

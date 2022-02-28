@@ -1,5 +1,4 @@
 <div class="flex-auto" *transloco="let t">
-    <!-- Filtros -->
     <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-6 px-6 md:px-8 border-b">
         <div class="flex justify-between">
             <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
@@ -11,7 +10,6 @@
             </button>
         </div>
     </div>
-    <!-- Filtros -->
 
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
@@ -243,7 +241,6 @@
 
                 <salvar-filtro-usuario [filterName]="'ordem-servico'" [filterBase]="this">
                 </salvar-filtro-usuario>
-
             </div>
         </form>
     </ng-container>

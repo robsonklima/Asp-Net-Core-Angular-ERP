@@ -340,20 +340,6 @@ export class DefaultComponent implements OnInit, OnDestroy
         return moment(dataHora).locale('pt').fromNow();
     }
 
-    checarPermissao(tipo: string = ''): boolean
-    {
-        switch (tipo)
-        {
-            case 'SERVICOS':
-            case 'SERVIDORES':
-            case 'HISTORICO':
-                if (this.sessionData.usuario.codPerfil === 29 || this.sessionData.usuario.codPerfil === 3)
-                    return true;
-            default:
-                return false;
-        }
-    }
-
     ngOnDestroy()
     {
         this._onDestroy.next();

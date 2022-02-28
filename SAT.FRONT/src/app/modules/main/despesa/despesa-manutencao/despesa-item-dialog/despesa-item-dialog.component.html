@@ -41,11 +41,10 @@
                 </div>
 
                 <div class="flex flex-row justify-between fuse-mat-dense space-x-4" *ngIf="isQuilometragem()">
-
                     <div class="min-w-1/2">
-                        <div class="mb-1">Origem</div>
+                        <div class="w-full text-center mt-4 text-2xl">Origem</div>
 
-                        <div class="flex-auto fuse-mat-dense space-x-4 w-full p-2">
+                        <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center">
                             <label>
                                 <input type="radio" value="residencial" formControlName="localInicoDeslocamento">
                                 <span>Residência</span>
@@ -55,12 +54,6 @@
                                 <span>Hotel</span>
                             </label>
                         </div>
-
-                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" mask="00000-000" [readonly]="isResidencial"
-                                [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'cepOrigem'"
-                                [placeholder]="'CEP'">
-                        </mat-form-field>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [readonly]="isResidencial"
@@ -125,9 +118,9 @@
                     </div>
 
                     <div class="min-w-1/2">
-                        <div class="mb-1">Destino</div>
+                        <div class="w-full text-center mt-4 text-2xl">Destino</div>
 
-                        <div class="flex-auto space-x-4 w-full p-2">
+                        <div class="flex-auto space-x-4 w-full my-4 p-2">
                             <label>
                                 <span></span>
                             </label>
@@ -135,11 +128,6 @@
                                 <span></span>
                             </label>
                         </div>
-
-                        <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" [readonly]="true" mask="00000-000"
-                                [formControlName]="'cepDestino'" [placeholder]="'CEP'">
-                        </mat-form-field>
 
                         <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
                             <input matInput autocomplete="off" [readonly]="true" [formControlName]="'enderecoDestino'"
@@ -219,7 +207,7 @@
         <mat-step [formGroupName]="'step3'" [stepControl]="despesaItemForm.get('step3')" #horizontalStepperStep3>
             <ng-template matStepLabel>Revisão</ng-template>
 
-            <div class="flex justify-center items-center" *ngIf=" isValidating">
+            <div class="flex justify-center items-center mt-2" *ngIf=" isValidating">
                 <mat-progress-spinner diameter="50" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
 
@@ -260,6 +248,7 @@
                 <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
                     Voltar
                 </button>
+                
                 <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
                     [color]="'primary'" type="button" (click)="confirmar()">
                     Concluir

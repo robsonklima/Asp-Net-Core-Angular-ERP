@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -102,6 +102,21 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
     this._cdr.detectChanges();
   }
 
+  public async obterDados()
+  {
+    this.isLoading = true;
+
+    await this.obterRAT();
+    await this.obterOS();
+    await this.obterDespesaPeriodoTecnico();
+    await this.obterDespesa();
+    await this.obterConfiguracaoCombustivel();
+    await this.obterDespesaConfiguracao();
+    await this.obterDespesaItemAlertas();
+
+    this.isLoading = false;
+  }
+
   private async obterDespesaPeriodoTecnico()
   {
     this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
@@ -147,10 +162,11 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
 
   async lancarDespesaItem()
   {
-    if (!this.despesa)
-      this.criaDespesa()
-        .finally(() => this.abrirDialogoDespesaItem());
-    else this.abrirDialogoDespesaItem();
+    if (!this.despesa) {
+      this.criaDespesa().finally(() => this.abrirDialogoDespesaItem());
+    } else {
+      this.abrirDialogoDespesaItem();
+    }
   }
 
   abrirDialogoDespesaItem(): void
@@ -163,7 +179,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
         rat: this.rat,
         despesa: this.despesa,
         despesaConfiguracaoCombustivel: this.despesaConfiguracaoCombustivel,
-        despesaConfiguracao: this.despesaConfiguracao?.items[0],
+        despesaConfiguracao: this.despesaConfiguracao?.items.shift(),
         despesaItemAlerta: this.despesaItemAlerta
       }
     });
@@ -173,21 +189,6 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
       if (confirmacao)
         this.obterDespesa();
     });
-  }
-
-  public async obterDados()
-  {
-    this.isLoading = true;
-
-    await this.obterRAT();
-    await this.obterOS();
-    await this.obterDespesaPeriodoTecnico();
-    await this.obterDespesa();
-    await this.obterConfiguracaoCombustivel();
-    await this.obterDespesaConfiguracao();
-    await this.obterDespesaItemAlertas();
-
-    this.isLoading = false;
   }
 
   public excluirDespesaItem(di: DespesaItem)
@@ -209,7 +210,7 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
       {
         this._despesaItemSvc.deletar(di.codDespesaItem).subscribe(() =>
         {
-          this._snack.exibirToast('Despesa removido com sucesso!', 'success');
+          this._snack.exibirToast('Despesa removida com sucesso!', 'success');
           this.obterDespesa();
         }, e =>
         {
@@ -217,12 +218,6 @@ export class DespesaManutencaoComponent implements AfterContentInit, OnInit
         })
       }
     });
-  }
-
-  public permissaoParaRemoverDespesaItem()
-  {
-    // Quem tem permissão para excluir?
-    return this.userSession.usuario.codPerfil == 3;
   }
 
   public async obterConfiguracaoCombustivel()

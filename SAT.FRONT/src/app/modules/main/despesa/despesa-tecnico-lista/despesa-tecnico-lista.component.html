@@ -32,7 +32,7 @@
                     <ng-container>
                         <ng-container>
                             <div class="grid" *ngIf="!isLoading">
-                                <div class="list-grid-tecnico-atendimento    z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                <div class="list-grid-tecnico z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                     matSort matSortDisableClear>
                                     <div>
                                         {{ t('nome') }}
@@ -53,7 +53,7 @@
                                 <ng-container *ngIf="tecnicos?.items?.length">
                                     <ng-container *ngFor="let tec of tecnicos?.items">
                                         <a [routerLink]="'/despesa/atendimentos/'+tec.tecnico.codTecnico">
-                                            <div class="list-grid-tecnico-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                            <div class="list-grid-tecnico grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">
                                                     {{ tec.tecnico.nome | uppercase }}

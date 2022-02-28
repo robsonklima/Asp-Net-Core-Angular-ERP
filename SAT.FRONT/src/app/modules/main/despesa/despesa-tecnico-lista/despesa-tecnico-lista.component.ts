@@ -15,7 +15,7 @@ import { fromEvent } from 'rxjs';
   selector: 'app-despesa-tecnico-lista',
   templateUrl: './despesa-tecnico-lista.component.html',
   styles: [`
-        .list-grid-tecnico-atendimento {
+        .list-grid-tecnico {
             grid-template-columns: auto 130px 130px 130px 50px;
             @screen sm { grid-template-columns: auto 130px 130px 130px 50px; }
             @screen md { grid-template-columns: auto 130px 130px 130px 50px; }

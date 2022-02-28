@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -11,6 +10,7 @@ import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -24,21 +24,17 @@ export class AuthSignInComponent implements OnInit {
     ipData: any = '';
     signInForm: FormGroup;
     showAlert: boolean = false;
-    snackConfigDanger: MatSnackBarConfig = {
-        duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right'
-    };
 
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _usuarioDispositivoSvc: UsuarioDispositivoService,
         private _emailSvc: EmailService,
         private _userSvc: UserService,
-        private _snack: MatSnackBar,
+        private _snack: CustomSnackbarService,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private device: DeviceDetectorService,
         private _router: Router,
-        private _cdr: ChangeDetectorRef,
     ) { }
 
     async ngOnInit() {
@@ -52,9 +48,7 @@ export class AuthSignInComponent implements OnInit {
 
         this.signInForm.get("senha").valueChanges.subscribe(txt => {
             const senhaForte = this._userSvc.verificarSenhaForte(txt);
-            
-            if (!senhaForte)
-                this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
+            if (!senhaForte) this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
         });
     }
 
@@ -66,24 +60,20 @@ export class AuthSignInComponent implements OnInit {
         const senha = form.senha;
         const usuario = await this._userSvc.obterPorCodigo(codUsuario).toPromise();
 
-        const dispositivoData = await this._usuarioDispositivoSvc
-            .obterPorParametros({
-                codUsuario: codUsuario,
-                sistemaOperacional: this.deviceInfo.os,
-                navegador: this.deviceInfo.browser,
-                versaoSO: this.deviceInfo.os_version,
-                tipoDispositivo: this.deviceInfo.deviceType,
-                ip: this.ipData.ip
-            })
-            .toPromise();
+        const params = {
+            codUsuario: codUsuario,
+            sistemaOperacional: this.deviceInfo.os,
+            navegador: this.deviceInfo.browser,
+            versaoSO: this.deviceInfo.os_version,
+            tipoDispositivo: this.deviceInfo.deviceType,
+            ip: this.ipData.ip
+        }
 
+        const dispositivoData = await this._usuarioDispositivoSvc.obterPorParametros(params).toPromise();
         let dispositivo = dispositivoData.items.shift();
 
         if (!usuario || !usuario?.email) {
-            this._snack
-                .open('O usuário informado não possui e-mail cadastrado.', null, this.snackConfigDanger)
-                .afterDismissed()
-                .toPromise();
+            this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
         } else if (!dispositivo) {
             dispositivo = await this.cadastrarDispositivo();
             this.enviarEmail(codUsuario, usuario, dispositivo);
@@ -97,7 +87,7 @@ export class AuthSignInComponent implements OnInit {
                 }, (e) => {
                     this.signInForm.enable();
                     this.signInNgForm.resetForm();
-                    this._snack.open(e?.error?.errorMessage || 'Ocorreu um erro');
+                    this._snack.exibirToast(e?.error?.errorMessage || 'Ocorreu um erro', 'error')
                 });
 
             this.signInForm.enable();

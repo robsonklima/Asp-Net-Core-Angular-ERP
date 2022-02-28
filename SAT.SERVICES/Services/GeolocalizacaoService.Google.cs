@@ -28,7 +28,7 @@ namespace SAT.SERVICES.Services
                 var bairro = model.results[0].address_components.Where(ac => ac.types.Contains("sublocality")).FirstOrDefault();
                 var cidade = model.results[0].address_components.Where(ac => ac.types.Contains("administrative_area_level_2")).FirstOrDefault();
                 var estado = model.results[0].address_components.Where(ac => ac.types.Contains("administrative_area_level_1")).FirstOrDefault();
-                var endereco = model.results[0].address_components.Where(ac => ac.types.Contains("route")).FirstOrDefault();
+                var endereco = model.results[0].formatted_address;
                 var numero = model.results[0].address_components.Where(ac => ac.types.Contains("street_number")).FirstOrDefault();
                 var pais = model.results[0].address_components.Where(ac => ac.types.Contains("country")).FirstOrDefault();
 
@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
                     EnderecoCEP = parameters?.EnderecoCEP,
                     Latitude = model?.results[0]?.geometry.location?.lat.ToString(),
                     Longitude = model?.results[0]?.geometry.location?.lng.ToString(),
-                    Endereco = endereco.long_name,
+                    Endereco = endereco,
                     Pais = pais.long_name,
                     Bairro = bairro?.long_name,
                     Cidade = cidade?.long_name,

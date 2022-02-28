@@ -10,7 +10,7 @@
                                 {{t('ola')}}, {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
                             </div>
                         </ng-container>
-                        <div class="flex items-center">
+                        <div class="flex items-center" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
                             <div class="ml-0.5 leading-6 truncate text-secondary">
                                 <span *ngIf="!ultimoProcessamento || loading">
                                     Carregando...
@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3"
-                        mat-flat-button [color]="'primary'">
+                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'"
+                        *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
                         <mat-icon *ngIf="!loading" class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                         <mat-progress-spinner *ngIf="loading" [diameter]="22" [mode]="'indeterminate'">
                         </mat-progress-spinner>
@@ -39,7 +39,7 @@
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-                <mat-tab label="Serviços" *ngIf="checarPermissao('SERVICOS')">
+                <mat-tab label="Serviços" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
                     <ng-template matTabContent>
                         <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
                             <div
@@ -347,7 +347,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Servidores" *ngIf="checarPermissao('SERVIDORES')">
+                <mat-tab label="Servidores" *ngIf="sessionData.usuario.codPerfil === 3">
                     <ng-template matTabContent>
                         <div class="w-full">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
@@ -479,7 +479,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Disponibilidade" *ngIf="checarPermissao('HISTORICO')">
+                <mat-tab label="Disponibilidade" *ngIf="sessionData.usuario.codPerfil === 3">
                     <ng-template matTabContent>
                         <div
                             class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
@@ -527,7 +527,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Ociosidade">
+                <mat-tab label="Ociosidade" *ngIf="sessionData.usuario.codPerfil === 3">
                     <ng-template matTabContent>
                         <div class="bg-card overflow-hidden shadow rounded-2xl px-6">
                             <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">

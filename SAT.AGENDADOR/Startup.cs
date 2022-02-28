@@ -30,7 +30,7 @@ namespace SAT.AGENDADOR
                 IServiceCollection services = new ServiceCollection();
 
                 // Configura o DB
-                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
+                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
 //#if DEBUG
 //                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
 //#else

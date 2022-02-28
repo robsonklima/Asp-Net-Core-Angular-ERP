@@ -1,0 +1,27 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="max-w-4xl">
+        <form>
+            class="flex flex-col bg-card shadow rounded overflow-hidden">
+            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <p class="text-lg font-medium">{{ t('orcamentos faturamento') }}</p>
+            </div>
+            <div
+                class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('cliente') }}</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('contrato') }}</mat-label>
+                </mat-form-field>                    
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <p class="text-lg font-medium">{{ t('dados local para faturamento') }}</p>
+            </div>
+
+            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <p class="text-lg font-medium">{{ t('dados local para envio de Nota Fiscal ') }}</p>
+            </div>
+        </form>
+    </div>
+</div>

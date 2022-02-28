@@ -44,7 +44,7 @@
                                             {{ t('filial perto') }}
                                         </td>
                                         <td class="py-4 white space-nowrap text-lg text-gray-900 font-light">
-                                            {{usuario?.filial?.nomeFilial || 'Sem filial cadastrada' | titlecase}}
+                                            {{ (usuario?.filial?.nomeFilial || 'Sem filial cadastrada') | uppercase }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">

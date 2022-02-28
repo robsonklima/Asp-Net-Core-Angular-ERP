@@ -19,6 +19,7 @@ import 'leaflet-routing-machine';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 declare var L: any;
 
 
@@ -46,7 +47,7 @@ export class DespesaItemDialogComponent implements OnInit
   kmPrevisto: number;
   tentativaKm: number = 0;
 
-  constructor (
+  constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private _formBuilder: FormBuilder,
     private _despesaTipoSvc: DespesaTipoService,
@@ -54,6 +55,7 @@ export class DespesaItemDialogComponent implements OnInit
     private _userSvc: UserService,
     private _cidadeSvc: CidadeService,
     private _geolocationService: GeolocalizacaoService,
+    private _snack: CustomSnackbarService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>)
   {
     if (data)
@@ -68,12 +70,14 @@ export class DespesaItemDialogComponent implements OnInit
     }
 
     this.userSession = JSON.parse(this._userSvc.userSession);
-
-    this.obterTiposDespesa();
-    this.criarFormularioDespesaItem();
   }
 
-  async ngOnInit() { }
+  async ngOnInit()
+  {
+    this.obterTiposDespesa();
+    this.criarFormularioDespesaItem();
+    this.registrarEmitters();
+  }
 
   private async obterTiposDespesa()
   {
@@ -98,7 +102,6 @@ export class DespesaItemDialogComponent implements OnInit
         localInicoDeslocamento: [undefined, Validators.required],
         codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
         enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
-        cepDestino: [this.ordemServico?.localAtendimento?.cep, Validators.required],
         bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
         complementoDestino: [this.ordemServico?.localAtendimento?.enderecoComplemento],
         numeroDestino: [this.ordemServico?.localAtendimento?.numeroEnd],
@@ -109,7 +112,6 @@ export class DespesaItemDialogComponent implements OnInit
         longitudeDestino: [this.ordemServico?.localAtendimento?.longitude, Validators.required],
 
         enderecoOrigem: [undefined, Validators.required],
-        cepOrigem: [undefined, Validators.required],
         bairroOrigem: [undefined, Validators.required],
         complementoOrigem: [undefined],
         numeroOrigem: [undefined],
@@ -118,7 +120,6 @@ export class DespesaItemDialogComponent implements OnInit
         paisOrigem: [undefined, Validators.required],
         latitudeOrigem: [undefined, Validators.required],
         longitudeOrigem: [undefined, Validators.required],
-
         quilometragem: [undefined, Validators.required],
       }),
       step3: this._formBuilder.group({
@@ -126,14 +127,6 @@ export class DespesaItemDialogComponent implements OnInit
         obs: [undefined, Validators.required],
       }),
     });
-
-    this.registerEmitters();
-  }
-
-  registerEmitters()
-  {
-    this.onLocalInicoDeslocamentoChanged();
-    this.onEnderecoChanged();
   }
 
   obterTipoDespesa()
@@ -154,13 +147,20 @@ export class DespesaItemDialogComponent implements OnInit
 
   async confirmar()
   {
-    var despesaItem: DespesaItem =
-      this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
-
+    debugger
+    var despesaItem: DespesaItem = this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
+    
     this._despesaItemSvc.criar(despesaItem)
-      .subscribe(
-        () => this.dialogRef.close(true),
-        () => this.dialogRef.close(false));
+      .subscribe(() =>
+      {
+        this.dialogRef.close(true);
+      },
+        () =>
+        {
+          this._snack.exibirToast('Erro ao adicionar item da despesa!', 'error');
+          this.dialogRef.close(false);
+        }
+      );
   }
 
   async criaDespesaItemQuilometragem()
@@ -205,12 +205,11 @@ export class DespesaItemDialogComponent implements OnInit
 
   async obterCidadePeloNome(nomeCidade: string)
   {
-    return (await this._cidadeSvc.obterPorParametros
-      ({
-        filter: nomeCidade,
-        indAtivo: statusConst.ATIVO,
-        pageSize: 5
-      }).toPromise()).items[0]?.codCidade;
+    return (await this._cidadeSvc.obterPorParametros({
+      filter: nomeCidade,
+      indAtivo: statusConst.ATIVO,
+      pageSize: 5
+    }).toPromise()).items.shift().codCidade;
   }
 
   criaDespesaItemOutros(): DespesaItem
@@ -232,59 +231,29 @@ export class DespesaItemDialogComponent implements OnInit
     return despesaItem;
   }
 
-  private onLocalInicoDeslocamentoChanged(): void
+  async getGoogleLocation(): Promise<any>
   {
-    (this.despesaItemForm.get('step2') as FormGroup)
-      .controls['localInicoDeslocamento']
-      .valueChanges.subscribe(() =>
-      {
-        this.resetFields();
+    return new Promise((resolve, reject) =>
+    {
+      if ((this.despesaItemForm.get('step2') as FormGroup)
+        .controls['localInicoDeslocamento']
+        .value === "residencial")
+        return;
 
-        if ((this.despesaItemForm.get('step2') as FormGroup)
-          .controls['localInicoDeslocamento'].value === "residencial")
+      var address: string =
+        (this.despesaItemForm.get('step2') as FormGroup)
+          .controls['enderecoOrigem'].value?.toString();
+
+      this._geolocationService
+        .obterPorParametros({ enderecoCep: address.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .subscribe((address) =>
         {
-          this.setOrigemResidencial();
-          this.isResidencial = true;
-        }
-        else
-          this.isResidencial = false;
-      });
+          if (address)
+            this.updateGoogleAddress(address);
 
-    (this.despesaItemForm.get('step2') as FormGroup)
-      .controls['localInicoDeslocamento'].setValue("residencial");
-  }
-
-  private onEnderecoChanged(): void
-  {
-    (this.despesaItemForm.get('step2') as FormGroup)
-      .controls['cepOrigem']
-      .valueChanges.pipe(
-        debounceTime(700),
-        distinctUntilChanged()
-      ).subscribe(async () =>
-      {
-        this.getGoogleLocation();
-      });
-  }
-
-  async getGoogleLocation()
-  {
-    if ((this.despesaItemForm.get('step2') as FormGroup)
-      .controls['localInicoDeslocamento']
-      .value === "residencial")
-      return;
-
-    var cep: string =
-      (this.despesaItemForm.get('step2') as FormGroup)
-        .controls['cepOrigem'].value?.toString();
-
-    if (!cep) return;
-
-    var address =
-      (await this._geolocationService.obterPorParametros({ enderecoCep: cep.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
-
-    if (address)
-      this.updateGoogleAddress(address);
+          resolve(address);
+        });
+    })
   }
 
   private updateGoogleAddress(address: Geolocalizacao): void
@@ -333,11 +302,6 @@ export class DespesaItemDialogComponent implements OnInit
         .setValue(address.pais);
   }
 
-  calculaConsumoCombustivel(): number
-  {
-    return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
-  }
-
   async revisar()
   {
     this.isValidating = true;
@@ -352,11 +316,10 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isQuilometragem()) return;
 
-    this.kmPrevisto = await this.calculaQuilometragemGoogle();
+    this.kmPrevisto = await this.calculaQuilometragem();
 
-    // se a quilometragem informada for maior que a calculada e a diferença for maior q 1km
     if (this.despesaItemForm.value.step2.quilometragem > this.kmPrevisto &&
-      Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 1)
+      Math.abs(this.kmPrevisto - this.despesaItemForm.value.step2.quilometragem) > 2)
     {
       // centro a centro
       if (this.despesaItemForm.value.step2.bairroOrigem.toString()?.toLowerCase()?.includes("centro") &&
@@ -380,7 +343,6 @@ export class DespesaItemDialogComponent implements OnInit
   {
     if (!this.isRefeicao()) return;
 
-    // se o valor da refeicao informada for maior que o limite da configuracao
     if (this.despesaItemForm.value.step2.valor > this.despesaConfiguracao.valorRefeicaoLimiteTecnico)
     {
       (this.despesaItemForm.get('step2') as FormGroup).controls['codDespesaItemAlerta']
@@ -414,33 +376,7 @@ export class DespesaItemDialogComponent implements OnInit
       return "Quilometragem maior que a prevista. Por favor, justifique abaixo."
   }
 
-  //   async calculaQuilometragemLeaflet(): Promise<number>
-  //   {
-  //     var origem = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value,
-  //       (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value);
-  // 
-  //     var destino = L.latLng((this.despesaItemForm.get('step2') as any).controls['latitudeDestino'].value,
-  //       (this.despesaItemForm.get('step2') as any).controls['longitudeDestino'].value);
-  // 
-  //     if (this.map == null)
-  //       this.map = L.map('map').setView(origem, destino, 1);
-  // 
-  //     var routing = L.Routing.control({
-  //       waypoints: [origem, destino],
-  //       routeWhileDragging: true,
-  //       show: false,
-  //       createMarker: function (p1, p2) { }
-  //     })
-  // 
-  //     return new Promise(resolve => routing.on('routesfound', (e) =>
-  //     {
-  //       var routes = e.routes;
-  //       var summary = routes[0].summary;
-  //       resolve(summary.totalDistance / 1000);
-  //     }).addTo(this.map));
-  //   }
-
-  async calculaQuilometragemGoogle(): Promise<number>
+  async calculaQuilometragem(): Promise<number>
   {
     var oLat = (this.despesaItemForm.get('step2') as any).controls['latitudeOrigem'].value;
     var oLong = (this.despesaItemForm.get('step2') as any).controls['longitudeOrigem'].value;
@@ -453,7 +389,7 @@ export class DespesaItemDialogComponent implements OnInit
       longitudeDestino: dLong,
       latitudeOrigem: oLat,
       longitudeOrigem: oLong,
-      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.NOMINATIM
+      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE
     }).subscribe(result =>
     {
       resolve(result.distancia / 1000);
@@ -478,7 +414,6 @@ export class DespesaItemDialogComponent implements OnInit
 
   private resetFields(): void
   {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].reset();
@@ -494,7 +429,6 @@ export class DespesaItemDialogComponent implements OnInit
   private setOrigemResidencial(): void
   {
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(this.rat.tecnico.endereco);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cepOrigem'].setValue(this.rat.tecnico.cep);
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(this.rat.tecnico.bairro);
     (this.despesaItemForm.get('step2') as FormGroup).controls['complementoOrigem'].setValue(this.rat.tecnico.enderecoComplemento);
     (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(this.rat.tecnico.cidade.nomeCidade);
@@ -503,5 +437,46 @@ export class DespesaItemDialogComponent implements OnInit
     (this.despesaItemForm.get('step2') as FormGroup).controls['paisOrigem'].setValue(this.rat.tecnico.cidade.unidadeFederativa.pais.siglaPais);
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.rat.tecnico.latitude);
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
+  }
+
+  private registrarEmitters()
+  {
+    this.localInicoDeslocamentoEmitter();
+    this.enderecoOrigemEmitter();
+  }
+
+  private localInicoDeslocamentoEmitter()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].valueChanges.subscribe(() =>
+    {
+      this.resetFields();
+
+      if ((this.despesaItemForm.get('step2') as FormGroup)
+        .controls['localInicoDeslocamento'].value === "residencial")
+      {
+        this.setOrigemResidencial();
+        this.isResidencial = true;
+      }
+      else
+        this.isResidencial = false;
+    });
+  }
+
+  private enderecoOrigemEmitter()
+  {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].setValue("residencial");
+
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].valueChanges.pipe(
+      debounceTime(1200),
+      distinctUntilChanged()
+    ).subscribe(async () =>
+    {
+      this.getGoogleLocation();
+    });
+  }
+
+  calculaConsumoCombustivel(): number
+  {
+    return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
   }
 }

@@ -23,7 +23,7 @@ export const appConfig: AppConfig = {
     layout: 'dense',
     scheme: 'light',
     theme: 'brand',
-    api: apiConst.PROD,
+    api: apiConst.LOCALHOST_5001,
     tempo_atualizacao_dashboard_minutos: 5,
     google_key: 'AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM',
     tailwind_css: 'https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css',

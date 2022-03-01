@@ -113,7 +113,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         FuseAlertModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
-        FiltroModule
+        FiltroModule,
+        NgxMatSelectSearchModule
     ]
 })
 export class OrcamentoModule { }

@@ -12,14 +12,14 @@ namespace SAT.MODELS.Entities
         public string ComplementoFaturamento { get; set; }
         public string NumeroFaturamento { get; set; }
         public string BairroFaturamento { get; set; }
-        public string Cnpjfaturamento { get; set; }
+        public string CnpjFaturamento { get; set; }
         public string InscricaoEstadualFaturamento { get; set; }
         public string ResponsavelFaturamento { get; set; }
         public string EmailFaturamento { get; set; }
         public string FoneFaturamento { get; set; }
         public string FaxFaturamento { get; set; }
         public byte? IndAtivoFaturamento { get; set; }
-        public string CEPFaturamento { get; set; }
+        public string CepFaturamento { get; set; }
         public int? CodUFFaturamento { get; set; }
         public int? CodCidadeFaturamento { get; set; }
         public string RazaoSocialEnvioNF { get; set; }
@@ -27,14 +27,14 @@ namespace SAT.MODELS.Entities
         public string ComplementoEnvioNF { get; set; }
         public string NumeroEnvioNF { get; set; }
         public string BairroEnvioNF { get; set; }
-        public string CNPJEnvioNF { get; set; }
+        public string CnpjEnvioNF { get; set; }
         public string InscricaoEstadualEnvioNF { get; set; }
         public string ResponsavelEnvioNF { get; set; }
         public string EmailEnvioNF { get; set; }
         public string FoneEnvioNF { get; set; }
         public string FaxEnvioNF { get; set; }
         public byte? IndAtivoEnvioNF { get; set; }
-        public string CEPEnvioNF { get; set; }
+        public string CepEnvioNF { get; set; }
         public int? CodCidadeEnvioNF { get; set; }
         public int? CodUFEnvioNF { get; set; }
         public string CodUsuarioCad { get; set; }

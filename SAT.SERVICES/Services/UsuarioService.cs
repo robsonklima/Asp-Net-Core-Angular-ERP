@@ -157,7 +157,7 @@ namespace SAT.SERVICES.Services
             var navegacoes = usuario.Perfil?.NavegacoesConfiguracao
                 .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
 
-            if (navegacoes.Count == 0)
+            if (navegacoes?.Count == 0)
                 throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
 
             return navegacoes;

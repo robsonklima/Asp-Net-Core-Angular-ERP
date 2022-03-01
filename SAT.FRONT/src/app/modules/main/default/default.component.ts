@@ -12,6 +12,7 @@ import { IISLogService } from 'app/core/services/iislog.service';
 import { IISLog } from 'app/core/types/iislog.types';
 import moment from 'moment';
 import _ from 'lodash';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
     selector: 'default',
@@ -356,6 +357,27 @@ export class DefaultComponent implements OnInit, OnDestroy
             return `Boa tarde, ${primeiroNomeUsuario}!`;
         } else {
             return `Boa noite, ${primeiroNomeUsuario}!`;
+        }
+    }
+
+    verificarPermissaoAcessoSlide(slide: string): boolean {
+        const perfil = this.sessionData.usuario.codPerfil;
+
+        switch (slide) {
+            case 'SERVICOS':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+            case 'SERVIDORES':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'DISPONIBILIDADE':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'OCIOSIDADE':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'UTILIZACAO':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'BOAS_VINDAS':
+                return perfil !== PerfilEnum.ADM_DO_SISTEMA && perfil !== PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+            default:
+                return false;
         }
     }
 

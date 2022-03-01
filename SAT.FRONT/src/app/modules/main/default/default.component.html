@@ -41,8 +41,15 @@
 
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
+            <div class="px-12 w-full" *ngIf="verificarPermissaoAcessoSlide('BOAS_VINDAS')">
+                <p class="text-secondary">
+                    A tela de boas vindas do sistema apresenta informações de acordo com o perfil do seu usuário. <br>
+                    Logo seu perfil estará visualizando informações úteis para o seu dia-a-dia.
+                </p>
+            </div>
+
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-                <mat-tab label="Serviços" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Serviços" *ngIf="verificarPermissaoAcessoSlide('SERVICOS')">
                     <ng-template matTabContent>
                         <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
                             <div
@@ -347,7 +354,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Servidores" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Servidores" *ngIf="verificarPermissaoAcessoSlide('SERVIDORES')">
                     <ng-template matTabContent>
                         <div class="w-full">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
@@ -479,7 +486,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Disponibilidade" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Disponibilidade" *ngIf="verificarPermissaoAcessoSlide('DISPONIBILIDADE')">
                     <ng-template matTabContent>
                         <div
                             class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
@@ -527,7 +534,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Ociosidade" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Ociosidade" *ngIf="verificarPermissaoAcessoSlide('OCIOSIDADE')">
                     <ng-template matTabContent>
                         <div class="bg-card overflow-hidden shadow rounded-2xl px-6">
                             <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
@@ -606,7 +613,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Utilização" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
                     <ng-template matTabContent>
                         <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
                             <div

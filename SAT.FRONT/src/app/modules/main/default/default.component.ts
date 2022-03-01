@@ -3,7 +3,7 @@ import { interval, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { ApexOptions } from 'ng-apexcharts';
 import { fuseAnimations } from '@fuse/animations';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UsuarioSessao, UsuariosLogados } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
 import { Monitoramento, monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
@@ -33,6 +33,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
     velocidadeInternet: string;
     eventosOciosos: IISLog[] = [];
+    usuariosLogados: UsuariosLogados;
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -48,7 +49,6 @@ export class DefaultComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.obterOpcoesDatas();
-        
 
         interval(3 * 60 * 1000)
             .pipe(
@@ -69,6 +69,7 @@ export class DefaultComponent implements OnInit, OnDestroy
         await this.obterMonitoramentoHistorico('CPU', data);
         await this.obterMonitoramentoHistorico('MEMORY', data);
         await this.obterEventosOciosos(data);
+        await this.obterUsuariosLogados();
         this.prepararDadosGraficos();
         this.ultimoProcessamento = moment().format('yyyy-MM-DD HH:mm:ss');
 
@@ -288,6 +289,10 @@ export class DefaultComponent implements OnInit, OnDestroy
                 prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
             });
         }
+    }
+
+    private async obterUsuariosLogados() {
+        this.usuariosLogados = await this._userService.obterUsuariosLogados().toPromise();
     }
 
     obterNomeRecurso(nome: string): string {

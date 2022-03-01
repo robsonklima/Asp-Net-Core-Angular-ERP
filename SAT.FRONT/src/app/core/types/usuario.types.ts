@@ -84,3 +84,8 @@ export interface UsuarioParameters extends QueryStringParameters {
     codTecnico?: number;
     codPontoPeriodo?: number;
 };
+
+export interface UsuariosLogados {
+    usuariosAtivos: number;
+    usuariosLogados: number
+}

@@ -32,18 +32,7 @@ namespace SAT.SERVICES.Services
         public UsuarioLoginViewModel Login(Usuario usuario)
         {
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
-
-            for (int i = 0; i < usuarioLogado.Perfil?.NavegacoesConfiguracao?.Count; i++)
-            {
-                usuarioLogado.Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuarioLogado
-                    .Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Title.ToLower();
-            }
-
-            var navegacoes = usuarioLogado.Perfil?.NavegacoesConfiguracao
-                .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
-
-            if (navegacoes.Count == 0)
-                throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
+            var navegacoes = CarregarNavegacoes(usuarioLogado);
 
             if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
@@ -156,6 +145,35 @@ namespace SAT.SERVICES.Services
         public void Criar(Usuario usuario)
         {
             this._usuarioRepo.Criar(usuario);
+        }
+
+        private List<Navegacao> CarregarNavegacoes(Usuario usuario) {
+            for (int i = 0; i < usuario.Perfil?.NavegacoesConfiguracao?.Count; i++)
+            {
+                usuario.Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuario
+                    .Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Title.ToLower();
+            }
+
+            var navegacoes = usuario.Perfil?.NavegacoesConfiguracao
+                .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
+
+            if (navegacoes.Count == 0)
+                throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
+
+            return navegacoes;
+        }
+
+        public UsuariosLogadosViewModel ObterUsuariosLogados()
+        {
+            var usuariosAtivos = _usuarioRepo.ObterPorParametros(new UsuarioParameters() { IndAtivo = 1 });
+
+            var dataRange = DateTime.Now.AddHours(-4);
+            var usuariosLogados = usuariosAtivos.Where(u => u.UltimoAcesso >= dataRange);
+
+            return new UsuariosLogadosViewModel() {
+                UsuariosAtivos = usuariosAtivos.Count(),
+                UsuariosLogados = usuariosLogados.Count()
+            };
         }
     }
 }

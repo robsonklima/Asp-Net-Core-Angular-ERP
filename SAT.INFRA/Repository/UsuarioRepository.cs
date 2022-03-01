@@ -189,7 +189,6 @@ namespace SAT.INFRA.Repository
                 try
                 {
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
-                    _context.ChangeTracker.Clear();
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)

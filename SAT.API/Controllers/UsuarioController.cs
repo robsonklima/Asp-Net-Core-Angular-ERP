@@ -48,7 +48,6 @@ namespace SAT.API.Controllers
             return _usuarioService.Login(usuario);
         }
 
-
         [HttpPut]
         public void Put([FromBody] Usuario usuario)
         {
@@ -68,6 +67,12 @@ namespace SAT.API.Controllers
         {
             ResponseObject response = _usuarioService.EsqueceuSenha(codUsuario);
             return response.RequestValido ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpGet("UsuariosLogados")]
+        public UsuariosLogadosViewModel GetUsuariosLogados(string codUsuario)
+        {
+            return _usuarioService.ObterUsuariosLogados();
         }
     }
 }

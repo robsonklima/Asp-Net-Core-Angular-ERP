@@ -3,7 +3,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { SegurancaUsuarioModel, User } from 'app/core/user/user.types';
 import { AppConfig, appConfig as c } from 'app/core/config/app.config'
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Usuario, UsuarioData, UsuarioParameters } from '../types/usuario.types';
+import { Usuario, UsuarioData, UsuarioParameters, UsuariosLogados } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
 import { FiltroUsuarioData } from '../types/filtro.types';
@@ -53,6 +53,13 @@ export class UserService {
   obterPorCodigo(codUsuario: string): Observable<Usuario> {
     const url = `${c.api}/Usuario/${codUsuario}`;
     return this.http.get<Usuario>(url).pipe(
+      map((obj) => obj)
+    );
+  }
+
+  obterUsuariosLogados(): Observable<UsuariosLogados> {
+    const url = `${c.api}/Usuario/UsuariosLogados`;
+    return this.http.get<UsuariosLogados>(url).pipe(
       map((obj) => obj)
     );
   }

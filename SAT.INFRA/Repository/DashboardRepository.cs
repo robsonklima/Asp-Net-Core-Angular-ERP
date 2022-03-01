@@ -107,38 +107,6 @@ namespace SAT.INFRA.Repository
             return _context.Defeito.FirstOrDefault(d => d.CodDefeito == codigo);
         }
 
-        public PagedList<Defeito> ObterPorParametros(DefeitoParameters parameters)
-        {
-            var defeitos = _context.Defeito.AsQueryable();
-
-            if (parameters.Filter != null)
-            {
-                defeitos = defeitos.Where(
-                    s =>
-                    s.CodDefeito.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.CodEDefeito.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.NomeDefeito.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
-
-            if (parameters.CodDefeito != null)
-            {
-                defeitos = defeitos.Where(c => c.CodDefeito == parameters.CodDefeito);
-            }
-
-            if (parameters.IndAtivo != null)
-            {
-                defeitos = defeitos.Where(c => c.IndAtivo == parameters.IndAtivo);
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                defeitos = defeitos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
-            }
-
-            return PagedList<Defeito>.ToPagedList(defeitos, parameters.PageNumber, parameters.PageSize);
-        }
-
         public PagedList<DashboardDisponibilidade> ObterPorParametros(DashboardParameters parameters)
         {
             throw new System.NotImplementedException();

@@ -77,7 +77,9 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Cliente)
                 .Include(l => l.Contrato)
                 .Include(l => l.CidadeEnvioNF)
+                    .ThenInclude(c => c.UnidadeFederativa)
                 .Include(l => l.CidadeFaturamento)
+                    .ThenInclude(c => c.UnidadeFederativa)
                 .Include(l => l.LocaisVinculados)
                 .FirstOrDefault(f => f.CodLocalEnvioNFFaturamento == codigo);
         }
@@ -88,7 +90,9 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Cliente)
                 .Include(l => l.Contrato)
                 .Include(l => l.CidadeEnvioNF)
-                .Include(l => l.CidadeFaturamento)                
+                    .ThenInclude(c => c.UnidadeFederativa)
+                .Include(l => l.CidadeFaturamento)        
+                    .ThenInclude(c => c.UnidadeFederativa)        
                 .Include(l => l.LocaisVinculados)
                 .AsQueryable();
 

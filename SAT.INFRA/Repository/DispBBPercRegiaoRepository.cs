@@ -3,6 +3,7 @@ using System.Linq;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.INFRA.Repository
 {

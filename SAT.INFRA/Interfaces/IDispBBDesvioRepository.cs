@@ -1,4 +1,5 @@
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using System.Collections.Generic;
 
 

@@ -1,7 +1,7 @@
 ﻿using SAT.MODELS.Entities.Helpers;
 using System;
 
-namespace SAT.MODELS.Entities
+namespace SAT.MODELS.Entities.Params
 {
     public class FeriadoParameters : QueryStringParameters
     {

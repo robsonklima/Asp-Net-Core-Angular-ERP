@@ -4,7 +4,7 @@ using System.Linq;
 using SAT.MODELS.Enums;
 using System;
 using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.INFRA.Repository
 {

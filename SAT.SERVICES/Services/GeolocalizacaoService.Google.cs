@@ -1,4 +1,5 @@
 ﻿using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using System.Linq;

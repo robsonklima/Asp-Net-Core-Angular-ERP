@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.MODELS.Extensions;
 using SAT.MODELS.ViewModels;

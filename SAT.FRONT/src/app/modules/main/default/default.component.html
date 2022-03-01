@@ -1,5 +1,9 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="bg-card border-b">
+    <div class="relative bg-card border-b">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-0 sm:my-12">
                 <div class="flex flex-auto items-center min-w-0">
@@ -7,16 +11,16 @@
                         <ng-container *transloco="let t">
                             <div
                                 class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-                                {{t('ola')}}, {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
+                                {{ obterMensagemBoasVindas() }}
                             </div>
                         </ng-container>
                         <div class="flex items-center" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
                             <div class="ml-0.5 leading-6 truncate text-secondary">
                                 <span *ngIf="!ultimoProcessamento || loading">
-                                    Carregando...
+                                    Atualizando...
                                 </span>
                                 <span *ngIf="ultimoProcessamento && !loading">
-                                    Dados atualizados {{ obterOciosidadePorExtenso(ultimoProcessamento) }}
+                                    Dados atualizados {{ obterOciosidadePorExtenso(ultimoProcessamento) }} atrás
                                 </span>
                             </div>
                         </div>
@@ -24,12 +28,11 @@
                 </div>
 
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'"
+                    <button
+                        (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'"
                         *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
-                        <mat-icon *ngIf="!loading" class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
-                        <mat-progress-spinner *ngIf="loading" [diameter]="22" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
-                        <span class="ml-2" *ngIf="!loading">{{ t('atualizar') }}</span>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                        <span class="ml-2" >{{ t('atualizar') }}</span>
                     </button>
                 </div>
             </div>
@@ -38,8 +41,15 @@
 
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
+            <div class="px-12 w-full" *ngIf="verificarPermissaoAcessoSlide('BOAS_VINDAS')">
+                <p class="text-secondary font-light">
+                    A tela de boas vindas do sistema apresenta informações de acordo com o perfil do seu usuário. <br>
+                    Em breve serão exibidas aqui informações úteis para o seu dia-a-dia.
+                </p>
+            </div>
+
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-                <mat-tab label="Serviços" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Serviços" *ngIf="verificarPermissaoAcessoSlide('SERVICOS')">
                     <ng-template matTabContent>
                         <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
                             <div
@@ -344,7 +354,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Servidores" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Servidores" *ngIf="verificarPermissaoAcessoSlide('SERVIDORES')">
                     <ng-template matTabContent>
                         <div class="w-full">
                             <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
@@ -476,7 +486,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Disponibilidade" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Disponibilidade" *ngIf="verificarPermissaoAcessoSlide('DISPONIBILIDADE')">
                     <ng-template matTabContent>
                         <div
                             class="sm:col-span-2 lg:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
@@ -524,7 +534,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Ociosidade" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Ociosidade" *ngIf="verificarPermissaoAcessoSlide('OCIOSIDADE')">
                     <ng-template matTabContent>
                         <div class="bg-card overflow-hidden shadow rounded-2xl px-6">
                             <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
@@ -603,14 +613,14 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Utilização" *ngIf="sessionData.usuario.codPerfil === 3">
+                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
                     <ng-template matTabContent>
                         <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
                             <div
-                                class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                class="lg:col-span-6 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex flex-col sm:flex-row items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                                        Usuários Logados
+                                        Utilização do Sistema
                                     </div>
 
                                     <div class="ml-2">
@@ -628,12 +638,34 @@
                                                 <div
                                                     class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                                                     <ng-container>
-                                                        <div class="flex items-center">
+                                                        <div class="flex items-center pr-4">
                                                             <mat-icon class="icon-size-5 text-green-600"
                                                                 [svgIcon]="'heroicons_solid:users'"></mat-icon>
 
-                                                            <div class="ml-1.5 text-md text-secondary">
-                                                                {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logado' }} 
+                                                            <div class="ml-1.5 text-md mt-0.5 text-secondary">
+                                                                {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logados' }} 
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <ng-container>
+                                                        <div class="flex items-center pr-4">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                class="icon-size-5 text-green-600"
+                                                                [svgIcon]="'heroicons_solid:user-add'"></mat-icon>
+                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                                                {{ ((usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <ng-container>
+                                                        <div class="flex items-center pr-4">
+                                                            <mat-icon class="icon-size-5 text-hint"
+                                                                [svgIcon]="'heroicons_solid:user-group'"></mat-icon>
+
+                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                                                {{ usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados }} Ociosos
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -641,20 +673,9 @@
                                                     <ng-container>
                                                         <div class="flex items-center">
                                                             <mat-icon class="icon-size-5 text-hint"
-                                                                [svgIcon]="'heroicons_solid:users'"></mat-icon>
-
-                                                            <div class="ml-1.5 text-md text-secondary">
-                                                                {{ usuariosLogados.usuariosAtivos }} Ativos
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-
-                                                    <ng-container>
-                                                        <div class="flex items-center">
-                                                            <mat-icon class="icon-size-5 text-hint"
-                                                                [svgIcon]="'heroicons_solid:trending-up'"></mat-icon>
-                                                            <div class="ml-1.5 text-md text-secondary">
-                                                                {{ (usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos).toFixed(3) }}%
+                                                                [svgIcon]="'heroicons_solid:user-remove'"></mat-icon>
+                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                                                {{ (((usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados) / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
                                                             </div>
                                                         </div>
                                                     </ng-container>

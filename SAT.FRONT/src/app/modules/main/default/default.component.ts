@@ -12,6 +12,7 @@ import { IISLogService } from 'app/core/services/iislog.service';
 import { IISLog } from 'app/core/types/iislog.types';
 import moment from 'moment';
 import _ from 'lodash';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
     selector: 'default',
@@ -50,7 +51,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     {
         this.obterOpcoesDatas();
 
-        interval(3 * 60 * 1000)
+        interval(10 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
@@ -343,6 +344,41 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadePorExtenso(dataHora: string): string
     {
         return moment(dataHora).locale('pt').fromNow();
+    }
+
+    obterMensagemBoasVindas(): string {
+        const hoje = new Date()
+        const horaCorrente = hoje.getHours();
+        const primeiroNomeUsuario = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift();
+
+        if (horaCorrente < 12) {
+            return `Bom dia, ${primeiroNomeUsuario}!`;
+        } else if (horaCorrente < 18) {
+            return `Boa tarde, ${primeiroNomeUsuario}!`;
+        } else {
+            return `Boa noite, ${primeiroNomeUsuario}!`;
+        }
+    }
+
+    verificarPermissaoAcessoSlide(slide: string): boolean {
+        const perfil = this.sessionData.usuario.codPerfil;
+
+        switch (slide) {
+            case 'SERVICOS':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+            case 'SERVIDORES':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'DISPONIBILIDADE':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'OCIOSIDADE':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'UTILIZACAO':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'BOAS_VINDAS':
+                return perfil !== PerfilEnum.ADM_DO_SISTEMA && perfil !== PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+            default:
+                return false;
+        }
     }
 
     ngOnDestroy()

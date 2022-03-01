@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
 

@@ -1,6 +1,7 @@
 using SAT.MODELS.Entities;
 using System.Linq;
 using System;
+using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Enums;
 

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using IISLogParser;
 using SAT.MODELS.Entities.Constants;
-using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services
 {

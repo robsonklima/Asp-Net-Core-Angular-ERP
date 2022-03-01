@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using SAT.MODELS.Entities.Params;
 using Microsoft.AspNetCore.Mvc;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;

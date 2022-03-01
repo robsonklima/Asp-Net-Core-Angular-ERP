@@ -1,5 +1,6 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Extensions;
 using SAT.SERVICES.Interfaces;
 using System;
@@ -37,7 +38,7 @@ namespace SAT.SERVICES.Services
             return (from os in chamados
                     from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad < hoje)
                     from ratD in rat.RelatorioAtendimentoDetalhes.SelectMany(s => s.RelatorioAtendimentoDetalhePecas)
-                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEÇA FALTANTE")
+                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEï¿½A FALTANTE")
 
                     &&
                     ratD.RelatorioAtendimentoDetalhePecaStatus
@@ -69,7 +70,7 @@ namespace SAT.SERVICES.Services
             return (from os in chamados
                     from rat in os.RelatoriosAtendimento.Where(r => r.DataHoraCad > dataMinima)
                     from ratD in rat.RelatorioAtendimentoDetalhes.SelectMany(s => s.RelatorioAtendimentoDetalhePecas)
-                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEÇA FALTANTE")
+                    where !string.IsNullOrWhiteSpace(ratD.DescStatus) && ratD.DescStatus.Contains("PEï¿½A FALTANTE")
                     &&
                     ratD.RelatorioAtendimentoDetalhePecaStatus
                     .Where(w => w.CodRatPecasStatus == (int)RelatorioAtendimentoPecaStatusEnum.ENCAMINHADA ||

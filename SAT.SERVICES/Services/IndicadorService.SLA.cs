@@ -1,5 +1,6 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace SAT.SERVICES.Services
                 var chamadosCliente = chamados.Where(r => r.CodCliente == cliente.CodCliente && r.CodStatusServico != (int)StatusServicoEnum.CANCELADO)
                          .GroupBy(g => g.CodCliente).FirstOrDefault();
 
-                // Não encontrou dados
+                // Nï¿½o encontrou dados
                 if (chamadosCliente == null) continue;
 
                 var dados = (from ch in chamadosCliente
@@ -82,7 +83,7 @@ namespace SAT.SERVICES.Services
                               && r.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA)
                              .GroupBy(g => g.CodCliente).FirstOrDefault();
 
-                // Não encontrou dados
+                // Nï¿½o encontrou dados
                 if (chamadosFilial == null) continue;
 
                 var dados = (from ch in chamadosFilial

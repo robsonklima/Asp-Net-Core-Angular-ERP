@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using SAT.MODELS.Entities.Params;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -7,7 +8,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]

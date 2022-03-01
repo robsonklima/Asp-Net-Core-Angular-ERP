@@ -1,10 +1,8 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
-using SAT.MODELS.Enums;
+using SAT.MODELS.Entities.Params;
 using System;
-using SAT.MODELS.ViewModels;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository

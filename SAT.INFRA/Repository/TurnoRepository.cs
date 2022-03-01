@@ -2,6 +2,7 @@ using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
 

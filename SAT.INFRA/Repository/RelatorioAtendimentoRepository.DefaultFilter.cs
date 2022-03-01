@@ -1,6 +1,7 @@
 using SAT.MODELS.Entities;
 using System.Linq;
 using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities.Params;
 using System.Linq.Dynamic.Core;
 
 namespace SAT.INFRA.Repository

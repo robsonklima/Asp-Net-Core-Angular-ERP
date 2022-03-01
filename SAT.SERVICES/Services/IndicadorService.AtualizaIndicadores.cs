@@ -1,6 +1,7 @@
 ﻿using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
 using SAT.MODELS.Extensions;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 using System;

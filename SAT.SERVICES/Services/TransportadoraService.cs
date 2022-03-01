@@ -2,6 +2,7 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services
 {

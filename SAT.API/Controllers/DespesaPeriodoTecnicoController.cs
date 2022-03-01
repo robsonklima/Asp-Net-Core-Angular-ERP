@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.API.Authorization;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;

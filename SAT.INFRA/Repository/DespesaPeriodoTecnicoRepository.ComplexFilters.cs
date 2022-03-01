@@ -1,5 +1,6 @@
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using System.Linq;
 using System.Linq.Dynamic.Core;

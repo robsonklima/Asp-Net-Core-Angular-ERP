@@ -2,6 +2,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.INFRA.Repository
 {

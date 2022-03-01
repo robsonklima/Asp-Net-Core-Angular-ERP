@@ -1,4 +1,5 @@
 using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;

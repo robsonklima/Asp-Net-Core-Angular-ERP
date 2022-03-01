@@ -492,5 +492,10 @@
     "serie cliente": "Client serial number",
     "documentação": "Documentation",
     "velocidade da internet": "Internet Speed",
-    "reabrir": "Reopen"
+    "reabrir": "Reopen",
+    "razao social faturamento": "Corporate Name Billing",
+    "unidade federativa faturamento": "Federative Unit Billing",
+    "razao social envio": "Corporate Name sending tax coupon",
+    "unidade federativa envio": "Federative Unit sending tax coupon",
+    "consulta locais envio de nota fiscal e faturamento": "Locations Sending Tax Coupon and Billing"
 }

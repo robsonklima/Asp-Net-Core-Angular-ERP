@@ -505,5 +505,10 @@
     "serie cliente" : "Nro. Série Cliente",
     "documentação": "Documentação",
     "velocidade da internet": "Velocidade da internet",
-    "reabrir": "Reabrir"
+    "reabrir": "Reabrir",
+    "razao social faturamento": "Razão Social Faturamento",
+    "unidade federativa faturamento": "UF Faturamento",
+    "razao social envio": "Razão Social Envio NF",
+    "unidade federativa envio": "UF Envio NF",
+    "consulta locais envio de nota fiscal e faturamento": "Locais Envio de Nota Fiscal e Faturamento"
 }

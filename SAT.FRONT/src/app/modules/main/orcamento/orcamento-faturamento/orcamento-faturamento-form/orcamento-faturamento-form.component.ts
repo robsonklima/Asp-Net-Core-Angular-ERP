@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-orcamento-faturamento-form',
-  templateUrl: './orcamento-faturamento-form.component.html',
+  templateUrl: './orcamento-faturamento-form.component.html'
 })
 export class OrcamentoFaturamentoFormComponent implements OnInit {
 
-  constructor() {
-       }
-
+    constructor() {
+      
+    }
   ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
 
 }

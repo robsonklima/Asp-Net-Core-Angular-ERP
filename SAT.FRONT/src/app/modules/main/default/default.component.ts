@@ -50,7 +50,7 @@ export class DefaultComponent implements OnInit, OnDestroy
     {
         this.obterOpcoesDatas();
 
-        interval(3 * 60 * 1000)
+        interval(10 * 60 * 1000)
             .pipe(
                 startWith(0),
                 takeUntil(this._onDestroy)
@@ -343,6 +343,20 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterOciosidadePorExtenso(dataHora: string): string
     {
         return moment(dataHora).locale('pt').fromNow();
+    }
+
+    obterMensagemBoasVindas(): string {
+        const hoje = new Date()
+        const horaCorrente = hoje.getHours();
+        const primeiroNomeUsuario = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift();
+
+        if (horaCorrente < 12) {
+            return `Bom dia, ${primeiroNomeUsuario}!`;
+        } else if (horaCorrente < 18) {
+            return `Boa tarde, ${primeiroNomeUsuario}!`;
+        } else {
+            return `Boa noite, ${primeiroNomeUsuario}!`;
+        }
     }
 
     ngOnDestroy()

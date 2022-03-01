@@ -1,5 +1,9 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="bg-card border-b">
+    <div class="relative bg-card border-b">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-0 sm:my-12">
                 <div class="flex flex-auto items-center min-w-0">
@@ -7,16 +11,16 @@
                         <ng-container *transloco="let t">
                             <div
                                 class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-                                {{t('ola')}}, {{ sessionData?.usuario?.nomeUsuario?.split(" ").shift() | titlecase }}!
+                                {{ obterMensagemBoasVindas() }}
                             </div>
                         </ng-container>
                         <div class="flex items-center" *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
                             <div class="ml-0.5 leading-6 truncate text-secondary">
                                 <span *ngIf="!ultimoProcessamento || loading">
-                                    Carregando...
+                                    Atualizando...
                                 </span>
                                 <span *ngIf="ultimoProcessamento && !loading">
-                                    Dados atualizados {{ obterOciosidadePorExtenso(ultimoProcessamento) }}
+                                    Dados atualizados {{ obterOciosidadePorExtenso(ultimoProcessamento) }} atrás
                                 </span>
                             </div>
                         </div>
@@ -24,12 +28,11 @@
                 </div>
 
                 <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'"
+                    <button
+                        (click)="obterDados()" [disabled]="loading" class="hidden sm:inline-flex ml-3" mat-flat-button [color]="'primary'"
                         *ngIf="sessionData.usuario.codPerfil === 29 || sessionData.usuario.codPerfil === 3">
-                        <mat-icon *ngIf="!loading" class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
-                        <mat-progress-spinner *ngIf="loading" [diameter]="22" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
-                        <span class="ml-2" *ngIf="!loading">{{ t('atualizar') }}</span>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                        <span class="ml-2" >{{ t('atualizar') }}</span>
                     </button>
                 </div>
             </div>
@@ -633,7 +636,7 @@
                                                                 [svgIcon]="'heroicons_solid:users'"></mat-icon>
 
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logado' }} 
+                                                                {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logados' }} 
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -654,7 +657,7 @@
                                                             <mat-icon class="icon-size-5 text-hint"
                                                                 [svgIcon]="'heroicons_solid:trending-up'"></mat-icon>
                                                             <div class="ml-1.5 text-md text-secondary">
-                                                                {{ (usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos).toFixed(3) }}%
+                                                                {{ ((usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
                                                             </div>
                                                         </div>
                                                     </ng-container>

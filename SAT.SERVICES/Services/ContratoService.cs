@@ -3,7 +3,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
-using System.Linq;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services
 {

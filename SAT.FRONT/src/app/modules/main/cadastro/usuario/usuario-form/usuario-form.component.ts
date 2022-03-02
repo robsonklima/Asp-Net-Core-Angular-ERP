@@ -346,10 +346,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    this._userService.criar(obj).subscribe(() => {
-      this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
-      this._location.back();
-    });
+    // this._userService.criar(obj).subscribe(() => {
+    //   this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
+    //   this._location.back();
+    // });
   }
 
   ngOnDestroy() {

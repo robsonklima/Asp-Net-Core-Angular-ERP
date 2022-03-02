@@ -12,10 +12,8 @@ namespace SAT.AGENDADOR
 {
     public class Startup
     {
-        private IIndicadorService _indicadorService;
         private IAgendaTecnicoService _agendaTecnicoService;
 
-        public IIndicadorService IndicadorService { get { return this._indicadorService; } }
         public IAgendaTecnicoService AgendaTecnicoService { get { return this._agendaTecnicoService; } }
 
         public Startup()
@@ -31,11 +29,11 @@ namespace SAT.AGENDADOR
 
                 // Configura o DB
                 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
-//#if DEBUG
-//                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
-//#else
-//                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
-//#endif
+                //#if DEBUG
+                //                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
+                //#else
+                //                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
+                //#endif
 
                 /** Inicializa os repositorios e servicos **/
 
@@ -57,14 +55,12 @@ namespace SAT.AGENDADOR
 
                 services.AddTransient<IFeriadoService, FeriadoService>();
                 services.AddTransient<IDashboardService, DashboardService>();
-                services.AddTransient<IIndicadorService, IndicadorService>();
                 services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
                 services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
 
                 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
                 // Inicializa os servicos que serao usados
-                this._indicadorService = serviceProvider.GetService<IIndicadorService>();
                 this._agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
             }
             catch (Exception ex)

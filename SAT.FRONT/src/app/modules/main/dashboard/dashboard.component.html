@@ -47,9 +47,9 @@
                       <span class="truncate">Performance das Filiais e Resultado Geral</span>
                     </button>
 
-                    <!-- <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
                       <span class="truncate">Disponibilidade BBTS</span>
-                    </button> -->
+                    </button>
 
                     <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
                       <span class="truncate">Disponibilidade dos Técnicos</span>
@@ -106,7 +106,6 @@
           <!-- Tabs -->
           <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
 
-
             <!-- Tab -->
             <mat-tab label="Status das Filiais"
               *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
@@ -162,31 +161,32 @@
             </mat-tab>
             <!-- Tab -->
 
-            <!-- Tab
+            <!-- Tab -->
             <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
+                  <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Disponibilidade das Regiões
+                        Disponibilidade BBTS
                       </div>
                     </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-regioes></app-disponibilidade-bbts-regioes>
+                    <div class="flex flex-col flex-auto">
+                      <app-mapa-disponibilidade [bbtsRegiaoMulta]="false"></app-mapa-disponibilidade>
                     </div>
                   </div>
                 </div>
               </ng-template>
             </mat-tab>
+            <!-- Tab -->
 
-            <!-- Tab 
+            <!-- Tab -->
             <mat-tab label="Disponibilidade Filiais" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
+                  <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -195,7 +195,48 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-filiais></app-disponibilidade-bbts-filiais>
+                      <app-disponibilidade-bbts-filiais> </app-disponibilidade-bbts-filiais>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </mat-tab>
+
+            <!-- Tab -->
+            <mat-tab label="Multa das Regiões" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Multa das Regiões
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                      <app-mapa-disponibilidade [bbtsRegiaoMulta]="false"></app-mapa-disponibilidade>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <!-- Tab -->
+
+            <!-- Tab -->
+            <mat-tab label="Multa Disponibilidade" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Multa Disponibilidade
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-disponibilidade-bbts-multa></app-disponibilidade-bbts-multa>
                     </div>
                   </div>
                 </div>
@@ -203,7 +244,7 @@
             </mat-tab>
 
             <!-- Tab
-            <mat-tab label="Multa Disponibilidade" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+            <mat-tab label="Multa Regiões" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel 
@@ -222,12 +263,12 @@
               </ng-template>
             </mat-tab> -->
 
-            <!-- Tab -->
+            <!-- Tab 
             <mat-tab label="Disponibilidade dos Técnicos"
               *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel -->
+                  <!-- Panel 
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -476,7 +517,7 @@
                     class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Mais Pendentes
+                        Técnicos mais pendentes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
@@ -489,7 +530,7 @@
                     class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos menos Pendentes
+                        Técnicos menos pendentes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">

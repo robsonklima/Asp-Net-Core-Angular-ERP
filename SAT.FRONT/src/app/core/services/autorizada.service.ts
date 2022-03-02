@@ -9,11 +9,11 @@ import { Autorizada, AutorizadaData, AutorizadaParameters } from '../types/autor
   providedIn: 'root'
 })
 export class AutorizadaService {
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterPorParametros(parameters: AutorizadaParameters): Observable<AutorizadaData> {
     let params = new HttpParams();
-    
+
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
@@ -45,9 +45,21 @@ export class AutorizadaService {
 
   deletar(codAutorizada: number): Observable<Autorizada> {
     const url = `${c.api}/Autorizada/${codAutorizada}`;
-    
+
     return this.http.delete<Autorizada>(url).pipe(
       map((obj) => obj)
     );
+  }
+
+  async obterAutorizadas(codFilial?: number, filtro: string = ''): Promise<Autorizada[]> {
+
+    const params: AutorizadaParameters = {
+      sortActive: 'razaoSocial',
+      sortDirection: 'asc',
+      codFilial: codFilial,
+      pageSize: 1000,
+      filter: filtro
+    }
+    return (await this.obterPorParametros(params).toPromise()).items;
   }
 }

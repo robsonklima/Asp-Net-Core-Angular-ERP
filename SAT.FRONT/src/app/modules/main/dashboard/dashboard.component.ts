@@ -28,6 +28,8 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
   filtro: any;
   protected _onDestroy = new Subject<void>();
 
+  public bbtsRegiaoMulta: boolean = true;
+
   constructor(
     private _cdr: ChangeDetectorRef,
     protected _userService: UserService
@@ -36,6 +38,7 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
   }
 
   async ngAfterViewInit() {
+    this.bbtsRegiaoMulta=true;
     interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
       .pipe(
         takeUntil(this._onDestroy)

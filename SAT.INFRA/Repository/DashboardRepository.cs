@@ -1,16 +1,10 @@
 ﻿using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 using SAT.MODELS.ViewModels;
-using SAT.MODELS.Enums;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
@@ -23,239 +17,265 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
+        /// <summary>
+        /// Busca os dados da View em relação aos indicadores das filiais
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardIndicadoresFiliais> ObterDadosIndicadorFiliais()
         {
-            _context.ChangeTracker.Clear();
-            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
-
-            if (indicador != null)
-            {
-                DashboardIndicadores indicadorAtualizado = indicador;
-                indicadorAtualizado.DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores);
-                indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
-                _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
-                try
-                {
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-            else
-            {
-                this.Criar(nomeIndicador, indicadores, data);
-            }
-        }
-
-        public void Atualizar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
-        {
-            _context.ChangeTracker.Clear();
-            DashboardIndicadores indicador = _context.DashboardIndicadores.FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
-
-            if (indicador != null)
-            {
-                DashboardIndicadores indicadorAtualizado = indicador;
-                indicadorAtualizado.DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores);
-                indicadorAtualizado.UltimaAtualizacao = DateTime.Now;
-                try
-                {
-                    _context.Entry(indicador).CurrentValues.SetValues(indicadorAtualizado);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-            else
-            {
-                this.Criar(nomeIndicador, indicadores, data);
-            }
-        }
-
-        public void Criar(string nomeIndicador, List<Indicador> indicadores, DateTime data)
-        {
-            DashboardIndicadores novoDado = new()
-            {
-                DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores),
-                NomeIndicador = nomeIndicador,
-                Data = data,
-                UltimaAtualizacao = DateTime.Now
-            };
-
-            _context.Add(novoDado);
-            _context.SaveChanges();
-        }
-
-        public void Criar(string nomeIndicador, List<DashboardTecnicoDisponibilidadeTecnicoViewModel> indicadores, DateTime data)
-        {
-            DashboardIndicadores novoDado = new()
-            {
-                DadosJson = Newtonsoft.Json.JsonConvert.SerializeObject(indicadores),
-                NomeIndicador = nomeIndicador,
-                Data = data,
-                UltimaAtualizacao = DateTime.Now
-            };
-
-            _context.Add(novoDado);
-            _context.SaveChanges();
-        }
-
-        public Defeito ObterPorCodigo(int codigo)
-        {
-            return _context.Defeito.FirstOrDefault(d => d.CodDefeito == codigo);
-        }
-
-        public PagedList<DashboardDisponibilidade> ObterPorParametros(DashboardParameters parameters)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public List<Indicador> ObterDadosIndicador(string nomeIndicador, DateTime? dataInicio, DateTime? dataFim)
-        {
-            List<Indicador> retorno = new();
-
-            List<DashboardIndicadores> indicador = this._context.DashboardIndicadores
-                .Where(f => f.NomeIndicador == nomeIndicador &&
-                f.Data >= dataInicio.Value.Date &&
-                f.Data <= dataFim.Value.Date).ToList();
-
-            if (indicador.Any())
-            {
-                foreach (DashboardIndicadores dash in indicador)
-                {
-                    retorno.AddRange(JsonConvert.DeserializeObject<List<Indicador>>(dash.DadosJson));
-                }
-            }
-
-            return retorno;
-        }
-
-        public List<Indicador> ObterDadosIndicadorMaisRecente(string nomeIndicador)
-        {
-            List<Indicador> retorno = new();
-            DateTime ultimoDia = DateTime.Now;
-            while (retorno.Count == 0)
-            {
-                DashboardIndicadores indicador =
-                    this._context.DashboardIndicadores
-                    .Where(f => f.NomeIndicador == nomeIndicador && f.Data <= ultimoDia)
-                    .OrderByDescending(ord => ord.Data)
-                    .FirstOrDefault();
-
-                if (indicador != null)
-                {
-                    retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<Indicador>>(indicador.DadosJson));
-                }
-
-                ultimoDia = ultimoDia.AddDays(-1);
-            }
-
-            return retorno;
-        }
-
-        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterIndicadorDisponibilidadeTecnicos(string nomeIndicador, DateTime data)
-        {
-            List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
-
-            DashboardIndicadores indicador = this._context.DashboardIndicadores
-                .FirstOrDefault(f => f.NomeIndicador == nomeIndicador && f.Data == data.Date);
-
-            if (indicador == null)
-            {
-                indicador = this._context.DashboardIndicadores
-                   .Where(f => f.NomeIndicador == nomeIndicador)
-                   .OrderByDescending(ord => ord.Data)
-                   .FirstOrDefault();
-            }
-
-            retorno.AddRange(Newtonsoft.Json.JsonConvert.DeserializeObject<List<DashboardTecnicoDisponibilidadeTecnicoViewModel>>(indicador.DadosJson));
-
-            return retorno;
+            return this._context.ViewDashboardIndicadoresFiliais.AsQueryable();
         }
 
         /// <summary>
-        /// Faz o calculo do dashboard dos técnicos nesta camada pois usa o _context
+        /// Busca os dados da View em relação chamados abertos mais antigos corretivas
         /// </summary>
-        /// <param name="query">Lista dos técnicos</param>
-        /// <param name="parameters"></param>
-        /// <param name="FuncDiasUteis">Função dos Feriados - Calcular dias uteis: serve para ver os dias uteis na range de pontos</param>
         /// <returns></returns>
-        public List<DashboardTecnicoDisponibilidadeTecnicoViewModel> ObterDadosDashboardTecnicoDisponibilidade(IQueryable<Tecnico> query, TecnicoParameters parameters
-           , Func<DateTime, DateTime, int> FuncDiasUteis)
+        public IQueryable<ViewDashboardChamadosMaisAntigosCorretivas> ObterChamadosMaisAntigosCorretivas()
         {
-            List<DashboardTecnicoDisponibilidadeTecnicoViewModel> retorno = new();
+            return this._context.ViewDashboardChamadosMaisAntigosCorretivas.AsQueryable();
+        }
 
-            Tecnico[] tecnicosAtivos = query.Where(q => q.IndAtivo == 1 && q.Usuario != null &&
-                                                     q.Usuario.IndAtivo == 1 && q.Filial != null).ToArray();
+        /// <summary>
+        /// Busca os dados da View em relação chamados abertos mais antigos orçamentos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardChamadosMaisAntigosOrcamentos> ObterChamadosMaisAntigosOrcamentos()
+        {
+            return this._context.ViewDashboardChamadosMaisAntigosOrcamentos.AsQueryable();
+        }
 
-            foreach (var tecnico in tecnicosAtivos)
-            {
-                IEnumerable<PontoUsuario> pontoUsuario = _context.PontoUsuario.Where(p =>
-                       p.DataHoraRegistro >= parameters.PeriodoMediaAtendInicio &&
-                       p.DataHoraRegistro <= parameters.PeriodoMediaAtendFim &&
-                   tecnico.Usuario.CodUsuario == p.CodUsuario && p.IndAtivo == 1);
+        /// <summary>
+        /// Busca os dados da View em relação a BBTS Filiais
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeBBTSFiliais> ObterIndicadorDisponibilidadeBBTSFiliais()
+        {
+            return this._context.ViewDashboardDisponibilidadeBBTSFiliais.AsQueryable();
+        }
 
-                // Se por algum motivo não tem ponto ou chamados, não tem porque contabilizar 
-                if (pontoUsuario.Count() == 0 || tecnico.OrdensServico.Count == 0) continue;
+        /// <summary>
+        /// Busca os dados da View em relação a BBTS Mapas das regiões
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeBBTSMapaRegioes> ObterIndicadorDisponibilidadeBBTSMapaRegioes()
+        {
+            return this._context.ViewDashboardDisponibilidadeBBTSMapaRegioes.AsQueryable();
+        }
 
-                int diasTrabalhados = FuncDiasUteis(pontoUsuario.Min(s => s.DataHoraRegistro), pontoUsuario.Max(s => s.DataHoraRegistro));
+        /// <summary>
+        /// Busca os dados da View em relação a BBTS Multas
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ObterIndicadorDisponibilidadeBBTSMultasDisponibilidade()
+        {
+            return this._context.ViewDashboardDisponibilidadeBBTSMultasDisponibilidade.AsQueryable();
+        }
 
-                // Não se consegue calcular médias com 0 - não tem porque considerar este dia
-                if (diasTrabalhados == 0) continue;
+        /// <summary>
+        /// Busca os dados da View em relação a BBTS Multas por regiões
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeBBTSMultasRegioes> ObterIndicadorDisponibilidadeBBTSMultasRegioes()
+        {
+            return this._context.ViewDashboardDisponibilidadeBBTSMultasRegioes.AsQueryable();
+        }
 
-                IEnumerable<OrdemServico> osTecnico = tecnico.OrdensServico.Where(os =>
-                                       os.DataHoraAberturaOS >= parameters.PeriodoMediaAtendInicio &&
-                                       os.DataHoraAberturaOS <= parameters.PeriodoMediaAtendFim &&
-                                       os.RelatoriosAtendimento != null && os.RelatoriosAtendimento.Count > 0);
+        /// <summary>
+        /// Busca os dados da View em relação a disponibilidade dos técnicos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeTecnicos> ObterIndicadorDisponibilidadeTecnicos()
+        {
+            return this._context.ViewDashboardDisponibilidadeTecnicos.AsQueryable();
+        }
 
-                retorno.Add(new DashboardTecnicoDisponibilidadeTecnicoViewModel()
-                {
-                    IndFerias = tecnico.IndFerias,
-                    IndAtivo = tecnico.IndAtivo,
-                    CodTecnico = tecnico.CodTecnico.Value,
-                    CodFilial = tecnico.Filial.CodFilial,
-                    NomeFilial = tecnico.Filial.NomeFilial,
+        /// <summary>
+        /// Busca os dados da View em relação a média global da disponibilidade dos técnicos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDisponibilidadeTecnicosMediaGlobal> ObterIndicadorDisponibilidadeTecnicosMediaGlobal()
+        {
+            return this._context.ViewDashboardDisponibilidadeTecnicosMediaGlobal.AsQueryable();
+        }
 
-                    TecnicoSemChamadosTransferidos = !tecnico.OrdensServico.Any(w => w.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO),
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de SPA
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardSPA> ObterDadosSPA()
+        {
+            return this._context.ViewDashboardSPA.AsQueryable();
+        }
 
-                    MediaAtendimentosPorDiaTodasIntervencoes = osTecnico.Where(os =>
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO &&
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELPDESK &&
-                                          os.CodTipoIntervencao != (int)TipoIntervencaoEnum.HELP_DESK_DSS
-                                           ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                         rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                         rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de SLA dos Clientes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardSLAClientes> ObterDadosSLAClientes()
+        {
+            return this._context.ViewDashboardSLAClientes.AsQueryable();
+        }
 
-                    MediaAtendimentosPorDiaCorretivos = osTecnico.Where(os =>
-                                          os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA
-                                                    ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                                  rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                                  rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de reincidencia das filiais
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais()
+        {
+            return this._context.ViewDashboardReincidenciaFiliais.AsQueryable();
+        }
 
-                    MediaAtendimentosPorDiaPreventivos = osTecnico.Where(os =>
-                                         os.CodTipoIntervencao == (int)TipoIntervencaoEnum.PREVENTIVA
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de reincidencia dos clientes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes()
+        {
+            return this._context.ViewDashboardReincidenciaClientes.AsQueryable();
+        }
 
-                    MediaAtendimentosPorDiaInstalacoes = osTecnico.Where(os =>
-                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de SPA dos técnicos com menor desempenho
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho()
+        {
+            return this._context.ViewDashboardSPATecnicosMenorDesempenho.AsQueryable();
+        }
 
-                    MediaAtendimentosPorDiaEngenharia = osTecnico.Where(os =>
-                                        os.CodTipoIntervencao == (int)TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA
-                                            ).SelectMany(r => r.RelatoriosAtendimento).Count(rat =>
-                                            rat.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-                                            rat.DataHoraSolucao >= parameters.PeriodoMediaAtendInicio) / diasTrabalhados,
-                });
-            }
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de SPA dos técnicos com maior desempenho
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho()
+        {
+            return this._context.ViewDashboardSPATecnicosMaiorDesempenho.AsQueryable();
+        }
 
-            return retorno;
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de reincidencia dos técnicos menos reincidentes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardReincidenciaTecnicosMenosReincidentes> ObterDadosReincidenciaTecnicosMenosReincidentes()
+        {
+            return this._context.ViewDashboardReincidenciaTecnicosMenosReincidentes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de reincidencia dos técnicos mais reincidentes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardReincidenciaTecnicosMaisReincidentes> ObterDadosReincidenciaTecnicosMaisReincidentes()
+        {
+            return this._context.ViewDashboardReincidenciaTecnicosMaisReincidentes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de equipamentos mais reincidentes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardEquipamentosMaisReincidentes> ObterDadosEquipamentosMaisReincidentes()
+        {
+            return this._context.ViewDashboardEquipamentosMaisReincidentes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação as pendencias das filiais
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais()
+        {
+            return this._context.ViewDashboardPendenciaFiliais.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos tecnicos menos pendencias 
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes()
+        {
+            return this._context.ViewDashboardTecnicosMenosPendentes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos tecnicos mais pendencias 
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardTecnicosMaisPendentes> ObterDadosTecnicosMaisPendentes()
+        {
+            return this._context.ViewDashboardTecnicosMaisPendentes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de pendencia global
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPendenciaGlobal> ObterDadosPendenciaGlobal()
+        {
+            return this._context.ViewDashboardPendenciaGlobal.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados das peças faltantes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPecasFaltantes> ObterDadosPecasFaltantes()
+        {
+            return this._context.ViewDashboardPecasFaltantes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados das peças mais faltantes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPecasMaisFaltantes> ObterDadosPecasMaisFaltantes()
+        {
+            return this._context.ViewDashboardPecasMaisFaltantes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dadosdos chamados de peças mais faltantes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPecasCriticasMaisFaltantes> ObterDadosPecasCriticasMaisFaltantes()
+        {
+            return this._context.ViewDashboardPecasCriticasMaisFaltantes.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de densidade de equipamentos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca)
+        {
+            return this._context.ViewDashboardPecasCriticaChamadosFaltantes.Where(cod => cod.CodPeca == codPeca).AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dadosdos chamados de peças mais faltantes
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca)
+        {
+            return this._context.ViewDashboardPecasCriticaEstoqueFaltantes.Where(cod => cod.CodPeca == codPeca).AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de densidade de equipamentos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos()
+        {
+            return this._context.ViewDashboardDensidadeEquipamentos.AsQueryable();
+        }
+
+        /// <summary>
+        /// Busca os dados da View em relação aos dados de densidade de tecnicos
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos()
+        {
+            return this._context.ViewDashboardDensidadeTecnicos.AsQueryable();
         }
     }
 }

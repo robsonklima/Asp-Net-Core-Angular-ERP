@@ -14,15 +14,15 @@
     </thead>
     <tbody>
         <tr *ngFor="let data of disponibilidadeTecnicosModel" class="text-center">
-            <td>{{data.nomeFilial}}</td>
-            <td>{{data.qntTecnicosAtivosChamados}}</td>
-            <td>{{data.qntTecnicosAtivosSemChamadosTransferidos}}</td>
-            <td>{{data.qntTecnicosInativos}}</td>
-            <td>{{data.qntTotalTecnicos}}</td>
+            <td>{{data.filial}}</td>
+            <td>{{data.tecnicosComChamados}}</td>
+            <td>{{data.tecnicosSemChamados}}</td>
+            <td>{{data.tecnicosInativos}}</td>
+            <td>{{data.tecnicosTotal}}</td>
             <td>{{data.qtdOSNaoTransferidasCorretivas}}</td>
-            <td>{{data.mediaAtendimentoTodos | number:'1.1-1'}}</td>
-            <td>{{data.mediaAtendimentoCorretivo| number:'1.1-1'}}</td>
-            <td>{{data.mediaAtendimentoPreventivo| number:'1.1-1'}}</td>
+            <td>{{data.mediaAtendimentoTecnicoDiaTodasIntervencoes | number:'1.1-1'}}</td>
+            <td>{{data.mediaAtendimentoTecnicoDiaCorretivas| number:'1.1-1'}}</td>
+            <td>{{data.mediaAtendimentoTecnicoDiaPreventivas| number:'1.1-1'}}</td>
         </tr>
     </tbody>
     <tfoot>

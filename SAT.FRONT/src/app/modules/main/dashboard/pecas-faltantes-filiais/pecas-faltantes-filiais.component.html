@@ -6,7 +6,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let data of pecasFaltantes" class="text-center">
-            <td>{{data.data}}</td>
+            <td>{{data.data| date:'dd/MM/yy'}}</td>
             <td>{{data.valorFAM}}</td>
             <td>{{data.valorFBA}}</td>
             <td>{{data.valorFBU}}</td>

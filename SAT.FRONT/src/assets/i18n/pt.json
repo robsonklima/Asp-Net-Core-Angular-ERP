@@ -534,5 +534,6 @@
     "numero envio nf": "Numero Envio NF",
     "bairro envio nf": "Bairro Envio NF",
     "cidade envio nf": "Cidade Envio NF",
-    "unidade federativa envio nf": "UF Envio NF"    
+    "unidade federativa envio nf": "UF Envio NF",
+    "cnpj envio nf": "CNPJ Envio NF"
 }

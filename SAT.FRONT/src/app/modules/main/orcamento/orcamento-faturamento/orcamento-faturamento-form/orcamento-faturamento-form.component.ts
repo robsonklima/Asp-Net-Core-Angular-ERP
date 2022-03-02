@@ -226,6 +226,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
               this.form.controls['bairroFaturamento'].setValue(geo.bairro);
               this.form.controls['nomeCidadeFaturamento'].setValue(geo.cidade);
               this.form.controls['siglaUFFaturamento'].setValue(geo.estado);
+            }, e => {
+              this._snack.exibirToast(e.error.errorMessage, 'error');
             });
         });   
         
@@ -247,9 +249,30 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
               this.form.controls['bairroEnvioNF'].setValue(geo.bairro);
               this.form.controls['nomeCidadeEnvioNF'].setValue(geo.cidade);
               this.form.controls['siglaUFEnvioNF'].setValue(geo.estado);
+            }, e => {
+              debugger
+              this._snack.exibirToast(e.error.errorMessage, 'error');
             });
-        });        
+        });
     }
+
+    copiarDadosLocal()
+    {
+      this.form.controls['cepEnvioNF'].setValue(this.form.controls['cepFaturamento'].value);
+      this.form.controls['enderecoEnvioNF'].setValue(this.form.controls['enderecoFaturamento'].value);
+      this.form.controls['complementoEnvioNF'].setValue(this.form.controls['complementoFaturamento'].value);
+      this.form.controls['numeroEnvioNF'].setValue(this.form.controls['numeroFaturamento'].value);
+      this.form.controls['bairroEnvioNF'].setValue(this.form.controls['bairroFaturamento'].value);
+      this.form.controls['nomeCidadeEnvioNF'].setValue(this.form.controls['nomeCidadeFaturamento'].value);
+      this.form.controls['siglaUFEnvioNF'].setValue(this.form.controls['siglaUFFaturamento'].value);
+      this.form.controls['cnpjEnvioNF'].setValue(this.form.controls['cnpjFaturamento'].value);
+      this.form.controls['inscricaoEstadualEnvioNF'].setValue(this.form.controls['inscricaoEstadualFaturamento'].value);
+      this.form.controls['responsavelEnvioNF'].setValue(this.form.controls['responsavelFaturamento'].value);
+      this.form.controls['emailEnvioNF'].setValue(this.form.controls['emailFaturamento'].value);
+      this.form.controls['foneEnvioNF'].setValue(this.form.controls['foneFaturamento'].value);
+      this.form.controls['faxEnvioNF'].setValue(this.form.controls['faxFaturamento'].value);
+      this.form.controls['razaoSocialEnvioNF'].setValue(this.form.controls['razaoSocialFaturamento'].value);
+    }    
 
     ngOnDestroy() {
       this._onDestroy.next();

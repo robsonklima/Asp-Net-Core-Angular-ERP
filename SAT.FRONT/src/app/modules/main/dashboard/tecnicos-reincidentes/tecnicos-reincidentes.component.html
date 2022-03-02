@@ -9,10 +9,10 @@
     </thead>
     <tbody>
         <tr *ngFor="let data of reincidenciaTecnicosModel" class="text-center">
-            <td>{{data.nomeTecnico}}</td>
+            <td>{{data.tecnico}}</td>
             <td>{{data.filial}}</td>
             <td>{{data.reincidencia| number:'1.1-1'}}%</td>
-            <td>{{data.qntAtendimentos}}</td>
+            <td>{{data.qtdAtendimentos}}</td>
         </tr>
     </tbody>
 </table>

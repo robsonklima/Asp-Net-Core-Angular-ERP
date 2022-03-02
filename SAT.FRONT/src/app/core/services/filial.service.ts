@@ -9,7 +9,7 @@ import { Filial, FilialData, FilialParameters } from '../types/filial.types';
   providedIn: 'root'
 })
 export class FilialService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterPorParametros(parameters: FilialParameters): Observable<FilialData> {
     let params = new HttpParams();
@@ -28,7 +28,7 @@ export class FilialService {
     return this.http.get<Filial>(url).pipe(
       map((obj) => obj)
     );
-}
+  }
 
   criar(filial: Filial): Observable<Filial> {
     return this.http.post<Filial>(`${c.api}/Filial`, filial).pipe(
@@ -50,5 +50,17 @@ export class FilialService {
     return this.http.delete<Filial>(url).pipe(
       map((obj) => obj)
     );
+  }
+
+  async obterFiliais(filtro: string = ''): Promise<Filial[]> {
+
+    const params: FilialParameters = {
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      pageSize: 1000,
+      filter: filtro
+    }
+    return (await this.obterPorParametros(params).toPromise()).items;
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
-import Enumerable from 'linq';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum, ViewDashboardChamadosMaisAntigosCorretivas, ViewDashboardChamadosMaisAntigosOrcamentos } from 'app/core/types/dashboard.types';
 
 @Component({
   selector: 'app-chamados-mais-antigos',
@@ -9,44 +8,31 @@ import Enumerable from 'linq';
   styleUrls: ['./chamados-mais-antigos.component.css']
 })
 export class ChamadosMaisAntigosComponent implements OnInit {
-  element_data_corretivas: OrdemServico[] = [];
-  element_data_orcamentos: OrdemServico[] = [];
-  loading_corretivas: boolean = true;
-  loading_orcamentos: boolean = true;
+  chamadosAntigosCorretivas: ViewDashboardChamadosMaisAntigosCorretivas[] = [];
+  chamadosAntigosOrcamentos: ViewDashboardChamadosMaisAntigosOrcamentos[] = [];
+  loadingCorretivas: boolean = true;
+  loadingOrcamentos: boolean = true;
 
-  constructor(private _ordemServicoService: OrdemServicoService) { }
+  constructor(private _dashboardService: DashboardService) { }
 
   ngOnInit(): void {
-    this.loading_corretivas = true;
-    this.loading_orcamentos = true;
+    this.loadingCorretivas = true;
+    this.loadingOrcamentos = true;
     this.obterDadosCorretivas();
     this.obterDadosOrcamentos();
   }
 
   async obterDadosCorretivas() {
-    this.element_data_corretivas = (await this.obterDados(OrdemServicoFilterEnum.FILTER_CORRETIVAS_ANTIGAS)).items;//CORRETIVA
-    Enumerable.from(this.element_data_corretivas).orderBy(os => os.dataHoraAberturaOS);
-    this.loading_corretivas = false;
+    this.chamadosAntigosCorretivas =
+      (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.CHAMADOS_ANTIGOS_CORRETIVAS }).toPromise())
+        .viewDashboardChamadosMaisAntigosCorretivas;
+    this.loadingCorretivas = false;
   }
 
   async obterDadosOrcamentos() {
-    this.element_data_orcamentos = (await (this.obterDados(OrdemServicoFilterEnum.FILTER_ORCAMENTOS_ANTIGOS))).items;//ORÇAMENTO
-    Enumerable.from(this.element_data_orcamentos).orderBy(os => os.dataHoraAberturaOS);
-    this.loading_orcamentos = false;
-  }
-
-  async obterDados(_filterType: OrdemServicoFilterEnum): Promise<OrdemServicoData> {
-    const params: OrdemServicoParameters = {
-      include: OrdemServicoIncludeEnum.OS_EQUIPAMENTOS,
-      filterType: _filterType,
-      pageSize: 5,
-      sortDirection: 'asc',
-      sortActive: 'datahoraAberturaOS'
-    };
-
-    return await this._ordemServicoService
-      .obterPorParametros({
-        ...params
-      }).toPromise();
+    this.chamadosAntigosOrcamentos =
+      (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.CHAMADOS_ANTIGOS_ORCAMENTOS }).toPromise())
+        .viewDashboardChamadosMaisAntigosOrcamentos;
+    this.loadingOrcamentos = false;
   }
 }

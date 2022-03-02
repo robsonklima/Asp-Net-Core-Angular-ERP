@@ -3,10 +3,7 @@ import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.heat/dist/leaflet-heat.js'
-import { TecnicoService } from 'app/core/services/tecnico.service';
-import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { Filial } from 'app/core/types/filial.types';
-import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { Regiao } from 'app/core/types/regiao.types';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -14,7 +11,8 @@ import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
-import { statusConst } from 'app/core/types/status-types';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 
 @Component({
   selector: 'app-densidade',
@@ -42,9 +40,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
   };
 
   constructor(
-    private _equipamentoContratoSvc: EquipamentoContratoService,
-    private _tecnicoSvc: TecnicoService,
-    private _regiaoAutorizadaSvc: RegiaoAutorizadaService,
+    private _dashboardService: DashboardService,
     protected _userService: UserService
   ) {
     super(_userService, 'dashboard-filtro');
@@ -58,7 +54,6 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
   registerEmitters(): void {
     this.sidenav.closedStart.subscribe(() => {
       this.onSidenavClosed();
-      this.obterRegioesAutorizadas();
       this.obterTecnicos();
       this.obterEquipamentosContrato();
     })
@@ -66,77 +61,25 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
 
   loadFilter(): void {
     super.loadFilter();
-    
+
     if (this.userSession?.usuario?.codFilial && this.filter)
-    this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
+      this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
   }
 
   onMapReady(map: Map): void {
     this.map = map;
-    this.obterRegioesAutorizadas();
-    this.obterTecnicos();
     this.obterEquipamentosContrato();
-  }
-
-  private async obterRegioesAutorizadas() {
-    const data = await this._regiaoAutorizadaSvc.obterPorParametros({
-      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
-    }).toPromise();
-
-    this.regioes = data.items.map(ra => ra.regiao);
-    this.autorizadas = data.items.map(ra => ra.autorizada);
-
-    let markers: any[] = this.autorizadas.filter(a => this.isFloat(+a.latitude) && this.isFloat(+a.longitude)).map((autorizada) => {
-      return {
-        lat: +autorizada.latitude,
-        lng: +autorizada.longitude,
-        toolTip: autorizada.nomeFantasia,
-        count: 1
-      }
-    });
-
-    var icon = new L.Icon({
-      iconUrl: 'assets/icons/destination-32.png',
-      iconSize: [32, 32],
-      iconAnchor: [15, 32],
-      popupAnchor: [1, -32]
-    });
-
-    this.addMarkersOnMap(markers, icon);
-  }
-
-  private async obterTecnicos() {
-    const data = await this._tecnicoSvc.obterPorParametros({
-      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
-    }).toPromise();
-
-    let markers: any[] = data.items.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
-      return {
-        lat: +tecnico.latitude,
-        lng: +tecnico.longitude,
-        toolTip: tecnico.nome
-      }
-    });
-
-    var icon = new L.Icon({
-      iconUrl: 'assets/icons/home-32.png',
-      iconSize: [32, 32],
-      iconAnchor: [15, 32],
-      popupAnchor: [1, -32]
-    });
-
-    this.addMarkersOnMap(markers, icon);
+    this.obterTecnicos();
   }
 
   private async obterEquipamentosContrato() {
-    const data = await this._equipamentoContratoSvc.obterPorParametros({
-      ...{ indAtivo: statusConst.ATIVO }, ...this.filter?.parametros
-    }).toPromise();
+    const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS }).toPromise())
+      .viewDashboardDensidadeEquipamentos;
 
-    let markers: any[] = data.items.filter(e => this.isFloat(+e.localAtendimento.latitude) && this.isFloat(+e.localAtendimento.longitude)).map((equip) => {
+    let markers: any[] = data.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
       return {
-        lat: +equip.localAtendimento.latitude,
-        lng: +equip.localAtendimento.longitude,
+        lat: +equip.latitude,
+        lng: +equip.longitude,
         toolTip: equip.numSerie
       }
     });
@@ -149,6 +92,28 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
     });
 
     this.addLayer(markers, icon);
+  }
+
+  private async obterTecnicos() {
+    const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS }).toPromise())
+      .viewDashboardDensidadeTecnicos;
+
+    let markers: any[] = data.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
+      return {
+        lat: +tecnico.latitude,
+        lng: +tecnico.longitude,
+        toolTip: tecnico
+      }
+    });
+
+    var icon = new L.Icon({
+      iconUrl: 'assets/icons/home-32.png',
+      iconSize: [32, 32],
+      iconAnchor: [15, 32],
+      popupAnchor: [1, -32]
+    });
+
+    this.addMarkersOnMap(markers, icon);
   }
 
   private addMarkersOnMap(markers: any[], icon: L.Icon): void {

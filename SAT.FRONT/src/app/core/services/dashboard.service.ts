@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DashboardDisponibilidade, DashboardParameters } from '../types/dashboard.types';
+import { ViewDadosDashboard, ViewDadosDashboardParameters } from '../types/dashboard.types';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { DashboardDisponibilidade, DashboardParameters } from '../types/dashboar
 export class DashboardService {
   constructor(private http: HttpClient) { }
 
-  obterPorParametros(parameters: DashboardParameters): Observable<DashboardDisponibilidade[]> {
+  obterViewPorParametros(parameters: ViewDadosDashboardParameters): Observable<ViewDadosDashboard> {
     let params = new HttpParams();
 
     Object.keys(parameters).forEach(key => {
@@ -19,7 +19,7 @@ export class DashboardService {
     });
 
     return this.http.get(`${c.api}/Dashboard`, { params: params }).pipe(
-      map((data: DashboardDisponibilidade[]) => data)
+      map((data: ViewDadosDashboard) => data)
     )
   }
 }

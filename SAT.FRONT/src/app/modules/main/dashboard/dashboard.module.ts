@@ -24,7 +24,6 @@ import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-m
 import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
 import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/disponibilidade-tecnicos.component';
 import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
-import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
@@ -57,7 +56,6 @@ registerLocaleData(ptBR);
     IndicadoresFiliaisComponent,
     DisponibilidadeTecnicosComponent,
     MediaGlobalAtendimentoTecnicoComponent,
-    DisponibilidadeBbtsRegioesComponent,
     DisponibilidadeBbtsFiliaisComponent,
     DisponibilidadeBbtsMultaComponent,
     DashboardSpaComponent,

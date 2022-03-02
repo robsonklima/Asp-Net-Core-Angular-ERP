@@ -1,12 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FeriadoService } from 'app/core/services/feriado.service';
-import { IndicadorService } from 'app/core/services/indicador.service';
-import { TecnicoService } from 'app/core/services/tecnico.service';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum, ViewDashboardDisponibilidadeTecnicosMediaGlobal } from 'app/core/types/dashboard.types';
 import { Filtro } from 'app/core/types/filtro.types';
-import { DashboardTecnicoDisponibilidadeTecnicoViewModel, TecnicoFilterEnum, TecnicoIncludeEnum } from 'app/core/types/tecnico.types';
-import Enumerable from 'linq';
-import moment from 'moment';
-import { DisponibilidadeTecnicosModel } from '../disponibilidade-tecnicos/disponibilidade-tecnicos.component';
 
 @Component({
   selector: 'app-media-global-atendimento-tecnico',
@@ -17,14 +12,11 @@ import { DisponibilidadeTecnicosModel } from '../disponibilidade-tecnicos/dispon
 
 export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
   @Input() filtro: Filtro;
-  public mediaGlobalAtendimentoTecnicosModel: MediaGlobalAtendimentoTecnicosModel = new MediaGlobalAtendimentoTecnicosModel();
+  public mediaGlobalAtendimentoTecnicosModel: ViewDashboardDisponibilidadeTecnicosMediaGlobal[] = [];
   public loading: boolean = true;
-  public disponibilidadeTecnicosModel: DisponibilidadeTecnicosModel[] = [];
 
   constructor(private _cdr: ChangeDetectorRef,
-    private _tecnicoService: TecnicoService,
-    private _indicadorService: IndicadorService,
-    private _feriadoService: FeriadoService) { }
+    private _dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     this.obterDados();
@@ -32,71 +24,9 @@ export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {
 
   async obterDados() {
     this.loading = true;
-
-    //let dataInicio = moment().add(-30, 'days').format('yyyy-MM-DD HH:mm:ss'); // Ultimos 30 dias
-    //let dataFim = moment().format('yyyy-MM-DD HH:mm:ss');
-    let dataInicio = moment().add(-30, 'days').format('YYYY-MM-DD 00:00');
-    let dataFim = moment().format('YYYY-MM-DD 23:59');
-
-    // let diasUteis = (await this._feriadoService.obterDiasUteis({
-    //   dataInicio: dataInicio,
-    //   dataFim: dataFim
-    // }).toPromise());
-
-    let dadosTecnicosDashboard = (await this._indicadorService.obterIndicadoresDisponibilidadeTecnicos({
-      dataInicio: dataInicio,
-      dataFim: dataFim
-    }).toPromise());
-
-    for (let tecnico of dadosTecnicosDashboard) {
-
-      let dadosDashboard = Enumerable.from(this.disponibilidadeTecnicosModel).firstOrDefault(c => c.codFilial == tecnico.codFilial);
-
-      /** DADOS DOS TÉCNICOS **/
-      if (!dadosDashboard) {
-        dadosDashboard = new DisponibilidadeTecnicosModel();
-        // Nome Filial
-        dadosDashboard.nomeFilial = tecnico.nomeFilial;
-        // Quantidade de técnicos ativos da filial
-        dadosDashboard.qntTecnicosAtivosChamados = Enumerable.from(dadosTecnicosDashboard).count(c => c.codFilial == tecnico.codFilial && c.indFerias == 0);
-        // Quantidade de técnicos inativos da filial
-        dadosDashboard.qntTecnicosInativos = Enumerable.from(dadosTecnicosDashboard).count(c => c.codFilial == tecnico.codFilial && c.indFerias == 1);
-        // Quantidade de técnicos total da filial
-        dadosDashboard.qntTotalTecnicos = dadosDashboard.qntTecnicosAtivosChamados + dadosDashboard.qntTecnicosInativos;
-
-        this.disponibilidadeTecnicosModel.push(dadosDashboard);
-      }
-
-      // Quantidade de técnicos sem OS Transferidas
-      if (tecnico.tecnicoSemChamadosTransferidos) {
-        dadosDashboard.qntTecnicosAtivosSemChamadosTransferidos++;
-        dadosDashboard.qntTecnicosAtivosChamados--;
-      }
-
-      dadosDashboard.mediaAtendimentoTodos += tecnico.mediaAtendimentosPorDiaTodasIntervencoes;
-      dadosDashboard.mediaAtendimentoCorretivo += tecnico.mediaAtendimentosPorDiaCorretivos;
-      dadosDashboard.mediaAtendimentoPreventivo += tecnico.mediaAtendimentosPorDiaPreventivos;
-      dadosDashboard.mediaAtendimentoInstalacao += tecnico.mediaAtendimentosPorDiaInstalacoes;
-      dadosDashboard.mediaAtendimentoEngenharia += tecnico.mediaAtendimentosPorDiaEngenharia;
-    }
-
-    let totalTecnicos = this.disponibilidadeTecnicosModel.length;
-
-    this.mediaGlobalAtendimentoTecnicosModel.qntTodasIntervencoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTodos) / totalTecnicos;
-    this.mediaGlobalAtendimentoTecnicosModel.qntCorretivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoCorretivo) / totalTecnicos;
-    this.mediaGlobalAtendimentoTecnicosModel.qntPreventivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoPreventivo) / totalTecnicos;
-    this.mediaGlobalAtendimentoTecnicosModel.qntInstalacoes = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoInstalacao) / totalTecnicos;
-    this.mediaGlobalAtendimentoTecnicosModel.qntAltEngenharia = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoEngenharia) / totalTecnicos;
-
+    this.mediaGlobalAtendimentoTecnicosModel = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DISPONIBILIDADE_TECNICOS_MEDIA_GLOBAL }).toPromise())
+      .viewDashboardDisponibilidadeTecnicosMediaGlobal;
     this.loading = false;
     this._cdr.detectChanges();
   }
-}
-
-export class MediaGlobalAtendimentoTecnicosModel {
-  qntTodasIntervencoes: number = 0;
-  qntCorretivos: number = 0;
-  qntPreventivos: number = 0;
-  qntInstalacoes: number = 0;
-  qntAltEngenharia: number = 0;
 }

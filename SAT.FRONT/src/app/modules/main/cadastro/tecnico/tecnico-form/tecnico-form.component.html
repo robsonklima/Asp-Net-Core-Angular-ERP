@@ -287,23 +287,31 @@
 
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('cartao combustivel') }}</mat-label>
-
-                        <mat-select class="min-h-10" formControlName="codDespesaCartaoCombustivel" [disabled]="!despesaCartoesCombustivel.length">
-                            <mat-option *ngFor="let cartao of despesaCartoesCombustivel" [value]="cartao.codDespesaCartaoCombustivel">
+                        <mat-select class="min-h-10" formControlName="codDespesaCartaoCombustivel"
+                            [disabled]="!despesaCartoesCombustivel.length">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="cartaoFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cartao of despesaCartoesCombustivel"
+                                [value]="cartao.codDespesaCartaoCombustivel">
                                 {{ cartao.numero }}
                             </mat-option>
                         </mat-select>
-
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('finalidade de uso') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codFrotaFinalidadeUso" [disabled]="!filiais.length">
-                            <mat-option *ngFor="let finalidade of frotaFinalidadesUso" [value]="finalidade.codFrotaFinalidadeUso">
+                        <mat-select class="min-h-10" formControlName="codFrotaFinalidadeUso"
+                            [disabled]="!filiais.length">
+                            <mat-option *ngFor="let finalidade of frotaFinalidadesUso"
+                                [value]="finalidade.codFrotaFinalidadeUso">
                                 {{ finalidade.nome }}
                             </mat-option>
                         </mat-select>
@@ -314,8 +322,10 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('cobranca de garagem') }}</mat-label>
 
-                        <mat-select class="min-h-10" formControlName="codFrotaCobrancaGaragem" [disabled]="!frotaCobrancasGaragem.length">
-                            <mat-option *ngFor="let cobranca of frotaCobrancasGaragem" [value]="cobranca.codFrotaCobrancaGaragem">
+                        <mat-select class="min-h-10" formControlName="codFrotaCobrancaGaragem"
+                            [disabled]="!frotaCobrancasGaragem.length">
+                            <mat-option *ngFor="let cobranca of frotaCobrancasGaragem"
+                                [value]="cobranca.codFrotaCobrancaGaragem">
                                 {{ cobranca.nome }}
                             </mat-option>
                         </mat-select>
@@ -337,11 +347,11 @@
 
                             <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indTecnicoBancada'">
                                 {{ t('bancada') }}
-                            </mat-checkbox>         
-                            
+                            </mat-checkbox>
+
                             <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indFerias'">
                                 {{ t('ferias') }}
-                            </mat-checkbox>         
+                            </mat-checkbox>
                         </div>
                     </div>
                 </div>

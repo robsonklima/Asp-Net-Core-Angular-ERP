@@ -21,6 +21,7 @@ import { UsuarioListaComponent } from './usuario-lista/usuario-lista.component';
 import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
 import { usuarioRoutes } from './usuario.routing';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -52,7 +53,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatCheckboxModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ]
 })
 export class UsuarioModule { }

@@ -3,7 +3,8 @@ import { QueryStringParameters } from "./generic.types";
 export enum GeolocalizacaoServiceEnum
 {
     GOOGLE,
-    NOMINATIM
+    NOMINATIM,
+    VIACEP
 }
 
 export interface GeolocalizacaoParameters extends QueryStringParameters

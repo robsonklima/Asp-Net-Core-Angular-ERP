@@ -24,11 +24,11 @@ namespace SAT.SERVICES.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw new Exception(Constants.ERRO_CONSULTAR_COORDENADAS);
+
                 var conteudo = await response.Content.ReadAsStringAsync();
                 model = Newtonsoft.Json.JsonConvert.DeserializeObject<GoogleGeolocation>(conteudo);
-
-                if (model.status.ToLower() != "ok")
-                    throw new Exception(Constants.ERRO_CONSULTAR_COORDENADAS);
 
                 var bairro = model.results[0].address_components.Where(ac => ac.types.Contains("sublocality")).FirstOrDefault();
                 var cidade = model.results[0].address_components.Where(ac => ac.types.Contains("administrative_area_level_2")).FirstOrDefault();

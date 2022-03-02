@@ -219,7 +219,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
           if (cep.length === 8)
             this._geolocalizacaoService.obterPorParametros({ 
               enderecoCep: cep, 
-              geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE
+              geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
             }).subscribe((geo) => {
               this.form.controls['enderecoFaturamento'].setValue(geo.endereco);
               this.form.controls['numeroFaturamento'].setValue(this.localEnvioNFFaturamento.numeroFaturamento);
@@ -227,7 +227,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
               this.form.controls['nomeCidadeFaturamento'].setValue(geo.cidade);
               this.form.controls['siglaUFFaturamento'].setValue(geo.estado);
             }, e => {
-              this._snack.exibirToast(e.error.errorMessage, 'error');
+              this._snack.exibirToast(e.error.errorMessage|| 'Erro ao consultar as coordenadas', 'error');
             });
         });   
         
@@ -242,7 +242,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
           if (cep.length === 8)
             this._geolocalizacaoService.obterPorParametros({ 
               enderecoCep: cep, 
-              geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE
+              geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
             }).subscribe((geo) => {
               this.form.controls['enderecoEnvioNF'].setValue(geo.endereco);
               this.form.controls['numeroEnvioNF'].setValue(this.localEnvioNFFaturamento.numeroEnvioNF);
@@ -250,8 +250,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
               this.form.controls['nomeCidadeEnvioNF'].setValue(geo.cidade);
               this.form.controls['siglaUFEnvioNF'].setValue(geo.estado);
             }, e => {
-              debugger
-              this._snack.exibirToast(e.error.errorMessage, 'error');
+              this._snack.exibirToast(e.error.errorMessage || 'Erro ao consultar as coordenadas', 'error');
             });
         });
     }

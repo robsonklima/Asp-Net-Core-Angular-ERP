@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Mapping;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.INFRA.Context
 {
@@ -136,6 +137,37 @@ namespace SAT.INFRA.Context
         public DbSet<LocalEnvioNFFaturamento> LocalEnvioNFFaturamento { get; set; }
         public DbSet<LocalEnvioNFFaturamentoVinculado> LocalEnvioNFFaturamentoVinculado { get; set; }
 
+        public DbSet<Cargo> Cargo { get; set; }
+        public DbSet<ViewDashboardIndicadoresFiliais> ViewDashboardIndicadoresFiliais { get; set; }
+        public DbSet<ViewDashboardChamadosMaisAntigosCorretivas> ViewDashboardChamadosMaisAntigosCorretivas { get; set; }
+        public DbSet<ViewDashboardChamadosMaisAntigosOrcamentos> ViewDashboardChamadosMaisAntigosOrcamentos { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeTecnicos> ViewDashboardDisponibilidadeTecnicos { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeTecnicosMediaGlobal> ViewDashboardDisponibilidadeTecnicosMediaGlobal { get; set; }
+        public DbSet<ViewDashboardSPA> ViewDashboardSPA { get; set; }
+        public DbSet<ViewDashboardSLAClientes> ViewDashboardSLAClientes { get; set; }
+        public DbSet<ViewDashboardReincidenciaFiliais> ViewDashboardReincidenciaFiliais { get; set; }
+        public DbSet<ViewDashboardReincidenciaClientes> ViewDashboardReincidenciaClientes { get; set; }
+        public DbSet<ViewDashboardSPATecnicosMaiorDesempenho> ViewDashboardSPATecnicosMaiorDesempenho { get; set; }
+        public DbSet<ViewDashboardSPATecnicosMenorDesempenho> ViewDashboardSPATecnicosMenorDesempenho { get; set; }
+        public DbSet<ViewDashboardReincidenciaTecnicosMenosReincidentes> ViewDashboardReincidenciaTecnicosMenosReincidentes { get; set; }
+        public DbSet<ViewDashboardReincidenciaTecnicosMaisReincidentes> ViewDashboardReincidenciaTecnicosMaisReincidentes { get; set; }
+        public DbSet<ViewDashboardEquipamentosMaisReincidentes> ViewDashboardEquipamentosMaisReincidentes { get; set; }
+        public DbSet<ViewDashboardPendenciaFiliais> ViewDashboardPendenciaFiliais { get; set; }
+        public DbSet<ViewDashboardTecnicosMenosPendentes> ViewDashboardTecnicosMenosPendentes { get; set; }
+        public DbSet<ViewDashboardTecnicosMaisPendentes> ViewDashboardTecnicosMaisPendentes { get; set; }
+        public DbSet<ViewDashboardPendenciaGlobal> ViewDashboardPendenciaGlobal { get; set; }
+        public DbSet<ViewDashboardPecasFaltantes> ViewDashboardPecasFaltantes { get; set; }
+        public DbSet<ViewDashboardPecasMaisFaltantes> ViewDashboardPecasMaisFaltantes { get; set; }
+        public DbSet<ViewDashboardPecasCriticasMaisFaltantes> ViewDashboardPecasCriticasMaisFaltantes { get; set; }
+        public DbSet<ViewDashboardPecasCriticaChamadosFaltantes> ViewDashboardPecasCriticaChamadosFaltantes { get; set; }
+        public DbSet<ViewDashboardPecasCriticaEstoqueFaltantes> ViewDashboardPecasCriticaEstoqueFaltantes { get; set; }
+        public DbSet<ViewDashboardDensidadeEquipamentos> ViewDashboardDensidadeEquipamentos { get; set; }
+        public DbSet<ViewDashboardDensidadeTecnicos> ViewDashboardDensidadeTecnicos { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeBBTSFiliais> ViewDashboardDisponibilidadeBBTSFiliais { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeBBTSMapaRegioes> ViewDashboardDisponibilidadeBBTSMapaRegioes { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ViewDashboardDisponibilidadeBBTSMultasDisponibilidade { get; set; }
+        public DbSet<ViewDashboardDisponibilidadeBBTSMultasRegioes> ViewDashboardDisponibilidadeBBTSMultasRegioes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -190,9 +222,39 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamento>(new LocalEnvioNFFaturamentoMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamentoVinculado>(new LocalEnvioNFFaturamentoVinculadoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresFiliais>(new ViewDashboardIndicadoresFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardChamadosMaisAntigosCorretivas>(new ViewDashboardChamadosMaisAntigosCorretivasMap().Configure);
+            modelBuilder.Entity<ViewDashboardChamadosMaisAntigosOrcamentos>(new ViewDashboardChamadosMaisAntigosOrcamentosMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeTecnicos>(new ViewDashboardDisponibilidadeTecnicosMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeTecnicosMediaGlobal>(new ViewDashboardDisponibilidadeTecnicosMediaGlobalMap().Configure);
+            modelBuilder.Entity<ViewDashboardSPA>(new ViewDashboardSPAMap().Configure);
+            modelBuilder.Entity<ViewDashboardSLAClientes>(new ViewDashboardSLAClientesMap().Configure);
+            modelBuilder.Entity<ViewDashboardReincidenciaFiliais>(new ViewDashboardReincidenciaFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardReincidenciaClientes>(new ViewDashboardReincidenciaClientesMap().Configure);
+            modelBuilder.Entity<ViewDashboardSPATecnicosMenorDesempenho>(new ViewDashboardSPATecnicosMenorDesempenhoMap().Configure);
+            modelBuilder.Entity<ViewDashboardSPATecnicosMaiorDesempenho>(new ViewDashboardSPATecnicosMaiorDesempenhoMap().Configure);
+            modelBuilder.Entity<ViewDashboardReincidenciaTecnicosMenosReincidentes>(new ViewDashboardReincidenciaTecnicosMenosReincidentesMap().Configure);
+            modelBuilder.Entity<ViewDashboardReincidenciaTecnicosMaisReincidentes>(new ViewDashboardReincidenciaTecnicosMaisReincidentesMap().Configure);
+            modelBuilder.Entity<ViewDashboardEquipamentosMaisReincidentes>(new ViewDashboardEquipamentosMaisReincidentesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPendenciaFiliais>(new ViewDashboardPendenciaFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardTecnicosMenosPendentes>(new ViewDashboardTecnicosMenosPendentesMap().Configure);
+            modelBuilder.Entity<ViewDashboardTecnicosMaisPendentes>(new ViewDashboardTecnicosMaisPendentesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPendenciaGlobal>(new ViewDashboardPendenciaGlobalMap().Configure);
+            modelBuilder.Entity<ViewDashboardPecasFaltantes>(new ViewDashboardPecasFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPecasMaisFaltantes>(new ViewDashboardPecasMaisFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPecasCriticasMaisFaltantes>(new ViewDashboardPecasCriticasMaisFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPecasCriticaChamadosFaltantes>(new ViewDashboardPecasCriticaChamadosFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardPecasCriticaEstoqueFaltantes>(new ViewDashboardPecasCriticaEstoqueFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardDensidadeEquipamentos>(new ViewDashboardDensidadeEquipamentosMap().Configure);
+            modelBuilder.Entity<ViewDashboardDensidadeTecnicos>(new ViewDashboardDensidadeTecnicosMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSFiliais>(new ViewDashboardDisponibilidadeBBTSFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMapaRegioes>(new ViewDashboardDisponibilidadeBBTSMapaRegioesMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade>(new ViewDashboardDisponibilidadeBBTSMultasDisponibilidadeMap().Configure);
+            modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasRegioes>(new ViewDashboardDisponibilidadeBBTSMultasRegioesMap().Configure);
+
 
             modelBuilder.Entity<RegiaoAutorizada>()
-                        .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
+                            .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
 
             modelBuilder.Entity<NavegacaoConfiguracao>()
                         .HasOne<Perfil>(nc => nc.Perfil)

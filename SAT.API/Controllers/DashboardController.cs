@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Params;
+using SAT.MODELS.ViewModels;
+using SAT.MODELS.ViewModels.Dashboard;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -20,10 +19,14 @@ namespace SAT.API.Controllers
             _dashboardService = dashboardService;
         }
 
+        /// <summary>
+        /// Busca a view selecionada pelo enum DashboardViewEnum
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public List<DashboardDisponibilidade> ObterDadosDashboard([FromQuery] DashboardParameters parameters)
+        public ViewDadosDashboard ObterViewPorParametros([FromQuery] ViewDadosDashboardParameters viewDadosDashboardParameters)
         {
-            return _dashboardService.ObterDadosDashboard(parameters);
+            return _dashboardService.ObterViewPorParametros(viewDadosDashboardParameters);
         }
     }
 }

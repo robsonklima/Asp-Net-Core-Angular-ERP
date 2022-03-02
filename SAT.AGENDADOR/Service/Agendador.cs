@@ -16,7 +16,6 @@ namespace SAT.AGENDADOR
         /// <param name="intervaloEmSegundos">intervalo de tempo em segudos</param>
         protected static void AgendarTarefa(string nome, Action tarefa, double intervaloEmSegundos)
         {
-            tarefa?.Invoke();
             // Cria um temporizador com o valor de intervalo em segundos
             agendamentoTimer = new();
             agendamentoTimer.Interval = intervaloEmSegundos * 1000;

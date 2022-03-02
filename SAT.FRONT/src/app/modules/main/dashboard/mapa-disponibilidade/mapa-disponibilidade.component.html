@@ -1,13 +1,13 @@
 <div>
-
-	<div *ngIf="!loading">
+	<!-- [hidden]="loading" -->
+	<div>
 		<svg xml:space="preserve" width="208.44765mm" height="132.08401mm"
 			style="fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
 			viewBox="0 0 208447.65 132090.82" id="landmarks-brazil-disp" version="1.1"
 			xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"
 			xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#"
 			xmlns:dc="http://purl.org/dc/elements/1.1/">
-			<defs id="defs4">
+			<defs>
 				<style type="text/css" id="style6">
 					.str0 {
 						stroke: #1F1A17;
@@ -124,6 +124,7 @@
 				<rect class="fil3 str3" x="808" y="791" width="218500" height="192427" id="rect100"
 					style="fill:none;stroke:none;stroke-opacity:1" />
 			</g>
+
 			<path id="regiao-1" style="stroke-width:264.597;stroke:black;"
 				d="m 11280.901,19733.787 h 21227.906 c 6281.036,0 11337.61,5056.574 11337.61,11337.609 v 9649.063 c 0,6281.036 -5056.574,11337.609 -11337.61,11337.609 H 11280.901 c -6281.0356,0 -11337.609416,-5056.573 -11337.609416,-11337.609 v -9649.063 c 0,-6281.035 5056.573816,-11337.609 11337.609416,-11337.609 z" />
 			<path id="regiao-2" style="stroke-width:264.597;stroke:black;"
@@ -1011,13 +1012,10 @@
 				</g>
 			</g>
 		</svg>
-
 	</div>
 
-	<div class="flex justify-center items-center" *ngIf="loading">
-		<div class="">
-			<mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
-		</div>
+	<div class="flex justify-center items-center mt-2" *ngIf="loading">
+		<mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
 	</div>
 
 </div>

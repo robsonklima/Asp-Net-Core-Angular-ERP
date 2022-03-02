@@ -9,7 +9,7 @@ import { Perfil, PerfilData, PerfilParameters } from '../types/perfil.types';
   providedIn: 'root'
 })
 export class PerfilService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterPorParametros(parameters: PerfilParameters): Observable<PerfilData> {
     let params = new HttpParams();
@@ -49,5 +49,16 @@ export class PerfilService {
     return this.http.delete<Perfil>(url).pipe(
       map((obj) => obj)
     );
+  }
+
+  async obterPerfis(filtro: string = ''): Promise<Perfil[]> {
+
+    const params: PerfilParameters = {
+      sortActive: 'nomePerfil',
+      sortDirection: 'asc',
+      pageSize: 1000,
+      filter: filtro
+    }
+    return (await this.obterPorParametros(params).toPromise()).items;
   }
 }

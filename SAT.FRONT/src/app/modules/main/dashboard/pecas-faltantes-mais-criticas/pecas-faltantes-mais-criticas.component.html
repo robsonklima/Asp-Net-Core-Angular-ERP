@@ -1,87 +1,74 @@
-
 <div *transloco="let t">
-    <div class="grid grid-cols-1 gap-y-8" *ngIf="!loading" >
+    <div class="grid grid-cols-1 gap-y-8" *ngIf="!loading">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
             <div class="w-full shadow-lg rounded-b-lg">
                 <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
-                     DADOS DA PEÇA - {{dadosPeca.index}}ª MAIS FALTANTE
+                    DADOS DA PEÇA - {{index < 1 ? 1 : index}}ª MAIS FALTANTE </div>
+                        <div
+                            class="grid gap-y-6 bg-gray-200 bg-opacity-50 p-6 rounded-b-lg w-full min-h-50 border border-gray-400">
+                            <div><label class="font-bold">{{t('cod magnus').toUpperCase()}}: </label>
+                                {{topPecaCriticaAtual.codMagnus}}</div>
+                            <div><label class="font-bold">{{t('descricao').toUpperCase()}}: </label>
+                                {{topPecaCriticaAtual.nomePeca}}</div>
+                            <div><label class="font-bold">{{t('quantidade').toUpperCase()}}: </label>
+                                {{topPecaCriticaAtual.qtdPecas}}</div>
+                        </div>
                 </div>
-                <div class="grid gap-y-6 bg-gray-200 bg-opacity-50 p-6 rounded-b-lg w-full min-h-50 border border-gray-400">
-                    <div><label class="font-bold">{{t('cod magnus').toUpperCase()}}: </label>  {{dadosPeca.codMagnus}}</div>
-                    <div><label class="font-bold">{{t('descricao').toUpperCase()}}: </label> {{dadosPeca.descricao}}</div>
-                    <div><label class="font-bold">{{t('quantidade').toUpperCase()}}: </label> {{dadosPeca.quantidade}}</div>
+
+                <div class="w-full shadow-lg rounded-b-lg">
+                    <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
+                        Estoque
+                    </div>
+                    <div
+                        class="bg-gray-200 bg-opacity-50 rounded-b-lg w-full h-50 border border-gray-400 overflow-auto overflow-x-auto">
+                        <table class="table-auto text-center w-full">
+                            <thead class="font-bold h-8 pl-6">
+                                <td>{{t('filial')}}</td>
+                                <td>Quantidade</td>
+                            </thead>
+                            <tbody>
+                                <tr class="h-6" *ngFor="let est of topPecasCriticasEstoque">
+                                    <td>{{est.filial}}</td>
+                                    <td>{{est.qtd}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            
-            <div class="w-full shadow-lg rounded-b-lg">
-                <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
-                    {{t('novas pecas cadastradas')}}
+            <div class="grid grid-cols-1 gap-8 justify-items-center">
+                <div class="w-full shadow-lg rounded-b-lg">
+                    <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
+                        {{t('chamados').toUpperCase()}}
+                    </div>
+                    <div
+                        class="bg-gray-200 bg-opacity-50 rounded-b-lg w-full h-50 border border-gray-400 overflow-auto overflow-x-auto">
+                        <table class="table-auto text-center w-full">
+                            <thead class="font-bold h-8 pl-6">
+                                <td>{{t('filial')}}</td>
+                                <td>{{t('nro-chamado')}}</td>
+                                <td>{{t('data')}}</td>
+                                <td>{{t('cliente')}}</td>
+                                <td>{{t('equipamento')}}</td>
+                            </thead>
+                            <tbody>
+                                <tr class="h-6" *ngFor="let c of topPecasCriticasChamados">
+                                    <td>{{c.filial}}</td>
+                                    <td>{{c.os}}</td>
+                                    <td>{{c.dataAbertura}}</td>
+                                    <td>{{c.cliente}}</td>
+                                    <td>{{c.equipamento}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="bg-gray-200 bg-opacity-50 rounded-b-lg w-full h-50 border border-gray-400 overflow-auto overflow-x-auto">
-                    <table class="table-auto text-center w-full">
-                        <thead class="font-bold h-8 pl-6">
-                            <td >{{t('filial')}}</td>
-                            <td >{{t('nro-chamado')}}</td>
-                            <td >{{t('data')}}</td>
-                            <td >{{t('cliente')}}</td>
-                        </thead>                    
-                    </table>
-                <div class=" h-10 text-center mt-6">
-                    Nenhum cadastro novo encontrado
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center" >
-        <div class="w-full shadow-lg rounded-b-lg">
-            <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
-                {{t('chamados').toUpperCase()}}
-            </div>
-            <div class="bg-gray-200 bg-opacity-50 rounded-b-lg w-full h-50 border border-gray-400 overflow-auto overflow-x-auto">
-                <table class="table-auto text-center w-full">
-                    <thead class="font-bold h-8 pl-6">
-                        <td >{{t('filial')}}</td>
-                        <td >{{t('nro-chamado')}}</td>
-                        <td >{{t('data')}}</td>
-                        <td >{{t('cliente')}}</td>
-                        <td >{{t('equipamento')}}</td>
-                    </thead>
-                    <tbody>
-                        <tr class="h-6" *ngFor="let c of dadosPeca.chamadosPeca">
-                            <td >{{c.filial}}</td>
-                            <td >{{c.ordemServico}}</td>
-                            <td >{{c.dataSolucao}}</td>
-                            <td >{{c.cliente}}</td>
-                            <td >{{c.equipamento}}</td>
-                        </tr>
-                   </tbody>
-                </table>
+
             </div>
         </div>
 
-        <div class="w-full shadow-lg rounded-b-lg">
-            <div class="font-bold text-white bg-gray-800 rounded-t-lg p-2 w-full">
-                {{t('pecas liberadas').toUpperCase()}}
-            </div>
-            <div class="bg-gray-200 bg-opacity-50 rounded-b-lg w-full h-50 border border-gray-400 overflow-auto overflow-x-auto">
-                <table class="table-auto text-center w-full">
-                    <thead class="font-bold h-8 pl-6">
-                        <td >{{t('filial')}}</td>
-                        <td >{{t('nro-chamado')}}</td>
-                        <td >{{t('data')}}</td>
-                        <td >{{t('cliente')}}</td>
-                    </thead>
-                </table>
-                <div class=" h-10 text-center mt-6">
-                    Nenhuma liberação nova encontrada
-                </div>
+        <div class="flex justify-center items-center" *ngIf="loading">
+            <div>
+                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="flex justify-center items-center" *ngIf="loading">
-    <div>
-        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-    </div>
-</div>

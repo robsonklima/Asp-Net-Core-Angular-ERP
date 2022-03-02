@@ -14,10 +14,12 @@ namespace SAT.INFRA.Repository
     public class PerfilRepository : IPerfilRepository
     {
         private readonly AppDbContext _context;
+        //private readonly IDbContextFactory<AppDbContext> _contextFactory;
 
         public PerfilRepository(AppDbContext context)
         {
             _context = context;
+          //  _contextFactory.CreateDbContext();
         }
 
         public void Atualizar(Perfil perfil)

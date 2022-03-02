@@ -27,18 +27,18 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="text-center" *ngFor="let data of disponibilidadeFilial">
-            <td>{{data.filial}}</td>
-            <td>{{data.indice11}}</td>
-            <td>{{data.saldo11}}</td>
-            <td>{{data.indice12}}</td>
-            <td>{{data.saldo12}}</td>
-            <td>{{data.indice13}}</td>
-            <td>{{data.saldo13}}</td>
-            <td>{{data.indice14}}</td>
-            <td>{{data.saldo14}}</td>
-            <td>{{data.indice15}}</td>
-            <td>{{data.saldo15}}</td>
+        <tr class="text-center" *ngFor="let filial of filiais">
+            <td>{{filial}}</td>
+            <td>{{buscaIndice(filial,1)}}%</td>
+            <td>{{buscaSaldo(filial,1)}}</td>
+            <td>{{buscaIndice(filial,2)}}%</td>
+            <td>{{buscaSaldo(filial,2)}}</td>
+            <td>{{buscaIndice(filial,3)}}%</td>
+            <td>{{buscaSaldo(filial,3)}}</td>
+            <td>{{buscaIndice(filial,4)}}%</td>
+            <td>{{buscaSaldo(filial,4)}}</td>
+            <td>{{buscaIndice(filial,5)}}%</td>
+            <td>{{buscaSaldo(filial,5)}}</td>
         </tr>
     </tbody>
 </table>

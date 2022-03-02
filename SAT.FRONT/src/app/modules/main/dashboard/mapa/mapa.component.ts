@@ -1,20 +1,19 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
-import { IndicadorService } from 'app/core/services/indicador.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
-import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
-import moment from 'moment';
 import { SharedService } from 'app/shared.service';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
+import Enumerable from 'linq';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 
 @Component({
   selector: 'app-mapa',
@@ -23,8 +22,7 @@ import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
   ]
 })
 
-export class MapaComponent extends Filterable implements AfterViewInit
-{
+export class MapaComponent extends Filterable implements AfterViewInit {
   private map: Map;
   private filiais: Filial[] = [];
 
@@ -44,30 +42,24 @@ export class MapaComponent extends Filterable implements AfterViewInit
     center: latLng([-15.7801, -47.9292])
   };
 
-  constructor (
+  constructor(
     protected _userService: UserService,
     private _sharedService: SharedService,
     private _filialService: FilialService,
-    private _indicadorService: IndicadorService,
+    private _dashboardService: DashboardService,
     private _geolocacationService: GeolocalizacaoService,
-    private _http: HttpClient)
-  {
+    private _http: HttpClient) {
     super(_userService, 'dashboard-filtro')
   }
 
 
-  ngAfterViewInit(): void
-  {
-    this._sharedService.clearListEvents();
+  ngAfterViewInit(): void {
     this.obterFiliais();
-
     this.registerEmitters();
   }
 
-  registerEmitters(): void
-  {
-    this.sidenav.closedStart.subscribe(() =>
-    {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
       this.onSidenavClosed();
       this.filiais = [];
       this.loading = true;
@@ -75,26 +67,22 @@ export class MapaComponent extends Filterable implements AfterViewInit
     })
   }
 
-  loadFilter(): void
-  {
+  loadFilter(): void {
     super.loadFilter();
   }
 
-  onMapReady(map: Map): void
-  {
+  onMapReady(map: Map): void {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
-    this._http.get('assets/geojson/uf.json').subscribe((json: any) =>
-    {
+    this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
       L.geoJSON(json, {
         style: {
           weight: 1,
           color: '#254441',
           fillColor: '#43AA8B'
         },
-        onEachFeature: (feature, layer) =>
-        {
+        onEachFeature: (feature, layer) => {
           this.colorlayer(feature, layer, this._sharedService);
         }
 
@@ -102,10 +90,8 @@ export class MapaComponent extends Filterable implements AfterViewInit
     });
   }
 
-  private colorlayer(feature, layer, _sharedService: SharedService): void
-  {
-    layer.on('mouseover', function ()
-    {
+  private colorlayer(feature, layer, _sharedService: SharedService): void {
+    layer.on('mouseover', function () {
       layer.setStyle({
         color: "blue",
         fillColor: 'blue',
@@ -113,8 +99,7 @@ export class MapaComponent extends Filterable implements AfterViewInit
       });
       _sharedService.sendClickEvent(MapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
     });
-    layer.on('mouseout', function ()
-    {
+    layer.on('mouseout', function () {
       layer.setStyle({
         weight: 1,
         color: '#254441',
@@ -124,35 +109,19 @@ export class MapaComponent extends Filterable implements AfterViewInit
     });
   }
 
-  private async obterFiliais()
-  {
+  private async obterFiliais() {
 
     // Filiais
-    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) =>
-    {
+    this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) => {
       this.filiais.push(...data.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33)); // Remover EXP,OUT,IND
     });
 
-    // Indicadores
-    let params: IndicadorParameters =
-    {
-      tipo: IndicadorTipoEnum.SLA,
-      codFiliais: this.filiais.map((f) => f.codFilial).join(','),
-      agrupador: IndicadorAgrupadorEnum.FILIAL,
-      include: OrdemServicoIncludeEnum.OS_RAT_FILIAL_PRAZOS_ATENDIMENTO,
-      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
-      //dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      //dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
-      dataInicio: moment().add(-30, 'days').format('YYYY-MM-DD 00:00'),
-      dataFim: moment().format('YYYY-MM-DD 23:59')      
-    };
-
-    let indicadores = await this._indicadorService.obterPorParametros(params).toPromise();
+    let indicadoresFiliais = Enumerable.from((await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
+      .viewDashboardIndicadoresFiliais).where(f => f.filial != "TOTAL").toArray();
 
     let markers: any[] = [];
 
-    this.filiais.forEach(async (filial) =>
-    {
+    this.filiais.forEach(async (filial) => {
 
       // Google
       // Tenta pelo cep (nem sempre os endereços são corretos)
@@ -160,25 +129,13 @@ export class MapaComponent extends Filterable implements AfterViewInit
         ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
 
       // Se não encontra pelo cep, tenta pelo endereço
-      if (!mapService)
-      {
+      if (!mapService) {
         let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
         mapService = (await this._geolocacationService.obterPorParametros
           ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
       }
 
-      // Nominatim
-      // // Tenta pelo cep (nem sempre os endereços são corretos)
-      // let mapService = (await this._nominatimService.buscarEndereco(filial.cep).toPromise()).results.shift();
-      // // Se não encontra pelo cep, tenta pelo endereço
-      // if (!mapService) {
-      //    let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
-      //   mapService = (await this._nominatimService.buscarEndereco(endereco).toPromise()).results.shift();
-      // }
-
-      if (mapService)
-      {
-
+      if (mapService) {
         let mark = {
           lat: +mapService.latitude,
           lng: +mapService.longitude,
@@ -186,7 +143,7 @@ export class MapaComponent extends Filterable implements AfterViewInit
           count: 1
         };
 
-        let valorIndicador = indicadores?.find(f => f.label == filial.nomeFilial)?.valor || 0;
+        let valorIndicador = indicadoresFiliais?.find(f => f.filial == filial.nomeFilial)?.sla || 0;
 
         var icon = new L.Icon({
           iconUrl:
@@ -201,7 +158,7 @@ export class MapaComponent extends Filterable implements AfterViewInit
           popupAnchor: [1, -32]
         });
 
-        let marker = new L.Marker([+mapService.latitude, +mapService.longitude],
+        let marker = new L.Marker([+mapService.latitude.replace(',', '.'), +mapService.longitude.replace(',', '.')],
           { icon: icon }).bindPopup(filial.nomeFilial);
 
         marker.addTo(this.map);

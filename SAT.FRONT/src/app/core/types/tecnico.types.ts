@@ -9,8 +9,7 @@ import { Regiao } from "./regiao.types";
 import { TipoRota } from "./tipo-rota.types";
 import { Usuario } from "./usuario.types";
 
-export class Tecnico
-{
+export class Tecnico {
     codTecnico: number;
     codAutorizada: number;
     codFilial: number;
@@ -80,13 +79,11 @@ export class Tecnico
     tecnicoCliente?: TecnicoCliente[];
 }
 
-export interface TecnicoData extends Meta
-{
+export interface TecnicoData extends Meta {
     items: Tecnico[];
 };
 
-export interface TecnicoParameters extends QueryStringParameters
-{
+export interface TecnicoParameters extends QueryStringParameters {
     codTecnico?: number;
     codTecnicos?: string;
     nome?: string;
@@ -103,34 +100,30 @@ export interface TecnicoParameters extends QueryStringParameters
     codRegioes?: string;
     include?: TecnicoIncludeEnum;
     filterType?: TecnicoFilterEnum;
+    naoVinculados?: number;
 };
 
-export enum TecnicoIncludeEnum
-{
+export enum TecnicoIncludeEnum {
     TECNICO_ORDENS_SERVICO = 1
 }
 
-export enum TecnicoFilterEnum
-{
+export enum TecnicoFilterEnum {
     FILTER_TECNICO_OS = 1
 }
 
 
-export enum FrotaFinalidadeUsoEnum
-{
+export enum FrotaFinalidadeUsoEnum {
     "Apenas Trabalho" = 1,
     "Apenas Trabalho/Particular" = 2
 }
 
-export enum FrotaCobrancaGaragemEnum
-{
+export enum FrotaCobrancaGaragemEnum {
     "Pela Empresa" = 1,
     "Pelo Técnico" = 2,
     "Pelo Técnico Sem Cobrança" = 3
 }
 
-export class DashboardTecnicoDisponibilidadeTecnicoViewModel
-{
+export class DashboardTecnicoDisponibilidadeTecnicoViewModel {
     codFilial: number;
     nomeFilial: string;
     indFerias: number;
@@ -142,8 +135,7 @@ export class DashboardTecnicoDisponibilidadeTecnicoViewModel
     tecnicoSemChamadosTransferidos: boolean;
 }
 
-export interface TecnicoConta
-{
+export interface TecnicoConta {
     codTecnicoConta: number;
     cdTecnico: number;
     numBanco: string;
@@ -157,23 +149,20 @@ export interface TecnicoConta
     dataHoraManut: string;
 }
 
-export enum TecnicoCategoriaCreditoEnum
-{
+export enum TecnicoCategoriaCreditoEnum {
     "A",
     "B",
     "C",
     "D"
 }
 
-export interface TecnicoCategoriaCredito
-{
+export interface TecnicoCategoriaCredito {
     categoriaCredito: TecnicoCategoriaCreditoEnum;
     media: number;
     valor: number;
 }
 
-export interface TecnicoCliente
-{
+export interface TecnicoCliente {
     codTecnicoCliente: number;
     codTecnico: number;
     codCliente: number;

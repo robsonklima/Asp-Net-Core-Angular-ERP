@@ -154,6 +154,7 @@ namespace SAT.API
             services.AddTransient<ILocalEnvioNFFaturamentoVinculadoRepository, LocalEnvioNFFaturamentoVinculadoRepository>();
             services.AddTransient<IIntencaoRepository, IntencaoRepository>();
             services.AddTransient<IVersaoRepository, VersaoRepository>();
+            services.AddTransient<ICargoRepository, CargoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -196,7 +197,6 @@ namespace SAT.API
             services.AddTransient<ITransportadoraService, TransportadoraService>();
             services.AddTransient<IUnidadeFederativaService, UnidadeFederativaService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
-            services.AddTransient<IIndicadorService, IndicadorService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrdemServicoService, OrdemServicoService>();
             services.AddTransient<IOrdemServicoAlertaService, OrdemServicoAlertaService>();
@@ -252,6 +252,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoDeslocamentoService, OrcamentoDeslocamentoService>();
             services.AddTransient<IOrcamentoDescontoService, OrcamentoDescontoService>();
             services.AddTransient<IVersaoService, VersaoService>();
+            services.AddTransient<ICargoService, CargoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

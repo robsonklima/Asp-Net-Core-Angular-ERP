@@ -1,40 +1,257 @@
-<div class="flex flex-col flex-auto min-w-0">
-
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
             <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a class="whitespace-nowrap text-primary-500">Documentação</a>
-                </div>
                 <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <a class="ml-1 text-primary-500">Início</a>
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
                 </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <span class="ml-1 text-secondary">Introdução</span>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codLocalEnvioNFFaturamento }}
+                    </span>
                 </div>
             </div>
-            <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Introdução
+                    {{ t('locais envio de nota fiscal e faturamento') }}
                 </h2>
             </div>
         </div>
     </div>
 
-    <div class="flex-auto max-w-3xl p-6 sm:p-10 prose prose-sm">
-        <h2>teste</h2>
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+                <div class="grid grid-cols-2 gap-4 content-between items-stretch bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <div>
+                        <span class="text-lg font-medium">{{ t('informacoes') }}</span>
+                    </div>
 
-        <p>
-            teste
-        </p>
+                    <div class="text-right">
+                        <mat-icon
+                            matPrefix [svgIcon]="'heroicons_outline:question-mark-circle'"
+                            [matTooltip]="'Informe o cliente/contrato e os campos disponíveis para o cadastro de endereços,
+                                depois clique em Avançar. Os campos de RAZÃO SOCIAL E ENDEREÇO são obrigatórios em pelo menos
+                                e um dos endereços, Faturamento e/ou Envio de Nota Fiscal'"
+                            ></mat-icon>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+
+                        <mat-select formControlName="codCliente">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="clienteFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente?.codCliente">
+                                {{ cliente?.nomeFantasia }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>Preencher este campo</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('contrato') }}</mat-label>
+                        
+                        <mat-select formControlName="codContrato" [disabled]="!contratos.length">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="contratoFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let contrato of contratos" [value]="contrato?.codContrato">
+                                {{ contrato?.nomeContrato }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>Preencher este campo</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('dados do local de faturamento') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('razao social faturamento') }}</mat-label>
+                        <input matInput formControlName="razaoSocialFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cnpj faturamento') }}</mat-label>
+                        <input matInput formControlName="cnpjFaturamento">
+                    </mat-form-field>
+     
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('inscricao estadual faturamento') }}</mat-label>
+                        <input matInput formControlName="inscricaoEstadualFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('responsavel faturamento') }}</mat-label>
+                        <input matInput formControlName="responsavelFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('email faturamento') }}</mat-label>
+                        <input matInput formControlName="emailFaturamento">
+                    </mat-form-field>
+                    
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('fone faturamento') }}</mat-label>
+                        <input matInput formControlName="foneFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('fax faturamento') }}</mat-label>
+                        <input matInput formControlName="faxFaturamento">
+                    </mat-form-field>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cep faturamento') }}</mat-label>
+                        <input matInput formControlName="cepFaturamento" [dropSpecialCharacters]="false" mask="00000000">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('endereco faturamento') }}</mat-label>
+                        <input matInput formControlName="enderecoFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('complemento faturamento') }}</mat-label>
+                        <input matInput formControlName="complementoFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('numero faturamento') }}</mat-label>
+                        <input matInput formControlName="numeroFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('bairro faturamento') }}</mat-label>
+                        <input matInput formControlName="bairroFaturamento">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cidade faturamento') }}</mat-label>
+                        <input matInput formControlName="nomeCidadeFaturamento" disabled="true">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('uf faturamento') }}</mat-label>
+                        <input matInput formControlName="siglaUFFaturamento" disabled="true">
+                    </mat-form-field>
+                </div>     
+                
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('dados do local para envio de nota fiscal') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('razao social envio nf') }}</mat-label>
+                        <input matInput formControlName="razaoSocialEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cnpj envio nf') }}</mat-label>
+                        <input matInput formControlName="cnpjEnvioNF">
+                    </mat-form-field>
+     
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('inscricao estadual envio nf') }}</mat-label>
+                        <input matInput formControlName="inscricaoEstadualEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('responsavel envio nf') }}</mat-label>
+                        <input matInput formControlName="responsavelEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('email envio nf') }}</mat-label>
+                        <input matInput formControlName="emailEnvioNF">
+                    </mat-form-field>
+                    
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('fone envio nf') }}</mat-label>
+                        <input matInput formControlName="foneEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('fax envio nf') }}</mat-label>
+                        <input matInput formControlName="faxEnvioNF">
+                    </mat-form-field>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cep envio nf') }}</mat-label>
+                        <input matInput formControlName="cepEnvioNF" [dropSpecialCharacters]="false" mask="00000000">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('endereco envio nf') }}</mat-label>
+                        <input matInput formControlName="enderecoEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('complemento envio nf') }}</mat-label>
+                        <input matInput formControlName="complementoEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('numero envio nf') }}</mat-label>
+                        <input matInput formControlName="numeroEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('bairro envio nf') }}</mat-label>
+                        <input matInput formControlName="bairroEnvioNF">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cidade envio nf') }}</mat-label>
+                        <input matInput formControlName="nomeCidadeEnvioNF" disabled="true">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('unidade federativa envio nf') }}</mat-label>
+                        <input matInput formControlName="siglaUFEnvioNF" disabled="true">
+                    </mat-form-field>
+                </div>                  
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button [routerLink]="['/ponto/turnos']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

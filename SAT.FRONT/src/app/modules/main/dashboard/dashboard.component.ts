@@ -21,7 +21,7 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
   public get dashboardEnum(): typeof DashboardEnum {
     return DashboardEnum;
   }
-  dashboardSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
+  nomeSlideSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
@@ -58,16 +58,16 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
     })
   }
 
-  private trocarDashboardOuSlide(): void {
-    let dashboards: string[] = Object.values(this.dashboardEnum);
+  public trocarDashboardOuSlide(): void {
+    let slides: string[] = Object.values(this.dashboardEnum);
 
     if (this.slideSelecionado == this.tabGroup._tabs.length - 1) {
-      let dashboardIndex = dashboards.indexOf(this.dashboardSelecionado);
+      let subSlideIndex = slides.indexOf(this.nomeSlideSelecionado);
 
-      if (dashboardIndex == dashboards.length - 1) {
-        this.dashboardSelecionado = dashboards[0];
+      if (subSlideIndex == slides.length - 1) {
+        this.nomeSlideSelecionado = slides[0];
       } else {
-        this.dashboardSelecionado = dashboards[dashboardIndex + 1];
+        this.nomeSlideSelecionado = slides[subSlideIndex + 1];
       }
 
       this.slideSelecionado = 0;
@@ -108,5 +108,4 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
   public abrirLinkRelatorioReincidenciaClientes() {
     window.open('http://satdbprod/Reports/report/Reports/INDICADORES%20DI%C3%81RIOS-%C3%8DNDICE%20DE%20REINCID%C3%8ANCIA-CLIENTE')
   }
-
 }

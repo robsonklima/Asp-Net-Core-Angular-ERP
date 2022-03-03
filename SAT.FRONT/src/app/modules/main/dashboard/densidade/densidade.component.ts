@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
@@ -7,10 +7,6 @@ import { Filial } from 'app/core/types/filial.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
-import { UserService } from 'app/core/user/user.service';
-import { Filterable } from 'app/core/filters/filterable';
-import { IFilterable } from 'app/core/types/filtro.types';
-import { MatSidenav } from '@angular/material/sidenav';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 
@@ -18,8 +14,7 @@ import { DashboardViewEnum } from 'app/core/types/dashboard.types';
   selector: 'app-densidade',
   templateUrl: './densidade.component.html'
 })
-export class DensidadeComponent extends Filterable implements OnInit, IFilterable {
-  @Input() sidenav: MatSidenav;
+export class DensidadeComponent {
   usuarioSessao: UsuarioSessao;
   filiais: Filial[] = [];
   map: Map;
@@ -28,6 +23,8 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
   codFilial: number;
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
+  public loadingTecnicos: boolean = false;
+  public loadingEquipamentos: boolean = false;
 
   options = {
     layers: [
@@ -39,40 +36,17 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
     center: latLng([-15.7801, -47.9292])
   };
 
-  constructor(
-    private _dashboardService: DashboardService,
-    protected _userService: UserService
-  ) {
-    super(_userService, 'dashboard-filtro');
-    this.usuarioSessao = JSON.parse(this._userService.userSession);
-  }
-
-  ngOnInit(): void {
-    this.registerEmitters();
-  }
-
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterTecnicos();
-      this.obterEquipamentosContrato();
-    })
-  }
-
-  loadFilter(): void {
-    super.loadFilter();
-
-    if (this.userSession?.usuario?.codFilial && this.filter)
-      this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
-  }
+  constructor(private _dashboardService: DashboardService) { }
 
   onMapReady(map: Map): void {
     this.map = map;
-    this.obterEquipamentosContrato();
-    this.obterTecnicos();
+    this.obterEquipamentosContrato().then(async callback => {
+      this.obterTecnicos();
+    });
   }
 
   private async obterEquipamentosContrato() {
+    this.loadingEquipamentos = true;
     const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS }).toPromise())
       .viewDashboardDensidadeEquipamentos;
 
@@ -92,9 +66,11 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
     });
 
     this.addLayer(markers, icon);
+    this.loadingEquipamentos = false;
   }
 
   private async obterTecnicos() {
+    this.loadingTecnicos = true;
     const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS }).toPromise())
       .viewDashboardDensidadeTecnicos;
 
@@ -114,6 +90,7 @@ export class DensidadeComponent extends Filterable implements OnInit, IFilterabl
     });
 
     this.addMarkersOnMap(markers, icon);
+    this.loadingTecnicos = false;
   }
 
   private addMarkersOnMap(markers: any[], icon: L.Icon): void {

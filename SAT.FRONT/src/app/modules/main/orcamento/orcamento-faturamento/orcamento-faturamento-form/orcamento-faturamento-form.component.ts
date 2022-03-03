@@ -271,6 +271,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
       this.form.controls['foneEnvioNF'].setValue(this.form.controls['foneFaturamento'].value);
       this.form.controls['faxEnvioNF'].setValue(this.form.controls['faxFaturamento'].value);
       this.form.controls['razaoSocialEnvioNF'].setValue(this.form.controls['razaoSocialFaturamento'].value);
+      
     }    
 
     ngOnDestroy() {

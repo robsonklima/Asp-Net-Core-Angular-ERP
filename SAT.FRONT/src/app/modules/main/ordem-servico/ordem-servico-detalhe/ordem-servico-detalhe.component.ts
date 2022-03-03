@@ -52,6 +52,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
 
+	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
+	{
+		return TipoIntervencaoEnum;
+	}
+
 	public get perfilEnum(): typeof RoleEnum
 	{
 		return RoleEnum;

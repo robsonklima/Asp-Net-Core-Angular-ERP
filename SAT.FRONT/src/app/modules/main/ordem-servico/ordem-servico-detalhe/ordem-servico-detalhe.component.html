@@ -89,8 +89,9 @@
                                 </button>
 
                                 <button mat-menu-item (click)="reabrir()"
-                                    [disabled]="os?.codStatusServico !== 3 &&  
-                                                (userSession.usuario.perfil?.codPerfil !== perfilEnum.PV_COORDENADOR_DE_CONTRATO)">
+                                    [disabled]="os?.codStatusServico !== 3 && 
+                                        userSession.usuario.perfil?.codPerfil !== perfilEnum.PV_COORDENADOR_DE_CONTRATO && 
+                                        os?.codTipoIntervencao !== tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
                                     {{ t('reabrir') }}
                                 </button>

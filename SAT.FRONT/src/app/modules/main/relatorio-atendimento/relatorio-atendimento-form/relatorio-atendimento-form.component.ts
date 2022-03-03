@@ -124,7 +124,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.ordemServico?.codFilial.toString()
+      pageSize: 50
+      //codFiliais: this.ordemServico?.codFilial.toString()
     }).toPromise()).items;
 
     this.tecnicosFiltro.valueChanges

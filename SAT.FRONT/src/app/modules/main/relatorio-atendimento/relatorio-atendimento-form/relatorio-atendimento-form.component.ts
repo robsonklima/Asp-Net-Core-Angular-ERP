@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -34,7 +34,6 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AcaoEnum } from 'app/core/types/acao.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { RoleEnum } from 'app/core/user/user.types';
-
 
 @Component({
   selector: 'app-relatorio-atendimento-form',
@@ -89,44 +88,39 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.loading = true;
+
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.isAddMode = !this.codRAT;
+    
     this.inicializarForm();
 
     await this.obterOrdemServico();
     await this.obterRelatorioAtendimento();
+    await this.obterStatusServicos();
+    await this.obterTecnicos(this.relatorioAtendimento.tecnico.nome);
+    this.registrarEmitters();
+    
+    this.loading = false;
+  }
 
-    this.form.controls['data'].valueChanges.subscribe((data) => {
+  private registrarEmitters()
+  {
+    this.form.controls['data'].valueChanges.subscribe(() => {
       this.validaDataHoraRAT();
-    })
+    });
 
-    this.form.controls['horaInicio'].valueChanges.subscribe((horaInicio) => {
+    this.form.controls['horaInicio'].valueChanges.subscribe(() => {
       this.validaDataHoraRAT();
-    })
+    });
 
-    this.form.controls['horaFim'].valueChanges.subscribe((horaFim) => {
+    this.form.controls['horaFim'].valueChanges.subscribe(() => {
       this.validaDataHoraRAT();
-    })
+    });
 
     this.form.controls['codStatusServico'].valueChanges.subscribe(() => {
       this.validaBloqueioStatus();
-    })
-
-    this.statusServicos = (await this._statusServicoService.obterPorParametros({
-      indAtivo: statusConst.ATIVO,
-      pageSize: 100,
-      sortActive: 'nomeStatusServico',
-      sortDirection: 'asc'
-    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
-
-    this.tecnicos = (await this._tecnicoService.obterPorParametros({
-      indAtivo: statusConst.ATIVO,
-      sortActive: 'nome',
-      sortDirection: 'asc',
-      pageSize: 50
-      //codFiliais: this.ordemServico?.codFilial.toString()
-    }).toPromise()).items;
+    });
 
     this.tecnicosFiltro.valueChanges
       .pipe(
@@ -148,15 +142,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         takeUntil(this._onDestroy)
       )
       .subscribe(async data => {
-        this.searching = false;
         this.tecnicos = await data;
-      },
-        () => {
-          this.searching = false;
-        }
-      );
+      });
+  }
 
-    this.loading = false;
+  private async obterTecnicos(filtro: string=null)
+  {
+    this.tecnicos = (await this._tecnicoService.obterPorParametros({
+      indAtivo: statusConst.ATIVO,
+      filter: filtro,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      codFiliais: this.ordemServico?.codFilial.toString()
+    }).toPromise()).items;
   }
 
   private async obterOrdemServico() {
@@ -195,6 +193,16 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
       this.configuraForm();
     }
+  }
+
+  private async obterStatusServicos()
+  {
+    this.statusServicos = (await this._statusServicoService.obterPorParametros({
+      indAtivo: statusConst.ATIVO,
+      pageSize: 100,
+      sortActive: 'nomeStatusServico',
+      sortDirection: 'asc'
+    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
   }
 
   private async obterFotos() {
@@ -339,46 +347,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  async reabrir()
-	{
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja reabrir este relatório de atendimento?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
-
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
-				let rat: RelatorioAtendimento = {
-					...this.relatorioAtendimento,
-					...{
-						codStatusServico: statusServicoConst.ABERTO,
-						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-						codUsuarioManut: this.sessionData.usuario?.codUsuario
-					}
-				  };
-			  
-				  Object.keys(rat).forEach((key) =>
-				  {
-					typeof rat[key] == "boolean" ? rat[key] = +rat[key] : rat[key] = rat[key];
-				  });
-			  
-				  this._raService.atualizar(rat).subscribe((rat) =>
-				  {
-					this._snack.exibirToast("Relatório de atendimento reaberto!", "success");
-					this.obterRelatorioAtendimento();
-				  });
-			}
-		});
-	}
-
   private transformarBase64(readerEvt) {
     var binaryString = readerEvt.target.result;
     var base64textString = btoa(binaryString);
@@ -471,8 +439,48 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
       && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO)
       this.form.controls['codStatusServico'].setErrors({ 'bloqueioOrcamento': true });
   }
+  
+  public async reabrir()
+	{
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja reabrir este relatório de atendimento?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-  async salvar() {
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+				let rat: RelatorioAtendimento = {
+					...this.relatorioAtendimento,
+					...{
+						codStatusServico: statusServicoConst.ABERTO,
+						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+						codUsuarioManut: this.sessionData.usuario?.codUsuario
+					}
+				  };
+			  
+				  Object.keys(rat).forEach((key) =>
+				  {
+					typeof rat[key] == "boolean" ? rat[key] = +rat[key] : rat[key] = rat[key];
+				  });
+			  
+				  this._raService.atualizar(rat).subscribe((rat) =>
+				  {
+					this._snack.exibirToast("Relatório de atendimento reaberto!", "success");
+					this.obterRelatorioAtendimento();
+				  });
+			}
+		});
+	}
+
+  public async salvar() {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 

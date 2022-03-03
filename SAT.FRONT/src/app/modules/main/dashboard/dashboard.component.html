@@ -243,48 +243,6 @@
               </ng-template>
             </mat-tab>
 
-            <!-- Tab
-            <mat-tab label="Multa Regiões" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Multa Disponibilidade
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-multa></app-disponibilidade-bbts-multa>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab> -->
-
-            <!-- Tab 
-            <mat-tab label="Disponibilidade dos Técnicos"
-              *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Indicador de Disponibilidade dos Técnicos - Últimos 30 dias
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
-            <!-- Tab -->
-
             <!-- Tab -->
             <mat-tab label=" Média Global de Atendimentos Técnicos por Dia"
               *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
@@ -623,7 +581,7 @@
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
                       <div class="w-full">
-                        <app-densidade [sidenav]="sidenav"></app-densidade>
+                        <app-densidade></app-densidade>
                       </div>
                     </div>
                   </div>

@@ -1,21 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { interval, Subject } from 'rxjs';
 import { appConfig as c } from 'app/core/config/app.config'
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DashboardEnum } from 'app/core/types/dashboard.types';
-import { MatSidenav } from '@angular/material/sidenav';
 import { takeUntil } from 'rxjs/operators';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { IFilterable } from 'app/core/types/filtro.types';
-import { Filterable } from 'app/core/filters/filterable';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 
 })
-export class DashboardComponent extends Filterable implements AfterViewInit, IFilterable {
+export class DashboardComponent implements AfterViewInit {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;
 
   public get dashboardEnum(): typeof DashboardEnum {
@@ -23,22 +20,16 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
   }
   nomeSlideSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
-  @ViewChild('sidenav') sidenav: MatSidenav;
   usuarioSessao: UsuarioSessao;
   filtro: any;
   protected _onDestroy = new Subject<void>();
 
-  public bbtsRegiaoMulta: boolean = true;
-
   constructor(
     private _cdr: ChangeDetectorRef,
     protected _userService: UserService
-  ) {
-    super(_userService, 'ordem-servico')
-  }
+  ) { }
 
   async ngAfterViewInit() {
-    this.bbtsRegiaoMulta=true;
     interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
       .pipe(
         takeUntil(this._onDestroy)
@@ -51,11 +42,8 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
     this._cdr.detectChanges();
   }
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.configurarFiltro();
-    })
+  public onAlterarTabPorClique = (tabChangeEvent: MatTabChangeEvent): void => {
+    this.slideSelecionado = tabChangeEvent.index;
   }
 
   public trocarDashboardOuSlide(): void {
@@ -71,6 +59,7 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
       }
 
       this.slideSelecionado = 0;
+      this.tabGroup.selectedIndex = 0;
     } else {
       this.slideSelecionado = this.tabGroup.selectedIndex + 1;
       this.tabGroup.selectedIndex = this.slideSelecionado;

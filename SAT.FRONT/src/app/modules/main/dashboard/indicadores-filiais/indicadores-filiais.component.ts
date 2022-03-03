@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import Enumerable from 'linq';
-import { Filterable } from 'app/core/filters/filterable';
 import { UserService } from 'app/core/user/user.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { MatSidenav } from '@angular/material/sidenav';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardIndicadoresFiliais } from 'app/core/types/dashboard.types';
 
@@ -14,33 +12,12 @@ import { DashboardViewEnum, ViewDashboardIndicadoresFiliais } from 'app/core/typ
   ]
 })
 
-export class IndicadoresFiliaisComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
+export class IndicadoresFiliaisComponent implements OnInit {
   public indicadoresFiliais: ViewDashboardIndicadoresFiliais[] = [];
   public indicadoresFiliaisTotal: ViewDashboardIndicadoresFiliais;
   public loading: boolean = true;
 
-  @Input() sidenav: MatSidenav;
-
-  constructor(
-    private _dashboardService: DashboardService,
-    protected _userService: UserService) {
-    super(_userService, 'dashboard-filtro')
-  }
-  ngAfterViewInit(): void {
-    this.registerEmitters();
-  }
-
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.indicadoresFiliais = [];
-      this.loading = true;
-    })
-  }
-
-  loadFilter(): void {
-    super.loadFilter();
-  }
+  constructor(private _dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -48,10 +25,10 @@ export class IndicadoresFiliaisComponent extends Filterable implements OnInit, A
   }
 
   private async montaDashboard(): Promise<void> {
-    this.indicadoresFiliais =   (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
-    .viewDashboardIndicadoresFiliais;
+    this.indicadoresFiliais = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
+      .viewDashboardIndicadoresFiliais;
     this.indicadoresFiliaisTotal = Enumerable.from(this.indicadoresFiliais).firstOrDefault(q => q.filial == "TOTAL");
-    this.indicadoresFiliais = Enumerable.from(this.indicadoresFiliais).where(f => f.filial != "TOTAL").toArray();
+    this.indicadoresFiliais = Enumerable.from(this.indicadoresFiliais).where(f => f.filial != "TOTAL").distinct().toArray();
     this.indicadoresFiliais.sort((a, b) => (a.sla > b.sla ? -1 : 1));
     this.loading = false;
   }

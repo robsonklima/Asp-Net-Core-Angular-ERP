@@ -16,17 +16,15 @@ namespace SAT.SERVICES.Services
             NominatimGeolocation[] model = { };
             HttpClient client = new();
 
-            var pais = parameters.Pais ?? "Brazil";
-
             var response = await client.GetAsync
-                ($"https://nominatim.openstreetmap.org/search?q={parameters.EnderecoCEP}%{pais}&email={Constants.EQUIPE_SAT_EMAIL}&format=json&addressdetails=1");
+                ($"https://nominatim.openstreetmap.org/search?q={parameters.EnderecoCEP}&email={Constants.EQUIPE_SAT_EMAIL}&format=json&addressdetails=1");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var conteudo = await response.Content.ReadAsStringAsync();
                 model = Newtonsoft.Json.JsonConvert.DeserializeObject<NominatimGeolocation[]>(conteudo);
 
-                var result = model.FirstOrDefault();
+                var result = model.Where(m => m.address.country == "Brazil").FirstOrDefault();
 
                 if (result == null)
                     return null;

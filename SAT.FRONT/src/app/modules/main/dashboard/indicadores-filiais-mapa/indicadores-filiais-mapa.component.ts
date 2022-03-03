@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { SharedService } from 'app/shared.service';
@@ -7,8 +7,6 @@ import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'app/core/user/user.service';
-import { Filterable } from 'app/core/filters/filterable';
-import { MatSidenav } from '@angular/material/sidenav';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import Enumerable from 'linq';
@@ -16,21 +14,19 @@ import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 
 @Component({
-  selector: 'app-mapa',
-  templateUrl: './mapa.component.html',
-  styleUrls: ['./mapa.component.css'
+  selector: 'app-indicadores-filiais-mapa',
+  templateUrl: './indicadores-filiais-mapa.component.html',
+  styleUrls: ['./indicadores-filiais-mapa.component.css'
   ]
 })
 
-export class MapaComponent extends Filterable implements AfterViewInit {
+export class IndicadoresFiliaisMapaComponent implements OnInit {
   private map: Map;
   private filiais: Filial[] = [];
 
   public markerClusterGroup: L.MarkerClusterGroup;
   public markerClusterData = [];
   public loading: boolean = true;
-
-  @Input() sidenav: MatSidenav;
 
   public options = {
     layers: [
@@ -43,32 +39,14 @@ export class MapaComponent extends Filterable implements AfterViewInit {
   };
 
   constructor(
-    protected _userService: UserService,
     private _sharedService: SharedService,
     private _filialService: FilialService,
     private _dashboardService: DashboardService,
     private _geolocacationService: GeolocalizacaoService,
-    private _http: HttpClient) {
-    super(_userService, 'dashboard-filtro')
-  }
+    private _http: HttpClient) { }
 
-
-  ngAfterViewInit(): void {
-    this.obterFiliais();
-    this.registerEmitters();
-  }
-
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.filiais = [];
-      this.loading = true;
-      this.obterFiliais();
-    })
-  }
-
-  loadFilter(): void {
-    super.loadFilter();
+  ngOnInit(): void {
+    this.obterDados();
   }
 
   onMapReady(map: Map): void {
@@ -97,7 +75,7 @@ export class MapaComponent extends Filterable implements AfterViewInit {
         fillColor: 'blue',
         weight: 1
       });
-      _sharedService.sendClickEvent(MapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
+      _sharedService.sendClickEvent(IndicadoresFiliaisMapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
     });
     layer.on('mouseout', function () {
       layer.setStyle({
@@ -105,11 +83,11 @@ export class MapaComponent extends Filterable implements AfterViewInit {
         color: '#254441',
         fillColor: '#43AA8B'
       });
-      _sharedService.sendClickEvent(MapaComponent, [{ estado: null, seleciona: false }]);
+      _sharedService.sendClickEvent(IndicadoresFiliaisMapaComponent, [{ estado: null, seleciona: false }]);
     });
   }
 
-  private async obterFiliais() {
+  private async obterDados() {
 
     // Filiais
     this._filialService.obterPorParametros({ indAtivo: 1 }).subscribe((data: FilialData) => {

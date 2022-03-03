@@ -1,7 +1,4 @@
 <mat-drawer-container class="flex-auto h-full">
-  <!-- <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-    <app-dashboard-filtro [sidenav]="sidenav"></app-dashboard-filtro>
-  </mat-drawer> -->
 
   <mat-drawer-content>
     <div class="flex flex-col flex-auto min-w-0">
@@ -24,7 +21,8 @@
                 </div>
 
                 <div class="mt-2">
-                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" (click)="trocarDashboardOuSlide()">
+                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                    (click)="trocarDashboardOuSlide()">
                     Dashboard
                   </h2>
                 </div>
@@ -98,7 +96,8 @@
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
           <!-- Tabs -->
-          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="onAlterarTabPorClique($event)"
+            #tabGroup>
             <!-- Tab -->
             <mat-tab label="Status das Filiais"
               *ngIf="nomeSlideSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
@@ -113,7 +112,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-mapa [sidenav]="sidenav"></app-mapa>
+                      <app-indicadores-filiais-mapa></app-indicadores-filiais-mapa>
                     </div>
                   </div>
                   <!-- Panel -->
@@ -125,7 +124,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-indicadores-filiais [sidenav]="sidenav"></app-indicadores-filiais>
+                      <app-indicadores-filiais></app-indicadores-filiais>
                     </div>
                   </div>
                 </div>
@@ -163,11 +162,11 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Disponibilidade BBTS
+                        Disponibilidade BBTS - Regiões
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto">
-                      <app-mapa-disponibilidade [bbtsRegiaoMulta]="false"></app-mapa-disponibilidade>
+                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="false"></app-disponibilidade-bbts-regioes>
                     </div>
                   </div>
                 </div>
@@ -204,11 +203,11 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Multa das Regiões
+                        Valores Multa - Regiões
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto">
-                      <app-mapa-disponibilidade [bbtsRegiaoMulta]="true"></app-mapa-disponibilidade>
+                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="true"></app-disponibilidade-bbts-regioes>
                     </div>
                   </div>
                 </div>
@@ -270,7 +269,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-dashboard-spa [sidenav]="sidenav"></app-dashboard-spa>
+                      <app-dashboard-spa></app-dashboard-spa>
                     </div>
                   </div>
                 </div>
@@ -290,7 +289,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-desempenho-spa>
+                      <app-tecnicos-desempenho-spa [ordem]="'desc'"></app-tecnicos-desempenho-spa>
                     </div>
                   </div>
 
@@ -303,7 +302,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-desempenho-spa>
+                      <app-tecnicos-desempenho-spa [ordem]="'asc'"></app-tecnicos-desempenho-spa>
                     </div>
                   </div>
                 </div>
@@ -323,7 +322,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-sla-clientes [sidenav]="sidenav"></app-sla-clientes>
+                      <app-sla-clientes></app-sla-clientes>
                     </div>
                   </div>
                 </div>
@@ -344,7 +343,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-filiais [sidenav]="sidenav"></app-reincidencia-filiais>
+                      <app-reincidencia-filiais></app-reincidencia-filiais>
                     </div>
                   </div>
                 </div>
@@ -365,7 +364,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-reincidentes>
+                      <app-tecnicos-reincidentes [ordem]="'desc'"></app-tecnicos-reincidentes>
                     </div>
                   </div>
 
@@ -378,7 +377,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-reincidentes>
+                      <app-tecnicos-reincidentes [ordem]="'asc'"></app-tecnicos-reincidentes>
                     </div>
                   </div>
                 </div>
@@ -399,7 +398,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-clientes [sidenav]="sidenav"></app-reincidencia-clientes>
+                      <app-reincidencia-clientes></app-reincidencia-clientes>
                     </div>
                   </div>
                 </div>
@@ -420,7 +419,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-equipamentos-mais-reincidentes [sidenav]="sidenav"></app-equipamentos-mais-reincidentes>
+                      <app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
                     </div>
                   </div>
                 </div>
@@ -440,7 +439,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-pendencia-filiais [sidenav]="sidenav"></app-pendencia-filiais>
+                      <app-pendencia-filiais></app-pendencia-filiais>
                     </div>
                   </div>
                 </div>
@@ -460,7 +459,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-pendentes>
+                      <app-tecnicos-pendentes [ordem]="'desc'"></app-tecnicos-pendentes>
                     </div>
                   </div>
 
@@ -473,7 +472,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-pendentes>
+                      <app-tecnicos-pendentes [ordem]="'asc'"></app-tecnicos-pendentes>
                     </div>
                   </div>
                 </div>
@@ -535,7 +534,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-pecas-faltantes-mais-criticas [sidenav]="sidenav"></app-pecas-faltantes-mais-criticas>
+                      <app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
                     </div>
                   </div>
                 </div>

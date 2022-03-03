@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System;
 
 namespace SAT.SERVICES.Services
 {
@@ -17,12 +18,15 @@ namespace SAT.SERVICES.Services
             HttpClient client = new();
 
             var response = await client.GetAsync
-                    (string.IsNullOrWhiteSpace(parameters.EnderecoCEP) ?
-                    $"https://maps.googleapis.com/maps/api/geocode/json?latlng={parameters.LatitudeOrigem.Replace(',', '.')},{parameters.LongitudeOrigem.Replace(',', '.')}&key={Constants.GOOGLE_API_KEY}" :
-                    $"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key={Constants.GOOGLE_API_KEY}");
+                (string.IsNullOrWhiteSpace(parameters.EnderecoCEP) ?
+                $"https://maps.googleapis.com/maps/api/geocode/json?latlng={parameters.LatitudeOrigem.Replace(',', '.')},{parameters.LongitudeOrigem.Replace(',', '.')}&key={Constants.GOOGLE_API_KEY}" :
+                $"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key={Constants.GOOGLE_API_KEY}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw new Exception(Constants.ERRO_CONSULTAR_COORDENADAS);
+
                 var conteudo = await response.Content.ReadAsStringAsync();
                 model = Newtonsoft.Json.JsonConvert.DeserializeObject<GoogleGeolocation>(conteudo);
 
@@ -39,7 +43,7 @@ namespace SAT.SERVICES.Services
                     Latitude = model?.results[0]?.geometry.location?.lat.ToString(),
                     Longitude = model?.results[0]?.geometry.location?.lng.ToString(),
                     Endereco = endereco,
-                    Pais = pais.long_name,
+                    Pais = pais?.long_name,
                     Bairro = bairro?.long_name,
                     Cidade = cidade?.long_name,
                     Estado = estado?.short_name

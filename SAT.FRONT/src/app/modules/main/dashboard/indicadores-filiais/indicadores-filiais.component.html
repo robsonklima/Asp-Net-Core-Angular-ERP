@@ -11,8 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of indicadoresFiliais" class="leading-none text-xs"
-            [class.bg-blue-300]="selecionaLinhas &&  ufSelecionada == data.siglaUF">
+        <tr *ngFor="let data of indicadoresFiliais" class="leading-none text-xs">
             <td class="text-center">
                 <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
                     [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
@@ -30,10 +29,10 @@
     <tfoot>
         <tr>
             <th class="text-center pointer-events-none m-auto" colspan="2">RESULTADO GERAL DO DSS</th>
-            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.sla }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.pendencia }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ resultadoGeralDSS.reincidencia }}%</td>
-            <td class="text-right pointer-events-none font-bold pr-8">{{ resultadoGeralDSS.spa }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.sla }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.pendencia }}%</td>
+            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
+            <td class="text-right pointer-events-none font-bold pr-8">{{ indicadoresFiliaisTotal.spa }}%</td>
         </tr>
     </tfoot>
 </table>

@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Foto } from 'app/core/types/foto.types';
 import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
-import * as L from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -52,6 +51,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
+
+	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
+	{
+		return TipoIntervencaoEnum;
+	}
 
 	public get perfilEnum(): typeof RoleEnum
 	{
@@ -108,8 +112,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	private async obterOS()
 	{
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-		console.log(this.os);
-		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>

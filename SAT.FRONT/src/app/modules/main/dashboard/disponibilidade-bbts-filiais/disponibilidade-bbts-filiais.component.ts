@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum, ViewDashboardDisponibilidadeBBTSFiliais } from 'app/core/types/dashboard.types';
 import { Filtro } from 'app/core/types/filtro.types';
+import Enumerable from 'linq';
 
 @Component({
   selector: 'app-disponibilidade-bbts-filiais',
@@ -9,47 +12,35 @@ import { Filtro } from 'app/core/types/filtro.types';
 })
 export class DisponibilidadeBbtsFiliaisComponent implements OnInit {
   @Input() filtro: Filtro;
-  public disponibilidadeFilial: DisponibilidadeFilialModel[] = [];
+  public disponibilidadeFilial: ViewDashboardDisponibilidadeBBTSFiliais[] = [];
+  public filiais: string[] = [];
   public loading: boolean = true;
 
-  constructor() { }
+  constructor(private _dashboardService: DashboardService) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.obterDados();
   }
 
   private async obterDados() {
-    for (let i = 0; i < 10; i++) {
-      let d: DisponibilidadeFilialModel = new DisponibilidadeFilialModel();
-      d.filial = 'FRS';
-      d.indice11 = '100%';
-      d.saldo11 = '85.40';
-      d.indice12 = '100%';
-      d.saldo12 = '85.40';
-      d.indice13 = '100%';
-      d.saldo13 = '85.40';
-      d.indice14 = '100%';
-      d.saldo14 = '85.40';
-      d.indice15 = '100%';
-      d.saldo15 = '85.40';
-      this.disponibilidadeFilial.push(d);
-    }
+    this.disponibilidadeFilial = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.BBTS_FILIAIS }).toPromise())
+      .viewDashboardDisponibilidadeBBTSFiliais;
+
+    this.filiais = Enumerable.from(this.disponibilidadeFilial).groupBy(g => g.filial).select(s => s.key()).toArray();
 
     this.loading = false;
   }
 
-}
+  buscaIndice(filial: string, indiceDisp: number) {
+    let nomeIndice = 'DISP 1' + indiceDisp;
+    let valorIndice = Enumerable.from(this.disponibilidadeFilial).firstOrDefault(f => f.filial == filial && f.criticidade == nomeIndice)?.indice;
+    return valorIndice;
+  }
 
-export class DisponibilidadeFilialModel {
-  public filial: string;
-  public indice11: string;
-  public saldo11: string;
-  public indice12: string;
-  public saldo12: string;
-  public indice13: string;
-  public saldo13: string;
-  public indice14: string;
-  public saldo14: string;
-  public indice15: string;
-  public saldo15: string;
+  buscaSaldo(filial: string, indiceDisp: number) {
+    let nomeIndice = 'DISP 1' + indiceDisp;
+    let valorSaldo = Enumerable.from(this.disponibilidadeFilial).firstOrDefault(f => f.filial == filial && f.criticidade == nomeIndice)?.saldo;
+    return valorSaldo;
+  }
 }

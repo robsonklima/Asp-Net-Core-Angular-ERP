@@ -1,4 +1,5 @@
-<div id="map" class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
-    (leafletMapReady)="onMapReady($event)">
-</div>
+<div id="map" class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData" (leafletMapReady)="onMapReady($event)">
 
+<div class="loading-shade" *ngIf="loading">
+    <span class="text-lg text-secondary">Carregando...</span>
+</div>

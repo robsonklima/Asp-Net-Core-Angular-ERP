@@ -1,14 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
-import { IndicadorService } from 'app/core/services/indicador.service';
-import { Filtro, IFilterable } from 'app/core/types/filtro.types';
-import { IndicadorAgrupadorEnum, IndicadorParameters, IndicadorTipoEnum } from 'app/core/types/indicador.types';
-import { OrdemServicoFilterEnum, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
-import moment from 'moment';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -58,7 +56,7 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
   private redColor: string = "#cc0000";
   private greenColor: string = "#009900";
 
-  constructor(private _indicadorService: IndicadorService,
+  constructor(private _dashboardService: DashboardService,
     protected _userService: UserService) {
     super(_userService, 'dashboard-filtro');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
@@ -82,32 +80,18 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
 
   public async carregarGrafico() {
     this.loading = true;
-
-    const params: IndicadorParameters =
-    {
-      agrupador: IndicadorAgrupadorEnum.CLIENTE,
-      tipo: IndicadorTipoEnum.REINCIDENCIA,
-      include: OrdemServicoIncludeEnum.OS_RAT_CLIENTE_PRAZOS_ATENDIMENTO,
-      filterType: OrdemServicoFilterEnum.FILTER_INDICADOR,
-      //dataInicio: this.filter?.parametros.dataInicio || moment().startOf('month').format('YYYY-MM-DD hh:mm'),
-      //dataFim: this.filter?.parametros.dataFim || moment().endOf('month').format('YYYY-MM-DD hh:mm')
-      dataInicio: moment().add(-30, 'days').format('YYYY-MM-DD 00:00'),
-      dataFim: moment().format('YYYY-MM-DD 23:59')
-    }
-
-    let data = await this._indicadorService.obterPorParametros(params).toPromise();
+    let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_CLIENTES }).toPromise())
+      .viewDashboardReincidenciaClientes;
 
     if (data?.length) {
-      data = Enumerable.from(data).orderByDescending(ord => ord.valor).toArray();
-      let labels = data.map(d => d.label);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.valor);
+      data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
+      let labels = data.map(d => d.cliente);
+      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;
       this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);
     }
-
-    this.loading = false;
   }
 
   private inicializarGrafico(labels: string[], valoresColuna: number[], valoresLinha: number[], meta: number, greenColor: string, redColor: string) {
@@ -199,5 +183,7 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
         }
       }
     };
+
+    this.loading = false;
   }
 }

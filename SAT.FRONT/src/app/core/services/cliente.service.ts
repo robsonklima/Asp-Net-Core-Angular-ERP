@@ -4,12 +4,13 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Cliente, ClienteData, ClienteParameters } from '../types/cliente.types';
 import { appConfig as c } from 'app/core/config/app.config'
+import { Contrato, ContratoData } from '../types/contrato.types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterTodos(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${c.api}/Cliente`).pipe(
@@ -34,7 +35,7 @@ export class ClienteService {
     return this.http.get<Cliente>(url).pipe(
       map((obj) => obj)
     );
-}
+  }
 
   criar(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(`${c.api}/Cliente`, cliente).pipe(

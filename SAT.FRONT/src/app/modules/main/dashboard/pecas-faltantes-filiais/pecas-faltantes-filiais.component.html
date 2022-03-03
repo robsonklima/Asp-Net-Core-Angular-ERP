@@ -6,7 +6,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let data of pecasFaltantes" class="text-center">
-            <td>{{data.data}}</td>
+            <td>{{data.data| date:'dd/MM/yy'}}</td>
             <td>{{data.valorFAM}}</td>
             <td>{{data.valorFBA}}</td>
             <td>{{data.valorFBU}}</td>
@@ -61,6 +61,10 @@
         </tr>
     </tfoot>
 </table>
+
+<div class="w-full text-right text-md mt-4 mr-2 text-blue-500" *ngIf="!loading">
+    <a href="http://satdbprod/Reports/report/Reports/Relat%C3%B3rio%20DSS%20-%20SAT%20-%20Logistica%20-%20Chamado%20Faltante%20sem%20Status%20a%20mais%20de%2024%20horas%20-%20Analistas" target="_blank">Relatório Reporting</a>
+</div>
 
 <div class="flex justify-center items-center" *ngIf="loading">
     <div class="">

@@ -19,16 +19,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MapaComponent } from './mapa/mapa.component';
+import { IndicadoresFiliaisMapaComponent } from './indicadores-filiais-mapa/indicadores-filiais-mapa.component';
 import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
 import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
 import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/disponibilidade-tecnicos.component';
 import { MediaGlobalAtendimentoTecnicoComponent } from './media-global-atendimento-tecnico/media-global-atendimento-tecnico.component';
-import { DisponibilidadeBbtsRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
 import { DisponibilidadeBbtsFiliaisComponent } from './disponibilidade-bbts-filiais/disponibilidade-bbts-filiais.component';
 import { DashboardSpaComponent } from './dashboard-spa/dashboard-spa.component';
 import { SlaClientesComponent } from './sla-clientes/sla-clientes.component';
-import { MapaDisponibilidadeComponent } from './mapa-disponibilidade/mapa-disponibilidade.component';
+import { DisponibilidadeBBTSRegioesComponent } from './disponibilidade-bbts-regioes/disponibilidade-bbts-regioes.component';
 import { ReincidenciaFiliaisComponent } from './reincidencia-filiais/reincidencia-filiais.component';
 import { PendenciaFiliaisComponent } from './pendencia-filiais/pendencia-filiais.component';
 import { EquipamentosMaisReincidentesComponent } from './equipamentos-mais-reincidentes/equipamentos-mais-reincidentes.component';
@@ -51,13 +50,12 @@ registerLocaleData(ptBR);
   declarations: [
     DashboardComponent,
     DashboardFiltroComponent,
-    MapaComponent,
-    MapaDisponibilidadeComponent,
+    IndicadoresFiliaisMapaComponent,
+    DisponibilidadeBBTSRegioesComponent,
     ChamadosMaisAntigosComponent,
     IndicadoresFiliaisComponent,
     DisponibilidadeTecnicosComponent,
     MediaGlobalAtendimentoTecnicoComponent,
-    DisponibilidadeBbtsRegioesComponent,
     DisponibilidadeBbtsFiliaisComponent,
     DisponibilidadeBbtsMultaComponent,
     DashboardSpaComponent,

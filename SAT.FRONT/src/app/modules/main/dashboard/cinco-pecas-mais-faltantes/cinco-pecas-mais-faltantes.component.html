@@ -9,11 +9,15 @@
     <tbody class="text-center">
         <tr *ngFor="let data of topPecasFaltantes" class="text-center">
             <td>{{data.codMagnus}}</td>
-            <td>{{data.peca}}</td>
-            <td>{{data.quantidade}}</td>
+            <td>{{data.nomePeca}}</td>
+            <td>{{data.qtdPecas}}</td>
         </tr>
     </tbody>
 </table>
+
+<div class="w-full text-right text-md mt-4 mr-2 text-blue-500" *ngIf="!loading">
+    <a href="http://satdbprod/Reports/report/Reports/Relat%C3%B3rio%20DSS%20-%20SAT%20-%20Logistica%20-%20Chamado%20Faltante%20sem%20Status%20a%20mais%20de%2024%20horas%20-%20Analistas" target="_blank">Relatório Reporting</a>
+</div>
 
 <div class="flex justify-center items-center" *ngIf="loading">
     <div class="">

@@ -28,6 +28,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTecnico.HasValue)
                 query = query.Where(t => t.CodTecnico == parameters.CodTecnico);
 
+            if (parameters.NaoVinculados.HasValue)
+                query = query.Where(t => t.Usuario == null);
+
             if (parameters.CodPerfil.HasValue)
                 query = query.Where(t => t.Usuario.CodPerfil == parameters.CodPerfil);
 

@@ -18,6 +18,8 @@ namespace SAT.SERVICES.Services
                     return await GoogleLocalizationService(parameters);
                 case GeolocalizacaoServiceEnum.NOMINATIM:
                     return await NominatimLocalizationService(parameters);
+                case GeolocalizacaoServiceEnum.VIACEP:
+                    return await ViacepLocalizationService(parameters);
                 default:
                     return null;
             }
@@ -31,6 +33,8 @@ namespace SAT.SERVICES.Services
                     return null;
                 case GeolocalizacaoServiceEnum.NOMINATIM:
                     return await NominatimRouteService(parameters);
+                case GeolocalizacaoServiceEnum.VIACEP:
+                    return await ViacepLocalizationService(parameters);
                 default:
                     return null;
             }

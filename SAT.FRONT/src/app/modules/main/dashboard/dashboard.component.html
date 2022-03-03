@@ -1,7 +1,4 @@
 <mat-drawer-container class="flex-auto h-full">
-  <!-- <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-    <app-dashboard-filtro [sidenav]="sidenav"></app-dashboard-filtro>
-  </mat-drawer> -->
 
   <mat-drawer-content>
     <div class="flex flex-col flex-auto min-w-0">
@@ -24,7 +21,8 @@
                 </div>
 
                 <div class="mt-2">
-                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                    (click)="trocarDashboardOuSlide()">
                     Dashboard
                   </h2>
                 </div>
@@ -34,7 +32,7 @@
             <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
               <div [matMenuTriggerFor]="projectsMenu" class="flex items-center cursor-pointer bg-hover rounded-2xl">
                 <div class="px-4 py-2 rounded-tl-xl rounded-bl-xl overflow-hidden">
-                  <div class="sm:text-lg leading-6 truncate">{{ dashboardSelecionado }}</div>
+                  <div class="sm:text-lg leading-6 truncate">{{ nomeSlideSelecionado }}</div>
                 </div>
                 <!-- Buttons -->
                 <div class="ml-px rounded-tr-xl rounded-br-xl">
@@ -43,59 +41,53 @@
                   </button>
                   <mat-menu #projectsMenu="matMenu">
                     <button mat-menu-item
-                      (click)="dashboardSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+                      (click)="nomeSlideSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
                       <span class="truncate">Performance das Filiais e Resultado Geral</span>
                     </button>
 
-                    <!-- <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
                       <span class="truncate">Disponibilidade BBTS</span>
-                    </button> -->
+                    </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
                       <span class="truncate">Disponibilidade dos Técnicos</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DASHBOARD_SPA">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DASHBOARD_SPA">
                       <span class="truncate">Dashboard SPA</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.SLA_CLIENTES">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.SLA_CLIENTES">
                       <span class="truncate">Índice de SLA por Cliente</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
                       <span class="truncate">Reincidência por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.REINCIDENCIA_CLIENTES">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.REINCIDENCIA_CLIENTES">
                       <span class="truncate">Reincidência por Clientes</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PENDENCIA_FILIAIS">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.PENDENCIA_FILIAIS">
                       <span class="truncate">Pendência por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.PECAS_FALTANTES_FILIAIS">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.PECAS_FALTANTES_FILIAIS">
                       <span class="truncate">Peças Faltantes por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.TOP_PECAS_FALTANTES">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.TOP_PECAS_FALTANTES">
                       <span class="truncate">Peças Faltantes Mais Críticas</span>
                     </button>
 
-                    <button mat-menu-item (click)="dashboardSelecionado = dashboardEnum.DENSIDADE">
+                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DENSIDADE">
                       <span class="truncate">Dashboard Densidade</span>
                     </button>
                   </mat-menu>
                 </div>
               </div>
             </div>
-
-            <!-- <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-              <button class="fuse-mat-button-rounded" mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:adjustments'"></mat-icon>
-              </button>
-            </div> -->
           </div>
         </div>
       </div>
@@ -104,12 +96,11 @@
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
           <!-- Tabs -->
-          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
-
-
+          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="onAlterarTabPorClique($event)"
+            #tabGroup>
             <!-- Tab -->
             <mat-tab label="Status das Filiais"
-              *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -121,7 +112,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-mapa [sidenav]="sidenav"></app-mapa>
+                      <app-indicadores-filiais-mapa></app-indicadores-filiais-mapa>
                     </div>
                   </div>
                   <!-- Panel -->
@@ -133,7 +124,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-indicadores-filiais [sidenav]="sidenav"></app-indicadores-filiais>
+                      <app-indicadores-filiais></app-indicadores-filiais>
                     </div>
                   </div>
                 </div>
@@ -142,7 +133,7 @@
 
             <!-- Tab -->
             <mat-tab label="Chamados mais antigos"
-              *ngIf="dashboardSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -162,31 +153,32 @@
             </mat-tab>
             <!-- Tab -->
 
-            <!-- Tab
-            <mat-tab label="Disponibilidade BBTS" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+            <!-- Tab -->
+            <mat-tab label="Disponibilidade BBTS" *ngIf="nomeSlideSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
+                  <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Disponibilidade das Regiões
+                        Disponibilidade BBTS - Regiões
                       </div>
                     </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-regioes></app-disponibilidade-bbts-regioes>
+                    <div class="flex flex-col flex-auto">
+                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="false"></app-disponibilidade-bbts-regioes>
                     </div>
                   </div>
                 </div>
               </ng-template>
             </mat-tab>
+            <!-- Tab -->
 
-            <!-- Tab 
-            <mat-tab label="Disponibilidade Filiais" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+            <!-- Tab -->
+            <mat-tab label="Disponibilidade Filiais" *ngIf="nomeSlideSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
+                  <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -195,18 +187,39 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-filiais></app-disponibilidade-bbts-filiais>
+                      <app-disponibilidade-bbts-filiais> </app-disponibilidade-bbts-filiais>
                     </div>
                   </div>
                 </div>
               </ng-template>
             </mat-tab>
 
-            <!-- Tab
-            <mat-tab label="Multa Disponibilidade" *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+            <!-- Tab -->
+            <mat-tab label="Multa das Regiões" *ngIf="nomeSlideSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel 
+                  <!-- Panel -->
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        Valores Multa - Regiões
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="true"></app-disponibilidade-bbts-regioes>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <!-- Tab -->
+
+            <!-- Tab -->
+            <mat-tab label="Multa Disponibilidade" *ngIf="nomeSlideSelecionado == dashboardEnum.DISPONIBILIDADE_BBTS">
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <!-- Panel -->
                   <div
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
@@ -220,33 +233,11 @@
                   </div>
                 </div>
               </ng-template>
-            </mat-tab> -->
-
-            <!-- Tab -->
-            <mat-tab label="Disponibilidade dos Técnicos"
-              *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <!-- Panel -->
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Indicador de Disponibilidade dos Técnicos - Últimos 30 dias
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
             </mat-tab>
-            <!-- Tab -->
 
             <!-- Tab -->
             <mat-tab label=" Média Global de Atendimentos Técnicos por Dia"
-              *ngIf="dashboardSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -266,7 +257,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="Dashboard SPA" *ngIf="dashboardSelecionado == dashboardEnum.DASHBOARD_SPA">
+            <mat-tab label="Dashboard SPA" *ngIf="nomeSlideSelecionado == dashboardEnum.DASHBOARD_SPA">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -278,7 +269,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-dashboard-spa [sidenav]="sidenav"></app-dashboard-spa>
+                      <app-dashboard-spa></app-dashboard-spa>
                     </div>
                   </div>
                 </div>
@@ -286,7 +277,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="Desempenho dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.DASHBOARD_SPA">
+            <mat-tab label="Desempenho dos Técnicos" *ngIf="nomeSlideSelecionado == dashboardEnum.DASHBOARD_SPA">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -298,7 +289,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-desempenho-spa>
+                      <app-tecnicos-desempenho-spa [ordem]="'desc'"></app-tecnicos-desempenho-spa>
                     </div>
                   </div>
 
@@ -311,7 +302,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-desempenho-spa>
+                      <app-tecnicos-desempenho-spa [ordem]="'asc'"></app-tecnicos-desempenho-spa>
                     </div>
                   </div>
                 </div>
@@ -319,7 +310,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="SLA por Clientes" *ngIf="dashboardSelecionado == dashboardEnum.SLA_CLIENTES">
+            <mat-tab label="SLA por Clientes" *ngIf="nomeSlideSelecionado == dashboardEnum.SLA_CLIENTES">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -331,7 +322,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-sla-clientes [sidenav]="sidenav"></app-sla-clientes>
+                      <app-sla-clientes></app-sla-clientes>
                     </div>
                   </div>
                 </div>
@@ -340,7 +331,7 @@
 
             <!-- Tab -->
             <mat-tab label="Reincidência das Filiais"
-              *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -352,7 +343,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-filiais [sidenav]="sidenav"></app-reincidencia-filiais>
+                      <app-reincidencia-filiais></app-reincidencia-filiais>
                     </div>
                   </div>
                 </div>
@@ -361,7 +352,7 @@
 
             <!-- Tab -->
             <mat-tab label="Reincidência dos Técnicos"
-              *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.REINCIDENCIA_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -373,7 +364,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-reincidentes>
+                      <app-tecnicos-reincidentes [ordem]="'desc'"></app-tecnicos-reincidentes>
                     </div>
                   </div>
 
@@ -386,7 +377,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-reincidentes>
+                      <app-tecnicos-reincidentes [ordem]="'asc'"></app-tecnicos-reincidentes>
                     </div>
                   </div>
                 </div>
@@ -395,7 +386,7 @@
 
             <!-- Tab -->
             <mat-tab label="Reincidência por Clientes"
-              *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -403,16 +394,11 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        <button class="ml-2 bg-gray-100" mat-icon-button
-                          [matTooltip]="'Visualizar o relatório detalhado'"
-                          (click)="abrirLinkRelatorioReincidenciaClientes()">
-                          <mat-icon [svgIcon]="'heroicons_outline:document-report'"></mat-icon>
-                        </button>
                         Reincidência por Clientes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-clientes [sidenav]="sidenav"></app-reincidencia-clientes>
+                      <app-reincidencia-clientes></app-reincidencia-clientes>
                     </div>
                   </div>
                 </div>
@@ -421,7 +407,7 @@
 
             <!-- Tab -->
             <mat-tab label=" Equipamentos Mais Reincidentes"
-              *ngIf="dashboardSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.REINCIDENCIA_CLIENTES">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -429,26 +415,19 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        <button class="ml-2 bg-gray-100" mat-icon-button
-                          [matTooltip]="'Visualizar o relatório detalhado'"
-                          (click)="abrirLinkRelatorioReincidenciaClientes()">
-                          <mat-icon [svgIcon]="'heroicons_outline:document-report'"></mat-icon>
-                        </button>
                         Equipamentos Mais Reincidentes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-equipamentos-mais-reincidentes [sidenav]="sidenav"></app-equipamentos-mais-reincidentes>
+                      <app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
                     </div>
                   </div>
                 </div>
               </ng-template>
             </mat-tab>
 
-
-
             <!-- Tab -->
-            <mat-tab label="Pendência das Filiais" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
+            <mat-tab label="Pendência das Filiais" *ngIf="nomeSlideSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -460,7 +439,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-pendencia-filiais [sidenav]="sidenav"></app-pendencia-filiais>
+                      <app-pendencia-filiais></app-pendencia-filiais>
                     </div>
                   </div>
                 </div>
@@ -468,7 +447,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="Pendência dos Técnicos" *ngIf="dashboardSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
+            <mat-tab label="Pendência dos Técnicos" *ngIf="nomeSlideSelecionado == dashboardEnum.PENDENCIA_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -476,11 +455,11 @@
                     class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Mais Pendentes
+                        Técnicos mais pendentes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'desc'" [sidenav]="sidenav"></app-tecnicos-pendentes>
+                      <app-tecnicos-pendentes [ordem]="'desc'"></app-tecnicos-pendentes>
                     </div>
                   </div>
 
@@ -489,11 +468,11 @@
                     class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos menos Pendentes
+                        Técnicos menos pendentes
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'asc'" [sidenav]="sidenav"></app-tecnicos-pendentes>
+                      <app-tecnicos-pendentes [ordem]="'asc'"></app-tecnicos-pendentes>
                     </div>
                   </div>
                 </div>
@@ -502,7 +481,7 @@
 
             <!-- Tab -->
             <mat-tab label="Peças Faltantes Filiais"
-              *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -510,10 +489,6 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        <button class="ml-2 bg-gray-100" mat-icon-button
-                          [matTooltip]="'Visualizar o relatório detalhado'" (click)="abrirLinkRelatorioPecas()">
-                          <mat-icon [svgIcon]="'heroicons_outline:document-report'"></mat-icon>
-                        </button>
                         Peças Faltantes
                       </div>
                     </div>
@@ -527,7 +502,7 @@
 
             <!-- Tab -->
             <mat-tab label="5 Peças Mais Faltantes"
-              *ngIf="dashboardSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
+              *ngIf="nomeSlideSelecionado == dashboardEnum.PECAS_FALTANTES_FILIAIS">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -535,10 +510,6 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        <button class="ml-2 bg-gray-100" mat-icon-button
-                          [matTooltip]="'Visualizar o relatório detalhado'" (click)="abrirLinkRelatorioPecas()">
-                          <mat-icon [svgIcon]="'heroicons_outline:document-report'"></mat-icon>
-                        </button>
                         5 Peças Mais Faltantes - Últimos 30 dias
                       </div>
                     </div>
@@ -551,7 +522,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="Top Peças Faltantes" *ngIf="dashboardSelecionado == dashboardEnum.TOP_PECAS_FALTANTES">
+            <mat-tab label="Top Peças Faltantes" *ngIf="nomeSlideSelecionado == dashboardEnum.TOP_PECAS_FALTANTES">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -563,7 +534,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
-                      <app-pecas-faltantes-mais-criticas [sidenav]="sidenav"></app-pecas-faltantes-mais-criticas>
+                      <app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
                     </div>
                   </div>
                 </div>
@@ -571,7 +542,7 @@
             </mat-tab>
 
             <!-- Tab -->
-            <mat-tab label="Dashboard Densidade" *ngIf="dashboardSelecionado == dashboardEnum.DENSIDADE">
+            <mat-tab label="Dashboard Densidade" *ngIf="nomeSlideSelecionado == dashboardEnum.DENSIDADE">
               <ng-template matTabContent>
                 <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
                   <!-- Panel -->
@@ -582,7 +553,7 @@
                     </div>
                     <div class="flex flex-col flex-auto mt-6">
                       <div class="w-full">
-                        <app-densidade [sidenav]="sidenav"></app-densidade>
+                        <app-densidade></app-densidade>
                       </div>
                     </div>
                   </div>

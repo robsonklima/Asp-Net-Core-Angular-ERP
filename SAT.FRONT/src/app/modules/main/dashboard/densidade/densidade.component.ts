@@ -23,8 +23,7 @@ export class DensidadeComponent {
   codFilial: number;
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
-  public loadingTecnicos: boolean = false;
-  public loadingEquipamentos: boolean = false;
+  loading: boolean = false;
 
   options = {
     layers: [
@@ -40,13 +39,13 @@ export class DensidadeComponent {
 
   onMapReady(map: Map): void {
     this.map = map;
-    this.obterEquipamentosContrato().then(async callback => {
+    this.obterEquipamentosContrato().then(async () => {
       this.obterTecnicos();
     });
   }
 
   private async obterEquipamentosContrato() {
-    this.loadingEquipamentos = true;
+    this.loading = true;
     const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS }).toPromise())
       .viewDashboardDensidadeEquipamentos;
 
@@ -66,11 +65,11 @@ export class DensidadeComponent {
     });
 
     this.addLayer(markers, icon);
-    this.loadingEquipamentos = false;
+    this.loading = false;
   }
 
   private async obterTecnicos() {
-    this.loadingTecnicos = true;
+    this.loading = true;
     const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS }).toPromise())
       .viewDashboardDensidadeTecnicos;
 
@@ -90,7 +89,7 @@ export class DensidadeComponent {
     });
 
     this.addMarkersOnMap(markers, icon);
-    this.loadingTecnicos = false;
+    this.loading = false;
   }
 
   private addMarkersOnMap(markers: any[], icon: L.Icon): void {

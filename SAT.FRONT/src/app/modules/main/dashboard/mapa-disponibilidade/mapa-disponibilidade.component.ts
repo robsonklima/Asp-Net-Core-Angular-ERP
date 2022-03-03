@@ -7,8 +7,6 @@ import Enumerable from 'linq';
 @Component({
   selector: 'app-mapa-disponibilidade',
   templateUrl: './mapa-disponibilidade.component.html',
-  styleUrls: ['./mapa-disponibilidade.component.css'
-  ],
   animations: fuseAnimations,
   encapsulation: ViewEncapsulation.None,
 })

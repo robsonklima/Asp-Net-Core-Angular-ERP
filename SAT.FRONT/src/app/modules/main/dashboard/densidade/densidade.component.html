@@ -1,14 +1,5 @@
-<div class="grid grid-cols-6">
-    <div *ngIf="loadingEquipamentos" class="text-secondary font-bold">Carregando equipamentos</div>
-    <div *ngIf="loadingEquipamentos">
-        <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
-    </div>
-    <div *ngIf="loadingTecnicos" class="text-secondary font-bold">Carregando técnicos</div>
-    <div *ngIf="loadingTecnicos">
-        <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
-    </div>
-</div>
+<div id="map" class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData" (leafletMapReady)="onMapReady($event)">
 
-<div id="map" class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
-    (leafletMapReady)="onMapReady($event)">
+<div class="loading-shade" *ngIf="loading">
+    <span class="text-lg text-secondary">Carregando...</span>
 </div>

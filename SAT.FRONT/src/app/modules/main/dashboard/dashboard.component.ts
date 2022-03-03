@@ -100,12 +100,4 @@ export class DashboardComponent extends Filterable implements AfterViewInit, IFi
     this._onDestroy.next();
     this._onDestroy.complete();
   }
-
-  public abrirLinkRelatorioPecas() {
-    window.open('http://satdbprod/Reports/report/Reports/Relat%C3%B3rio%20DSS%20-%20SAT%20-%20Logistica%20-%20Chamado%20Faltante%20sem%20Status%20a%20mais%20de%2024%20horas%20-%20Analistas')
-  }
-
-  public abrirLinkRelatorioReincidenciaClientes() {
-    window.open('http://satdbprod/Reports/report/Reports/INDICADORES%20DI%C3%81RIOS-%C3%8DNDICE%20DE%20REINCID%C3%8ANCIA-CLIENTE')
-  }
 }

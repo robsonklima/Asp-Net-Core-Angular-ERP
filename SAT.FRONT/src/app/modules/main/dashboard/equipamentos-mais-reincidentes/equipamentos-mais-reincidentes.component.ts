@@ -9,8 +9,7 @@ import { DashboardService } from 'app/core/services/dashboard.service';
 
 @Component({
   selector: 'app-equipamentos-mais-reincidentes',
-  templateUrl: './equipamentos-mais-reincidentes.component.html',
-  styleUrls: ['./equipamentos-mais-reincidentes.component.css']
+  templateUrl: './equipamentos-mais-reincidentes.component.html'
 })
 
 export class EquipamentosMaisReincidentesComponent extends Filterable implements OnInit, IFilterable {

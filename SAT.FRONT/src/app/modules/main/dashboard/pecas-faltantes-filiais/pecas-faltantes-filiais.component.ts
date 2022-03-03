@@ -7,8 +7,7 @@ import Enumerable from 'linq';
 
 @Component({
   selector: 'app-pecas-faltantes-filiais',
-  templateUrl: './pecas-faltantes-filiais.component.html',
-  styleUrls: ['./pecas-faltantes-filiais.component.css']
+  templateUrl: './pecas-faltantes-filiais.component.html'
 })
 export class PecasFaltantesFiliaisComponent implements OnInit {
   public loading: boolean = true;

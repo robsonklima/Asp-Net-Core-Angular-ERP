@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { SharedService } from 'app/shared.service';
@@ -6,7 +6,6 @@ import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-import { UserService } from 'app/core/user/user.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import Enumerable from 'linq';

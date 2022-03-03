@@ -12,9 +12,6 @@ namespace SAT.INFRA.Repository
         {
             switch (parameters.FilterType)
             {
-                case FilialFilterEnum.FILTER_DASHBOARD_DISPONIBILIDADE_TECNICOS:
-                    query = AplicarFiltroDashboardDisponibilidadeTecnicos(query, parameters);
-                    break;
                 default:
                     query = AplicarFiltroPadrao(query, parameters);
                     break;

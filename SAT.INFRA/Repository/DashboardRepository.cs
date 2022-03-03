@@ -1,7 +1,5 @@
 ﻿using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
-using SAT.MODELS.Entities;
-using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.ViewModels;
 using System.Linq;

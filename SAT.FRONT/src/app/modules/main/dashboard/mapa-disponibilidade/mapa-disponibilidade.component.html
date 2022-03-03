@@ -2,64 +2,65 @@
 	<div class="w-full max-w-screen-xl mx-auto">
 
 		<!-- Disponibilidade -->
-		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-8" *ngIf="!bbtsRegiaoMulta">
+		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-2" *ngIf="!bbtsRegiaoMulta">
 			<div class="flex flex-col flex-auto col-span-2 bg-card shadow rounded-2xl overflow-hidden p-6"
 				*ngFor="let item of viewDados" [class.bg-yellow-500]="item.regiao === 'Centro-Oeste'"
 				[class.bg-red-500]="item.regiao === 'Nordeste'" [class.bg-purple-500]="item.regiao === 'Norte'"
 				[class.bg-green-500]="item.regiao === 'Sudeste'" [class.bg-blue-500]="item.regiao === 'Sul'">
 				<div class="flex items-start justify-between">
-					<div class="text-secondary text-white font-bold">
+					<div class="text-white font-bold">
 						{{item.regiao}}
 					</div>
 				</div>
-				<div class="mt-8">
+
+				<div class="mt-4">
 					<div class="-my-3 divide-y">
 						<ng-container>
-							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+							<div class="grid grid-cols-1 py-2">
+								<div class="text-center text-white font-bold">
 									Média Disponibilidade
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									{{item.mediaDisponibilidade}}%
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
-							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+							<div class="grid grid-cols-1 py-2">
+								<div class="text-center text-white font-bold">
 									Qtd OS Abertas
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									{{item.qtdOSAbertas}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
-							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+							<div class="grid grid-cols-1 py-2">
+								<div class="text-center text-white font-bold">
 									Qtd OS Fechadas
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									{{item.qtdOSFechadas}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
-							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+							<div class="grid grid-cols-1 py-2">
+								<div class="text-center text-white font-bold">
 									Backlog OS
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									{{item.backlogOS}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
-							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+							<div class="grid grid-cols-1 py-2">
+								<div class="text-center text-white font-bold">
 									Saldo Horas
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									{{item.saldoHoras}}
 								</div>
 							</div>
@@ -67,69 +68,68 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 
 		<!-- Multas -->
-		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-8" *ngIf="bbtsRegiaoMulta">
+		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-2" *ngIf="bbtsRegiaoMulta">
 			<div class="flex flex-col flex-auto col-span-2 bg-card shadow rounded-2xl overflow-hidden p-6"
 				*ngFor="let item of grupoRegiao" [class.bg-yellow-500]="item.key() === 'Centro-Oeste'"
 				[class.bg-red-500]="item.key() === 'Nordeste'" [class.bg-purple-500]="item.key() === 'Norte'"
 				[class.bg-green-500]="item.key() === 'Sudeste'" [class.bg-blue-500]="item.key() === 'Sul'">
 				<div class="flex items-start justify-between">
-					<div class="text-secondary text-white font-bold">
-						{{item.key()}}
+					<div class="text-white font-bold">
+						{{ item.key() }}
 					</div>
 				</div>
-				<div class="mt-8">
+
+				<div class="mt-4">
 					<div class="-my-3 divide-y">
 						<ng-container>
 							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+								<div class="text-center text-white font-bold">
 									Criticidade 11
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									R$ {{buscarDadosMultaPorRegiao(item.key(), '11')| number:'1.2-2'}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
 							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+								<div class="text-center text-white font-bold">
 									Criticidade 12
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									R$ {{buscarDadosMultaPorRegiao(item.key(), '12')| number:'1.2-2'}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
 							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+								<div class="text-center text-white font-bold">
 									Criticidade 13
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									R$ {{buscarDadosMultaPorRegiao(item.key(), '13')| number:'1.2-2'}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
 							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+								<div class="text-center text-white font-bold">
 									Criticidade 14
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									R$ {{buscarDadosMultaPorRegiao(item.key(), '14')| number:'1.2-2'}}
 								</div>
 							</div>
 						</ng-container>
 						<ng-container>
 							<div class="grid grid-cols-1 py-3">
-								<div class="text-center text-secondary text-white font-bold">
+								<div class="text-center text-white font-bold">
 									Criticidade 15
 								</div>
-								<div class="text-center text-secondary text-white">
+								<div class="text-center text-white">
 									R$ {{buscarDadosMultaPorRegiao(item.key(), '15')| number:'1.2-2'}}
 								</div>
 							</div>
@@ -142,6 +142,6 @@
 	</div>
 </div>
 
-<div class="flex justify-center items-center mt-2" *ngIf="loading">
+<div class="flex justify-center items-center mb-4" *ngIf="loading">
 	<mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
 </div>

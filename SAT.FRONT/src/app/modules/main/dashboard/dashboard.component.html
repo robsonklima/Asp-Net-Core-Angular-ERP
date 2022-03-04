@@ -40,47 +40,47 @@
                   </button>
                   <mat-menu #projectsMenu="matMenu">
                     <button mat-menu-item
-                      (click)="nomeSlideSelecionado = dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">
+                      (click)="selecionarSlide(dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL)">
                       <span class="truncate">Performance das Filiais e Resultado Geral</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DISPONIBILIDADE_BBTS">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.DISPONIBILIDADE_BBTS)">
                       <span class="truncate">Disponibilidade BBTS</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.DISPONIBILIDADE_DOS_TECNICOS)">
                       <span class="truncate">Disponibilidade dos Técnicos</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DASHBOARD_SPA">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.DASHBOARD_SPA)">
                       <span class="truncate">Dashboard SPA</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.SLA_CLIENTES">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.SLA_CLIENTES)">
                       <span class="truncate">Índice de SLA por Cliente</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.REINCIDENCIA_FILIAIS">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.REINCIDENCIA_FILIAIS)">
                       <span class="truncate">Reincidência por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.REINCIDENCIA_CLIENTES">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.REINCIDENCIA_CLIENTES)">
                       <span class="truncate">Reincidência por Clientes</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.PENDENCIA_FILIAIS">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.PENDENCIA_FILIAIS)">
                       <span class="truncate">Pendência por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.PECAS_FALTANTES_FILIAIS">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.PECAS_FALTANTES_FILIAIS)">
                       <span class="truncate">Peças Faltantes por Filiais</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.TOP_PECAS_FALTANTES">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.TOP_PECAS_FALTANTES)">
                       <span class="truncate">Peças Faltantes Mais Críticas</span>
                     </button>
 
-                    <button mat-menu-item (click)="nomeSlideSelecionado = dashboardEnum.DENSIDADE">
+                    <button mat-menu-item (click)="selecionarSlide(dashboardEnum.DENSIDADE)">
                       <span class="truncate">Dashboard Densidade</span>
                     </button>
                   </mat-menu>
@@ -95,8 +95,7 @@
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
           <!-- Tabs -->
-          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="onAlterarTabPorClique($event)"
-            #tabGroup>
+          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="onAlterarTabPorClique($event)" #tabGroup>
             <!-- Tab -->
             <mat-tab label="Status das Filiais"
               *ngIf="nomeSlideSelecionado == dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL">

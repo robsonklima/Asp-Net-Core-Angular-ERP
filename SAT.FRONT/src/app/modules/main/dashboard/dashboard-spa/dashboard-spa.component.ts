@@ -79,8 +79,6 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
   public async carregarGrafico() {
     this.loading = true;
 
-    debugger
-
     let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.SPA }).toPromise())
       .viewDashboardSPA;
 

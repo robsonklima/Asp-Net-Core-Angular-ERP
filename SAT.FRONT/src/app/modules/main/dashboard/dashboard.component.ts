@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { interval, Subject } from 'rxjs';
-import { appConfig as c } from 'app/core/config/app.config'
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DashboardEnum } from 'app/core/types/dashboard.types';
 import { takeUntil } from 'rxjs/operators';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { appConfig as c } from 'app/core/config/app.config';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,15 +35,20 @@ export class DashboardComponent implements AfterViewInit {
         takeUntil(this._onDestroy)
       )
       .subscribe(() => {
-        //this.trocarDashboardOuSlide();
+        this.trocarDashboardOuSlide();
       });
 
     this.configurarFiltro();
     this._cdr.detectChanges();
   }
 
+  selecionarSlide(nome: string) {
+    this.nomeSlideSelecionado = nome;
+    this.tabGroup.selectedIndex = 0;
+  }
+
   public onAlterarTabPorClique = (tabChangeEvent: MatTabChangeEvent): void => {
-    //this.slideSelecionado = tabChangeEvent.index;
+    this.slideSelecionado = tabChangeEvent.index;
   }
 
   private trocarDashboardOuSlide(): void {

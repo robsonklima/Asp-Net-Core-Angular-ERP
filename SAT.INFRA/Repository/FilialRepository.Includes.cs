@@ -1,8 +1,5 @@
-﻿using SAT.INFRA.Context;
-using SAT.INFRA.Interfaces;
-using System.Linq.Dynamic.Core;
+﻿using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Enums;
@@ -16,14 +13,16 @@ namespace SAT.INFRA.Repository
             switch (include)
             {
                 case FilialIncludeEnum.FILIAL_ORDENS_SERVICO:
-                    query = query.Include(i => i.Cidade)
+                    query = query
+                             .Include(i => i.Cidade)
                              .Include(i => i.Cidade.UnidadeFederativa)
                              .Include(i => i.OrdensServico)
                                  .ThenInclude(os => os.EquipamentoContrato)
                                  .ThenInclude(os => os.Equipamento);
                     break;
                 default:
-                    query = query.Include(i => i.Cidade)
+                    query = query
+                            .Include(i => i.Cidade)
                             .Include(i => i.Cidade.UnidadeFederativa);
                     break;
             }

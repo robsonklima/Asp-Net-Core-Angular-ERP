@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialData } from 'app/core/types/filial.types';
 import { SharedService } from 'app/shared.service';
@@ -6,8 +6,6 @@ import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
-import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
-import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import Enumerable from 'linq';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
@@ -15,11 +13,16 @@ import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 @Component({
   selector: 'app-indicadores-filiais-mapa',
   templateUrl: './indicadores-filiais-mapa.component.html',
-  styleUrls: ['./indicadores-filiais-mapa.component.css'
-  ]
+  styles: [`
+    #landmarks-brazil path { fill: #b28afc; }
+    #landmarks-brazil path:hover { fill: #7f419d }
+    #landmarks-brazil { width: 100%; margin-top: -20px; }
+    #landmarks-brazil .spArea:hover~.spArea, .spArea:hover { fill: #7f419d; }
+    #landmarks-brazil .noHover { pointer-events: none; }
+  `]
 })
 
-export class IndicadoresFiliaisMapaComponent implements OnInit {
+export class IndicadoresFiliaisMapaComponent implements AfterViewInit {
   private map: Map;
   private filiais: Filial[] = [];
 
@@ -41,10 +44,10 @@ export class IndicadoresFiliaisMapaComponent implements OnInit {
     private _sharedService: SharedService,
     private _filialService: FilialService,
     private _dashboardService: DashboardService,
-    private _geolocacationService: GeolocalizacaoService,
     private _http: HttpClient) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void
+  {
     this.obterDados();
   }
 
@@ -58,31 +61,8 @@ export class IndicadoresFiliaisMapaComponent implements OnInit {
           weight: 1,
           color: '#254441',
           fillColor: '#43AA8B'
-        },
-        onEachFeature: (feature, layer) => {
-          this.colorlayer(feature, layer, this._sharedService);
         }
-
       }).addTo(map);
-    });
-  }
-
-  private colorlayer(feature, layer, _sharedService: SharedService): void {
-    layer.on('mouseover', function () {
-      layer.setStyle({
-        color: "blue",
-        fillColor: 'blue',
-        weight: 1
-      });
-      _sharedService.sendClickEvent(IndicadoresFiliaisMapaComponent, [{ estado: feature.properties.UF_05, seleciona: true }]);
-    });
-    layer.on('mouseout', function () {
-      layer.setStyle({
-        weight: 1,
-        color: '#254441',
-        fillColor: '#43AA8B'
-      });
-      _sharedService.sendClickEvent(IndicadoresFiliaisMapaComponent, [{ estado: null, seleciona: false }]);
     });
   }
 
@@ -96,54 +76,36 @@ export class IndicadoresFiliaisMapaComponent implements OnInit {
     let indicadoresFiliais = Enumerable.from((await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
       .viewDashboardIndicadoresFiliais).where(f => f.filial != "TOTAL").toArray();
 
-    let markers: any[] = [];
-
     this.filiais.forEach(async (filial) => {
+      const mark = {
+        lat: +filial.cidade.latitude,
+        lng: +filial.cidade.longitude,
+        toolTip: filial.nomeFilial,
+        count: 1
+      };
 
-      // Google
-      // Tenta pelo cep (nem sempre os endereços são corretos)
-      let mapService = (await this._geolocacationService.obterPorParametros
-        ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
+      const valorIndicador = indicadoresFiliais?.find(f => f.filial == filial.nomeFilial)?.sla || 0;
+      var icon = new L.Icon({
+        iconUrl: this.obterIconeUrl(valorIndicador),
+        iconSize: [32, 32],
+        iconAnchor: [15, 32],
+        popupAnchor: [1, -32]
+      });
 
-      // Se não encontra pelo cep, tenta pelo endereço
-      if (!mapService) {
-        let endereco = filial.endereco + " " + filial.bairro + " " + filial.cidade.nomeCidade;
-        mapService = (await this._geolocacationService.obterPorParametros
-          ({ enderecoCep: filial.cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
-      }
-
-      if (mapService) {
-        let mark = {
-          lat: +mapService.latitude,
-          lng: +mapService.longitude,
-          toolTip: filial.nomeFilial,
-          count: 1
-        };
-
-        let valorIndicador = indicadoresFiliais?.find(f => f.filial == filial.nomeFilial)?.sla || 0;
-
-        var icon = new L.Icon({
-          iconUrl:
-            valorIndicador >= 95 ?
-              'assets/icons/marker-green-32.svg' :
-              valorIndicador >= 92 ?
-                'assets/icons/marker-yellow-32.svg' :
-                'assets/icons/marker-red-32.svg'
-          ,
-          iconSize: [32, 32],
-          iconAnchor: [15, 32],
-          popupAnchor: [1, -32]
-        });
-
-        let marker = new L.Marker([+mapService.latitude.replace(',', '.'), +mapService.longitude.replace(',', '.')],
-          { icon: icon }).bindPopup(filial.nomeFilial);
-
-        marker.addTo(this.map);
-        markers.push(mark);
-        this.map.fitBounds(markers);
-        this.map.invalidateSize();
-      }
+      const marker = new L.Marker([+filial.cidade.latitude, +filial.cidade.longitude], { icon: icon }).bindPopup(filial.nomeFilial);
+      marker.addTo(this.map);
+      this.map.invalidateSize();
     });
+
     this.loading = false;
+  }
+
+  private obterIconeUrl(valor: number): string {
+    if (valor >= 95)
+      return 'assets/icons/marker-green-32.svg';
+    else if (valor >= 92)
+      return 'assets/icons/marker-yellow-32.svg';
+    else 
+      return 'assets/icons/marker-red-32.svg';
   }
 }

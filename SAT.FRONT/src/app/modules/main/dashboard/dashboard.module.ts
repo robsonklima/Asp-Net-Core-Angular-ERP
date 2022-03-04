@@ -43,6 +43,7 @@ import { TecnicosDesempenhoSpaComponent } from './tecnicos-desempenho-spa/tecnic
 import ptBR from '@angular/common/locales/pt'
 import { TecnicosPendentesComponent } from './tecnicos-pendentes/tecnicos-pendentes.component';
 import { DisponibilidadeBbtsMultaComponent } from './disponibilidade-bbts-multa/disponibilidade-bbts-multa.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 registerLocaleData(ptBR);
 
 
@@ -92,6 +93,7 @@ registerLocaleData(ptBR);
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatProgressBarModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

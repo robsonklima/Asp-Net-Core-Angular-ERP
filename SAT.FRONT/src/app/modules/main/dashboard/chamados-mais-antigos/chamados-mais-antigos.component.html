@@ -2,9 +2,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
         <!-- Intervenção Corretiva -->
         <div class="flex flex-col flex-auto">
-            <div class="font-medium text-secondary">Intervenção Corretiva</div>
-            <div class="flex flex-col flex-auto mt-2">
-                <!-- Tabela -->
+            <div class="font-medium text-secondary">
+                Intervenção Corretiva
+            </div>
+            
+            <div class="relative flex flex-col flex-auto mt-2">
                 <table
                     class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none"
                     *ngIf="!loadingCorretivas">
@@ -28,27 +30,28 @@
                             <td class="text-center border-t">{{ data?.modelo}}</td>
                             <td class="text-center border-t">{{ data?.os }}</td>
                             <td class="text-center border-t">
-                                {{ data?.dataAbertura | date:'dd/MM/yyyy' }}
+                                {{ data?.dataAbertura |date:'dd/MM/yyyy' }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
                 <div class="flex justify-center items-center" *ngIf="loadingCorretivas">
                     <div class="text-center">
                         <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
                     </div>
                 </div>
-                <!-- /Tabela -->
             </div>
         </div>
+
+
         <!-- Orçamento Aprovado -->
         <div class="flex flex-col flex-auto">
             <div class="font-medium text-secondary">
                 Orçamento Aprovado
             </div>
             
-            <div class="flex flex-col flex-auto mt-2">
-                <!-- Tabela -->
+            <div class="relative flex flex-col flex-auto mt-2">
                 <table
                     class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none"
                     *ngIf="!loadingOrcamentos">
@@ -77,12 +80,12 @@
                         </tr>
                     </tbody>
                 </table>
+
                 <div class="flex justify-center items-center" *ngIf="loadingOrcamentos">
                     <div class="text-center">
                         <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
                     </div>
                 </div>
-                <!-- /Tabela -->
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="flex-auto mt-4 sm:mt-6">
+<div class="relative flex-auto mt-4 sm:mt-6">
 	<div class="w-full max-w-screen-xl mx-auto">
 
 		<!-- Disponibilidade -->
@@ -141,6 +141,8 @@
 	</div>
 
 	<div class="flex justify-center items-center" *ngIf="loading">
-		<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+		<div class="text-center">
+			<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+		</div>
 	</div>
 </div>

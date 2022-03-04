@@ -22,7 +22,8 @@ export class IndicadoresFiliaisComponent implements OnInit {
   }
 
   private async montaDashboard(): Promise<void> {
-    this.indicadoresFiliais = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
+    this.indicadoresFiliais = (await this._dashboardService
+      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
       .viewDashboardIndicadoresFiliais;
     this.indicadoresFiliaisTotal = Enumerable.from(this.indicadoresFiliais).firstOrDefault(q => q.filial == "TOTAL");
     this.indicadoresFiliais = Enumerable.from(this.indicadoresFiliais).where(f => f.filial != "TOTAL").distinct().toArray();

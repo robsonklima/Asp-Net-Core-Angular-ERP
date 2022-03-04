@@ -1,7 +1,10 @@
-<div class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
-	(leafletMapReady)="onMapReady($event)" *ngIf="!loading">
-</div>
+<div class="relative">
+	<div class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
+		(leafletMapReady)="onMapReady($event)"
+		[class.opacity-25]="loading">
+	</div>
 
-<div class="flex justify-center items-center" *ngIf="loading">
-	<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+	<div class="absolute z-9999 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="loading">
+		<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+	</div>
 </div>

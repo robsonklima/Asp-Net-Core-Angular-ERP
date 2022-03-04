@@ -1,4 +1,4 @@
-<table class="w-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
+<table class="w-full table-auto text-sm font-medium tracking-tight bg-card" *ngIf="!loading">
     <thead class="text-center">
         <tr>
             <th *ngFor="let data of nomesFiliais" class="text-center">{{data}}</th>
@@ -34,30 +34,30 @@
     </tbody>
     <tfoot>
         <tr class="text-center pointer-events-none font-bold">
-            <th>TOTAL</th>
-            <td>{{totalPecasFaltantes.totalFAM}}</td>
-            <td>{{totalPecasFaltantes.totalFBA}}</td>
-            <td>{{totalPecasFaltantes.totalFBU}}</td>
-            <td>{{totalPecasFaltantes.totalFCE}}</td>
-            <td>{{totalPecasFaltantes.totalFCP}}</td>
-            <td>{{totalPecasFaltantes.totalFDF}}</td>
-            <td>{{totalPecasFaltantes.totalFES}}</td>
-            <td>{{totalPecasFaltantes.totalFGO}}</td>
-            <td>{{totalPecasFaltantes.totalFMA}}</td>
-            <td>{{totalPecasFaltantes.totalFMG}}</td>
-            <td>{{totalPecasFaltantes.totalFMS}}</td>
-            <td>{{totalPecasFaltantes.totalFMT}}</td>
-            <td>{{totalPecasFaltantes.totalFPA}}</td>
-            <td>{{totalPecasFaltantes.totalFPE}}</td>
-            <td>{{totalPecasFaltantes.totalFPR}}</td>
-            <td>{{totalPecasFaltantes.totalFRJ}}</td>
-            <td>{{totalPecasFaltantes.totalFRN}}</td>
-            <td>{{totalPecasFaltantes.totalFRO}}</td>
-            <td>{{totalPecasFaltantes.totalFRS}}</td>
-            <td>{{totalPecasFaltantes.totalFSC}}</td>
-            <td>{{totalPecasFaltantes.totalFSP}}</td>
-            <td>{{totalPecasFaltantes.totalFTO}}</td>
-            <td>{{totalPecasFaltantes.total}}</td>
+            <th class="border-t">TOTAL</th>
+            <td class="border-t">{{totalPecasFaltantes.totalFAM}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFBA}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFBU}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFCE}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFCP}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFDF}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFES}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFGO}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFMA}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFMG}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFMS}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFMT}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFPA}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFPE}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFPR}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFRJ}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFRN}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFRO}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFRS}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFSC}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFSP}}</td>
+            <td class="border-t">{{totalPecasFaltantes.totalFTO}}</td>
+            <td class="border-t">{{totalPecasFaltantes.total}}</td>
         </tr>
     </tfoot>
 </table>

@@ -1,14 +1,15 @@
-<table class="w-full table-auto text-md font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
+<table class="w-full table-auto text-md font-medium tracking-tight bg-card" *ngIf="!loading">
     <thead class="text-center">
         <tr>
             <th>CLASSIFICAÇÃO</th>
             <th>MÉDIA</th>
-        </tr>
+        </tr> 
     </thead>
-    <tbody class="text-center">
+
+    <tbody>
         <tr *ngFor="let data of mediaGlobalAtendimentoTecnicosModel" class="text-center">
-            <td>{{data.classificacao}}</td>
-            <td>{{data.media| number:'1.1-2'}}</td>
+            <td class="border-t">{{data.classificacao}}</td>
+            <td class="border-t">{{data.media| number:'1.1-2'}}</td>
         </tr>
     </tbody>
 </table>

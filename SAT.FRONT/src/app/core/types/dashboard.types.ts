@@ -154,7 +154,7 @@ export class ViewDashboardDisponibilidadeTecnicosMediaGlobal {
 }
 
 export class ViewDashboardSPA {
-	classificacao: string;
+	filial: string;
 	percentual?: number;
 }
 

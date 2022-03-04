@@ -78,12 +78,15 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
 
   public async carregarGrafico() {
     this.loading = true;
+
+    debugger
+
     let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.SPA }).toPromise())
       .viewDashboardSPA;
 
     if (data?.length) {
       data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
-      const labels = data.map(d => d.classificacao);
+      const labels = data.map(d => d.filial);
       let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });

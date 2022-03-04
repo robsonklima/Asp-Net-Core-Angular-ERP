@@ -81,7 +81,8 @@ export class ReincidenciaFiliaisComponent extends Filterable implements OnInit, 
 
   public async carregarGrafico() {
     this.loading = true;
-    let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_FILIAIS }).toPromise())
+    let data = (await this._dashboardService
+      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_FILIAIS }).toPromise())
       .viewDashboardReincidenciaFiliais;
 
     if (data?.length) {
@@ -89,7 +90,7 @@ export class ReincidenciaFiliaisComponent extends Filterable implements OnInit, 
       let labels = data.map(d => d.filial);
       let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
-      valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
+      valoresColuna.forEach(() => { valoresLinha.push(this.meta); });
       this.haveData = true;
 
       this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);

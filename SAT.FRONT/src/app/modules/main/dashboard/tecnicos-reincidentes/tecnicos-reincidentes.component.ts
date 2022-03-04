@@ -8,8 +8,7 @@ import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-tecnicos-reincidentes',
-  templateUrl: './tecnicos-reincidentes.component.html',
-  styleUrls: ['./tecnicos-reincidentes.component.css']
+  templateUrl: './tecnicos-reincidentes.component.html'
 })
 export class TecnicosReincidentesComponent extends Filterable implements OnInit, IFilterable {
   @Input() sidenav: MatSidenav;

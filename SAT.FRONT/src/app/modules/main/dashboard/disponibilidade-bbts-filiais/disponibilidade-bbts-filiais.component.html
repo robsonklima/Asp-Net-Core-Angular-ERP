@@ -1,8 +1,3 @@
-<p>
-    * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas
-    negativas.
-</p>
-
 <table class="w-full h-full table-auto text-sm font-medium tracking-tight bg-card shadow rounded-2xl" *ngIf="!loading">
     <thead>
         <tr>
@@ -42,6 +37,11 @@
         </tr>
     </tbody>
 </table>
+
+<div class="mt-4" *ngIf="!loading">
+    * Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas
+    negativas.
+</div>
 
 <div class="flex justify-center items-center" *ngIf="loading">
     <div class="text-center">

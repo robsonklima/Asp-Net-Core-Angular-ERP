@@ -6,29 +6,30 @@
             <div class="flex flex-col flex-auto mt-2">
                 <!-- Tabela -->
                 <table
-                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
+                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none"
                     *ngIf="!loadingCorretivas">
-                    <thead class="pointer-events-none">
+                    <thead>
                         <tr>
                             <th></th>
                             <th>Filial</th>
                             <th class="text-center">Cliente</th>
                             <th class="text-center">Modelo</th>
                             <th class="text-center">OS</th>
-                            <th>Data Abertura</th>
+                            <th class="text-center">Data Abertura</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of chamadosAntigosCorretivas" class="leading-none text-md w-8 h-8">
-                            <td class="text-center">
+                            <td class="text-center border-t">
                                 <div class="w-4 h-4 rounded-full m-auto bg-red-400"></div>
                             </td>
-                            <td class="text-center pointer-events-none">{{ data?.filial }}</td>
-                            <td class="text-center pointer-events-none">{{ data?.cliente}}</td>
-                            <td class="text-center pointer-events-none">{{ data?.modelo}}</td>
-                            <td class="text-center pointer-events-none">{{ data?.os }}</td>
-                            <td class="text-right pointer-events-none pr-8">{{ data?.dataAbertura |
-                                date:'dd/MM/yyyy' }}</td>
+                            <td class="text-center border-t">{{ data?.filial }}</td>
+                            <td class="text-center border-t">{{ data?.cliente}}</td>
+                            <td class="text-center border-t">{{ data?.modelo}}</td>
+                            <td class="text-center border-t">{{ data?.os }}</td>
+                            <td class="text-center border-t">
+                                {{ data?.dataAbertura | date:'dd/MM/yyyy' }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -42,33 +43,37 @@
         </div>
         <!-- Orçamento Aprovado -->
         <div class="flex flex-col flex-auto">
-            <div class="font-medium text-secondary">Orçamento Aprovado</div>
+            <div class="font-medium text-secondary">
+                Orçamento Aprovado
+            </div>
+            
             <div class="flex flex-col flex-auto mt-2">
                 <!-- Tabela -->
                 <table
-                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
+                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none"
                     *ngIf="!loadingOrcamentos">
-                    <thead class="pointer-events-none">
+                    <thead>
                         <tr>
                             <th></th>
                             <th>Filial</th>
                             <th class="text-center">Cliente</th>
                             <th class="text-center">Modelo</th>
                             <th class="text-center">OS</th>
-                            <th>Data Abertura</th>
+                            <th class="text-center">Data Abertura</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of chamadosAntigosOrcamentos" class="leading-none text-md w-8 h-8">
-                            <td class="text-center">
+                            <td class="text-center border-t">
                                 <div class="w-4 h-4 rounded-full m-auto bg-red-400"></div>
                             </td>
-                            <td class="text-center pointer-events-none">{{ data?.filial }}</td>
-                            <td class="text-center pointer-events-none">{{ data?.cliente}}</td>
-                            <td class="text-center pointer-events-none">{{ data?.modelo}}</td>
-                            <td class="text-center pointer-events-none">{{ data?.os }}</td>
-                            <td class="text-right pointer-events-none pr-8">{{ data?.dataAbertura |
-                                date:'dd/MM/yyyy' }}</td>
+                            <td class="text-center border-t">{{ data?.filial }}</td>
+                            <td class="text-center border-t">{{ data?.cliente}}</td>
+                            <td class="text-center border-t">{{ data?.modelo}}</td>
+                            <td class="text-center border-t">{{ data?.os }}</td>
+                            <td class="text-center border-t">
+                                {{ data?.dataAbertura |date:'dd/MM/yyyy' }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

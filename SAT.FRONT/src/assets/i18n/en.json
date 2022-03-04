@@ -522,5 +522,7 @@
     "bairro envio nf": "Neighborhood sending tax coupon",
     "cidade envio nf": "City sending tax coupon",
     "unidade federativa envio nf": "Federative Unit sending tax coupon",
-    "cnpj envio nf": "CNPJ sending tax coupon"
+    "cnpj envio nf": "CNPJ sending tax coupon",
+    "motivo de divergencia": "Divergency Reazon",
+    "tipo de divergencia": "Divergency Type"
 }

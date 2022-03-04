@@ -1,9 +1,7 @@
-<div class="w-full">
-	<div class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
-		(leafletMapReady)="onMapReady($event)">
+<div class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
+	(leafletMapReady)="onMapReady($event)" *ngIf="!loading">
+</div>
 
-		<div class="loading-shade" *ngIf="loading">
-			<span class="text-lg text-secondary">Carregando...</span>
-		</div>
-	</div>
+<div class="flex justify-center items-center" *ngIf="loading">
+	<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
 </div>

@@ -46,7 +46,7 @@ export class DashboardComponent implements AfterViewInit {
     this.slideSelecionado = tabChangeEvent.index;
   }
 
-  public trocarDashboardOuSlide(): void {
+  private trocarDashboardOuSlide(): void {
     let slides: string[] = Object.values(this.dashboardEnum);
 
     if (this.slideSelecionado == this.tabGroup._tabs.length - 1) {

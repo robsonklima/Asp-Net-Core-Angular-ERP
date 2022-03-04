@@ -1,15 +1,11 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Enumerable from 'linq';
-import { UserService } from 'app/core/user/user.service';
-import { IFilterable } from 'app/core/types/filtro.types';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardIndicadoresFiliais } from 'app/core/types/dashboard.types';
 
 @Component({
   selector: 'app-indicadores-filiais',
-  templateUrl: './indicadores-filiais.component.html',
-  styleUrls: ['./indicadores-filiais.component.css'
-  ]
+  templateUrl: './indicadores-filiais.component.html'
 })
 
 export class IndicadoresFiliaisComponent implements OnInit {

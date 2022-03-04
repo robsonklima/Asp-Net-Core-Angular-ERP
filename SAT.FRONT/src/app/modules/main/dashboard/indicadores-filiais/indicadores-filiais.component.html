@@ -1,5 +1,4 @@
-<table class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card shadow rounded-2xl"
-    *ngIf="!loading">
+<table class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card" *ngIf="!loading && indicadoresFiliais.length">
     <thead class="pointer-events-none">
         <tr>
             <th>Status</th>
@@ -11,34 +10,36 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of indicadoresFiliais" class="leading-none text-xs">
-            <td class="text-center">
+        <tr *ngFor="let data of indicadoresFiliais" class="leading-tight pointer-events-none">
+            <td class="text-center border-t">
                 <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
                     [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
                     [class.bg-green-500]="data.sla >= 95" [class.bg-yellow-500]="data.sla >= 92"
                     [class.bg-red-400]="data.sla >= 0">
                 </div>
             </td>
-            <td class="text-center pointer-events-none">{{ data.filial }}</td>
-            <td class="text-right pointer-events-none">{{ data.sla }}%</td>
-            <td class="text-right pointer-events-none">{{ data.pendencia }}%</td>
-            <td class="text-right pointer-events-none">{{ data.reincidencia }}%</td>
-            <td class="text-right pointer-events-none pr-8">{{ data.spa }}%</td>
+            <td class="text-center border-t py-0.5">{{ data.filial }}</td>
+            <td class="text-right border-t py-0.5">{{ data.sla }}%</td>
+            <td class="text-right border-t py-0.5">{{ data.pendencia }}%</td>
+            <td class="text-right border-t py-0.5">{{ data.reincidencia }}%</td>
+            <td class="text-right pr-8 border-t py-0.5">{{ data.spa }}%</td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
-            <th class="text-center pointer-events-none m-auto" colspan="2">RESULTADO GERAL DO DSS</th>
-            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.sla }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.pendencia }}%</td>
-            <td class="text-right pointer-events-none font-bold">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
-            <td class="text-right pointer-events-none font-bold pr-8">{{ indicadoresFiliaisTotal.spa }}%</td>
+            <th class="text-center m-auto border-t py-0.5" colspan="2">RESULTADO GERAL DO DSS</th>
+            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.sla }}%</td>
+            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.pendencia }}%</td>
+            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
+            <td class="text-right pr-8 border-t py-0.5">{{ indicadoresFiliaisTotal.spa }}%</td>
         </tr>
     </tfoot>
 </table>
 
-<div class="w-full" *ngIf="loading">
-    <span class="inline-block align-middle">...</span>
+<div *ngIf="!loading && !indicadoresFiliais.length">
+    Nenhum registro encontrado
+</div>
 
-    
+<div class="flex justify-center items-center" *ngIf="loading">
+	<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
 </div>

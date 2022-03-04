@@ -98,7 +98,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
     await this.obterOrdemServico();
     await this.obterRelatorioAtendimento();
     await this.obterStatusServicos();
-    await this.obterTecnicos(this.relatorioAtendimento.tecnico.nome);
+    await this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
     this.registrarEmitters();
     
     this.loading = false;

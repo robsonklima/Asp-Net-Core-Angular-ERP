@@ -9,12 +9,15 @@
             <th class="text-right pr-8">SPA</th>
         </tr>
     </thead>
+    
     <tbody>
         <tr *ngFor="let data of indicadoresFiliais" class="leading-tight pointer-events-none">
             <td class="text-center border-t">
-                <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
+                <div class="w-4 h-4 rounded-full m-auto"
+                    matTooltipPosition="above"
                     [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
-                    [class.bg-green-500]="data.sla >= 95" [class.bg-yellow-500]="data.sla >= 92"
+                    [class.bg-green-500]="data.sla >= 95"
+                    [class.bg-yellow-500]="data.sla >= 92"
                     [class.bg-red-400]="data.sla >= 0">
                 </div>
             </td>
@@ -25,13 +28,14 @@
             <td class="text-right pr-8 border-t py-0.5">{{ data.spa }}%</td>
         </tr>
     </tbody>
+
     <tfoot>
         <tr>
-            <th class="text-center m-auto border-t py-0.5" colspan="2">RESULTADO GERAL DO DSS</th>
-            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.sla }}%</td>
-            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.pendencia }}%</td>
-            <td class="text-right border-t py-0.5">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
-            <td class="text-right pr-8 border-t py-0.5">{{ indicadoresFiliaisTotal.spa }}%</td>
+            <th class="text-center m-auto border-t py-0.5" colspan="2"></th>
+            <td class="text-right border-t py-0.5 font-bold">{{ indicadoresFiliaisTotal.sla }}%</td>
+            <td class="text-right border-t py-0.5 font-bold">{{ indicadoresFiliaisTotal.pendencia }}%</td>
+            <td class="text-right border-t py-0.5 font-bold">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
+            <td class="text-right pr-8 border-t py-0.5 font-bold">{{ indicadoresFiliaisTotal.spa }}%</td>
         </tr>
     </tfoot>
 </table>

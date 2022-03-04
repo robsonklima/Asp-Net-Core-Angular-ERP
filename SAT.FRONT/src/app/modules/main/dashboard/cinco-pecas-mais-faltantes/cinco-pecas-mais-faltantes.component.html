@@ -8,8 +8,8 @@
     </thead>
     <tbody class="text-center">
         <tr *ngFor="let data of topPecasFaltantes" class="text-center">
-            <td class="text-left">{{data.codMagnus}}</td>
-            <td class="text-left">{{data.nomePeca}}</td>
+            <td class="text-left">{{ data.codMagnus }}</td>
+            <td class="text-left">{{ data.nomePeca | titlecase }}</td>
             <td>{{data.qtdPecas}}</td>
         </tr>
     </tbody>

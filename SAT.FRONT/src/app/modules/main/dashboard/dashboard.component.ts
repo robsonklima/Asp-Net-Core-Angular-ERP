@@ -35,7 +35,7 @@ export class DashboardComponent implements AfterViewInit {
         takeUntil(this._onDestroy)
       )
       .subscribe(() => {
-        this.trocarDashboardOuSlide();
+        //this.trocarDashboardOuSlide();
       });
 
     this.configurarFiltro();
@@ -43,7 +43,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   public onAlterarTabPorClique = (tabChangeEvent: MatTabChangeEvent): void => {
-    this.slideSelecionado = tabChangeEvent.index;
+    //this.slideSelecionado = tabChangeEvent.index;
   }
 
   private trocarDashboardOuSlide(): void {

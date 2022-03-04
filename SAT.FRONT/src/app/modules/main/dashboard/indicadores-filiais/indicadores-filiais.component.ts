@@ -5,7 +5,8 @@ import { DashboardViewEnum, ViewDashboardIndicadoresFiliais } from 'app/core/typ
 
 @Component({
   selector: 'app-indicadores-filiais',
-  templateUrl: './indicadores-filiais.component.html'
+  templateUrl: './indicadores-filiais.component.html',
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 
 export class IndicadoresFiliaisComponent implements OnInit {

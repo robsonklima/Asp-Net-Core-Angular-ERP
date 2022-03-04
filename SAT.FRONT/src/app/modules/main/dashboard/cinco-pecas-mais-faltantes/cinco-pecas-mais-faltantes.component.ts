@@ -4,7 +4,8 @@ import { DashboardViewEnum, ViewDashboardPecasMaisFaltantes } from 'app/core/typ
 
 @Component({
   selector: 'app-cinco-pecas-mais-faltantes',
-  templateUrl: './cinco-pecas-mais-faltantes.component.html'
+  templateUrl: './cinco-pecas-mais-faltantes.component.html',
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 
 export class CincoPecasMaisFaltantesComponent implements OnInit {

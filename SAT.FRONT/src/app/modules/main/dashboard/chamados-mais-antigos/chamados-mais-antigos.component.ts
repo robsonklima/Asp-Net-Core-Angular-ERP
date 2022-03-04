@@ -4,7 +4,8 @@ import { DashboardViewEnum, ViewDashboardChamadosMaisAntigosCorretivas, ViewDash
 
 @Component({
   selector: 'app-chamados-mais-antigos',
-  templateUrl: './chamados-mais-antigos.component.html'
+  templateUrl: './chamados-mais-antigos.component.html',
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 export class ChamadosMaisAntigosComponent implements OnInit {
   chamadosAntigosCorretivas: ViewDashboardChamadosMaisAntigosCorretivas[] = [];

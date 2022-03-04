@@ -7,8 +7,7 @@ import Enumerable from 'linq';
 @Component({
   selector: 'app-disponibilidade-bbts-filiais',
   templateUrl: './disponibilidade-bbts-filiais.component.html',
-  styleUrls: ['./disponibilidade-bbts-filiais.component.css'
-  ]
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 export class DisponibilidadeBbtsFiliaisComponent implements OnInit {
   @Input() filtro: Filtro;

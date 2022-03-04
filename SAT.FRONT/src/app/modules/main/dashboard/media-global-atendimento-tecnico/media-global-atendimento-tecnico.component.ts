@@ -5,7 +5,8 @@ import { Filtro } from 'app/core/types/filtro.types';
 
 @Component({
   selector: 'app-media-global-atendimento-tecnico',
-  templateUrl: './media-global-atendimento-tecnico.component.html'
+  templateUrl: './media-global-atendimento-tecnico.component.html',
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 
 export class MediaGlobalAtendimentoTecnicoComponent implements OnInit {

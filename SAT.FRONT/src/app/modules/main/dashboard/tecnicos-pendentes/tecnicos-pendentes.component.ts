@@ -9,7 +9,7 @@ import { UserService } from 'app/core/user/user.service';
 @Component({
   selector: 'app-tecnicos-pendentes',
   templateUrl: './tecnicos-pendentes.component.html',
-  styleUrls: ['./tecnicos-pendentes.component.css']
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254);}`]
 })
 export class TecnicosPendentesComponent extends Filterable implements OnInit, IFilterable {
   @Input() sidenav: MatSidenav;

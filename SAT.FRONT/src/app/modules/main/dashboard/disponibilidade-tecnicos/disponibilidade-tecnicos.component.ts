@@ -7,8 +7,7 @@ import Enumerable from 'linq';
 @Component({
   selector: 'app-disponibilidade-tecnicos',
   templateUrl: './disponibilidade-tecnicos.component.html',
-  styleUrls: ['./disponibilidade-tecnicos.component.css'
-  ]
+  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
 })
 
 export class DisponibilidadeTecnicosComponent implements OnInit {

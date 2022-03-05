@@ -1,15 +1,15 @@
-<div>
-    <div *ngIf="!loading" class="items-center justify-center h-90">
-        <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
-            [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
-            [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
-            [title]="chartOptions.title"></apx-chart>
-        <div class="flex flex-col flex-auto items-center justify-center h-90">
-            <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
-        </div>
-    </div>
-
-    <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center">
+<div *ngIf="!loading" class="items-center justify-center h-90">
+    <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
+        [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
+        [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
+        [title]="chartOptions.title"></apx-chart>
+    <div class="flex flex-col flex-auto items-center justify-center h-90">
         <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<div class="flex justify-center items-center bg-gray-50 min-h-70" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>

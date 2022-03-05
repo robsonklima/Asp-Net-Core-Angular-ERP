@@ -8,14 +8,14 @@
 
     <tbody>
         <tr *ngFor="let data of mediaGlobalAtendimentoTecnicosModel" class="text-center">
-            <td class="border-t text-left">{{ data.classificacao | titlecase}}</td>
-            <td class="border-t">{{ data.media | number:'1.1-2' }}</td>
+            <td class="text-left">{{ data.classificacao | titlecase}}</td>
+            <td>{{ data.media | number:'1.1-2' }}</td>
         </tr>
     </tbody>
 </table>
 
-<div class="flex justify-center items-center" *ngIf="loading">
-    <div class="">
+<div class="flex justify-center items-center bg-gray-50 min-h-40" *ngIf="loading">
+    <div class="text-center">
         <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>

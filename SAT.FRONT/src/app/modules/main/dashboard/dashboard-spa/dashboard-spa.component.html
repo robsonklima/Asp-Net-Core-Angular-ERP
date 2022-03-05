@@ -6,7 +6,9 @@
             [title]="chartOptions.title"></apx-chart>
     </div>
 
-    <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center">
-        <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+    <div class="flex justify-center items-center bg-gray-50 min-h-60" *ngIf="loading">
+        <div class="text-center">
+            <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
     </div>
 </div>

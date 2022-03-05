@@ -1,6 +1,7 @@
 using System;
 
-namespace SAT.MODELS.Entities {
+namespace SAT.MODELS.Entities
+{
     public class PlantaoTecnicoCliente
     {
         public int CodPlantaoTecnicoCliente { get; set; }
@@ -9,5 +10,6 @@ namespace SAT.MODELS.Entities {
         public byte IndAtivo { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

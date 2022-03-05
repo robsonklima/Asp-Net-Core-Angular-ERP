@@ -11,7 +11,7 @@
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
             
-            <button class="ml-4" mat-button [color]="'primary'" routerLink="/plantao-tecnico/form">
+            <button class="ml-4" mat-button [color]="'primary'" routerLink="/tecnico-plantao/form">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
             </button>
         </div>
@@ -61,15 +61,15 @@
                                     </div>
 
                                     <div class="truncate">                                       
-                                        {{ plantao.tecnico.nome }}
+                                        {{ plantao.tecnico?.nome }}
                                     </div>
 
                                     <div class="truncate">                                       
-                                        {{ plantao.tecnico.regiaoAutorizada.regiao.nomeRegiao }}
+                                        {{ plantao.tecnico.regiaoAutorizada?.regiao?.nomeRegiao }}
                                     </div>
 
                                     <div class="truncate">                                       
-                                        {{ plantao.tecnico.regiaoAutorizada.autorizada.razaoSocial }}
+                                        {{ plantao.tecnico.regiaoAutorizada?.autorizada?.razaoSocial }}
                                     </div>
 
                                     <div class="truncate">

@@ -4,12 +4,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { PlantaoTecnicoClienteService } from 'app/core/services/plantao-tecnico-cliente.service';
+import { PlantaoTecnicoRegiaoService } from 'app/core/services/plantao-tecnico-regiao.service';
 import { PlantaoTecnicoService } from 'app/core/services/plantao-tecnico.service';
 import { PlantaoTecnico, PlantaoTecnicoData } from 'app/core/types/plantao-tecnico.types';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { TecnicoPlantaoClientesComponent } from '../tecnico-plantao-clientes/tecnico-plantao-clientes.component';
 import { TecnicoPlantaoInformacoesComponent } from '../tecnico-plantao-informacoes/tecnico-plantao-informacoes.component';
+import { TecnicoPlantaoRegioesComponent } from '../tecnico-plantao-regioes/tecnico-plantao-regioes.component';
 
 @Component({
   selector: 'app-tecnico-plantao-lista',
@@ -49,6 +54,8 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _plantaoTecnicoService: PlantaoTecnicoService,
+    private _plantaoTecnicoRegiaoService: PlantaoTecnicoRegiaoService,
+    private _plantaoTecnicoClienteService: PlantaoTecnicoClienteService,
     private _snack: CustomSnackbarService
   ) { }
  
@@ -95,8 +102,6 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
       filter: this.searchInputControl.nativeElement.val
     }).subscribe((data: PlantaoTecnicoData) => {
       this.dataSourceData = data;
-      console.log(data);
-      
       this.isLoading = false;
       this._cdr.detectChanges();
     }, e => {
@@ -114,15 +119,56 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
   }
 
   onRegioesDoTecnico(plantaoTecnico: PlantaoTecnico) {
-
+    this._dialog.open(TecnicoPlantaoRegioesComponent, {
+      data: {
+        plantaoTecnico: plantaoTecnico
+      }
+    });
   }
 
   onClientesDoTecnico(plantaoTecnico: PlantaoTecnico) {
-
+    this._dialog.open(TecnicoPlantaoClientesComponent, {
+      data: {
+        plantaoTecnico: plantaoTecnico
+      }
+    });
   }
 
-  onRemoverPlantao(plantaoTecnico: PlantaoTecnico) {
+  async onRemoverPlantao(plantaoTecnico: PlantaoTecnico) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover o plantão do técnico ${plantaoTecnico.tecnico?.nome}?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+        this.isLoading = true;
+        
+        for (const plantaoRegiao of plantaoTecnico.plantaoRegioes) {
+          await this._plantaoTecnicoRegiaoService.deletar(plantaoRegiao.codPlantaoTecnicoRegiao).toPromise();
+          console.log('deletando regiao');
+          
+        }
+        
+        for (const plantaoCliente of plantaoTecnico.plantaoClientes) {
+          await this._plantaoTecnicoClienteService.deletar(plantaoCliente.codPlantaoTecnicoCliente).toPromise();
+          console.log('deletando cliente');
+        }
+
+        await this._plantaoTecnicoService.deletar(plantaoTecnico.codPlantaoTecnico).toPromise();
+        this._snack.exibirToast(`Plantão para o técnico ${plantaoTecnico.tecnico?.nome} removido`, 'success');
+        this.isLoading = false;
+        this.obterPlantoesTecnico();
+      }
+    });
   }
 
   paginar()

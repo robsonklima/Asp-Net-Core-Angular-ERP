@@ -1,1 +1,26 @@
-<p>tecnico-plantao-clientes works!</p>
+<div class="flex flex-auto justify-center w-full mx-auto">
+    <div class="hidden lg:flex flex-col items-start">
+        <div class="flex flex-col w-full border-0">
+            <div class="text-2xl font-semibold leading-tight mb-2">
+                Clientes
+            </div>
+
+            <div class="text-secondary">
+                Os seguintes clientes serão atendidos por <span class="font-semibold">{{ plantaoTecnico.tecnico.nome | titlecase }}</span> no plantão:
+            </div>
+
+            <hr class="w-full border-t my-2">
+
+            <div class="flex flex-col mb-2 overflow-auto max-h-80">
+                <div class="flex items-center mt-4" *ngFor="let plantaoCliente of plantaoTecnico?.plantaoClientes">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoCliente.cliente.nomeFantasia }} <span class="text-secondary">{{ plantaoCliente.cliente.numBanco }}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

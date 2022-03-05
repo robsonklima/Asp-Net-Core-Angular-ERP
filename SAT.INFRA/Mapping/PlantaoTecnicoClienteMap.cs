@@ -10,6 +10,12 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("PlantaoTecnicoCliente");
             builder.HasKey(prop => prop.CodPlantaoTecnicoCliente);
+
+            builder
+                .HasOne(prop => prop.Cliente)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodCliente)
+                .HasPrincipalKey(prop => prop.CodCliente);
         }
     }
 }

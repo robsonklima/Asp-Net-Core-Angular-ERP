@@ -26,7 +26,7 @@
                         class="icon-size-5 mr-3"
                         [svgIcon]="'heroicons_solid:identification'"></mat-icon>
                     <span class="leading-none">
-                        {{ plantaoTecnico.tecnico.rg }}
+                        {{ plantaoTecnico.tecnico.rg }} <span class="text-secondary opacity-90">RG</span>
                     </span>
                 </div>
 
@@ -85,29 +85,31 @@
                     Chamados Transferidos
                 </div>
 
-                <table
-                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none" 
-                    *ngIf="!loading && chamados.length">
-                    <thead>
-                        <tr>
-                            <th class="text-left border-2 px-1">OS</th>
-                            <th class="text-left border-2 px-1">Cliente</th>
-                            <th class="text-left border-2 px-1">Local</th>
-                            <th class="text-left border-2 px-1">Equipamento</th>
-                            <th class="text-center border-2 px-1">Agendamento</th>
-                        </tr>
-                    </thead>
+                <div class="overflow-auto max-h-50">
+                    <table
+                        class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none" 
+                        *ngIf="!loading && chamados.length">
+                        <thead>
+                            <tr>
+                                <th class="text-left border-2 px-1">OS</th>
+                                <th class="text-left border-2 px-1">Cliente</th>
+                                <th class="text-left border-2 px-1">Local</th>
+                                <th class="text-left border-2 px-1">Equipamento</th>
+                                <th class="text-center border-2 px-1">Agendamento</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <tr *ngFor="let chamado of chamados" class="leading-none text-md w-8 h-8">
-                            <td class="text-left border-2 px-1">{{ chamado?.codOS }}</td>
-                            <td class="text-left border-2 px-1">{{ chamado?.cliente.nomeFantasia }}</td>
-                            <td class="text-left border-2 px-1">{{ chamado?.localAtendimento?.nomeLocal }}</td>
-                            <td class="text-left border-2 px-1">{{ chamado?.equipamento?.nomeEquip }}</td>
-                            <td class="text-center border-2 px-1">{{ (chamado?.agendamentos[chamado?.agendamentos.length-1]?.dataAgendamento | date:'dd/MM HH:mm') || 'Não' }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                            <tr *ngFor="let chamado of chamados" class="leading-none text-md w-8 h-8">
+                                <td class="text-left border-2 px-1">{{ chamado?.codOS }}</td>
+                                <td class="text-left border-2 px-1">{{ chamado?.cliente.nomeFantasia }}</td>
+                                <td class="text-left border-2 px-1">{{ chamado?.localAtendimento?.nomeLocal }}</td>
+                                <td class="text-left border-2 px-1">{{ chamado?.equipamento?.nomeEquip }}</td>
+                                <td class="text-center border-2 px-1">{{ (chamado?.agendamentos[chamado?.agendamentos.length-1]?.dataAgendamento | date:'dd/MM HH:mm') || 'Não' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="w-full text-center text-secondary" *ngIf="!chamados.length && !loading">
                     Nenhum chamado transferido para este técnico.

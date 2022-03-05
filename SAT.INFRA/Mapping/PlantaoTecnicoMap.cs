@@ -16,6 +16,20 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey("CodTecnico")
                 .HasPrincipalKey("CodTecnico");
+
+            builder
+               .HasMany(prop => prop.PlantaoRegioes)
+               .WithOne()
+               .HasForeignKey(prop => prop.CodPlantaoTecnico)
+               .HasPrincipalKey(prop => prop.CodPlantaoTecnico)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+               .HasMany(prop => prop.PlantaoClientes)
+               .WithOne()
+               .HasForeignKey(prop => prop.CodPlantaoTecnico)
+               .HasPrincipalKey(prop => prop.CodPlantaoTecnico)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

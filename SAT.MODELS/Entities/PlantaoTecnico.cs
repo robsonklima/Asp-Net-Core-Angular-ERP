@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -11,5 +12,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
         public Tecnico Tecnico { get; set; }
+        public List<PlantaoTecnicoRegiao> PlantaoRegioes { get; set; }
+        public List<PlantaoTecnicoCliente> PlantaoClientes { get; set; }
     }
 }

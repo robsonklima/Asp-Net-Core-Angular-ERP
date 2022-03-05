@@ -25,13 +25,15 @@ import { tecnicoPlantaoRoutes } from './tecnico-plantao.routing';
 import { TecnicoPlantaoInformacoesComponent } from './tecnico-plantao-informacoes/tecnico-plantao-informacoes.component';
 import { TecnicoPlantaoRegioesComponent } from './tecnico-plantao-regioes/tecnico-plantao-regioes.component';
 import { TecnicoPlantaoClientesComponent } from './tecnico-plantao-clientes/tecnico-plantao-clientes.component';
+import { TecnicoPlantaoFormComponent } from './tecnico-plantao-form/tecnico-plantao-form.component';
 
 @NgModule({
   declarations: [
     TecnicoPlantaoListaComponent,
     TecnicoPlantaoInformacoesComponent,
     TecnicoPlantaoRegioesComponent,
-    TecnicoPlantaoClientesComponent
+    TecnicoPlantaoClientesComponent,
+    TecnicoPlantaoFormComponent
   ],
   imports: [
     CommonModule,

@@ -59,21 +59,17 @@ namespace SAT.INFRA.Repository
             if (per != null)
             {
                 _context.PlantaoTecnico.Remove(per);
-
-                try
-                {
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                _context.SaveChanges();
             }
         }
 
         public PlantaoTecnico ObterPorCodigo(int codigo)
         {
             return _context.PlantaoTecnico
+                .Include(p => p.PlantaoRegioes)
+                    .ThenInclude(t => t.Regiao)
+                .Include(p => p.PlantaoClientes)
+                    .ThenInclude(t => t.Cliente)
                 .Include(p => p.Tecnico)
                     .ThenInclude(t => t.Veiculos)
                         .ThenInclude(t => t.Combustivel)
@@ -91,6 +87,10 @@ namespace SAT.INFRA.Repository
         public PagedList<PlantaoTecnico> ObterPorParametros(PlantaoTecnicoParameters parameters)
         {
             var perfis = _context.PlantaoTecnico
+                .Include(p => p.PlantaoRegioes)
+                    .ThenInclude(t => t.Regiao)
+                .Include(p => p.PlantaoClientes)
+                    .ThenInclude(t => t.Cliente)
                 .Include(p => p.Tecnico)
                     .ThenInclude(t => t.Veiculos)
                         .ThenInclude(t => t.Combustivel)

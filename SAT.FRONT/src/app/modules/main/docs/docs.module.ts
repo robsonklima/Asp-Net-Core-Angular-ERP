@@ -23,7 +23,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { IntroducaoComponent } from './inicio/introducao/introducao.component';
-import { VersoesComponent } from './inicio/versoes/versoes.component';
+import { VersoesComponent } from './inicio/introducao/versoes/versoes.component';
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 

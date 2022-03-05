@@ -19,7 +19,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { IndicadoresFiliaisMapaComponent } from './indicadores-filiais-mapa/indicadores-filiais-mapa.component';
 import { ChamadosMaisAntigosComponent } from './chamados-mais-antigos/chamados-mais-antigos.component';
 import { IndicadoresFiliaisComponent } from './indicadores-filiais/indicadores-filiais.component';
 import { DisponibilidadeTecnicosComponent } from './disponibilidade-tecnicos/disponibilidade-tecnicos.component';
@@ -51,7 +50,6 @@ registerLocaleData(ptBR);
   declarations: [
     DashboardComponent,
     DashboardFiltroComponent,
-    IndicadoresFiliaisMapaComponent,
     DisponibilidadeBBTSRegioesComponent,
     ChamadosMaisAntigosComponent,
     IndicadoresFiliaisComponent,

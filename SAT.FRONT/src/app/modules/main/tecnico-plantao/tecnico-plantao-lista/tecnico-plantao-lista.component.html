@@ -65,11 +65,11 @@
                                     </div>
 
                                     <div class="truncate">                                       
-                                        {{ plantao.tecnico.regiaoAutorizada?.regiao?.nomeRegiao }}
+                                        {{ plantao.tecnico.regiaoAutorizada?.regiao?.nomeRegiao || 'Não Informado' }}
                                     </div>
 
                                     <div class="truncate">                                       
-                                        {{ plantao.tecnico.regiaoAutorizada?.autorizada?.razaoSocial }}
+                                        {{ plantao.tecnico.regiaoAutorizada?.autorizada?.razaoSocial || 'Não Informado' }}
                                     </div>
 
                                     <div class="truncate">

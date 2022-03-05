@@ -524,5 +524,7 @@
     "unidade federativa envio nf": "Federative Unit sending tax coupon",
     "cnpj envio nf": "CNPJ sending tax coupon",
     "motivo de divergencia": "Divergency Reazon",
-    "tipo de divergencia": "Divergency Type"
+    "tipo de divergencia": "Divergency Type",
+    "técnicos de plantão": "On-duty Technicians",
+    "data do plantao": "Date of Duty"
 }

@@ -93,6 +93,8 @@ namespace SAT.INFRA.Context
         public DbSet<PontoUsuarioDataValidacao> PontoUsuarioDataValidacao { get; set; }
         public DbSet<PontoUsuarioRejeicao> PontoUsuarioRejeicao { get; set; }
         public DbSet<PlantaoTecnico> PlantaoTecnico { get; set; }
+        public DbSet<PlantaoTecnicoRegiao> PlantaoTecnicoRegiao { get; set; }
+        public DbSet<PlantaoTecnicoCliente> PlantaoTecnicoCliente { get; set; }
         public DbSet<DespesaAdiantamentoPeriodo> DespesaAdiantamentoPeriodo { get; set; }
         public DbSet<DespesaAdiantamento> DespesaAdiantamento { get; set; }
         public DbSet<DespesaConfiguracaoCombustivel> DespesaConfiguracaoCombustivel { get; set; }
@@ -251,7 +253,11 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMapaRegioes>(new ViewDashboardDisponibilidadeBBTSMapaRegioesMap().Configure);
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade>(new ViewDashboardDisponibilidadeBBTSMultasDisponibilidadeMap().Configure);
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasRegioes>(new ViewDashboardDisponibilidadeBBTSMultasRegioesMap().Configure);
-
+            modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
+            modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
+            modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);
+            modelBuilder.Entity<TecnicoVeiculo>(new TecnicoVeiculoMap().Configure);
+            modelBuilder.Entity<VeiculoCombustivel>(new VeiculoCombustivelMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

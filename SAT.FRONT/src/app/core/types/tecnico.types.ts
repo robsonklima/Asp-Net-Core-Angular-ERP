@@ -1,10 +1,11 @@
 import { Autorizada } from "./autorizada.types";
 import { Cidade } from "./cidade.types";
 import { Cliente } from "./cliente.types";
-import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from "./despesa-cartao-combustivel.types";
+import { DespesaCartaoCombustivelTecnico } from "./despesa-cartao-combustivel.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServico } from "./ordem-servico.types";
+import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { TipoRota } from "./tipo-rota.types";
 import { Usuario } from "./usuario.types";
@@ -52,6 +53,7 @@ export class Tecnico {
     indFerias: number;
     codRegiao: number;
     regiao?: Regiao;
+    regiaoAutorizada: RegiaoAutorizada;
     codDespesaCartaoCombustivel?: any;
     codFrotaCobrancaGaragem: number;
     codFrotaFinalidadeUso: number;
@@ -76,6 +78,7 @@ export class Tecnico {
     despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
     tecnicoConta?: TecnicoConta[];
     tecnicoCategoriaCredito?: TecnicoCategoriaCredito;
+    veiculos: TecnicoVeiculo[];
     tecnicoCliente?: TecnicoCliente[];
 }
 
@@ -167,4 +170,23 @@ export interface TecnicoCliente {
     codTecnico: number;
     codCliente: number;
     cliente: Cliente;
+}
+
+export interface TecnicoVeiculo {
+    codTecnicoVeiculo: number;
+    codTecnico: number;
+    codVeiculoCombustivel: number;
+    modelo: string;
+    ano: string;
+    placa: string;
+    indPadrao: number;
+    indAtivo: number;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    dataHoraManut: string;
+    veiculoCombustivel: VeiculoCombustivel;
+}
+
+export interface VeiculoCombustivel {
 }

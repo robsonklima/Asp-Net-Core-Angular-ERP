@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 
 namespace SAT.MODELS.Entities
 {
-    public class PlantaoTecnico
+    public class PlantaoTecnicoRegiao
     {
+        public int CodPlantaoTecnicoRegiao { get; set; }
         public int CodPlantaoTecnico { get; set; }
-        public int CodTecnico { get; set; }
-        public DateTime DataPlantao { get; set; }
+        public int CodRegiao { get; set; }
         public byte IndAtivo { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
-        public Tecnico Tecnico { get; set; }
     }
 }

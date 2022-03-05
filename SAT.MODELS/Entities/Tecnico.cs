@@ -68,5 +68,6 @@ namespace SAT.MODELS.Entities
         public virtual List<TecnicoCliente> TecnicoCliente { get; set; }
         public int MediaTempoAtendMin { get; set; }
         public TecnicoCategoriaCredito TecnicoCategoriaCredito { get; set; }
+        public List<TecnicoVeiculo> Veiculos { get; set; }
     }
 }

@@ -18,7 +18,6 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { AgendaTecnicoRealocacaoDialogComponent } from './agenda-tecnico-realocacao-dialog/agenda-tecnico-realocacao-dialog.component';
 import { AgendaTecnicoValidator } from './agenda-tecnico.validator';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { fuseAnimations } from '@fuse/animations';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';

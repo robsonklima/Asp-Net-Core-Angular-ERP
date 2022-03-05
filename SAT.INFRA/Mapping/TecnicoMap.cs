@@ -30,6 +30,12 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey("CodAutorizada");
 
             builder
+                .HasMany<TecnicoVeiculo>(e => e.Veiculos)
+                .WithOne()
+                .HasForeignKey(i => i.CodTecnico)
+                .HasPrincipalKey(i => i.CodTecnico);
+
+            builder
                 .HasOne(i => i.RegiaoAutorizada)
                 .WithMany()
                 .HasForeignKey(i => new { i.CodFilial, i.CodRegiao, i.CodAutorizada });

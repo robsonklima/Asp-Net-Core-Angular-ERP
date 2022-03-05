@@ -155,6 +155,7 @@ namespace SAT.API
             services.AddTransient<IIntencaoRepository, IntencaoRepository>();
             services.AddTransient<IVersaoRepository, VersaoRepository>();
             services.AddTransient<ICargoRepository, CargoRepository>();
+            services.AddTransient<IPlantaoTecnicoRepository, PlantaoTecnicoRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -253,6 +254,7 @@ namespace SAT.API
             services.AddTransient<IOrcamentoDescontoService, OrcamentoDescontoService>();
             services.AddTransient<IVersaoService, VersaoService>();
             services.AddTransient<ICargoService, CargoService>();
+            services.AddTransient<IPlantaoTecnicoService, PlantaoTecnicoService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

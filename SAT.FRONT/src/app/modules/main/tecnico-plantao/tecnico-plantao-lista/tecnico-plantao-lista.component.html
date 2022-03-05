@@ -1,0 +1,152 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('técnicos de plantão') }}</div>
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+            </mat-form-field>
+            
+            <button class="ml-4" mat-button [color]="'primary'" routerLink="/plantao-tecnico/form">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container>
+                <ng-container>
+                    <div class="grid" *transloco="let t">
+                        <div class="list-grid-plantao-tecnico z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort matSortDisableClear *transloco="let t">
+                            <div class="md:block" [mat-sort-header]="'codPlantaoTecnico'">
+                                {{ t('codigo') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('tecnico') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('regiao') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('autorizada') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('data do plantao') }}
+                            </div>
+
+                            <div [mat-sort-header]="'indAtivo'">
+                                {{ t('ativo') }}
+                            </div>
+
+                            <div class="md:block text-center">
+                                {{ t('acoes') }}
+                            </div>
+                        </div>
+
+                        <ng-container>
+                            <ng-container *ngFor="let plantao of dataSourceData?.items">
+                                <div class="list-grid-plantao-tecnico grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                    <div class="truncate">                                       
+                                        {{ plantao.codPlantaoTecnico }}
+                                    </div>
+
+                                    <div class="truncate">                                       
+                                        {{ plantao.tecnico.nome }}
+                                    </div>
+
+                                    <div class="truncate">                                       
+                                        {{ plantao.tecnico.regiaoAutorizada.regiao.nomeRegiao }}
+                                    </div>
+
+                                    <div class="truncate">                                       
+                                        {{ plantao.tecnico.regiaoAutorizada.autorizada.razaoSocial }}
+                                    </div>
+
+                                    <div class="truncate">
+                                        {{ (plantao.dataPlantao | date:'dd/MM/yyyy') || 'Não Informado' }}
+                                    </div>
+
+                                    <div class="flex">
+                                        <span
+                                            class="font-semibold"
+                                            [class.text-red-500]="!plantao.indAtivo"
+                                            [class.text-green-500]="plantao.indAtivo">
+                                            {{ plantao.indAtivo ? t('sim') : t('nao') }}
+                                        </span>
+                                    </div>
+
+                                    <div class="truncate">                                       
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-4"
+                                            mat-stroked-button
+                                            color="primary"
+                                            [matTooltip]="'Informações do Técnico'"
+                                            matTooltipPosition="above"
+                                            (click)="onInformacoesDoTecnico(plantao)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            color="primary"
+                                            [matTooltip]="'Regiões do Técnico'"
+                                            matTooltipPosition="above"
+                                            (click)="onRegioesDoTecnico(plantao)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:map'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            color="primary"
+                                            [matTooltip]="'Clientes do Técnico'"
+                                            matTooltipPosition="above"
+                                            (click)="onClientesDoTecnico(plantao)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                                        </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            color="warn"
+                                            [matTooltip]="'Remover Plantão'"
+                                            matTooltipPosition="above"
+                                            (click)="onRemoverPlantao(plantao)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        (page)="paginar()">
+                    </mat-paginator>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

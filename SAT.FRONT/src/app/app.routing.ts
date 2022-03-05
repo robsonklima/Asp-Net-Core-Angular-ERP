@@ -90,6 +90,7 @@ export const appRoutes: Route[] = [
             { path: 'docs', loadChildren: () => import('app/modules/main/docs/docs.module').then(m => m.DocsModule) },
             { path: 'orcamento', loadChildren: () => import('app/modules/main/orcamento/orcamento.module').then(m => m.OrcamentoModule) },
             { path: 'conferencia', loadChildren: () => import('app/modules/main/conferencia/conferencia.module').then(m => m.ConferenciaModule) },
+            { path: 'tecnico-plantao', loadChildren: () => import('app/modules/main/tecnico-plantao/tecnico-plantao.module').then(m => m.TecnicoPlantaoModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

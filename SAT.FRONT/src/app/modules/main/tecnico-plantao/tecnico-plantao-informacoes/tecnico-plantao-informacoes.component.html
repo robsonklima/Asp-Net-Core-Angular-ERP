@@ -1,0 +1,124 @@
+<div class="flex flex-auto justify-center w-full mx-auto">
+    <div class="hidden lg:flex flex-col items-start">
+        <div class="flex flex-col w-full border-0">
+            <div class="text-2xl font-semibold leading-tight">Informações do Técnico</div>
+
+            <div class="flex flex-col mt-5">
+                <div class="flex">
+                    <img
+                        class="w-10 h-10 mr-4 rounded-full"
+                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + plantaoTecnico.tecnico.usuario?.codUsuario + '.jpg'"
+                        onError="this.src='./assets/images/avatars/profile.jpg';"
+                        [alt]="plantaoTecnico.tecnico.nome"
+                        alt="Card cover image">
+                    <div class="flex flex-col min-w-0">
+                        <div class="leading-tight">{{ plantaoTecnico.tecnico.nome | titlecase }}</div>
+                        <div class="text-md leading-none text-secondary mt-2">4 minutes ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="w-full border-t my-6">
+
+            <div class="flex flex-col">
+                <div class="flex items-center">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.rg }}
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-4">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.regiao.nomeRegiao }}
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-4" *ngIf="plantaoTecnico.tecnico.fone">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.fone }} <span class="text-secondary opacity-90">Principal</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-4" *ngIf="plantaoTecnico.tecnico.fonePerto">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.fonePerto }} <span class="text-secondary opacity-90">Perto</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-4" *ngIf="plantaoTecnico.tecnico.foneParticular">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.foneParticular }} <span class="text-secondary opacity-90">Particular</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-4" *ngIf="plantaoTecnico.tecnico.veiculos.length">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:truck'"></mat-icon>
+                    <span class="leading-none">
+                        {{ plantaoTecnico.tecnico.veiculos[plantaoTecnico.tecnico.veiculos.length-1].modelo }}
+                        {{ plantaoTecnico.tecnico.veiculos[plantaoTecnico.tecnico.veiculos.length-1].ano }}
+                        {{ plantaoTecnico.tecnico.veiculos[plantaoTecnico.tecnico.veiculos.length-1].placa }}
+                    </span>
+                </div>
+            </div>
+
+            <hr class="w-full border-t my-6">
+
+            <div class="flex flex-col pb-3">
+                <div class="text-md font-semibold leading-tight mb-6">
+                    Chamados Transferidos
+                </div>
+
+                <table
+                    class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card pointer-events-none" 
+                    *ngIf="!loading && chamados.length">
+                    <thead>
+                        <tr>
+                            <th class="text-left border-2 px-1">OS</th>
+                            <th class="text-left border-2 px-1">Cliente</th>
+                            <th class="text-left border-2 px-1">Local</th>
+                            <th class="text-left border-2 px-1">Equipamento</th>
+                            <th class="text-center border-2 px-1">Agendamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let chamado of chamados" class="leading-none text-md w-8 h-8">
+                            <td class="text-left border-2 px-1">{{ chamado?.codOS }}</td>
+                            <td class="text-left border-2 px-1">{{ chamado?.cliente.nomeFantasia }}</td>
+                            <td class="text-left border-2 px-1">{{ chamado?.localAtendimento?.nomeLocal }}</td>
+                            <td class="text-left border-2 px-1">{{ chamado?.equipamento?.nomeEquip }}</td>
+                            <td class="text-center border-2 px-1">{{ (chamado?.agendamentos[chamado?.agendamentos.length-1]?.dataAgendamento | date:'dd/MM HH:mm') || 'Não' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="w-full text-center text-secondary" *ngIf="!chamados.length && !loading">
+                    Nenhum chamado transferido para este técnico.
+                </div>
+
+                <div class="flex justify-center items-center min-h-10" *ngIf="loading">
+                    <div class="text-center">
+                        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

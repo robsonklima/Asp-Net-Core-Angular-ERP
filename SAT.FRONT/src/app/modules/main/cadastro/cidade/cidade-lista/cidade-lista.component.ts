@@ -36,7 +36,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 
 export class CidadeListaComponent implements AfterViewInit {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
   dataSourceData: CidadeData;
@@ -95,5 +94,4 @@ export class CidadeListaComponent implements AfterViewInit {
   paginar() {
     this.obterDados();
   }
-
 }

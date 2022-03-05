@@ -537,5 +537,7 @@
     "unidade federativa envio nf": "UF Envio NF",
     "cnpj envio nf": "CNPJ Envio NF",
     "motivo de divergencia": "Motivo de Divergência",
-    "tipo de divergencia": "Tipo de Divergência"
+    "tipo de divergencia": "Tipo de Divergência",
+    "técnicos de plantão": "Técnicos de Plantão",
+    "data do plantao": "Data do Plantão"
 }

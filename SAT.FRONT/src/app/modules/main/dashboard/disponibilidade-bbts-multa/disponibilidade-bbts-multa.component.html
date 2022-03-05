@@ -1,44 +1,46 @@
-<table class="w-full table-auto text-sm font-medium tracking-tight bg-card" *ngIf="!loading">
-	<thead>
-		<tr>
-			<th>Região</th>
-			<th>DISP 11</th>
-			<th>DISP 12</th>
-			<th>DISP 13</th>
-			<th>DISP 14</th>
-			<th>DISP 15</th>
-			<th>TOTAL</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr class="text-center" *ngFor="let data of multaDisponibilidade">
-			<td>{{data.regiao}}</td>
-			<td>R${{data.disp11| number:'1.1-1'}}</td>
-			<td>R${{data.disp12| number:'1.1-1'}}</td>
-			<td>R${{data.disp13| number:'1.1-1'}}</td>
-			<td>R${{data.disp14| number:'1.1-1'}}</td>
-			<td>R${{data.disp15| number:'1.1-1'}}</td>
-			<td>R${{data.total| number:'1.1-1'}}</td>
-		</tr>
-	</tbody>
-	<tfoot>
-		<tr class="text-center pointer-events-none font-bold">
-			<th>TOTAL</th>
-			<td>R${{totalDisp11| number:'1.1-1'}}</td>
-			<td>R${{totalDisp12| number:'1.1-1'}}</td>
-			<td>R${{totalDisp13| number:'1.1-1'}}</td>
-			<td>R${{totalDisp14| number:'1.1-1'}}</td>
-			<td>R${{totalDisp15| number:'1.1-1'}}</td>
-			<td>R${{totalDispTotal| number:'1.1-1'}}</td>
-		</tr>
-	</tfoot>
-</table>
-
-<div class="mt-4" *ngIf="!loading">
-	* Meta da Disponibilidade deve ser na média maior que <b>96%</b> e nenhum saldo em horas
-	negativas.
-</div>
-
-<div class="flex justify-center items-center" *ngIf="loading">
-	<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+<div class="pt-5">
+	<table class="w-full table-auto text-md font-medium tracking-tight bg-card" *ngIf="!loading">
+		<thead>
+			<tr>
+				<th class="p-0.5">Região</th>
+				<th class="p-0.5">DISP 11</th>
+				<th class="p-0.5">DISP 12</th>
+				<th class="p-0.5">DISP 13</th>
+				<th class="p-0.5">DISP 14</th>
+				<th class="p-0.5">DISP 15</th>
+				<th class="p-0.5">TOTAL</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-center" *ngFor="let data of multaDisponibilidade">
+				<td>{{data.regiao}}</td>
+				<td>R${{data.disp11| number:'1.1-1'}}</td>
+				<td>R${{data.disp12| number:'1.1-1'}}</td>
+				<td>R${{data.disp13| number:'1.1-1'}}</td>
+				<td>R${{data.disp14| number:'1.1-1'}}</td>
+				<td>R${{data.disp15| number:'1.1-1'}}</td>
+				<td>R${{data.total| number:'1.1-1'}}</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr class="text-center pointer-events-none font-bold">
+				<th class="p-0.5">TOTAL</th>
+				<td class="p-0.5">R${{totalDisp11| number:'1.1-1'}}</td>
+				<td class="p-0.5">R${{totalDisp12| number:'1.1-1'}}</td>
+				<td class="p-0.5">R${{totalDisp13| number:'1.1-1'}}</td>
+				<td class="p-0.5">R${{totalDisp14| number:'1.1-1'}}</td>
+				<td class="p-0.5">R${{totalDisp15| number:'1.1-1'}}</td>
+				<td class="p-0.5">R${{totalDispTotal| number:'1.1-1'}}</td>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<div class="w-full mt-4 text-right" *ngIf="!loading">
+		* Meta da Disponibilidade deve ser na média maior que <b>96%</b>
+		e nenhum saldo em horas negativas
+	</div>
+	
+	<div class="flex justify-center items-center bg-gray-50 min-h-100" *ngIf="loading">
+		<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+	</div>
 </div>

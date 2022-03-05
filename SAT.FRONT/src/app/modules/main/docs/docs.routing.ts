@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { VersoesComponent } from './versoes/versoes.component';
+import { VersoesComponent } from './inicio/introducao/versoes/versoes.component';
 import { DocsComponent } from './docs.component';
 import { IntroducaoComponent } from './inicio/introducao/introducao.component';
 import { SuporteComponent } from './suporte/suporte.component';

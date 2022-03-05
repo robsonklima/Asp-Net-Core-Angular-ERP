@@ -1,8 +1,8 @@
-<div class="relative flex-auto mt-4 sm:mt-6">
+<div class="relative flex-auto sm:mt-6">
 	<div class="w-full max-w-screen-xl mx-auto">
 
 		<!-- Disponibilidade -->
-		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-2" *ngIf="!bbtsRegiaoMulta">
+		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full" *ngIf="!bbtsRegiaoMulta">
 			<div class="flex flex-col flex-auto col-span-2 bg-card shadow rounded-2xl overflow-hidden p-6"
 				*ngFor="let item of viewDados" [class.bg-yellow-500]="item.regiao === 'Centro-Oeste'"
 				[class.bg-red-500]="item.regiao === 'Nordeste'" [class.bg-purple-500]="item.regiao === 'Norte'"
@@ -71,7 +71,7 @@
 		</div>
 
 		<!-- Multas -->
-		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full py-2" *ngIf="bbtsRegiaoMulta">
+		<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-10 gap-8 w-full" *ngIf="bbtsRegiaoMulta">
 			<div class="flex flex-col flex-auto col-span-2 bg-card shadow rounded-2xl overflow-hidden p-6"
 				*ngFor="let item of grupoRegiao" [class.bg-yellow-500]="item.key() === 'Centro-Oeste'"
 				[class.bg-red-500]="item.key() === 'Nordeste'" [class.bg-purple-500]="item.key() === 'Norte'"
@@ -140,7 +140,7 @@
 		</div>
 	</div>
 
-	<div class="flex justify-center items-center" *ngIf="loading">
+	<div class="flex justify-center items-center bg-gray-50 min-h-100" *ngIf="loading">
 		<div class="text-center">
 			<mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
 		</div>

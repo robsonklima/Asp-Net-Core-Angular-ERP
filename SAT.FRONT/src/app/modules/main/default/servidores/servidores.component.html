@@ -1,0 +1,125 @@
+<div class="w-full">
+    <div class="text-2xl font-semibold tracking-tight leading-6">Discos</div>
+    <div class="font-medium tracking-tight text-secondary">
+        Acompanhamento da quantidade de espaço de armazenamento
+    </div>
+</div>
+
+<div class="grid grid-cols-12 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
+    <div class="flex flex-col flex-auto col-span-3 bg-card shadow rounded-2xl overflow-hidden p-6"
+        *ngFor="let monitoramento of filtrarMonitoramento('STORAGE')"
+        [class.bg-red-100]="monitoramento.status === 'DANGER'" [class.bg-card]="monitoramento.status === 'OK'">
+        <div class="flex items-start justify-between">
+            <div class="text-secondary">
+                Disco <b>{{ monitoramento.disco }}</b> {{ monitoramento.servidor }}
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto mt-2 h-44">
+            <apx-chart class="flex flex-auto items-center justify-center w-full h-full" [chart]="chartPie.chart"
+                [colors]="['#805AD5', '#B794F4']" [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
+                [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
+                [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
+        </div>
+        <div class="mt-8">
+            <div class="-my-3 divide-y">
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            Utilizados {{ monitoramento.emUso | number: '1.0-4' }} de {{
+                            monitoramento.total | number: '1.0-4' }} GB
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-full mt-2">
+    <div class="text-2xl font-semibold tracking-tight leading-6">Processadores e Memória</div>
+    <div class="font-medium tracking-tight text-secondary">Acompanhamento de uso de CPU e
+        Memória </div>
+</div>
+
+<div class="grid grid-cols-6 sm:grid-cols-2 lg:grid-cols-12 gap-8 w-full py-8">
+    <div class="flex flex-col flex-auto col-span-3 shadow rounded-2xl overflow-hidden p-6"
+        *ngFor="let monitoramento of filtrarMonitoramento('CPU')"
+        [class.bg-red-100]="monitoramento.status === 'DANGER'"
+        [class.bg-card]="monitoramento.status === 'OK'">
+        <div class="flex items-start justify-between">
+            <div class="text-secondary">
+                <b>CPU</b> {{ monitoramento.servidor }}
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto mt-2 h-44">
+            <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']"
+                [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
+                [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
+                [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
+        </div>
+        <div class="mt-8">
+            <div class="-my-3 divide-y">
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            Utilizados {{ monitoramento.emUso | number: '1.0-1' }} de {{
+                            monitoramento.total | number: '1.0-1' }}%
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col flex-auto col-span-3 shadow rounded-2xl overflow-hidden p-6"
+        *ngFor="let monitoramento of filtrarMonitoramento('MEMORY')"
+        [class.bg-red-100]="monitoramento.status === 'DANGER'"
+        [class.bg-card]="monitoramento.status === 'OK'">
+        <div class="flex items-start justify-between">
+            <div class="text-secondary">
+                <b>Memória</b> {{ monitoramento.servidor }}
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto mt-2 h-44">
+            <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                [chart]="chartPie.chart" [colors]="['#319795', '#4FD1C5']"
+                [labels]="['Em Uso', 'Livre']" [plotOptions]="chartPie.plotOptions"
+                [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
+                [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
+        </div>
+        <div class="mt-8">
+            <div class="-my-3 divide-y">
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            Utilizados {{ monitoramento.emUso | number: '1.0-0' }} de {{
+                            monitoramento.total | number: '1.0-0' }} MB
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="grid grid-cols-1 py-3">
+                        <div class="text-center text-secondary">
+                            {{ monitoramento.dataHoraProcessamento | date:'dd/MM HH:mm' }}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

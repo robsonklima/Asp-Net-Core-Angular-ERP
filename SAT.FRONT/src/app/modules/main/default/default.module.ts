@@ -14,10 +14,20 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ServicosComponent } from './servicos/servicos.component';
+import { ServidoresComponent } from './servidores/servidores.component';
+import { DisponibilidadeComponent } from './disponibilidade/disponibilidade.component';
+import { OciosidadeComponent } from './ociosidade/ociosidade.component';
+import { UtilizacaoComponent } from './utilizacao/utilizacao.component';
 
 @NgModule({
     declarations: [
-        DefaultComponent
+        DefaultComponent,
+        ServicosComponent,
+        ServidoresComponent,
+        DisponibilidadeComponent,
+        OciosidadeComponent,
+        UtilizacaoComponent
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),

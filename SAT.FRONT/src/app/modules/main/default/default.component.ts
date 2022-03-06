@@ -24,6 +24,7 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 export class DefaultComponent implements OnInit, OnDestroy
 {
     sessionData: UsuarioSessao;
+    
     ultimoProcessamento: string;
     loading: boolean;
     listaMonitoramento: Monitoramento[] = [];
@@ -66,12 +67,19 @@ export class DefaultComponent implements OnInit, OnDestroy
     {
         this.loading = true;
 
-        await this.obterMonitoramentos();
-        await this.obterMonitoramentoHistorico('CPU', data);
-        await this.obterMonitoramentoHistorico('MEMORY', data);
-        await this.obterEventosOciosos(data);
-        await this.obterUsuariosLogados();
-        this.prepararDadosGraficos();
+        if (this.sessionData.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA) {
+            await this.obterMonitoramentos();
+            await this.obterMonitoramentoHistorico('CPU', data);
+            await this.obterMonitoramentoHistorico('MEMORY', data);
+            await this.obterEventosOciosos(data);
+            await this.obterUsuariosLogados();
+            this.prepararDadosGraficos();
+        }
+
+        if (this.sessionData.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO) {
+            await this.obterMonitoramentos();
+        }
+
         this.ultimoProcessamento = moment().format('yyyy-MM-DD HH:mm:ss');
 
         this.loading = false;

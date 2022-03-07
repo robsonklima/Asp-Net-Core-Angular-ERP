@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Monitoramento> builder)
         {
-            builder
-                .ToTable("LogAlerta");
-
-            builder
-                .HasKey(i => i.CodLogAlerta);
+            builder.ToTable("LogAlerta");
+            builder.HasKey(i => i.CodLogAlerta);
         }
     }
 }

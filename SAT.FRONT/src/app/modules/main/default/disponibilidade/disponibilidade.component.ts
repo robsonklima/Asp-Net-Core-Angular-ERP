@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import { monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import { ApexOptions } from 'ng-apexcharts';
   selector: 'app-disponibilidade',
   templateUrl: './disponibilidade.component.html'
 })
-export class DisponibilidadeComponent implements OnInit
+export class DisponibilidadeComponent implements AfterViewInit
 {
   historico: any = { labels: [], cpu: [], memory: [] }
   opcoesDatas: any[] = [];
@@ -19,13 +19,13 @@ export class DisponibilidadeComponent implements OnInit
     private _monitoramentoHistoricoService: MonitoramentoHistoricoService
   ) { }
 
-  async ngOnInit()
+  async ngAfterViewInit()
   {
-    await this.obterMonitoramentoHistorico('');
+    await this.obterDados(this.dataAtual);
     this.prepararDadosGraficos();
   }
 
-  private obterMonitoramentoHistorico(tipo: string, data: string = ''): Promise<any>
+  private obterDados(tipo: string, data: string = ''): Promise<any>
   {
     return new Promise((resolve, reject) =>
     {
@@ -127,5 +127,10 @@ export class DisponibilidadeComponent implements OnInit
         offsetX: -5
       }
     };
+  }
+
+  pesquisarDadosPorData(data: string)
+  {
+    this.obterDados(data);
   }
 }

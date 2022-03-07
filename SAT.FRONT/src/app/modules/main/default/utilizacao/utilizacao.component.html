@@ -1,1 +1,71 @@
-<p>utilizacao works!</p>
+<div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
+    <div
+        class="lg:col-span-6 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                Utilização do Sistema
+            </div>
+
+            <div class="ml-2">
+                <mat-icon class="ml-1.5 icon-size-5 text-hintsm cursor-help"
+                    [svgIcon]="'heroicons_solid:information-circle'"
+                    [matTooltip]="'Apuração em tempo real do uso do sistema por usuário.'"
+                    [matTooltipPosition]="'above'"></mat-icon>
+            </div>
+        </div>
+
+        <div class="flex flex-col mt-2 divide-y" *ngIf="usuariosLogados">
+            <ng-container>
+                <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                    <div class="flex flex-col">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                            <ng-container>
+                                <div class="flex items-center pr-4">
+                                    <mat-icon class="icon-size-5 text-green-600"
+                                        [svgIcon]="'heroicons_solid:users'"></mat-icon>
+
+                                    <div class="ml-1.5 text-md mt-0.5 text-secondary">
+                                        {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logados' }} 
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container>
+                                <div class="flex items-center pr-4">
+                                    <mat-icon class="icon-size-5 text-hint"
+                                        class="icon-size-5 text-green-600"
+                                        [svgIcon]="'heroicons_solid:user-add'"></mat-icon>
+                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                        {{ ((usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container>
+                                <div class="flex items-center pr-4">
+                                    <mat-icon class="icon-size-5 text-hint"
+                                        [svgIcon]="'heroicons_solid:user-group'"></mat-icon>
+
+                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                        {{ usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados }} Ociosos
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container>
+                                <div class="flex items-center">
+                                    <mat-icon class="icon-size-5 text-hint"
+                                        [svgIcon]="'heroicons_solid:user-remove'"></mat-icon>
+                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
+                                        {{ (((usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados) / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

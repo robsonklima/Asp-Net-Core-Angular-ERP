@@ -1,9 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div class="relative bg-card border-b">
-        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
-            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-        </div>
-
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-0 sm:my-12">
                 <div class="flex flex-auto items-center min-w-0">
@@ -25,7 +21,7 @@
             <div class="px-12 w-full" *ngIf="verificarPermissaoAcessoSlide('BOAS_VINDAS')">
                 <p class="text-secondary font-light">
                     A tela de boas vindas do sistema apresenta informações de acordo com o perfil do seu usuário. <br>
-                    Em breve serão exibidas aqui informações úteis para o seu dia-a-dia.
+                    Em breve serão exibidas aqui informações pertinentes aos seus processos.
                 </p>
             </div>
 
@@ -38,168 +34,25 @@
 
                 <mat-tab label="Servidores" *ngIf="verificarPermissaoAcessoSlide('SERVIDORES')">
                     <ng-template matTabContent>
-                        <app-servidores></app-servidores>
+                        <!-- <app-servidores></app-servidores> -->
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="Disponibilidade" *ngIf="verificarPermissaoAcessoSlide('DISPONIBILIDADE')">
                     <ng-template matTabContent>
-                        
+                        <app-disponibilidade></app-disponibilidade>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="Ociosidade" *ngIf="verificarPermissaoAcessoSlide('OCIOSIDADE')">
                     <ng-template matTabContent>
-                        <div class="bg-card overflow-hidden shadow rounded-2xl px-6">
-                            <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
-                                <div class="flex flex-col">
-                                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
-                                        Ociosidade
-                                    </div>
-                                    <div class="font-medium text-secondary">
-                                        Recursos com alto tempo de processamento
-                                    </div>
-                                </div>
-
-                                <div class="ml-7 lg:-mr-7">
-                                    <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year"
-                                        #tableSelector="matButtonToggleGroup">
-                                        <mat-button-toggle *ngFor="let data of opcoesDatas; let i = index"
-                                            (click)="pesquisarDadosPorData(data.data)"
-                                            class="px-1.5 rounded-full overflow-hidden border-none font-medium">
-                                            {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
-                                        </mat-button-toggle>
-                                    </mat-button-toggle-group>
-                                    <div class="sm:hidden">
-                                        <button mat-icon-button [matMenuTriggerFor]="visitorsMenu">
-                                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-                                        </button>
-                                        <mat-menu #visitorsMenu="matMenu">
-                                            <button mat-menu-item *ngFor="let data of opcoesDatas"
-                                                (click)="pesquisarDadosPorData(data.data)">
-                                                {{ data.prompt }}
-                                            </button>
-                                        </mat-menu>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <table class="w-full table-auto text-md font-medium tracking-tight mb-4">
-                                <thead *ngIf="eventosOciosos.length" class="text-left">
-                                    <tr>
-                                        <th class="py-1 px-2">Hora</th>
-                                        <th class="py-1 px-2">Recurso</th>
-                                        <th class="py-1 px-2">Status</th>
-                                        <th class="py-1 px-2"><span class="px-2">Tempo</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let evento of eventosOciosos; let i = index;">
-                                        <td class="py-1 px-2 border-b border-t border-zinc-300">{{
-                                            evento.dateTimeEvent | date:'HH:mm' }}
-                                        </td>
-                                        <td class="py-1 px-2 border-b border-t border-zinc-300 break-all">
-                                            <div>
-                                                <span [ngClass]="obterCorRecurso(evento.csUriStem)">{{ obterNomeRecurso(evento.csUriStem) }}</span>
-                                                <span>{{ evento.csUriStem }}</span>
-                                            </div>
-
-                                            <div *ngIf="evento.csUriQuery" class="text-xs text-gray-400">
-                                                {{ evento.csUriQuery }}
-                                            </div>
-                                        </td>
-                                        <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">{{
-                                            evento.scStatus }}
-                                        </td>
-                                        <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">
-                                            {{ (evento.timeTaken / 1000 / 60).toFixed(1) }} min
-                                        </td>
-                                    </tr>
-
-                                    <tr *ngIf="!eventosOciosos.length">
-                                        <td colspan="4" class="py-4 px-2 text-lg text-center">
-                                            Nenhuma ociosidade encontrada!
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <app-ociosidade></app-ociosidade>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
                     <ng-template matTabContent>
-                        <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full">
-                            <div
-                                class="lg:col-span-6 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                <div class="flex flex-col sm:flex-row items-start justify-between">
-                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                                        Utilização do Sistema
-                                    </div>
-
-                                    <div class="ml-2">
-                                        <mat-icon class="ml-1.5 icon-size-5 text-hintsm cursor-help"
-                                            [svgIcon]="'heroicons_solid:information-circle'"
-                                            [matTooltip]="'Apuração em tempo real do uso do sistema por usuário.'"
-                                            [matTooltipPosition]="'above'"></mat-icon>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-col mt-2 divide-y" *ngIf="usuariosLogados">
-                                    <ng-container>
-                                        <div class="flex flex-row items-center justify-between py-2 px-0.5">
-                                            <div class="flex flex-col">
-                                                <div
-                                                    class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
-                                                    <ng-container>
-                                                        <div class="flex items-center pr-4">
-                                                            <mat-icon class="icon-size-5 text-green-600"
-                                                                [svgIcon]="'heroicons_solid:users'"></mat-icon>
-
-                                                            <div class="ml-1.5 text-md mt-0.5 text-secondary">
-                                                                {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logados' }} 
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-
-                                                    <ng-container>
-                                                        <div class="flex items-center pr-4">
-                                                            <mat-icon class="icon-size-5 text-hint"
-                                                                class="icon-size-5 text-green-600"
-                                                                [svgIcon]="'heroicons_solid:user-add'"></mat-icon>
-                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                                                {{ ((usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-
-                                                    <ng-container>
-                                                        <div class="flex items-center pr-4">
-                                                            <mat-icon class="icon-size-5 text-hint"
-                                                                [svgIcon]="'heroicons_solid:user-group'"></mat-icon>
-
-                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                                                {{ usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados }} Ociosos
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-
-                                                    <ng-container>
-                                                        <div class="flex items-center">
-                                                            <mat-icon class="icon-size-5 text-hint"
-                                                                [svgIcon]="'heroicons_solid:user-remove'"></mat-icon>
-                                                            <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                                                {{ (((usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados) / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
+                        <app-utilizacao></app-utilizacao>
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>

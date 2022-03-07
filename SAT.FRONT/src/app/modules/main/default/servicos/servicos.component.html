@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex flex-col mt-2 divide-y">
-            <ng-container *ngFor="let monitoramento of filtrarMonitoramento('CHAMADO')">
+            <ng-container *ngFor="let monitoramento of monitoramentoChamados">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">
@@ -65,7 +65,7 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="!filtrarMonitoramento('CHAMADO').length">
+            <ng-container *ngIf="monitoramentoChamados.length">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
@@ -91,7 +91,7 @@
         </div>
 
         <div class="flex flex-col mt-2 divide-y">
-            <ng-container *ngFor="let monitoramento of filtrarMonitoramento('SERVICO')">
+            <ng-container *ngFor="let monitoramento of monitoramentoServicos">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">
@@ -148,7 +148,7 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngFor="let monitoramento of filtrarMonitoramento('CONEXAO')">
+            <ng-container *ngFor="let monitoramento of monitoramentoConexoes">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">
@@ -204,7 +204,7 @@
             </ng-container>
 
             <ng-container
-                *ngIf="!filtrarMonitoramento('SERVICO').length && !filtrarMonitoramento('CONEXAO').length">
+                *ngIf="!monitoramentoServicos.length && !monitoramentoConexoes.length">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
@@ -230,7 +230,7 @@
         </div>
 
         <div class="flex flex-col mt-2 divide-y">
-            <ng-container *ngFor="let monitoramento of filtrarMonitoramento('INTEGRACAO')">
+            <ng-container *ngFor="let monitoramento of monitoramentoIntegracoes">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">
@@ -287,7 +287,7 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="!filtrarMonitoramento('INTEGRACAO').length">
+            <ng-container *ngIf="!monitoramentoIntegracoes.length">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>

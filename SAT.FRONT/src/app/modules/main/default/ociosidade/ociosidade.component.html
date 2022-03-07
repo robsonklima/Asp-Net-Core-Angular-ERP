@@ -1,1 +1,74 @@
-<p>ociosidade works!</p>
+<div class="bg-card overflow-hidden shadow rounded-2xl px-6">
+    <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
+        <div class="flex flex-col">
+            <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                Ociosidade
+            </div>
+            <div class="font-medium text-secondary">
+                Recursos com alto tempo de processamento
+            </div>
+        </div>
+
+        <div class="ml-7 lg:-mr-7">
+            <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year"
+                #tableSelector="matButtonToggleGroup">
+                <mat-button-toggle *ngFor="let data of opcoesDatas; let i = index"
+                    (click)="pesquisarDadosPorData(data.data)"
+                    class="px-1.5 rounded-full overflow-hidden border-none font-medium">
+                    {{ opcoesDatas.length - 1 === i ? 'Hoje' : data.prompt }}
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+            <div class="sm:hidden">
+                <button mat-icon-button [matMenuTriggerFor]="visitorsMenu">
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                </button>
+                <mat-menu #visitorsMenu="matMenu">
+                    <button mat-menu-item *ngFor="let data of opcoesDatas"
+                        (click)="pesquisarDadosPorData(data.data)">
+                        {{ data.prompt }}
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+
+    <table class="w-full table-auto text-md font-medium tracking-tight mb-4">
+        <thead *ngIf="eventosOciosos.length" class="text-left">
+            <tr>
+                <th class="py-1 px-2">Hora</th>
+                <th class="py-1 px-2">Recurso</th>
+                <th class="py-1 px-2">Status</th>
+                <th class="py-1 px-2"><span class="px-2">Tempo</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let evento of eventosOciosos; let i = index;">
+                <td class="py-1 px-2 border-b border-t border-zinc-300">{{
+                    evento.dateTimeEvent | date:'HH:mm' }}
+                </td>
+                <td class="py-1 px-2 border-b border-t border-zinc-300 break-all">
+                    <div>
+                        <span [ngClass]="obterCorRecurso(evento.csUriStem)">{{ obterNomeRecurso(evento.csUriStem) }}</span>
+                        <span>{{ evento.csUriStem }}</span>
+                    </div>
+
+                    <div *ngIf="evento.csUriQuery" class="text-xs text-gray-400">
+                        {{ evento.csUriQuery }}
+                    </div>
+                </td>
+                <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">{{
+                    evento.scStatus }}
+                </td>
+                <td class="py-1 px-2 border-b border-t border-zinc-300 text-center">
+                    {{ (evento.timeTaken / 1000 / 60).toFixed(1) }} min
+                </td>
+            </tr>
+
+            <tr *ngIf="!eventosOciosos.length">
+                <td colspan="4" class="py-4 px-2 text-lg text-center">
+                    Nenhuma ociosidade encontrada!
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

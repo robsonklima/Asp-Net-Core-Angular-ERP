@@ -88,13 +88,13 @@ export class OciosidadeComponent implements OnInit
   }
 
   private obterOpcoesDatas()
-    {
-        for (let i = 4; i >= 0; i--)
-        {
-            this.opcoesDatas.push({
-                data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
-                prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
-            });
-        }
-    }
+  {
+      for (let i = 4; i >= 0; i--)
+      {
+          this.opcoesDatas.push({
+              data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
+              prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
+          });
+      }
+  }
 }

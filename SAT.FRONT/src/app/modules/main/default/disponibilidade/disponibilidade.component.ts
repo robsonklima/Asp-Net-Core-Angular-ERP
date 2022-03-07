@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
 import { monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import { ApexOptions } from 'ng-apexcharts';
   selector: 'app-disponibilidade',
   templateUrl: './disponibilidade.component.html'
 })
-export class DisponibilidadeComponent implements AfterViewInit
+export class DisponibilidadeComponent implements OnInit
 {
   historico: any = { labels: [], cpu: [], memory: [] }
   opcoesDatas: any[] = [];
@@ -19,10 +19,11 @@ export class DisponibilidadeComponent implements AfterViewInit
     private _monitoramentoHistoricoService: MonitoramentoHistoricoService
   ) { }
 
-  async ngAfterViewInit()
+  async ngOnInit()
   {
     await this.obterDados(this.dataAtual);
     this.prepararDadosGraficos();
+    this.obterOpcoesDatas();
   }
 
   private obterDados(tipo: string, data: string = ''): Promise<any>
@@ -43,12 +44,13 @@ export class DisponibilidadeComponent implements AfterViewInit
           data.items.map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
 
         if (tipo == monitoramentoTipoConst.CPU)
-          this.historico.cpu =
-            data.items.map((cpu) => cpu.emUso);
+          this.historico.cpu = data.items.map((cpu) => cpu.emUso);
 
         if (tipo == monitoramentoTipoConst.MEMORY)
-          this.historico.memory =
-            data.items.map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
+          this.historico.memory = data.items.map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
+
+        console.log(this.historico);
+        
 
         resolve(data);
       }, () =>
@@ -132,5 +134,16 @@ export class DisponibilidadeComponent implements AfterViewInit
   pesquisarDadosPorData(data: string)
   {
     this.obterDados(data);
+  }
+
+  obterOpcoesDatas()
+  {
+      for (let i = 4; i >= 0; i--)
+      {
+          this.opcoesDatas.push({
+              data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
+              prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
+          });
+      }
   }
 }

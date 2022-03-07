@@ -14,6 +14,7 @@ export class ServicosComponent implements OnInit
   monitoramentoServicos: Monitoramento[] = [];
   monitoramentoConexoes: Monitoramento[] = [];
   monitoramentoIntegracoes: Monitoramento[] = [];
+  loading: boolean;
 
   constructor(
     private _monitoramentoService: MonitoramentoService,
@@ -28,6 +29,8 @@ export class ServicosComponent implements OnInit
   {
     return new Promise((resolve, reject) =>
     {
+      this.loading = true;
+
       this._monitoramentoService.obterPorParametros({
         sortActive: "dataHoraProcessamento",
         sortDirection: "asc",
@@ -46,9 +49,11 @@ export class ServicosComponent implements OnInit
         this.monitoramentoConexoes = this.monitoramentos.filter(m => m.tipo == 'CONEXAO');
         this.monitoramentoIntegracoes = this.monitoramentos.filter(m => m.tipo == 'INTEGRACAO');
 
+        this.loading = false;  
         resolve(data);
       }, () =>
       {
+        this.loading = false;
         reject();
       });
     })

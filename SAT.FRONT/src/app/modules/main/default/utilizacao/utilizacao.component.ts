@@ -8,6 +8,7 @@ import { UserService } from 'app/core/user/user.service';
 })
 export class UtilizacaoComponent implements OnInit {
   usuariosLogados: UsuariosLogados;
+  loading: boolean;
 
   constructor(
     private _userService: UserService
@@ -18,6 +19,10 @@ export class UtilizacaoComponent implements OnInit {
   }
 
   private async obterUsuariosLogados() {
+    this.loading = true;
+    
     this.usuariosLogados = await this._userService.obterUsuariosLogados().toPromise();
+
+    this.loading = false;
   }
 }

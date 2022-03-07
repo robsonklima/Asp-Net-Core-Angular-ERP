@@ -26,6 +26,7 @@ import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-hi
 import { fuseAnimations } from '@fuse/animations';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -215,6 +216,19 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				this.obterDados();
 			}
 		});
+	}
+
+	public verificarPermissaoCancelamento(): boolean {
+		if (this.os?.codStatusServico !== StatusServicoEnum.FECHADO && this.os?.codStatusServico !== StatusServicoEnum.CANCELADO)
+			return false;
+
+		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
+			return true;
+
+		if (this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+			return true;
+
+		return false;
 	}
 
 	public verificarPermissaoReabertura(): boolean {

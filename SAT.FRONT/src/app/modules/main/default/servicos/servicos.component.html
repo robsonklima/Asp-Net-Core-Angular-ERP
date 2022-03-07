@@ -65,13 +65,17 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="monitoramentoChamados.length">
+            <ng-container *ngIf="monitoramentoChamados.length && !loading">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
                     </div>
                 </div>
             </ng-container>
+
+            <div class="flex justify-center items-center min-h-80 bg-gray-100" *ngIf="loading">
+                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
         </div>
     </div>
 
@@ -203,19 +207,21 @@
                 </div>
             </ng-container>
 
-            <ng-container
-                *ngIf="!monitoramentoServicos.length && !monitoramentoConexoes.length">
+            <ng-container *ngIf="!monitoramentoServicos.length && !monitoramentoConexoes.length && !loading">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
                     </div>
                 </div>
             </ng-container>
+
+            <div class="flex justify-center items-center min-h-80 bg-gray-100" *ngIf="loading">
+                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
         </div>
     </div>
 
-    <div
-        class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
         <div class="flex flex-col sm:flex-row items-start justify-between">
             <div class="text-lg font-medium tracking-tight leading-6 truncate">
                 Logs
@@ -287,13 +293,17 @@
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="!monitoramentoIntegracoes.length">
+            <ng-container *ngIf="!monitoramentoIntegracoes.length && !loading">
                 <div class="flex flex-row items-center justify-between py-2 px-0.5">
                     <div class="flex flex-col">
                         <div class="font-medium">{{ t('nenhum registro encontrado') }}</div>
                     </div>
                 </div>
             </ng-container>
+
+            <div class="flex justify-center items-center min-h-80 bg-gray-100" *ngIf="loading">
+                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
         </div>
     </div>
 </div>

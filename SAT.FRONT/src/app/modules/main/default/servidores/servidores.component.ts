@@ -17,6 +17,7 @@ export class ServidoresComponent implements OnInit {
 
   async ngOnInit() {
     await this.obterMonitoramentos();
+
     this.prepararGraficos();
   }
 
@@ -30,6 +31,7 @@ export class ServidoresComponent implements OnInit {
           }).subscribe((data) =>
           {
               this.listaMonitoramento = data.items;
+
               for (let i = 0; i < data.items.length; i++)
               {
                   this.listaMonitoramento[i].status = this._monitoramentoService.obterStatus(this.listaMonitoramento[i]);

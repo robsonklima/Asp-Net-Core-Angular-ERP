@@ -80,10 +80,7 @@
                                 </button>
 
                                 <button mat-menu-item (click)="cancelar()"
-                                    [disabled]="os?.codStatusServico === 3 || 
-                                                os?.codStatusServico === 2 || 
-                                                userSession.usuario.perfil?.codPerfil !== perfilEnum.ADMIN || 
-                                                userSession.usuario.perfil?.codPerfil !== perfilEnum.PV_COORDENADOR_DE_CONTRATO">
+                                    [disabled]="verificarPermissaoCancelamento()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
                                     {{ t('cancelar') }}
                                 </button>

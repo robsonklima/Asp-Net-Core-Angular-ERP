@@ -175,5 +175,10 @@ namespace SAT.SERVICES.Services
                 UsuariosLogados = usuariosLogados.Count()
             };
         }
+
+        public void DesbloquearAcesso(string codUsuario)
+        {
+            this._usuarioRepo.DesbloquearAcesso(codUsuario);
+        }
     }
 }

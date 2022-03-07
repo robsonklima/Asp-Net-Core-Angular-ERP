@@ -17,5 +17,6 @@ namespace SAT.SERVICES.Interfaces
         RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha);
         void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha);
         UsuariosLogadosViewModel ObterUsuariosLogados();
+        void DesbloquearAcesso(string codUsuario);
     }
 }

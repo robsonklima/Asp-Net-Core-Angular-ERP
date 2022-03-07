@@ -4,53 +4,61 @@ import { Monitoramento } from 'app/core/types/monitoramento.types';
 import { ApexOptions } from 'ng-apexcharts';
 
 @Component({
-  selector: 'app-servidores',
-  templateUrl: './servidores.component.html'
+    selector: 'app-servidores',
+    templateUrl: './servidores.component.html'
 })
-export class ServidoresComponent implements OnInit {
-  listaMonitoramento: Monitoramento[] = [];
-  chartPie: ApexOptions;
+export class ServidoresComponent implements OnInit
+{
+    listaMonitoramento: Monitoramento[] = [];
+    chartPie: ApexOptions;
+    loading: boolean;
 
-  constructor(
-    private _monitoramentoService: MonitoramentoService,
-  ) { }
+    constructor(
+        private _monitoramentoService: MonitoramentoService,
+    ) { }
 
-  async ngOnInit() {
-    await this.obterMonitoramentos();
+    async ngOnInit()
+    {
+        await this.obterMonitoramentos();
 
-    this.prepararGraficos();
-  }
+        this.prepararGraficos();
+    }
 
-  private obterMonitoramentos(): Promise<any>
-  {
-      return new Promise((resolve, reject) =>
-      {
-          this._monitoramentoService.obterPorParametros({
-              sortActive: "dataHoraProcessamento",
-              sortDirection: "asc",
-          }).subscribe((data) =>
-          {
-              this.listaMonitoramento = data.items;
+    private obterMonitoramentos(): Promise<any>
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.loading = true;
 
-              for (let i = 0; i < data.items.length; i++)
-              {
-                  this.listaMonitoramento[i].status = this._monitoramentoService.obterStatus(this.listaMonitoramento[i]);
-                  this.listaMonitoramento[i].descricao = this._monitoramentoService.obterDescricao(this.listaMonitoramento[i]);
-              }
-              resolve(data);
-          }, () =>
-          {
-              reject();
-          });
-      })
-  }
+            this._monitoramentoService.obterPorParametros({
+                sortActive: "dataHoraProcessamento",
+                sortDirection: "asc",
+            }).subscribe((data) =>
+            {
+                this.listaMonitoramento = data.items;
 
-  filtrarMonitoramento(tipo: string)
-  {
-      return this.listaMonitoramento.filter(m => m.tipo == tipo)
-  }
+                for (let i = 0; i < data.items.length; i++)
+                {
+                    this.listaMonitoramento[i].status = this._monitoramentoService.obterStatus(this.listaMonitoramento[i]);
+                    this.listaMonitoramento[i].descricao = this._monitoramentoService.obterDescricao(this.listaMonitoramento[i]);
+                }
 
-  private prepararGraficos()
+                this.loading = false;
+                resolve(data);
+            }, () =>
+            {
+                this.loading = false;
+                reject();
+            });
+        })
+    }
+
+    filtrarMonitoramento(tipo: string)
+    {
+        return this.listaMonitoramento.filter(m => m.tipo == tipo)
+    }
+
+    private prepararGraficos()
     {
         this.chartPie = {
             chart: {

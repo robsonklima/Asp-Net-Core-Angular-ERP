@@ -1,4 +1,4 @@
-<div class="bg-card overflow-hidden shadow rounded-2xl p-6">
+<div class="bg-card overflow-hidden shadow rounded-2xl p-6" *ngIf="!loading">
     <div class="w-full">
         <div class="text-2xl font-semibold tracking-tight leading-6">
             Discos
@@ -130,5 +130,11 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="relative w-full bg-card p-6 min-h-60" *ngIf="loading">
+    <div class="absolute z-9999 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>

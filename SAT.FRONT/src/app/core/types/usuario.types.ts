@@ -8,6 +8,7 @@ import { Navegacao } from "./navegacao.types";
 import { Perfil } from "./perfil.types";
 import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
+import { UsuarioSeguranca } from "./usuario-seguranca.types";
 
 export class Usuario {
     codUsuario: string;
@@ -61,6 +62,7 @@ export class Usuario {
     tecnico: Tecnico;
     pontosUsuario?: PontoUsuario[];
     filtroUsuario?: FiltroUsuarioData[];
+    usuarioSeguranca: UsuarioSeguranca;
 }
 
 export interface UsuarioData extends Meta {

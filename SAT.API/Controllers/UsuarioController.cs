@@ -34,7 +34,7 @@ namespace SAT.API.Controllers
             return _usuarioService.ObterPorCodigo(codUsuario);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Criar")]
         public void Criar([FromBody] Usuario usuario)
         {
@@ -73,6 +73,14 @@ namespace SAT.API.Controllers
         public UsuariosLogadosViewModel GetUsuariosLogados(string codUsuario)
         {
             return _usuarioService.ObterUsuariosLogados();
+        }
+
+
+        [HttpPost]
+        [Route("DesbloquearAcesso/{codUsuario}")]
+        public void DesbloquearAcesso([FromRoute] string codUsuario)
+        {
+            _usuarioService.DesbloquearAcesso(codUsuario);
         }
     }
 }

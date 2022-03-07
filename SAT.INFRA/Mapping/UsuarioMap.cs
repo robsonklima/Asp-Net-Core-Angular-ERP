@@ -25,6 +25,12 @@ namespace SAT.INFRA.Mapping
                .HasPrincipalKey<Tecnico>("CodTecnico");
 
             builder
+            .HasOne(p => p.UsuarioSeguranca)
+            .WithMany()
+            .HasForeignKey("CodUsuario")
+            .HasPrincipalKey("CodUsuario");
+
+            builder
                 .HasOne(p => p.Cliente)
                 .WithOne()
                 .HasForeignKey<Usuario>("CodCliente")

@@ -20,7 +20,7 @@ import { Cidade } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
-import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
+import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais } from 'app/core/types/pais.types';
 import { Perfil } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -31,9 +31,11 @@ import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import Enumerable from 'linq';
+import { Turno } from 'app/core/types/turno.types';
+import { TurnoService } from 'app/core/services/turno.service';
 
 @Component({
   selector: 'app-usuario-form',
@@ -51,6 +53,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   public codUsuarioExiste: boolean = false;
   public codUsuarioValidado: boolean = false;
   public verificandoUsuarioExiste: boolean = false;
+  public loading: boolean = true;
+  public usuarioBloqueado: boolean = false;
 
   public buscandoCEP: boolean = false;
   public paises: Pais[] = [];
@@ -64,6 +68,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   public clientes: Cliente[] = [];
   public contratos: Contrato[] = [];
   public transportadoras: Transportadora[] = [];
+  public turnos: Turno[] = [];
 
   cidadeFiltro: FormControl = new FormControl();
   clienteFilterCtrl: FormControl = new FormControl();
@@ -88,7 +93,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _googleGeolocationService: GeolocalizacaoService,
     private _cargoService: CargoService,
     private _perfilService: PerfilService,
-    private _location: Location
+    private _location: Location,
+    private _turnoService: TurnoService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -100,28 +106,59 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.buscandoCEP = false;
     this.inicializarForm();
 
-
-    // if (!this.isAddMode) {
-    //   this._userService.obterPorCodigo(this.codUsuario)
-    //     .pipe(first())
-    //     .subscribe(data => {
-    //       this.form.patchValue(data);
-    //       this.usuario = data;
-    //     });
-    // }
-
     this.paises = await this._paisService.obterPaises();
     this.cargos = await this._cargoService.obterCargos();
     this.perfis = await this._perfilService.obterPerfis();
     this.filiais = await this._filialService.obterFiliais();
     this.tecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1, naoVinculados: 1 }).toPromise()).items;
     this.transportadoras = (await ((this._transportadoraService.obterPorParametros({ indAtivo: 1 })).toPromise())).items;
+    this.turnos = (await ((this._turnoService.obterPorParametros({})).toPromise())).items;
     this.obterClientes();
 
     this.form.controls['indAtivo'].setValue(true);
     // Forçar o chrome a limpar os campos que coloca quando tem preenchimento automático
-    // this.form.controls['codUsuario'].setValue('');
+    //this.form.controls['codUsuario'].setValue('');
     this.form.controls['senha'].setValue(null);
+
+    if (!this.isAddMode) {
+      this.carregarDadosUsuario();
+    }
+
+    this.loading = false;
+  }
+
+  private carregarDadosUsuario() {
+    this._userService.obterPorCodigo(this.codUsuario)
+      .pipe(first())
+      .subscribe(data => {
+        if (data.codTecnico) {
+          this._tecnicoService.obterPorParametros({ indAtivo: 1 }).subscribe(tecData => {
+            if (tecData) {
+              this.tecnicos = tecData.items;
+            }
+          });
+        }
+        this.form.patchValue(data);
+        this.form.controls['codPais'].setValue(data.cidade?.unidadeFederativa?.codPais);
+        this.form.controls['codUF'].setValue(data.cidade?.codUF);
+        this.form.controls['codCidade'].setValue(data.codCidade);
+
+        if (data.codContrato) {
+          let codContratos = data.codContrato.split(',').map(i => Number(i));
+          this.form.controls['codContrato'].setValue(codContratos);
+        }
+
+        // Unico jeito válido até o momento para preencher certo a data no form
+        this.form.get('dataAdmissao').setValue(new Date(data.dataAdmissao).toISOString().split('T')[0]);
+
+        this.form.controls['confirmarSenha'].clearValidators();
+        this.form.controls['confirmarSenha'].updateValueAndValidity();
+        this.form.controls['senha'].clearValidators();
+        this.form.controls['senha'].updateValueAndValidity();
+
+        this.usuarioBloqueado = data.usuarioSeguranca?.senhaBloqueada == true;
+        this.usuario = data;
+      });
   }
 
   async obterClientes(filtro: string = '') {
@@ -171,7 +208,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       codContrato: [undefined],
       dataAdmissao: [undefined],
       indPonto: [undefined],
-      indPermiteRegistrarEquipPOS: [undefined]
+      indPermiteRegistrarEquipPOS: [undefined],
+      numCracha: [undefined],
+      codTurno: [undefined],
+      codFilialPonto: [undefined]
     });
 
     this.form.controls['nomeUsuario'].valueChanges.pipe(
@@ -282,57 +322,39 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       this.form.disable();
       // Google
       // Tenta pelo cep (nem sempre os endereços são corretos)
-      let mapService = (await this._googleGeolocationService.obterPorParametros
-        ({ enderecoCep: cepCmp.target.value.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).toPromise());
+      this._googleGeolocationService.obterPorParametros
+        ({ enderecoCep: cepCmp.target.value.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .subscribe((mapService: Geolocalizacao) => {
+          if (mapService) {
+            this.form.controls['endereco'].setValue(mapService.endereco);
+            this.form.controls['bairro'].setValue(mapService.bairro);
 
-      if (mapService) {
-        this.form.controls['endereco'].setValue(mapService.endereco);
-        this.form.controls['bairro'].setValue(mapService.bairro);
-
-        this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
-          const data = c[0];
-          if (data) {
-            this.form.controls['codUF'].setValue(data.codUF);
-            this.form.controls['codCidade'].setValue(data.codCidade);
+            this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
+              const data = c[0];
+              if (data) {
+                this.form.controls['codPais'].setValue(data.unidadeFederativa?.codPais);
+                this.form.controls['codUF'].setValue(data.codUF);
+                this.form.controls['codCidade'].setValue(data.codCidade);
+              }
+            });
           }
+          this.form.enable();
+          this._cdr.detectChanges();
         });
-      }
-      this.form.enable();
-      this._cdr.detectChanges();
     }
   }
 
-  desbloquear(): void { }
-
-  salvar(): void {
-    this.isAddMode ? this.criar() : this.atualizar();
+  public desbloquear(): void {
+    this._userService.desbloquearAcesso(this.usuario?.codUsuario).subscribe(() => {
+      this.usuarioBloqueado = false;
+      this._snack.exibirToast(`Usuário ${this.usuario?.nomeUsuario} desbloqueado com sucesso!`, "success");
+    });
   }
 
-  atualizar(): void {
-    const form: any = this.form.getRawValue();
-
-
-    let obj = {
-      ...this.usuario,
-      ...form,
-      ...{
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.userSession.usuario.codUsuario,
-        indAtivo: +form.indAtivo
-      }
-    };
-
-    // this._userService.atualizar(obj).subscribe(() => {
-    //   this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
-    //   this._location.back();
-    // });
-  }
-
-  criar(): void {
+  public salvar(): void {
     const form = this.form.getRawValue();
 
     let obj = {
-      //  ...this.usuario,
       ...form,
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -346,10 +368,17 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    // this._userService.criar(obj).subscribe(() => {
-    //   this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
-    //   this._location.back();
-    // });
+    if (this.isAddMode) {
+      this._userService.criar(obj).subscribe(() => {
+        this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
+        this._location.back();
+      });
+    } else {
+      this._userService.atualizar(obj).subscribe(() => {
+        this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
+        this._location.back();
+      });
+    }
   }
 
   ngOnDestroy() {

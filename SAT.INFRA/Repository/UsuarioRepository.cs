@@ -28,6 +28,7 @@ namespace SAT.INFRA.Repository
             {
                 return _context.Usuario
                     .Include(u => u.Filial)
+                    .Include(u => u.UsuarioSeguranca)
                     .Include(u => u.UsuarioDispositivos)
                     .Include(u => u.Perfil)
                     .Include(u => u.Perfil.NavegacoesConfiguracao)
@@ -81,6 +82,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Filial)
                 .Include(u => u.Tecnico)
                 .Include(u => u.FiltroUsuario)
+                .Include(u => u.UsuarioSeguranca)
                 .Include(u => u.Localizacoes.OrderByDescending(loc => loc.CodLocalizacao).Take(1))
                 .AsQueryable();
 
@@ -156,6 +158,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Filial)
                 .Include(u => u.Localizacoes)
                 .Include(u => u.FiltroUsuario)
+                .Include(u => u.UsuarioSeguranca)
                 .Include(u => u.Cidade)
                     .ThenInclude(u => u.UnidadeFederativa)
                     .ThenInclude(u => u.Pais)
@@ -278,6 +281,27 @@ namespace SAT.INFRA.Repository
         public RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha)
         {
             return _context.RecuperaSenha.FirstOrDefault(us => us.CodRecuperaSenha == codRecuperaSenha);
+        }
+
+        public void DesbloquearAcesso(string codUsuario)
+        {
+            _context.ChangeTracker.Clear();
+            UsuarioSeguranca usrSeguranca = _context.UsuarioSeguranca.SingleOrDefault(r => r.CodUsuario == codUsuario);
+
+            if (usrSeguranca != null)
+            {
+                try
+                {
+                    usrSeguranca.QuantidadeTentativaLogin = 0;
+                    usrSeguranca.SenhaBloqueada = 0;
+                    usrSeguranca.SenhaExpirada = 0;
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                }
+            }
         }
     }
 }

@@ -63,5 +63,6 @@ namespace SAT.MODELS.Entities
         public Filial FilialPonto { get; set; }
         public List<FiltroUsuario> FiltroUsuario { get; set; }
         public List<UsuarioDispositivo> UsuarioDispositivos { get; set; }
+        public UsuarioSeguranca UsuarioSeguranca { get; set; }
     }
 }

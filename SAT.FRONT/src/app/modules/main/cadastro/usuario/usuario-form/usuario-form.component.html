@@ -1,8 +1,12 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
+
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/usuario">
                         {{ t('usuarios') }}
@@ -40,7 +44,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <!-- INFORMAÇÕES PESSOAIS -->
 
@@ -52,12 +56,12 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4" disabled="!isAddMode">
                         <mat-label>Login</mat-label>
-                        <input matInput placeholder="nome.sobrenome" formControlName="codUsuario">
-                        <mat-icon matSuffix>
+                        <input matInput placeholder="nome.sobrenome" formControlName="codUsuario" readonly="!isAddMode">
+                        <mat-icon matSuffix *ngIf="isAddMode">
                             <mat-icon class="icon-size-5 text-red-500" *ngIf="codUsuarioExiste && codUsuarioValidado"
-                                matTooltip="{{t('login nao disponivel')}}"
+                                matTooltip="{{t('login indisponivel')}}"
                                 [svgIcon]="'heroicons_solid:exclamation-circle'">
                             </mat-icon>
                             <mat-icon class="icon-size-5 text-green-500" *ngIf="!codUsuarioExiste && codUsuarioValidado"
@@ -94,7 +98,7 @@
                         <mat-label>
                             {{ t('endereco numero') }}
                         </mat-label>
-                        <input [formControlName]="'endereco'" maxlength="30" matInput>
+                        <input [formControlName]="'endereco'" maxlength="60" matInput>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
@@ -160,7 +164,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('email') }}</mat-label>
@@ -191,7 +195,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <div class="sm:col-span-4">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -246,6 +250,33 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('numero cracha') }}</mat-label>
+                        <input matInput formControlName="numCracha" mask="00000" [dropSpecialCharacters]="false">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('coletor') }}</mat-label>
+                        <mat-select class="min-h-10" formControlName="codFilialPonto"
+                            [disabled]="!filiais.length || form.disabled">
+                            <mat-option *ngFor="let p of filiais" [value]="p.codFilial">
+                                {{ p.nomeFilial }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>{{ t('turno') }}</mat-label>
+                        <mat-select class="min-h-10" formControlName="codTurno"
+                            [disabled]="!turnos.length || form.disabled">
+                            <mat-option *ngFor="let t of turnos" [value]="t.codTurno">
+                                {{ t.descTurno }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
                 </div>
 
                 <!-- INFORMAÇÕES DE CORPORATIVAS -->
@@ -257,7 +288,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <mat-label>Relacionar ao técnico</mat-label>
@@ -331,7 +362,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <div class="fuse-mat-dense sm:col-span-2 py-8">
                         <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
@@ -353,28 +384,30 @@
                     </div>
 
                     <!-- Nova Senha -->
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('nova senha') }}</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                        <input [formControlName]="'senha'" type="password" autocomplete='off' autocorrect='off'
-                            autocapitalize='none' spellcheck='false' matInput>
-                    </mat-form-field>
+                    <div *ngIf="isAddMode">
+                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                            <mat-label>{{ t('nova senha') }}</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                            <input [formControlName]="'senha'" type="password" autocomplete='off' autocorrect='off'
+                                autocapitalize='none' spellcheck='false' matInput>
+                        </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>Confirmar senha</mat-label>
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                        <input [formControlName]="'confirmarSenha'" type="password" autocomplete='off' autocorrect='off'
-                            autocapitalize='none' spellcheck='false' matInput>
-                    </mat-form-field>
+                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                            <mat-label>Confirmar senha</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                            <input [formControlName]="'confirmarSenha'" type="password" autocomplete='off'
+                                autocorrect='off' autocapitalize='none' spellcheck='false' matInput>
+                        </mat-form-field>
 
 
-                    <div class="sm:col-span-12">
-                        <span class="mt-1 text-md text-hint text-red-500" *ngIf="senhaNaoConfere">
-                            A confirmação de senha não confere
-                        </span>
+                        <div class="sm:col-span-12">
+                            <span class="mt-1 text-md text-red-500" *ngIf="senhaNaoConfere">
+                                A confirmação de senha não confere
+                            </span>
 
-                        <div class="mt-1 text-md text-hint">
-                            {{ t('orientacoes senha') }}
+                            <div class="mt-1 text-md text-hint">
+                                {{ t('orientacoes senha') }}
+                            </div>
                         </div>
                     </div>
                     <!-- Nova Senha -->
@@ -385,7 +418,7 @@
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
 
-                    <button class="px-6" mat-button [color]="'warn'" (click)="desbloquear()">
+                    <button class="px-6" mat-button [color]="'warn'" *ngIf="usuarioBloqueado" (click)="desbloquear()">
                         <span>
                             Desbloquear
                         </span>
@@ -398,7 +431,7 @@
                     </button>
 
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                        [disabled]="!form.valid || codUsuarioExiste || senhaNaoConfere">
+                        [disabled]="!form.valid || ((codUsuarioExiste || senhaNaoConfere) && isAddMode) || usuarioBloqueado">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

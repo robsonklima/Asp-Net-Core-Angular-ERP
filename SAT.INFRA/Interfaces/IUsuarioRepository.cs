@@ -16,5 +16,6 @@ namespace SAT.INFRA.Interfaces
         RecuperaSenha CriarRecuperaSenha(RecuperaSenha recuperaSenha);
         RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha);
         void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha);
+        void DesbloquearAcesso(string codUsuario);
     }
 }

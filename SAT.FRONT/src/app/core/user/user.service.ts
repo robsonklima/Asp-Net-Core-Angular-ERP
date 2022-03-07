@@ -6,7 +6,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters, UsuariosLogados } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
-import { FiltroUsuarioData } from '../types/filtro.types';
 
 @Injectable({
   providedIn: 'root'
@@ -145,7 +144,23 @@ export class UserService {
 
   verificarSenhaForte(str: string): boolean {
     var patt = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[()[\\]{}=\\-~,.;<>:@$!%*?&])[A-Za-z\\d()[\\]{}=\\-~,.;<>:@$!%*?&]{8,}$');
-
     return patt.test(str);
-} 
+  }
+
+  desbloquearAcesso(codUsuario: string): Observable<any> {
+    return this.http.post<any>(`${c.api}/Usuario/DesbloquearAcesso/` + codUsuario, {}, {
+      headers: { Accept: 'application/json', 'No-Auth': 'False' }
+    }).pipe(
+      map(
+        (result) => { return result; },
+        (error) => { return error; }
+      )
+    );
+  }
+
+  criar(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${c.api}/Usuario/Criar`, usuario).pipe(
+      map((obj) => obj)
+    );
+  }
 }

@@ -13,6 +13,7 @@ export class DisponibilidadeComponent implements OnInit
   historico: any = { labels: [], cpu: [], memory: [] }
   opcoesDatas: any[] = [];
   chartLine: ApexOptions;
+  loading: boolean;
   dataAtual = moment().format('yyyy-MM-DD HH:mm:ss');
 
   constructor(
@@ -22,39 +23,34 @@ export class DisponibilidadeComponent implements OnInit
   async ngOnInit()
   {
     await this.obterDados(this.dataAtual);
-    this.prepararDadosGraficos();
     this.obterOpcoesDatas();
   }
 
-  private obterDados(tipo: string, data: string = ''): Promise<any>
+  private obterDados(data: string = ''): Promise<any>
   {
     return new Promise((resolve, reject) =>
     {
+      this.loading = true;
+
       if (data) this.dataAtual = data;
 
       this._monitoramentoHistoricoService.obterPorParametros({
         servidor: 'SATAPLPROD',
-        tipo: tipo,
-        dataHoraProcessamento: data || this.dataAtual,
+        dataHoraProcessamento: this.dataAtual,
         sortActive: "dataHoraProcessamento",
         sortDirection: "asc",
       }).subscribe((data) =>
       {
-        this.historico.labels =
-          data.items.map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
+        this.historico.labels = data.items.map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
+        this.historico.cpu = data.items.filter(d => d.tipo === 'CPU').map((cpu) => cpu.emUso);
+        this.historico.memory = data.items.filter(d => d.tipo === 'MEMORY').map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
 
-        if (tipo == monitoramentoTipoConst.CPU)
-          this.historico.cpu = data.items.map((cpu) => cpu.emUso);
-
-        if (tipo == monitoramentoTipoConst.MEMORY)
-          this.historico.memory = data.items.map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
-
-        console.log(this.historico);
-        
-
+        this.prepararDadosGraficos();
+        this.loading = false;
         resolve(data);
       }, () =>
       {
+        this.loading = false;
         reject();
       });
     })

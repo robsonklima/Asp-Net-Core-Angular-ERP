@@ -4,15 +4,15 @@ import { Tecnico } from "./tecnico.types";
 
 export class PlantaoTecnico
 {
-    codPlantaoTecnico: number;
+    codPlantaoTecnico?: number;
     codTecnico: number;
     dataPlantao: string;
     indAtivo: number;
     dataHoraCad: string;
     codUsuarioCad: string;
-    tecnico: Tecnico;
-    plantaoRegioes: PlantaoTecnicoRegiao[];
-    plantaoClientes: PlantaoTecnicoCliente[];
+    tecnico?: Tecnico;
+    plantaoRegioes?: PlantaoTecnicoRegiao[];
+    plantaoClientes?: PlantaoTecnicoCliente[];
 }
 
 export interface PlantaoTecnicoData extends Meta
@@ -29,13 +29,13 @@ export interface PlantaoTecnicoParameters extends QueryStringParameters
 
 export class PlantaoTecnicoRegiao
 {
-    codPlantaoTecnicoRegiao: number;
+    codPlantaoTecnicoRegiao?: number;
     codPlantaoTecnico: number;
     codRegiao: number;
     indAtivo: number;
     dataHoraCad: string;
     codUsuarioCad: string;
-    regiao: Regiao;
+    regiao?: Regiao;
 }
 
 export interface PlantaoTecnicoRegiaoData extends Meta
@@ -49,13 +49,13 @@ export interface PlantaoTecnicoRegiaoParameters extends QueryStringParameters
 
 export class PlantaoTecnicoCliente
 {
-    codPlantaoTecnicoCliente: number;
+    codPlantaoTecnicoCliente?: number;
     codPlantaoTecnico: number;
     codCliente: number;
     indAtivo: number;
     dataHoraCad: string;
     codUsuarioCad: string;
-    cliente: PlantaoTecnicoCliente;
+    cliente?: PlantaoTecnicoCliente;
 }
 
 export interface PlantaoTecnicoClienteData extends Meta

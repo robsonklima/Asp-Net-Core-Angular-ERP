@@ -529,5 +529,8 @@
     "motivo de divergencia": "Divergency Reazon",
     "tipo de divergencia": "Divergency Type",
     "técnicos de plantão": "On-duty Technicians",
-    "data do plantao": "Date of Duty"
+    "técnico de plantão": "On-duty Technician",
+    "data do plantao": "Date of Duty",
+    "clientes": "Customers",
+    "regioes": "Regions"
 }

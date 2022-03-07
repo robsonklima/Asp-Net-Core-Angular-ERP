@@ -22,7 +22,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
     templateUrl: './ordem-servico-lista.component.html',
     styles: [`
         .list-grid-ordem-servico {
-            grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 100px 10px;
+            grid-template-columns: 42px 65px 84px 84px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 100px 10px;
             
             @screen sm {
                 grid-template-columns:  48px 80px 92px 92px 36px 36px 56px auto;
@@ -33,7 +33,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
             }
         
             @screen lg {
-                grid-template-columns: 42px 65px 80px 80px 20px 48px 50px 30px 40px auto 40px 120px 50px 100px 30px;
+                grid-template-columns: 42px 65px 84px 84px 20px 48px 50px 30px 40px auto 40px 120px 50px 100px 30px;
             }
         }
     `],

@@ -26,6 +26,7 @@ import { TecnicoPlantaoInformacoesComponent } from './tecnico-plantao-informacoe
 import { TecnicoPlantaoRegioesComponent } from './tecnico-plantao-regioes/tecnico-plantao-regioes.component';
 import { TecnicoPlantaoClientesComponent } from './tecnico-plantao-clientes/tecnico-plantao-clientes.component';
 import { TecnicoPlantaoFormComponent } from './tecnico-plantao-form/tecnico-plantao-form.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { TecnicoPlantaoFormComponent } from './tecnico-plantao-form/tecnico-plan
     MatDatepickerModule,
     MatOptionModule,
     MatSelectModule,
+    NgxMatSelectSearchModule,
     MatTableModule,
     MatCheckboxModule,
     FuseAlertModule,

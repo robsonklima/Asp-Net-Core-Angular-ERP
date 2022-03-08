@@ -12,30 +12,59 @@ namespace SAT.INFRA.Repository
     public partial class FilialRepository : IFilialRepository
     {
         private readonly AppDbContext _context;
+        private readonly ISequenciaRepository _sequenciaRepository;
 
-        public FilialRepository(AppDbContext context)
+        public FilialRepository(AppDbContext context, ISequenciaRepository sequenciaRepository)
         {
             _context = context;
+            this._sequenciaRepository = sequenciaRepository;
         }
 
         public void Atualizar(Filial filial)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                _context.ChangeTracker.Clear();
+                Filial linha = _context.Filial.FirstOrDefault(c => c.CodFilial == filial.CodFilial);
+
+                if (linha != null)
+                {
+                    _context.Entry(linha).CurrentValues.SetValues(filial);
+                    _context.Entry(linha).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
         }
 
         public void Criar(Filial filial)
         {
-            throw new System.NotImplementedException();
+            filial.CodFilial = this._sequenciaRepository.ObterContador("Filial");
+            _context.Add(filial);
+            _context.SaveChanges();
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codFilial)
         {
-            throw new System.NotImplementedException();
+            Filial linha = _context.Filial.FirstOrDefault(c => c.CodFilial == codFilial);
+
+            if (linha != null)
+            {
+                _context.Filial.Remove(linha);
+                _context.SaveChanges();
+            }
         }
 
         public Filial ObterPorCodigo(int codigo)
         {
-            return _context.Filial.FirstOrDefault(f => f.CodFilial == codigo);
+            return _context.Filial
+                .Include(i => i.Cidade)
+                    .ThenInclude(i => i.UnidadeFederativa)
+                         .ThenInclude(i => i.Pais)
+                .FirstOrDefault(f => f.CodFilial == codigo);
         }
 
         public PagedList<Filial> ObterPorParametros(FilialParameters parameters)

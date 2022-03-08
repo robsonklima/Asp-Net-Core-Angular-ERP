@@ -5,8 +5,12 @@ namespace SAT.MODELS.Entities
     public class Filial
     {
         public int CodFilial { get; set; }
+        public int? CodCidade { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFilial { get; set; }
+        public string InscricaoEstadual { get; set; }
+        public string Email { get; set; }
+        public decimal? ICMS { get; set; }
         public virtual Cidade Cidade { get; set; }
         public string Bairro { get; set; }
         public string Endereco { get; set; }

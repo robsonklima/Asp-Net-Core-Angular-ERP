@@ -33,19 +33,23 @@ namespace SAT.API.Controllers
             return _filialService.ObterPorCodigo(codFilial);
         }
 
+
         [HttpPost]
-        public void Post([FromBody] Filial filial)
+        public Filial Post([FromBody] Filial filial)
         {
+            return this._filialService.Criar(filial);
         }
 
         [HttpPut]
         public void Put([FromBody] Filial filial)
         {
+            this._filialService.Atualizar(filial);
         }
 
         [HttpDelete("{codFilial}")]
         public void Delete(int codFilial)
         {
+            this._filialService.Deletar(codFilial);
         }
     }
 }

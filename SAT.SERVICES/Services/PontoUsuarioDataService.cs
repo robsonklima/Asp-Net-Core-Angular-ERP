@@ -95,7 +95,8 @@ namespace SAT.SERVICES.Services
                         DataHoraRegistroInicio = DateTime.Parse(datas[i].DataRegistro.ToString("yyyy-MM-dd 00:00:00")),
                         DataHoraRegistroFim = DateTime.Parse(datas[i].DataRegistro.ToString("yyyy-MM-dd 23:59:59")),
                         CodUsuario = datas[i].CodUsuario,
-                        CodPontoPeriodo = datas[i].CodPontoPeriodo
+                        CodPontoPeriodo = datas[i].CodPontoPeriodo,
+                        IndAtivo = 1
                     });
                 }
             }

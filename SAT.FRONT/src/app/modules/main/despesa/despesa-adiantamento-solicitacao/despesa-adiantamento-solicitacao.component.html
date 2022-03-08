@@ -1,0 +1,204 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div class="flex items-center whitespace-nowrap">
+                    <span class="ml-1 text-secondary">
+                        {{ t('adiantamentos') }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('solicitação de adiantamento') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('identificacao') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('filial') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codFilial" [disabled]="!filiais?.length" required>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="filiaisFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                {{ filial.nomeFilial }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('tecnico') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codTecnico" [disabled]="!tecnicos?.length" required>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="tecnicosFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                                {{ tecnico.nome }} <span class="text-secondary">{{ tecnico.filial?.nomeFilial }}</span>
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('saldo logix') }}</mat-label>
+                        <input matInput formControlName="saldoLogix" mask="separator.2" [thousandSeparator]="'.'"
+                            [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
+                            required>
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Informações do Técnico</p>
+                </div>
+
+                <div class="w-full p-8 overflow-auto">
+                    <div *ngIf="tecnico">
+                        <div class="flex flex-col mt-0">
+                            <div class="flex">
+                                <img
+                                    class="w-10 h-10 mr-4 rounded-full"
+                                    [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + tecnico?.usuario?.codUsuario + '.jpg'"
+                                    onError="this.src='./assets/images/avatars/profile.jpg';"
+                                    [alt]="tecnico?.nome">
+                                <div class="flex flex-col min-w-0">
+                                    <div class="leading-tight">{{ tecnico?.nome | titlecase }}</div>
+                                    <div class="text-md leading-none text-secondary mt-2">{{ tecnico?.usuario?.nomeUsuario }}</div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <hr class="w-full border-t my-6">
+            
+                        <div class="flex flex-col">
+                            <div class="flex items-center">
+                                <mat-icon
+                                    class="icon-size-5 mr-3"
+                                    [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+                                <span class="leading-none">
+                                    {{ tecnico?.rg }} <span class="text-secondary opacity-90">RG</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-secondary" *ngIf="!tecnico">
+                        Selecione o técnico
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('media das despesas nos ultimos 12 meses') }}</p>
+                </div>
+
+                <div class="w-full p-8 overflow-auto">
+                    <div *ngIf="mediaAdiantamentos">
+                        <table class="w-full table-auto text-md font-medium tracking-tight bg-card">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center">Mensal</th>
+                                    <th class="text-center">Quinzenal</th>
+                                    <th class="text-center">Semanal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-left">Média</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.mediaMensal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.mediaQuinzenal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.mediaSemanal.toFixed(2) }}</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="text-left">Saldo Aberto Logix</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAbertoLogixMensal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAbertoLogixQuinzenal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAbertoLogixSemanal.toFixed(2) }}</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="text-left">Despesas em Aberto</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.rdsEmAbertoMensal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.rdsEmAbertoQuinzenal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.rdsEmAbertoSemanal.toFixed(2) }}</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="text-left">Saldo Adiantamento SAT</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAdiantamentoSatmensal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAdiantamentoSatquinzenal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.saldoAdiantamentoSatsemanal.toFixed(2) }}</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="text-left">Máximo para Solicitar</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.maximoParaSolicitarMensal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.maximoParaSolicitarQuinzenal.toFixed(2) }}</td>
+                                    <td class="text-center">R$ {{ mediaAdiantamentos?.maximoParaSolicitarSemanal.toFixed(2) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-secondary" *ngIf="!mediaAdiantamentos">
+                        Selecione o técnico
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Solicitação</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('valor') }}</mat-label>
+                        <input matInput formControlName="valor" mask="separator.2" [thousandSeparator]="'.'"
+                            [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
+                            required>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-9">
+                        <mat-label>{{ t('email') }}</mat-label>
+                        <input matInput formControlName="email"type="text" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12" required *ngIf="verificarJustificativaObrigatoria()">
+                        <mat-label>{{ t('justificativa') }}</mat-label>
+                        <textarea matInput formControlName="justificativa" [placeholder]="t('observacao')"
+                            [rows]="4" maxlength="1000"></textarea>
+                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
+                        [disabled]="!form.valid || form.disabled">
+                        {{ t('salvar') }}
+                    </button>
+
+                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

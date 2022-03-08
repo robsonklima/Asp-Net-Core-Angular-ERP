@@ -19,10 +19,6 @@ namespace SAT.API.Controllers
             _dashboardService = dashboardService;
         }
 
-        /// <summary>
-        /// Busca a view selecionada pelo enum DashboardViewEnum
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ViewDadosDashboard ObterViewPorParametros([FromQuery] ViewDadosDashboardParameters viewDadosDashboardParameters)
         {

@@ -51,6 +51,37 @@ export interface DespesaAdiantamento
     dataHoraManut: string;
 }
 
+export interface DespesaAdiantamentoSolicitacao {
+    codDespesaAdiantamentoSolicitacao: number;
+    codTecnico: number;
+    nome: string;
+    cPF: string;
+    banco: string;
+    agencia: string;
+    contaCorrente: string;
+    saldoLogix: number;
+    mediaMensal: number;
+    mediaQuinzenal: number;
+    mediaSemanal: number;
+    saldoAbertoLogixMensal: number;
+    saldoAbertoLogixQuinzenal: number;
+    saldoAbertoLogixSemanal: number;
+    rDsEmAbertoMensal: number;
+    rDsEmAbertoQuinzenal: number;
+    rDsEmAbertoSemanal: number;
+    saldoAdiantamentoSATMensal: number;
+    saldoAdiantamentoSATQuinzenal: number;
+    saldoAdiantamentoSATSemanal: number;
+    maximoParaSolicitarMensal: number;
+    maximoParaSolicitarQuinzenal: number;
+    maximoParaSolicitarSemanal: number;
+    valorAdiantamentoSolicitado: number;
+    justificativa: string;
+    emails: string;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+}
+
 export interface DespesaAdiantamentoData extends Meta
 {
     items: DespesaAdiantamento[]
@@ -92,3 +123,28 @@ export interface DespesaAdiantamentoTipoData extends Meta
 {
     items: DespesaAdiantamentoTipo[]
 };
+
+export interface ViewMediaDespesasAdiantamento {
+    codTecnico: number;
+    tecnico: string;
+    cpf: string;
+    banco: string;
+    agencia: string;
+    contaCorrente: string;
+    emailDefault: string;
+    mediaMensal?: number;
+    mediaQuinzenal?: number;
+    mediaSemanal?: number;
+    saldoAbertoLogixMensal: number;
+    saldoAbertoLogixQuinzenal: number;
+    saldoAbertoLogixSemanal: number;
+    rdsEmAbertoMensal?: number;
+    rdsEmAbertoQuinzenal?: number;
+    rdsEmAbertoSemanal?: number;
+    saldoAdiantamentoSatmensal: number;
+    saldoAdiantamentoSatquinzenal: number;
+    saldoAdiantamentoSatsemanal: number;
+    maximoParaSolicitarMensal?: number;
+    maximoParaSolicitarQuinzenal?: number;
+    maximoParaSolicitarSemanal?: number;
+}

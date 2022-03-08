@@ -104,6 +104,7 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaPeriodoTecnico> DespesaPeriodoTecnico { get; set; }
         public DbSet<Despesa> Despesa { get; set; }
         public DbSet<DespesaTipo> DespesaTipo { get; set; }
+        public DbSet<DespesaAdiantamentoSolicitacao> DespesaAdiantamentoSolicitacao { get; set; }
         public DbSet<DespesaAdiantamentoTipo> DespesaAdiantamentoTipo { get; set; }
         public DbSet<DespesaCartaoCombustivelTecnico> DespesaCartaoCombustivelTecnico { get; set; }
         public DbSet<DespesaProtocoloPeriodoTecnico> DespesaProtocoloPeriodoTecnico { get; set; }
@@ -166,6 +167,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardDensidadeEquipamentos> ViewDashboardDensidadeEquipamentos { get; set; }
         public DbSet<ViewDashboardDensidadeTecnicos> ViewDashboardDensidadeTecnicos { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSFiliais> ViewDashboardDisponibilidadeBBTSFiliais { get; set; }
+        public DbSet<ViewMediaDespesasAdiantamento> ViewMediaDespesasAdiantamento { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMapaRegioes> ViewDashboardDisponibilidadeBBTSMapaRegioes { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ViewDashboardDisponibilidadeBBTSMultasDisponibilidade { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasRegioes> ViewDashboardDisponibilidadeBBTSMultasRegioes { get; set; }
@@ -189,7 +191,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Laudo>(new LaudoMap().Configure);
             modelBuilder.Entity<LaudoStatus>(new LaudoStatusMap().Configure);
             modelBuilder.Entity<LaudoSituacao>(new LaudoSituacaoMap().Configure);
-          //  modelBuilder.Entity<UsuarioSeguranca>(new UsuarioSegurancaMap().Configure);
+            modelBuilder.Entity<DespesaAdiantamentoSolicitacao>(new DespesaAdiantamentoSolicitacaoMap().Configure);
             modelBuilder.Entity<Usuario>(new UsuarioMap().Configure);
             modelBuilder.Entity<EquipamentoContrato>(new EquipamentoContratoMap().Configure);
             modelBuilder.Entity<UnidadeFederativa>(new UnidadeFederativaMap().Configure);
@@ -248,6 +250,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardPecasCriticasMaisFaltantes>(new ViewDashboardPecasCriticasMaisFaltantesMap().Configure);
             modelBuilder.Entity<ViewDashboardPecasCriticaChamadosFaltantes>(new ViewDashboardPecasCriticaChamadosFaltantesMap().Configure);
             modelBuilder.Entity<ViewDashboardPecasCriticaEstoqueFaltantes>(new ViewDashboardPecasCriticaEstoqueFaltantesMap().Configure);
+            modelBuilder.Entity<ViewMediaDespesasAdiantamento>(new ViewMediaDespesasAdiantamentoMap().Configure);
             modelBuilder.Entity<ViewDashboardDensidadeEquipamentos>(new ViewDashboardDensidadeEquipamentosMap().Configure);
             modelBuilder.Entity<ViewDashboardDensidadeTecnicos>(new ViewDashboardDensidadeTecnicosMap().Configure);
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSFiliais>(new ViewDashboardDisponibilidadeBBTSFiliaisMap().Configure);
@@ -259,7 +262,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);
             modelBuilder.Entity<TecnicoVeiculo>(new TecnicoVeiculoMap().Configure);
             modelBuilder.Entity<VeiculoCombustivel>(new VeiculoCombustivelMap().Configure);
-
+            
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
 

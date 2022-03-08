@@ -143,8 +143,6 @@ export class TecnicoPlantaoFormComponent implements OnInit {
 
   public async criar()
   {
-    debugger
-
     this.form.disable();
 
     const form = this.form.getRawValue();

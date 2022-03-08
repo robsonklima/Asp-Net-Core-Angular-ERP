@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoParameters } from '../types/despesa-adiantamento.types';
+import { DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoParameters, DespesaAdiantamentoSolicitacao, ViewMediaDespesasAdiantamento } from '../types/despesa-adiantamento.types';
 
 @Injectable({
     providedIn: 'root'
@@ -40,10 +40,24 @@ export class DespesaAdiantamentoService
             .pipe(map((obj) => obj));
     }
 
+    criarSolicitacao(solicitacao: DespesaAdiantamentoSolicitacao): Observable<DespesaAdiantamentoSolicitacao>
+    {
+        return this.http.post<DespesaAdiantamentoSolicitacao>(
+            `${c.api}/DespesaAdiantamento/Solicitacao`, solicitacao)
+            .pipe(map((obj) => obj));
+    }
+
     atualizar(despesaAdiantamento: DespesaAdiantamento): Observable<DespesaAdiantamento>
     {
         return this.http.put<DespesaAdiantamento>(
             `${c.api}/DespesaAdiantamento`, despesaAdiantamento)
+            .pipe(map((obj) => obj));
+    }
+
+    obterMedia(codTecnico: number): Observable<ViewMediaDespesasAdiantamento[]>
+    {
+        return this.http.get<ViewMediaDespesasAdiantamento[]>(
+            `${c.api}/DespesaAdiantamento/Media/${codTecnico}`)
             .pipe(map((obj) => obj));
     }
 }

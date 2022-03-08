@@ -29,9 +29,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             catchError((error) => {
                 switch (error.status) {
                     case 0:
+                        console.log(error);
                         break;
 
                     case 401:
+                        console.log(error);
                         if (error instanceof HttpErrorResponse && error.status === 401) {
                             this._authService.signOut();
                             location.reload();
@@ -39,26 +41,28 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 403:
+                        console.log(error);
                         this._router.navigate(['403-forbidden']);
                         break;
 
                     case 400:
+                        console.log(error);
                         break;
 
                     case 404:
+                        console.log(error);
                         break;
 
                     case 503:
-                        // this.enviarEmail(error);   
+                        console.log(error);
                         break;
 
                     case 500:
-                        // if (!error.url.includes('api/Usuario'))
-                        //     this.enviarEmail(error);
-                        
+                        console.log(error);
                         break;
 
                     default:
+                        console.log(error);
                         break;
                 }
 

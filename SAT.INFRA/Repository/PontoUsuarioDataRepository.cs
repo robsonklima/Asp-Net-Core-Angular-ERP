@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
-            _context.ChangeTracker.Clear();
+            //_context.ChangeTracker.Clear();
 
             pontoUsuarioData.Divergencias = null;
             pontoUsuarioData.PontosUsuario = null;
@@ -35,6 +35,8 @@ namespace SAT.INFRA.Repository
             if (pontoData != null)
             {
                 _context.Entry(pontoData).CurrentValues.SetValues(pontoUsuarioData);
+                _context.Entry(pontoData).State = EntityState.Modified;     
+
                 _context.SaveChanges();
             }
         }

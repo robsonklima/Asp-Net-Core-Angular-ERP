@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -27,9 +28,19 @@ namespace SAT.SERVICES.Services
             return despesa;
         }
 
+        public DespesaAdiantamentoSolicitacao CriarSolicitacao(DespesaAdiantamentoSolicitacao solicitacao)
+        {
+            return _despesaAdiantamentoRepo.CriarSolicitacao(solicitacao);
+        }
+
         public void Deletar(int codigo)
         {
             _despesaAdiantamentoRepo.Deletar(codigo);
+        }
+
+        public List<ViewMediaDespesasAdiantamento> ObterMediaAdiantamentos(int codTecnico)
+        {
+            return _despesaAdiantamentoRepo.ObterMediaAdiantamentos(codTecnico);
         }
 
         public DespesaAdiantamento ObterPorCodigo(int codigo)

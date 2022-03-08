@@ -4,7 +4,9 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -45,9 +47,21 @@ namespace SAT.INFRA.Repository
             _context.SaveChanges();
         }
 
+        public DespesaAdiantamentoSolicitacao CriarSolicitacao(DespesaAdiantamentoSolicitacao solicitacao)
+        {
+            _context.Add(solicitacao);
+            _context.SaveChanges();
+            return solicitacao;
+        }
+
         public void Deletar(int codigo)
         {
             throw new NotImplementedException();
+        }
+
+        public List<ViewMediaDespesasAdiantamento> ObterMediaAdiantamentos(int codTecnico)
+        {
+            return _context.ViewMediaDespesasAdiantamento.Where(m => m.CodTecnico == codTecnico).ToList();
         }
 
         public DespesaAdiantamento ObterPorCodigo(int codigo) =>

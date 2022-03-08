@@ -1,6 +1,7 @@
 import { Route } from "@angular/router";
 import { DespesaAdiantamentoFormComponent } from "./despesa-adiantamento-form/despesa-adiantamento-form.component";
 import { DespesaAdiantamentoListaComponent } from "./despesa-adiantamento-lista/despesa-adiantamento-lista.component";
+import { DespesaAdiantamentoSolicitacaoComponent } from "./despesa-adiantamento-solicitacao/despesa-adiantamento-solicitacao.component";
 import { DespesaAtendimentoListaComponent } from "./despesa-atendimento-lista/despesa-atendimento-lista.component";
 import { DespesaAtendimentoReprovacaoListaComponent } from "./despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component";
 import { DespesaAtendimentoRelatorioListaComponent } from "./despesa-atendimento-relatorio-lista/despesa-atendimento-relatorio-lista.component";
@@ -16,7 +17,6 @@ import { DespesaPeriodoListaComponent } from "./despesa-periodo-lista/despesa-pe
 import { DespesaProtocoloDetalheComponent } from "./despesa-protocolo-detalhe/despesa-protocolo-detalhe.component";
 import { DespesaProtocoloListaComponent } from "./despesa-protocolo-lista/despesa-protocolo-lista.component";
 import { DespesaTecnicoListaComponent } from "./despesa-tecnico-lista/despesa-tecnico-lista.component";
-
 
 export const despesaRoutes: Route[] = [
     {
@@ -119,5 +119,9 @@ export const despesaRoutes: Route[] = [
     {
         path: 'configuracoes/form/:codDespesaConfiguracao',
         component: DespesaConfiguracaoFormComponent
+    },
+    {
+        path: 'adiantamento-solicitacao',
+        component: DespesaAdiantamentoSolicitacaoComponent
     }
 ];

@@ -106,14 +106,14 @@
 
                                     <div class="truncate">
                                         <div class="ml-2">
-                                            <span *ngIf="data.divergencias.length && !data.divergencias[data.divergencias.length-1]?.pontoUsuarioDataModoDivergencia.divergenciaValidada"
+                                            <span *ngIf="data.divergencias.length && !data.divergencias[data.divergencias.length-1]?.pontoUsuarioDataModoDivergencia?.divergenciaValidada"
                                                 [matTooltip]="obterDivergenciasTooltip(data)"
                                                 matTooltipPosition="above">
                                                 <span class="font-semibold">
-                                                    {{ data.divergencias[data.divergencias.length-1]?.pontoUsuarioDataModoDivergencia.descricao == 'Divergência Manual' ? 'Conferente' : 'Automático' }} :
+                                                    {{ data?.divergencias[data?.divergencias.length-1]?.pontoUsuarioDataModoDivergencia?.descricao == 'Divergência Manual' ? 'Conferente' : 'Automático' }} :
                                                 </span>
 
-                                                <span>{{ data.divergencias[data.divergencias.length-1]?.pontoUsuarioDataMotivoDivergencia.descricao }}</span>
+                                                <span>{{ data?.divergencias[data?.divergencias.length-1]?.pontoUsuarioDataMotivoDivergencia?.descricao }}</span>
                                             </span>
                                         </div>
 

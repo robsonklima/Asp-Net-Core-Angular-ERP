@@ -31,6 +31,23 @@ namespace SAT.INFRA.Repository
             }
         }
 
+        public void Criar(Cidade cidade)
+        {
+            _context.Add(cidade);
+            _context.SaveChanges();
+        }
+
+        public void Deletar(int codCidade)
+        {
+            Cidade c = _context.Cidade.FirstOrDefault(c => c.CodCidade == codCidade);
+
+            if (c != null)
+            {
+                _context.Cidade.Remove(c);
+                _context.SaveChanges();
+            }
+        }
+
         public Cidade BuscaCidadePorNome(string nomeCidade)
         {
             Cidade[] listaCidades = _context.Cidade
@@ -51,23 +68,6 @@ namespace SAT.INFRA.Repository
             }
 
             return retorno;
-        }
-
-        public void Criar(Cidade cidade)
-        {
-            _context.Add(cidade);
-            _context.SaveChanges();
-        }
-
-        public void Deletar(int codCidade)
-        {
-            Cidade c = _context.Cidade.FirstOrDefault(c => c.CodCidade == codCidade);
-
-            if (c != null)
-            {
-                _context.Cidade.Remove(c);
-                _context.SaveChanges();
-            }
         }
 
         public Cidade ObterPorCodigo(int codigo)

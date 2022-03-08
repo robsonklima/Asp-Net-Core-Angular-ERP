@@ -6,21 +6,65 @@ using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
     public class ClienteRepository : IClienteRepository
     {
         private readonly AppDbContext _context;
+        private readonly ISequenciaRepository _sequenciaRepository;
 
-        public ClienteRepository(AppDbContext context)
+        public ClienteRepository(AppDbContext context, ISequenciaRepository sequenciaRepository)
         {
             _context = context;
+            this._sequenciaRepository = sequenciaRepository;
+        }
+        public void Atualizar(Cliente cliente)
+        {
+            try
+            {
+                _context.ChangeTracker.Clear();
+                Cliente cl = _context.Cliente.FirstOrDefault(c => c.CodCliente == cliente.CodCliente);
+
+                if (cl != null)
+                {
+                    _context.Entry(cl).CurrentValues.SetValues(cliente);
+                    _context.Entry(cl).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void Criar(Cliente cliente)
+        {
+            cliente.CodCliente = this._sequenciaRepository.ObterContador("Cliente");
+            _context.Add(cliente);
+            _context.SaveChanges();
+        }
+
+        public void Deletar(int codCliente)
+        {
+            Cliente cl = _context.Cliente.FirstOrDefault(c => c.CodCliente == codCliente);
+
+            if (cl != null)
+            {
+                _context.Cliente.Remove(cl);
+                _context.SaveChanges();
+            }
         }
 
         public Cliente ObterPorCodigo(int codigo)
         {
             return _context.Cliente
+                .Include(i => i.Cidade)
+                 .ThenInclude(i => i.UnidadeFederativa)
+                    .ThenInclude(i => i.Pais)
+                .Include(i => i.Transportadora)
                 .FirstOrDefault(c => c.CodCliente == codigo);
         }
 

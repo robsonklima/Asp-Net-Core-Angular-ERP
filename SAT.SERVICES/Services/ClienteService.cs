@@ -35,18 +35,18 @@ namespace SAT.SERVICES.Services
 
         public Cliente Criar(Cliente cliente)
         {
-            //_clienteRepo.Criar(cliente);
+            _clienteRepo.Criar(cliente);
             return cliente;
         }
 
         public void Deletar(int codigo)
         {
-            //_clienteRepo.Deletar(codigo);
+            _clienteRepo.Deletar(codigo);
         }
 
         public void Atualizar(Cliente cliente)
         {
-            //_clienteRepo.Atualizar(cliente);
+            _clienteRepo.Atualizar(cliente);
         }
 
         public Cliente ObterPorCodigo(int codigo)

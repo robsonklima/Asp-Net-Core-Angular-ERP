@@ -12,5 +12,8 @@ namespace SAT.INFRA.Interfaces
         IQueryable<Cliente> ObterPorQuery(ClienteParameters parameters);
         IEnumerable<Cliente> ObterTodos();
         Cliente ObterPorCodigo(int codigo);
+        void Atualizar(Cliente cliente);
+        void Criar(Cliente cliente);
+        void Deletar(int codCliente);
     }
 }

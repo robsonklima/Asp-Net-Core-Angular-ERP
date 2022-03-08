@@ -552,5 +552,6 @@
     "tamanho maximo campo": "O campo ultrapassou o tamanho máximo de caracteres",
     "data do plantao": "Data do Plantão",
     "clientes": "Clientes",
-    "regioes": "Regiões"
+    "regioes": "Regiões",
+    "nome filial":"Nome Filial"
 }

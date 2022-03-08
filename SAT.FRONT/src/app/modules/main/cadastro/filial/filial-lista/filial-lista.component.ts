@@ -2,14 +2,14 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, Vie
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
-import { ClienteService } from 'app/core/services/cliente.service';
-import { ClienteData } from 'app/core/types/cliente.types';
+import { FilialService } from 'app/core/services/filial.service';
+import { FilialData } from 'app/core/types/filial.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-cliente-lista',
-  templateUrl: './cliente-lista.component.html',
+  selector: 'app-filial-lista',
+  templateUrl: './filial-lista.component.html',
   styles: [
     /* language=SCSS */
     `
@@ -33,16 +33,16 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ClienteListaComponent implements AfterViewInit {
+export class FilialListaComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) private sort: MatSort;
-  dataSourceData: ClienteData;
+  dataSourceData: FilialData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _clienteService: ClienteService
+    private _filialService: FilialService
   ) { }
 
   ngAfterViewInit(): void {
@@ -76,9 +76,9 @@ export class ClienteListaComponent implements AfterViewInit {
   async obterDados() {
     this.isLoading = true;
 
-    this.dataSourceData = await this._clienteService.obterPorParametros({
+    this.dataSourceData = await this._filialService.obterPorParametros({
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'razaoSocial',
+      sortActive: this.sort?.active || 'nomeFilial',
       sortDirection: this.sort?.direction || 'asc',
       pageSize: this.paginator?.pageSize,
       filter: this.searchInputControl.nativeElement.val

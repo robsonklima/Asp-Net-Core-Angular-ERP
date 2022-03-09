@@ -158,6 +158,10 @@ namespace SAT.API
             services.AddTransient<IPlantaoTecnicoRepository, PlantaoTecnicoRepository>();
             services.AddTransient<IPlantaoTecnicoRegiaoRepository, PlantaoTecnicoRegiaoRepository>();
             services.AddTransient<IPlantaoTecnicoClienteRepository, PlantaoTecnicoClienteRepository>();
+            services.AddTransient<IFormaPagamentoRepository, FormaPagamentoRepository>();
+            services.AddTransient<IMoedaRepository, MoedaRepository>();
+            services.AddTransient<IPecaListaRepository, PecaListaRepository>();
+            services.AddTransient<ITipoFreteRepository, TipoFreteRepository>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -259,6 +263,10 @@ namespace SAT.API
             services.AddTransient<IPlantaoTecnicoService, PlantaoTecnicoService>();
             services.AddTransient<IPlantaoTecnicoRegiaoService, PlantaoTecnicoRegiaoService>();
             services.AddTransient<IPlantaoTecnicoClienteService, PlantaoTecnicoClienteService>();
+            services.AddTransient<IFormaPagamentoService, FormaPagamentoService>();
+            services.AddTransient<IMoedaService, MoedaService>();
+            services.AddTransient<IPecaListaService, PecaListaService>();
+            services.AddTransient<ITipoFreteService, TipoFreteService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

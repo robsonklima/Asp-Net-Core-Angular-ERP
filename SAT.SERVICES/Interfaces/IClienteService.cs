@@ -11,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(Cliente cliente);
         Cliente ObterPorCodigo(int codigo);
+
     }
 }

@@ -171,6 +171,10 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardDisponibilidadeBBTSMapaRegioes> ViewDashboardDisponibilidadeBBTSMapaRegioes { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ViewDashboardDisponibilidadeBBTSMultasDisponibilidade { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasRegioes> ViewDashboardDisponibilidadeBBTSMultasRegioes { get; set; }
+        public DbSet<FormaPagamento> FormaPagamento { get; set; }
+        public DbSet<Moeda> Moeda { get; set; }
+        public DbSet<PecaLista> PecaLista { get; set; }
+        public DbSet<TipoFrete> TipoFrete { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -262,7 +266,11 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);
             modelBuilder.Entity<TecnicoVeiculo>(new TecnicoVeiculoMap().Configure);
             modelBuilder.Entity<VeiculoCombustivel>(new VeiculoCombustivelMap().Configure);
-            
+            modelBuilder.Entity<FormaPagamento>(new FormaPagamentoMap().Configure);
+            modelBuilder.Entity<Moeda>(new MoedaMap().Configure);
+            modelBuilder.Entity<PecaLista>(new PecaListaMap().Configure);
+            modelBuilder.Entity<TipoFrete>(new TipoFreteMap().Configure);
+
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
 

@@ -73,6 +73,8 @@ export const appRoutes: Route[] = [
             { path: 'equipamento-contrato', loadChildren: () => import('app/modules/main/cadastro/equipamento-contrato/equipamento-contrato.module').then(m => m.EquipamentoContratoModule) },
             { path: 'equipamento', loadChildren: () => import('app/modules/main/cadastro/equipamento/equipamento.module').then(m => m.EquipamentoModule) },
             { path: 'usuario', loadChildren: () => import('app/modules/main/cadastro/usuario/usuario.module').then(m => m.UsuarioModule) },
+            { path: 'cliente', loadChildren: () => import('app/modules/main/cadastro/cliente/cliente.module').then(m => m.ClienteModule) },
+            { path: 'filial', loadChildren: () => import('app/modules/main/cadastro/filial/filial.module').then(m => m.FilialModule) },
             { path: 'tecnico', loadChildren: () => import('app/modules/main/cadastro/tecnico/tecnico.module').then(m => m.TecnicoModule) },
             { path: 'default', loadChildren: () => import('app/modules/main/default/default.module').then(m => m.DefaultModule) },
             { path: 'dashboard', loadChildren: () => import('app/modules/main/dashboard/dashboard.module').then(m => m.DashboardModule) },
@@ -98,7 +100,7 @@ export const appRoutes: Route[] = [
             { path: '500-internal-server-error', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-500/erro-500.module').then(m => m.Erro500Module) },
             { path: '0-connection-refused', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-0/erro-0.module').then(m => m.Erro0Module) },
             { path: '503-service-unavailable', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-503/erro-503.module').then(m => m.Erro503Module) },
-             
+
             { path: '**', redirectTo: '404-not-found' }
         ]
     }

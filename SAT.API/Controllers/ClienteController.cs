@@ -24,13 +24,31 @@ namespace SAT.API.Controllers
         [HttpGet("{codCliente}")]
         public Cliente Get(int codCliente)
         {
-            return _clienteService.ObterPorCodigo(codCliente);
+            return this._clienteService.ObterPorCodigo(codCliente);
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] ClienteParameters parameters)
         {
-            return _clienteService.ObterPorParametros(parameters);
+            return this._clienteService.ObterPorParametros(parameters);
+        }
+
+        [HttpPost]
+        public Cliente Post([FromBody] Cliente cliente)
+        {
+            return this._clienteService.Criar(cliente);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] Cliente cliente)
+        {
+            this._clienteService.Atualizar(cliente);
+        }
+
+        [HttpDelete("{codCliente}")]
+        public void Delete(int codCliente)
+        {
+            this._clienteService.Deletar(codCliente);
         }
     }
 }

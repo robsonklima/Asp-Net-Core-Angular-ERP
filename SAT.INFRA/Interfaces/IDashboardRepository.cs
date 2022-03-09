@@ -1,38 +1,38 @@
 using SAT.MODELS.ViewModels;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Interfaces
 {
     public interface IDashboardRepository
     {
-        IQueryable<ViewDashboardIndicadoresFiliais> ObterDadosIndicadorFiliais();
-        IQueryable<ViewDashboardChamadosMaisAntigosCorretivas> ObterChamadosMaisAntigosCorretivas();
-        IQueryable<ViewDashboardChamadosMaisAntigosOrcamentos> ObterChamadosMaisAntigosOrcamentos();
-        IQueryable<ViewDashboardDisponibilidadeBBTSFiliais> ObterIndicadorDisponibilidadeBBTSFiliais();
-        IQueryable<ViewDashboardDisponibilidadeBBTSMapaRegioes> ObterIndicadorDisponibilidadeBBTSMapaRegioes();
-        IQueryable<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ObterIndicadorDisponibilidadeBBTSMultasDisponibilidade();
-        IQueryable<ViewDashboardDisponibilidadeBBTSMultasRegioes> ObterIndicadorDisponibilidadeBBTSMultasRegioes();
-        IQueryable<ViewDashboardDisponibilidadeTecnicos> ObterIndicadorDisponibilidadeTecnicos();
-        IQueryable<ViewDashboardDisponibilidadeTecnicosMediaGlobal> ObterIndicadorDisponibilidadeTecnicosMediaGlobal();
-        IQueryable<ViewDashboardSPA> ObterDadosSPA();
-        IQueryable<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho();
-        IQueryable<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho();
-        IQueryable<ViewDashboardSLAClientes> ObterDadosSLAClientes();
-        IQueryable<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais();
-        IQueryable<ViewDashboardReincidenciaTecnicosMenosReincidentes> ObterDadosReincidenciaTecnicosMenosReincidentes();
-        IQueryable<ViewDashboardReincidenciaTecnicosMaisReincidentes> ObterDadosReincidenciaTecnicosMaisReincidentes();
-        IQueryable<ViewDashboardEquipamentosMaisReincidentes> ObterDadosEquipamentosMaisReincidentes();
-        IQueryable<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais();
-        IQueryable<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes();
-        IQueryable<ViewDashboardTecnicosMaisPendentes> ObterDadosTecnicosMaisPendentes();
-        IQueryable<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes();
-        IQueryable<ViewDashboardPendenciaGlobal> ObterDadosPendenciaGlobal();
-        IQueryable<ViewDashboardPecasFaltantes> ObterDadosPecasFaltantes();
-        IQueryable<ViewDashboardPecasMaisFaltantes> ObterDadosPecasMaisFaltantes();
-        IQueryable<ViewDashboardPecasCriticasMaisFaltantes> ObterDadosPecasCriticasMaisFaltantes();
-        IQueryable<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca);
-        IQueryable<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca);
-        IQueryable<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos();
-        IQueryable<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos();
+        List<ViewDashboardIndicadoresFiliais> ObterDadosIndicadorFiliais();
+        List<ViewDashboardChamadosMaisAntigosCorretivas> ObterChamadosMaisAntigosCorretivas();
+        List<ViewDashboardChamadosMaisAntigosOrcamentos> ObterChamadosMaisAntigosOrcamentos();
+        List<ViewDashboardDisponibilidadeBBTSFiliais> ObterIndicadorDisponibilidadeBBTSFiliais();
+        List<ViewDashboardDisponibilidadeBBTSMapaRegioes> ObterIndicadorDisponibilidadeBBTSMapaRegioes();
+        List<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ObterIndicadorDisponibilidadeBBTSMultasDisponibilidade();
+        List<ViewDashboardDisponibilidadeBBTSMultasRegioes> ObterIndicadorDisponibilidadeBBTSMultasRegioes();
+        List<ViewDashboardDisponibilidadeTecnicos> ObterIndicadorDisponibilidadeTecnicos();
+        List<ViewDashboardDisponibilidadeTecnicosMediaGlobal> ObterIndicadorDisponibilidadeTecnicosMediaGlobal();
+        List<ViewDashboardSPA> ObterDadosSPA();
+        List<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho();
+        List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho();
+        List<ViewDashboardSLAClientes> ObterDadosSLAClientes();
+        List<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais();
+        List<ViewDashboardReincidenciaTecnicosMenosReincidentes> ObterDadosReincidenciaTecnicosMenosReincidentes();
+        List<ViewDashboardReincidenciaTecnicosMaisReincidentes> ObterDadosReincidenciaTecnicosMaisReincidentes();
+        List<ViewDashboardEquipamentosMaisReincidentes> ObterDadosEquipamentosMaisReincidentes();
+        List<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais();
+        List<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes();
+        List<ViewDashboardTecnicosMaisPendentes> ObterDadosTecnicosMaisPendentes();
+        List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes();
+        List<ViewDashboardPendenciaGlobal> ObterDadosPendenciaGlobal();
+        List<ViewDashboardPecasFaltantes> ObterDadosPecasFaltantes();
+        List<ViewDashboardPecasMaisFaltantes> ObterDadosPecasMaisFaltantes();
+        List<ViewDashboardPecasCriticasMaisFaltantes> ObterDadosPecasCriticasMaisFaltantes();
+        List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca);
+        List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca);
+        List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos();
+        List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos();
     }
 }

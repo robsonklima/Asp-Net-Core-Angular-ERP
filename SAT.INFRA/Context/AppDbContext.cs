@@ -175,7 +175,8 @@ namespace SAT.INFRA.Context
         public DbSet<Moeda> Moeda { get; set; }
         public DbSet<PecaLista> PecaLista { get; set; }
         public DbSet<TipoFrete> TipoFrete { get; set; }
-
+		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
+        public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

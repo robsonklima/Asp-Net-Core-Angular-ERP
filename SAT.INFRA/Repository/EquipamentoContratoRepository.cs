@@ -116,6 +116,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodContrato.HasValue)
                 equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
 
+            if (!string.IsNullOrEmpty(parameters.NumSerie))
+                equips = equips.Where(e => e.NumSerie == parameters.NumSerie);
+
             if (parameters.CodFilial.HasValue)
                 equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
 

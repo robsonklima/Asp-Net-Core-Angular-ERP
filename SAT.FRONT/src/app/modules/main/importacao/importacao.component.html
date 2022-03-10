@@ -1,0 +1,59 @@
+<mat-drawer-container class="flex-auto h-full" *transloco="let t">   
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="bg-card">
+                <div class="flex flex-col w-full px-10">
+                    <div class=" flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4" >
+                        <div class="grid grid-cols-2 items-center justfy-between">
+                            <h6 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+                                Importação em Massa
+                            </h6>
+                            <div class="mt-4 grid grid-cols-7 justify-self-end">
+                                <mat-form-field class="col-span-5" floatLabel="always">
+                                    <mat-select  placeholder="Selecione o tipo de importação">                                  
+                                        <mat-option 
+                                        *ngFor="let tipo of importacaoTipos" 
+                                        matTooltipPosition="left"
+                                        [value]="tipo.codImportacaoTipo"
+                                        (click)="configura(tipo.codImportacaoTipo)">
+                                            <span>{{ tipo.nomeTipo}}</span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <button mat-icon-button  class="hidden sm:inline-flex ml-3 mt-1" [color]="'primary'" (click)="enviarDados()" >
+                                    <mat-icon [matTooltip]="'Enviar dados'" [svgIcon]="'heroicons_outline:cloud-upload'"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                    <div class="w-11/12 ml-10">
+                        <div *ngIf="!isLoading"
+                            class="
+                            px-2
+                            pb-2
+                            flex flex-col flex-auto
+                            bg-card
+                            shadow
+                            rounded
+                            max-w-6/7
+                            h-140
+                            overflow-auto"
+                            >
+                            <app-planilha class="mt-2" [data]="planilhaConfig" (sheetData)="retornaPlanilha($event)"></app-planilha>
+                        </div>
+                        <div class="grid justify-items-center mt-10" *ngIf="isLoading">  
+                            <mat-progress-spinner [diameter]="84" [mode]="'indeterminate'">
+                            </mat-progress-spinner>
+                            <br>
+                            <h3>ESTA AÇÃO PODE DEMORAR ATÉ ALGUNS MINUTOS, POR FAVOR AGUARDE </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -201,6 +201,7 @@
     "informacoes": "Information",
     "endereco complemento": "Address Complement",
     "cnpj faturamento": "CNPJ Billing",
+    "faturamento": "Billing",
     "tipo de rota": "Route Type",
     "numero": "Number",
     "distancia pat res": "Home to PAT Distance",

@@ -82,6 +82,12 @@ namespace SAT.SERVICES.Services
         public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
         {
             string target = Directory.GetCurrentDirectory() + "/Upload";
+
+			if (!new DirectoryInfo(target).Exists)
+			{
+				Directory.CreateDirectory(target);
+			}
+
             string imgPath = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == codUsuario);
 
             string base64 = string.Empty;

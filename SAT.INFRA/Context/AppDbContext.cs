@@ -271,6 +271,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Moeda>(new MoedaMap().Configure);
             modelBuilder.Entity<PecaLista>(new PecaListaMap().Configure);
             modelBuilder.Entity<TipoFrete>(new TipoFreteMap().Configure);
+            modelBuilder.Entity<ImportacaoConfiguracao>(new ImportacaoConfiguracaoMap().Configure);
+            modelBuilder.Entity<ImportacaoTipo>(new ImportacaoTipoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

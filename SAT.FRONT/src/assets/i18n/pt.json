@@ -558,5 +558,9 @@
     "saldo logix": "Saldo Logix",
     "media das despesas nos ultimos 12 meses": "Média das Despesas nos Últimos 12 meses",
     "nome filial":"Nome Filial",
-    "enviar": "Enviar"
+	"enviar": "Enviar",
+    "filiais": "Filiais",
+    "ações": "Ações",
+    "formas de pagamentos": "Formas de Pagamento",
+    "importação": "Importação"
 }

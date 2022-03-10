@@ -546,5 +546,9 @@
     "saldo logix": "Logix balance",
     "media das despesas nos ultimos 12 meses": "Expenses Average on Last 12 Months",
     "nome filial":"Subsidiary Name",
-    "enviar": "Send"
+    "enviar": "Send",
+	"filiais": "Subsidiary",
+    "ações": "Actions",
+    "formas de pagamentos": "Payment Methods",
+    "importação": "Import"
 }

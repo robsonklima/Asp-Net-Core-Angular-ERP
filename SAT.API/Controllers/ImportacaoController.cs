@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -21,7 +18,7 @@ namespace SAT.API.Controllers
             _importacaoService = importacaoService;
         }
 
-        [HttpPost()]
+        [HttpPost]
         public Importacao Post([FromBody] Importacao importacao)
         {
             return _importacaoService.Importar(importacao);

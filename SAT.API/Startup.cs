@@ -35,6 +35,8 @@ namespace SAT.API
                 options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
+            services.AddHttpContextAccessor();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "CorsApi",
@@ -162,6 +164,9 @@ namespace SAT.API
             services.AddTransient<IMoedaRepository, MoedaRepository>();
             services.AddTransient<IPecaListaRepository, PecaListaRepository>();
             services.AddTransient<ITipoFreteRepository, TipoFreteRepository>();
+            services.AddTransient<IImportacaoService, ImportacaoService>();
+            services.AddTransient<IImportacaoConfiguracaoService, ImportacaoConfiguracaoService>();
+            services.AddTransient<IImportacaoTipoService, ImportacaoTipoService>();
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -267,6 +272,8 @@ namespace SAT.API
             services.AddTransient<IMoedaService, MoedaService>();
             services.AddTransient<IPecaListaService, PecaListaService>();
             services.AddTransient<ITipoFreteService, TipoFreteService>();
+            services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
+            services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

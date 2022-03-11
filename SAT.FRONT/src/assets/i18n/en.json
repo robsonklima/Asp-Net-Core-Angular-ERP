@@ -201,6 +201,7 @@
     "informacoes": "Information",
     "endereco complemento": "Address Complement",
     "cnpj faturamento": "CNPJ Billing",
+    "faturamento": "Billing",
     "tipo de rota": "Route Type",
     "numero": "Number",
     "distancia pat res": "Home to PAT Distance",
@@ -545,5 +546,10 @@
     "saldo logix": "Logix balance",
     "media das despesas nos ultimos 12 meses": "Expenses Average on Last 12 Months",
     "nome filial":"Subsidiary Name",
-    "motivo cancelamento": "Reason for Cancellation"
+    "motivo cancelamento": "Reason for Cancellation",
+    "enviar": "Send",
+	"filiais": "Subsidiary",
+    "ações": "Actions",
+    "formas de pagamentos": "Payment Methods",
+    "importação": "Import"
 }

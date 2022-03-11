@@ -202,6 +202,7 @@
     "locais de atendimento": "Locais de Atendimento",
     "inativo": "Inativo",
     "endereco complemento": "Complemento",
+	"faturamento": "Faturamento",
     "cnpj faturamento": "CNPJ de Faturamento",
     "tipo de rota": "Tipo de Rota",
     "numero": "Número",
@@ -557,5 +558,10 @@
     "saldo logix": "Saldo Logix",
     "media das despesas nos ultimos 12 meses": "Média das Despesas nos Últimos 12 meses",
     "nome filial":"Nome Filial",
-    "motivo cancelamento": "Motivo do Cancelamento"
+    "motivo cancelamento": "Motivo do Cancelamento",
+	"enviar": "Enviar",
+    "filiais": "Filiais",
+    "ações": "Ações",
+    "formas de pagamentos": "Formas de Pagamento",
+    "importação": "Importação"
 }

@@ -11,6 +11,7 @@ import { pontoPeriodoUsuarioStatusConst } from 'app/core/types/ponto-periodo-usu
 import { PontoPeriodoUsuario } from 'app/core/types/ponto-periodo-usuario.types';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { PontoUsuarioDataDivergencia } from 'app/core/types/ponto-usuario-data-divergencia.types';
+import { pontoUsuarioDataStatusAcessoConst } from 'app/core/types/ponto-usuario-data-status-acesso.types';
 import { pontoUsuarioDataStatusConst } from 'app/core/types/ponto-usuario-data-status.types';
 import { PontoUsuarioData, PontoUsuarioDataData } from 'app/core/types/ponto-usuario-data.types';
 import { Usuario } from 'app/core/types/usuario.types';
@@ -266,5 +267,35 @@ export class PontoHorariosListaComponent implements AfterViewInit {
 
       this._pontoPeriodoUsuarioSvc.atualizar(this.pontoPeriodoUsuario).toPromise();
     }
+  }
+
+  public async desbloquear(pontoUsuarioData: PontoUsuarioData) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja desbloquear este horário?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
+        const data = {
+          ...pontoUsuarioData,
+          ...{
+            codUsuarioManut: this.userSession?.usuario?.codUsuario,
+            dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss'),
+            codPontoUsuarioDataStatusAcesso: pontoUsuarioDataStatusAcessoConst.DESBLOQUEADO
+          }
+        }
+    
+        await this._pontoUsuarioDataSvc.atualizar(data).toPromise();
+        this._snack.exibirToast('Registro desbloquado com sucesso', 'success');
+        this.obterHorarios();
+      }
+    });
   }
 }

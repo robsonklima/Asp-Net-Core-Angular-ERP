@@ -173,6 +173,19 @@
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                                         </button>
+
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                                            mat-stroked-button
+                                            [matTooltip]="'Desbloquear'"
+                                            matTooltipPosition="above"
+                                            (click)="desbloquear(data)"
+                                            *ngIf="userSession.usuario.codPerfil === 75 || userSession.usuario.codPerfil === 76 || userSession.usuario.codPerfil === 44 || userSession.usuario.codPerfil === 3"
+                                            [disabled]="data.codPontoUsuarioDataStatusAcesso !== 1">
+                                            <mat-icon
+                                                class="icon-size-5 text-orange-600"
+                                                [svgIcon]="'heroicons_solid:lock-open'"></mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

@@ -15,9 +15,7 @@ import { appConfig as c } from 'app/core/config/app.config';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;
 
-  public get dashboardEnum(): typeof DashboardEnum {
-    return DashboardEnum;
-  }
+  public get dashboardEnum(): typeof DashboardEnum { return DashboardEnum }
   nomeSlideSelecionado: string = this.dashboardEnum.PERFORMANCE_FILIAIS_RESULTADO_GERAL;
   slideSelecionado: number = 0;
   usuarioSessao: UsuarioSessao;
@@ -30,6 +28,8 @@ export class DashboardComponent implements AfterViewInit {
   ) { }
 
   async ngAfterViewInit() {
+    this.carregarDashboardsPerfil();
+
     interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
       .pipe(
         takeUntil(this._onDestroy)
@@ -88,6 +88,13 @@ export class DashboardComponent implements AfterViewInit {
         this.filtro.parametros[key] = this.filtro.parametros[key].join()
       };
     });
+  }
+
+  private carregarDashboardsPerfil() {
+    const dashs = this.dashboardEnum;
+
+    console.log(dashs);
+    
   }
 
   ngOnDestroy() {

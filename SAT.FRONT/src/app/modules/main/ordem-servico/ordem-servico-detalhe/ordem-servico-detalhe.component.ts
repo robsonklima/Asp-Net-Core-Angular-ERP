@@ -86,13 +86,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 		if (this.codOS) {
 			this.obterDados();
-
 			this.perfis = RoleEnum;
-
-			this.sidenav.closedStart.subscribe(() =>
-			{
-				this.obterDados();
-			});
+			this.sidenav.closedStart.subscribe(() => this.obterDados());
 		}
 
 		this._cdr.detectChanges();

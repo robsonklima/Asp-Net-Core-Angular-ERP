@@ -111,9 +111,9 @@
                         <!-- DETALHES DA OS -->
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
+                                <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
                                     <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
@@ -121,6 +121,7 @@
                                                 <div class="text-secondary">{{ t('abertura') }}</div>
                                                 <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3"
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
@@ -129,14 +130,7 @@
                                                     informado" }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3"
-                                                *ngIf="os?.usuarioCadastro">
-                                                <div class="text-secondary">{{ t('contato') }}</div>
-                                                <div>
-                                                    {{ os?.usuarioCadastro?.fone || os?.usuarioCadastro?.foneParticular
-                                                    }}
-                                                </div>
-                                            </div>
+
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
@@ -144,23 +138,26 @@
                                                     informado" }}
                                                 </div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('contato') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCad?.fone || os?.usuarioCad?.foneParticular }}
+                                                    {{ os?.usuarioCad?.fone || os?.usuarioCad?.foneParticular || 'Não Informado' }}
                                                 </div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3"
                                                 *ngIf="ultimoAgendamento">
                                                 <div class="text-secondary">{{ t('agendamento') }}</div>
                                                 <div>
-                                                    <span class="text-secondary text-md w-2/5"
+                                                    <span class="text-md w-2/5"
                                                         matTooltipPosition="right" matTooltipClass="tool-tip"
                                                         [matTooltip]="histAgendamento">
                                                         {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
                                                     </span>
                                                 </div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('os cliente') }}</div>
                                                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
@@ -170,11 +167,13 @@
                                                 <div class="text-secondary">{{ t('os quarteirizada') }}</div>
                                                 <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3"
                                                 *ngIf="os?.tecnico?.nome">
                                                 <div class="text-secondary">{{ t('tecnico') }}</div>
                                                 <div>{{ os?.tecnico?.nome | titlecase }}</div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
                                                 <div>
@@ -184,6 +183,7 @@
                                                     </span>
                                                 </div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('status de servico') }}</div>
                                                 <div>
@@ -195,14 +195,17 @@
                                                     </span>
                                                 </div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('os cliente') }}</div>
                                                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('cliente') }}</div>
                                                 <div>{{ os?.cliente?.nomeFantasia || '--' }}</div>
                                             </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('reincidencia') }}</div>
                                                 <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
@@ -231,10 +234,21 @@
                                             </div>
                                         </div>
 
+                                        <div class="flex items-center justify-between mt-8" *ngIf="os?.motivoCancelamento">
+                                            <div class="text-lg font-medium">{{ t('motivo cancelamento') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t text-justify" *ngIf="os?.motivoCancelamento">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.motivoCancelamento }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
                                         <div class="flex items-center justify-between mt-8">
                                             <div class="text-lg font-medium">{{ t('observacao') }}</div>
                                         </div>
-                                        <div class="flex mt-2 border-t">
+                                        <div class="flex mt-2 border-t text-justify">
                                             <div class="py-3">
                                                 <ng-container>
                                                     <div>{{ os?.observacaoCliente || 'Não Informado' }}</div>
@@ -245,7 +259,7 @@
                                         <div class="flex items-center justify-between mt-8">
                                             <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
                                         </div>
-                                        <div class="flex mt-2 border-t">
+                                        <div class="flex mt-2 border-t text-justify">
                                             <div class="py-3">
                                                 <ng-container>
                                                     <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>
@@ -255,11 +269,11 @@
                                     </fuse-card>
 
                                     <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        class="flex flex-col flex-auto col-span-3 p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}
                                         </div>
 
-                                        <div class="flex mt-2">
+                                        <div class="flex mt-4">
                                             <div class="pt-2">
                                                 <ng-container>
                                                     <div>

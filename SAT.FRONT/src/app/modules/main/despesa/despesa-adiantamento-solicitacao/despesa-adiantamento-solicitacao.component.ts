@@ -105,12 +105,10 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
       )
       .subscribe(async (codTecnico) =>
       {
+        this.loading = true;
         this.tecnico = await this._tecnicoService.obterPorCodigo(codTecnico).toPromise();
-        
         this.mediaAdiantamentos = await (await this._despesaAdiantamentoService.obterMedia(this.form.controls['codTecnico'].value).toPromise()).shift();
-
-        console.log(this.mediaAdiantamentos);
-        
+        this.loading = false;
       });
   }
 
@@ -148,6 +146,8 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
   }
 
   private async obterTecnicos(filtro: string='') {
+    this.loading = true;
+
     const data = await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
       sortActive: 'Nome',
@@ -155,8 +155,9 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
       filter: filtro,
       codFiliais: this.form.controls['codFilial'].value
     }).toPromise();
-    
+
     this.tecnicos = data.items;
+    this.loading = false;
   }
 
   public verificarJustificativaObrigatoria(): boolean {

@@ -127,10 +127,8 @@
                                                 <div class="hidden sm:block">
                                                     <span [matTooltip]="
                                                         statusSLADescricao(os)" matTooltipPosition="above">
-                                                        <span class="py-1 px-2 rounded text-xs" [ngClass]="{'bg-green-500': statusSLADescricao(os)==
-                                                        'DENTRO',
-                                                        'text-white': statusSLADescricao(os)== 'DENTRO' ||
-                                                        statusSLADescricao(os) == 'FORA',
+                                                        <span class="py-1 px-2 rounded text-xs" [ngClass]="{'bg-green-500': statusSLADescricao(os)=='DENTRO',
+                                                        'text-white': statusSLADescricao(os)== 'DENTRO' || statusSLADescricao(os) == 'FORA',
                                                         'bg-red-500': statusSLADescricao(os) == 'FORA'}">
                                                             {{ (os?.prazosAtendimento[0]?.dataHoraLimiteAtendimento |
                                                             date:'dd/MM HH:mm') || '--' }}

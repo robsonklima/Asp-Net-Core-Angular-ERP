@@ -16,6 +16,9 @@ namespace SAT.INFRA.Repository
                     t.CodOS.ToString().Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
+                    t.RelatoriosAtendimento.Any(r => r.ObsRAT.Contains(parameters.Filter)) ||
+                    t.RelatoriosAtendimento.Any(r => r.RelatoSolucao.Contains(parameters.Filter)) ||
+                    t.DefeitoRelatado.Contains(parameters.Filter) ||
                     t.NumOSCliente.Contains(parameters.Filter));
 
             if (parameters.CodContrato.HasValue)
@@ -105,6 +108,12 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
                 query = query.Where(os => os.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());
+
+            if (!string.IsNullOrWhiteSpace(parameters.Defeito))
+                query = query.Where(os => os.DefeitoRelatado.Contains(parameters.Defeito));
+
+            if (!string.IsNullOrWhiteSpace(parameters.Solucao))
+                query = query.Where(os => os.RelatoriosAtendimento.Any(r => r.RelatoSolucao.Contains(parameters.Solucao)));
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
             {

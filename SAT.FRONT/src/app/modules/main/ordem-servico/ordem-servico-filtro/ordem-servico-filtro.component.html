@@ -226,6 +226,20 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
                     </mat-icon>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('defeito') }}</mat-label>
+                    <input matInput formControlName="defeito" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:annotation'">
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('solucao') }}</mat-label>
+                    <input matInput formControlName="solucao" maxlength="20">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:annotation'">
+                    </mat-icon>
+                </mat-form-field>
             </div>
 
             <div class="mt-6 border-t"></div>

@@ -61,7 +61,7 @@
                         <mat-label>{{ t('saldo logix') }}</mat-label>
                         <input matInput formControlName="saldoLogix" mask="separator.2" [thousandSeparator]="'.'"
                             [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
-                            required>
+                            required [readonly]="loading" class.opacity-50="loading">
                     </mat-form-field>
                 </div>
 
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="w-full p-8 overflow-auto">
-                    <div *ngIf="tecnico">
+                    <div *ngIf="tecnico && !loading">
                         <div class="flex flex-col mt-0">
                             <div class="flex">
                                 <img
@@ -99,7 +99,11 @@
                         </div>
                     </div>
 
-                    <div class="text-secondary" *ngIf="!tecnico">
+                    <div class="text-secondary" *ngIf="loading">
+                        Carregando...
+                    </div>
+
+                    <div class="text-secondary" *ngIf="!tecnico && !loading">
                         Selecione o técnico
                     </div>
                 </div>
@@ -109,7 +113,7 @@
                 </div>
 
                 <div class="w-full p-8 overflow-auto">
-                    <div *ngIf="mediaAdiantamentos">
+                    <div *ngIf="mediaAdiantamentos && !loading">
                         <table class="w-full table-auto text-md font-medium tracking-tight bg-card">
                             <thead>
                                 <tr>
@@ -158,7 +162,11 @@
                         </table>
                     </div>
 
-                    <div class="text-secondary" *ngIf="!mediaAdiantamentos">
+                    <div class="text-secondary" *ngIf="loading">
+                        Carregando...
+                    </div>
+
+                    <div class="text-secondary" *ngIf="!mediaAdiantamentos && !loading">
                         Selecione o técnico
                     </div>
                 </div>

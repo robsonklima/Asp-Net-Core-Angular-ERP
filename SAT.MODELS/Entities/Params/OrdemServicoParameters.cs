@@ -45,5 +45,7 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? FimPeriodoAgenda { get; set; }
         public DateTime? DataHoraSolucaoInicio { get; set; }
         public DateTime? DataHoraSolucaoFim { get; set; }
+        public string Defeito { get; set; }
+        public string Solucao { get; set; }
     }
 }

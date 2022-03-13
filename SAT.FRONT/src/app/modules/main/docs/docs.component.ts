@@ -79,6 +79,12 @@ export class DocsComponent implements OnInit, OnDestroy
                         title: 'Versões',
                         type : 'basic',
                         link : '/docs/inicio/versoes'
+                    },
+                    {
+                        id   : 'app-tecnicos',
+                        title: 'App Técnicos',
+                        type : 'basic',
+                        link : '/docs/inicio/app-tecnicos'
                     }
                 ]
             },

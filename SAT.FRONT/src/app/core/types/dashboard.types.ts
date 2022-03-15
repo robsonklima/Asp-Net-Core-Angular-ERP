@@ -383,9 +383,7 @@ export interface ViewDashboardIndicadoresDetalhadosPerformance {
     codFilial: number;
     filial: string;
     anoMes: string;
-    dentro: number;
-    fora: number;
-    totalGeral: number;
+    tipo: string;
     percentual: number;
 }
 
@@ -398,4 +396,10 @@ export interface ViewDashboardIndicadoresDetalhadosChamadosAntigos {
     codOS: number;
     dataAbertura: string;
     intervencao: string;
+}
+
+export enum ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum {
+	SLA = 'SLA',
+	PENDENCIA = 'PENDENCIA',
+	REINCIDENCIA = 'REINCIDENCIA'
 }

@@ -138,6 +138,9 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE:
                     viewDashboard.ViewDashboardIndicadoresDetalhadosPerformance = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPerformance(parameters.CodFilial.Value);
                     break;
+                case DashboardViewEnum.INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosChamadosAntigos = this._dashboardRepository.ObterDadosIndicadoresDetalhadosChamadosAntigos(parameters.CodFilial.Value);
+                    break;
 
                 default:
                     break;

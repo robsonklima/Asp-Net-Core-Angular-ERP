@@ -1,11 +1,39 @@
-<fuse-card class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-0 bg-card shadow rounded-2xl overflow-hidden">
-    <div class="text-lg font-semibold leading-tight ml-6 mt-6">
-        Chamados
+<fuse-card class="lg:col-span-2 md:col-span-2 flex flex-col p-6 bg-card shadow rounded-2xl overflow-hidden">
+  <div class="text-lg font-semibold leading-tight">
+    Chamados
+  </div>
+
+  <div class="text-secondary text-sm mt-1">Mais Antigos</div>
+
+  <div class="items-center w-full justify-center mt-1.5" *ngIf="!loading">
+    <table class="w-full table-auto text-xs font-medium tracking-tight" *ngIf="!loading">
+      <thead class="text-center">
+        <tr>
+          <th class="text-left">Cliente</th>
+          <th class="text-left">Modelo</th>
+          <th class="text-center">OS</th>
+          <th class="text-center">Abertura</th>
+          <th class="text-center">Filial</th>
+          <th class="text-right">Intervenção</th>
+        </tr>
+      </thead>
+
+      <tbody class="text-center">
+        <tr *ngFor="let os of chamados" class="text-center">
+          <td class="text-left">{{ os.nomeFantasia }}</td>
+          <td class="text-left">{{ os.modelo }}</td>
+          <td class="text-center">{{ os.codOS }}</td>
+          <td class="text-center">{{ os.dataAbertura | date:'dd/MM HH:mm' }}</td>
+          <td class="text-center">{{ os.nomeFilial }}</td>
+          <td class="text-right">{{ os.intervencao | titlecase }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-center items-center min-h-72" *ngIf="loading">
+    <div class="text-center">
+      <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
-
-    <div class="text-secondary text-sm ml-6 mt-1">Mais Antigos</div>
-
-    <div class="items-center w-full justify-center -mt-4 pr-4" *ngIf="!loading">
-
-    </div>
+  </div>
 </fuse-card>

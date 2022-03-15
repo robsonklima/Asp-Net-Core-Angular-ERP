@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
-import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { DashboardViewEnum, ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum } from 'app/core/types/dashboard.types';
 import { UserService } from 'app/core/user/user.service';
 import {
   ApexAxisChartSeries,
@@ -49,36 +49,26 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
       codFilial: 4
     }).toPromise();
 
-    console.log(data.viewDashboardIndicadoresDetalhadosPerformance);
-    
-
-    // const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaTecnico
-    //   .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-    //   .filter(s => s.percentual > 0)
-    //   .slice(0, 10);  
-    
-    // const labels = slaRegiao.map(s => s.nomeTecnico);
-    // const values = slaRegiao.map(s => s.percentual);
+    const performance = data.viewDashboardIndicadoresDetalhadosPerformance;
+    const meses = [...new Set(performance.map(p => this.formatarAnoMes(p.anoMes)))];
+    const series: any = [
+      {
+        name: 'Pendência',
+        data: performance.filter(p => p.tipo === ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum.PENDENCIA).map(p => p.percentual)
+      },
+      {
+        name: 'Reincidência',
+        data: performance.filter(p => p.tipo === ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum.REINCIDENCIA).map(p => p.percentual)
+      },
+      {
+        name: 'SLA',
+        data: performance.filter(p => p.tipo === ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum.SLA).map(p => p.percentual)
+      },
+    ];
 
     this.chartOptions = {
-      series: [
-        {
-          name: "Net Profit",
-          data: [44, 55, 57]
-        },
-        {
-          name: "Revenue",
-          data: [76, 85, 101]
-        },
-        {
-          name: "Free Cash Flow",
-          data: [35, 41, 36]
-        }
-      ],
-      chart: {
-        type: "bar",
-        height: 350
-      },
+      series: series,
+      chart: { type: "bar", height: 320, toolbar: { show: false }},
       plotOptions: {
         bar: {
           horizontal: false,
@@ -94,27 +84,64 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
         colors: ["transparent"]
       },
       xaxis: {
-        categories: [
-          "Feb",
-          "Mar",
-          "Apr"
-        ]
-      },
-      yaxis: {
-        title: {
-          text: "Percentual"
-        }
+        categories: meses
       },
       fill: {
         opacity: 1
       },
       tooltip: {
         y: {
-          formatter: function(val) {
-            return "$ " + val + " thousands";
+          formatter: (val) => {
+            return val + "%";
           }
         }
+      },
+      legend: {
+        show: false
       }
     };
+  }
+
+  private formatarAnoMes(anoMes: string): string {
+    switch (anoMes.slice(-2)) {
+      case '01':
+        return 'Janeiro';
+
+      case '02':
+        return 'Fevereiro';
+    
+      case '03':
+        return 'Março';
+
+      case '04':
+        return 'Abril';
+
+      case '05':
+        return 'maio';
+
+      case '06':
+        return 'Junho';
+
+      case '07':
+        return 'Julho';
+
+      case '08':
+        return 'Agosto';
+
+      case '09':
+        return 'Setembro';
+
+      case '10':
+        return 'Outubro';
+
+      case '11':
+        return 'Novembro';
+
+      case '12':
+        return 'Dezembro';
+      
+      default:
+        return ''
+    }
   }
 }

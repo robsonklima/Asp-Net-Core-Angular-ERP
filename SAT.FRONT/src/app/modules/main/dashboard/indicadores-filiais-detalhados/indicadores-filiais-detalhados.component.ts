@@ -8,7 +8,7 @@ import { UserSession } from 'app/core/user/user.types';
   selector: 'app-indicadores-filiais-detalhados',
   templateUrl: './indicadores-filiais-detalhados.component.html',
   encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+  animations: fuseAnimations
 })
 export class IndicadoresFiliaisDetalhadosComponent implements OnInit {
   userSession: UserSession;

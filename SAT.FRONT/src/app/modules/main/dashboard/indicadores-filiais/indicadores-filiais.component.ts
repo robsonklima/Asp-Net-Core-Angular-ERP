@@ -7,6 +7,9 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.markercluster';
 import { HttpClient } from '@angular/common/http';
 import { FilialService } from 'app/core/services/filial.service';
+import { MatDialog } from '@angular/material/dialog';
+import { IndicadoresFiliaisDetalhadosComponent } from '../indicadores-filiais-detalhados/indicadores-filiais-detalhados.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-indicadores-filiais',
@@ -35,7 +38,8 @@ export class IndicadoresFiliaisComponent implements OnInit {
   constructor(
     private _dashboardService: DashboardService,
     private _filialService: FilialService,
-    private _http: HttpClient
+    private _http: HttpClient,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -43,9 +47,11 @@ export class IndicadoresFiliaisComponent implements OnInit {
     this.montaDashboard();
   }
 
-  onMapReady(map: Map): void {
+  async onMapReady(map: Map) {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
+
+    const component = this;
 
     this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
       L.geoJSON(json, {
@@ -53,6 +59,27 @@ export class IndicadoresFiliaisComponent implements OnInit {
           weight: 1,
           color: '#254441',
           fillColor: '#43AA8B'
+        },
+        onEachFeature: function onEachFeature(feature, layer) {
+          layer.on('click', (e) => {
+            const uf = e.target.feature.properties.UF_05;
+
+            console.log(uf);
+
+            component.onIndicadoresDetalhados(uf);
+          });
+
+          layer.on('mouseover', function () {
+            this.setStyle({
+              'fillColor': '#0000ff'
+            });
+          });
+
+          layer.on('mouseout', function () {
+            this.setStyle({
+              'fillColor': '#43AA8B'
+            });
+          });
         }
       }).addTo(map);
     });
@@ -101,5 +128,14 @@ export class IndicadoresFiliaisComponent implements OnInit {
       return 'assets/icons/marker-yellow-32.svg';
     else 
       return 'assets/icons/marker-red-32.svg';
+  }
+
+  private async onIndicadoresDetalhados(uf: string) {
+    const data = await this._filialService.obterPorParametros({ SiglaUF: uf, filter: uf, indAtivo: 1 }).toPromise();
+    const filial = data.items.shift();
+    
+    if (filial) {
+      this._router.navigate(['/dashboard/indicadores-filiais-detalhados/' + filial.codFilial]);
+    }
   }
 }

@@ -92,9 +92,6 @@ export class DashboardComponent implements AfterViewInit {
 
   private carregarDashboardsPerfil() {
     const dashs = this.dashboardEnum;
-
-    console.log(dashs);
-    
   }
 
   ngOnDestroy() {

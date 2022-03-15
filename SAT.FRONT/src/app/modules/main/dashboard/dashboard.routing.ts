@@ -10,5 +10,9 @@ export const dashboardRoutes: Route[] = [
     {
         path     : 'indicadores-filiais-detalhados/:codFilial',
         component: IndicadoresFiliaisDetalhadosComponent
+    },
+    {
+        path     : 'indicadores-filiais-detalhados',
+        component: IndicadoresFiliaisDetalhadosComponent
     }
 ];

@@ -154,13 +154,10 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
         
         for (const plantaoRegiao of plantaoTecnico.plantaoRegioes) {
           await this._plantaoTecnicoRegiaoService.deletar(plantaoRegiao.codPlantaoTecnicoRegiao).toPromise();
-          console.log('deletando regiao');
-          
         }
         
         for (const plantaoCliente of plantaoTecnico.plantaoClientes) {
           await this._plantaoTecnicoClienteService.deletar(plantaoCliente.codPlantaoTecnicoCliente).toPromise();
-          console.log('deletando cliente');
         }
 
         await this._plantaoTecnicoService.deletar(plantaoTecnico.codPlantaoTecnico).toPromise();

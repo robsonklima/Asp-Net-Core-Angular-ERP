@@ -6,7 +6,10 @@
             </div>
             
             <div class="relative flex flex-col flex-auto mt-2">
-                <div class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
+                <div class="map"
+                    leaflet
+                    [leafletOptions]="options"
+                    [leafletMarkerCluster]="markerClusterData"
                     (leafletMapReady)="onMapReady($event)"
                     [class.opacity-25]="loading">
                 </div>
@@ -46,7 +49,9 @@
                                     [class.bg-red-400]="data.sla >= 0">
                                 </div>
                             </td>
-                            <td class="text-center border-t py-0.5">{{ data.filial }}</td>
+                            <td class="text-center border-t py-0.5 text-red-400">
+                                {{ data.filial }}
+                            </td>
                             <td class="text-right border-t py-0.5">{{ data.sla }}%</td>
                             <td class="text-right border-t py-0.5">{{ data.pendencia }}%</td>
                             <td class="text-right border-t py-0.5">{{ data.reincidencia }}%</td>

@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './indicador-filial-detalhado-chamados-antigos.component.html'
 })
 export class IndicadorFilialDetalhadoChamadosAntigosComponent implements OnInit {
+  loading: boolean;
 
   constructor() { }
 

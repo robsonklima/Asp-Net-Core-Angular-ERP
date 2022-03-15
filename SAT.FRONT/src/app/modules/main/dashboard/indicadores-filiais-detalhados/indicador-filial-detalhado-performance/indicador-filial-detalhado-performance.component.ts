@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardService } from 'app/core/services/dashboard.service';
+import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 import { UserService } from 'app/core/user/user.service';
 import {
   ApexAxisChartSeries,
@@ -34,16 +36,30 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  loading: boolean;
   
   constructor(
-    protected _userService: UserService
+    protected _userService: UserService,
+    private _dashboardService: DashboardService
   ) { }
 
-  ngOnInit(): void {
-    this.inicializarGrafico();
-  }
+  async ngOnInit() {
+    const data = await this._dashboardService.obterViewPorParametros({ 
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE,
+      codFilial: 4
+    }).toPromise();
 
-  private inicializarGrafico() {
+    console.log(data.viewDashboardIndicadoresDetalhadosPerformance);
+    
+
+    // const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaTecnico
+    //   .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+    //   .filter(s => s.percentual > 0)
+    //   .slice(0, 10);  
+    
+    // const labels = slaRegiao.map(s => s.nomeTecnico);
+    // const values = slaRegiao.map(s => s.percentual);
+
     this.chartOptions = {
       series: [
         {

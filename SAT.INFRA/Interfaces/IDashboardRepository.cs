@@ -43,5 +43,7 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ObterDadosIndicadoresDetalhadosReincidenciaTecnico(int codFilial);
         List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ObterDadosIndicadoresDetalhadosReincidenciaRegiao(int codFilial);
         List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(int codFilial);
+        List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(int codFilial);
+        List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(int codFilial);
     }
 }

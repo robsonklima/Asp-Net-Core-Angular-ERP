@@ -205,5 +205,15 @@ namespace SAT.INFRA.Repository
         {
             return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaCliente.Where(cod => cod.CodFilial == codFilial).ToList();
         }
+
+        public List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(int codFilial)
+        {
+            return this._context.ViewDashboardIndicadoresDetalhadosPerformance.Where(cod => cod.CodFilial == codFilial).ToList();
+        }
+
+        public List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(int codFilial)
+        {
+            return this._context.ViewDashboardIndicadoresDetalhadosChamadosAntigos.Where(cod => cod.CodFilial == codFilial).ToList();
+        }
     }
 }

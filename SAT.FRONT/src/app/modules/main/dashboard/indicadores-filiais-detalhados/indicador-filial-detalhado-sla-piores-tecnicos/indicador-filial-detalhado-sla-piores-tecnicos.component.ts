@@ -92,7 +92,7 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
       yaxis: {
         labels: {
           show: false
-        }
+        },
       },
       tooltip: {
         theme: "dark",

@@ -1,12 +1,12 @@
-<fuse-card class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-    <div class="text-lg font-semibold leading-tight">
+<fuse-card class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-0 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="text-lg font-semibold leading-tight ml-6 mt-6">
         SLA <span class="text-secondary font-light">Técnicos</span>
     </div>
 
-    <div class="text-secondary text-sm mt-1">Técnicos que Requerem Atenção</div>
+    <div class="text-secondary text-sm ml-6 mt-1">Técnicos que Requerem Atenção</div>
 
     <div>
-        <div class="items-center w-full justify-center min-h-80 -m-2" *ngIf="!loading">
+        <div class="items-center w-full justify-center -mt-4 pr-4" *ngIf="!loading">
             <apx-chart
                 [series]="tecnicoChart.series"
                 [chart]="tecnicoChart.chart"

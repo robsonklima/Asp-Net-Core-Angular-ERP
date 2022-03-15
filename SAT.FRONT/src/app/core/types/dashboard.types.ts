@@ -58,7 +58,9 @@ export enum DashboardViewEnum {
 	INDICADORES_DETALHADOS_PENDENCIA_REGIAO,
 	INDICADORES_DETALHADOS_REINCIDENCIA_CLIENTE,
 	INDICADORES_DETALHADOS_REINCIDENCIA_TECNICO,
-	INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO
+	INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO,
+	INDICADORES_DETALHADOS_PERFORMANCE,
+	INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS
 }
 
 export class ViewDadosDashboard {
@@ -100,6 +102,8 @@ export class ViewDadosDashboard {
 	viewDashboardIndicadoresDetalhadosReincidenciaCliente: ViewDashboardIndicadoresDetalhadosReincidenciaCliente[] = [];
 	viewDashboardIndicadoresDetalhadosReincidenciaTecnico: ViewDashboardIndicadoresDetalhadosReincidenciaTecnico[] = [];
 	viewDashboardIndicadoresDetalhadosReincidenciaRegiao: ViewDashboardIndicadoresDetalhadosReincidenciaRegiao[] = [];
+	viewDashboardIndicadoresDetalhadosPerformance: ViewDashboardIndicadoresDetalhadosPerformance[] = [];
+	viewDashboardIndicadoresDetalhadosChamadosAntigos: ViewDashboardIndicadoresDetalhadosChamadosAntigos[] = [];
 }
 
 export class ViewDashboardIndicadoresFiliais {
@@ -373,4 +377,25 @@ export interface ViewDashboardIndicadoresDetalhadosReincidenciaTecnico {
     chamadosMesReinc: number;
     totalGeral: number;
     percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosPerformance {
+    codFilial: number;
+    filial: string;
+    anoMes: string;
+    dentro: number;
+    fora: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosChamadosAntigos {
+    codFilial: number;
+    nomeFilial: string;
+    nomeFantasia: string;
+    modelo: string;
+    modeloCompleto: string;
+    codOS: number;
+    dataAbertura: string;
+    intervencao: string;
 }

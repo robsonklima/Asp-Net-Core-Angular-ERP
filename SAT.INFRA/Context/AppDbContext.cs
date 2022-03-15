@@ -180,6 +180,8 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ViewDashboardIndicadoresDetalhadosReincidenciaTecnico { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ViewDashboardIndicadoresDetalhadosReincidenciaCliente { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ViewDashboardIndicadoresDetalhadosReincidenciaRegiao { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
         public DbSet<FormaPagamento> FormaPagamento { get; set; }
         public DbSet<Moeda> Moeda { get; set; }
         public DbSet<PecaLista> PecaLista { get; set; }
@@ -280,6 +282,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaCliente>(new ViewDashboardIndicadoresDetalhadosReincidenciaClienteMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico>(new ViewDashboardIndicadoresDetalhadosReincidenciaTecnicoMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao>(new ViewDashboardIndicadoresDetalhadosReincidenciaRegiaoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPerformance>(new ViewDashboardIndicadoresDetalhadosPerformanceMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosChamadosAntigos>(new ViewDashboardIndicadoresDetalhadosChamadosAntigosMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);

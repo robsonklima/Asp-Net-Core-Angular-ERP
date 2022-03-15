@@ -135,6 +135,9 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO:
                     viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaRegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaRegiao(parameters.CodFilial.Value);
                     break;
+                case DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosPerformance = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPerformance(parameters.CodFilial.Value);
+                    break;
 
                 default:
                     break;

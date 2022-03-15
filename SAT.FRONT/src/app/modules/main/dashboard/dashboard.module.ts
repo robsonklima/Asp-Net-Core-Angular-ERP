@@ -56,7 +56,6 @@ import { IndicadorFilialDetalhadoPendenciaPioresRegioesComponent } from './indic
 import { IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-regioes/indicador-filial-detalhado-reincidencia-piores-regioes.component';
 import { IndicadorFilialDetalhadoReincidenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-clientes/indicador-filial-detalhado-reincidencia-piores-clientes.component';
 import { IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-tecnicos/indicador-filial-detalhado-reincidencia-piores-tecnicos.component';
-import { FuseAlertModule } from '@fuse/components/alert';
 registerLocaleData(ptBR);
 
 @NgModule({
@@ -117,8 +116,7 @@ registerLocaleData(ptBR);
     MatFormFieldModule,
     MatSelectModule,
     MatProgressBarModule,
-    FuseCardModule,
-    FuseAlertModule
+    FuseCardModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

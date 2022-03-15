@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum } from 'app/core/types/dashboard.types';
 import { UserService } from 'app/core/user/user.service';
@@ -36,6 +36,7 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() codFilial: number;
   loading: boolean;
   
   constructor(
@@ -46,7 +47,7 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
       dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE,
-      codFilial: 4
+      codFilial: this.codFilial
     }).toPromise();
 
     const performance = data.viewDashboardIndicadoresDetalhadosPerformance;

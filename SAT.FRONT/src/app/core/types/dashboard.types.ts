@@ -17,6 +17,7 @@ export enum DashboardEnum {
 export interface ViewDadosDashboardParameters extends QueryStringParameters {
 	dashboardViewEnum: DashboardViewEnum;
 	codPeca?: number;
+	codFilial?: number;
 }
 
 export enum DashboardViewEnum {
@@ -48,7 +49,16 @@ export enum DashboardViewEnum {
 	PECAS_CRITICAS_CHAMADOS_FALTANTES,
 	PECAS_CRITICAS_ESTOQUE_FALTANTES,
 	DENSIDADE_EQUIPAMENTOS,
-	DENSIDADE_TECNICOS
+	DENSIDADE_TECNICOS,
+	INDICADORES_DETALHADOS_SLA_CLIENTE,
+	INDICADORES_DETALHADOS_SLA_TECNICO,
+	INDICADORES_DETALHADOS_SLA_REGIAO,
+	INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
+	INDICADORES_DETALHADOS_PENDENCIA_TECNICO,
+	INDICADORES_DETALHADOS_PENDENCIA_REGIAO,
+	INDICADORES_DETALHADOS_REINCIDENCIA_CLIENTE,
+	INDICADORES_DETALHADOS_REINCIDENCIA_TECNICO,
+	INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO
 }
 
 export class ViewDadosDashboard {
@@ -81,6 +91,15 @@ export class ViewDadosDashboard {
 	viewDashboardTecnicosMenosPendentes: ViewDashboardTecnicosPendentes[] = [];
 	viewDashboardDensidadeEquipamentos: ViewDashboardDensidadeEquipamentos[] = [];
 	viewDashboardDensidadeTecnicos: ViewDashboardDensidadeTecnicos[] = [];
+	viewDashboardIndicadoresDetalhadosSLACliente: ViewDashboardIndicadoresDetalhadosSLACliente[] = [];
+	viewDashboardIndicadoresDetalhadosSLARegiao: ViewDashboardIndicadoresDetalhadosSLARegiao[] = [];
+	viewDashboardIndicadoresDetalhadosSLATecnico: ViewDashboardIndicadoresDetalhadosSLATecnico[] = [];
+	viewDashboardIndicadoresDetalhadosPendenciaTecnico: ViewDashboardIndicadoresDetalhadosPendenciaTecnico[] = [];
+	viewDashboardIndicadoresDetalhadosPendenciaRegiao: ViewDashboardIndicadoresDetalhadosPendenciaRegiao[] = [];
+	viewDashboardIndicadoresDetalhadosPendenciaCliente: ViewDashboardIndicadoresDetalhadosPendenciaCliente[] = [];
+	viewDashboardIndicadoresDetalhadosReincidenciaCliente: ViewDashboardIndicadoresDetalhadosReincidenciaCliente[] = [];
+	viewDashboardIndicadoresDetalhadosReincidenciaTecnico: ViewDashboardIndicadoresDetalhadosReincidenciaTecnico[] = [];
+	viewDashboardIndicadoresDetalhadosReincidenciaRegiao: ViewDashboardIndicadoresDetalhadosReincidenciaRegiao[] = [];
 }
 
 export class ViewDashboardIndicadoresFiliais {
@@ -264,4 +283,94 @@ export class ViewDashboardDensidadeTecnicos {
 	latitude: string;
 	longitude: string;
 	coordenadas: string;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSLACliente {
+	codFilial: number;
+	filial: string;
+	nomeFantasia: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSLARegiao {
+	codFilial: number;
+	filial: string;
+	nomeRegiao: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSLATecnico {
+	codFilial: number;
+	filial: string;
+	nomeTecnico: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosPendenciaCliente {
+    codFilial: number;
+    filial: string;
+    nomeFantasia: string;
+    chamadosMes: number;
+    chamadosMesPecasPendentes: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosPendenciaRegiao {
+    codFilial: number;
+    filial: string;
+    nomeRegiao: string;
+    chamadosMes: number;
+    chamadosMesPecasPendentes: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosPendenciaTecnico {
+    codFilial: number;
+    filial: string;
+    nomeTecnico: string;
+    chamadosMes: number;
+    chamadosMesPecasPendentes: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosReincidenciaRegiao {
+    codFilial: number;
+    filial: string;
+    nomeRegiao: string;
+    chamadosMes: number;
+    chamadosMesReinc: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosReincidenciaCliente {
+    codFilial: number;
+    filial: string;
+    nomeFantasia: string;
+    chamadosMes: number;
+    chamadosMesReinc: number;
+    totalGeral: number;
+    percentual: number;
+}
+
+export interface ViewDashboardIndicadoresDetalhadosReincidenciaTecnico {
+    codFilial: number;
+    filial: string;
+    nomeTecnico: string;
+    chamadosMes: number;
+    chamadosMesReinc: number;
+    totalGeral: number;
+    percentual: number;
 }

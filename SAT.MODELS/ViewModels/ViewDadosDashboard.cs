@@ -33,5 +33,14 @@ namespace SAT.MODELS.ViewModels
         public List<ViewDashboardTecnicosMenosPendentes> ViewDashboardTecnicosMenosPendentes { get; set; }
         public List<ViewDashboardDensidadeEquipamentos> ViewDashboardDensidadeEquipamentos { get; set; }
         public List<ViewDashboardDensidadeTecnicos> ViewDashboardDensidadeTecnicos { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSLACliente> ViewDashboardIndicadoresDetalhadosSLACliente { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSLARegiao> ViewDashboardIndicadoresDetalhadosSLARegiao { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSLATecnico> ViewDashboardIndicadoresDetalhadosSLATecnico { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ViewDashboardIndicadoresDetalhadosPendenciaTecnico { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ViewDashboardIndicadoresDetalhadosPendenciaRegiao { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ViewDashboardIndicadoresDetalhadosPendenciaCliente { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ViewDashboardIndicadoresDetalhadosReincidenciaCliente { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ViewDashboardIndicadoresDetalhadosReincidenciaTecnico { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ViewDashboardIndicadoresDetalhadosReincidenciaRegiao { get; set; }
     }
 }

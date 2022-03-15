@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
-            //_context.ChangeTracker.Clear();
+            _context.ChangeTracker.Clear();
 
             pontoUsuarioData.Divergencias = null;
             pontoUsuarioData.PontosUsuario = null;

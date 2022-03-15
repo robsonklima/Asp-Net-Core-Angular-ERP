@@ -1,0 +1,22 @@
+<fuse-card class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="text-2xl font-semibold leading-tight">Performance</div>
+    <div class="text-secondary text-md mt-1">Performance</div>
+    <div class="mt-4">
+        <div class="items-center justify-center h-90">
+            <div id="chart">
+                <apx-chart
+                  [series]="chartOptions.series"
+                  [chart]="chartOptions.chart"
+                  [dataLabels]="chartOptions.dataLabels"
+                  [plotOptions]="chartOptions.plotOptions"
+                  [yaxis]="chartOptions.yaxis"
+                  [legend]="chartOptions.legend"
+                  [fill]="chartOptions.fill"
+                  [stroke]="chartOptions.stroke"
+                  [tooltip]="chartOptions.tooltip"
+                  [xaxis]="chartOptions.xaxis"
+                ></apx-chart>
+              </div>
+        </div>
+    </div>
+</fuse-card>

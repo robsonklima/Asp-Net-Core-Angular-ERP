@@ -105,7 +105,7 @@ namespace SAT.API
             services.AddTransient<IPontoPeriodoStatusRepository, PontoPeriodoStatusRepository>();
             services.AddTransient<IPontoPeriodoModoAprovacaoRepository, PontoPeriodoModoAprovacaoRepository>();
             services.AddTransient<IPontoPeriodoIntervaloAcessoDataRepository, PontoPeriodoIntervaloAcessoDataRepository>();
-            services.AddTransient<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
+            services.AddScoped<IPontoUsuarioDataRepository, PontoUsuarioDataRepository>();
             services.AddTransient<IPontoUsuarioDataMotivoDivergenciaRepository, PontoUsuarioDataMotivoDivergenciaRepository>();
             services.AddTransient<IPontoUsuarioDataTipoAdvertenciaRepository, PontoUsuarioDataTipoAdvertenciaRepository>();
             services.AddTransient<IPontoUsuarioDataDivergenciaRepository, PontoUsuarioDataDivergenciaRepository>();

@@ -43,8 +43,20 @@ import ptBR from '@angular/common/locales/pt'
 import { TecnicosPendentesComponent } from './tecnicos-pendentes/tecnicos-pendentes.component';
 import { DisponibilidadeBbtsMultaComponent } from './disponibilidade-bbts-multa/disponibilidade-bbts-multa.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { IndicadoresFiliaisDetalhadosComponent } from './indicadores-filiais-detalhados/indicadores-filiais-detalhados.component';
+import { IndicadorFilialDetalhadoPerformanceComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-performance/indicador-filial-detalhado-performance.component';
+import { IndicadorFilialDetalhadoChamadosAntigosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-chamados-antigos/indicador-filial-detalhado-chamados-antigos.component';
+import { IndicadorFilialDetalhadoSlaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-regioes/indicador-filial-detalhado-sla-piores-regioes.component';
+import { FuseCardModule } from '@fuse/components/card';
+import { IndicadorFilialDetalhadoSlaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-clientes/indicador-filial-detalhado-sla-piores-clientes.component';
+import { IndicadorFilialDetalhadoSlaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-tecnicos/indicador-filial-detalhado-sla-piores-tecnicos.component';
+import { IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-tecnicos/indicador-filial-detalhado-pendencia-piores-tecnicos.component';
+import { IndicadorFilialDetalhadoPendenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-clientes/indicador-filial-detalhado-pendencia-piores-clientes.component';
+import { IndicadorFilialDetalhadoPendenciaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-regioes/indicador-filial-detalhado-pendencia-piores-regioes.component';
+import { IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-regioes/indicador-filial-detalhado-reincidencia-piores-regioes.component';
+import { IndicadorFilialDetalhadoReincidenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-clientes/indicador-filial-detalhado-reincidencia-piores-clientes.component';
+import { IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-tecnicos/indicador-filial-detalhado-reincidencia-piores-tecnicos.component';
 registerLocaleData(ptBR);
-
 
 @NgModule({
   declarations: [
@@ -69,7 +81,19 @@ registerLocaleData(ptBR);
     CincoPecasMaisFaltantesComponent,
     PecasFaltantesMaisCriticasComponent,
     DensidadeComponent,
-    TecnicosDesempenhoSpaComponent
+    TecnicosDesempenhoSpaComponent,
+    IndicadoresFiliaisDetalhadosComponent,
+    IndicadorFilialDetalhadoPerformanceComponent,
+    IndicadorFilialDetalhadoChamadosAntigosComponent,
+    IndicadorFilialDetalhadoSlaPioresRegioesComponent,
+    IndicadorFilialDetalhadoSlaPioresClientesComponent,
+    IndicadorFilialDetalhadoSlaPioresTecnicosComponent,
+    IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent,
+    IndicadorFilialDetalhadoPendenciaPioresClientesComponent,
+    IndicadorFilialDetalhadoPendenciaPioresRegioesComponent,
+    IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent,
+    IndicadorFilialDetalhadoReincidenciaPioresClientesComponent,
+    IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent,
   ],
   imports: [
     CommonModule,
@@ -91,7 +115,8 @@ registerLocaleData(ptBR);
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    FuseCardModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

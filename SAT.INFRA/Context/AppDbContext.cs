@@ -171,6 +171,15 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardDisponibilidadeBBTSMapaRegioes> ViewDashboardDisponibilidadeBBTSMapaRegioes { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade> ViewDashboardDisponibilidadeBBTSMultasDisponibilidade { get; set; }
         public DbSet<ViewDashboardDisponibilidadeBBTSMultasRegioes> ViewDashboardDisponibilidadeBBTSMultasRegioes { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSLATecnico> ViewDashboardIndicadoresDetalhadosSLATecnico { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSLACliente> ViewDashboardIndicadoresDetalhadosSLACliente { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSLARegiao> ViewDashboardIndicadoresDetalhadosSLARegiao { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ViewDashboardIndicadoresDetalhadosPendenciaTecnico { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ViewDashboardIndicadoresDetalhadosPendenciaCliente { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ViewDashboardIndicadoresDetalhadosPendenciaRegiao { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ViewDashboardIndicadoresDetalhadosReincidenciaTecnico { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ViewDashboardIndicadoresDetalhadosReincidenciaCliente { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ViewDashboardIndicadoresDetalhadosReincidenciaRegiao { get; set; }
         public DbSet<FormaPagamento> FormaPagamento { get; set; }
         public DbSet<Moeda> Moeda { get; set; }
         public DbSet<PecaLista> PecaLista { get; set; }
@@ -262,6 +271,15 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMapaRegioes>(new ViewDashboardDisponibilidadeBBTSMapaRegioesMap().Configure);
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasDisponibilidade>(new ViewDashboardDisponibilidadeBBTSMultasDisponibilidadeMap().Configure);
             modelBuilder.Entity<ViewDashboardDisponibilidadeBBTSMultasRegioes>(new ViewDashboardDisponibilidadeBBTSMultasRegioesMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSLACliente>(new ViewDashboardIndicadoresDetalhadosSLAClienteMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSLARegiao>(new ViewDashboardIndicadoresDetalhadosSLARegiaoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSLATecnico>(new ViewDashboardIndicadoresDetalhadosSLATecnicoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPendenciaTecnico>(new ViewDashboardIndicadoresDetalhadosPendenciaTecnicoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPendenciaRegiao>(new ViewDashboardIndicadoresDetalhadosPendenciaRegiaoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPendenciaCliente>(new ViewDashboardIndicadoresDetalhadosPendenciaClienteMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaCliente>(new ViewDashboardIndicadoresDetalhadosReincidenciaClienteMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico>(new ViewDashboardIndicadoresDetalhadosReincidenciaTecnicoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao>(new ViewDashboardIndicadoresDetalhadosReincidenciaRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);

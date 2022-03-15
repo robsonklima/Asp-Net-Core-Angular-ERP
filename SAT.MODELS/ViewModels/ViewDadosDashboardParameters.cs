@@ -7,5 +7,6 @@ namespace SAT.MODELS.ViewModels.Dashboard
     {
         public DashboardViewEnum DashboardViewEnum { get; set; }
         public int? CodPeca { get; set; }
+        public int? CodFilial { get; set; }
     }
 }

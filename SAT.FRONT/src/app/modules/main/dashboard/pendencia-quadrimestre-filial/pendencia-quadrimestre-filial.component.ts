@@ -52,7 +52,7 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
   public chartOptions: Partial<ChartOptions>;
 
   private chartMax: number = 40;
-  private meta: number = 35;
+  private meta: number = 5;
   private redColor: string = "#cc0000";
   private greenColor: string = "#009900";
 
@@ -106,7 +106,7 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
           data: valoresColuna
         },
         {
-          name: "Meta de Reincidência",
+          name: "Meta de Pendencia",
           type: "line",
           data: valoresLinha,
           color: redColor
@@ -117,7 +117,7 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
         enabled: false
       },
       title: {
-        text: '* Meta de Reincidência deve ser menor ou igual a ' + meta + '%'
+        text: '* Meta de Pendencia deve ser menor ou igual a ' + meta + '%'
       },
       colors: [
         function ({ value }) {

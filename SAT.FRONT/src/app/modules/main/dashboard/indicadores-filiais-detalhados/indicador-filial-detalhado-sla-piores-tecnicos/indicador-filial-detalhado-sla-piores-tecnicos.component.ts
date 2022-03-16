@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -35,17 +37,20 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
-  @Input() codFilial: number;
+  userSession: UserSession;
   loading: boolean = true;
 
   constructor(
-    private _dashboardService: DashboardService
-  ) { }
+    private _dashboardService: DashboardService,
+    protected _userService: UserService
+  ) {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
-        codFilial: this.codFilial
+        codFilial: this.userSession.usuario.codFilial
       }).toPromise();
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLATecnico
@@ -88,7 +93,7 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
         colors: ["#fff"]
       },
       xaxis: {
-        categories: labels
+        categories: labels,
       },
       yaxis: {
         labels: {

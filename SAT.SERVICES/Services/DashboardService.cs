@@ -63,6 +63,9 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.REINCIDENCIA_FILIAIS:
                     viewDashboard.ViewDashboardReincidenciaFiliais = this._dashboardRepository.ObterDadosReincidenciaFiliais();
                     break;
+                case DashboardViewEnum.REINCIDENCIA_QUADRIMESTRE_FILIAIS:
+                    viewDashboard.ViewDashboardReincidenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosReincidenciaQuadrimestreFiliais(parameters.CodFilial.Value);
+                    break;                    
                 case DashboardViewEnum.REINCIDENCIA_TECNICOS_MENOS_REINCIDENTES:
                     viewDashboard.ViewDashboardReincidenciaTecnicosMenosReincidentes = this._dashboardRepository.ObterDadosReincidenciaTecnicosMenosReincidentes();
                     break;
@@ -78,6 +81,9 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.PENDENCIA_FILIAIS:
                     viewDashboard.ViewDashboardPendenciaFiliais = this._dashboardRepository.ObterDadosPendenciaFiliais();
                     break;
+                case DashboardViewEnum.PENDENCIA_QUADRIMESTRE_FILIAIS:
+                    viewDashboard.ViewDashboardPendenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosPendenciaQuadrimestreFiliais(parameters.CodFilial.Value);
+                    break;                    
                 case DashboardViewEnum.PENDENCIA_TECNICOS_MENOS_PENDENCIA:
                     viewDashboard.ViewDashboardTecnicosMenosPendentes = this._dashboardRepository.ObterDadosTecnicosMenosPendentes();
                     break;

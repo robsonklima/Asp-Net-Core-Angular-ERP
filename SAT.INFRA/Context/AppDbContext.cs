@@ -149,6 +149,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardSPA> ViewDashboardSPA { get; set; }
         public DbSet<ViewDashboardSLAClientes> ViewDashboardSLAClientes { get; set; }
         public DbSet<ViewDashboardReincidenciaFiliais> ViewDashboardReincidenciaFiliais { get; set; }
+        public DbSet<ViewDashboardReincidenciaQuadrimestreFiliais> ViewDashboardReincidenciaQuadrimestreFiliais { get; set; }
         public DbSet<ViewDashboardReincidenciaClientes> ViewDashboardReincidenciaClientes { get; set; }
         public DbSet<ViewDashboardSPATecnicosMaiorDesempenho> ViewDashboardSPATecnicosMaiorDesempenho { get; set; }
         public DbSet<ViewDashboardSPATecnicosMenorDesempenho> ViewDashboardSPATecnicosMenorDesempenho { get; set; }
@@ -156,6 +157,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardReincidenciaTecnicosMaisReincidentes> ViewDashboardReincidenciaTecnicosMaisReincidentes { get; set; }
         public DbSet<ViewDashboardEquipamentosMaisReincidentes> ViewDashboardEquipamentosMaisReincidentes { get; set; }
         public DbSet<ViewDashboardPendenciaFiliais> ViewDashboardPendenciaFiliais { get; set; }
+        public DbSet<ViewDashboardPendenciaQuadrimestreFiliais> ViewDashboardPendenciaQuadrimestreFiliais { get; set; }
         public DbSet<ViewDashboardTecnicosMenosPendentes> ViewDashboardTecnicosMenosPendentes { get; set; }
         public DbSet<ViewDashboardTecnicosMaisPendentes> ViewDashboardTecnicosMaisPendentes { get; set; }
         public DbSet<ViewDashboardPendenciaGlobal> ViewDashboardPendenciaGlobal { get; set; }
@@ -251,6 +253,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardSPA>(new ViewDashboardSPAMap().Configure);
             modelBuilder.Entity<ViewDashboardSLAClientes>(new ViewDashboardSLAClientesMap().Configure);
             modelBuilder.Entity<ViewDashboardReincidenciaFiliais>(new ViewDashboardReincidenciaFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardReincidenciaQuadrimestreFiliais>(new ViewDashboardReincidenciaQuadrimestreFiliaisMap().Configure);
             modelBuilder.Entity<ViewDashboardReincidenciaClientes>(new ViewDashboardReincidenciaClientesMap().Configure);
             modelBuilder.Entity<ViewDashboardSPATecnicosMenorDesempenho>(new ViewDashboardSPATecnicosMenorDesempenhoMap().Configure);
             modelBuilder.Entity<ViewDashboardSPATecnicosMaiorDesempenho>(new ViewDashboardSPATecnicosMaiorDesempenhoMap().Configure);
@@ -258,6 +261,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardReincidenciaTecnicosMaisReincidentes>(new ViewDashboardReincidenciaTecnicosMaisReincidentesMap().Configure);
             modelBuilder.Entity<ViewDashboardEquipamentosMaisReincidentes>(new ViewDashboardEquipamentosMaisReincidentesMap().Configure);
             modelBuilder.Entity<ViewDashboardPendenciaFiliais>(new ViewDashboardPendenciaFiliaisMap().Configure);
+            modelBuilder.Entity<ViewDashboardPendenciaQuadrimestreFiliais>(new ViewDashboardPendenciaQuadrimestreFiliaisMap().Configure);
             modelBuilder.Entity<ViewDashboardTecnicosMenosPendentes>(new ViewDashboardTecnicosMenosPendentesMap().Configure);
             modelBuilder.Entity<ViewDashboardTecnicosMaisPendentes>(new ViewDashboardTecnicosMaisPendentesMap().Configure);
             modelBuilder.Entity<ViewDashboardPendenciaGlobal>(new ViewDashboardPendenciaGlobalMap().Configure);

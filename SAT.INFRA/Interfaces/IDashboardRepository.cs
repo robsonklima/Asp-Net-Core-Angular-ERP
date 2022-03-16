@@ -19,10 +19,12 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho();
         List<ViewDashboardSLAClientes> ObterDadosSLAClientes();
         List<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais();
+        List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFiliais(int codFilial);
         List<ViewDashboardReincidenciaTecnicosMenosReincidentes> ObterDadosReincidenciaTecnicosMenosReincidentes();
         List<ViewDashboardReincidenciaTecnicosMaisReincidentes> ObterDadosReincidenciaTecnicosMaisReincidentes();
         List<ViewDashboardEquipamentosMaisReincidentes> ObterDadosEquipamentosMaisReincidentes();
         List<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais();
+        List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFiliais(int codFilial);
         List<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes();
         List<ViewDashboardTecnicosMaisPendentes> ObterDadosTecnicosMaisPendentes();
         List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes();

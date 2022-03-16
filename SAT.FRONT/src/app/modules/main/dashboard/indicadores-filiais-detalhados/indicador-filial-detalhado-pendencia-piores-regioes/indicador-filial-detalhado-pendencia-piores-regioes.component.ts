@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -38,19 +36,16 @@ export class IndicadorFilialDetalhadoPendenciaPioresRegioesComponent implements 
   @ViewChild("chart") chart: ChartComponent;
   public regiaoChart: Partial<ChartOptions>;
   loading: boolean = true;
-  userSession: UserSession;
+  @Input() codFilial;
 
   constructor(
-    private _dashboardService: DashboardService,
-    private _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _dashboardService: DashboardService
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_REGIAO,
-        codFilial: this.userSession.usuario.codFilial
+        codFilial: this.codFilial
       }).toPromise();
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaRegiao

@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -38,19 +36,16 @@ export class IndicadorFilialDetalhadoReincidenciaPioresClientesComponent impleme
   @ViewChild("chart") chart: ChartComponent;
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
-  userSession: UserSession;
+  @Input() codFilial;
 
   constructor(
-    private _dashboardService: DashboardService,
-    protected _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    protected _dashboardService: DashboardService
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_CLIENTE,
-        codFilial: this.userSession.usuario.codFilial
+        codFilial: this.codFilial
       }).toPromise();
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaCliente

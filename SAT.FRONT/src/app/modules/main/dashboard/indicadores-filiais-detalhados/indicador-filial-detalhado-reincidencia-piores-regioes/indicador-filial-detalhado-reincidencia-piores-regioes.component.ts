@@ -37,20 +37,17 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public regiaoChart: Partial<ChartOptions>;
-  userSession: UserSession;
+  @Input() codFilial;
   loading: boolean = true;
 
   constructor(
-    private _dashboardService: DashboardService,
-    protected _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _dashboardService: DashboardService
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO,
-        codFilial: this.userSession.usuario.codFilial
+        codFilial: this.codFilial
       }).toPromise();
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaRegiao

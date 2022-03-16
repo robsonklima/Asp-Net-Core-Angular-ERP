@@ -19,8 +19,6 @@
     <a href="http://satdbprod/Reports/report/Reports/Relat%C3%B3rio%20DSS%20-%20SAT%20-%20Logistica%20-%20Chamado%20Faltante%20sem%20Status%20a%20mais%20de%2024%20horas%20-%20Analistas" target="_blank">Relatório Reporting</a>
 </div>
 
-<div class="flex justify-center items-center" *ngIf="loading">
-    <div class="">
-        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-    </div>
+<div class="flex justify-center items-center bg-gray-100 min-h-40" *ngIf="loading">
+    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
 </div>

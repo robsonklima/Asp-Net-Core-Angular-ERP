@@ -16,9 +16,7 @@
         </thead>
     </table>
 
-    <div class="flex justify-center items-center" *ngIf="loading">
-        <div class="">
-            <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-        </div>
+    <div class="flex justify-center items-center min-h-72 bg-gray-100" *ngIf="loading">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>

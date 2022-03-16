@@ -57,6 +57,7 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
           'Densidade',
+          'Disponibilidade Técnicos',
         ];
 
         case PerfilEnum.FILIAIS_SUPERVISOR:

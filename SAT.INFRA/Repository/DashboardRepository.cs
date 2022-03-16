@@ -170,8 +170,11 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardDensidadeEquipamentos.ToList();
         }
 
-        public List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos()
+        public List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos(DashboardParameters parameters)
         {
+            if (parameters.CodFilial.HasValue)
+                return this._context.ViewDashboardDensidadeTecnicos.Where(d => d.CodFilial == parameters.CodFilial).ToList();
+
             return this._context.ViewDashboardDensidadeTecnicos.ToList();
         }
 

@@ -112,7 +112,7 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardDensidadeEquipamentos = this._dashboardRepository.ObterDadosDensidadeEquipamentos(parameters);
                     break;
                 case DashboardViewEnum.DENSIDADE_TECNICOS:
-                    viewDashboard.ViewDashboardDensidadeTecnicos = this._dashboardRepository.ObterDadosDensidadeTecnicos();
+                    viewDashboard.ViewDashboardDensidadeTecnicos = this._dashboardRepository.ObterDadosDensidadeTecnicos(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO:
                     viewDashboard.ViewDashboardIndicadoresDetalhadosSLATecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLATecnico(parameters);

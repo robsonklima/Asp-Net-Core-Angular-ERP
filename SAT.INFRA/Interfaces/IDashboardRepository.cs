@@ -36,7 +36,7 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(DashboardParameters parameters);
         List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(DashboardParameters parameters);
         List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(DashboardParameters parameters);
-        List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos();
+        List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosSLATecnico> ObterDadosIndicadoresDetalhadosSLATecnico(DashboardParameters parameters);

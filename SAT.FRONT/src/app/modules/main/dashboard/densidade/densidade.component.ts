@@ -77,15 +77,18 @@ export class DensidadeComponent {
   }
 
   private async obterTecnicos() {
-    this.loading = true;
-    const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS }).toPromise())
-      .viewDashboardDensidadeTecnicos;
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
+      codFilial: this.usuarioSessao.usuario.codFilial
+    }).toPromise();
+      
+    const tecnicos = data.viewDashboardDensidadeTecnicos;
 
-    let markers: any[] = data.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico) => {
+    let markers: any[] = tecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
       return {
         lat: +tecnico.latitude,
         lng: +tecnico.longitude,
-        toolTip: tecnico
+        toolTip: tecnico.tecnico
       }
     });
 

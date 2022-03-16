@@ -9,6 +9,7 @@ import { Autorizada } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-densidade',
@@ -23,7 +24,7 @@ export class DensidadeComponent {
   codFilial: number;
   regioes: Regiao[] = [];
   autorizadas: Autorizada[] = [];
-  loading: boolean = false;
+  loading: boolean = true;
 
   options = {
     layers: [
@@ -35,7 +36,12 @@ export class DensidadeComponent {
     center: latLng([-15.7801, -47.9292])
   };
 
-  constructor(private _dashboardService: DashboardService) { }
+  constructor(
+    private _dashboardService: DashboardService,
+    private _userService: UserService
+  ) {
+    this.usuarioSessao = JSON.parse(this._userService.userSession);
+  }
 
   onMapReady(map: Map): void {
     this.map = map;
@@ -45,11 +51,13 @@ export class DensidadeComponent {
   }
 
   private async obterEquipamentosContrato() {
-    this.loading = true;
-    const data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS }).toPromise())
-      .viewDashboardDensidadeEquipamentos;
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
+      codFilial: this.usuarioSessao.usuario.codFilial
+    }).toPromise();
+    const densidade = data.viewDashboardDensidadeEquipamentos;
 
-    let markers: any[] = data.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
+    let markers: any[] = densidade.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
       return {
         lat: +equip.latitude,
         lng: +equip.longitude,

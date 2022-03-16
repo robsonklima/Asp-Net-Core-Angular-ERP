@@ -22,8 +22,6 @@ export class IndicadorFilialDetalhadoChamadosAntigosComponent implements OnInit 
   }
     
   async ngOnInit() {
-    debugger
-
     const data = await this._dashboardService.obterViewPorParametros({
       dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS,
       codFilial: this.userSession.usuario.codFilial

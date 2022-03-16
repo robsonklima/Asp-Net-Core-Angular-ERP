@@ -34,14 +34,14 @@ export class DefaultComponent implements OnInit, OnDestroy
     obterMensagemBoasVindas(): string {
         const hoje = new Date()
         const horaCorrente = hoje.getHours();
-        const primeiroNomeUsuario = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift().charAt(0).toUpperCase() + this.sessionData?.usuario?.nomeUsuario?.slice(1);
+        const nomeUsuario = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift().charAt(0).toUpperCase() + this.sessionData?.usuario?.nomeUsuario?.slice(1);
 
         if (horaCorrente < 12) {
-            return `Bom dia, ${primeiroNomeUsuario}!`;
+            return `Bom dia, ${nomeUsuario}!`;
         } else if (horaCorrente < 18) {
-            return `Boa tarde, ${primeiroNomeUsuario}!`;
+            return `Boa tarde, ${nomeUsuario}!`;
         } else {
-            return `Boa noite, ${primeiroNomeUsuario}!`;
+            return `Boa noite, ${nomeUsuario}!`;
         }
     }
 

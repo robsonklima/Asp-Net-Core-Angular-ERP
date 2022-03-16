@@ -38,7 +38,7 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   userSession: UserSession;
-  loading: boolean;
+  loading: boolean = true;
   
   constructor(
     protected _userService: UserService,
@@ -104,6 +104,8 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
         show: false
       }
     };
+
+    this.loading = false;
   }
 
   private formatarAnoMes(anoMes: string): string {

@@ -1,16 +1,22 @@
-<div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto bg-card overflow-hidden">
+ <div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto bg-card overflow-hidden" *ngIf="!loading">
   <div class="text-lg font-semibold leading-tight ml-6">
     Performance
   </div>
 
   <div class="text-secondary text-sm ml-6 mt-1">Último Quadrimestre</div>
 
-  <div class="items-center w-full justify-center -mb-4" *ngIf="!loading">
+  <div class="items-center w-full justify-center -mb-4">
     <div id="chart">
       <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
         [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [legend]="chartOptions.legend"
         [fill]="chartOptions.fill" [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"
         [xaxis]="chartOptions.xaxis"></apx-chart>
     </div>
+  </div>
+</div>
+
+<div class="flex justify-center items-center min-h-72" *ngIf="loading">
+  <div class="text-center">
+      <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
   </div>
 </div>

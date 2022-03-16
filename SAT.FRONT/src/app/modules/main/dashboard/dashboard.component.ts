@@ -38,7 +38,6 @@ export class DashboardComponent implements AfterViewInit {
       case PerfilEnum.ADM_DO_SISTEMA:
         return [
           'Status Filiais',
-          'Detalhado Filial',
           'Chamados Antigos',
           'BBTS Regiões',
           'BBTS Filiais',
@@ -62,6 +61,7 @@ export class DashboardComponent implements AfterViewInit {
 
         case PerfilEnum.FILIAL_COORDENADOR:
           return [
+            'Detalhado Filial',
             'Pendência Filial',
           ];
 

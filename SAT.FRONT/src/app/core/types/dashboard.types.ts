@@ -67,12 +67,10 @@ export class ViewDadosDashboard {
 	viewDashboardPecasCriticasMaisFaltantes: ViewDashboardPecasCriticasMaisFaltantes[] = [];
 	viewDashboardPecasFaltantes: ViewDashboardPecasFaltantes[] = [];
 	viewDashboardPecasMaisFaltantes: ViewDashboardPecasMaisFaltantes[] = [];
-	viewDashboardPendenciaFiliais: ViewDashboardPendenciaFiliais[] = [];
-	viewDashboardPendenciaQuadrimestreFiliais: ViewDashboardPendenciaQuadrimestreFiliais[] = [];
+	viewDashboardPendenciaFiliais: ViewDashboardPendenciaFiliais[] = [];	
 	viewDashboardPendenciaGlobal: ViewDashboardPendenciaGlobal[] = [];
 	viewDashboardReincidenciaClientes: ViewDashboardReincidenciaClientes[] = [];
 	viewDashboardReincidenciaFiliais: ViewDashboardReincidenciaFiliais[] = [];
-	viewDashboardReincidenciaQuadrimestreFiliais: ViewDashboardReincidenciaQuadrimestreFiliais[] = [];
 	viewDashboardReincidenciaTecnicosMaisReincidentes: ViewDashboardReincidenciaTecnicosReincidentes[] = [];
 	viewDashboardReincidenciaTecnicosMenosReincidentes: ViewDashboardReincidenciaTecnicosReincidentes[] = [];
 	viewDashboardSLAClientes: ViewDashboardSLAClientes[] = [];
@@ -94,6 +92,8 @@ export class ViewDadosDashboard {
 	viewDashboardIndicadoresDetalhadosReincidenciaRegiao: ViewDashboardIndicadoresDetalhadosReincidenciaRegiao[] = [];
 	viewDashboardIndicadoresDetalhadosPerformance: ViewDashboardIndicadoresDetalhadosPerformance[] = [];
 	viewDashboardIndicadoresDetalhadosChamadosAntigos: ViewDashboardIndicadoresDetalhadosChamadosAntigos[] = [];
+	viewDashboardReincidenciaQuadrimestreFiliais: ViewDashboardReincidenciaQuadrimestreFiliais[] = [];
+	viewDashboardPendenciaQuadrimestreFiliais: ViewDashboardPendenciaQuadrimestreFiliais[] = [];
 }
 
 export class ViewDashboardIndicadoresFiliais {

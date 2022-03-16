@@ -1,9 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Filterable } from 'app/core/filters/filterable';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { IFilterable } from 'app/core/types/filtro.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
@@ -21,31 +18,28 @@ import {
   ApexStroke
 } from "ng-apexcharts";
 export type ChartOptions =
-  {
-    series: ApexAxisChartSeries;
-    chart: ApexChart;
-    dataLabels: ApexDataLabels;
-    plotOptions: ApexPlotOptions;
-    yaxis: ApexYAxis | ApexYAxis[];
-    xaxis: ApexXAxis;
-    grid: ApexGrid;
-    colors: any[];
-    legend: ApexLegend;
-    states: ApexStates;
-    title: any;
-    stroke: ApexStroke;
-    labels: string[];
-  };
-
+{
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis | ApexYAxis[];
+  xaxis: ApexXAxis;
+  grid: ApexGrid;
+  colors: any[];
+  legend: ApexLegend;
+  states: ApexStates;
+  title: any;
+  stroke: ApexStroke;
+  labels: string[];
+};
 
 @Component({
   selector: 'app-pendencia-quadrimestre-filial',
   templateUrl: './pendencia-quadrimestre-filial.component.html',
 })
-export class PendenciaQuadrimestreFilialComponent extends Filterable implements OnInit, IFilterable {
-  @Input() sidenav: MatSidenav;
+export class PendenciaQuadrimestreFilialComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-
   public loading: boolean;
   public haveData: boolean;
   public usuarioSessao: UsuarioSessao;
@@ -60,30 +54,17 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
   constructor(
     private _dashboardService: DashboardService,
     protected _userService: UserService) {
-    super(_userService, 'dashboard-filtro');
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
     this.carregarGrafico();
-    this.registerEmitters();
-  }
-
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.carregarGrafico();
-    })
-  }
-
-  loadFilter(): void {
-    super.loadFilter();
   }
 
   public async carregarGrafico() {
     this.loading = true;
     let data = (await this._dashboardService
-      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.PENDENCIA_QUADRIMESTRE_FILIAIS, codFilial: this.userSession.usuario.codFilial }).toPromise())
+      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.PENDENCIA_QUADRIMESTRE_FILIAIS, codFilial: this.usuarioSessao.usuario.codFilial }).toPromise())
       .viewDashboardPendenciaQuadrimestreFiliais;
 
     if (data?.length) {

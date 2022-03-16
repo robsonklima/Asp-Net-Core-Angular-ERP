@@ -300,6 +300,28 @@
               </ng-template>
             </mat-tab>
 
+            <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Filial')">
+              <ng-template mat-tab-label>
+                <span class="text-teal-600">Reincidência Filial</span>
+              </ng-template>
+
+              <ng-template matTabContent>
+                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+                  <div
+                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                      Reincidência Último Quadrimestre
+                      </div>
+                    </div>
+                    <div class="flex flex-col flex-auto mt-6">
+                      <app-reincidencia-quadrimestre-filial></app-reincidencia-quadrimestre-filial>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </mat-tab>
+
             <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Técnicos')">
               <ng-template mat-tab-label>
                 <span class="text-teal-600">Reincidência Técnicos</span>
@@ -419,7 +441,6 @@
                 </div>
               </ng-template>
             </mat-tab>
-
 
             <mat-tab *ngIf="verificarPermissaoSlide('Pendência Técnicos')">
               <ng-template mat-tab-label>

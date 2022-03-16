@@ -51,10 +51,11 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
   public usuarioSessao: UsuarioSessao;
   public chartOptions: Partial<ChartOptions>;
 
-  private chartMax: number = 40;
+  private chartMax: number = 30;
   private meta: number = 5;
   private redColor: string = "#cc0000";
   private greenColor: string = "#009900";
+  private blackColor: string = "#000000";
 
   constructor(
     private _dashboardService: DashboardService,
@@ -82,13 +83,13 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
   public async carregarGrafico() {
     this.loading = true;
     let data = (await this._dashboardService
-      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_FILIAIS }).toPromise())
-      .viewDashboardReincidenciaFiliais;
+      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.PENDENCIA_QUADRIMESTRE_FILIAIS, codFilial: this.userSession.usuario.codFilial }).toPromise())
+      .viewDashboardPendenciaQuadrimestreFiliais;
 
     if (data?.length) {
-      data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
-      let labels = data.map(d => d.filial);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
+      data = Enumerable.from(data).orderBy(ord => ord.anoMes).toArray();
+      let labels = data.map(d => d.anoMes);
+      let valoresColuna = data.map(d => d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(() => { valoresLinha.push(this.meta); });
       this.haveData = true;
@@ -167,7 +168,7 @@ export class PendenciaQuadrimestreFilialComponent extends Filterable implements 
         {
           style:
           {
-            colors: this.greenColor,
+            colors: this.blackColor,
             fontSize: "12px"
           }
         }

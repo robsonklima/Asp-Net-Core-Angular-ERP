@@ -185,7 +185,7 @@ export class ViewDashboardReincidenciaQuadrimestreFiliais {
 	codFilial: number;
 	filial: string;
 	anoMes: string;
-	pendencia?: number;
+	percentual?: number;
 }
 
 export class ViewDashboardReincidenciaClientes {
@@ -223,7 +223,7 @@ export class ViewDashboardPendenciaQuadrimestreFiliais {
 	codFilial: number;
 	filial: string;
 	anoMes: string;
-	pendencia?: number;
+	percentual?: number;
 }
 
 export class ViewDashboardTecnicosPendentes {

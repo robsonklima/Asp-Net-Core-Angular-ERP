@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
-using SAT.MODELS.ViewModels.Dashboard;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -20,9 +20,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ViewDadosDashboard ObterViewPorParametros([FromQuery] ViewDadosDashboardParameters viewDadosDashboardParameters)
+        public ViewDadosDashboard ObterViewPorParametros([FromQuery] DashboardParameters parameters)
         {
-            return _dashboardService.ObterViewPorParametros(viewDadosDashboardParameters);
+            return _dashboardService.ObterViewPorParametros(parameters);
         }
     }
 }

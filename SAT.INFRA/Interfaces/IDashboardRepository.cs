@@ -1,5 +1,5 @@
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
-using SAT.MODELS.ViewModels.Dashboard;
 using System.Collections.Generic;
 
 namespace SAT.INFRA.Interfaces
@@ -20,12 +20,12 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho();
         List<ViewDashboardSLAClientes> ObterDadosSLAClientes();
         List<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais();
-        List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(int codFilial);
+        List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(DashboardParameters parameters);
         List<ViewDashboardReincidenciaTecnicosMenosReincidentes> ObterDadosReincidenciaTecnicosMenosReincidentes();
         List<ViewDashboardReincidenciaTecnicosMaisReincidentes> ObterDadosReincidenciaTecnicosMaisReincidentes();
         List<ViewDashboardEquipamentosMaisReincidentes> ObterDadosEquipamentosMaisReincidentes();
         List<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais();
-        List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFilial(int codFilial);
+        List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFilial(DashboardParameters parameters);
         List<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes();
         List<ViewDashboardTecnicosMaisPendentes> ObterDadosTecnicosMaisPendentes();
         List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes();
@@ -33,20 +33,20 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardPecasFaltantes> ObterDadosPecasFaltantes();
         List<ViewDashboardPecasMaisFaltantes> ObterDadosPecasMaisFaltantes();
         List<ViewDashboardPecasCriticasMaisFaltantes> ObterDadosPecasCriticasMaisFaltantes();
-        List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca);
-        List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca);
-        List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(ViewDadosDashboardParameters parameters);
+        List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(DashboardParameters parameters);
+        List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(DashboardParameters parameters);
+        List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(DashboardParameters parameters);
         List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos();
-        List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosSLATecnico> ObterDadosIndicadoresDetalhadosSLATecnico(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ObterDadosIndicadoresDetalhadosPendenciaTecnico(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ObterDadosIndicadoresDetalhadosPendenciaRegiao(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ObterDadosIndicadoresDetalhadosPendenciaCliente(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ObterDadosIndicadoresDetalhadosReincidenciaTecnico(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ObterDadosIndicadoresDetalhadosReincidenciaRegiao(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(int codFilial);
-        List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(int codFilial);
+        List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosSLATecnico> ObterDadosIndicadoresDetalhadosSLATecnico(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ObterDadosIndicadoresDetalhadosPendenciaTecnico(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ObterDadosIndicadoresDetalhadosPendenciaRegiao(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ObterDadosIndicadoresDetalhadosPendenciaCliente(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ObterDadosIndicadoresDetalhadosReincidenciaTecnico(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ObterDadosIndicadoresDetalhadosReincidenciaRegiao(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(DashboardParameters parameters);
     }
 }

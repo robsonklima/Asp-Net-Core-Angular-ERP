@@ -1,23 +1,12 @@
-﻿using SAT.MODELS.Enums;
-using System;
+﻿using SAT.MODELS.Entities.Helpers;
+using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities.Params
 {
-    public class DashboardParameters
+    public class DashboardParameters : QueryStringParameters
     {
-        public DashboardAgrupadorEnum Agrupador { get; set; }
-        public DashboardIncludeEnum Include { get; set; }
-        public DashboardFilterEnum FilterType { get; set; }
-        public DashboardTipoEnum Tipo { get; set; }
-
-        public DateTime DataInicio { get; set; }
-        public DateTime DataFim { get; set; }
-        public string CodClientes { get; set; }
-        public string CodFiliais { get; set; }
-        public string CodStatusServicos { get; set; }
-        public string CodTiposIntervencao { get; set; }
-        public string CodAutorizadas { get; set; }
-        public string CodTiposGrupo { get; set; }
-        public string CodMagnus { get; set; }
+        public DashboardViewEnum DashboardViewEnum { get; set; }
+        public int? CodPeca { get; set; }
+        public int? CodFilial { get; set; }
     }
 }

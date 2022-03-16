@@ -1,7 +1,7 @@
 ﻿using SAT.INFRA.Interfaces;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
-using SAT.MODELS.ViewModels.Dashboard;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -15,7 +15,7 @@ namespace SAT.SERVICES.Services
             this._dashboardRepository = dashboardRepository;
         }
 
-        public ViewDadosDashboard ObterViewPorParametros(ViewDadosDashboardParameters parameters)
+        public ViewDadosDashboard ObterViewPorParametros(DashboardParameters parameters)
         {
             ViewDadosDashboard viewDashboard = new();
 
@@ -64,7 +64,7 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardReincidenciaFiliais = this._dashboardRepository.ObterDadosReincidenciaFiliais();
                     break;
                 case DashboardViewEnum.REINCIDENCIA_QUADRIMESTRE_FILIAIS:
-                    viewDashboard.ViewDashboardReincidenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosReincidenciaQuadrimestreFilial(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardReincidenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosReincidenciaQuadrimestreFilial(parameters);
                     break;                    
                 case DashboardViewEnum.REINCIDENCIA_TECNICOS_MENOS_REINCIDENTES:
                     viewDashboard.ViewDashboardReincidenciaTecnicosMenosReincidentes = this._dashboardRepository.ObterDadosReincidenciaTecnicosMenosReincidentes();
@@ -82,7 +82,7 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardPendenciaFiliais = this._dashboardRepository.ObterDadosPendenciaFiliais();
                     break;
                 case DashboardViewEnum.PENDENCIA_QUADRIMESTRE_FILIAIS:
-                    viewDashboard.ViewDashboardPendenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosPendenciaQuadrimestreFilial(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardPendenciaQuadrimestreFiliais = this._dashboardRepository.ObterDadosPendenciaQuadrimestreFilial(parameters);
                     break;                    
                 case DashboardViewEnum.PENDENCIA_TECNICOS_MENOS_PENDENCIA:
                     viewDashboard.ViewDashboardTecnicosMenosPendentes = this._dashboardRepository.ObterDadosTecnicosMenosPendentes();
@@ -103,10 +103,10 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardPecasCriticasMaisFaltantes = this._dashboardRepository.ObterDadosPecasCriticasMaisFaltantes();
                     break;
                 case DashboardViewEnum.PECAS_CRITICAS_CHAMADOS_FALTANTES:
-                    viewDashboard.ViewDashboardPecasCriticaChamadosFaltantes = this._dashboardRepository.ObterDadosPecasCriticasChamadosFaltantes(parameters.CodPeca.Value);
+                    viewDashboard.ViewDashboardPecasCriticaChamadosFaltantes = this._dashboardRepository.ObterDadosPecasCriticasChamadosFaltantes(parameters);
                     break;
                 case DashboardViewEnum.PECAS_CRITICAS_ESTOQUE_FALTANTES:
-                    viewDashboard.ViewDashboardPecasCriticaEstoqueFaltantes = this._dashboardRepository.ObterDadosPecasCriticasEstoqueFaltantes(parameters.CodPeca.Value);
+                    viewDashboard.ViewDashboardPecasCriticaEstoqueFaltantes = this._dashboardRepository.ObterDadosPecasCriticasEstoqueFaltantes(parameters);
                     break;
                 case DashboardViewEnum.DENSIDADE_EQUIPAMENTOS:
                     viewDashboard.ViewDashboardDensidadeEquipamentos = this._dashboardRepository.ObterDadosDensidadeEquipamentos(parameters);
@@ -115,37 +115,37 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardDensidadeTecnicos = this._dashboardRepository.ObterDadosDensidadeTecnicos();
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLATecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLATecnico(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLATecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLATecnico(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_SLA_REGIAO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLARegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLARegiao(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLARegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLARegiao(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_SLA_CLIENTE:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLACliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLACliente(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSLACliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSLACliente(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaCliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaCliente(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaCliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaCliente(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_REGIAO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaRegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaRegiao(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaRegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaRegiao(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_TECNICO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaTecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaTecnico(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosPendenciaTecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPendenciaTecnico(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_TECNICO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaTecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaTecnico(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaTecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaTecnico(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_CLIENTE:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaCliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaCliente(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaCliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaCliente(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaRegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaRegiao(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosReincidenciaRegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosReincidenciaRegiao(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosPerformance = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPerformance(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosPerformance = this._dashboardRepository.ObterDadosIndicadoresDetalhadosPerformance(parameters);
                     break;
                 case DashboardViewEnum.INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS:
-                    viewDashboard.ViewDashboardIndicadoresDetalhadosChamadosAntigos = this._dashboardRepository.ObterDadosIndicadoresDetalhadosChamadosAntigos(parameters.CodFilial.Value);
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosChamadosAntigos = this._dashboardRepository.ObterDadosIndicadoresDetalhadosChamadosAntigos(parameters);
                     break;
 
                 default:

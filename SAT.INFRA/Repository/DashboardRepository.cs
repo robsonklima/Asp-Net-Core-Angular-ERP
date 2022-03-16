@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 using SAT.MODELS.ViewModels;
 using System.Linq;
 using System.Collections.Generic;
-using SAT.MODELS.ViewModels.Dashboard;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.INFRA.Repository
 {
@@ -77,9 +77,9 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardReincidenciaFiliais.ToList();
         }
 
-        public List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(int CodFilial)
+        public List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardReincidenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == CodFilial).ToList();
+            return this._context.ViewDashboardReincidenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }        
 
         public List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes()
@@ -117,9 +117,9 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardPendenciaFiliais.ToList();
         }
 
-        public List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFilial(int CodFilial)
+        public List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFilial(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardPendenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == CodFilial).ToList();
+            return this._context.ViewDashboardPendenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
         public List<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes()
@@ -152,17 +152,17 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardPecasCriticasMaisFaltantes.ToList();
         }
 
-        public List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca)
+        public List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardPecasCriticaChamadosFaltantes.Where(cod => cod.CodPeca == codPeca).ToList();
+            return this._context.ViewDashboardPecasCriticaChamadosFaltantes.Where(cod => cod.CodPeca == parameters.CodPeca).ToList();
         }
 
-        public List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca)
+        public List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardPecasCriticaEstoqueFaltantes.Where(cod => cod.CodPeca == codPeca).ToList();
+            return this._context.ViewDashboardPecasCriticaEstoqueFaltantes.Where(cod => cod.CodPeca == parameters.CodPeca).ToList();
         }
 
-        public List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(ViewDadosDashboardParameters parameters)
+        public List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(DashboardParameters parameters)
         {
             if (parameters.CodFilial.HasValue)
                 return this._context.ViewDashboardDensidadeEquipamentos.Where(d => d.CodFilial == parameters.CodFilial).ToList();    
@@ -175,59 +175,59 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardDensidadeTecnicos.ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(int CodFilial)
+        public List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosSLACliente.Where(cod => cod.CodFilial == CodFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosSLACliente.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(int CodFilial)
+        public List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosSLARegiao.Where(cod => cod.CodFilial == CodFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosSLARegiao.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosSLATecnico> ObterDadosIndicadoresDetalhadosSLATecnico(int CodFilial)
+        public List<ViewDashboardIndicadoresDetalhadosSLATecnico> ObterDadosIndicadoresDetalhadosSLATecnico(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosSLATecnico.Where(cod => cod.CodFilial == CodFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosSLATecnico.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ObterDadosIndicadoresDetalhadosPendenciaTecnico(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaTecnico> ObterDadosIndicadoresDetalhadosPendenciaTecnico(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaTecnico.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaTecnico.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ObterDadosIndicadoresDetalhadosPendenciaRegiao(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaRegiao> ObterDadosIndicadoresDetalhadosPendenciaRegiao(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaRegiao.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaRegiao.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ObterDadosIndicadoresDetalhadosPendenciaCliente(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosPendenciaCliente> ObterDadosIndicadoresDetalhadosPendenciaCliente(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaCliente.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosPendenciaCliente.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ObterDadosIndicadoresDetalhadosReincidenciaTecnico(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaTecnico> ObterDadosIndicadoresDetalhadosReincidenciaTecnico(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaTecnico.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaTecnico.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ObterDadosIndicadoresDetalhadosReincidenciaRegiao(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ObterDadosIndicadoresDetalhadosReincidenciaRegiao(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaRegiao.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaRegiao.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaCliente.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosReincidenciaCliente.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosPerformance.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosPerformance.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
 
-        public List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(int codFilial)
+        public List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(DashboardParameters parameters)
         {
-            return this._context.ViewDashboardIndicadoresDetalhadosChamadosAntigos.Where(cod => cod.CodFilial == codFilial).ToList();
+            return this._context.ViewDashboardIndicadoresDetalhadosChamadosAntigos.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }
     }
 }

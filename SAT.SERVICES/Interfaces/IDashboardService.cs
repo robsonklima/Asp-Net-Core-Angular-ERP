@@ -1,10 +1,10 @@
-﻿using SAT.MODELS.ViewModels;
-using SAT.MODELS.ViewModels.Dashboard;
+﻿using SAT.MODELS.Entities.Params;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
     public interface IDashboardService
     {
-        ViewDadosDashboard ObterViewPorParametros(ViewDadosDashboardParameters viewDadosDashboardParameters);
+        ViewDadosDashboard ObterViewPorParametros(DashboardParameters parameters);
     }
 }

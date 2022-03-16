@@ -84,7 +84,7 @@
                                             [matTooltip]="'Colaborador'"
                                             matTooltipPosition="above"
                                             [routerLink]="'/ponto/ponto-horarios/' + data.codPontoPeriodo + '/' + userSession?.usuario?.codUsuario"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus !== 'Aberto'"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Indisponível' || data.pontoPeriodoStatus.nomePeriodoStatus === 'Consolidado'"
                                             *ngIf="userSession.usuario.codPerfil === 35">
                                             <mat-icon
                                                 class="icon-size-5"
@@ -98,7 +98,7 @@
                                             [matTooltip]="'Colaboradores'"
                                             matTooltipPosition="above"
                                             [routerLink]="'/ponto/colaboradores/' + data.codPontoPeriodo"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus !== 'Aberto'"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Indisponível' || data.pontoPeriodoStatus.nomePeriodoStatus === 'Consolidado'"
                                             *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"
@@ -111,7 +111,7 @@
                                             mat-stroked-button
                                             [matTooltip]="'Exportar'"
                                             matTooltipPosition="above"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Aberto' || true"
+                                            [disabled]="true"
                                             *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"

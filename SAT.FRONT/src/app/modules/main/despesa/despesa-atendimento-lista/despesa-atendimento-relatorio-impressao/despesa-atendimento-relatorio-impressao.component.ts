@@ -11,6 +11,7 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { TecnicoConta } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-atendimento-relatorio-impressao',
@@ -42,8 +43,12 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
   {
     this.isLoading = true;
 
-    this.despesaPeriodoTecnico =
-      (await this._despesaPeriodoTecnicoSvc.obterPorCodigo(this.codDespesaPeriodoTecnico).toPromise());
+    this.despesaPeriodoTecnico = await this._despesaPeriodoTecnicoSvc.obterPorCodigo(this.codDespesaPeriodoTecnico).toPromise();
+    this.despesaPeriodoTecnico.despesas = this.despesaPeriodoTecnico.despesas
+      .sort((a, b) => (moment(a.relatorioAtendimento.dataHoraInicio) > moment(b.relatorioAtendimento.dataHoraInicio)) ? 1 : -1);
+
+    console.log(this.despesaPeriodoTecnico);
+    
 
     await this.obterOS();
     await this.obterAdiantamentos();

@@ -129,6 +129,7 @@ export class DespesaManutencaoComponent implements OnInit
     this.isDespesaLoading = true;
     this.despesa = (await this._despesaSvc.obterPorParametros({ codRATs: this.codRAT.toString() }).toPromise()).items[0];
     this.despesaItens = Enumerable.from(this.despesa?.despesaItens).orderByDescending(i => i.codDespesaItem).toArray();
+    this.despesaItens = Enumerable.from(this.despesaItens).where(i => i.indAtivo === 1).toArray();
     this.isDespesaLoading = false;
   }
 

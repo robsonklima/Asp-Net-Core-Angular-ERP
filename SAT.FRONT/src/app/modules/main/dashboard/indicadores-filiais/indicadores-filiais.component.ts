@@ -50,9 +50,6 @@ export class IndicadoresFiliaisComponent implements OnInit {
   async onMapReady(map: Map) {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
-
-    const component = this;
-
     this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
       L.geoJSON(json, {
         style: {
@@ -63,10 +60,6 @@ export class IndicadoresFiliaisComponent implements OnInit {
         onEachFeature: function onEachFeature(feature, layer) {
           layer.on('click', (e) => {
             const uf = e.target.feature.properties.UF_05;
-
-            console.log(uf);
-
-            component.onIndicadoresDetalhados(uf);
           });
 
           layer.on('mouseover', function () {
@@ -128,14 +121,5 @@ export class IndicadoresFiliaisComponent implements OnInit {
       return 'assets/icons/marker-yellow-32.svg';
     else 
       return 'assets/icons/marker-red-32.svg';
-  }
-
-  private async onIndicadoresDetalhados(uf: string) {
-    const data = await this._filialService.obterPorParametros({ SiglaUF: uf, filter: uf, indAtivo: 1 }).toPromise();
-    const filial = data.items.shift();
-    
-    if (filial) {
-      this._router.navigate(['/dashboard/indicadores-filiais-detalhados/' + filial.codFilial]);
-    }
   }
 }

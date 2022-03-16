@@ -68,7 +68,7 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(dp => dp.CidadeDestino)
                             .ThenInclude(dpt => dpt.UnidadeFederativa)
                 .Include(dpt => dpt.Despesas)
-                    .ThenInclude(dp => dp.DespesaItens)
+                    .ThenInclude(dp => dp.DespesaItens.Where(i => i.IndAtivo == 1))
                         .ThenInclude(dpi => dpi.DespesaTipo)
                 .Include(dpt => dpt.Despesas)
                     .ThenInclude(dp => dp.RelatorioAtendimento)

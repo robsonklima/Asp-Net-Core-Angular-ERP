@@ -16,8 +16,7 @@ namespace SAT.INFRA.Repository
                     t.CodOS.ToString().Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
-                    t.RelatoriosAtendimento.Any(r => r.ObsRAT.Contains(parameters.Filter)) ||
-                    t.RelatoriosAtendimento.Any(r => r.RelatoSolucao.Contains(parameters.Filter)) ||
+                    t.RelatoriosAtendimento.Any(r => r.ObsRAT.Contains(parameters.Filter) || r.RelatoSolucao.Contains(parameters.Filter)) ||
                     t.DefeitoRelatado.Contains(parameters.Filter) ||
                     t.NumOSCliente.Contains(parameters.Filter));
 

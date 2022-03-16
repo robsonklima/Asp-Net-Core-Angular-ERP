@@ -1,79 +1,77 @@
-<div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
-        <div class="flex flex-col flex-auto">
-            <div class="font-medium text-secondary">
-                Status das Filiais
+<div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full sm:mt-4">
+    <div class="flex flex-col flex-auto">
+        <div class="font-medium text-secondary">
+            Status das Filiais
+        </div>
+        
+        <div class="relative flex flex-col flex-auto mt-2">
+            <div class="map"
+                leaflet
+                [leafletOptions]="options"
+                [leafletMarkerCluster]="markerClusterData"
+                (leafletMapReady)="onMapReady($event)"
+                [class.opacity-25]="loading">
             </div>
-            
-            <div class="relative flex flex-col flex-auto mt-2">
-                <div class="map"
-                    leaflet
-                    [leafletOptions]="options"
-                    [leafletMarkerCluster]="markerClusterData"
-                    (leafletMapReady)="onMapReady($event)"
-                    [class.opacity-25]="loading">
-                </div>
-            
-                <div class="absolute z-9999 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="loading">
-                    <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
-                </div>
+        
+            <div class="absolute z-9999 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="loading">
+                <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
         </div>
+    </div>
 
-        <div class="flex flex-col flex-auto">
-            <div class="font-medium text-secondary">
-                Indicadores das Filiais
-            </div>
+    <div class="flex flex-col flex-auto">
+        <div class="font-medium text-secondary">
+            Indicadores das Filiais
+        </div>
+        
+        <div class="relative flex flex-col flex-auto mt-2">
+            <table class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card" *ngIf="!loading && indicadoresFiliais.length">
+                <thead class="pointer-events-none">
+                    <tr>
+                        <th class="py-2">Status</th>
+                        <th class="py-2">Filial</th>
+                        <th class="py-2 text-right">SLA</th>
+                        <th class="py-2 text-right">Pend.</th>
+                        <th class="py-2 text-right">Reinc.</th>
+                        <th class="py-2 text-right pr-8">SPA</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr *ngFor="let data of indicadoresFiliais" class="leading-tight pointer-events-none">
+                        <td class="text-center border-t">
+                            <div class="w-4 h-4 rounded-full m-auto"
+                                matTooltipPosition="above"
+                                [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
+                                [class.bg-green-500]="data.sla >= 95"
+                                [class.bg-yellow-500]="data.sla >= 92"
+                                [class.bg-red-400]="data.sla >= 0">
+                            </div>
+                        </td>
+                        <td class="text-center border-t py-0.5">
+                            {{ data.filial }}
+                        </td>
+                        <td class="text-right border-t py-0.5">{{ data.sla }}%</td>
+                        <td class="text-right border-t py-0.5">{{ data.pendencia }}%</td>
+                        <td class="text-right border-t py-0.5">{{ data.reincidencia }}%</td>
+                        <td class="text-right pr-8 border-t py-0.5">{{ data.spa }}%</td>
+                    </tr>
+                </tbody>
             
-            <div class="relative flex flex-col flex-auto mt-2">
-                <table class="w-full table-auto text-md font-medium tracking-tight leading-6 truncate bg-card" *ngIf="!loading && indicadoresFiliais.length">
-                    <thead class="pointer-events-none">
-                        <tr>
-                            <th class="py-2">Status</th>
-                            <th class="py-2">Filial</th>
-                            <th class="py-2 text-right">SLA</th>
-                            <th class="py-2 text-right">Pend.</th>
-                            <th class="py-2 text-right">Reinc.</th>
-                            <th class="py-2 text-right pr-8">SPA</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr *ngFor="let data of indicadoresFiliais" class="leading-tight pointer-events-none">
-                            <td class="text-center border-t">
-                                <div class="w-4 h-4 rounded-full m-auto"
-                                    matTooltipPosition="above"
-                                    [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
-                                    [class.bg-green-500]="data.sla >= 95"
-                                    [class.bg-yellow-500]="data.sla >= 92"
-                                    [class.bg-red-400]="data.sla >= 0">
-                                </div>
-                            </td>
-                            <td class="text-center border-t py-0.5">
-                                {{ data.filial }}
-                            </td>
-                            <td class="text-right border-t py-0.5">{{ data.sla }}%</td>
-                            <td class="text-right border-t py-0.5">{{ data.pendencia }}%</td>
-                            <td class="text-right border-t py-0.5">{{ data.reincidencia }}%</td>
-                            <td class="text-right pr-8 border-t py-0.5">{{ data.spa }}%</td>
-                        </tr>
-                    </tbody>
-                
-                    <tfoot>
-                        <tr>
-                            <th class="text-center m-auto border-t py-0.5" colspan="2"></th>
-                            <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.sla }}%</td>
-                            <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.pendencia }}%</td>
-                            <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
-                            <td class="text-right pr-8 border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.spa }}%</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                
-                <div class="flex justify-center items-center min-h-full bg-gray-50" *ngIf="loading">
-                    <div class="text-center">
-                        <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
-                    </div>
+                <tfoot>
+                    <tr>
+                        <th class="text-center m-auto border-t py-0.5" colspan="2"></th>
+                        <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.sla }}%</td>
+                        <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.pendencia }}%</td>
+                        <td class="text-right border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.reincidencia }}%</td>
+                        <td class="text-right pr-8 border-t font-bold py-0.5">{{ indicadoresFiliaisTotal.spa }}%</td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            <div class="flex justify-center items-center min-h-full bg-gray-50" *ngIf="loading">
+                <div class="text-center">
+                    <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
                 </div>
             </div>
         </div>

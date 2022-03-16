@@ -53,13 +53,13 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
         codFilial: this.userSession.usuario.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLATecnico
+    const slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .filter(s => s.percentual < 100)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeTecnico);
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = slaTecnico.map(s => s.nomeTecnico.split(" ").shift());
+    const values = slaTecnico.map(s => s.percentual);
     
     this.tecnicoChart = {
       series: [{ data: values }],

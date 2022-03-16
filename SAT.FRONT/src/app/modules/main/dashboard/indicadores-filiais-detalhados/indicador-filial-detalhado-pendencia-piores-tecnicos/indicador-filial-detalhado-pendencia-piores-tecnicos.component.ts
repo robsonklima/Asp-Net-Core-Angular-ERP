@@ -58,7 +58,7 @@ export class IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent implements
       .filter(s => s.percentual > 0)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeTecnico);
+    const labels = slaRegiao.map(s => s.nomeTecnico.split(" ").shift());
     const values = slaRegiao.map(s => s.percentual);
     
     this.tecnicoChart = {

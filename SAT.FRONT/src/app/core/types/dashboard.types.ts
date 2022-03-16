@@ -21,11 +21,13 @@ export enum DashboardViewEnum {
 	SPA_TECNICOS_MAIOR_DESEMPENHO,
 	SLA_CLIENTES,
 	REINCIDENCIA_FILIAIS,
+	REINCIDENCIA_QUADRIMESTRE_FILIAIS,
 	REINCIDENCIA_TECNICOS_MAIS_REINCIDENTES,
 	REINCIDENCIA_TECNICOS_MENOS_REINCIDENTES,
 	REINCIDENCIA_CLIENTES,
 	REINCIDENCIA_EQUIPAMENTOS_MAIS_REINCIDENTES,
 	PENDENCIA_FILIAIS,
+	PENDENCIA_QUADRIMESTRE_FILIAIS,
 	PENDENCIA_TECNICOS_MAIS_PENDENCIA,
 	PENDENCIA_TECNICOS_MENOS_PENDENCIA,
 	PENDENCIA_GLOBAL,
@@ -66,9 +68,11 @@ export class ViewDadosDashboard {
 	viewDashboardPecasFaltantes: ViewDashboardPecasFaltantes[] = [];
 	viewDashboardPecasMaisFaltantes: ViewDashboardPecasMaisFaltantes[] = [];
 	viewDashboardPendenciaFiliais: ViewDashboardPendenciaFiliais[] = [];
+	viewDashboardPendenciaQuadrimestreFiliais: ViewDashboardPendenciaQuadrimestreFiliais[] = [];
 	viewDashboardPendenciaGlobal: ViewDashboardPendenciaGlobal[] = [];
 	viewDashboardReincidenciaClientes: ViewDashboardReincidenciaClientes[] = [];
 	viewDashboardReincidenciaFiliais: ViewDashboardReincidenciaFiliais[] = [];
+	viewDashboardReincidenciaQuadrimestreFiliais: ViewDashboardReincidenciaQuadrimestreFiliais[] = [];
 	viewDashboardReincidenciaTecnicosMaisReincidentes: ViewDashboardReincidenciaTecnicosReincidentes[] = [];
 	viewDashboardReincidenciaTecnicosMenosReincidentes: ViewDashboardReincidenciaTecnicosReincidentes[] = [];
 	viewDashboardSLAClientes: ViewDashboardSLAClientes[] = [];
@@ -177,6 +181,13 @@ export class ViewDashboardReincidenciaFiliais {
 	percentual: number;
 }
 
+export class ViewDashboardReincidenciaQuadrimestreFiliais {
+	codFilial: number;
+	filial: string;
+	anoMes: string;
+	pendencia?: number;
+}
+
 export class ViewDashboardReincidenciaClientes {
 	cliente: string;
 	percentual?: number;
@@ -205,6 +216,13 @@ export class ViewDashboardEquipamentosMaisReincidentes {
 
 export class ViewDashboardPendenciaFiliais {
 	filial: string;
+	pendencia?: number;
+}
+
+export class ViewDashboardPendenciaQuadrimestreFiliais {
+	codFilial: number;
+	filial: string;
+	anoMes: string;
 	pendencia?: number;
 }
 

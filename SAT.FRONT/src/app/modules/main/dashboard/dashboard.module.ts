@@ -57,6 +57,8 @@ import { IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent } from './in
 import { IndicadorFilialDetalhadoReincidenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-clientes/indicador-filial-detalhado-reincidencia-piores-clientes.component';
 import { IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-tecnicos/indicador-filial-detalhado-reincidencia-piores-tecnicos.component';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { ReincidenciaQuadrimestreFilialComponent } from './reincidencia-quadrimestre-filial/reincidencia-quadrimestre-filial.component';
+import { PendenciaQuadrimestreFilialComponent } from './pendencia-quadrimestre-filial/pendencia-quadrimestre-filial.component';
 registerLocaleData(ptBR);
 
 @NgModule({
@@ -95,6 +97,8 @@ registerLocaleData(ptBR);
     IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent,
     IndicadorFilialDetalhadoReincidenciaPioresClientesComponent,
     IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent,
+    ReincidenciaQuadrimestreFilialComponent,
+    PendenciaQuadrimestreFilialComponent,
   ],
   imports: [
     CommonModule,

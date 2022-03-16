@@ -60,6 +60,11 @@ export class DashboardComponent implements AfterViewInit {
           'Densidade',
         ];
 
+        case PerfilEnum.FILIAL_COORDENADOR:
+          return [
+            'Pendência Filial',
+          ];
+
       default:
         return [];
     }

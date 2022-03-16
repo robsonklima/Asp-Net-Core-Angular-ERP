@@ -76,6 +76,11 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardReincidenciaFiliais.ToList();
         }
 
+        public List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(int CodFilial)
+        {
+            return this._context.ViewDashboardReincidenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == CodFilial).ToList();
+        }        
+
         public List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes()
         {
             return this._context.ViewDashboardReincidenciaClientes.ToList();
@@ -109,6 +114,11 @@ namespace SAT.INFRA.Repository
         public List<ViewDashboardPendenciaFiliais> ObterDadosPendenciaFiliais()
         {
             return this._context.ViewDashboardPendenciaFiliais.ToList();
+        }
+
+        public List<ViewDashboardPendenciaQuadrimestreFiliais> ObterDadosPendenciaQuadrimestreFilial(int CodFilial)
+        {
+            return this._context.ViewDashboardPendenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == CodFilial).ToList();
         }
 
         public List<ViewDashboardTecnicosMenosPendentes> ObterDadosTecnicosMenosPendentes()

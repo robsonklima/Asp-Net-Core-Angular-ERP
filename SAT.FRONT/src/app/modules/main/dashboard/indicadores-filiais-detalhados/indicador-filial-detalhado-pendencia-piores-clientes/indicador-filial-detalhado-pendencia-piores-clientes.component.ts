@@ -38,19 +38,16 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
   @ViewChild("chart") chart: ChartComponent;
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
-  userSession: UserSession;
+  @Input() codFilial;
 
   constructor(
-    private _dashboardService: DashboardService,
-    private _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _dashboardService: DashboardService
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
-        codFilial: this.userSession.usuario.codFilial
+        codFilial: this.codFilial
       }).toPromise();
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaCliente

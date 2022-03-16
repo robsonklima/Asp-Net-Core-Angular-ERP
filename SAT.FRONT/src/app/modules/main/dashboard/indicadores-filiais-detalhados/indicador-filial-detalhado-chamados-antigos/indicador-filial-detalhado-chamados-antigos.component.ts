@@ -13,18 +13,16 @@ export class IndicadorFilialDetalhadoChamadosAntigosComponent implements OnInit 
   chamados: ViewDashboardIndicadoresDetalhadosChamadosAntigos[] = [];
   loading: boolean = true;
   userSession: UserSession;
+  @Input() codFilial;
 
   constructor(
-    private _dashboardService: DashboardService,
-    private _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _dashboardService: DashboardService
+  ) {}
     
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({
       dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS,
-      codFilial: this.userSession.usuario.codFilial
+      codFilial: this.codFilial
     }).toPromise();
 
     this.chamados = data.viewDashboardIndicadoresDetalhadosChamadosAntigos;

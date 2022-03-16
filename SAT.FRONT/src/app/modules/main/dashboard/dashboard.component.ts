@@ -59,6 +59,54 @@ export class DashboardComponent implements AfterViewInit {
           'Densidade',
         ];
 
+        case PerfilEnum.FILIAIS_SUPERVISOR:
+          return [
+            'Status Filiais',
+            'Chamados Antigos',
+            'BBTS Regiões',
+            'BBTS Filiais',
+            'BBTS Multa Regiões',
+            'BBTS Multa Disponibilidade',
+            'Média Global',
+            'SPA',
+            'Desempenho Técnico',
+            'SLA Clientes',
+            'Reincidência Filiais',
+            'Reincidência Técnicos',
+            'Reincidência Clientes',
+            'Equipamentos Reincidentes',
+            'Pendência Filiais',
+            'Pendência Técnicos',
+            'Peças Faltantes Filiais',
+            'Peças Mais Faltantes',
+            'Top Peças Faltantes',
+            'Densidade',
+          ];        
+
+          case PerfilEnum.PV_CENTRAL_ATENDENTE:
+            return [
+              'Status Filiais',
+              'Chamados Antigos',
+              'BBTS Regiões',
+              'BBTS Filiais',
+              'BBTS Multa Regiões',
+              'BBTS Multa Disponibilidade',
+              'Média Global',
+              'SPA',
+              'Desempenho Técnico',
+              'SLA Clientes',
+              'Reincidência Filiais',
+              'Reincidência Técnicos',
+              'Reincidência Clientes',
+              'Equipamentos Reincidentes',
+              'Pendência Filiais',
+              'Pendência Técnicos',
+              'Peças Faltantes Filiais',
+              'Peças Mais Faltantes',
+              'Top Peças Faltantes',
+              'Densidade',
+            ];                
+
         case PerfilEnum.FILIAL_COORDENADOR:
           return [
             'Detalhado Filial',

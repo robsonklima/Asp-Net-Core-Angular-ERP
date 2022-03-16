@@ -4,6 +4,7 @@ using System.Linq.Dynamic.Core;
 using SAT.MODELS.ViewModels;
 using System.Linq;
 using System.Collections.Generic;
+using SAT.MODELS.ViewModels.Dashboard;
 
 namespace SAT.INFRA.Repository
 {
@@ -161,8 +162,11 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardPecasCriticaEstoqueFaltantes.Where(cod => cod.CodPeca == codPeca).ToList();
         }
 
-        public List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos()
+        public List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(ViewDadosDashboardParameters parameters)
         {
+            if (parameters.CodFilial.HasValue)
+                return this._context.ViewDashboardDensidadeEquipamentos.Where(d => d.CodFilial == parameters.CodFilial).ToList();    
+
             return this._context.ViewDashboardDensidadeEquipamentos.ToList();
         }
 

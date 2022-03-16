@@ -50,13 +50,13 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaCliente
+    const slaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeFantasia);
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = slaCliente.map(s => s.nomeFantasia);
+    const values = [];
     
     this.clienteChart = {
       series: [{ data: values }],

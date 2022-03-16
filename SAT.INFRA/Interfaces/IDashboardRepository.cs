@@ -1,4 +1,5 @@
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.ViewModels.Dashboard;
 using System.Collections.Generic;
 
 namespace SAT.INFRA.Interfaces
@@ -34,7 +35,7 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardPecasCriticasMaisFaltantes> ObterDadosPecasCriticasMaisFaltantes();
         List<ViewDashboardPecasCriticaChamadosFaltantes> ObterDadosPecasCriticasChamadosFaltantes(int codPeca);
         List<ViewDashboardPecasCriticaEstoqueFaltantes> ObterDadosPecasCriticasEstoqueFaltantes(int codPeca);
-        List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos();
+        List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(ViewDadosDashboardParameters parameters);
         List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos();
         List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(int codFilial);
         List<ViewDashboardIndicadoresDetalhadosSLARegiao> ObterDadosIndicadoresDetalhadosSLARegiao(int codFilial);

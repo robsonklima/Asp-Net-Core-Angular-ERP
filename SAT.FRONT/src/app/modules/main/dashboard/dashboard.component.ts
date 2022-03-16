@@ -64,6 +64,7 @@ export class DashboardComponent implements AfterViewInit {
             'Detalhado Filial',
             'Pendência Filial',
             'Reincidência Filial',
+            'Densidade',
           ];
 
       default:

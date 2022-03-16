@@ -6,7 +6,7 @@
   <div class="text-secondary text-sm mt-1">Mais Antigos</div>
 
   <div class="items-center w-full justify-center mt-1.5">
-    <table class="w-full table-auto text-xs font-medium tracking-tight" *ngIf="!loading">
+    <table class="w-full table-auto text-xs font-medium tracking-tight" *ngIf="!loading && chamados.length">
       <thead class="text-center">
         <tr>
           <th class="text-left">Cliente</th>
@@ -29,6 +29,10 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="text-secondary text-sm mt-30" *ngIf="!loading && !chamados.length">
+      Nenhum dados encontrado! Tente novamente em alguns instantes.
+    </div>
   </div>
 </div>
 

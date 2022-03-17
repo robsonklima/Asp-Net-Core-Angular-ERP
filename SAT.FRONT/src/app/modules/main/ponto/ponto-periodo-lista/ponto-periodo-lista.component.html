@@ -98,7 +98,7 @@
                                             [matTooltip]="'Colaboradores'"
                                             matTooltipPosition="above"
                                             [routerLink]="'/ponto/colaboradores/' + data.codPontoPeriodo"
-                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Indisponível' || data.pontoPeriodoStatus.nomePeriodoStatus === 'Consolidado'"
+                                            [disabled]="data.pontoPeriodoStatus.nomePeriodoStatus === 'Indisponível'"
                                             *ngIf="userSession.usuario.codPerfil !== 35">
                                             <mat-icon
                                                 class="icon-size-5"

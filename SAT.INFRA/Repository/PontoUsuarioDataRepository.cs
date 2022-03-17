@@ -22,7 +22,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
             _context.ChangeTracker.Clear();
-            PontoUsuarioData pontoDataOriginal = _context.PontoUsuarioData.FirstOrDefault(p => p.CodPontoUsuarioData == pontoUsuarioData.CodPontoUsuarioData);
+            PontoUsuarioData pontoDataOriginal = _context.PontoUsuarioData.Find(pontoUsuarioData.CodPontoUsuarioData);
 
             if (pontoDataOriginal != null)
             {

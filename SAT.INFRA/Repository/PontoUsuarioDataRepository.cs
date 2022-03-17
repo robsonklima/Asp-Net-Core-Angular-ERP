@@ -26,7 +26,6 @@ namespace SAT.INFRA.Repository
 
             if (pontoDataOriginal != null)
             {
-                pontoDataOriginal.CodUsuario = pontoUsuarioData.CodUsuario;
                 pontoDataOriginal.CodPontoPeriodo = pontoUsuarioData.CodPontoPeriodo;
                 pontoDataOriginal.CodPontoUsuarioDataStatus =  pontoUsuarioData.CodPontoUsuarioDataStatus;
                 pontoDataOriginal.DataRegistro = pontoUsuarioData.DataRegistro;

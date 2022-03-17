@@ -14,12 +14,11 @@
 		<tbody>
 			<tr class="text-center" *ngFor="let data of multaDisponibilidade">
 				<td>{{data.regiao}}</td>
-				<td>R${{data.disp11| number:'1.1-1'}}</td>
-				<td>R${{data.disp12| number:'1.1-1'}}</td>
-				<td>R${{data.disp13| number:'1.1-1'}}</td>
-				<td>R${{data.disp14| number:'1.1-1'}}</td>
-				<td>R${{data.disp15| number:'1.1-1'}}</td>
-				<td>R${{data.total| number:'1.1-1'}}</td>
+				<td><span class.text-red-500="data.disp11 > 0">R${{data.disp11 | number:'1.1-1'}}</span></td>
+				<td><span class.text-red-500="data.disp12 > 0">R${{data.disp12 | number:'1.1-1'}}</span></td>
+				<td><span class.text-red-500="data.disp13 > 0">R${{data.disp13 | number:'1.1-1'}}</span></td>
+				<td><span class.text-red-500="data.disp14 > 0">R${{data.disp14 | number:'1.1-1'}}</span></td>
+				<td><span class.text-red-500="data.disp15 > 0">R${{data.disp15 | number:'1.1-1'}}</span></td>
 			</tr>
 		</tbody>
 		<tfoot>

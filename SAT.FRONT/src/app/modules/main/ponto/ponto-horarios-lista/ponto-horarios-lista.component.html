@@ -135,15 +135,14 @@
                                                 class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
                                         </button>
-
+                                        
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 ml-2"
                                             mat-stroked-button
                                             [matTooltip]="'Informar Inconsistência'"
                                             matTooltipPosition="above"
-                                            (click)="informarInconsistencia(data)"
-                                            *ngIf="userSession.usuario.codPerfil !== 35"
-                                            [disabled]="data.codPontoUsuarioDataStatusAcesso == 1 || data.codPontoUsuarioDataStatus == 1">
+                                            (click)="informarInconsistencia(data)"                                            
+                                            *ngIf="userSession.usuario.codPerfil !== 35 && data.pontoPeriodo?.codPontoPeriodoStatus !== 4">
                                             <mat-icon
                                                 class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>

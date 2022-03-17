@@ -162,68 +162,110 @@ export class DashboardComponent implements AfterViewInit {
           'Disponibilidade Técnicos',
         ];
 
-        case PerfilEnum.RASTREAMENTO:
-          return [
-            'Status Filiais',
-            'Detalhado Filial',
-            'Chamados Antigos',
-            'BBTS Regiões',
-            'BBTS Filiais',
-            'BBTS Multa Regiões',
-            'BBTS Multa Disponibilidade',
-            'Média Global',
-            'SPA',
-            'Desempenho Técnico',
-            'SLA Clientes',
-            'Reincidência Filial',
-            'Reincidência Técnicos',
-            'Reincidência Clientes',
-            'Equipamentos Reincidentes',
-            'Pendência Filial',
-            'Pendência Técnicos',
-            'Peças Faltantes Filiais',
-            'Peças Mais Faltantes',
-            'Top Peças Faltantes',
-            'Densidade',
-            'Disponibilidade Técnicos',
-          ];  
-          
-          case PerfilEnum.FILIAL_TECNICO_DE_CAMPO:
-            return [
-              'Status Filiais',
-              'Chamados Antigos',
-              'BBTS Regiões',
-              'BBTS Filiais',
-              'BBTS Multa Regiões',
-              'BBTS Multa Disponibilidade',
-              'Média Global',
-              'Reincidência Filiais',
-              'Reincidência Técnicos',
-              'Reincidência Clientes',
-              'Equipamentos Reincidentes',
-              'Pendência Filiais',
-              'Pendência Técnicos',
-              'Disponibilidade Técnicos',
-            ];       
-            
-            case PerfilEnum.PV_COORDENADOR_DE_CONTRATO:
-              return [
-                'Status Filiais',
-                'Chamados Antigos',
-                'BBTS Regiões',
-                'BBTS Filiais',
-                'BBTS Multa Regiões',
-                'BBTS Multa Disponibilidade',
-                'Média Global',
-                'SLA Clientes',                
-                'Reincidência Filiais',
-                'Reincidência Técnicos',
-                'Reincidência Clientes',
-                'Equipamentos Reincidentes',
-                'Pendência Filiais',
-                'Pendência Técnicos',
-                'Disponibilidade Técnicos',
-              ];               
+      case PerfilEnum.RASTREAMENTO:
+        return [
+          'Status Filiais',
+          'Detalhado Filial',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Média Global',
+          'SPA',
+          'Desempenho Técnico',
+          'SLA Clientes',
+          'Reincidência Filial',
+          'Reincidência Técnicos',
+          'Reincidência Clientes',
+          'Equipamentos Reincidentes',
+          'Pendência Filial',
+          'Pendência Técnicos',
+          'Peças Faltantes Filiais',
+          'Peças Mais Faltantes',
+          'Top Peças Faltantes',
+          'Densidade',
+          'Disponibilidade Técnicos',
+        ];
+
+      case PerfilEnum.FILIAL_TECNICO_DE_CAMPO:
+        return [
+          'Status Filiais',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Média Global',
+          'Reincidência Filiais',
+          'Reincidência Técnicos',
+          'Reincidência Clientes',
+          'Equipamentos Reincidentes',
+          'Pendência Filiais',
+          'Pendência Técnicos',
+          'Disponibilidade Técnicos',
+        ];
+
+      case PerfilEnum.PV_COORDENADOR_DE_CONTRATO:
+        return [
+          'Status Filiais',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Média Global',
+          'SLA Clientes',
+          'Reincidência Filiais',
+          'Reincidência Técnicos',
+          'Reincidência Clientes',
+          'Equipamentos Reincidentes',
+          'Pendência Filiais',
+          'Pendência Técnicos',
+          'Disponibilidade Técnicos',
+        ];
+
+      case PerfilEnum.FILIAIS_E_LABORATORIO_SUPERVISOR:
+        return [
+          'Status Filiais',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Pendência Filiais',
+          'Pendência Técnicos',
+          'Peças Faltantes Filiais',
+          'Peças Mais Faltantes',
+          'Top Peças Faltantes',
+          'Disponibilidade Técnicos',
+        ];
+
+      case PerfilEnum.LOGÍSTICA_COORDENADOR_ESTOQUISTA:
+        return [
+          'Status Filiais',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Pendência Filiais',
+          'Pendência Técnicos',
+          'Peças Faltantes Filiais',
+          'Peças Mais Faltantes',
+          'Top Peças Faltantes',
+          'Disponibilidade Técnicos',
+        ];
+
+      case PerfilEnum.FILIAL_SUPORTE_TÉCNICO:
+        return [
+          'Status Filiais',
+        ];      
+        
+      case PerfilEnum.FILIAL_SUPORTE_TÉCNICO_CAMPO:
+        return [
+          'Status Filiais',
+        ];        
 
       default:
         return [];

@@ -10,8 +10,8 @@ namespace SAT.MODELS.ViewModels
         public int? TecnicosInativos { get; set; }
         public int? TecnicosTotal { get; set; }
         public int? QtdOSNaoTransferidasCorretivas { get; set; }
-        public int? MediaAtendimentoTecnicoDiaTodasIntervencoes { get; set; }
-        public int? MediaAtendimentoTecnicoDiaCorretivas { get; set; }
-        public int? MediaAtendimentoTecnicoDiaPreventivas { get; set; }
+        public double? MediaAtendimentoTecnicoDiaTodasIntervencoes { get; set; }
+        public double? MediaAtendimentoTecnicoDiaCorretivas { get; set; }
+        public double? MediaAtendimentoTecnicoDiaPreventivas { get; set; }
     }
 }

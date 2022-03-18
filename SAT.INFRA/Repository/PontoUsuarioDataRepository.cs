@@ -22,21 +22,12 @@ namespace SAT.INFRA.Repository
         public void Atualizar(PontoUsuarioData pontoUsuarioData)
         {
             _context.ChangeTracker.Clear();
+            PontoUsuarioData pontoDataOriginal = _context.PontoUsuarioData.Find(pontoUsuarioData.CodPontoUsuarioData);
 
-            pontoUsuarioData.Divergencias = null;
-            pontoUsuarioData.PontosUsuario = null;
-            pontoUsuarioData.PontoUsuarioDataStatus = null;
-            pontoUsuarioData.PontoUsuarioDataStatusAcesso = null;
-            pontoUsuarioData.PontoPeriodo = null;
-            pontoUsuarioData.Usuario = null;
-
-            PontoUsuarioData pontoData = _context.PontoUsuarioData.SingleOrDefault(p => p.CodPontoUsuarioData == pontoUsuarioData.CodPontoUsuarioData);
-
-            if (pontoData != null)
+            if (pontoDataOriginal != null)
             {
-                _context.Entry(pontoData).CurrentValues.SetValues(pontoUsuarioData);
-                _context.Entry(pontoData).State = EntityState.Modified;     
-
+                _context.Entry(pontoDataOriginal).CurrentValues.SetValues(pontoUsuarioData);
+                _context.Entry(pontoDataOriginal).State = EntityState.Modified;     
                 _context.SaveChanges();
             }
         }

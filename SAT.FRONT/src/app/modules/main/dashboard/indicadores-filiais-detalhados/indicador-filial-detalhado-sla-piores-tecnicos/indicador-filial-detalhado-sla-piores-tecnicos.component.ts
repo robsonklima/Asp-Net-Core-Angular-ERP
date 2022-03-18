@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -37,29 +35,26 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
-  userSession: UserSession;
+  @Input() codFilial;
   loading: boolean = true;
 
   constructor(
-    private _dashboardService: DashboardService,
-    protected _userService: UserService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+    private _dashboardService: DashboardService
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
         dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
-        codFilial: this.userSession.usuario.codFilial
+        codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLATecnico
+    const slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .filter(s => s.percentual < 100)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeTecnico);
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = slaTecnico.map(s => s.nomeTecnico.split(" ").shift());
+    const values = slaTecnico.map(s => s.percentual);
     
     this.tecnicoChart = {
       series: [{ data: values }],

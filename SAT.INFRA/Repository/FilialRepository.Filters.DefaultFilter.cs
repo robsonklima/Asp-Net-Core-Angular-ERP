@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using SAT.INFRA.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.INFRA.Repository
 {
@@ -37,14 +38,14 @@ namespace SAT.INFRA.Repository
                     condicoes += string.Format("CodFilial={0}", paramsSplit[i]);
                     if (i < paramsSplit.Length - 1) condicoes += " Or ";
                 }
-
-               // query = query.Where(condicoes);
             }
 
             if (parameters.IndAtivo != null)
             {
                 query = query.Where(f => f.IndAtivo == parameters.IndAtivo);
             }
+
+            query = query.Where(f => f.CodFilial != Constants.PERTO_INDIA);
 
             if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
             {

@@ -51,16 +51,4 @@ export class FilialService {
       map((obj) => obj)
     );
   }
-
-  async obterFiliais(filtro: string = ''): Promise<Filial[]> {
-
-    const params: FilialParameters = {
-      sortActive: 'nomeFilial',
-      sortDirection: 'asc',
-      indAtivo: 1,
-      pageSize: 1000,
-      filter: filtro
-    }
-    return (await this.obterPorParametros(params).toPromise()).items;
-  }
 }

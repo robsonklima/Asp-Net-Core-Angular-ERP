@@ -1,31 +1,29 @@
-<div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto bg-card overflow-hidden">
+<div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto bg-card overflow-hidden" *ngIf="!loading">
     <div class="text-lg font-semibold leading-tight ml-6">
         Pendência <span class="text-secondary font-light">Clientes</span>
     </div>
 
     <div class="text-secondary text-sm ml-6 mt-1">Mais Pendentes</div>
 
-    <div>
-        <div class="items-center w-full justify-center -mt-4 pr-4" *ngIf="!loading">
-            <apx-chart
-                [series]="clienteChart.series"
-                [chart]="clienteChart.chart"
-                [dataLabels]="clienteChart.dataLabels"
-                [stroke]="clienteChart.stroke"
-                [colors]="clienteChart.colors"
-                [title]="clienteChart.title"
-                [subtitle]="clienteChart.subtitle"
-                [plotOptions]="clienteChart.plotOptions"
-                [yaxis]="clienteChart.yaxis"
-                [xaxis]="clienteChart.xaxis"
-                [tooltip]="clienteChart.tooltip"
-            ></apx-chart>
-        </div>
+    <div class="items-center w-full justify-center -mt-4 pr-4">
+        <apx-chart
+            [series]="clienteChart.series"
+            [chart]="clienteChart.chart"
+            [dataLabels]="clienteChart.dataLabels"
+            [stroke]="clienteChart.stroke"
+            [colors]="clienteChart.colors"
+            [title]="clienteChart.title"
+            [subtitle]="clienteChart.subtitle"
+            [plotOptions]="clienteChart.plotOptions"
+            [yaxis]="clienteChart.yaxis"
+            [xaxis]="clienteChart.xaxis"
+            [tooltip]="clienteChart.tooltip"
+        ></apx-chart>
+    </div>
+</div>
 
-        <div class="flex justify-center items-center min-h-40" *ngIf="loading">
-            <div class="text-center">
-                <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
-            </div>
-        </div>
+<div class="flex justify-center items-center min-h-72" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>

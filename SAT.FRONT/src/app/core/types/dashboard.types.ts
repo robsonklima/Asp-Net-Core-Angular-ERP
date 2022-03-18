@@ -20,7 +20,7 @@ export enum DashboardViewEnum {
 	SPA_TECNICOS_MENOR_DESEMPENHO,
 	SPA_TECNICOS_MAIOR_DESEMPENHO,
 	SLA_CLIENTES,
-	REINCIDENCIA_FILIAIS,
+	REINCIDENCIA_FILIAIS,	
 	REINCIDENCIA_TECNICOS_MAIS_REINCIDENTES,
 	REINCIDENCIA_TECNICOS_MENOS_REINCIDENTES,
 	REINCIDENCIA_CLIENTES,
@@ -46,7 +46,9 @@ export enum DashboardViewEnum {
 	INDICADORES_DETALHADOS_REINCIDENCIA_TECNICO,
 	INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO,
 	INDICADORES_DETALHADOS_PERFORMANCE,
-	INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS
+	INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS,
+	REINCIDENCIA_QUADRIMESTRE_FILIAIS,
+	PENDENCIA_QUADRIMESTRE_FILIAIS
 }
 
 export class ViewDadosDashboard {
@@ -65,7 +67,7 @@ export class ViewDadosDashboard {
 	viewDashboardPecasCriticasMaisFaltantes: ViewDashboardPecasCriticasMaisFaltantes[] = [];
 	viewDashboardPecasFaltantes: ViewDashboardPecasFaltantes[] = [];
 	viewDashboardPecasMaisFaltantes: ViewDashboardPecasMaisFaltantes[] = [];
-	viewDashboardPendenciaFiliais: ViewDashboardPendenciaFiliais[] = [];
+	viewDashboardPendenciaFiliais: ViewDashboardPendenciaFiliais[] = [];	
 	viewDashboardPendenciaGlobal: ViewDashboardPendenciaGlobal[] = [];
 	viewDashboardReincidenciaClientes: ViewDashboardReincidenciaClientes[] = [];
 	viewDashboardReincidenciaFiliais: ViewDashboardReincidenciaFiliais[] = [];
@@ -90,6 +92,8 @@ export class ViewDadosDashboard {
 	viewDashboardIndicadoresDetalhadosReincidenciaRegiao: ViewDashboardIndicadoresDetalhadosReincidenciaRegiao[] = [];
 	viewDashboardIndicadoresDetalhadosPerformance: ViewDashboardIndicadoresDetalhadosPerformance[] = [];
 	viewDashboardIndicadoresDetalhadosChamadosAntigos: ViewDashboardIndicadoresDetalhadosChamadosAntigos[] = [];
+	viewDashboardReincidenciaQuadrimestreFiliais: ViewDashboardReincidenciaQuadrimestreFiliais[] = [];
+	viewDashboardPendenciaQuadrimestreFiliais: ViewDashboardPendenciaQuadrimestreFiliais[] = [];
 }
 
 export class ViewDashboardIndicadoresFiliais {
@@ -177,6 +181,13 @@ export class ViewDashboardReincidenciaFiliais {
 	percentual: number;
 }
 
+export class ViewDashboardReincidenciaQuadrimestreFiliais {
+	codFilial: number;
+	filial: string;
+	anoMes: string;
+	percentual?: number;
+}
+
 export class ViewDashboardReincidenciaClientes {
 	cliente: string;
 	percentual?: number;
@@ -206,6 +217,13 @@ export class ViewDashboardEquipamentosMaisReincidentes {
 export class ViewDashboardPendenciaFiliais {
 	filial: string;
 	pendencia?: number;
+}
+
+export class ViewDashboardPendenciaQuadrimestreFiliais {
+	codFilial: number;
+	filial: string;
+	anoMes: string;
+	percentual?: number;
 }
 
 export class ViewDashboardTecnicosPendentes {

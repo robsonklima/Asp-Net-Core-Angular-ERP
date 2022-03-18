@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -37,20 +35,17 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  userSession: UserSession;
-  loading: boolean;
+  @Input() codFilial;
+  loading: boolean = true;
   
   constructor(
-    protected _userService: UserService,
     private _dashboardService: DashboardService
-  ) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+  ) {}
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
       dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PERFORMANCE,
-      codFilial: this.userSession.usuario.codFilial
+      codFilial: this.codFilial
     }).toPromise();
 
     const performance = data.viewDashboardIndicadoresDetalhadosPerformance;
@@ -104,6 +99,8 @@ export class IndicadorFilialDetalhadoPerformanceComponent implements OnInit {
         show: false
       }
     };
+
+    this.loading = false;
   }
 
   private formatarAnoMes(anoMes: string): string {

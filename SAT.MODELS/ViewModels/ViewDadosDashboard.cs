@@ -19,10 +19,12 @@ namespace SAT.MODELS.ViewModels
         public List<ViewDashboardPecasCriticasMaisFaltantes> ViewDashboardPecasCriticasMaisFaltantes { get; set; }
         public List<ViewDashboardPecasFaltantes> ViewDashboardPecasFaltantes { get; set; }
         public List<ViewDashboardPecasMaisFaltantes> ViewDashboardPecasMaisFaltantes { get; set; }
+        public List<ViewDashboardPendenciaQuadrimestreFiliais> ViewDashboardPendenciaQuadrimestreFiliais { get; set; }
         public List<ViewDashboardPendenciaFiliais> ViewDashboardPendenciaFiliais { get; set; }
         public List<ViewDashboardPendenciaGlobal> ViewDashboardPendenciaGlobal { get; set; }
         public List<ViewDashboardReincidenciaClientes> ViewDashboardReincidenciaClientes { get; set; }
         public List<ViewDashboardReincidenciaFiliais> ViewDashboardReincidenciaFiliais { get; set; }
+        public List<ViewDashboardReincidenciaQuadrimestreFiliais> ViewDashboardReincidenciaQuadrimestreFiliais { get; set; }
         public List<ViewDashboardReincidenciaTecnicosMaisReincidentes> ViewDashboardReincidenciaTecnicosMaisReincidentes { get; set; }
         public List<ViewDashboardReincidenciaTecnicosMenosReincidentes> ViewDashboardReincidenciaTecnicosMenosReincidentes { get; set; }
         public List<ViewDashboardSLAClientes> ViewDashboardSLAClientes { get; set; }

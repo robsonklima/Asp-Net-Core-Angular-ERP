@@ -214,6 +214,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DispBBRegiao>(new DispBBRegiaoMap().Configure);
             modelBuilder.Entity<DispBBCalcEquipamentoContrato>(new DispBBCalcEquipamentoContratoMap().Configure);
             modelBuilder.Entity<RelatorioAtendimento>(new RelatorioAtendimentoMap().Configure);
+            modelBuilder.Entity<RelatorioAtendimentoDetalhe>(new RelatorioAtendimentoDetalheMap().Configure);
             modelBuilder.Entity<Foto>(new FotoMap().Configure);
             modelBuilder.Entity<UsuarioDispositivo>(new UsuarioDispositivoMap().Configure);
             modelBuilder.Entity<OrdemServico>(new OrdemServicoMap().Configure);

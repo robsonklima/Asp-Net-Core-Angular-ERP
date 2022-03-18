@@ -1,5 +1,4 @@
 import { FileMime } from './../../../../../core/types/file.types';
-import { FileService } from './../../../../../core/services/file.service';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -45,7 +44,6 @@ export class PecaListaComponent implements OnInit
   constructor(
     private _cdr: ChangeDetectorRef, 
     private _pecaService: PecaService,
-    private _fileService: FileService
     ) { }
 
   ngOnInit(): void { }
@@ -117,7 +115,6 @@ export class PecaListaComponent implements OnInit
       pageSize: 1000
     }
 
-    window.open(await this._fileService.downloadLink("Peca", FileMime.Excel,params)); 
     this.isLoading = false;
   }
 

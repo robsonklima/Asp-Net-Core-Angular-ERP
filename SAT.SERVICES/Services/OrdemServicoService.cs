@@ -141,55 +141,6 @@ namespace SAT.SERVICES.Services
             }
 
             return false;
-        }
-        public IActionResult ExportToExcel(OrdemServicoParameters parameters)
-        {
-            var os = _ordemServicoRepo.ObterPorParametros(parameters);
-
-            List<List<object>> listaExcel = new();
-
-            listaExcel.Add(os.Select(os =>
-                new OrdemServicoExcelViewModel
-                {
-                    Chamado = os.CodOS,
-                    NumOSCliente = os.NumOSCliente,
-                    DataAbertura = os.DataHoraAberturaOS?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                    DataSolicitacao = os.DataHoraSolicitacao?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                    LimiteAtendimento = os.PrazosAtendimento?.OrderByDescending(i => i.CodOSPrazoAtendimento)?.FirstOrDefault()?.DataHoraLimiteAtendimento?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                    Status = os.StatusServico?.NomeStatusServico?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    Intervencao = os.TipoIntervencao?.CodETipoIntervencao?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    Tecnico = os.Tecnico?.Nome ?? Constants.SEM_NADA,
-                    NumBanco = os.Cliente?.NumBanco ?? Constants.SEM_NADA,
-                    NumAgencia = os.LocalAtendimento != null ? ($"{os.LocalAtendimento.NumAgencia}/{os.LocalAtendimento.DCPosto}") : Constants.SEM_NADA,
-                    Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    Equipamento = os.Equipamento?.NomeEquip ?? Constants.SEM_NADA,
-                    Serie = os.EquipamentoContrato?.NumSerie ?? Constants.SEM_NADA,
-                    Regiao = os.Regiao?.NomeRegiao?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    PA = os.RegiaoAutorizada?.PA ?? 0,
-                    Autorizada = os.Autorizada?.NomeFantasia?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                    Filial = os.Filial?.NomeFilial,
-                    SLA = os.EquipamentoContrato?.AcordoNivelServico?.NomeSLA ?? Constants.SEM_NADA,
-                    Reincidencia = os.NumReincidencia ?? 0,
-                    Defeito = os.DefeitoRelatado ?? Constants.SEM_NADA
-                }).ToList<object>());
-
-            listaExcel.Add(os.SelectMany(os => os.RelatoriosAtendimento.Select(r =>
-                {
-                    return new RatExcelViewModel
-                    {
-                        Chamado = r.CodOS,
-                        Rat = r.NumRAT ?? Constants.SEM_NADA,
-                        RelatoSolucao = r.RelatoSolucao ?? Constants.SEM_NADA,
-                        Tecnico = r.Tecnico?.Nome ?? Constants.SEM_NADA,
-                        Status = r.StatusServico?.NomeStatusServico ?? Constants.SEM_NADA,
-                        Data = r.DataHoraSolucao.Date.ToString() ?? Constants.SEM_NADA,
-                        Hora = r.DataHoraSolucao.ToString("HH:mm"),
-                        TipoServico = r.TipoServico?.NomeServico ?? Constants.SEM_NADA,
-                        Observacao = r.ObsRAT ?? Constants.SEM_NADA
-                    };
-                })).ToList<object>());
-
-            return new ExcelService<OrdemServico>().ExportExcel(listaExcel);
-        }
+        }        
     }
 }

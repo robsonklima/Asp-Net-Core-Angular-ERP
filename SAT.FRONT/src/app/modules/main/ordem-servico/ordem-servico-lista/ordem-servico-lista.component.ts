@@ -1,4 +1,6 @@
-import { FileService } from './../../../../core/services/file.service';
+import { ExportacaoFormatoEnum, ExportacaoTipoEnum } from './../../../../core/types/exportacao.types';
+import { ExportacaoParameters } from '../../../../core/types/exportacao.types';
+import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { fromEvent, interval, Subject } from 'rxjs';
@@ -58,7 +60,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
         private _ordemServicoService: OrdemServicoService,
         protected _userService: UserService,
         private _stringExtensions: StringExtensions,
-        private _fileService: FileService,
+        private _exportacaoService: ExportacaoService,
         private _snack: CustomSnackbarService
     ) {
         super(_userService, 'ordem-servico')
@@ -152,17 +154,18 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
         this.isLoading = true;
 
-        const params: OrdemServicoParameters = {
-            sortDirection: 'desc',
-            pageSize: 100000,
-            include: OrdemServicoIncludeEnum.OS_EXPORTAR
+        const params: ExportacaoParameters = {
+			ordemServicoParameters: JSON.stringify({...this.filter?.parametros, ...{
+				sortDirection: 'desc',
+				pageSize: 100000,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR
+			}}),
+			...{exportacaoFormato: ExportacaoFormatoEnum.EXCEL},
+			...{exportacaoTipo: ExportacaoTipoEnum.ORDEM_SERVICO}
         };
 
-        window.open(await this._fileService.downloadLink("OrdemServico", FileMime.Excel, {
-            ...this.filter?.parametros,
-            ...params
-        }));
-
+		window.location.href = await this._exportacaoService.downloadLink(FileMime.Excel, params);
+        
         this.isLoading = false;
     }
 

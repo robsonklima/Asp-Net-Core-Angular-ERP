@@ -12,7 +12,6 @@ import { UserSession } from 'app/core/user/user.types';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { FileMime } from 'app/core/types/file.types';
-import { FileService } from 'app/core/services/file.service';
 
 @Component({
     selector: 'app-contrato-lista',
@@ -50,7 +49,6 @@ export class ContratoListaComponent extends Filterable implements AfterViewInit,
         private _cdr: ChangeDetectorRef,
         private _contratoService: ContratoService,
         protected _userService: UserService,
-        private _fileService: FileService
     ) {
 
         super(_userService, 'contrato');
@@ -129,10 +127,7 @@ export class ContratoListaComponent extends Filterable implements AfterViewInit,
             pageSize: 100000,
         };
 
-        window.open(await this._fileService.downloadLink("Contrato", FileMime.Excel, {
-            ...this.filter?.parametros,
-            ...params
-        }));
+
         this.isLoading = false;
     }
 

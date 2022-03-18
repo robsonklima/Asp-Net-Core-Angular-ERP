@@ -167,6 +167,8 @@ namespace SAT.API
             services.AddTransient<IImportacaoService, ImportacaoService>();
             services.AddTransient<IImportacaoConfiguracaoService, ImportacaoConfiguracaoService>();
             services.AddTransient<IImportacaoTipoService, ImportacaoTipoService>();
+            services.AddTransient<IExportacaoService, ExportacaoService>();
+            
 
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

@@ -26,15 +26,7 @@ namespace SAT.INFRA.Repository
 
             if (pontoDataOriginal != null)
             {
-                pontoDataOriginal.CodPontoPeriodo = pontoUsuarioData.CodPontoPeriodo;
-                pontoDataOriginal.CodPontoUsuarioDataStatus =  pontoUsuarioData.CodPontoUsuarioDataStatus;
-                pontoDataOriginal.DataRegistro = pontoUsuarioData.DataRegistro;
-                pontoDataOriginal.DataHoraCad = pontoUsuarioData.DataHoraCad;
-                pontoDataOriginal.CodUsuarioCad = pontoUsuarioData.CodUsuarioCad;
-                pontoDataOriginal.DataHoraManut = pontoUsuarioData.DataHoraManut;
-                pontoDataOriginal.CodUsuarioManut = pontoUsuarioData.CodUsuarioManut;
-                pontoDataOriginal.CodPontoUsuarioDataStatusAcesso = pontoUsuarioData.CodPontoUsuarioDataStatusAcesso;
-
+                _context.Entry(pontoDataOriginal).CurrentValues.SetValues(pontoUsuarioData);
                 _context.Entry(pontoDataOriginal).State = EntityState.Modified;     
                 _context.SaveChanges();
             }

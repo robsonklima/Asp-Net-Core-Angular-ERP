@@ -31,6 +31,28 @@ export class DashboardComponent implements AfterViewInit {
     this.configurarSlidesAutomaticos();
   }
 
+  public verificarPermissaoSlide(slide: string): boolean {
+    return this.slides.indexOf(slide) > -1;
+  }
+
+  private trocarDashboardOuSlide(): void {
+    if (this.tabGroup.selectedIndex != this.tabGroup._tabs.length - 1) {
+      this.tabGroup.selectedIndex = this.tabGroup.selectedIndex + 1;
+    } else {
+      this.tabGroup.selectedIndex = 0;
+    }
+  }
+
+  private configurarSlidesAutomaticos() {
+    interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
+      .pipe(
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(() => {
+        this.trocarDashboardOuSlide();
+      });
+  }
+
   private carregarSlides() {
     const codPerfil = this.usuarioSessao.usuario.codPerfil;
 
@@ -270,28 +292,6 @@ export class DashboardComponent implements AfterViewInit {
       default:
         return [];
     }
-  }
-
-  public verificarPermissaoSlide(slide: string): boolean {
-    return this.slides.indexOf(slide) > -1;
-  }
-
-  private trocarDashboardOuSlide(): void {
-    if (this.tabGroup.selectedIndex != this.tabGroup._tabs.length - 1) {
-      this.tabGroup.selectedIndex = this.tabGroup.selectedIndex + 1;
-    } else {
-      this.tabGroup.selectedIndex = 0;
-    }
-  }
-
-  private configurarSlidesAutomaticos() {
-    interval(c.tempo_atualizacao_dashboard_minutos * 60 * 1000)
-      .pipe(
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(() => {
-        this.trocarDashboardOuSlide();
-      });
   }
 
   ngOnDestroy() {

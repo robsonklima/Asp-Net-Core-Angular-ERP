@@ -300,7 +300,6 @@ namespace SAT.SERVICES.Services
 
         protected void AlteraStatus(PontoUsuarioData pontoData, PontoUsuarioDataStatus status, int motivo, int modoDivergencia)
         {
-            pontoData.CodUsuario = "sat";
             pontoData.DataRegistro = pontoData.DataRegistro;
 
             if (pontoData != null)

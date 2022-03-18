@@ -34,16 +34,6 @@
       <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto">
           <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
-            <mat-tab *ngIf="verificarPermissaoSlide('Densidade')">
-              <ng-template mat-tab-label>
-                <span class="text-pink-600">Densidade</span>
-              </ng-template>
-
-              <ng-template matTabContent>
-                <app-densidade></app-densidade>
-              </ng-template>
-            </mat-tab>
-
             <mat-tab *ngIf="verificarPermissaoSlide('Status Filiais')">
               <ng-template mat-tab-label>
                 <span class="text-indigo-600">Status Filiais</span>
@@ -571,6 +561,16 @@
                     </div>
                   </div>
                 </div>
+              </ng-template>
+            </mat-tab>
+
+            <mat-tab *ngIf="verificarPermissaoSlide('Densidade')">
+              <ng-template mat-tab-label>
+                <span class="text-pink-600">Densidade</span>
+              </ng-template>
+
+              <ng-template matTabContent>
+                <app-densidade></app-densidade>
               </ng-template>
             </mat-tab>
           </mat-tab-group>

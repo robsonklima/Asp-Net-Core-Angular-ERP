@@ -1,6 +1,6 @@
-<div class="grid grid-cols-1 lg:grid-cols-4 grid-flow-row gap-6 w-full sm:mt-4">
+<div class="grid grid-cols-1 lg:grid-cols-4 grid-flow-row gap-6 w-full -mt-2">
     <div class="flex flex-col lg:col-span-2 flex-auto">
-        <div class="font-medium text-secondary">
+        <div class="text-xl text-secondary font-bold mb-2">
             Status das Filiais
         </div>
 
@@ -16,40 +16,40 @@
     </div>
 
     <div class="flex flex-col flex-auto lg:col-span-2">
-        <div class="font-medium text-secondary">
+        <div class="text-xl text-secondary font-bold mb-2">
             Indicadores das Filiais
         </div>
 
         <div class="relative flex flex-col flex-auto mt-2">
             <div class="flex flex-col" *ngIf="!loading && indicadoresFiliais.length">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
-                        <div class="overflow-hidden shadow-md sm:rounded-lg">
+                    <div class="inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-hidden sm:rounded-lg">
                             <table class="min-w-full">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="text-center py-1 px-6 text-md font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">
                                             Status
                                         </th>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="py-1 px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Filial
                                         </th>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="py-1 px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             SLA
                                         </th>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="py-1 px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Pend
                                         </th>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="py-1 px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Reinc
                                         </th>
                                         <th scope="col"
-                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            class="py-1 px-6 text-md font-medium tracking-wider text-center text-gray-700 uppercase dark:text-gray-400">
                                             SPA
                                         </th>
                                     </tr>
@@ -58,7 +58,7 @@
                                 <tbody>
                                     <tr *ngFor="let data of indicadoresFiliais" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <td
-                                            class="px-6 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            class="py-1 px-6 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <div class="w-4 h-4 rounded-full m-auto" matTooltipPosition="above"
                                                 [matTooltip]="data.sla >= 95 ? 'Ótimo' : (data.sla >= 92? 'Atenção' : 'Alta Criticidade')"
                                                 [class.bg-green-500]="data.sla >= 95" [class.bg-yellow-500]="data.sla >= 92"
@@ -66,45 +66,43 @@
                                             </div>
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                            {{ data.filial }}%
+                                            class="py-1 px-6 text-xl whitespace-nowrap dark:text-gray-400">
+                                            {{ data.filial }}
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="py-1 px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ data.sla }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="py-1 px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ data.pendencia }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="py-1 px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ data.reincidencia }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="py-1 px-6 text-xl text-center whitespace-nowrap dark:text-gray-400">
                                             {{ data.spa }}%
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td colspan="3">
-                                            
-                                        </td>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 font-semibold">
+                                        <td colspan="2"></td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.sla }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.pendencia }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.reincidencia }}%
                                         </td>
                                         <td
-                                            class="px-6 text-xl text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.spa }}%
                                         </td>
                                     </tr>

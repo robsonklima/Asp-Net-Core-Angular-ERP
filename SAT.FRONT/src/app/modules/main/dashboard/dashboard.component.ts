@@ -10,7 +10,13 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-
+  styles: [`
+    .mat-tab-label {
+      font-size: 18pt;
+      background-color: transparent;
+      font-weight: 700;
+    }
+  `]
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;

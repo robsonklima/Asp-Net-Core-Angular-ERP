@@ -164,10 +164,12 @@ namespace SAT.INFRA.Repository
 
         public List<ViewDashboardDensidadeEquipamentos> ObterDadosDensidadeEquipamentos(DashboardParameters parameters)
         {
-            if (parameters.CodFilial.HasValue)
-                return this._context.ViewDashboardDensidadeEquipamentos.Where(d => d.CodFilial == parameters.CodFilial).ToList();    
+            var query = _context.ViewDashboardDensidadeEquipamentos.AsQueryable();
 
-            return this._context.ViewDashboardDensidadeEquipamentos.ToList();
+            if (parameters.CodFilial.HasValue)
+                query = query.Where(d => d.CodFilial == parameters.CodFilial);
+
+            return query.ToList();
         }
 
         public List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos(DashboardParameters parameters)

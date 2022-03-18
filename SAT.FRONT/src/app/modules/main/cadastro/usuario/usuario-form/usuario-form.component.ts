@@ -109,7 +109,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.paises = await this._paisService.obterPaises();
     this.cargos = await this._cargoService.obterCargos();
     this.perfis = await this._perfilService.obterPerfis();
-    this.filiais = await this._filialService.obterFiliais();
+    this.filiais = (await this._filialService.obterPorParametros({
+        sortActive: 'nomeFilial',
+        sortDirection: 'asc',
+        indAtivo: 1,
+        pageSize: 1000,
+    }).toPromise()).items;
     this.tecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1, naoVinculados: 1 }).toPromise()).items;
     this.transportadoras = (await ((this._transportadoraService.obterPorParametros({ indAtivo: 1 })).toPromise())).items;
     this.turnos = (await ((this._turnoService.obterPorParametros({})).toPromise())).items;

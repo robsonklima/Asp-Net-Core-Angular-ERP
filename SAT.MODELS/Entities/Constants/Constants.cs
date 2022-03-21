@@ -93,9 +93,5 @@
                                                 Perto S.A. – Tecnologia para Bancos e Varejo<br> 
                                                 Ramal (51) 2126-6944<br> 
                                                 Whatsapp: (51) 997144990<br>";
-		//Exportação
-		public static int FORMATO_EXCEL = 1;
-		public static int EXPORTACAO_ORDEM_SERVICO = 1;
-		public static int EXPORTACAO_EQUIPAMENTO_CONTRATO = 2;
 	}
 }

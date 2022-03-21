@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	[Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -22,13 +23,13 @@ namespace SAT.API.Controllers
         [HttpGet("OrdemServico")]
         public IActionResult ExportarOrdemServico([FromQuery] OrdemServicoParameters parameters)
         {
-			return _exService.Exportar(parameters,Constants.FORMATO_EXCEL,Constants.EXPORTACAO_ORDEM_SERVICO);
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ORDEM_SERVICO);
         }
 
         [HttpGet("EquipamentoContrato")]
         public IActionResult ExportarEquipamentoContrato([FromQuery] EquipamentoContratoParameters parameters)
         {
-			return _exService.Exportar(parameters,Constants.FORMATO_EXCEL,Constants.EXPORTACAO_EQUIPAMENTO_CONTRATO);
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO);
         }
     }
 }

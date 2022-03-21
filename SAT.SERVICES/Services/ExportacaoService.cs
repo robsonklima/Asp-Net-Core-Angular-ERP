@@ -24,13 +24,13 @@ namespace SAT.SERVICES.Services
 			FilePath = GenerateFilePath();
 		}
 
-		public dynamic Exportar(dynamic parameters,int exportacaoFormato, int exportacaoTipo)
+		public dynamic Exportar(dynamic parameters, ExportacaoFormatoEnum formato, ExportacaoTipoEnum tipo)
 		{
-			switch (exportacaoFormato)
+			switch (formato)
 			{
-				case (int)ExportacaoFormatoEnum.EXCEL:
+				case ExportacaoFormatoEnum.EXCEL:
 
-					return ExportExcel(parameters, exportacaoTipo);
+					return ExportExcel(parameters, tipo);
 
 				default:
 
@@ -38,17 +38,17 @@ namespace SAT.SERVICES.Services
 			}
 		}
 
-		public IActionResult ExportExcel(dynamic parameters, int exportacaoTipo)
+		public IActionResult ExportExcel(dynamic parameters, ExportacaoTipoEnum tipo)
 		{
 			Workbook = new XLWorkbook();
 
-			switch (exportacaoTipo)
+			switch (tipo)
 			{
-				case 1:
+				case ExportacaoTipoEnum.ORDEM_SERVICO:
 					GerarPlanilhaOrdemServico(parameters);
 					break;
 
-				case 2:
+				case ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO:
 					GerarPlanilhaEquipamentoContrato(parameters);
 					break;
 

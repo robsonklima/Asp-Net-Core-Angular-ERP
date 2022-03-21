@@ -1,4 +1,3 @@
-import { ExportacaoFormatoEnum, ExportacaoTipoEnum } from './../../../../core/types/exportacao.types';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -158,8 +157,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			sortDirection: 'desc',
 			pageSize: 100000,
 			include: OrdemServicoIncludeEnum.OS_EXPORTAR,
-			exportFormat: ExportacaoFormatoEnum.EXCEL,
-			exportType: ExportacaoTipoEnum.ORDEM_SERVICO
 		};
 
 		window.location.href = await this._exportacaoService.exportar('OrdemServico', FileMime.Excel, params);

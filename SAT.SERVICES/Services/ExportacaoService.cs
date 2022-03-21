@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
-using SAT.MODELS.ViewModels;
 using SAT.INFRA.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -17,7 +14,6 @@ namespace SAT.SERVICES.Services
 	{
 		private XLWorkbook Workbook { get; set; }
 		public string FilePath { get; set; }
-		public int ExportacaoTipo { get; set; }
 		private IOrdemServicoRepository _osRepo;
 		private IEquipamentoContratoRepository _ecRepo;
 
@@ -28,15 +24,13 @@ namespace SAT.SERVICES.Services
 			FilePath = GenerateFilePath();
 		}
 
-		public dynamic Exportar(dynamic parameters)
+		public dynamic Exportar(dynamic parameters,int exportacaoFormato, int exportacaoTipo)
 		{
-			ExportacaoTipo = parameters.ExportType;
-
-			switch (parameters.ExportFormat)
+			switch (exportacaoFormato)
 			{
 				case (int)ExportacaoFormatoEnum.EXCEL:
 
-					return ExportExcel(parameters);
+					return ExportExcel(parameters, exportacaoTipo);
 
 				default:
 
@@ -44,11 +38,11 @@ namespace SAT.SERVICES.Services
 			}
 		}
 
-		public IActionResult ExportExcel(dynamic parameters)
+		public IActionResult ExportExcel(dynamic parameters, int exportacaoTipo)
 		{
 			Workbook = new XLWorkbook();
 
-			switch (ExportacaoTipo)
+			switch (exportacaoTipo)
 			{
 				case 1:
 					GerarPlanilhaOrdemServico(parameters);
@@ -57,6 +51,7 @@ namespace SAT.SERVICES.Services
 				case 2:
 					GerarPlanilhaEquipamentoContrato(parameters);
 					break;
+
 				default:
 					break;
 			}
@@ -74,7 +69,7 @@ namespace SAT.SERVICES.Services
 		private void FormatSheet(IXLCells row, IXLWorksheet sheet)
 		{
 			row.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-
+			sheet.RangeUsed().SetAutoFilter();
 			sheet.Columns().AdjustToContents();
 			sheet.Rows().AdjustToContents();
 		}

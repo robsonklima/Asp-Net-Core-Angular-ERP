@@ -8,6 +8,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IExportacaoService
     {
-        dynamic Exportar(dynamic parameters);
+        dynamic Exportar(dynamic parameters, int exportacaoformato, int exportacaoTipo);
     }
 }

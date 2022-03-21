@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 
@@ -21,13 +22,13 @@ namespace SAT.API.Controllers
         [HttpGet("OrdemServico")]
         public IActionResult ExportarOrdemServico([FromQuery] OrdemServicoParameters parameters)
         {
-			return _exService.Exportar(parameters);
+			return _exService.Exportar(parameters,Constants.FORMATO_EXCEL,Constants.EXPORTACAO_ORDEM_SERVICO);
         }
 
         [HttpGet("EquipamentoContrato")]
         public IActionResult ExportarEquipamentoContrato([FromQuery] EquipamentoContratoParameters parameters)
         {
-			return _exService.Exportar(parameters);
+			return _exService.Exportar(parameters,Constants.FORMATO_EXCEL,Constants.EXPORTACAO_EQUIPAMENTO_CONTRATO);
         }
     }
 }

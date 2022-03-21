@@ -93,7 +93,7 @@ namespace SAT.SERVICES.Services
 																			))));
 
 			var wsOs = Workbook.Worksheets.Add("Chamados");
-			var wsRat = Workbook.Worksheets.Add("Rats");
+			var wsRat = Workbook.Worksheets.Add("RATs");
 			var wsRatDetalhe = Workbook.Worksheets.Add("Detalhes");
 			var wsRatDetalhePeca = Workbook.Worksheets.Add("Peças");
 

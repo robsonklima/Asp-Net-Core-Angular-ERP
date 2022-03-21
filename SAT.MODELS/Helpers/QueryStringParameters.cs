@@ -4,8 +4,6 @@ namespace SAT.MODELS.Entities.Helpers
 {
     public abstract class QueryStringParameters
     {
-		public int ExportType { get; set; }
-		public int? ExportFormat { get; set; } = 1;
         public int PageNumber { get; set; } = 1;
         public string Filter { get; set; }
         public string SortActive { get; set; }

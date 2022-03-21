@@ -10,7 +10,13 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-
+  styles: [`
+    .mat-tab-label {
+      font-size: 18pt;
+      background-color: transparent;
+      font-weight: 700;
+    }
+  `]
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;
@@ -68,6 +74,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filiais',
           'Reincidência Técnicos',
@@ -78,8 +85,7 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Faltantes Filiais',
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
-          'Densidade',
-          'Disponibilidade Técnicos',
+          'Densidade'
         ];
 
       case PerfilEnum.FILIAIS_SUPERVISOR:
@@ -93,6 +99,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filiais',
           'Reincidência Técnicos',
@@ -104,7 +111,6 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
           'Densidade',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.PV_CENTRAL_ATENDENTE:
@@ -118,6 +124,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filiais',
           'Reincidência Técnicos',
@@ -128,8 +135,7 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Faltantes Filiais',
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
-          'Densidade',
-          'Disponibilidade Técnicos',
+          'Densidade'
         ];
 
       case PerfilEnum.FILIAL_COORDENADOR:
@@ -144,6 +150,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filial',
           'Reincidência Técnicos',
@@ -155,7 +162,6 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
           'Densidade',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR:
@@ -170,6 +176,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filial',
           'Reincidência Técnicos',
@@ -181,7 +188,6 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
           'Densidade',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.RASTREAMENTO:
@@ -196,6 +202,7 @@ export class DashboardComponent implements AfterViewInit {
           'Média Global',
           'SPA',
           'Desempenho Técnico',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filial',
           'Reincidência Técnicos',
@@ -207,7 +214,6 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
           'Densidade',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.FILIAL_TECNICO_DE_CAMPO:
@@ -219,13 +225,13 @@ export class DashboardComponent implements AfterViewInit {
           'BBTS Multa Regiões',
           'BBTS Multa Disponibilidade',
           'Média Global',
+          'Disponibilidade Técnicos',
           'Reincidência Filiais',
           'Reincidência Técnicos',
           'Reincidência Clientes',
           'Equipamentos Reincidentes',
           'Pendência Filiais',
           'Pendência Técnicos',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.PV_COORDENADOR_DE_CONTRATO:
@@ -237,6 +243,7 @@ export class DashboardComponent implements AfterViewInit {
           'BBTS Multa Regiões',
           'BBTS Multa Disponibilidade',
           'Média Global',
+          'Disponibilidade Técnicos',
           'SLA Clientes',
           'Reincidência Filiais',
           'Reincidência Técnicos',
@@ -244,7 +251,6 @@ export class DashboardComponent implements AfterViewInit {
           'Equipamentos Reincidentes',
           'Pendência Filiais',
           'Pendência Técnicos',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.FILIAIS_E_LABORATORIO_SUPERVISOR:
@@ -270,13 +276,13 @@ export class DashboardComponent implements AfterViewInit {
           'BBTS Regiões',
           'BBTS Filiais',
           'BBTS Multa Regiões',
+          'Disponibilidade Técnicos',
           'BBTS Multa Disponibilidade',
           'Pendência Filiais',
           'Pendência Técnicos',
           'Peças Faltantes Filiais',
           'Peças Mais Faltantes',
           'Top Peças Faltantes',
-          'Disponibilidade Técnicos',
         ];
 
       case PerfilEnum.FILIAL_SUPORTE_TÉCNICO:

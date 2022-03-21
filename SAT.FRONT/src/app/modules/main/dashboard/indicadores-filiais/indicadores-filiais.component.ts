@@ -13,8 +13,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-indicadores-filiais',
-  templateUrl: './indicadores-filiais.component.html',
-  styles: [`tr:nth-child(odd) { background-color: rgb(239,245,254); }`]
+  templateUrl: './indicadores-filiais.component.html'
 })
 
 export class IndicadoresFiliaisComponent implements OnInit {
@@ -31,15 +30,14 @@ export class IndicadoresFiliaisComponent implements OnInit {
         attribution: '&copy; OpenStreetMap'
       })
     ],
-    zoom: 4,
+    zoom: 5,
     center: latLng([-15.7801, -47.9292])
   };
 
   constructor(
     private _dashboardService: DashboardService,
     private _filialService: FilialService,
-    private _http: HttpClient,
-    private _router: Router
+    private _http: HttpClient
   ) { }
 
   ngOnInit(): void {

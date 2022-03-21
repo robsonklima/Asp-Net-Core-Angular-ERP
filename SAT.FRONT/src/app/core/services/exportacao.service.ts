@@ -15,14 +15,14 @@ export class ExportacaoService {
 
     private _params: HttpParams;
     
-    async downloadLink(tipoArquivo: FileMime, params: any = null){
+    async exportar(exportacaoTipo: string,tipoArquivo: FileMime, params: any = null){
       this._params = params;
-      const data = await this.exportar();
+      const data = await this.downloadExportacao(exportacaoTipo);
       const blob = new Blob([data], {type: tipoArquivo});
       return window.URL.createObjectURL(blob).toString();
     }
 
-    exportar(): Promise<any> {
+    downloadExportacao(exportacaoTipo : string): Promise<any> {
 
       let params = new HttpParams();
 
@@ -35,6 +35,6 @@ export class ExportacaoService {
         params: params 
       }
 
-      return this.http.get<any>(`${c.api}/exportacao` ,requestOptions).toPromise()
+      return this.http.get<any>(`${c.api}/Exportacao/${exportacaoTipo}` ,requestOptions).toPromise()
     }
 }

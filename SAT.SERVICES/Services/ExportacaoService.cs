@@ -28,11 +28,11 @@ namespace SAT.SERVICES.Services
 			FilePath = GenerateFilePath();
 		}
 
-		public dynamic Exportar(ExportacaoParameters parameters)
+		public dynamic Exportar(dynamic parameters)
 		{
-			ExportacaoTipo = parameters.ExportacaoTipo;
+			ExportacaoTipo = parameters.ExportType;
 
-			switch (parameters.ExportacaoFormato)
+			switch (parameters.ExportFormat)
 			{
 				case (int)ExportacaoFormatoEnum.EXCEL:
 
@@ -44,7 +44,7 @@ namespace SAT.SERVICES.Services
 			}
 		}
 
-		public IActionResult ExportExcel(ExportacaoParameters parameters)
+		public IActionResult ExportExcel(dynamic parameters)
 		{
 			Workbook = new XLWorkbook();
 
@@ -55,7 +55,7 @@ namespace SAT.SERVICES.Services
 					break;
 
 				case 2:
-					GerarPlanilhaEquipamentoContrato();
+					GerarPlanilhaEquipamentoContrato(parameters);
 					break;
 				default:
 					break;

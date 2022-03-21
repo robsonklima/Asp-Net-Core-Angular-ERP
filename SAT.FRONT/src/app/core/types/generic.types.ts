@@ -13,4 +13,6 @@ export interface QueryStringParameters {
     filter?: string;
     sortActive?: string;
     sortDirection?: string;
+	exportType?: number;
+	exportFormat?: number;
 }

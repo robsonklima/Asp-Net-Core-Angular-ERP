@@ -7,9 +7,9 @@ namespace SAT.SERVICES.Services
 {
 	public partial class ExportacaoService
 	{
-		protected void GerarPlanilhaOrdemServico(ExportacaoParameters parameters)
-		{	
-			var os = _osRepo.ObterPorParametros(JsonConvert.DeserializeObject<OrdemServicoParameters>(parameters.OrdemServicoParameters));
+		protected void GerarPlanilhaOrdemServico(OrdemServicoParameters parameters)
+		{
+			var os = _osRepo.ObterPorParametros(parameters);
 			var osSheet = os.Select(os =>
 							 new
 							 {
@@ -36,23 +36,22 @@ namespace SAT.SERVICES.Services
 							 });
 
 			var ratSheet = os.SelectMany(os => os.RelatoriosAtendimento.Select(r =>
-						{
-							return new
-							{
-								Chamado = r.CodOS,
-								CodRat = r.CodRAT,
-								NumRat = r.NumRAT ?? Constants.SEM_NADA,
-								Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-								Tecnico = r.Tecnico?.Nome ?? Constants.SEM_NADA,
-								Status = r.StatusServico?.NomeStatusServico ?? Constants.SEM_NADA,
-								DataInicio = r.DataHoraInicio.Date.ToString() ?? Constants.SEM_NADA,
-								DataSolucao = r.DataHoraSolucao.Date.ToString() ?? Constants.SEM_NADA,
-								Hora = r.DataHoraSolucao.ToString("HH:mm"),
-								TipoServico = r.TipoServico?.NomeServico ?? Constants.SEM_NADA,
-								Observacao = r.ObsRAT ?? Constants.SEM_NADA,
-								RelatoSolucao = r.RelatoSolucao ?? Constants.SEM_NADA,
-							};
-						}));
+							 new
+							 {
+								 Chamado = r.CodOS,
+								 CodRat = r.CodRAT,
+								 NumRat = r.NumRAT ?? Constants.SEM_NADA,
+								 Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
+								 Tecnico = r.Tecnico?.Nome ?? Constants.SEM_NADA,
+								 Status = r.StatusServico?.NomeStatusServico ?? Constants.SEM_NADA,
+								 DataInicio = r.DataHoraInicio.Date.ToString() ?? Constants.SEM_NADA,
+								 DataSolucao = r.DataHoraSolucao.Date.ToString() ?? Constants.SEM_NADA,
+								 Hora = r.DataHoraSolucao.ToString("HH:mm"),
+								 TipoServico = r.TipoServico?.NomeServico ?? Constants.SEM_NADA,
+								 Observacao = r.ObsRAT ?? Constants.SEM_NADA,
+								 RelatoSolucao = r.RelatoSolucao ?? Constants.SEM_NADA,
+							 }
+						));
 
 			var ratDetalheSheet = os.SelectMany(os => os.RelatoriosAtendimento
 														.SelectMany(rat => rat.RelatorioAtendimentoDetalhes
@@ -62,10 +61,15 @@ namespace SAT.SERVICES.Services
 																					Chamado = rat?.CodOS,
 																					Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
 																					NumRat = rat?.CodRAT,
+																					CodTipoCausa = d.TipoCausa?.CodETipoCausa ?? Constants.SEM_NADA,
 																					TipoCausa = d.TipoCausa?.NomeTipoCausa ?? Constants.SEM_NADA,
+																					CodGrupoCausa = d.GrupoCausa?.CodEGrupoCausa ?? Constants.SEM_NADA,
 																					GrupoCausa = d.GrupoCausa?.NomeGrupoCausa ?? Constants.SEM_NADA,
+																					CodDefeito = d.Defeito?.CodEDefeito ?? Constants.SEM_NADA,
 																					Defeito = d.Defeito?.NomeDefeito ?? Constants.SEM_NADA,
+																					CodCausa = d.Causa?.CodECausa ?? Constants.SEM_NADA,
 																					Causa = d.Causa?.NomeCausa ?? Constants.SEM_NADA,
+																					CodAcao = d.Acao?.CodEAcao ?? Constants.SEM_NADA,
 																					Acao = d.Acao?.NomeAcao ?? Constants.SEM_NADA,
 																					OrigemCausa = d.CodOrigemCausa != null ? d.CodOrigemCausa.Value == 1 ? "Máquina" : "Extra Máquina" : "Causa Origem Não Informada"
 																				}
@@ -77,8 +81,11 @@ namespace SAT.SERVICES.Services
 																									.Select(p =>
 																									new
 																									{
+																										Chamado = rat.CodOS,
+																										Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
 																										NumRat = rat.NumRAT ?? Constants.SEM_NADA,
-																										Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,																										
+																										CodAcao = rp.Acao?.CodEAcao ?? Constants.SEM_NADA,
+																										Acao = rp.Acao?.NomeAcao ?? Constants.SEM_NADA,
 																										CodMagnus = p.Peca.CodMagnus ?? Constants.SEM_NADA,
 																										Peca = p.Peca.NomePeca ?? Constants.SEM_NADA,
 																										QuantidadePecas = p.QtdePecas
@@ -96,9 +103,12 @@ namespace SAT.SERVICES.Services
 			wsRatDetalhePeca.Cell(2, 1).Value = ratDetalhePecaSheet;
 
 			WriteHeaders(osSheet.FirstOrDefault(), wsOs);
-			WriteHeaders(ratSheet.FirstOrDefault(), wsRat);
-			WriteHeaders(ratDetalheSheet.FirstOrDefault(), wsRatDetalhe);
-			WriteHeaders(ratDetalhePecaSheet.FirstOrDefault(), wsRatDetalhePeca);
+			if (ratSheet != null)
+			{
+				WriteHeaders(ratSheet.FirstOrDefault(), wsRat);
+				WriteHeaders(ratDetalheSheet.FirstOrDefault(), wsRatDetalhe);
+				WriteHeaders(ratDetalhePecaSheet.FirstOrDefault(), wsRatDetalhePeca);
+			}
 		}
 	}
 }

@@ -1,5 +1,3 @@
-import { ExportacaoFormatoEnum, ExportacaoTipoEnum } from './../../../../core/types/exportacao.types';
-import { ExportacaoParameters } from '../../../../core/types/exportacao.types';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,9 +18,9 @@ import { StringExtensions } from 'app/core/extensions/string.extensions';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
-    selector: 'ordem-servico-lista',
-    templateUrl: './ordem-servico-lista.component.html',
-    styles: [`
+	selector: 'ordem-servico-lista',
+	templateUrl: './ordem-servico-lista.component.html',
+	styles: [`
         .list-grid-ordem-servico {
             grid-template-columns: 42px 65px 84px 84px 20px 48px 50px 30px auto 120px auto 40px 120px 50px 100px 10px;
             
@@ -39,257 +37,254 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
             }
         }
     `],
-    encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 
 export class OrdemServicoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-    @ViewChild('sidenav') sidenav: MatSidenav;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild('searchInputControl') searchInputControl: ElementRef;
+	@ViewChild('sidenav') sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
-    @ViewChild(MatSort) sort: MatSort;
+	@ViewChild(MatSort) sort: MatSort;
 
-    dataSourceData: OrdemServicoData;
-    selectedItem: OrdemServico | null = null;
-    isLoading: boolean = false;
-    protected _onDestroy = new Subject<void>();
+	dataSourceData: OrdemServicoData;
+	selectedItem: OrdemServico | null = null;
+	isLoading: boolean = false;
+	protected _onDestroy = new Subject<void>();
 
-    constructor(
-        private _cdr: ChangeDetectorRef,
-        private _ordemServicoService: OrdemServicoService,
-        protected _userService: UserService,
-        private _stringExtensions: StringExtensions,
-        private _exportacaoService: ExportacaoService,
-        private _snack: CustomSnackbarService
-    ) {
-        super(_userService, 'ordem-servico')
-    }
+	constructor(
+		private _cdr: ChangeDetectorRef,
+		private _ordemServicoService: OrdemServicoService,
+		protected _userService: UserService,
+		private _stringExtensions: StringExtensions,
+		private _exportacaoService: ExportacaoService,
+		private _snack: CustomSnackbarService
+	) {
+		super(_userService, 'ordem-servico')
+	}
 
-    ngAfterViewInit(): void {
-        interval(3 * 60 * 1000)
-            .pipe(
-                startWith(0),
-                takeUntil(this._onDestroy)
-            )
-            .subscribe(() => {
-                this.obterOrdensServico();
-            });
+	ngAfterViewInit(): void {
+		interval(3 * 60 * 1000)
+			.pipe(
+				startWith(0),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(() => {
+				this.obterOrdensServico();
+			});
 
-        this.registerEmitters();
+		this.registerEmitters();
 
-        fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-            map((event: any) => {
-                return event.target.value;
-            })
-            , debounceTime(1000)
-            , distinctUntilChanged()
-        ).subscribe((text: string) => {
-            this.paginator.pageIndex = 0;
-            this.obterOrdensServico(text);
-        });
+		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(1000)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+			this.paginator.pageIndex = 0;
+			this.obterOrdensServico(text);
+		});
 
-        if (this.sort && this.paginator) {
-            this.sort.disableClear = true;
-            this._cdr.markForCheck();
+		if (this.sort && this.paginator) {
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
 
-            this.sort.sortChange.subscribe(() => {
-                this.onSortChanged();
-                this.obterOrdensServico();
-            });
-        }
+			this.sort.sortChange.subscribe(() => {
+				this.onSortChanged();
+				this.obterOrdensServico();
+			});
+		}
 
-        this._cdr.detectChanges();
-    }
+		this._cdr.detectChanges();
+	}
 
-    async obterOrdensServico(filter: string = '') {
-        if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
-            this._snack.exibirToast("Favor aplicar seus filtros!", "error");
-            return
-        }
+	async obterOrdensServico(filter: string = '') {
+		if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
+			this._snack.exibirToast("Favor aplicar seus filtros!", "error");
+			return
+		}
 
-        this.isLoading = true;
+		this.isLoading = true;
 
-        const params: OrdemServicoParameters = {
-            pageNumber: this.paginator.pageIndex + 1,
-            sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
-            sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
-            pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
-            include: OrdemServicoIncludeEnum.OS_LISTA,
-            filter: filter
-        };
+		const params: OrdemServicoParameters = {
+			pageNumber: this.paginator.pageIndex + 1,
+			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
+			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
+			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
+			include: OrdemServicoIncludeEnum.OS_LISTA,
+			filter: filter
+		};
 
-        if (!this._stringExtensions.isEmptyOrWhiteSpace(filter))
-            params.filterType = OrdemServicoFilterEnum.FILTER_GENERIC_TEXT;
+		if (!this._stringExtensions.isEmptyOrWhiteSpace(filter))
+			params.filterType = OrdemServicoFilterEnum.FILTER_GENERIC_TEXT;
 
-        const data: OrdemServicoData = await this._ordemServicoService
-            .obterPorParametros({
-                ...params,
-                ...this.filter?.parametros
-            })
-            .toPromise();
+		const data: OrdemServicoData = await this._ordemServicoService
+			.obterPorParametros({
+				...params,
+				...this.filter?.parametros
+			})
+			.toPromise();
 
-        this.dataSourceData = data;
-        this.isLoading = false;
-    }
+		this.dataSourceData = data;
+		this.isLoading = false;
+	}
 
-    registerEmitters(): void {
-        this.sidenav.closedStart.subscribe(() => {
-            this.onSidenavClosed();
-            this.obterOrdensServico();
-        })
-    }
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterOrdensServico();
+		})
+	}
 
-    loadFilter(): void {
-        super.loadFilter();
+	loadFilter(): void {
+		super.loadFilter();
 
-        // Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
-        if (this.userSession?.usuario?.codFilial && this.filter)
-            this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
-    }
+		// Filtro obrigatorio de filial quando o usuario esta vinculado a uma filial
+		if (this.userSession?.usuario?.codFilial && this.filter)
+			this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
+	}
 
-    public async exportar() {
+	public async exportar() {
 
-        if (this.dataSourceData?.totalCount > 20000) return;
+		if (this.dataSourceData?.totalCount > 20000) return;
 
-        this.isLoading = true;
+		this.isLoading = true;
 
-        const params: ExportacaoParameters = {
-			ordemServicoParameters: JSON.stringify({...this.filter?.parametros, ...{
-				sortDirection: 'desc',
-				pageSize: 100000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR
-			}}),
-			...{exportacaoFormato: ExportacaoFormatoEnum.EXCEL},
-			...{exportacaoTipo: ExportacaoTipoEnum.ORDEM_SERVICO}
-        };
+		const params: OrdemServicoParameters = {
+			...this.filter?.parametros,
+			sortDirection: 'desc',
+			pageSize: 100000,
+			include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+		};
 
-		window.location.href = await this._exportacaoService.downloadLink(FileMime.Excel, params);
-        
-        this.isLoading = false;
-    }
+		window.location.href = await this._exportacaoService.exportar('OrdemServico', FileMime.Excel, params);
 
-    paginar() {
-        this.onPaginationChanged();
-        this.obterOrdensServico();
-    }
+		this.isLoading = false;
+	}
 
-    ngOnDestroy() {
-        this._onDestroy.next();
-        this._onDestroy.complete();
-    }
+	paginar() {
+		this.onPaginationChanged();
+		this.obterOrdensServico();
+	}
 
-    tooltipSLA(os: OrdemServico) {
-        if (os.equipamentoContrato == null || os.equipamentoContrato?.acordoNivelServico == null) return null;
+	ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 
-        return os.equipamentoContrato?.acordoNivelServico?.nomeSLA + " - " +
-            os.equipamentoContrato?.acordoNivelServico?.descSLA;
-    }
+	tooltipSLA(os: OrdemServico) {
+		if (os.equipamentoContrato == null || os.equipamentoContrato?.acordoNivelServico == null) return null;
 
-    statusSLADescricao(os: OrdemServico) {
-        if (os.prazosAtendimento == null) {
-            return "---";
-        }
-        else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0) {
-            var solucao = Enumerable.from(os.relatoriosAtendimento).orderBy(i => i.codRAT).firstOrDefault()?.dataHoraSolucao || os.dataHoraFechamento;
-            if (solucao < os.prazosAtendimento[0]?.dataHoraLimiteAtendimento)
-                return "DENTRO";
-            return "FORA";
-        }
-        else if (os.prazosAtendimento?.length > 0) {
-            var now = moment();
-            var limit = moment(os.prazosAtendimento[0]?.dataHoraLimiteAtendimento);
-            if (now < limit)
-                return "DENTRO";
-            return "FORA";
-        }
-        return "---";
-    }
+		return os.equipamentoContrato?.acordoNivelServico?.nomeSLA + " - " +
+			os.equipamentoContrato?.acordoNivelServico?.descSLA;
+	}
 
-    statusServicoDescricao(os: OrdemServico) {
-        var description = os.statusServico?.nomeStatusServico;
-        var usuarioManutencao = os.usuarioManutencao != undefined ? os.usuarioManutencao?.nomeUsuario : '-----';
-        var dataManutencao = os.dataManutencao != undefined ? moment(os.dataManutencao).format('DD/MM HH:mm') : '-----';
+	statusSLADescricao(os: OrdemServico) {
+		if (os.prazosAtendimento == null) {
+			return "---";
+		}
+		else if (os.statusServico?.codStatusServico == 3 && os.prazosAtendimento?.length > 0) {
+			var solucao = Enumerable.from(os.relatoriosAtendimento).orderBy(i => i.codRAT).firstOrDefault()?.dataHoraSolucao || os.dataHoraFechamento;
+			if (solucao < os.prazosAtendimento[0]?.dataHoraLimiteAtendimento)
+				return "DENTRO";
+			return "FORA";
+		}
+		else if (os.prazosAtendimento?.length > 0) {
+			var now = moment();
+			var limit = moment(os.prazosAtendimento[0]?.dataHoraLimiteAtendimento);
+			if (now < limit)
+				return "DENTRO";
+			return "FORA";
+		}
+		return "---";
+	}
 
-        if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
-            var pecas = Enumerable.from(os.relatoriosAtendimento)
-                .selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
-                    .selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
-                        .select(dp => dp.peca?.codMagnus))).toArray();
+	statusServicoDescricao(os: OrdemServico) {
+		var description = os.statusServico?.nomeStatusServico;
+		var usuarioManutencao = os.usuarioManutencao != undefined ? os.usuarioManutencao?.nomeUsuario : '-----';
+		var dataManutencao = os.dataManutencao != undefined ? moment(os.dataManutencao).format('DD/MM HH:mm') : '-----';
 
-            if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
+		if (os.statusServico?.codStatusServico == 7 || os.statusServico?.codStatusServico == 10) {
+			var pecas = Enumerable.from(os.relatoriosAtendimento)
+				.selectMany(rat => Enumerable.from(rat.relatorioAtendimentoDetalhes)
+					.selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
+						.select(dp => dp.peca?.codMagnus))).toArray();
 
-            description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
-        }
-        else if (os.statusServico?.codStatusServico == 6 || os.statusServico?.codStatusServico == 9) {
-            description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
-        }
+			if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
 
-        return description;
-    }
+			description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
+		}
+		else if (os.statusServico?.codStatusServico == 6 || os.statusServico?.codStatusServico == 9) {
+			description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
+		}
 
-    tecnicoDescricao(os: OrdemServico) {
-        var description = os.tecnico?.nome;
-        description += '\n' + 'TRANSFERIDO EM: ';
-        description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
-        description += 'VISUALIZADO EM: ';
-        description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO VISUALIZADO';
-        return description;
-    }
+		return description;
+	}
 
-    localDescricao(os: OrdemServico) {
-        var description: string = '';
+	tecnicoDescricao(os: OrdemServico) {
+		var description = os.tecnico?.nome;
+		description += '\n' + 'TRANSFERIDO EM: ';
+		description += os.dataHoraTransf ? moment(os.dataHoraTransf).format('DD/MM HH:mm') + '\n' : 'NÃO DISPONÍVEL\n';
+		description += 'VISUALIZADO EM: ';
+		description += os.dataHoraOSMobileLida ? moment(os.dataHoraOSMobileLida).format('DD/MM HH:mm') : 'NÃO VISUALIZADO';
+		return description;
+	}
 
-        var nomeLocal = os?.localAtendimento?.nomeLocal?.trim();
-        var endereco = os?.localAtendimento?.endereco?.trim();
-        var numero = os?.localAtendimento?.numeroEnd?.trim();
-        var bairro = os?.localAtendimento?.bairro?.trim();
-        var cidade = os?.localAtendimento?.cidade?.nomeCidade?.trim();
-        var uf = os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF?.trim();
-        var cep = os?.localAtendimento?.cep?.trim();
+	localDescricao(os: OrdemServico) {
+		var description: string = '';
 
-        if (nomeLocal)
-            description += nomeLocal;
+		var nomeLocal = os?.localAtendimento?.nomeLocal?.trim();
+		var endereco = os?.localAtendimento?.endereco?.trim();
+		var numero = os?.localAtendimento?.numeroEnd?.trim();
+		var bairro = os?.localAtendimento?.bairro?.trim();
+		var cidade = os?.localAtendimento?.cidade?.nomeCidade?.trim();
+		var uf = os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF?.trim();
+		var cep = os?.localAtendimento?.cep?.trim();
 
-        if (endereco)
-            description += nomeLocal ? ', ' + endereco : endereco;
+		if (nomeLocal)
+			description += nomeLocal;
 
-        if (endereco && numero)
-            description += ', ' + numero;
+		if (endereco)
+			description += nomeLocal ? ', ' + endereco : endereco;
 
-        if (endereco && bairro)
-            description += ', ' + bairro;
+		if (endereco && numero)
+			description += ', ' + numero;
 
-        if (cidade)
-            description += ', ' + cidade;
+		if (endereco && bairro)
+			description += ', ' + bairro;
 
-        if (cidade && uf)
-            description += ' - ' + uf;
+		if (cidade)
+			description += ', ' + cidade;
 
-        if (uf && cep)
-            description += ', ' + cep + '.';
+		if (cidade && uf)
+			description += ' - ' + uf;
 
-        return description;
-    }
+		if (uf && cep)
+			description += ', ' + cep + '.';
 
-    alternarDetalhes(id: number): void {
-        this.isLoading = true;
+		return description;
+	}
 
-        if (this.selectedItem && this.selectedItem.codOS === id) {
-            this.isLoading = false;
-            this.fecharDetalhes();
-            return;
-        }
+	alternarDetalhes(id: number): void {
+		this.isLoading = true;
 
-        this._ordemServicoService.obterPorCodigo(id)
-            .subscribe((item) => {
-                this.selectedItem = item;
-                this.isLoading = false;
-                this._cdr.markForCheck();
-            });
-    }
+		if (this.selectedItem && this.selectedItem.codOS === id) {
+			this.isLoading = false;
+			this.fecharDetalhes();
+			return;
+		}
 
-    fecharDetalhes(): void {
-        this.selectedItem = null;
-    }
+		this._ordemServicoService.obterPorCodigo(id)
+			.subscribe((item) => {
+				this.selectedItem = item;
+				this.isLoading = false;
+				this._cdr.markForCheck();
+			});
+	}
+
+	fecharDetalhes(): void {
+		this.selectedItem = null;
+	}
 }

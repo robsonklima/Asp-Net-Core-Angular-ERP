@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
-using SAT.MODELS.ViewModels;
 using SAT.INFRA.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -17,7 +14,6 @@ namespace SAT.SERVICES.Services
 	{
 		private XLWorkbook Workbook { get; set; }
 		public string FilePath { get; set; }
-		public int ExportacaoTipo { get; set; }
 		private IOrdemServicoRepository _osRepo;
 		private IEquipamentoContratoRepository _ecRepo;
 
@@ -28,15 +24,13 @@ namespace SAT.SERVICES.Services
 			FilePath = GenerateFilePath();
 		}
 
-		public dynamic Exportar(ExportacaoParameters parameters)
+		public dynamic Exportar(dynamic parameters, ExportacaoFormatoEnum formato, ExportacaoTipoEnum tipo)
 		{
-			ExportacaoTipo = parameters.ExportacaoTipo;
-
-			switch (parameters.ExportacaoFormato)
+			switch (formato)
 			{
-				case (int)ExportacaoFormatoEnum.EXCEL:
+				case ExportacaoFormatoEnum.EXCEL:
 
-					return ExportExcel(parameters);
+					return ExportExcel(parameters, tipo);
 
 				default:
 
@@ -44,19 +38,20 @@ namespace SAT.SERVICES.Services
 			}
 		}
 
-		public IActionResult ExportExcel(ExportacaoParameters parameters)
+		public IActionResult ExportExcel(dynamic parameters, ExportacaoTipoEnum tipo)
 		{
 			Workbook = new XLWorkbook();
 
-			switch (ExportacaoTipo)
+			switch (tipo)
 			{
-				case 1:
+				case ExportacaoTipoEnum.ORDEM_SERVICO:
 					GerarPlanilhaOrdemServico(parameters);
 					break;
 
-				case 2:
-					GerarPlanilhaEquipamentoContrato();
+				case ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO:
+					GerarPlanilhaEquipamentoContrato(parameters);
 					break;
+
 				default:
 					break;
 			}
@@ -74,7 +69,7 @@ namespace SAT.SERVICES.Services
 		private void FormatSheet(IXLCells row, IXLWorksheet sheet)
 		{
 			row.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-
+			sheet.RangeUsed().SetAutoFilter();
 			sheet.Columns().AdjustToContents();
 			sheet.Rows().AdjustToContents();
 		}

@@ -1,17 +1,15 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
-using SAT.SERVICES.Services;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
     public class ExportacaoController : ControllerBase
@@ -22,10 +20,16 @@ namespace SAT.API.Controllers
 			_exService = exService;
         }
 		
-        [HttpGet]
-        public IActionResult ExportToExcel([FromQuery] ExportacaoParameters parameters)
+        [HttpGet("OrdemServico")]
+        public IActionResult ExportarOrdemServico([FromQuery] OrdemServicoParameters parameters)
         {
-			return _exService.Exportar(parameters);
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ORDEM_SERVICO);
+        }
+
+        [HttpGet("EquipamentoContrato")]
+        public IActionResult ExportarEquipamentoContrato([FromQuery] EquipamentoContratoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO);
         }
     }
 }

@@ -16,12 +16,12 @@ namespace SAT.SERVICES.Services
 {
 	public partial class ExportacaoService
 	{
-		protected IEnumerable<object> ObterEquipamentoContrato(OrdemServicoParameters parameters)
+		protected IEnumerable<object> ObterEquipamentoContrato(EquipamentoContratoParameters parameters)
 		{
 			throw new NotImplementedException();
 		}
 
-		protected void GerarPlanilhaEquipamentoContrato()
+		protected void GerarPlanilhaEquipamentoContrato(EquipamentoContratoParameters parameters)
 		{
 			throw new NotImplementedException();
 		}

@@ -2,7 +2,7 @@
 {
     public class ViewDashboardIndicadoresFiliais
     {
-        public string? Filial { get; set; }
+        public string Filial { get; set; }
         public decimal? SLA { get; set; }
         public decimal? Pendencia { get; set; }
         public decimal? Reincidencia { get; set; }

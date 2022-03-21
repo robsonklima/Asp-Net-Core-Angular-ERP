@@ -40,11 +40,6 @@ namespace SAT.INFRA.Repository
             }
         }
 
-
-        /// <summary>
-        /// Atualiza paralelamente ao retorno da API os dados no SQL
-        /// </summary>
-        /// <param name="agendas"></param>
         public void AtualizarListaAsync(List<AgendaTecnico> agendas)
         {
             Parallel.Invoke(() =>

@@ -94,7 +94,7 @@ namespace SAT.SERVICES.Services
                 if (agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
                    .Any(i => i.Fim.Date < DateTime.Now.Date))
                 {
-                    var eventosRealocados = this.RealocaEventosComAtraso(agendamentosDoTecnico);
+                    var eventosRealocados = this.ExcluiEventosComAtraso(agendamentosDoTecnico);
                     eventosValidados.AddRange(eventosRealocados);
                 }
                 else
@@ -250,65 +250,37 @@ namespace SAT.SERVICES.Services
             return pontos;
         }
 
-        // Realoca eventos devido a atraso
-        private List<AgendaTecnico> RealocaEventosComAtraso(List<AgendaTecnico> agendasTecnico)
+        private List<AgendaTecnico> ExcluiEventosComAtraso(List<AgendaTecnico> agendasTecnico)
         {
             var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
 
-            AgendaTecnico ultimoEvento = null;
-            OrdemServico ultimaOS = null;
             List<AgendaTecnico> atualizarAgendas = new();
 
             agendasTecnico
-            .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-            .OrderBy(i => i.Inicio)
-            .ToList()
-            .ForEach(e =>
-            {
-                if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
+                .Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
+                .OrderBy(i => i.Inicio)
+                .ToList()
+                .ForEach(e =>
                 {
-                    if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
-                        e.IndAtivo = 0;
-
-                    e.CodUsuarioManut = Constants.SISTEMA_NOME;
-                    e.DataHoraManut = DateTime.Now;
-                    e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
-                    atualizarAgendas.Add(e);
-                }
-                else
-                {
-                    OrdemServico os = e.OrdemServico;
-
-                    var deslocamento = this.DistanciaEmMinutos(os, ultimaOS);
-                    var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
-                    var duracao = (e.Fim - e.Inicio).TotalMinutes;
-
-                    // adiciona deslocamento
-                    start = start.AddMinutes(deslocamento);
-
-                    // se começa durante o intervalo ou depois do expediente
-                    if (this.isIntervalo(start))
-                        start = this.FimIntervalo(start);
-
-                    // se termina durante o intervalo
-                    var end = start.AddMinutes(duracao);
-                    if (this.isIntervalo(end))
+                    if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                     {
-                        start = end.AddMinutes(deslocamento);
-                        end = start.AddMinutes(duracao);
+                        if ((e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                            e.IndAtivo = 0;
+
+                        e.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        e.DataHoraManut = DateTime.Now;
+                        e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
+                        atualizarAgendas.Add(e);
                     }
-
-                    e.Inicio = start;
-                    e.Fim = end;
-                    e.CodUsuarioCad = Constants.SISTEMA_NOME;
-                    e.DataHoraCad = DateTime.Now;
-                    e.Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.OS);
-
-                    atualizarAgendas.Add(e);
-                    ultimoEvento = e;
-                    ultimaOS = os;
-                }
-            });
+                    {
+                        if(e.Inicio.Date < DateTime.Now.Date)
+                        {
+                            _agendaRepo.Deletar(e.CodAgendaTecnico);
+                            e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
+                            _osRepo.Atualizar(e.OrdemServico);
+                        }
+                    }
+                });
 
             this._agendaRepo.AtualizarListaAsync(atualizarAgendas);
             return agendasTecnico.Where(i => i.IndAtivo == 1).ToList();

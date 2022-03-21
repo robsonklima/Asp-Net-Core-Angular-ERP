@@ -34,7 +34,7 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
             }
-            catch (System.Exception ex)
+            catch
             {
                 throw;
             }

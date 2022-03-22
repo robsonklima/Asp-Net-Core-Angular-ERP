@@ -123,8 +123,7 @@ namespace SAT.SERVICES.Services
                         eventosValidados.Add(i);
                     });
 
-                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS)
-                    .ToList().ForEach(i =>
+                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
                     {
                         if (i.Fim < DateTime.Now)
                         {
@@ -145,19 +144,19 @@ namespace SAT.SERVICES.Services
 
             // Verifica duplicados
             eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
-            .GroupBy(i => i.CodOS)
-            .ToList()
-            .Where(i => i.Key > 1)
-            .ToList().ForEach(i =>
-           {
-               i.Skip(1).ToList().ForEach(a =>
-               {
-                   a.IndAtivo = 0;
-                   a.CodUsuarioManut = Constants.SISTEMA_NOME;
-                   a.DataHoraManut = DateTime.Now;
-                   listaAtualizar.Add(a);
-               });
-           });
+                .GroupBy(i => i.CodOS)
+                .ToList()
+                .Where(i => i.Key > 1)
+                .ToList().ForEach(i =>
+            {
+                i.Skip(1).ToList().ForEach(a =>
+                {
+                    a.IndAtivo = 0;
+                    a.CodUsuarioManut = Constants.SISTEMA_NOME;
+                    a.DataHoraManut = DateTime.Now;
+                    listaAtualizar.Add(a);
+                });
+            });
 
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
             return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
@@ -191,7 +190,6 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ObterPontosDoDia(AgendaTecnicoParameters parameters, IEnumerable<Usuario> usuarios = null)
         {
             List<AgendaTecnico> pontos = new();
-
             var distinctUsers = usuarios.Where(i => i != null).Distinct();
 
             if (distinctUsers != null)

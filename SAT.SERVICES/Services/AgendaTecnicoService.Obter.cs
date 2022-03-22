@@ -94,7 +94,7 @@ namespace SAT.SERVICES.Services
                 if (agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
                    .Any(i => i.Fim.Date < DateTime.Now.Date))
                 {
-                    var eventosRealocados = this.ExcluiEventosComAtraso(agendamentosDoTecnico);
+                    var eventosRealocados = this.ExcluirEventosComAtraso(agendamentosDoTecnico);
                     eventosValidados.AddRange(eventosRealocados);
                 }
                 else
@@ -250,7 +250,7 @@ namespace SAT.SERVICES.Services
             return pontos;
         }
 
-        private List<AgendaTecnico> ExcluiEventosComAtraso(List<AgendaTecnico> agendasTecnico)
+        private List<AgendaTecnico> ExcluirEventosComAtraso(List<AgendaTecnico> agendasTecnico)
         {
             var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
 
@@ -272,6 +272,7 @@ namespace SAT.SERVICES.Services
                         e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                         atualizarAgendas.Add(e);
                     }
+                    else
                     {
                         if(e.Inicio.Date < DateTime.Now.Date)
                         {

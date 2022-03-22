@@ -4,7 +4,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
-import { Tecnico } from 'app/core/types/tecnico.types';
+import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 import Enumerable from 'linq';
 import { Subject } from 'rxjs';
@@ -169,8 +169,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     private _snack: CustomSnackbarService
   )
   {
-    super(_userSvc, 'agenda-tecnico')
+    super(_userSvc, 'agenda-tecnico');
+  }
+
+  ngAfterViewInit(): void
+  {
     this.obterDados();
+    this.registerEmitters();
   }
 
   registerEmitters(): void
@@ -182,11 +187,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     });
   }
 
-  ngAfterViewInit(): void
-  {
-    this.registerEmitters();
-  }
-
   loadFilter(): void
   {
     super.loadFilter();
@@ -196,14 +196,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   private async obterDados(showLoading: boolean=true)
   {
-    if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
-      this._snack.exibirToast("Favor aplicar seus filtros!", "error");
-      return
-    }
+    if (!this.verificarExistenciaFiltro()) return;
 
     this.loading = showLoading;
 
-    this.tecnicos = (await this._tecnicoSvc.obterPorParametros({
+    const tecnicoParams: TecnicoParameters = {
       indAtivo: 1,
       codPerfil: RoleEnum.FILIAL_TECNICO_DE_CAMPO,
       codFiliais: this.filter?.parametros?.codFiliais,
@@ -212,8 +209,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       codRegioes: this.filter?.parametros?.codRegioes,
       sortActive: 'nome',
       sortDirection: 'asc'
-    }).toPromise()).items;
+    };
 
+    const dataTecnicos = await this._tecnicoSvc.obterPorParametros(tecnicoParams).toPromise();
+    this.tecnicos = dataTecnicos.items;
+    
     this.events = [];
     this.resources = Enumerable.from(this.tecnicos).select(t =>
     {
@@ -240,8 +240,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       fimPeriodoAgenda: this.weekEnd,
       sortActive: 'nome',
       sortDirection: 'asc'
-    }).toPromise().then(agendamentos =>
-    {
+    }).toPromise().then(agendamentos => {
       this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
       this.carregaAgendaTecnico(agendamentos);
       this.loading = false;
@@ -284,7 +283,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         color: ag.cor,
         editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO ||
           (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)) ? false : true,
-        // editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO) ? false : true,
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
@@ -678,7 +676,23 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private obterDescricaoTecnico(t: Tecnico)
   {
     if (t.tecnicoCliente?.length > 0)
-      return t.nome.split(' ')[0] + ' atende os clientes: ' + Enumerable.from(t.tecnicoCliente).where(i => i.cliente != null && i.cliente.indAtivo == 1).select(i => i.cliente.nomeFantasia).distinct().toJoinedString(', ') + '.';
+      return t.nome.split(' ')[0] + ' atende os clientes: ' + Enumerable
+        .from(t.tecnicoCliente)
+        .where(i => i.cliente != null && i.cliente.indAtivo == 1)
+        .select(i => i.cliente.nomeFantasia)
+        .distinct()
+        .toJoinedString(', ') + '.';
+
     return null;
+  }
+
+  private verificarExistenciaFiltro(): boolean {
+    if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
+      this._snack.exibirToast("Favor aplicar seus filtros!", "error");
+
+      return false;
+    }
+    
+    return true;
   }
 }

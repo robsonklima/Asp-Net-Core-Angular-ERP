@@ -253,7 +253,6 @@ namespace SAT.SERVICES.Services
         private List<AgendaTecnico> ExcluirEventosComAtraso(List<AgendaTecnico> agendasTecnico)
         {
             var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico;
-
             List<AgendaTecnico> atualizarAgendas = new();
 
             agendasTecnico
@@ -272,16 +271,13 @@ namespace SAT.SERVICES.Services
                         e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                         atualizarAgendas.Add(e);
                     }
-                    else
+                    else if (e.Inicio.Date < DateTime.Now.Date)
                     {
-                        if(e.Inicio.Date < DateTime.Now.Date)
-                        {
-                            _agendaRepo.Deletar(e.CodAgendaTecnico);
-                            e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
-                            e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
-                            e.OrdemServico.DataHoraManut = DateTime.Now;
-                            _osRepo.Atualizar(e.OrdemServico);
-                        }
+                        _agendaRepo.Deletar(e.CodAgendaTecnico);
+                        e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
+                        e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        e.OrdemServico.DataHoraManut = DateTime.Now;
+                        _osRepo.Atualizar(e.OrdemServico);
                     }
                 });
 

@@ -24,7 +24,6 @@ import { registerLocaleData } from '@angular/common';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-
 registerLocaleData(localePt, 'pt');
 
 setOptions({
@@ -58,6 +57,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   weekEnd: string = moment().add(2, 'day').format('yyyy-MM-DD HH:mm:ss');
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
+  currentEvent: any;
+  interventionType = '';
+  info = '';
+  time = '';
+  status = '';
+  selectResource: any;
+  anchor: HTMLElement | undefined;
+  timer: any;
 
   popupOptions: MbscPopupOptions = {
     display: 'anchored',
@@ -68,19 +75,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     width: 350
   };
 
-  currentEvent: any;
-  interventionType = '';
-  info = '';
-  time = '';
-  status = '';
-  selectResource: any;
-  anchor: HTMLElement | undefined;
-  timer: any;
-
   calendarOptions: MbscEventcalendarOptions = {
     view: {
       timeline: {
         type: 'day',
+        startTime: '06:00',
+          endTime: '20:00',
         size: 2,
         allDay: true,
         startDay: 1,

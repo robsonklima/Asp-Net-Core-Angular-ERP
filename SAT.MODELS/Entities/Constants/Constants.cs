@@ -86,6 +86,16 @@
 		// Filiais
 		public static int PERTO_INDIA = 33;
 
+		// Cores
+		public static string COR_AZUL = "#2828fa";
+		public static string COR_ROSA = "#ff4cb7";
+		public static string COR_VERDE_CLARO = "#6dbd62";
+		public static string COR_TERRA = "#964b00";
+		public static string COR_VERDE_ESCURO = "#009000";
+		public static string COR_CINZA = "#c8c8c8";
+		public static string COR_VERMELHO = "#ff4c4c";
+		public static string COR_ROXO = "#381354";
+
 		//Email
 		public static string ASSINATURA_EMAIL = @"
                                                 <br><br>

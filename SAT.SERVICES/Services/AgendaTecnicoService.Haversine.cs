@@ -13,17 +13,23 @@ namespace SAT.SERVICES.Services
 
             if (osAnterior != null)
             {
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Latitude)) orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Longitude)) orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Latitude)) 
+                    orig_lat = double.Parse(osAnterior.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAnterior.LocalAtendimento?.Longitude)) 
+                    orig_long = double.Parse(osAnterior.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
             }
             else if (osAtual.Tecnico != null)
             {
-                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Latitude)) orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
-                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Longitude)) orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Latitude)) 
+                    orig_lat = double.Parse(osAtual.Tecnico.Latitude, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(osAtual.Tecnico?.Longitude)) 
+                    orig_long = double.Parse(osAtual.Tecnico.Longitude, CultureInfo.InvariantCulture);
             }
 
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Latitude)) dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
-            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Longitude)) dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Latitude)) 
+                dest_lat = double.Parse(osAtual.LocalAtendimento.Latitude, CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(osAtual.LocalAtendimento?.Longitude)) 
+                dest_long = double.Parse(osAtual.LocalAtendimento.Longitude, CultureInfo.InvariantCulture);
 
             return this.GetDistanceInMinutesPerKm(orig_lat, orig_long, dest_lat, dest_long, 50);
         }
@@ -31,7 +37,13 @@ namespace SAT.SERVICES.Services
         public double GetDistanceInMinutesPerKm(double? origem_lat, double? origem_long, double? destino_lat, double? destino_long, int velocidadeMediaEmHoras)
         {
             // Se todas as coordenadas estiverem disponiveis, calcula a distância e retorna o tempo em minutos
-            if ((origem_lat.HasValue && origem_lat.Value != 0) && (origem_long.HasValue && origem_long.Value != 0) && (destino_lat.HasValue && destino_lat.Value != 0) && (destino_long.HasValue && destino_long.Value != 0))
+            if
+            (
+                (origem_lat.HasValue && origem_lat.Value != 0) && 
+                (origem_long.HasValue && origem_long.Value != 0) && 
+                (destino_lat.HasValue && destino_lat.Value != 0) && 
+                (destino_long.HasValue && destino_long.Value != 0)
+            )
             {
                 var distance = this.CalculateDistanceInKm(origem_lat.Value, origem_long.Value, destino_lat.Value, destino_long.Value);
                 var hours = ((distance / velocidadeMediaEmHoras));

@@ -277,6 +277,8 @@ namespace SAT.SERVICES.Services
                         {
                             _agendaRepo.Deletar(e.CodAgendaTecnico);
                             e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
+                            e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            e.OrdemServico.DataHoraManut = DateTime.Now;
                             _osRepo.Atualizar(e.OrdemServico);
                         }
                     }

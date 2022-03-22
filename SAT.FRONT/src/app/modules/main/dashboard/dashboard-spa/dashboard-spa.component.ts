@@ -83,11 +83,18 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
       .viewDashboardSPA;
 
     if (data?.length) {
-      data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
-      const labels = data.map(d => d.filial);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
+      const mediaGlobal = Enumerable.from(data).where(d => d.filial === 'GLOBAL').toArray();
+      const filiais = Enumerable.from(data).where(d => d.filial !== 'GLOBAL').orderByDescending(ord => ord.percentual).toArray();
+
+      const spa = [
+        ...mediaGlobal,
+        ...filiais
+      ];
+
+      const labels = spa.map(d => d.filial);
+      let valoresColuna = spa.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
-      valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
+      valoresColuna.forEach(() => { valoresLinha.push(this.meta); });
       this.haveData = true;
 
       this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);

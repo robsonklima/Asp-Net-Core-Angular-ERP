@@ -6,6 +6,7 @@ import { DashboardViewEnum } from "app/core/types/dashboard.types";
 import { IFilterable } from "app/core/types/filtro.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
 import { UserService } from "app/core/user/user.service";
+import _ from "lodash";
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -79,7 +80,7 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
       .viewDashboardSLAClientes;
 
     if (data?.length) {
-      data = data.sort((a, b) => (a.percentual > b.percentual) ? 1 : ((b.percentual > a.percentual) ? -1 : 0));
+      data = _.orderBy(data, ['percentual'], 'desc');
       const labels = data.map(d => d.cliente);
       let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];

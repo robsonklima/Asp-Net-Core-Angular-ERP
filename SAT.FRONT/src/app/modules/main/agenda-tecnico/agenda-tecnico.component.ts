@@ -594,16 +594,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   private showEventInfo(args, inst)
-  {
+  {    
     const event: any = args.event;
     const time = (event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO || AgendaTecnicoTypeEnum.FIM_EXPEDIENTE) ? formatDate('HH:mm', new Date(event.start)) : formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
-    this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
     this.info = event.ordemServico != null ? (event.title + '- ' + event.ordemServico?.codOS) :
       event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? "PONTO" :
         event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO ? "INTERVALO" : "FIM DO EXPEDIENTE";
     this.time = time;
     this.status = event.ordemServico?.statusServico?.nomeStatusServico;
+    this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;

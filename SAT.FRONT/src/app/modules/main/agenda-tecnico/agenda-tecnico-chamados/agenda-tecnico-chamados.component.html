@@ -42,9 +42,6 @@
                         <div *ngIf="event.ordemServico?.prazosAtendimento?.length">
                             {{ "SLA: " + (event.ordemServico?.prazosAtendimento[event.ordemServico?.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
                         </div>
-                        <div class="font-bold" *ngIf="event.indAgendamento == 1">
-                            {{ "Agendado: " + (event.dataAgendamento | date:'dd/MM/yy HH:mm') }}
-                        </div>
                     </div>
                 </div>
 

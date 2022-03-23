@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntl } from '@angular/material/paginator';
@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from 'app/core/interceptors/http-error.interceptor';
-import { GlobalErrorInterceptor } from 'app/core/interceptors/global-error.interceptor';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
@@ -72,10 +71,6 @@ export const FORMATO_DATA = {
         { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
         { provide: MAT_DATE_FORMATS, useValue: FORMATO_DATA },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-        {
-            provide: ErrorHandler,
-            useClass: GlobalErrorInterceptor,
-        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,

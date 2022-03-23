@@ -14,13 +14,12 @@ import moment, { Moment } from 'moment';
 
 export class AgendaTecnicoValidator
 {
-    constructor (private _tecnicoService: TecnicoService,
+    constructor (
+        private _tecnicoService: TecnicoService,
         private _haversineSvc: HaversineService,
-        private _dateTimeExtensions: DateTimeExtensions) { }
+        private _dateTimeExtensions: DateTimeExtensions
+    ) {}
 
-    /**
-     * valida se a região do chamado e a região do técnico são iguais
-     */
     public async isTecnicoDaRegiaoDoChamado(os: OrdemServico, codTecnico: number)
     {
         var tecnico = (await this._tecnicoService.obterPorCodigo(codTecnico).toPromise());
@@ -33,8 +32,6 @@ export class AgendaTecnicoValidator
 
     public isTecnicoOMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
     {
-        debugger
-
         var codTecnicos = Enumerable.from(tecnicos).select(i => i.codTecnico);
 
         var ultimoAtendimentoTecnico =
@@ -42,8 +39,6 @@ export class AgendaTecnicoValidator
                 .where(i => i.resource == codTecnico)
                 .orderByDescending(i => i.end)
                 .firstOrDefault();
-
-        debugger
 
         if (ultimoAtendimentoTecnico)
             var minDistancia = this.calculaDeslocamentoEmMinutos(os, ultimoAtendimentoTecnico?.ordemServico);
@@ -77,7 +72,7 @@ export class AgendaTecnicoValidator
                 minDistancia: minDistancia,
                 codTecnicoMinDistancia: codTecnicoMinDistancia,
                 ultimoAtendimentoTecnico: ultimoAtendimentoTecnico,
-                message: this.getTecnicoOMaisProximoMessage(nomeTecnico, minDistancia, os)
+                message: this.getTecnicoMaisProximoMessage(nomeTecnico, minDistancia, os)
             }
 
             return tec;
@@ -111,13 +106,10 @@ export class AgendaTecnicoValidator
         return null;
     }
 
-    private getTecnicoOMaisProximoMessage(nomeTecnico: string, minDistancia: number, os: OrdemServico)
+    private getTecnicoMaisProximoMessage(nomeTecnico: string, minDistancia: number, os: OrdemServico)
     {
-        if (minDistancia == 0)
-            return `O técnico ${nomeTecnico} encontra-se no local de atendimento do chamado ${os?.codOS}. Deseja transferir este chamado para ${nomeTecnico}?`;
-
-
-        return `O técnico ${nomeTecnico} encontra-se a ${minDistancia.toFixed(2)} minutos do local de atendimento do chamado ${os?.codOS}. Deseja transferir este chamado para ${nomeTecnico}?`;
+        return `${nomeTecnico ? nomeTecnico : 'Outro técnico'} encontra-se a 
+            ${minDistancia.toFixed(2)} minutos do chamado ${os?.codOS}. Deseja transferir este chamado para ele?`;
     }
 
     public calculaDeslocamentoEmMinutos(os: OrdemServico, osAnterior: OrdemServico): number

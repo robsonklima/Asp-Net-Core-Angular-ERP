@@ -41,35 +41,26 @@
         <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
             <div class="text-center p-2" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
                 <div class="md-tooltip-header">
-                    <span class="md-tooltip-name-age font-bold">{{info}}</span>
+                    <span class="md-tooltip-name-age font-bold">{{ info }}</span>
                     <br>
-                    <span class="md-tooltip-time font-bold">{{time}}</span>
+                    <span class="md-tooltip-time font-bold">{{ time }}</span>
 
                     <span class="md-tooltip-status md-tooltip-text font-bold"
-                        *ngIf="selectResource">{{selectResource?.contato | fone }}</span>
+                        *ngIf="selectResource">{{ selectResource?.contato | fone }}</span>
                     <br>
                     <span class="md-tooltip-status md-tooltip-text"
-                        *ngIf="selectResource">{{selectResource?.descricao }}</span>
+                        *ngIf="selectResource">{{ selectResource?.descricao }}</span>
                 </div>
+
                 <div class="md-tooltip-info">
                     <div class="md-tooltip-title">
-                        <span class="md-tooltip-status md-tooltip-text">{{interventionType}}</span>
+                        <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
                         <br>
-                        <span class="md-tooltip-status md-tooltip-text font-bold">{{status}}</span>
-
-                        <mbsc-button color="primary" class="md-tooltip-view-button"
-                            (click)="abrirWhatsApp(selectResource)" *ngIf="selectResource &&
-                            selectResource?.contato">WhatsApp
-                        </mbsc-button>
-
-                        <mbsc-button color="primary" class="md-tooltip-view-button"
-                            (click)="abrirMapa(selectResource.id)" *ngIf="selectResource">Ver no Mapa
-                        </mbsc-button>
-
-                        <mbsc-button color="primary" class="md-tooltip-view-button"
-                            (click)="ordenarChamados(selectResource.id)" *ngIf="selectResource">
-                            Ordenar atendimentos
-                        </mbsc-button>
+                        <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
+                        <br>
+                        <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
+                            {{ dataHoraLimiteAtendimento | date:'dd/MM HH:mm') }}
+                        </span>
                     </div>
                 </div>
             </div>

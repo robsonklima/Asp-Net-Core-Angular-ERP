@@ -96,7 +96,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     {
       this.isLoading = false;
       this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
-      this.createAgendaTecnico();
+      this.criarAgendaTecnico();
       this.sidenav.close();
     }, error =>
     {
@@ -105,7 +105,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     });
   }
 
-  private createAgendaTecnico()
+  private criarAgendaTecnico()
   {
     if (this.os.codTecnico == null) return;
 

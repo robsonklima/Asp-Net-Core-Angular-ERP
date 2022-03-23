@@ -20,25 +20,30 @@ namespace SAT.SERVICES.Services
 
             var inicioPeriodo = DateTimeEx.FirstDayOfWeek(DateTime.Now);
             var fimPeriodo = DateTimeEx.LastDayOfWeek(inicioPeriodo);
-            var agendamentos = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
+            var agendas = this.ObterAgenda(inicioPeriodo, fimPeriodo, codTecnico);
 
-            var ag = this.CriaNovoEventoOS(agendamentos, os, 60, codTecnico);
+            var ag = this.CriaNovoEventoOS(agendas, os, 60, codTecnico);
             return ag;
         }
 
-        private AgendaTecnico CriaNovoEventoOS(List<AgendaTecnico> agendamentos, OrdemServico os, int mediaTecnico, int codTecnico)
+        private AgendaTecnico CriaNovoEventoOS(List<AgendaTecnico> agendas, OrdemServico os, int mediaTecnico, int codTecnico)
         {
             if (os.Agendamentos != null && os.Agendamentos.Any())
-                return CriaNovoEventoOSComAgendamento(agendamentos, os, mediaTecnico, codTecnico);
+                return CriaNovoEventoOSComAgendamento(agendas, os, mediaTecnico, codTecnico);
 
-            var ultimoEvento = agendamentos
-                .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.OS && i.IndAgendamento == 0)
-              .OrderByDescending(i => i.Fim)
-              .FirstOrDefault();
+            var ultimaAgenda = agendas
+                .Where(
+                    i => i.CodTecnico == codTecnico &&
+                    i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                    i.IndAgendamento == 0 &&
+                    i.Inicio.Date == DateTime.Now.Date
+                )
+                .OrderByDescending(i => i.Fim)
+                .FirstOrDefault();
 
-            var deslocamento = this.DistanciaEmMinutos(os, ultimoEvento?.OrdemServico);
+            var deslocamento = this.DistanciaEmMinutos(os, ultimaAgenda?.OrdemServico);
 
-            var start = ultimoEvento != null ? ultimoEvento.Fim : this.InicioExpediente();
+            var start = ultimaAgenda != null ? ultimaAgenda.Fim : this.InicioExpediente();
 
             // adiciona deslocamento
             start = start.AddMinutes(deslocamento);

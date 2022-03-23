@@ -286,7 +286,7 @@ namespace SAT.SERVICES.Services
                             Assunto = "Exclusão de Chamado da Agenda",
                             EmailDestinatario = "equipe.sat@perto.com.br",
                             EmailRemetente = "equipe.sat@perto.com.br",
-                            Corpo = JsonConvert.SerializeObject(e),
+                            Corpo = e.OrdemServico.CodOS.ToString() + ": " + e.OrdemServico.StatusServico.NomeStatusServico,
                             NomeDestinatario = "SAT",
                             NomeRemetente = "SAT"
                         });

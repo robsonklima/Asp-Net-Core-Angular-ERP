@@ -14,9 +14,9 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 query = query.Where(t =>
                     t.CodOS.ToString().Contains(parameters.Filter) ||
+                    t.LocalAtendimento.NomeLocal.Contains(parameters.Filter) ||
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
-                    t.RelatoriosAtendimento.Any(r => r.ObsRAT.Contains(parameters.Filter) || r.RelatoSolucao.Contains(parameters.Filter)) ||
                     t.DefeitoRelatado.Contains(parameters.Filter) ||
                     t.NumOSCliente.Contains(parameters.Filter));
 

@@ -72,6 +72,7 @@ namespace SAT.SERVICES.Services
         public void Criar(AgendaTecnico agenda)
         {
             if (agenda.CodOS.HasValue) this.DeletarAgendaTecnico((int)agenda.CodOS);
+            
             _agendaRepo.Criar(agenda);
         }
     }

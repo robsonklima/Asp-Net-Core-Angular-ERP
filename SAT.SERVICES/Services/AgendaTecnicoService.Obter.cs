@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities;
+﻿using Newtonsoft.Json;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
@@ -269,13 +270,26 @@ namespace SAT.SERVICES.Services
                         e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                         atualizarAgendas.Add(e);
                     }
-                    else if (e.Inicio.Date < DateTime.Now.Date)
+                    else if (e.Inicio.Date < DateTime.Now.Date && e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
                     {
-                        _agendaRepo.Deletar(e.CodAgendaTecnico);
+                        e.CodUsuarioManut = Constants.SISTEMA_NOME;
+                        e.DataHoraManut = DateTime.Now;
+                        e.IndAtivo =  0;
+                        //_agendaRepo.Atualizar(e);
+
                         e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
                         e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
                         e.OrdemServico.DataHoraManut = DateTime.Now;
-                        _osRepo.Atualizar(e.OrdemServico);
+                        //_osRepo.Atualizar(e.OrdemServico);
+
+                        _emailService.Enviar(new Email() {
+                            Assunto = "Exclusão de Chamado da Agenda",
+                            EmailDestinatario = "equipe.sat@perto.com.br",
+                            EmailRemetente = "equipe.sat@perto.com.br",
+                            Corpo = JsonConvert.SerializeObject(e),
+                            NomeDestinatario = "SAT",
+                            NomeRemetente = "SAT"
+                        });
                     }
                 });
 

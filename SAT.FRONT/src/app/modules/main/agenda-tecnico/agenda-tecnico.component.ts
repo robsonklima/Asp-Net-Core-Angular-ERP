@@ -58,10 +58,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
   currentEvent: any;
-  interventionType = '';
+  intervencao = '';
   info = '';
   time = '';
   status = '';
+  dataHoraLimiteAtendimento = '';
   selectResource: any;
   anchor: HTMLElement | undefined;
   timer: any;
@@ -596,14 +597,22 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private showEventInfo(args, inst)
   {    
     const event: any = args.event;
+    if (event.ordemServico != null) 
+      this.info = `${event.title} - ${event.ordemServico?.codOS}`;
+    else if (event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO) 
+      this.info = "PONTO";
+    else if (event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO) 
+      this.info = "INTERVALO";
+    else 
+      this.info = "FIM DO EXPEDIENTE";
+
     const time = (event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO || AgendaTecnicoTypeEnum.FIM_EXPEDIENTE) ? formatDate('HH:mm', new Date(event.start)) : formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
-    this.info = event.ordemServico != null ? (event.title + '- ' + event.ordemServico?.codOS) :
-      event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.PONTO ? "PONTO" :
-        event.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.INTERVALO ? "INTERVALO" : "FIM DO EXPEDIENTE";
     this.time = time;
     this.status = event.ordemServico?.statusServico?.nomeStatusServico;
-    this.interventionType = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
+    this.intervencao = event.ordemServico?.tipoIntervencao?.nomTipoIntervencao;
+    debugger
+    //this.dataHoraLimiteAtendimento = event.ordemServico.praz;
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;
@@ -621,7 +630,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     clearTimeout(this.timer);
     this.anchor = target;
 
-    this.interventionType = null;
+    this.intervencao = null;
     this.time = null;
     this.status = null;
     this.currentEvent = null;

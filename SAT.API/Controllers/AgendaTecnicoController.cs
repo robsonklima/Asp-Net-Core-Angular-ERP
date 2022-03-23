@@ -49,6 +49,7 @@ namespace SAT.API.Controllers
         public AgendaTecnico Post([FromBody] AgendaTecnico evento)
         {
             _agendaServ.Criar(evento);
+            
             return evento;
         }
 

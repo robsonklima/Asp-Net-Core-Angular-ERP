@@ -33,6 +33,8 @@ export class AgendaTecnicoValidator
 
     public isTecnicoOMaisProximo(os: OrdemServico, tecnicos: Tecnico[], events: MbscAgendaTecnicoCalendarEvent[], codTecnico: number)
     {
+        debugger
+
         var codTecnicos = Enumerable.from(tecnicos).select(i => i.codTecnico);
 
         var ultimoAtendimentoTecnico =
@@ -41,10 +43,12 @@ export class AgendaTecnicoValidator
                 .orderByDescending(i => i.end)
                 .firstOrDefault();
 
-        var minDistancia: number =
-            this.calculaDeslocamentoEmMinutos(os, ultimoAtendimentoTecnico.ordemServico);
+        debugger
 
-        var codTecnicoMinDistancia: number = codTecnico;
+        if (ultimoAtendimentoTecnico)
+            var minDistancia = this.calculaDeslocamentoEmMinutos(os, ultimoAtendimentoTecnico?.ordemServico);
+
+        var codTecnicoMinDistancia = codTecnico;
 
         var ultimosAtendimentosAgendados =
             Enumerable.from(events)

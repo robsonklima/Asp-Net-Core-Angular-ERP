@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SAT.MODELS.Entities;
+﻿using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
@@ -90,26 +89,30 @@ namespace SAT.SERVICES.Services
 
             agendamentosAgrupados.ForEach(ags =>
             {
-                var agendamentosDoTecnico = ags.ToList();
+                var agendasDoTecnico = ags.ToList();
 
-                if (agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
+                if (agendasDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
                    .Any(i => i.Fim.Date < DateTime.Now.Date))
                 {
-                    var eventosRealocados = this.ExcluirEventosComAtraso(agendamentosDoTecnico);
+                    var eventosRealocados = this.ExcluirEventosComAtraso(agendasDoTecnico);
                     eventosValidados.AddRange(eventosRealocados);
                 }
                 else
                 {
-                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
+                    agendasDoTecnico.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
                     {
-                        if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                        if 
+                        (
+                            i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO || 
+                            i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO
+                        )
                         {
                             i.IndAtivo = 0;
                             i.CodUsuarioManut = Constants.SISTEMA_NOME;
                             i.DataHoraManut = DateTime.Now;
                             listaAtualizar.Add(i);
                         }
-                        else if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO))
+                        else if (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO)
                         {
                             i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
                             i.CodUsuarioManut = Constants.SISTEMA_NOME;
@@ -121,10 +124,11 @@ namespace SAT.SERVICES.Services
                             i.Cor = this.AgendamentoColor;
                             listaAtualizar.Add(i);
                         }
+                        
                         eventosValidados.Add(i);
                     });
 
-                    agendamentosDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
+                    agendasDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
                     {
                         if (i.Fim < DateTime.Now)
                         {

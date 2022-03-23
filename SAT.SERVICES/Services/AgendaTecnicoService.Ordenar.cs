@@ -52,27 +52,26 @@ namespace SAT.SERVICES.Services
         {
             if (!agendasTecnico.Any()) return;
 
-            var codTecnico =
-                agendasTecnico.FirstOrDefault().CodTecnico.Value;
+            var codTecnico = agendasTecnico.FirstOrDefault().CodTecnico.Value;
+            var tecnico = this._tecnicoRepo.ObterPorCodigo(codTecnico);
 
-            var tecnico =
-                this._tecnicoRepo.ObterPorCodigo(codTecnico);
-
-            Localizacao ultimaLocalizacao =
-                tecnico.Usuario.Localizacoes
+            Localizacao ultimaLocalizacao = tecnico.Usuario.Localizacoes
                 .OrderByDescending(i => i.CodLocalizacao)
                 .FirstOrDefault();
 
-            if (ultimaLocalizacao == null)
+            if (ultimaLocalizacao == null) {
                 ultimaLocalizacao = new Localizacao
                 {
                     Latitude = tecnico.Latitude,
                     Longitude = tecnico.Longitude
                 };
+            }
 
             var agendasTecnicosPertinentes = agendasTecnico
-                .Where(i => i.IndAgendamento == 0 &&
-                    i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
+                .Where(
+                    i => i.IndAgendamento == 0 &&
+                    i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO
+                )
                 .ToList();
 
             List<AgendaTecnico> listaAgendamentos = new List<AgendaTecnico>();
@@ -136,8 +135,7 @@ namespace SAT.SERVICES.Services
             AgendaTecnico ultimoEvento = null;
             OrdemServico ultimaOS = null;
 
-            agendasTecnico
-            .ForEach(e =>
+            agendasTecnico.ForEach(e =>
             {
                 if (e.OrdemServico.CodStatusServico != (int)StatusServicoEnum.TRANSFERIDO)
                 {

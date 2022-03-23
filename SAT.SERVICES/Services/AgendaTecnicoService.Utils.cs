@@ -7,7 +7,6 @@ namespace SAT.SERVICES.Services
 {
     public partial class AgendaTecnicoService : IAgendaTecnicoService
     {
-
         private string GetStatusColor(StatusServicoEnum statusServicoEnum)
         {
             switch (statusServicoEnum)

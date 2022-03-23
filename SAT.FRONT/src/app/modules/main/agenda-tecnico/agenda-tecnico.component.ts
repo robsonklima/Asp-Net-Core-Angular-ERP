@@ -241,9 +241,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       fimPeriodoAgenda: this.weekEnd,
       sortActive: 'nome',
       sortDirection: 'asc'
-    }).toPromise().then(agendamentos => {
-      this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
-      this.carregaAgendaTecnico(agendamentos);
+    }).toPromise().then(agendas => {
+      this.agendaTecnicos = this.agendaTecnicos.concat(agendas);
+
+      console.log(agendas);
+      
+      this.carregaAgendaTecnico(agendas);
       this.loading = false;
     });
   }
@@ -263,16 +266,16 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       fimPeriodoAgenda: this.weekEnd,
       sortActive: 'nome',
       sortDirection: 'asc'
-    }).toPromise().then(agendamentos =>
+    }).toPromise().then(agendas =>
     {
-      this.agendaTecnicos = this.agendaTecnicos.concat(agendamentos);
-      this.carregaAgendaTecnico(agendamentos);
+      this.agendaTecnicos = this.agendaTecnicos.concat(agendas);
+      this.carregaAgendaTecnico(agendas);
     });
   }
 
-  carregaAgendaTecnico(agendamentos: AgendaTecnico[])
+  carregaAgendaTecnico(agendas: AgendaTecnico[])
   {
-    this.events = this.events.concat(Enumerable.from(agendamentos).select(ag =>
+    this.events = this.events.concat(Enumerable.from(agendas).select(ag =>
     {
       return {
         codAgendaTecnico: ag.codAgendaTecnico,
@@ -282,12 +285,27 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         end: moment(ag.fim),
         title: ag.titulo,
         color: ag.cor,
-        editable: (ag.tipo == AgendaTecnicoTypeEnum.PONTO ||
-          (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)) ? false : true,
+        editable: this.checkEventoPermiteEdicao(ag),
         resource: ag.codTecnico,
         ordemServico: ag.ordemServico
       }
     }).toArray());
+  }
+
+  private checkEventoPermiteEdicao(ag: AgendaTecnico): boolean {
+    if (ag.tipo == AgendaTecnicoTypeEnum.PONTO)
+      return false;
+
+    if (ag.tipo == AgendaTecnicoTypeEnum.FIM_EXPEDIENTE)
+      return false;
+
+    if (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.ordemServico.codStatusServico == StatusServicoEnum.FECHADO)
+      return false;
+
+    if (ag.tipo == AgendaTecnicoTypeEnum.OS && ag.ordemServico != null && ag.indAgendamento)
+      return false; 
+
+    return true;
   }
 
   private async checkForWarnings(ev, args, inst)
@@ -466,7 +484,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
     if (ag != null)
     {
-      this._snack.exibirToast("Agendamento realizado com sucessp", "success");
+      this._snack.exibirToast("Evento realizado com sucesso", "success");
       event.agendaTecnico = ag;
       var message = this._validator.validaDistanciaEntreEventos(event, this.events);
       if (message)
@@ -474,7 +492,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
     else
     {
-      this._snack.exibirToast("Não foi possível realizar o agendamento", "error");
+      this._snack.exibirToast("Não foi possível salvar o evento", "error");
     }
   }
 
@@ -502,7 +520,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     if (moment(args.date) < now) return;
 
-    var agendamentosTecnico = (await this._agendaTecnicoSvc.obterPorParametros({
+    var agendasTecnico = (await this._agendaTecnicoSvc.obterPorParametros({
       sortActive: 'nome',
       sortDirection: 'asc',
       tipo: AgendaTecnicoTypeEnum.OS,
@@ -512,7 +530,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
     var atendimentosTecnico: MbscAgendaTecnicoCalendarEvent[] = [];
 
-    Enumerable.from(agendamentosTecnico.items).where(i => i.tipo == AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO).forEach(i =>
+    Enumerable.from(agendasTecnico.items).where(i => i.tipo == AgendaTecnicoTypeEnum.OS && i.ordemServico.codStatusServico == StatusServicoEnum.TRANSFERIDO).forEach(i =>
     {
       atendimentosTecnico.push(
         {
@@ -533,7 +551,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     var dialog = this._dialog.open(AgendaTecnicoRealocacaoDialogComponent, {
       data:
       {
-        agendamentos: atendimentosTecnico,
+        agendas: atendimentosTecnico,
         initialTime: initialTime,
         codTecnico: codTecnico
       },

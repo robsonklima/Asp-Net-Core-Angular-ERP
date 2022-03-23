@@ -50,7 +50,6 @@ namespace SAT.SERVICES.Services
                 return hours * 60;
             }
 
-            // Se não, retorna um tempo padrão de deslocamento
             return 30;
         }
 

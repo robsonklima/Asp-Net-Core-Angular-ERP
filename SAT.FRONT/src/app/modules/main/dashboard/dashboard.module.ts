@@ -59,7 +59,7 @@ import { IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent } from './i
 import { FuseAlertModule } from '@fuse/components/alert';
 import { PendenciaQuadrimestreFilialComponent } from './pendencia-quadrimestre-filial/pendencia-quadrimestre-filial.component';
 import { ReincidenciaQuadrimestreFilialComponent } from './reincidencia-quadrimestre-filial/reincidencia-quadrimestre-filial.component';
-import { IndicadoresFiliaisDetalhadosDialogComponent } from './indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
+import { IndicadoresFiliaisDetalhadosDialogComponent } from './indicadores-filiais-detalhados/indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
 registerLocaleData(ptBR);
 
 @NgModule({

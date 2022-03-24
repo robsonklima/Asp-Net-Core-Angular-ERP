@@ -7,13 +7,13 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.markercluster';
 import { HttpClient } from '@angular/common/http';
 import { FilialService } from 'app/core/services/filial.service';
-import { MatDialog } from '@angular/material/dialog';
-import { IndicadoresFiliaisDetalhadosComponent } from '../indicadores-filiais-detalhados/indicadores-filiais-detalhados.component';
 import { Router } from '@angular/router';
 import { Filial } from 'app/core/types/filial.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { MatDialog } from '@angular/material/dialog';
+import { IndicadoresFiliaisDetalhadosDialogComponent } from '../indicadores-filiais-detalhados/indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
 
 @Component({
   selector: 'app-indicadores-filiais',
@@ -46,7 +46,8 @@ export class IndicadoresFiliaisComponent implements OnInit {
     private _userService: UserService,
     private _snack: CustomSnackbarService,
     private _http: HttpClient,
-    private _router: Router
+    private _router: Router,
+    private _dialog: MatDialog
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -107,13 +108,6 @@ export class IndicadoresFiliaisComponent implements OnInit {
     this.filiais = filiaisData.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);
 
     this.filiais.forEach(async (filial) => {
-      const mark = {
-        lat: +filial.cidade.latitude,
-        lng: +filial.cidade.longitude,
-        toolTip: filial.nomeFilial,
-        count: 1
-      };
-
       const valorIndicador = this.indicadoresFiliais?.find(f => f.filial == filial.nomeFilial)?.sla || 0;
       var icon = new L.Icon({
         iconUrl: this.obterIconeUrl(valorIndicador),
@@ -134,10 +128,16 @@ export class IndicadoresFiliaisComponent implements OnInit {
   public onIndicadoresDetalhados(nomeFilial: string) {
     const filial = this.filiais.filter(f => f.nomeFilial === "F" + nomeFilial).shift();
 
-    if (filial)
-      this._router.navigate(['/dashboard/indicadores-filiais-detalhados/' + filial.nomeFilial]);
-    else 
+    if (filial) {
+      this._dialog.open(IndicadoresFiliaisDetalhadosDialogComponent, {
+        data: {
+          codFilial: filial.codFilial
+        }
+      });
+    }
+    else {
       this._snack.exibirToast("Não encontramos a filial selecionada", "warning");
+    }
   }
 
   private obterIconeUrl(valor: number): string {

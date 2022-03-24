@@ -10,6 +10,10 @@ import { FilialService } from 'app/core/services/filial.service';
 import { MatDialog } from '@angular/material/dialog';
 import { IndicadoresFiliaisDetalhadosComponent } from '../indicadores-filiais-detalhados/indicadores-filiais-detalhados.component';
 import { Router } from '@angular/router';
+import { Filial } from 'app/core/types/filial.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { UserService } from 'app/core/user/user.service';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 
 @Component({
   selector: 'app-indicadores-filiais',
@@ -20,8 +24,10 @@ export class IndicadoresFiliaisComponent implements OnInit {
   public indicadoresFiliais: ViewDashboardIndicadoresFiliais[] = [];
   public indicadoresFiliaisTotal: ViewDashboardIndicadoresFiliais;
   private map: Map;
+  private usuarioSessao: UsuarioSessao;
   public markerClusterGroup: L.MarkerClusterGroup;
   public markerClusterData = [];
+  public filiais: Filial[] = [];
   public loading: boolean = true;
 
   public options = {
@@ -37,8 +43,13 @@ export class IndicadoresFiliaisComponent implements OnInit {
   constructor(
     private _dashboardService: DashboardService,
     private _filialService: FilialService,
-    private _http: HttpClient
-  ) { }
+    private _userService: UserService,
+    private _snack: CustomSnackbarService,
+    private _http: HttpClient,
+    private _router: Router
+  ) {
+    this.usuarioSessao = JSON.parse(this._userService.userSession);
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -48,6 +59,7 @@ export class IndicadoresFiliaisComponent implements OnInit {
   async onMapReady(map: Map) {
     this.map = map;
     this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
+    const component = this;
     this._http.get('assets/geojson/uf.json').subscribe((json: any) => {
       L.geoJSON(json, {
         style: {
@@ -58,18 +70,25 @@ export class IndicadoresFiliaisComponent implements OnInit {
         onEachFeature: function onEachFeature(feature, layer) {
           layer.on('click', (e) => {
             const uf = e.target.feature.properties.UF_05;
+
+            if (!component.usuarioSessao.usuario.codFilial)
+              component.onIndicadoresDetalhados(uf);
           });
 
           layer.on('mouseover', function () {
-            this.setStyle({
-              'fillColor': '#0000ff'
-            });
+            if (!component.usuarioSessao.usuario.codFilial) {
+              this.setStyle({
+                'fillColor': '#0000ff'
+              });
+            }
           });
 
           layer.on('mouseout', function () {
-            this.setStyle({
-              'fillColor': '#43AA8B'
-            });
+            if (!component.usuarioSessao.usuario.codFilial) {
+              this.setStyle({
+                'fillColor': '#43AA8B'
+              });
+            }
           });
         }
       }).addTo(map);
@@ -85,9 +104,9 @@ export class IndicadoresFiliaisComponent implements OnInit {
     this.indicadoresFiliais.sort((a, b) => (a.sla > b.sla ? -1 : 1));
 
     let filiaisData = await this._filialService.obterPorParametros({ indAtivo: 1 }).toPromise();
-    const filiais = filiaisData.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);
+    this.filiais = filiaisData.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);
 
-    filiais.forEach(async (filial) => {
+    this.filiais.forEach(async (filial) => {
       const mark = {
         lat: +filial.cidade.latitude,
         lng: +filial.cidade.longitude,
@@ -110,6 +129,15 @@ export class IndicadoresFiliaisComponent implements OnInit {
     
 
     this.loading = false;
+  }
+
+  public onIndicadoresDetalhados(nomeFilial: string) {
+    const filial = this.filiais.filter(f => f.nomeFilial === "F" + nomeFilial).shift();
+
+    if (filial)
+      this._router.navigate(['/dashboard/indicadores-filiais-detalhados/' + filial.nomeFilial]);
+    else 
+      this._snack.exibirToast("Não encontramos a filial selecionada", "warning");
   }
 
   private obterIconeUrl(valor: number): string {

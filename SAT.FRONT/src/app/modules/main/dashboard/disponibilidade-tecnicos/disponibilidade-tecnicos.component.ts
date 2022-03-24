@@ -14,7 +14,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
   @Input() filtro: Filtro;
   public loading: boolean = true; ng
   public disponibilidadeTecnicosModel: ViewDashboardDisponibilidadeTecnicos[] = [];
-
+  public totaltecnicosComChamados: number = 0;
   public totalTecnicosAtivos: number = 0;
   public totalTecnicosSemChamadosTransf: number = 0;
   public totalInativos: number = 0;
@@ -36,7 +36,7 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     this.loading = true;
     this.disponibilidadeTecnicosModel = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.DISPONIBILIDADE_TECNICOS }).toPromise())
       .viewDashboardDisponibilidadeTecnicos;
-
+    this.totaltecnicosComChamados = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosComChamados);
     this.totalTecnicosAtivos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosInativos);
     this.totalTecnicosSemChamadosTransf = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosSemChamados);
     this.totalInativos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosInativos);

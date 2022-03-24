@@ -26,7 +26,7 @@
             <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
         </button>
 
-        <button class="help-button bg-gray-400" (click)="showHelp()" [disabled]=" loading" [matTooltip]="'Ajuda'">
+        <button class="help-button bg-gray-400" (click)="showHelp()" [disabled]="loading" [matTooltip]="'Ajuda'">
             <mat-icon [svgIcon]="'heroicons_outline:question-mark-circle'" class="text-white"></mat-icon>
         </button>
 
@@ -57,10 +57,6 @@
                         <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
                         <br>
                         <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
-                        <!-- <br>
-                        <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
-                            {{ dataHoraLimiteAtendimento | date:'dd/MM HH:mm') }}
-                        </span> -->
                     </div>
                 </div>
             </div>
@@ -73,12 +69,12 @@
                     [ngClass]="{'opacity-10': resource.indFerias}" (mouseover)="showResourceAction(resource)"
                     (mouseleave)="hideEventInfo()" />
                 <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
-                    [matTooltip]="resource.indFerias ? 'EM FÉRIAS' : ''">
+                    [matTooltip]="resource.indFerias ? 'FÉRIAS' : ''">
                 </div>
                 <div class="grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
                     <div>
                         <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Técnico não possui ponto registrado hoje.'"
+                        align-middle mbsc-counter" [matTooltip]="'Não possui ponto registrado hoje.'"
                             *ngIf="countPontoEvents(resource) == 0">
                             {{ "!" }}
                         </div>
@@ -88,7 +84,7 @@
                         {{ countResourceAtendidos(resource) }}
                     </div>
                     <div class="mr-1 ml-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados transferidos'">
+                        align-middle mbsc-counter" [matTooltip]="'Chamados na Agenda'">
                         {{ countResourceTransferidos(resource) }}
                     </div>
                 </div>

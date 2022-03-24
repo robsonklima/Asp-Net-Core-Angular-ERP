@@ -7,7 +7,7 @@ import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { Tecnico, TecnicoParameters } from 'app/core/types/tecnico.types';
 import moment from 'moment';
 import Enumerable from 'linq';
-import { Subject } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ import { registerLocaleData } from '@angular/common';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { startWith, takeUntil } from 'rxjs/operators';
 registerLocaleData(localePt, 'pt');
 
 setOptions({
@@ -80,12 +81,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     view: {
       timeline: {
         type: 'day',
-        startTime: '06:00',
-        endTime: '20:00',
-        size: 2,
+        // startTime: '06:00',
+        // endTime: '20:00',
+        size: 3,
         allDay: true,
         startDay: 1,
-        rowHeight: 'equal'
+        rowHeight: 'variable',
       },
     },
     dragToMove: true,
@@ -175,12 +176,20 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 
   ngAfterViewInit(): void
   {
-    this.obterDados();
     this.registerEmitters();
   }
 
   registerEmitters(): void
   {
+    interval(3 * 60 * 1000)
+			.pipe(
+				startWith(0),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(() => {
+				this.obterDados();
+			});
+
     this.sidenavAgenda.closedStart.subscribe(() =>
     {
       this.onSidenavClosed();

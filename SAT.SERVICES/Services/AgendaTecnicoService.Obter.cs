@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
-            List<AgendaTecnico> agendamentos =
+            List<AgendaTecnico> agendas =
                 !string.IsNullOrWhiteSpace(parameters.CodTecnicos) ?
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
                 this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
@@ -37,8 +37,8 @@ namespace SAT.SERVICES.Services
             }
 
             var pontos = this.ObterPontosDoDia(parameters, usuarios);
-            var agendamentosValidados = this.ValidaAgendamentos(agendamentos);
-            agendamentosValidados.AddRange(pontos);
+            var agendasValidados = this.ValidaAgendas(agendas);
+            agendasValidados.AddRange(pontos);
 
             List<int> cods = new();
             if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
@@ -52,14 +52,14 @@ namespace SAT.SERVICES.Services
 
             foreach (int codTec in cods)
             {
-                AgendaTecnico intervalo = agendamentos.FirstOrDefault(i => i.CodTecnico == codTec && i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
-                AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendamentosValidados, codTec);
+                AgendaTecnico intervalo = agendas.FirstOrDefault(i => i.CodTecnico == codTec && i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+                AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendasValidados, codTec);
 
-                if (fimExpediente != null) agendamentosValidados.Add(fimExpediente);
-                if (intervalo != null) agendamentosValidados.Add(intervalo);
+                if (fimExpediente != null) agendasValidados.Add(fimExpediente);
+                if (intervalo != null) agendasValidados.Add(intervalo);
             }
 
-            return agendamentosValidados.Distinct().ToArray();
+            return agendasValidados.Distinct().ToArray();
         }
 
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, string codTecnicos) =>
@@ -80,18 +80,21 @@ namespace SAT.SERVICES.Services
                IndAtivo = 1
            }).ToList();
 
-        private List<AgendaTecnico> ValidaAgendamentos(List<AgendaTecnico> agendamentos)
+        private List<AgendaTecnico> ValidaAgendas(List<AgendaTecnico> agendas)
         {
             List<AgendaTecnico> eventosValidados = new();
             List<AgendaTecnico> listaAtualizar = new();
 
-            var agendamentosAgrupados = agendamentos.GroupBy(i => i.CodTecnico).ToList();
+            var agendasAgrupadas = agendas.GroupBy(i => i.CodTecnico).ToList();
 
-            agendamentosAgrupados.ForEach(ags =>
+            agendasAgrupadas.ForEach(ags =>
             {
                 var agendasDoTecnico = ags.ToList();
 
-                if (agendasDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS && i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
+                if (agendasDoTecnico.Where(
+                        i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                        i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO
+                    )
                    .Any(i => i.Fim.Date < DateTime.Now.Date))
                 {
                     var eventosRealocados = this.ExcluirEventosComAtraso(agendasDoTecnico);
@@ -164,13 +167,14 @@ namespace SAT.SERVICES.Services
             });
 
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
+            
             return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
         }
 
-        private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendamentos, int codTecnico)
+        private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendas, int codTecnico)
         {
             var primeiroPontoDoDia =
-                agendamentos
+                agendas
                 .Where(i => i.CodTecnico == codTecnico && i.Tipo == AgendaTecnicoTypeEnum.PONTO && i.Inicio.Date == DateTime.Today.Date).OrderBy(i => i.Inicio).FirstOrDefault();
 
             if (primeiroPontoDoDia == null) return null;

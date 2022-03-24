@@ -52,7 +52,8 @@ namespace SAT.SERVICES.Services
 
             foreach (int codTec in cods)
             {
-                AgendaTecnico intervalo = agendas.FirstOrDefault(i => i.CodTecnico == codTec && i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
+                AgendaTecnico intervalo = agendas.FirstOrDefault(i => i.CodTecnico == codTec && i.Tipo == 
+                    AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
                 AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendasValidados, codTec);
 
                 if (fimExpediente != null) agendasValidados.Add(fimExpediente);
@@ -151,20 +152,19 @@ namespace SAT.SERVICES.Services
             });
 
             // Verifica duplicados
-            eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
-                .GroupBy(i => i.CodOS)
-                .ToList()
-                .Where(i => i.Key > 1)
-                .ToList().ForEach(i =>
-            {
-                i.Skip(1).ToList().ForEach(a =>
-                {
-                    a.IndAtivo = 0;
-                    a.CodUsuarioManut = Constants.SISTEMA_NOME;
-                    a.DataHoraManut = DateTime.Now;
-                    listaAtualizar.Add(a);
-                });
-            });
+            // eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
+            //     .GroupBy(i => i.CodOS)
+            //     .ToList()
+            //     .Where(i => i.Key > 1)
+            //     .ToList().ForEach(i =>
+            // {
+            //     i.Skip(1).ToList().ForEach(a =>
+            //     {
+            //         a.IndAtivo = 0;
+            //         a.CodUsuarioManut = Constants.SISTEMA_NOME;
+            //         listaAtualizar.Add(a);
+            //     });
+            // });
 
             this._agendaRepo.AtualizarListaAsync(listaAtualizar);
             
@@ -239,7 +239,6 @@ namespace SAT.SERVICES.Services
 
                 pontosUsuario.ForEach(p =>
                     {
-
                         pontos.Add(new AgendaTecnico
                         {
                             CodTecnico = parameters?.CodTecnico,

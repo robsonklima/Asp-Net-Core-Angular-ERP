@@ -81,12 +81,10 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     view: {
       timeline: {
         type: 'day',
-        // startTime: '06:00',
-        // endTime: '20:00',
         size: 3,
         allDay: true,
         startDay: 1,
-        rowHeight: 'variable',
+        rowHeight: 'equal',
       },
     },
     dragToMove: true,

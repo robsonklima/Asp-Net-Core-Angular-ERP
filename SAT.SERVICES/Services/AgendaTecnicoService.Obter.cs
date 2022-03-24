@@ -282,12 +282,11 @@ namespace SAT.SERVICES.Services
                         e.CodUsuarioManut = Constants.SISTEMA_NOME;
                         e.DataHoraManut = DateTime.Now;
                         e.IndAtivo =  0;
-                        //_agendaRepo.Atualizar(e);
-
+                        _agendaRepo.Atualizar(e);
                         e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
                         e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
                         e.OrdemServico.DataHoraManut = DateTime.Now;
-                        //_osRepo.Atualizar(e.OrdemServico);
+                        _osRepo.Atualizar(e.OrdemServico);
 
                         _emailService.Enviar(new Email() {
                             Assunto = "Exclusão de Chamado da Agenda",

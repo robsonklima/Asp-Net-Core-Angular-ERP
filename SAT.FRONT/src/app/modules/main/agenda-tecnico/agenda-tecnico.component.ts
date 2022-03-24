@@ -243,9 +243,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       sortDirection: 'asc'
     }).toPromise().then(agendas => {
       this.agendaTecnicos = this.agendaTecnicos.concat(agendas);
-
-      console.log(agendas);
-      
       this.carregaAgendaTecnico(agendas);
       this.loading = false;
     });

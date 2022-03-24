@@ -32,7 +32,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
 
                     case 401:
-                        console.log(error);
                         if (error instanceof HttpErrorResponse && error.status === 401) {
                             this._authService.signOut();
 

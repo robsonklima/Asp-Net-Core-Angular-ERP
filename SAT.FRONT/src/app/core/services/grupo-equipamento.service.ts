@@ -17,8 +17,8 @@ export class GrupoEquipamentoService {
     );
   }
 
-  obterPorCodigo(codGrupoEquip: number): Observable<GrupoEquipamento> {
-    const url = `${c.api}/GrupoEquipamento/${codGrupoEquip}`;
+  obterPorCodigo(codGrupoEquip: number, codTipoEquip: number): Observable<GrupoEquipamento> {
+    const url = `${c.api}/GrupoEquipamento/${codGrupoEquip}/${codTipoEquip}`;
     return this.http.get<GrupoEquipamento>(url).pipe(
       map((obj) => obj)
     );

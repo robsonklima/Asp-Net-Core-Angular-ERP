@@ -4,6 +4,19 @@ export interface AcordoNivelServico {
   codSLA: number;
   nomeSLA: string;
   descSLA: string;
+  tempoInicio?: number;
+  tempoReparo?: number;
+  tempoSolucao?: number;
+  indAgendamento?: number;
+  indHorasUteis?: number;
+  indFeriado?: number;
+  indSegunda?: number;
+  indTerca?: number;
+  indQuarta?: number;
+  indQuinta?: number;
+  indSexta?: number;
+  indSabado?: number;
+  indDomingo?: number;
 }
 
 export interface AcordoNivelServicoData extends Meta {

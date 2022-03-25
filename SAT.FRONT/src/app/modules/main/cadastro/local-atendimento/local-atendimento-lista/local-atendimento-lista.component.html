@@ -10,19 +10,13 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
-                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-
-                <mat-menu #menu>
-                    <button mat-menu-item [routerLink]="['/local-atendimento/form']">
-                        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                        {{ t('adicionar') }}
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
-                        {{ t('exportar') }}
-                    </button>
-                </mat-menu>
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                [routerLink]="['/local-atendimento/form']">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+                [routerLink]="['/local-atendimento/form']">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
             </button>
         </div>
     </div>
@@ -59,7 +53,7 @@
                                 {{ t('regiao') }}
                             </div>
                             <div [mat-sort-header]="'indAtivo'">
-                            {{ t('ativo') }}
+                                {{ t('ativo') }}
                             </div>
                         </div>
 
@@ -69,7 +63,7 @@
                                     <div
                                         class="list-grid-la grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
-                                                {{ local.codPosto }}
+                                            {{ local.codPosto }}
                                         </div>
 
                                         <div class="truncate">
@@ -100,12 +94,11 @@
                                             {{ (local.regiao?.nomeRegiao || t('nao informado')) | uppercase }}
                                         </div>
 
-                                        <div class="flex">
-                                            <span
-                                                class="font-semibold"
-                                                [class.text-red-500]="!local.indAtivo"
-                                                [class.text-green-500]="local.indAtivo">
-                                                {{ local.indAtivo ? t('sim') : t('nao') }}
+                                        <div class="truncate">
+                                            <span class="py-1 px-2 rounded text-white"
+                                                [class.bg-green-600]="local.indAtivo"
+                                                [class.bg-red-600]="!local.indAtivo">
+                                                {{ local.indAtivo ? 'Ativo' : 'Inativo' }}
                                             </span>
                                         </div>
                                     </div>
@@ -121,7 +114,7 @@
                         (page)="paginar()">
                     </mat-paginator>
                 </ng-container>
-            </ng-container>            
+            </ng-container>
         </div>
     </div>
 </div>

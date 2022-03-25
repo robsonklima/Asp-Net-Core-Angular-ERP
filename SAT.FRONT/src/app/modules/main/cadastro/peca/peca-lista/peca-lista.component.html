@@ -10,20 +10,14 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            
-            <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
-                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
-                <mat-menu #menu>
-                    <button mat-menu-item [routerLink]="['/peca/form']">
-                        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                        {{ t('adicionar') }}
-                    </button>
-                    <button mat-menu-item (click)="exportar()">
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
-                        {{ t('exportar') }}
-                    </button>
-                </mat-menu>
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                [routerLink]="['/peca/form']">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+                [routerLink]="['/peca/form']">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
             </button>
         </div>
     </div>
@@ -47,8 +41,7 @@
                         </div>
                         <ng-container>
                             <ng-container *ngFor="let peca of dataSourceData?.items">
-                                <div 
-                                    class="cursor-pointer hover:bg-gray-200 list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b"
+                                <div class="cursor-pointer hover:bg-gray-200 list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b"
                                     [routerLink]="['/peca/form/' + peca.codPeca]">
                                     <div class="flex items-center">
                                         {{ peca.codPeca }}
@@ -56,7 +49,7 @@
                                     <div class="truncate">
                                         {{ peca.nomePeca || t('nao informado') }}
                                     </div>
-                                     <div class="font-semibold" [class.text-red-500]="peca.codPecaStatus != 1"
+                                    <div class="font-semibold" [class.text-red-500]="peca.codPecaStatus != 1"
                                         [class.text-green-500]="peca.codPecaStatus == 1">
                                         {{ pecaStatus[peca.codPecaStatus - 1] }}
                                     </div>
@@ -64,7 +57,7 @@
                             </ng-container>
                         </ng-container>
                     </div>
-                    <mat-paginator [hidden]="!dataSourceData?.items?.length"    
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                         [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"

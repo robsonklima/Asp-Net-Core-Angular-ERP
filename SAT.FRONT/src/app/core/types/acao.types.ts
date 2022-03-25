@@ -1,25 +1,21 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
-export class Acao
-{
-    codAcao?: number;
+export class Acao {
+    codAcao: number;
     codEAcao: string;
     nomeAcao: string;
     indAtivo?: number;
 }
 
-export interface AcaoData extends Meta
-{
+export interface AcaoData extends Meta {
     items: Acao[]
 };
 
-export interface AcaoParameters extends QueryStringParameters
-{
+export interface AcaoParameters extends QueryStringParameters {
     indAtivo?: number;
 };
 
-export enum AcaoEnum
-{
+export enum AcaoEnum {
     ACOMPANHAMENTO = 1,
     AJUSTE = 2,
     ATENDIMENTO_PARCIAL = 3,

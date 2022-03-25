@@ -15,6 +15,12 @@ import { FuseHighlightModule } from '@fuse/components/highlight';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatInputModule,
     FuseHighlightModule,
     NgxMatSelectSearchModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMenuModule,
+    MatTooltipModule
   ]
 })
 export class RegiaoModule { }

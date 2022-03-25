@@ -1,144 +1,80 @@
-<div class="
-    sm:absolute sm:inset-0
-    flex flex-col flex-auto
-    min-w-0
-    sm:overflow-hidden
-    bg-card
-    dark:bg-transparent
-  ">
-  <div *transloco="let t" class="
-      relative
-      flex flex-col
-      sm:flex-row
-      flex-0
-      sm:items-center sm:justify-between
-      pt-6
-      px-6
-      md:px-8
-    ">
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+  <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
       <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
-      {{ t("defeitos") }}
-    </div>
-  </div>
 
-  <div *transloco="let t" class="
-      grid grid-cols-2
-      sm:flex-row
-      flex-0
-      sm:items-center sm:justify-between
-      px-6
-      my-2
-      md:px-8
-    ">
-    <div *transloco="let t" class="sm:my-2">
-      <button mat-flat-button [routerLink]="['/defeito/form']" [matTooltip]="t('novo')"
-        class="rounded  text-gray-100 bg-green-500 hover:bg-green-600">
-        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-      </button>
-      <button mat-flat-button [matTooltip]="t('exportar')"
-        class="rounded ml-2 text-gray-100 bg-blue-500 hover:bg-blue-600">
-        <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
-      </button>
-    </div>
-    <div *transloco="let t">
-      <mat-form-field style="float:right" class="fuse-mat-dense fuse-mat-no-subscript min-w-40">
+    <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('defeitos') }}</div>
+
+    <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+      <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-        <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'" />
+        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
       </mat-form-field>
+
+      <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+        [routerLink]="['/defeito/form']">
+        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+      </button>
+      <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+        [routerLink]="['/defeito/form']">
+        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+      </button>
+
     </div>
   </div>
 
   <div class="flex flex-auto overflow-hidden">
-    <div class="
-        flex flex-col flex-auto
-        sm:mb-18
-        overflow-hidden
-        sm:overflow-y-auto
-      ">
+    <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
       <ng-container>
         <ng-container>
           <div class="grid" *transloco="let t">
-            <div class="
-                list-grid-def
-                z-10
-                sticky
-                top-0
-                grid
-                gap-4
-                py-4
-                px-6
-                md:px-8
-                shadow
-                text-sm
-                font-semibold
-                text-secondary
-                bg-gray-50
-                dark:bg-black dark:bg-opacity-5
-              " matSort matSortDisableClear *transloco="let t">
+            <div
+              class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+              matSort matSortDisableClear *transloco="let t">
               <div class="md:block" [mat-sort-header]="'codDefeito'">
-                {{ t("codigo") }}
+                {{ t('codigo') }}
               </div>
               <div [mat-sort-header]="'codEDefeito'">
-                {{ t("abreviacao") }}
+                {{ t('abrevidefeito') }}
               </div>
               <div [mat-sort-header]="'nomeDefeito'">
-                {{ t("defeito") }}
+                {{ t('defeito') }}
               </div>
-              <div [mat-sort-header]="'indAtivo'">
-                {{ t("ativo") }}
+              <div>
+                {{ t('ativo') }}
               </div>
             </div>
 
             <ng-container>
               <ng-container *ngFor="let defeito of dataSourceData?.items">
-                <div class="
-                    cursor-pointer
-                    hover:bg-gray-200
-                    list-grid-def
-                    grid
-                    items-center
-                    h-10
-                    pt-3
-                    gap-4
-                    py-3
-                    px-6
-                    text-sm
-                    md:px-8
-                    border-b
-                  " [routerLink]="['/defeito/form/' + defeito.codDefeito]">
-                  <div class="flex items-center">
+                <a [routerLink]="['/defeito/form/' + defeito.codDefeito]">
+                  <div
+                    class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                    <div class="flex items-center">
                       {{ defeito.codDefeito }}
+                    </div>
+                    <div class="truncate">
+                      {{ defeito.codEDefeito | titlecase }}
+                    </div>
+                    <div class="truncate">
+                      {{ defeito.nomeDefeito | titlecase }}
+                    </div>
+                    <div class="truncate">
+                      <span class="py-1 px-2 rounded text-white" [class.bg-green-600]="defeito.indAtivo"
+                        [class.bg-red-600]="!defeito.indAtivo">
+                        {{ defeito.indAtivo ? 'Ativo' : 'Inativo' }}
+                      </span>
+                    </div>
                   </div>
-                  <div class="truncate">
-                    {{ defeito.codEDefeito | titlecase }}
-                  </div>
-                  <div class="truncate">
-                    {{ defeito.nomeDefeito | titlecase }}
-                  </div>
-                  <div class="flex">
-                    <span 
-                      class="font-semibold" 
-                      [class.text-red-500]="!defeito.indAtivo"
-                      [class.text-green-500]="defeito.indAtivo">
-                      {{ defeito.indAtivo ? t("sim") : t("nao") }}
-                    </span>
-                  </div>
-                </div>
+                </a>
               </ng-container>
             </ng-container>
           </div>
 
-          <mat-paginator [hidden]="!dataSourceData?.items?.length" class="
-              sm:absolute sm:inset-x-0 sm:bottom-0
-              border-b
-              sm:border-t sm:border-b-0
-              z-10
-              bg-gray-50
-              dark:bg-transparent
-            " [ngClass]="{ 'pointer-events-none': isLoading }" [length]="dataSourceData?.totalCount" [pageSize]="10"
+          <mat-paginator [hidden]="!dataSourceData?.items?.length"
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount" [pageSize]="10"
             [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" (page)="paginar()">
           </mat-paginator>
         </ng-container>

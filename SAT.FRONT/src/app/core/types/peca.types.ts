@@ -52,6 +52,7 @@ export interface PecaParameters extends QueryStringParameters
 {
     codPeca?: string;
     include?: PecaIncludeEnum;
+    codMagnus?: string;
 };
 
 export enum PecaStatus

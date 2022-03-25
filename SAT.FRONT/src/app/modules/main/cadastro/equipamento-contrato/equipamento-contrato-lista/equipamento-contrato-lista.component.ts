@@ -13,21 +13,21 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styles: [
     /* language=SCSS */
     `
-      .list-grid-ecl {
-          grid-template-columns: 72px auto 116px 172px 116px 56px 116px 116px 42px;
-          
-          @screen sm {
-              grid-template-columns: 72px auto 116px 172px 116px 56px 116px 116px 42px;
-          }
+    .list-grid {
+      grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
       
-          @screen md {
-              grid-template-columns: 72px auto 116px 172px 116px 56px 116px 116px 42px;
-          }
-      
-          @screen lg {
-              grid-template-columns: 72px auto 116px 172px 116px 56px 116px 116px 42px;
-          }
+      @screen sm {
+          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
       }
+
+      @screen md {
+          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
+      }
+
+      @screen lg {
+          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
+      }
+    }  
     `
   ],
   encapsulation: ViewEncapsulation.None,
@@ -39,14 +39,14 @@ export class EquipamentoContratoListaComponent implements AfterViewInit {
   dataSourceData: EquipamentoContratoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  
+
   constructor(
     private _cdr: ChangeDetectorRef,
     private _equipamentoContratoService: EquipamentoContratoService,
-  ) {}
+  ) { }
 
   async ngAfterViewInit() {
-    this.obterDados();    
+    this.obterDados();
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -75,20 +75,13 @@ export class EquipamentoContratoListaComponent implements AfterViewInit {
 
   async obterDados() {
     this.isLoading = true;
-    
-    const params: EquipamentoContratoParameters = {
+    this.dataSourceData = await this._equipamentoContratoService.obterPorParametros({
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'numSerie',
       sortDirection: this.sort?.direction || 'asc',
       pageSize: this.paginator?.pageSize,
       filter: this.searchInputControl.nativeElement.val
-    };
+    }).toPromise();
 
-    const data = await this._equipamentoContratoService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
   }

@@ -17,6 +17,12 @@
                 [routerLink]="['/filial/form']">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
+
+            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+                [routerLink]="['/filial/form']">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+            </button>
+
         </div>
     </div>
 
@@ -49,10 +55,11 @@
                                         <div class="truncate">
                                             {{ filial.razaoSocial || t('nao informado')}}
                                         </div>
-                                        <div class="flex">
-                                            <span class="font-semibold" [class.text-red-500]="!filial.indAtivo"
-                                                [class.text-green-500]="filial.indAtivo">
-                                                {{ filial.indAtivo ? t('sim') : t('nao') }}
+                                        <div class="truncate">
+                                            <span class="py-1 px-2 rounded text-white"
+                                                [class.bg-green-600]="filial.indAtivo"
+                                                [class.bg-red-600]="!filial.indAtivo">
+                                                {{ filial.indAtivo ? 'Ativo' : 'Inativo' }}
                                             </span>
                                         </div>
                                     </div>

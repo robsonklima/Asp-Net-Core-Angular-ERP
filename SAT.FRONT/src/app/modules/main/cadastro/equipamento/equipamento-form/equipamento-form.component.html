@@ -5,7 +5,7 @@
             <div class="flex flex-wrap items-center font-medium">
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/equipamento">
-                        {{ t('equipamentos') }}
+                        {{ t('modelos') }}
                     </a>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap">
@@ -25,7 +25,7 @@
             </div>
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    {{ t('equipamento') }}
+                    {{ t('modelo') }}
                 </h2>
             </div>
         </div>
@@ -41,13 +41,50 @@
 
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome') }}</mat-label>
-                        <input matInput formControlName="nomeEquip">
+                        <input matInput formControlName="nomeEquip" maxlength="50">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('abreviacao') }}</mat-label>
+                        <input matInput formControlName="codEEquip" maxlength="30">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('tipo equipamento') }}</mat-label>
+                        <mat-select class="min-h-10" formControlName="codTipoEquip">
+                            <mat-option *ngFor="let tipo of tiposEquip" [value]="tipo?.codTipoEquip">
+                                {{ tipo?.nomeTipoEquip }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('grupo de equipamento') }}</mat-label>
+                        <mat-select class="min-h-10" formControlName="codGrupoEquip"
+                            [disabled]="!gruposEquip.length || form.disabled">
+                            <mat-option *ngFor="let grupo of gruposEquip" [value]="grupo?.codGrupoEquip">
+                                {{ grupo?.nomeGrupoEquip }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('descricao') }}</mat-label>
+                        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+                            formControlName="descEquip" maxlength="100"></textarea>
+                    </mat-form-field>
+
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">

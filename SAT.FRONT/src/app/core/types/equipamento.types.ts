@@ -1,4 +1,6 @@
 import { QueryStringParameters } from "./generic.types";
+import { GrupoEquipamento } from "./grupo-equipamento.types";
+import { TipoEquipamento } from "./tipo-equipamento.types";
 
 export class Equipamento
 {
@@ -7,6 +9,9 @@ export class Equipamento
     nomeEquip: string;
     codGrupoEquip: number;
     codTipoEquip: number;
+    descEquip: string;
+    tipoEquipamento: TipoEquipamento;
+    grupoEquipamento: GrupoEquipamento;
 }
 
 export interface EquipamentoData

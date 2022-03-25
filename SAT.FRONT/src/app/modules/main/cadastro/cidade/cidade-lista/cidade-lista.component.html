@@ -10,10 +10,17 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            
-            <button class="ml-4" mat-button [color]="'primary'" routerLink="/cidade/form">
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                [routerLink]="['/cidade/form']">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
+
+            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+                [routerLink]="['/cidade/form']">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+            </button>
+
         </div>
     </div>
 
@@ -50,35 +57,35 @@
                         <ng-container>
                             <ng-container *ngFor="let cidade of dataSourceData?.items">
                                 <a [routerLink]="['/cidade/form/' + cidade.codCidade]">
-                                <div class="list-grid-cidade grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
-                                    <div class="truncate">                                       
-                                        {{ cidade.codCidade }}
+                                    <div
+                                        class="list-grid-cidade grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="truncate">
+                                            {{ cidade.codCidade }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ cidade.nomeCidade || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ cidade.filial?.nomeFilial || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ cidade.unidadeFederativa?.siglaUF || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ cidade.latitude || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ cidade.longitude || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            <span class="py-1 px-2 rounded text-white"
+                                                [class.bg-green-600]="cidade.indAtivo"
+                                                [class.bg-red-600]="!cidade.indAtivo">
+                                                {{ cidade.indAtivo ? 'Ativo' : 'Inativo' }}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="truncate">
-                                        {{ cidade.nomeCidade || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ cidade.filial?.nomeFilial || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ cidade.unidadeFederativa?.siglaUF || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ cidade.latitude || t('nao informado') }}
-                                    </div>
-                                    <div class="truncate">
-                                        {{ cidade.longitude || t('nao informado') }}
-                                    </div>
-                                    <div class="flex">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="!cidade.indAtivo"
-                                            [class.text-green-500]="cidade.indAtivo">
-                                            {{ cidade.indAtivo ? t('sim') : t('nao') }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </a>
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

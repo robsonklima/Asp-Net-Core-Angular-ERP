@@ -17,6 +17,7 @@ import { first } from 'rxjs/operators';
 })
 export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
   codGrupoEquip: number;
+  codTipoEquip: number;
   isAddMode: boolean;
   form: FormGroup;
   grupoEquipamento: GrupoEquipamento;
@@ -31,12 +32,13 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
     private _snack: CustomSnackbarService,
     private _location: Location,
     private _route: ActivatedRoute,
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.codGrupoEquip = +this._route.snapshot.paramMap.get('codGrupoEquip');
+    this.codTipoEquip = +this._route.snapshot.paramMap.get('codTipoEquip');
     this.isAddMode = !this.codGrupoEquip;
-    
+
     this.form = this._formBuilder.group({
       codGrupoEquip: [
         {
@@ -45,7 +47,7 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
         }, Validators.required
       ],
       codEGrupoEquip: ['', [Validators.required, Validators.maxLength(5)]],
-      nomeGrupoEquip: ['', Validators.required],
+      nomeGrupoEquip: ['', [Validators.required, Validators.maxLength(50)]],
       codTipoEquip: ['', Validators.required]
     });
 
@@ -56,45 +58,35 @@ export class GrupoEquipamentoFormComponent implements OnInit, OnDestroy {
     }).toPromise()).items;
 
     if (!this.isAddMode) {
-      this._grupoEquipamentoService.obterPorCodigo(this.codGrupoEquip)
-      .pipe(first())
-      .subscribe(data => {
-        this.form.patchValue(data);
-        this.grupoEquipamento = data;
-      });
+      this._grupoEquipamentoService.obterPorCodigo(this.codGrupoEquip, this.codTipoEquip)
+        .pipe(first())
+        .subscribe(data => {
+          this.form.patchValue(data);
+          this.grupoEquipamento = data;
+        });
     }
   }
 
   salvar(): void {
-    this.isAddMode ? this.criar() : this.atualizar();
-  }
-
-  atualizar(): void {
     const form: any = this.form.getRawValue();
-    
-    Object.keys(form).forEach(key => {
-      typeof form[key] == "boolean" 
-        ? this.grupoEquipamento[key] = +form[key]
-        : this.grupoEquipamento[key] = form[key];
-    });
 
-    this._grupoEquipamentoService.atualizar(this.grupoEquipamento).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-      this._location.back();
-    });
-  }
+    let obj = {
+      ...this.grupoEquipamento,
+      ...form
+    };
 
-  criar(): void {
-    const form: any = this.form.getRawValue();
-    
-    Object.keys(form).forEach((key, i) => {
-      typeof form[key] == "boolean" ? form[key] = +form[key] : form[key] = form[key];
-    });
-
-    this._grupoEquipamentoService.criar(form).subscribe(() => {
-      this._snack.exibirToast("Registro inserido com sucesso!", "success");
-      this._location.back();
-    });
+    if (this.isAddMode) {
+      this._grupoEquipamentoService.criar(obj).subscribe(() => {
+        this._snack.exibirToast(`Grupo Equipamento ${obj.nomeEquip} adicionado com sucesso!`, "success");
+        this._location.back();
+      });
+    }
+    else {
+      this._grupoEquipamentoService.atualizar(obj).subscribe(() => {
+        this._snack.exibirToast(`Grupo Equipamento ${obj.nomeEquip} atualizado com sucesso!`, "success");
+        this._location.back();
+      });
+    }
   }
 
   ngOnDestroy() {

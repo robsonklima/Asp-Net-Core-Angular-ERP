@@ -1,0 +1,90 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+	<div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
+		<div class="flex items-center">
+			<span class="text-lg font-medium">{{ t('cliente peca') }}</span>
+		</div>
+		<div class="flex place-content-end">
+			<button mat-icon-button [matTooltip]="t('novo')" [routerLink]="'/cliente-peca/form'">
+				<mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
+				</mat-icon>
+			</button>
+		</div>
+
+	</div>
+	<div class="flex-auto" *ngIf="!isLoading">
+		<div class="max-w-5xl">
+			<div class="grid h-100">
+				<div class="overflow-hidden sm:overflow-y-auto">
+					<ng-container>
+						<div class="grid">
+							<div class="
+								list-grid-contrato-equipamento
+								sticky
+								z-10                  
+								top-0
+								grid
+								gap-4
+								py-4
+								px-6
+								md:px-8
+								shadow
+								text-sm
+								font-semibold
+								text-secondary
+								bg-gray-50
+								dark:bg-black dark:bg-opacity-5" matSort matSortDisableClear *transloco="let t">
+								<div>
+									{{ t('cliente') }}
+								</div>
+								<div [mat-sort-header]="'nomePeca'">
+									{{ t('peca') }}
+								</div>
+								<div [mat-sort-header]="'codMagnus'">
+									{{ t('cod magnus') }}
+								</div>
+								<div [mat-sort-header]="'valorUnitario'">
+									{{ t('valor unitario') }}
+								</div>
+							</div>
+
+							<ng-container *ngFor="let equip of dataSourceData?.items">
+								<div class="
+								list-grid-contrato-equipamento
+								grid
+								items-center
+								h-11
+								pt-3
+								gap-4
+								py-3
+								px-6
+								border-b
+								text-sm
+								md:px-8
+								hover:bg-gray-100
+							  " *transloco="let t">
+									<div class="flex items-center">
+										{{ equip.cliente?.nomeFantasia }}
+									</div>
+									<div class="flex truncate">
+										{{ equip.peca?.nomePeca || t('nao informado') }}
+									</div>
+									<div class="flex truncate">
+										{{ equip.peca?.codMagnus || t('nao informado') }}
+									</div>
+									<div class="flex">
+										{{ equip.valorUnitario || t('nao informado') }}
+									</div>
+								</div>
+							</ng-container>
+						</div>
+						<div *ngIf="!dataSourceData?.items.length && !isLoading"
+							class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+							Nenhuma peça encontrada!
+						</div>
+					</ng-container>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

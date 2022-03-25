@@ -21,6 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -52,7 +53,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatCheckboxModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule,
+    NgxMaskModule
   ]
 })
 export class PecaModule { }

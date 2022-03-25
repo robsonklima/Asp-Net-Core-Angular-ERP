@@ -1,0 +1,83 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+  <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+      <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('defeito componente') }}</div>
+
+    <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+      <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+      </mat-form-field>
+
+      <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+        [routerLink]="['/defeito-causa/form']">
+        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="flex flex-auto overflow-hidden">
+    <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+      <ng-container>
+        <ng-container>
+          <div class="grid" *transloco="let t">
+            <div
+              class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+              matSort matSortDisableClear *transloco="let t">
+              <div class="md:block" [mat-sort-header]="'codECausa'">
+                {{ t('codigo') }}
+              </div>
+              <div class="md:block" [mat-sort-header]="'codECausa'">
+                {{ t('codigo') }}
+              </div>
+              <div [mat-sort-header]="'nomeDefeito'">
+                {{ t('nome defeito') }}
+              </div>
+              <div [mat-sort-header]="'nomeCausa'">
+                {{ t('nome causa') }}
+              </div>
+              <div>
+                {{ t('selecionado') }}
+              </div>
+            </div>
+
+            <ng-container>
+              <ng-container *ngFor="let defeito of dataSourceData?.items">
+                <a [routerLink]="['/defeito-causa/form/' + defeito.codDefeitoComponente]">
+                  <div
+                    class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                    <div class="flex items-center">
+                      {{ defeito.codDefeitoComponente }}
+                    </div>
+                    <div class="flex items-center">
+                      {{ defeito.codECausa }}
+                    </div>
+                    <div class="truncate">
+                      {{ buscaNomeDefeito(defeito) | titlecase }}
+                    </div>
+                    <div class="truncate">
+                      {{ defeito.causa?.nomeCausa | titlecase }}
+                    </div>
+                    <div class="truncate">
+                      {{ buscaSelecionado(defeito) | titlecase }}
+                    </div>
+                  </div>
+                </a>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <mat-paginator [hidden]="!dataSourceData?.items?.length"
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount" [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" (page)="paginar()">
+          </mat-paginator>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

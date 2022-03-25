@@ -44,6 +44,7 @@ import { ContratoModeloFormComponent } from './contrato-modelo/contrato-modelo-f
 import { ContratoSlaComponent } from './contrato-sla/contrato-sla.component';
 import { ContratoFiltroComponent } from './contrato-filtro/contrato-filtro.component';
 import { ContratoEquipamentosComponent } from './contrato-equipamentos/contrato-equipamentos.component';
+import { ContratoClientePecaComponent } from './contrato-cliente-peca/contrato-cliente-peca.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -57,10 +58,11 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		ContratoFormComponent,
 		ContratoFormLayoutComponent,
 		ContratoModeloListaComponent,
-  		ContratoModeloFormComponent,
-    	ContratoSlaComponent,
-     ContratoFiltroComponent,
-     ContratoEquipamentosComponent,
+		ContratoModeloFormComponent,
+		ContratoSlaComponent,
+		ContratoFiltroComponent,
+		ContratoEquipamentosComponent,
+		ContratoClientePecaComponent
 	],
 	imports: [
 		CommonModule,
@@ -99,6 +101,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		MatStepperModule,
 		FuseAlertModule,
 		MatProgressSpinnerModule
-	]	
+	]
 })
 export class ContratoModule { }

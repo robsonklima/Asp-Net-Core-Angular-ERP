@@ -1,10 +1,10 @@
-import { UserService } from './../../../../../core/user/user.service';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { DefeitoService } from '../../../../../core/services/defeito.service';
-import { DefeitoParameters, DefeitoData } from '../../../../../core/types/defeito.types';
-import { fuseAnimations } from '../../../../../../@fuse/animations/public-api';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { fuseAnimations } from '@fuse/animations';
+import { DefeitoService } from 'app/core/services/defeito.service';
+import { DefeitoData, DefeitoParameters } from 'app/core/types/defeito.types';
+import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -15,21 +15,21 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styles: [
     /* language=SCSS */
     `
-      .list-grid-def {
-          grid-template-columns: 50px 90px auto 48px;
-
-          @screen sm {
-            grid-template-columns: 50px 90px auto 48px;
-          }
+    .list-grid-u {
+      grid-template-columns: 142px 80px 50% 25% 42px;
       
-          @screen md {
-            grid-template-columns: 50px 90px auto 48px;
-          }
-      
-          @screen lg {
-            grid-template-columns:  50px 90px auto 48px;
-          }
+      @screen sm {
+          grid-template-columns: 142px 80px 50% 25% 42px;
       }
+  
+      @screen md {
+          grid-template-columns: 142px 80px 50% 25% 42px;
+      }
+  
+      @screen lg {
+          grid-template-columns: 142px 80px 50% 25% 42px;
+      }
+  }
     `
   ],
   encapsulation: ViewEncapsulation.None,
@@ -85,7 +85,7 @@ export class DefeitoListaComponent implements OnInit {
   async obterDados(filtro: string = '') {
     this.isLoading = true;
     const parametros: DefeitoParameters = {
-      pageNumber: this.paginator?.pageIndex +1,
+      pageNumber: this.paginator?.pageIndex + 1,
       sortActive: 'nomeDefeito',
       sortDirection: 'asc',
       pageSize: this.paginator?.pageSize,

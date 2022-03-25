@@ -21,10 +21,11 @@ import { EquipamentoListaComponent } from './equipamento-lista/equipamento-lista
 import { equipamentoRoutes } from './equipamento.routing';
 import { EquipamentoFormComponent } from './equipamento-form/equipamento-form.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
-      validation: false,
+    validation: false,
   };
 };
 
@@ -32,7 +33,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
   declarations: [
     EquipamentoListaComponent,
     EquipamentoFormComponent
-    
   ],
   imports: [
     CommonModule,
@@ -53,7 +53,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatCheckboxModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ]
 })
 export class EquipamentoModule { }

@@ -13,4 +13,5 @@ export interface FormaPagamentoData extends Meta {
 
 export interface FormaPagamentoParameters extends QueryStringParameters {
     indAtivo?: number;
+    codFormaPagto?: number;
 };

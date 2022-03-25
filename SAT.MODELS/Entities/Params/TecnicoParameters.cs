@@ -22,6 +22,6 @@ namespace SAT.MODELS.Entities.Params
         public TecnicoTipoEnum Tipo { get; set; }
         public TecnicoIncludeEnum Include { get; set; }
         public TecnicoFilterEnum FilterType { get; set; }
-        public byte? NaoVinculados { get; set; }
+        public int? NaoVinculados { get; set; }
     }
 }

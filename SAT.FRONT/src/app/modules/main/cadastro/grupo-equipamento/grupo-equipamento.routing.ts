@@ -17,7 +17,7 @@ export const grupoEquipamentoRoutes: Route[] = [
         component: GrupoEquipamentoFormComponent,
     },
     {
-        path: 'form/:codGrupoEquip',
+        path: 'form/:codGrupoEquip/:codTipoEquip',
         component: GrupoEquipamentoFormComponent,
     },
 ];

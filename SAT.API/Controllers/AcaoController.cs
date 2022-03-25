@@ -5,6 +5,8 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SAT.API.Controllers
 {
@@ -31,6 +33,19 @@ namespace SAT.API.Controllers
         public Acao Get(int codAcao)
         {
             return _acaoService.ObterPorCodigo(codAcao);
+        }
+
+        [HttpGet]
+        [Route("ObterListaAcaoComponente")]
+        public ListViewModel ObterListaAcaoComponente([FromQuery] AcaoParameters parameters)
+        {
+            return _acaoService.ObterListaAcaoComponente(parameters);
+        }
+
+        [HttpGet("GetAcaoComponente/{codAcaoComponente}")]
+        public AcaoComponente GetAcaoComponente(int codAcaoComponente)
+        {
+            return _acaoService.ObterAcaoComponentePorCodigo(codAcaoComponente);
         }
 
         [HttpPost]

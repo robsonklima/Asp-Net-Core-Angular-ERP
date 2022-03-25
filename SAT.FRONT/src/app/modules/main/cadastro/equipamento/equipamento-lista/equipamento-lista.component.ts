@@ -12,26 +12,23 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 @Component({
   selector: 'app-equipamento-lista',
   templateUrl: './equipamento-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
-      .list-grid-u {
-          grid-template-columns: 142px auto 42px;
-          
-          @screen sm {
-              grid-template-columns: 142px auto 42px;
-          }
+  styles: [`
+    .list-grid {
+      grid-template-columns: 72px 245px 245px auto;
       
-          @screen md {
-              grid-template-columns: 142px auto 42px;
-          }
-      
-          @screen lg {
-              grid-template-columns: 142px auto 42px;
-          }
+      @screen sm {
+          grid-template-columns: 72px 245px 245px auto;
       }
-    `
-  ],
+
+      @screen md {
+          grid-template-columns: 72px 245px 245px auto;
+      }
+
+      @screen lg {
+          grid-template-columns: 72px 245px 245px auto;
+      }
+    }  
+  `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
@@ -81,7 +78,7 @@ export class EquipamentoListaComponent implements AfterViewInit {
 
   async obterDados() {
     this.isLoading = true;
-    
+
     const params: EquipamentoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nomeEquip',

@@ -6,6 +6,7 @@ using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -46,7 +47,7 @@ namespace SAT.INFRA.Repository
                 _context.Add(acao);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
             }
@@ -73,6 +74,27 @@ namespace SAT.INFRA.Repository
         public Acao ObterPorCodigo(int codigo)
         {
             return _context.Acao.SingleOrDefault(a => a.CodAcao == codigo);
+        }
+
+        public PagedList<AcaoComponente> ObterListaAcaoComponente(AcaoParameters parameters)
+        {
+            var acaoComponente = _context.AcaoComponente
+                .Include(i => i.Acao)
+                .Include(i => i.Causa)
+                .Where(w => w.Acao != null && w.Causa != null)
+                .AsQueryable();
+
+            if (parameters.Filter != null)
+            {
+                acaoComponente = acaoComponente.Where(
+                    c =>
+                    c.Acao.NomeAcao.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.Acao.CodEAcao.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.CodAcao.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+
+            return PagedList<AcaoComponente>.ToPagedList(acaoComponente, parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<Acao> ObterPorParametros(AcaoParameters parameters)
@@ -105,6 +127,14 @@ namespace SAT.INFRA.Repository
             }
 
             return PagedList<Acao>.ToPagedList(acoes, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public AcaoComponente ObterAcaoComponentePorCodigo(int codigo)
+        {
+            return _context.AcaoComponente
+                .Include(i => i.Acao)
+                .Include(i => i.Causa)
+                .FirstOrDefault(a => a.CodAcaoComponente == codigo);
         }
     }
 }

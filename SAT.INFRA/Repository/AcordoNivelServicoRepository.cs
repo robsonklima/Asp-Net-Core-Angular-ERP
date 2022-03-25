@@ -30,6 +30,7 @@ namespace SAT.INFRA.Repository
                 try
                 {
                     _context.Entry(ans).CurrentValues.SetValues(acordoNivelServico);
+                    _context.Entry(ans).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)
@@ -46,7 +47,7 @@ namespace SAT.INFRA.Repository
                 _context.Add(acordoNivelServico);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
             }
@@ -60,6 +61,67 @@ namespace SAT.INFRA.Repository
             {
                 _context.AcordoNivelServico.Remove(ans);
 
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  SLA Legado Atualizar
+        /// </summary>
+        public void AtualizarLegado(AcordoNivelServicoLegado acordoNivelServicoLegado)
+        {
+            _context.ChangeTracker.Clear();
+            AcordoNivelServicoLegado ans = _context.AcordoNivelServicoLegado.SingleOrDefault(a => a.CodSla == acordoNivelServicoLegado.CodSla);
+
+            if (ans != null)
+            {
+                try
+                {
+                    _context.Entry(ans).CurrentValues.SetValues(acordoNivelServicoLegado);
+                    _context.Entry(ans).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  SLA Legado Criar
+        /// </summary>
+        public void CriarLegado(AcordoNivelServicoLegado acordoNivelServicoLegado)
+        {
+            try
+            {
+                _context.Add(acordoNivelServicoLegado);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+            }
+        }
+
+        /// <summary>
+        ///  SLA Legado Deletar
+        /// </summary>
+        public void DeletarLegado(int codigo)
+        {
+            AcordoNivelServicoLegado ans = _context.AcordoNivelServicoLegado.SingleOrDefault(a => a.CodSla == codigo);
+
+            if (ans != null)
+            {
+                _context.AcordoNivelServicoLegado.Remove(ans);
+                
                 try
                 {
                     _context.SaveChanges();

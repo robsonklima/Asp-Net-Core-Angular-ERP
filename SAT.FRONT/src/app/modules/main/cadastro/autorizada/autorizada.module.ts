@@ -18,6 +18,10 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FuseHighlightModule } from '@fuse/components/highlight';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -39,14 +43,19 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    SharedModule,
     TranslocoModule,
     MatSortModule,
     MatInputModule,
+    FuseHighlightModule,
     NgxMatSelectSearchModule,
     MatProgressBarModule,
-    MatSelectModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatMenuModule
   ]
 })
 export class AutorizadaModule { }

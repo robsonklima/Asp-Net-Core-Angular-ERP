@@ -9,7 +9,7 @@ import { Tecnico, TecnicoData, TecnicoParameters } from '../types/tecnico.types'
     providedIn: 'root'
 })
 export class TecnicoService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     obterPorParametros(parameters: TecnicoParameters): Observable<TecnicoData> {
         let params = new HttpParams();
@@ -19,6 +19,7 @@ export class TecnicoService {
         });
 
         return this.http.get(`${c.api}/Tecnico`, { params: params }).pipe(
+
             map((data: TecnicoData) => data)
         )
     }

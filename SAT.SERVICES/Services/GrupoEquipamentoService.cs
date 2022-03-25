@@ -52,9 +52,9 @@ namespace SAT.SERVICES.Services
             _grupoEquipamentoRepo.Atualizar(grupoEquipamento);
         }
 
-        public GrupoEquipamento ObterPorCodigo(int codigo)
+        public GrupoEquipamento ObterPorCodigo(int codGrupoEquip, int codTipoEquip)
         {
-            return _grupoEquipamentoRepo.ObterPorCodigo(codigo);
+            return _grupoEquipamentoRepo.ObterPorCodigo(codGrupoEquip, codTipoEquip);
         }
     }
 }

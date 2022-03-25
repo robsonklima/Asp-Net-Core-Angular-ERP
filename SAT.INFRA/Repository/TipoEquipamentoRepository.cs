@@ -24,12 +24,13 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             TipoEquipamento t = _context.TipoEquipamento.SingleOrDefault(t => t.CodTipoEquip == tipoEquipamento.CodTipoEquip);
-            
+
             if (t != null)
             {
                 try
                 {
                     _context.Entry(t).CurrentValues.SetValues(tipoEquipamento);
+                    _context.Entry(t).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
                 catch (DbUpdateException)
@@ -46,7 +47,7 @@ namespace SAT.INFRA.Repository
                 _context.Add(tipoEquipamento);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
             }

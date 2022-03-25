@@ -11,5 +11,8 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(AcordoNivelServico acordoNivelServico);
         void Deletar(int codigo);
         AcordoNivelServico ObterPorCodigo(int codigo);
+        void CriarLegado(AcordoNivelServicoLegado acordoNivelServicoLegado);
+        void AtualizarLegado(AcordoNivelServicoLegado acordoNivelServicoLegado);
+        void DeletarLegado(int codigo);
     }
 }

@@ -10,19 +10,13 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
             </mat-form-field>
-            <button class="ml-4 -mr-2" mat-icon-button [matMenuTriggerFor]="menu" *transloco="let t">
-                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-
-                <mat-menu #menu>
-                    <button mat-menu-item [routerLink]="['/grupo-equipamento/form']">
-                        <mat-icon [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                        {{ t('adicionar') }}
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon [svgIcon]="'heroicons_outline:cloud-download'"></mat-icon>
-                        {{ t('exportar') }}
-                    </button>
-                </mat-menu>
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                [routerLink]="['/grupo-equipamento/form']">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
+                [routerLink]="['/grupo-equipamento/form']">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
             </button>
         </div>
     </div>
@@ -50,7 +44,8 @@
 
                         <ng-container>
                             <ng-container *ngFor="let grupo of dataSourceData?.items">
-                                <a [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip]">
+                                <a
+                                    [routerLink]="['/grupo-equipamento/form/' + grupo.codGrupoEquip + '/' + grupo.codTipoEquip]">
                                     <div
                                         class="list-grid-ge grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">

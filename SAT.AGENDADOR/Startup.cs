@@ -57,11 +57,13 @@ namespace SAT.AGENDADOR
                 services.AddTransient<IDashboardService, DashboardService>();
                 services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
                 services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
+                services.AddTransient<IEmailService, EmailService>();
 
                 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
                 // Inicializa os servicos que serao usados
                 this._agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
+
             }
             catch (Exception ex)
             {

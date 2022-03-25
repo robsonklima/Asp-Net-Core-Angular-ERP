@@ -1,0 +1,165 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/cliente">
+                        {{ t('slas') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codSLA }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('sla') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('dados sla') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-15 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <!-- INFORMAÇÕES -->
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('nome sla') }}</mat-label>
+                        <input matInput formControlName="nomeSLA">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('desc sla') }}</mat-label>
+                        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+                            formControlName="descSLA"></textarea>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('tempo inicio')}}</mat-label>
+                        <input matInput formControlName="tempoInicio" [dropSpecialCharacters]="false" mask="00000">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('tempo reparo')}}</mat-label>
+                        <input matInput formControlName="tempoReparo" [dropSpecialCharacters]="false" mask="00000">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('tempo solucao')}}</mat-label>
+                        <input matInput formControlName="tempoSolucao" [dropSpecialCharacters]="false" mask="00000">
+                    </mat-form-field>
+
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAgendamento'">
+                            {{ t('agendamento') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indHorasUteis'">
+                            {{ t('horas uteis') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indFeriado'">
+                            {{ t('feriados') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indSegunda'">
+                            {{ t('segunda') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indTerca'">
+                            {{ t('terca') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indQuarta'">
+                            {{ t('quarta') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indQuinta'">
+                            {{ t('quinta') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indSexta'">
+                            {{ t('sexta') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indSabado'">
+                            {{ t('sabado') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indDomingo'">
+                            {{ t('domingo') }}
+                        </mat-checkbox>
+                    </div>
+
+                    <!-- INFORMAÇÕES -->
+
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                    <button [routerLink]="['/cliente']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

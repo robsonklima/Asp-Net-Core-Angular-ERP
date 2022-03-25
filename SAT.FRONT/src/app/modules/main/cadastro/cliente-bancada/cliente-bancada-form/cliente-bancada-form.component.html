@@ -1,0 +1,368 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/cliente">
+                        {{ t('clientes bancada') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codClienteBancada }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('cliente bancada') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('identificacao') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <!-- INFORMAÇÕES -->
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <input matInput formControlName="nomeCliente" maxlength="50">
+                        <mat-error *ngIf="form.get('nomeCliente').dirty">
+                            <div *ngIf="form.get('nomeCliente').hasError('maxLength')">
+                                {{ t('tamanho maximo campo') }}
+                            </div>
+                            <div *ngIf="form.get('nomeCliente').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('apelido') }}</mat-label>
+                        <input matInput formControlName="apelido" maxlength="50">
+                        <mat-error *ngIf="form.get('apelido').dirty">
+                            <div *ngIf="form.get('apelido').hasError('maxLength')">
+                                {{ t('tamanho maximo campo') }}
+                            </div>
+                            <div *ngIf="form.get('apelido').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>
+                            CNPJ
+                        </mat-label>
+                        <input [formControlName]="'cnpJ_CGC'" maxlength="18" mask="00.000.000/0000-00" matInput>
+                    </mat-form-field>
+
+                    <!-- INFORMAÇÕES -->
+
+                    <!-- INFORMAÇÕES DE ENDEREÇO -->
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>
+                            CEP
+                        </mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:location-marker'" matPrefix>
+                        </mat-icon>
+                        <input (change)="buscaCEP($event)" maxlength="10" [formControlName]="'cep'" mask="00.000-000"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-9">
+                        <mat-label>
+                            {{ t('endereco') }}
+                        </mat-label>
+                        <input [formControlName]="'endereco'" maxlength="100" matInput>
+                        <mat-error *ngIf="form.get('endereco').dirty">
+                            <div *ngIf="form.get('endereco').hasError('maxLength')">
+                                {{ t('tamanho maximo campo') }}
+                            </div>
+                            <div *ngIf="form.get('endereco').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>
+                            {{ t('numero') }}
+                        </mat-label>
+                        <input [formControlName]="'numero'" matInput>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>
+                            {{ t('endereco complemento') }}
+                        </mat-label>
+                        <input [formControlName]="'complem'" matInput>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>
+                            {{ t('bairro') }}
+                        </mat-label>
+                        <input [formControlName]="'bairro'" maxlength="20" matInput>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('pais') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codPais"
+                            [disabled]="!paises.length || form.disabled">
+                            <mat-option *ngFor="let pais of paises" [value]="pais.codPais">
+                                {{ pais.nomePais }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('unidade federativa') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codUF"
+                            [disabled]="!unidadesFederativas.length || form.disabled">
+                            <mat-option *ngFor="let uf of unidadesFederativas" [value]="uf.codUF">
+                                {{ uf.siglaUF }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('cidade') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codCidade"
+                            [disabled]="!cidades.length || form.disabled">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="cidadeFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                                <span>
+                                    {{ (cidade.nomeCidade || t('nao informado')) | titlecase }}
+                                </span>
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <!-- INFORMAÇÕES DE ENDEREÇO -->
+
+                </div>
+
+                <!-- INFORMAÇÕES DE CONTATO -->
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Contato</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <mat-label>{{ t('email') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:mail'" matPrefix>
+                        </mat-icon>
+                        <input type="email" [email]="true" [formControlName]="'email'" matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('fone') }}</mat-label>
+                        <mat-icon class="icon-size-5" maxlength="30" [svgIcon]="'heroicons_solid:phone'" matPrefix>
+                        </mat-icon>
+                        <input matInput formControlName="telefone" mask="(00) 00000-0000"
+                            [dropSpecialCharacters]="false">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <mat-label>{{ t('contato') }}</mat-label>
+                        <input matInput formControlName="contato">
+                    </mat-form-field>
+                </div>
+
+                <!-- INFORMAÇÕES DE CONTATO -->
+
+                <!-- INFORMAÇÕES VINCULOS -->
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Vinculos</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <mat-label>Transportadora</mat-label>
+                        <mat-select formControlName="codTransportadora" multiple="false">
+                            <mat-option>
+                            </mat-option>
+                            <mat-option *ngFor="let trans of transportadoras" [value]="trans.codTransportadora">
+                                {{ trans.nomeTransportadora }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <!-- INFORMAÇÕES DE VINCULOS -->
+
+                <!-- INFORMAÇÕES DE VENDAS -->
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Informações de vendas</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>Forma Pagamento</mat-label>
+                        <mat-select formControlName="codFormaPagto" multiple="false">
+                            <mat-option>
+                            </mat-option>
+                            <mat-option *ngFor="let pagamento of formasPagamento" [value]="pagamento.codFormaPagto">
+                                {{ pagamento.descFormaPagto }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('inflacao')}}</mat-label>
+                        <input matInput formControlName="inflacao" [dropSpecialCharacters]="false" mask="0.0000"
+                            minlength="3">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('obs inflacao') }}</mat-label>
+                        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+                            formControlName="inflacaoObs"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('deflacao')}}</mat-label>
+                        <input matInput formControlName="deflacao" [dropSpecialCharacters]="false" mask="0.0000">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('obs deflacao') }}</mat-label>
+                        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+                            formControlName="deflacaoObs"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>Lista de Preço</mat-label>
+                        <mat-select formControlName="codBancadaLista" multiple="false">
+                            <mat-option>
+                            </mat-option>
+                            <mat-option *ngFor="let p of bancadasLista" [value]="p.codBancadaLista">
+                                {{ p.nomeBancadaLista }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>Tipo Frete</mat-label>
+                        <mat-select formControlName="codTipoFrete" multiple="false">
+                            <mat-option>
+                            </mat-option>
+                            <mat-option *ngFor="let frete of tiposFrete" [value]="frete.codTipoFrete">
+                                {{ frete.nomeTipoFrete }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('icms')}}</mat-label>
+                        <input matInput formControlName="icms" suf [dropSpecialCharacters]="false" mask="0.0000"
+                            minlength="3">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+
+                    <div class="fuse-mat-dense sm:col-span-6 py-6">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indOrcamento'">
+                            {{ t('orcamento obrigatorio') }}
+                        </mat-checkbox>
+                    </div>
+
+                </div>
+
+                <!-- INFORMAÇÕES DE VENDAS -->
+
+                <!-- INFORMAÇÕES GERAIS -->
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">Informações gerais</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <div class="fuse-mat-dense sm:col-span-2 py-4">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                            {{ t('ativo') }}
+                        </mat-checkbox>
+                    </div>
+
+                </div>
+
+                <!-- INFORMAÇÕES GERAIS -->
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                    <button [routerLink]="['/cliente-bancada']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

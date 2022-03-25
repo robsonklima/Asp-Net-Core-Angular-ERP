@@ -4,16 +4,17 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Acao, AcaoData, AcaoParameters } from '../types/acao.types';
 import { appConfig as c } from 'app/core/config/app.config';
+import { AcaoComponente, AcaoComponenteData } from '../types/acao-componente.types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AcaoService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   obterPorParametros(parameters: AcaoParameters): Observable<AcaoData> {
     let params = new HttpParams();
-    
+
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
@@ -46,7 +47,7 @@ export class AcaoService {
 
   deletar(codAcao: number): Observable<Acao> {
     const url = `${c.api}/Acao/${codAcao}`;
-    
+
     return this.http.delete<Acao>(url).pipe(
       map((obj) => obj)
     );

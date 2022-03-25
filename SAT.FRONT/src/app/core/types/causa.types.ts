@@ -16,5 +16,7 @@ export interface CausaData extends Meta {
 };
 
 export interface CausaParameters extends QueryStringParameters {
+    CodCausa?: number;
     indAtivo?: number;
+    apenasModulos?: number;
 };

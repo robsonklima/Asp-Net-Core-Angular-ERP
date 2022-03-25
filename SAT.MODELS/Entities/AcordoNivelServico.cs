@@ -1,13 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("SLA_NEW")]
     public class AcordoNivelServico
     {
-        [Key]
         public int CodSLA { get; set; }
         public string NomeSLA { get; set; }
         public string DescSLA { get; set; }

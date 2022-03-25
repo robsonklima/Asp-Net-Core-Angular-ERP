@@ -24,7 +24,7 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             EquipamentoContrato equip = _context.EquipamentoContrato.SingleOrDefault(e => e.CodEquipContrato == equipamentoContrato.CodEquipContrato);
-            
+
             if (equip != null)
             {
                 try
@@ -93,7 +93,9 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.LocalAtendimento)
                 .Include(e => e.Cliente)
                 .Include(e => e.Contrato)
+                   .ThenInclude(e => e.TipoContrato)
                 .Include(e => e.Equipamento)
+                .Include(e => e.ContratoEquipamento)
                 .Include(e => e.GrupoEquipamento)
                 .Include(e => e.RegiaoAutorizada)
                 .Include(e => e.RegiaoAutorizada.Filial)

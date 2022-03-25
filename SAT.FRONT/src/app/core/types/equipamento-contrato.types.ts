@@ -1,5 +1,6 @@
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
+import { ContratoEquipamento } from "./contrato-equipamento.types";
 import { Contrato } from "./contrato.types";
 import { Equipamento } from "./equipamento.types";
 import { Filial } from "./filial.types";
@@ -86,6 +87,7 @@ export class EquipamentoContrato {
     sequencia?: any;
     indMecanismo?: any;
     codDispBBCriticidade?: any;
+    contratoEquipamento: ContratoEquipamento
 }
 
 export interface EquipamentoContratoData extends Meta {

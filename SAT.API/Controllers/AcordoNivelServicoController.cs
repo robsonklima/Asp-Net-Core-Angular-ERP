@@ -39,7 +39,7 @@ namespace SAT.API.Controllers
             return _ansService.ObterPorCodigo(codSLA);
         }
 
-        [HttpPut("{codSLA}")]
+        [HttpPut]
         public void Put([FromBody] AcordoNivelServico acordoNivelServico)
         {
             _ansService.Atualizar(acordoNivelServico);

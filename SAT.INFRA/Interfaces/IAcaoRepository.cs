@@ -11,5 +11,7 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         void Atualizar(Acao acao);
         Acao ObterPorCodigo(int codigo);
+        PagedList<AcaoComponente> ObterListaAcaoComponente(AcaoParameters parameters);
+        AcaoComponente ObterAcaoComponentePorCodigo(int codigo);
     }
 }

@@ -8,5 +8,8 @@ namespace SAT.INFRA.Interfaces
     {
         PagedList<Equipamento> ObterPorParametros(EquipamentoParameters parameters);
         Equipamento ObterPorCodigo(int codigo);
+        void Criar(Equipamento equipamento);
+        void Deletar(int codigo);
+        void Atualizar(Equipamento equipamento);
     }
 }

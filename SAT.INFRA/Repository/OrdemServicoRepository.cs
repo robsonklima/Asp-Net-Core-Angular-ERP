@@ -39,6 +39,7 @@ namespace SAT.INFRA.Repository
             if (os != null)
             {
                 _context.Entry(os).CurrentValues.SetValues(ordemServico);
+                _context.Entry(os).State = EntityState.Modified;
                 _context.SaveChanges();
             }
         }

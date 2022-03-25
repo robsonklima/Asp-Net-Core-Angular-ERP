@@ -188,6 +188,17 @@ namespace SAT.INFRA.Context
         public DbSet<Moeda> Moeda { get; set; }
         public DbSet<PecaLista> PecaLista { get; set; }
         public DbSet<TipoFrete> TipoFrete { get; set; }
+        public DbSet<AcordoNivelServicoLegado> AcordoNivelServicoLegado { get; set; }
+        public DbSet<ClienteBancada> ClienteBancada { get; set; }
+        public DbSet<BancadaLista> BancadaLista { get; set; }
+        public DbSet<FerramentaTecnico> FerramentaTecnico { get; set; }
+        public DbSet<LiderTecnico> LiderTecnico { get; set; }
+        public DbSet<AcaoComponente> AcaoComponente { get; set; }
+        public DbSet<DefeitoComponente> DefeitoComponente { get; set; }
+        public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
+        public DbSet<ClientePeca> ClientePeca { get; set; }
+        public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
+
 		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -298,6 +309,20 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Moeda>(new MoedaMap().Configure);
             modelBuilder.Entity<PecaLista>(new PecaListaMap().Configure);
             modelBuilder.Entity<TipoFrete>(new TipoFreteMap().Configure);
+            modelBuilder.Entity<AcordoNivelServico>(new AcordoNivelServicoMap().Configure);
+            modelBuilder.Entity<AcordoNivelServicoLegado>(new AcordoNivelServicoLegadoMap().Configure);
+            modelBuilder.Entity<Equipamento>(new EquipamentoMap().Configure);
+            modelBuilder.Entity<TipoEquipamento>(new TipoEquipamentoMap().Configure);
+            modelBuilder.Entity<ClienteBancada>(new ClienteBancadaMap().Configure);
+            modelBuilder.Entity<FerramentaTecnico>(new FerramentaTecnicoMap().Configure);
+            modelBuilder.Entity<Feriado>(new FeriadoMap().Configure);
+            modelBuilder.Entity<LiderTecnico>(new LiderTecnicoMap().Configure);
+            modelBuilder.Entity<BancadaLista>(new BancadaListaMap().Configure);
+            modelBuilder.Entity<AcaoComponente>(new AcaoComponenteMap().Configure);
+            modelBuilder.Entity<Acao>(new AcaoMap().Configure);
+            modelBuilder.Entity<Causa>(new CausaMap().Configure);
+            modelBuilder.Entity<DefeitoComponente>(new DefeitoComponenteMap().Configure);
+            modelBuilder.Entity<EquipamentoModulo>(new EquipamentoModuloMap().Configure);
             modelBuilder.Entity<ImportacaoConfiguracao>(new ImportacaoConfiguracaoMap().Configure);
             modelBuilder.Entity<ImportacaoTipo>(new ImportacaoTipoMap().Configure);
 

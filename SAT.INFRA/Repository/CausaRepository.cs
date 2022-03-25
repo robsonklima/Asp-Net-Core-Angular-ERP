@@ -66,14 +66,19 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodCausa != null)
+            if (parameters.CodCausa.HasValue)
             {
                 causas = causas.Where(c => c.CodCausa == parameters.CodCausa);
             }
 
-            if (parameters.IndAtivo != null)
+            if (parameters.IndAtivo.HasValue)
             {
                 causas = causas.Where(c => c.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.ApenasModulos.HasValue)
+            {
+                causas = causas.Where(c => c.CodECausa.EndsWith("000"));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

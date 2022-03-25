@@ -10,6 +10,6 @@ namespace SAT.INFRA.Interfaces
         void Criar(GrupoEquipamento grupoEquipamento);
         void Deletar(int codigo);
         void Atualizar(GrupoEquipamento grupoEquipamento);
-        GrupoEquipamento ObterPorCodigo(int codigo);
+        GrupoEquipamento ObterPorCodigo(int codGrupoEquip, int codTipoEquip);
     }
 }

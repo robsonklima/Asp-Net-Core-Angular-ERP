@@ -24,15 +24,16 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             GrupoEquipamento grupo = _context.GrupoEquipamento.SingleOrDefault(g => g.CodGrupoEquip == grupoEquipamento.CodGrupoEquip);
-            
+
             if (grupo != null)
             {
                 try
                 {
                     _context.Entry(grupo).CurrentValues.SetValues(grupoEquipamento);
+                    _context.Entry(grupo).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
+                catch (DbUpdateException ex)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }
@@ -71,11 +72,11 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public GrupoEquipamento ObterPorCodigo(int codigo)
+        public GrupoEquipamento ObterPorCodigo(int codGrupoEquip, int codTipoEquip)
         {
             return _context.GrupoEquipamento
                 .Include(g => g.TipoEquipamento)
-                .FirstOrDefault(g => g.CodGrupoEquip == codigo);
+                .FirstOrDefault(g => g.CodGrupoEquip == codGrupoEquip && g.CodTipoEquip == codTipoEquip);
         }
 
         public PagedList<GrupoEquipamento> ObterPorParametros(GrupoEquipamentoParameters parameters)

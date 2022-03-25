@@ -28,7 +28,7 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.CodMagnus))
             {
-                query = query.Where(p => p.CodPeca == Convert.ToInt32(parameters.CodPeca));
+                query = query.Where(p => p.CodMagnus == parameters.CodMagnus);
             }
 
             return query;

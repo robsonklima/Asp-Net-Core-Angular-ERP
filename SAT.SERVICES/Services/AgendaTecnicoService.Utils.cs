@@ -45,7 +45,7 @@ namespace SAT.SERVICES.Services
         private string IntervaloTitle => "INTERVALO";
         private string FimExpedienteTitle => "FIM DO EXPEDIENTE";
         private string PontoTitle => "PONTO";
-        private bool isIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
+        private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
         private DateTime FimExpediente(DateTime? referenceTime = null) => 

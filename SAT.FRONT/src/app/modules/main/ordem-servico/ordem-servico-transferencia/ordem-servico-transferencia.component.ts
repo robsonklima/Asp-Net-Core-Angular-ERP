@@ -29,7 +29,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
   isLoading: boolean;
   sessionData: UsuarioSessao;
 
-  constructor (
+  constructor(
     private _tecnicoService: TecnicoService,
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
@@ -88,58 +88,23 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
   transferir(tecnico: Tecnico): void
   {
     this.isLoading = true;
-    this.os.codTecnico = tecnico.codTecnico;
-    this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
-    this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
-    this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-    this._ordemServicoService.atualizar(this.os).subscribe(() =>
+    this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, tecnico.codTecnico).subscribe((agenda) =>
     {
-      this.isLoading = false;
-      this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
-      this.criarAgendaTecnico();
-      this.sidenav.close();
-    }, error =>
-    {
-      this.isLoading = false;
-      this._snack.exibirToast(error, 'error');
-    });
-  }
-
-  private criarAgendaTecnico()
-  {
-    if (this.os.codTecnico == null) return;
-
-    this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
-      .then(s =>
+      this.os.codTecnico = tecnico.codTecnico;
+      this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
+      this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
+      this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+      this._ordemServicoService.atualizar(this.os).subscribe(() =>
       {
-        if (s)
-        {
-          var notificacao: Notificacao =
-          {
-            titulo: "Agenda Técnico",
-            descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
-            link: './#/agenda-tecnico',
-            useRouter: true,
-            lida: 0,
-            indAtivo: statusConst.ATIVO,
-            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-            codUsuario: this.sessionData.usuario.codUsuario
-          };
-          this._notificacaoService.criar(notificacao).toPromise();
-        }
-      }).catch(
-        e =>
-        {
-          var notificacao: Notificacao =
-          {
-            titulo: "Agenda Técnico",
-            descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
-            lida: 0,
-            indAtivo: statusConst.ATIVO,
-            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-            codUsuario: this.sessionData.usuario.codUsuario
-          };
-          this._notificacaoService.criar(notificacao).toPromise();
-        });
+        this.isLoading = false;
+        this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');
+        this.sidenav.close();
+      }, error =>
+      {
+        this.isLoading = false;
+        this._snack.exibirToast(error, 'error');
+        this._agendaTecnicoService.deletar(agenda.codAgendaTecnico);
+      });
+    });
   }
 }

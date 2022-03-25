@@ -154,7 +154,7 @@ namespace SAT.SERVICES.Services
                     start = start.AddMinutes(deslocamento);
 
                     // se começa durante o intervalo ou depois do expediente
-                    if (this.isIntervalo(start))
+                    if (this.estaNoIntervalo(start))
                         start = this.FimIntervalo(start);
                     else if (start >= this.FimExpediente(start))
                     {
@@ -164,7 +164,7 @@ namespace SAT.SERVICES.Services
 
                     // se termina durante a sugestao de intervalo
                     var end = start.AddMinutes(duracao);
-                    if (this.isIntervalo(end))
+                    if (this.estaNoIntervalo(end))
                     {
                         start = end.AddMinutes(deslocamento);
                         end = start.AddMinutes(duracao);

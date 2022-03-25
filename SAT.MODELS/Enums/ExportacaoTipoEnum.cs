@@ -4,6 +4,8 @@ namespace SAT.MODELS.Enums
     {
         ORDEM_SERVICO,
         EQUIPAMENTO_CONTRATO,
-        ACAO
+        ACAO,
+
+        AUTORIZADA
     }
 }

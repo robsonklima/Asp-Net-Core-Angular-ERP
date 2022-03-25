@@ -3,7 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { AcaoService } from 'app/core/services/acao.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { AcaoData, AcaoParameters } from 'app/core/types/acao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
@@ -46,6 +48,7 @@ export class AcaoListaComponent implements OnInit {
   constructor(
     private _acaoService: AcaoService,
     private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService,
     private _userService: UserService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -96,6 +99,12 @@ export class AcaoListaComponent implements OnInit {
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  public async exportar() {
+    this.isLoading = true;
+		window.location.href = await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+    this.isLoading = false;
   }
 
   paginar() {

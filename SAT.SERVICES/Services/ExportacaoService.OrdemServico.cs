@@ -1,7 +1,6 @@
 using System.Linq;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities.Constants;
-using Newtonsoft.Json;
 
 namespace SAT.SERVICES.Services
 {

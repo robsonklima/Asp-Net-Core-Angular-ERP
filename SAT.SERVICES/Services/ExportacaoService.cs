@@ -14,13 +14,19 @@ namespace SAT.SERVICES.Services
 	{
 		private XLWorkbook Workbook { get; set; }
 		public string FilePath { get; set; }
-		private IOrdemServicoRepository _osRepo;
-		private IEquipamentoContratoRepository _ecRepo;
+		private readonly IOrdemServicoRepository _osRepo;
+		private readonly IEquipamentoContratoRepository _ecRepo;
+        private readonly IAcaoRepository _acaoRepo;
 
-		public ExportacaoService(IOrdemServicoRepository osRepo, IEquipamentoContratoRepository ecRepo)
+        public ExportacaoService(
+			IOrdemServicoRepository osRepo, 
+			IEquipamentoContratoRepository ecRepo,
+			IAcaoRepository acaoRepo
+		)
 		{
 			_osRepo = osRepo;
 			_ecRepo = ecRepo;
+			_acaoRepo = acaoRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -29,11 +35,9 @@ namespace SAT.SERVICES.Services
 			switch (formato)
 			{
 				case ExportacaoFormatoEnum.EXCEL:
-
 					return ExportExcel(parameters, tipo);
 
 				default:
-
 					return null;
 			}
 		}
@@ -50,6 +54,10 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO:
 					GerarPlanilhaEquipamentoContrato(parameters);
+					break;
+
+				case ExportacaoTipoEnum.ACAO:
+					GerarPlanilhaAcao(parameters);
 					break;
 
 				default:

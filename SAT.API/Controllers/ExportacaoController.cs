@@ -31,5 +31,11 @@ namespace SAT.API.Controllers
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO);
         }
+
+        [HttpGet("Acao")]
+        public IActionResult ExportarAcao([FromQuery] AcaoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ACAO);
+        }
     }
 }

@@ -29,16 +29,16 @@ namespace SAT.API.Controllers
             return _grupoEquipamentoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{codGrupoEquip}")]
-        public GrupoEquipamento Get(int codGrupoEquip)
+        [HttpGet("{codGrupoEquip}/{codTipoEquip}")]
+        public GrupoEquipamento Get(int codGrupoEquip, int codTipoEquip)
         {
-            return _grupoEquipamentoService.ObterPorCodigo(codGrupoEquip);
+            return _grupoEquipamentoService.ObterPorCodigo(codGrupoEquip, codTipoEquip);
         }
 
         [HttpPost]
         public void Post([FromBody] GrupoEquipamento grupoEquipamento)
         {
-            
+            _grupoEquipamentoService.Criar(grupoEquipamento);
         }
 
         [HttpPut]

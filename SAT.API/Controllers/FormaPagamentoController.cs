@@ -26,5 +26,29 @@ namespace SAT.API.Controllers
         {
             return _formaPagamentoService.ObterPorParametros(parameters);
         }
+
+        [HttpGet("{codFormaPagamento}")]
+        public FormaPagamento Get(int codFormaPagamento)
+        {
+            return _formaPagamentoService.ObterPorCodigo(codFormaPagamento);
+        }
+
+        [HttpPost]
+        public FormaPagamento Post([FromBody] FormaPagamento FormaPagamento)
+        {
+            return _formaPagamentoService.Criar(FormaPagamento);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] FormaPagamento FormaPagamento)
+        {
+            _formaPagamentoService.Atualizar(FormaPagamento);
+        }
+
+        [HttpDelete("{codFormaPagamento}")]
+        public void Delete(int codFormaPagamento)
+        {
+            _formaPagamentoService.Deletar(codFormaPagamento);
+        }
     }
 }

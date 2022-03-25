@@ -36,11 +36,13 @@ namespace SAT.API.Controllers
         [HttpPost]
         public void Post([FromBody] Equipamento equipamento)
         {
+            this._equipamentoService.Criar(equipamento);
         }
 
         [HttpPut]
         public void Put([FromBody] Equipamento equipamento)
         {
+            this._equipamentoService.Atualizar(equipamento);
         }
 
         [HttpDelete("{codEquip}")]

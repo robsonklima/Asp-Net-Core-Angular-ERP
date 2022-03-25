@@ -32,7 +32,7 @@ namespace SAT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD),
+                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_HOMOLOG),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
             services.AddHttpContextAccessor();
@@ -164,6 +164,15 @@ namespace SAT.API
             services.AddTransient<IMoedaRepository, MoedaRepository>();
             services.AddTransient<IPecaListaRepository, PecaListaRepository>();
             services.AddTransient<ITipoFreteRepository, TipoFreteRepository>();
+            services.AddTransient<IClienteBancadaRepository, ClienteBancadaRepository>();
+            services.AddTransient<IFerramentaTecnicoRepository, FerramentaTecnicoRepository>();
+            services.AddTransient<ILiderTecnicoRepository, LiderTecnicoRepository>();
+            services.AddTransient<IBancadaListaRepository, BancadaListaRepository>();
+            services.AddTransient<IAcaoComponenteRepository, AcaoComponenteRepository>();
+            services.AddTransient<IDefeitoComponenteRepository, DefeitoComponenteRepository>();
+            services.AddTransient<IEquipamentoModuloRepository, EquipamentoModuloRepository>();
+            services.AddTransient<IClientePecaRepository, ClientePecaRepository>();
+            services.AddTransient<IClientePecaGenericaRepository, ClientePecaGenericaRepository>();
             services.AddTransient<IImportacaoService, ImportacaoService>();
             services.AddTransient<IImportacaoConfiguracaoService, ImportacaoConfiguracaoService>();
             services.AddTransient<IImportacaoTipoService, ImportacaoTipoService>();
@@ -274,6 +283,15 @@ namespace SAT.API
             services.AddTransient<IMoedaService, MoedaService>();
             services.AddTransient<IPecaListaService, PecaListaService>();
             services.AddTransient<ITipoFreteService, TipoFreteService>();
+            services.AddTransient<IClienteBancadaService, ClienteBancadaService>();
+            services.AddTransient<IFerramentaTecnicoService, FerramentaTecnicoService>();
+            services.AddTransient<ILiderTecnicoService, LiderTecnicoService>();
+            services.AddTransient<IBancadaListaService, BancadaListaService>();
+            services.AddTransient<IAcaoComponenteService, AcaoComponenteService>();
+            services.AddTransient<IDefeitoComponenteService, DefeitoComponenteService>();
+            services.AddTransient<IEquipamentoModuloService, EquipamentoModuloService>();
+            services.AddTransient<IClientePecaService, ClientePecaService>();
+            services.AddTransient<IClientePecaGenericaService, ClientePecaGenericaService>();
             services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
             services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
 

@@ -9,30 +9,34 @@ namespace SAT.SERVICES.Services
     public class EquipamentoService : IEquipamentoService
     {
         private readonly IEquipamentoRepository _equipRepo;
+        private readonly ISequenciaRepository _sequenciaRepository;
 
-        public EquipamentoService(IEquipamentoRepository equipRepo)
+        public EquipamentoService(IEquipamentoRepository equipRepo, ISequenciaRepository sequenciaRepository)
         {
             _equipRepo = equipRepo;
+            this._sequenciaRepository = sequenciaRepository;
         }
 
         public void Atualizar(Equipamento equipamento)
         {
-            throw new System.NotImplementedException();
+            this._equipRepo.Atualizar(equipamento);
         }
 
         public Equipamento Criar(Equipamento equipamento)
         {
-            throw new System.NotImplementedException();
+            equipamento.CodEquip = this._sequenciaRepository.ObterContador("Equipamento");
+            this._equipRepo.Criar(equipamento);
+            return equipamento;
         }
 
         public void Deletar(int codigo)
         {
-            throw new System.NotImplementedException();
+            this._equipRepo.Deletar(codigo);
         }
 
         public Equipamento ObterPorCodigo(int codigo)
         {
-            throw new System.NotImplementedException();
+           return this._equipRepo.ObterPorCodigo(codigo);
         }
 
         public ListViewModel ObterPorParametros(EquipamentoParameters parameters)

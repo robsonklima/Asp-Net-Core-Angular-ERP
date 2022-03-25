@@ -147,7 +147,8 @@ namespace SAT.SERVICES.Services
             this._usuarioRepo.Criar(usuario);
         }
 
-        private List<Navegacao> CarregarNavegacoes(Usuario usuario) {
+        private List<Navegacao> CarregarNavegacoes(Usuario usuario)
+        {
             for (int i = 0; i < usuario.Perfil?.NavegacoesConfiguracao?.Count; i++)
             {
                 usuario.Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuario
@@ -155,7 +156,14 @@ namespace SAT.SERVICES.Services
             }
 
             var navegacoes = usuario.Perfil?.NavegacoesConfiguracao
-                .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ToList();
+               .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ThenBy(t => t.Title).ToList();
+
+            for (int i = 0; i < navegacoes.Count; i++)
+            {
+                if (navegacoes[i].Children == null) continue;
+
+                navegacoes[i].Children = navegacoes[i].Children.OrderBy(ord => ord.Ordem).ThenBy(t => t.Title).ToArray();
+            }
 
             if (navegacoes?.Count == 0)
                 throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
@@ -170,7 +178,8 @@ namespace SAT.SERVICES.Services
             var dataRange = DateTime.Now.AddHours(-4);
             var usuariosLogados = usuariosAtivos.Where(u => u.UltimoAcesso >= dataRange);
 
-            return new UsuariosLogadosViewModel() {
+            return new UsuariosLogadosViewModel()
+            {
                 UsuariosAtivos = usuariosAtivos.Count(),
                 UsuariosLogados = usuariosLogados.Count()
             };

@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SAT.MODELS.Entities
+﻿namespace SAT.MODELS.Entities
 {
     public class Causa
     {
-        [Key]
         public int CodCausa { get; set; }
         public int CodTipoCausa { get; set; }
         public int CodGrupoCausa { get; set; }

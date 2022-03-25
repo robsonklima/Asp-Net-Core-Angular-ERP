@@ -42,7 +42,24 @@ namespace SAT.SERVICES.Services
                 fim = inicio.Date.Add(new TimeSpan(9, 0, 0));
             }
 
-            AgendaTecnico agendaTecnico = new AgendaTecnico
+            return InserirAgendaDB(inicio, fim, codTecnico, os);
+        }
+
+        private AgendaTecnico ObterUltimaAgenda(List<AgendaTecnico> agendas, int codTecnico)
+        {
+            return agendas
+                .Where(
+                    i => i.CodTecnico == codTecnico &&
+                    i.Tipo == AgendaTecnicoTypeEnum.OS &&
+                    i.IndAgendamento == 0 &&
+                    i.Inicio.Date == DateTime.Now.Date
+                )
+                .OrderByDescending(i => i.Fim)
+                .FirstOrDefault();
+        }
+
+        private AgendaTecnico InserirAgendaDB(DateTime inicio, DateTime fim, int codTecnico, OrdemServico os) {
+            var agendaTecnico = new AgendaTecnico
             {
                 Inicio = inicio,
                 Fim = fim,
@@ -57,21 +74,7 @@ namespace SAT.SERVICES.Services
                 DataHoraCad = DateTime.Now
             };
 
-            var ag = this._agendaRepo.Criar(agendaTecnico);
-            return ag;
-        }
-
-        private AgendaTecnico ObterUltimaAgenda(List<AgendaTecnico> agendas, int codTecnico)
-        {
-            return agendas
-                .Where(
-                    i => i.CodTecnico == codTecnico &&
-                    i.Tipo == AgendaTecnicoTypeEnum.OS &&
-                    i.IndAgendamento == 0 &&
-                    i.Inicio.Date == DateTime.Now.Date
-                )
-                .OrderByDescending(i => i.Fim)
-                .FirstOrDefault();
+            return this._agendaRepo.Criar(agendaTecnico);
         }
     }
 }

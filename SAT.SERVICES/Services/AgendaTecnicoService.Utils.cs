@@ -1,4 +1,5 @@
 ﻿using System;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;

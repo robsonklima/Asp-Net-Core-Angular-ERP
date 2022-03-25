@@ -54,8 +54,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   events: MbscAgendaTecnicoCalendarEvent[] = [];
   agendaTecnicos: AgendaTecnico[] = [];
   resources = [];
-  weekStart: string = moment().add(-1, 'day').format('yyyy-MM-DD HH:mm:ss');
-  weekEnd: string = moment().add(2, 'day').format('yyyy-MM-DD HH:mm:ss');
+  weekStart: string = moment().add(-3, 'day').format('yyyy-MM-DD HH:mm:ss');
+  weekEnd: string = moment().add(4, 'day').format('yyyy-MM-DD HH:mm:ss');
   @ViewChild('popup', { static: false })
   tooltip!: MbscPopup;
   currentEvent: any;
@@ -81,7 +81,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     view: {
       timeline: {
         type: 'day',
-        size: 3,
+        size: 5,
         allDay: true,
         startDay: 1,
         rowHeight: 'equal',
@@ -202,7 +202,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
   }
 
-  private async obterDados(showLoading: boolean=true)
+  public async obterDados(showLoading: boolean=true)
   {
     if (!this.verificarExistenciaFiltro()) return;
 

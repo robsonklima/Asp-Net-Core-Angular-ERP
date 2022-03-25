@@ -66,8 +66,6 @@ export class ReincidenciaQuadrimestreFilialComponent implements OnInit {
   public async carregarGrafico() {
     this.loading = true;
 
-    debugger
-
     let data = (await this._dashboardService
       .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_QUADRIMESTRE_FILIAIS, codFilial: this.usuarioSessao.usuario.codFilial }).toPromise())
       .viewDashboardReincidenciaQuadrimestreFiliais;

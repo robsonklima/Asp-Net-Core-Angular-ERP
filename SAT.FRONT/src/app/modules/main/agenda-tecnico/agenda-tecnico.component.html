@@ -1,5 +1,4 @@
 <mat-drawer-container class="main-agenda" [hasBackdrop]="false">
-
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
@@ -13,22 +12,28 @@
         </app-agenda-tecnico-ajuda>
     </mat-drawer>
 
-    <div class="scheduler-scroll">
+    <div class="relative scheduler-scroll">
+        <div class="absolute top-3 right-5 z-99999 bg-gray-100 rounded-full">
+            <button mat-flat-button class="fuse-mat-button-rounded text-blue-500 bg-gray-100" (click)="sidenavChamados.toggle()" [matTooltip]="'Adicionar Chamado'">
+                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </button>
+
+            <button mat-flat-button class="fuse-mat-button-rounded text-indigo-500 bg-gray-100" (click)="sidenav.toggle()" [matTooltip]="'Filtro'">
+                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:filter'"></mat-icon>
+            </button>
+    
+            <button mat-flat-button class="fuse-mat-button-rounded text-green-500 bg-gray-100" (click)="obterDados(true)" [matTooltip]="'Atualizar'">
+                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+            </button>
+    
+            <button mat-flat-button class="fuse-mat-button-rounded text-teal-500 bg-gray-100" (click)="showHelp()" [matTooltip]="'Ajuda'">
+                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+            </button>
+        </div>
+
         <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
-            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading &&
-            resources?.length != 0">
+            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading && resources?.length">
         </mbsc-eventcalendar>
-        <button class="add-button" (click)="sidenavChamados.toggle()" [disabled]="loading" [matTooltip]="'Chamados'">
-            <mat-icon [svgIcon]="'heroicons_outline:plus'" class="text-white"></mat-icon>
-        </button>
-
-        <button class="filter-button bg-gray-800" (click)="sidenav.toggle()" [matTooltip]="'Filtro'">
-            <mat-icon [svgIcon]="'heroicons_outline:filter'" class="text-white"></mat-icon>
-        </button>
-
-        <button class="help-button bg-gray-400" (click)="showHelp()" [disabled]="loading" [matTooltip]="'Ajuda'">
-            <mat-icon [svgIcon]="'heroicons_outline:question-mark-circle'" class="text-white"></mat-icon>
-        </button>
 
         <div class="loading-indicator" *ngIf="loading">
             <mat-spinner diameter="50"></mat-spinner>
@@ -45,11 +50,11 @@
                     <br>
                     <span class="md-tooltip-time font-bold">{{ time }}</span>
 
-                    <span class="md-tooltip-status md-tooltip-text font-bold"
-                        *ngIf="selectResource">{{ selectResource?.contato | fone }}</span>
+                    <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="selectResource">{{
+                        selectResource?.contato | fone }}</span>
                     <br>
-                    <span class="md-tooltip-status md-tooltip-text"
-                        *ngIf="selectResource">{{ selectResource?.descricao }}</span>
+                    <span class="md-tooltip-status md-tooltip-text" *ngIf="selectResource">{{ selectResource?.descricao
+                        }}</span>
                 </div>
 
                 <div class="md-tooltip-info">
@@ -105,5 +110,4 @@
             </div>
         </ng-template>
     </div>
-
 </mat-drawer-container>

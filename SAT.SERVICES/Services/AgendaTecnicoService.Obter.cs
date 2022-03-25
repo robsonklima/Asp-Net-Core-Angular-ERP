@@ -13,16 +13,13 @@ namespace SAT.SERVICES.Services
     {
         public AgendaTecnico[] ObterAgendaTecnico(AgendaTecnicoParameters parameters)
         {
-            List<AgendaTecnico> agendas =
-                !string.IsNullOrWhiteSpace(parameters.CodTecnicos) ?
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos) :
-                this.ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnico);
+            List<AgendaTecnico> agendas = ObterAgenda(parameters.InicioPeriodoAgenda.Value, parameters.FimPeriodoAgenda.Value, parameters.CodTecnicos);
 
             List<Usuario> usuarios = new();
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
             {
-                List<Tecnico> tecnicos = this._tecnicoRepo.ObterPorParametros(new TecnicoParameters()
+                List<Tecnico> tecnicos = _tecnicoRepo.ObterPorParametros(new TecnicoParameters()
                 {
                     Include = TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO,
                     CodTecnicos = parameters.CodTecnicos
@@ -32,12 +29,12 @@ namespace SAT.SERVICES.Services
             }
             else if (parameters.CodTecnico.HasValue)
             {
-                Tecnico tecnico = this._tecnicoRepo.ObterPorCodigo(parameters.CodTecnico.Value);
+                Tecnico tecnico = _tecnicoRepo.ObterPorCodigo(parameters.CodTecnico.Value);
                 usuarios.Add(tecnico.Usuario);
             }
 
-            var pontos = this.ObterPontosDoDia(parameters, usuarios);
-            var agendasValidados = this.ValidaAgendas(agendas);
+            var pontos = ObterPontosDoDia(parameters, usuarios);
+            var agendasValidados = FormatarAgendas(agendas);
             agendasValidados.AddRange(pontos);
 
             List<int> cods = new();
@@ -54,7 +51,7 @@ namespace SAT.SERVICES.Services
             {
                 AgendaTecnico intervalo = agendas.FirstOrDefault(i => i.CodTecnico == codTec && i.Tipo == 
                     AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
-                AgendaTecnico fimExpediente = this.CriaFimDoExpediente(agendasValidados, codTec);
+                AgendaTecnico fimExpediente = CriarFimDoExpediente(agendasValidados, codTec);
 
                 if (fimExpediente != null) agendasValidados.Add(fimExpediente);
                 if (intervalo != null) agendasValidados.Add(intervalo);
@@ -63,8 +60,95 @@ namespace SAT.SERVICES.Services
             return agendasValidados.Distinct().ToArray();
         }
 
+        private List<AgendaTecnico> FormatarAgendas(List<AgendaTecnico> agendas)
+        {
+            List<AgendaTecnico> eventosValidados = new();
+            List<AgendaTecnico> eventosParaAtualizar = new();
+            var agendasAgrupadas = agendas.GroupBy(i => i.CodTecnico).ToList();
+
+            foreach (var ags in agendasAgrupadas)
+            {
+                foreach (var agendaDoTecnico in ags)
+                {
+                    if (agendaDoTecnico.IndAgendamento == 0 && 
+                        agendaDoTecnico.Tipo == AgendaTecnicoTypeEnum.OS &&
+                        agendaDoTecnico.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO &&
+                        agendaDoTecnico.Fim.Date < DateTime.Now.Date)
+                    {
+                        var eventosRealocados = ExcluirEventosComAtraso(ags.ToList());
+                        
+                        eventosValidados.AddRange(eventosRealocados);
+                    }
+                    else if (agendaDoTecnico.OrdemServico?.CodStatusServico == (int)StatusServicoEnum.FECHADO &&
+                             agendaDoTecnico.Tipo == AgendaTecnicoTypeEnum.OS)
+                    {
+                        agendaDoTecnico.Cor = GetStatusColor((StatusServicoEnum)agendaDoTecnico.OrdemServico.CodStatusServico);
+                        
+                        eventosValidados.Add(agendaDoTecnico);
+                    }
+                    else if (agendaDoTecnico.IndAgendamento == 1 && agendaDoTecnico.Tipo == AgendaTecnicoTypeEnum.OS)
+                    {
+                        if (agendaDoTecnico.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO || 
+                            agendaDoTecnico.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO)
+                        {
+                            agendaDoTecnico.IndAtivo = 0;
+                            agendaDoTecnico.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            agendaDoTecnico.DataHoraManut = DateTime.Now;
+                            
+                            eventosParaAtualizar.Add(agendaDoTecnico);
+                        }
+                        else
+                        {
+                            agendaDoTecnico.Cor = AgendamentoColor;
+                            
+                            eventosParaAtualizar.Add(agendaDoTecnico);
+                        }
+                        
+                        eventosValidados.Add(agendaDoTecnico);
+                    }
+                    else if (agendaDoTecnico.IndAgendamento == 0 && agendaDoTecnico.Tipo == AgendaTecnicoTypeEnum.OS)
+                    {
+                        if (agendaDoTecnico.Fim < DateTime.Now && agendaDoTecnico.Tipo == AgendaTecnicoTypeEnum.OS)
+                        {
+                            if ((agendaDoTecnico.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (agendaDoTecnico.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
+                                agendaDoTecnico.IndAtivo = 0;
+
+                            agendaDoTecnico.Cor = GetStatusColor((StatusServicoEnum)agendaDoTecnico.OrdemServico.CodStatusServico);
+                            agendaDoTecnico.CodUsuarioManut = Constants.SISTEMA_NOME;
+                            agendaDoTecnico.DataHoraManut = DateTime.Now;
+                            eventosParaAtualizar.Add(agendaDoTecnico);
+                            
+                            eventosValidados.Add(agendaDoTecnico);
+                        }
+                        else {
+                            eventosValidados.Add(agendaDoTecnico);
+                        }
+                    }
+                }
+            }
+
+            // Remove Agendas Duplicadas => Para Refatorar
+            eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
+                .GroupBy(i => i.CodOS)
+                .ToList()
+                .Where(i => i.Key > 1)
+                .ToList().ForEach(i =>
+            {
+                i.Skip(1).ToList().ForEach(a =>
+                {
+                    a.IndAtivo = 0;
+                    a.CodUsuarioManut = Constants.SISTEMA_NOME;
+                    a.DataHoraManut = DateTime.Now;
+                    eventosParaAtualizar.Add(a);
+                });
+            });
+
+            _agendaRepo.AtualizarListaAsync(eventosParaAtualizar);
+            return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
+        }
+
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, string codTecnicos) =>
-           this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
+           _agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
                InicioPeriodoAgenda = DateTime.Now.DayOfWeek == DayOfWeek.Monday ? inicioPeriodo.AddDays(-7) : inicioPeriodo,
                FimPeriodoAgenda = fimPeriodo,
@@ -73,7 +157,7 @@ namespace SAT.SERVICES.Services
            }).ToList();
 
         private List<AgendaTecnico> ObterAgenda(DateTime inicioPeriodo, DateTime fimPeriodo, int? codTecnico) =>
-           this._agendaRepo.ObterQuery(new AgendaTecnicoParameters
+           _agendaRepo.ObterQuery(new AgendaTecnicoParameters
            {
                InicioPeriodoAgenda = inicioPeriodo,
                FimPeriodoAgenda = fimPeriodo,
@@ -81,97 +165,7 @@ namespace SAT.SERVICES.Services
                IndAtivo = 1
            }).ToList();
 
-        private List<AgendaTecnico> ValidaAgendas(List<AgendaTecnico> agendas)
-        {
-            List<AgendaTecnico> eventosValidados = new();
-            List<AgendaTecnico> listaAtualizar = new();
-
-            var agendasAgrupadas = agendas.GroupBy(i => i.CodTecnico).ToList();
-
-            agendasAgrupadas.ForEach(ags =>
-            {
-                var agendasDoTecnico = ags.ToList();
-
-                if (agendasDoTecnico.Where(
-                        i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS &&
-                        i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO
-                    )
-                   .Any(i => i.Fim.Date < DateTime.Now.Date))
-                {
-                    var eventosRealocados = this.ExcluirEventosComAtraso(agendasDoTecnico);
-                    eventosValidados.AddRange(eventosRealocados);
-                }
-                else
-                {
-                    agendasDoTecnico.Where(i => i.IndAgendamento == 1 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
-                    {
-                        if 
-                        (
-                            i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO || 
-                            i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO
-                        )
-                        {
-                            i.IndAtivo = 0;
-                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                            i.DataHoraManut = DateTime.Now;
-                            listaAtualizar.Add(i);
-                        }
-                        else if (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.FECHADO)
-                        {
-                            i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
-                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                            i.DataHoraManut = DateTime.Now;
-                            listaAtualizar.Add(i);
-                        }
-                        else
-                        {
-                            i.Cor = this.AgendamentoColor;
-                            listaAtualizar.Add(i);
-                        }
-                        
-                        eventosValidados.Add(i);
-                    });
-
-                    agendasDoTecnico.Where(i => i.IndAgendamento == 0 && i.Tipo == AgendaTecnicoTypeEnum.OS).ToList().ForEach(i =>
-                    {
-                        if (i.Fim < DateTime.Now)
-                        {
-                            if ((i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.CANCELADO) || (i.OrdemServico.CodStatusServico == (int)StatusServicoEnum.ABERTO))
-                                i.IndAtivo = 0;
-
-                            i.Cor = GetStatusColor((StatusServicoEnum)i.OrdemServico.CodStatusServico);
-                            i.CodUsuarioManut = Constants.SISTEMA_NOME;
-                            i.DataHoraManut = DateTime.Now;
-                            listaAtualizar.Add(i);
-                            eventosValidados.Add(i);
-                        }
-                        else
-                            eventosValidados.Add(i);
-                    });
-                }
-            });
-
-            // Verifica duplicados
-            // eventosValidados.Where(i => i.Tipo == AgendaTecnicoTypeEnum.OS)
-            //     .GroupBy(i => i.CodOS)
-            //     .ToList()
-            //     .Where(i => i.Key > 1)
-            //     .ToList().ForEach(i =>
-            // {
-            //     i.Skip(1).ToList().ForEach(a =>
-            //     {
-            //         a.IndAtivo = 0;
-            //         a.CodUsuarioManut = Constants.SISTEMA_NOME;
-            //         listaAtualizar.Add(a);
-            //     });
-            // });
-
-            this._agendaRepo.AtualizarListaAsync(listaAtualizar);
-            
-            return eventosValidados.Where(i => i.IndAtivo == 1).ToList();
-        }
-
-        private AgendaTecnico CriaFimDoExpediente(List<AgendaTecnico> agendas, int codTecnico)
+        private AgendaTecnico CriarFimDoExpediente(List<AgendaTecnico> agendas, int codTecnico)
         {
             var primeiroPontoDoDia =
                 agendas
@@ -184,9 +178,9 @@ namespace SAT.SERVICES.Services
                 CodTecnico = codTecnico,
                 CodUsuarioCad = Constants.SISTEMA_NOME,
                 DataHoraCad = DateTime.Now,
-                Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.FIM_EXPEDIENTE),
+                Cor = GetTypeColor(AgendaTecnicoTypeEnum.FIM_EXPEDIENTE),
                 Tipo = AgendaTecnicoTypeEnum.FIM_EXPEDIENTE,
-                Titulo = this.FimExpedienteTitle,
+                Titulo = FimExpedienteTitle,
                 Inicio = primeiroPontoDoDia.Inicio.AddHours(9).AddMinutes(48),
                 Fim = primeiroPontoDoDia.Inicio.AddHours(9).AddMinutes(48),
                 IndAgendamento = 0,
@@ -205,7 +199,7 @@ namespace SAT.SERVICES.Services
             {
                 foreach (Usuario usuario in distinctUsers)
                 {
-                    var pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
+                    var pontosUsuario = _pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
                     {
                         CodUsuario = usuario.CodUsuario,
                         DataHoraRegistro = DateTime.Today.Date,
@@ -217,9 +211,9 @@ namespace SAT.SERVICES.Services
                         pontos.Add(new AgendaTecnico
                         {
                             CodTecnico = usuario?.CodTecnico,
-                            Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
+                            Cor = GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
                             Tipo = AgendaTecnicoTypeEnum.PONTO,
-                            Titulo = this.PontoTitle,
+                            Titulo = PontoTitle,
                             Inicio = p.DataHoraRegistro,
                             Fim = p.DataHoraRegistro.AddMilliseconds(25),
                             IndAgendamento = 0,
@@ -230,7 +224,7 @@ namespace SAT.SERVICES.Services
             }
             else
             {
-                var pontosUsuario = this._pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
+                var pontosUsuario = _pontoUsuarioRepo.ObterPorParametros(new PontoUsuarioParameters
                 {
                     CodUsuario = parameters.CodUsuario,
                     DataHoraRegistro = DateTime.Today.Date,
@@ -242,8 +236,8 @@ namespace SAT.SERVICES.Services
                         pontos.Add(new AgendaTecnico
                         {
                             CodTecnico = parameters?.CodTecnico,
-                            Cor = this.GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
-                            Titulo = this.PontoTitle,
+                            Cor = GetTypeColor(AgendaTecnicoTypeEnum.PONTO),
+                            Titulo = PontoTitle,
                             Tipo = AgendaTecnicoTypeEnum.PONTO,
                             Inicio = p.DataHoraRegistro,
                             Fim = p.DataHoraRegistro.AddMilliseconds(25),
@@ -274,7 +268,7 @@ namespace SAT.SERVICES.Services
 
                         e.CodUsuarioManut = Constants.SISTEMA_NOME;
                         e.DataHoraManut = DateTime.Now;
-                        e.Cor = this.GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
+                        e.Cor = GetStatusColor((StatusServicoEnum)e.OrdemServico.CodStatusServico);
                         atualizarAgendas.Add(e);
                     }
                     else if (e.Inicio.Date < DateTime.Now.Date && e.OrdemServico.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO)
@@ -299,7 +293,7 @@ namespace SAT.SERVICES.Services
                     }
                 });
 
-            this._agendaRepo.AtualizarListaAsync(atualizarAgendas);
+            _agendaRepo.AtualizarListaAsync(atualizarAgendas);
             return agendasTecnico.Where(i => i.IndAtivo == 1).ToList();
         }
     }

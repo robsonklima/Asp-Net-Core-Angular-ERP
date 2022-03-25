@@ -90,7 +90,6 @@ export class LiderTecnicoListaComponent implements OnInit {
     }
 
     const data = await this._liderTecnicoService.obterPorParametros(parametros).toPromise();
-    debugger;
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();

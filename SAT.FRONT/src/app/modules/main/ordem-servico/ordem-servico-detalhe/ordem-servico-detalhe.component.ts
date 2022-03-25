@@ -288,7 +288,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						() =>
 						{
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-							this.deleteAgendaTecnico();
+							this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise().then().catch();
 							this.obterDados();
 						},
 						() =>
@@ -405,37 +405,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					{
 						titulo: "Agenda Técnico",
 						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
-						lida: 0,
-						indAtivo: statusConst.ATIVO,
-						codUsuario: this.userSession.usuario.codUsuario
-					};
-					this._notificacaoService.criar(notificacao).toPromise();
-				});
-	}
-
-	private deleteAgendaTecnico()
-	{
-		this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise()
-			.then(s =>
-			{
-				var notificacao: Notificacao =
-				{
-					titulo: "Agenda Técnico",
-					descricao: `O chamado ${this.os.codOS} foi removido da Agenda Técnico.`,
-					link: './#/agenda-tecnico',
-					useRouter: true,
-					lida: 0,
-					indAtivo: statusConst.ATIVO,
-					codUsuario: this.userSession.usuario.codUsuario
-				};
-				this._notificacaoService.criar(notificacao).toPromise();
-			}).catch(
-				e =>
-				{
-					var notificacao: Notificacao =
-					{
-						titulo: "Agenda Técnico",
-						descricao: `Ocorreu um erro ao remover o chamado ${this.os.codOS} da Agenda Técnico.`,
 						lida: 0,
 						indAtivo: statusConst.ATIVO,
 						codUsuario: this.userSession.usuario.codUsuario

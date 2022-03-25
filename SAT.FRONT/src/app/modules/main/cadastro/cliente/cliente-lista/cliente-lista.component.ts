@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styles: [
     /* language=SCSS */
     `
-      .list-grid-u {
+      .list-grid-cliente {
           grid-template-columns: 142px auto 25% 25% 42px;
           
           @screen sm {

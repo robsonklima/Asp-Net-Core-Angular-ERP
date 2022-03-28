@@ -26,18 +26,7 @@ namespace SAT.AGENDADOR
             try
             {
                 IServiceCollection services = new ServiceCollection();
-
-                // Configura o DB
                 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
-                //#if DEBUG
-                //                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Homolog"]));
-                //#else
-                //                services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConfigurationManager.AppSettings["Prod"]));
-                //#endif
-
-                /** Inicializa os repositorios e servicos **/
-
-                // Repositorios
                 services.AddTransient<ITecnicoRepository, TecnicoRepository>();
                 services.AddTransient<IFeriadoRepository, FeriadoRepository>();
                 services.AddTransient<IDashboardRepository, DashboardRepository>();
@@ -51,19 +40,14 @@ namespace SAT.AGENDADOR
                 services.AddTransient<IPontoUsuarioRepository, PontoUsuarioRepository>();
                 services.AddTransient<IMediaAtendimentoTecnicoRepository, MediaAtendimentoTecnicoRepository>();
                 services.AddTransient<IRelatorioAtendimentoRepository, RelatorioAtendimentoRepository>();
-
-
                 services.AddTransient<IFeriadoService, FeriadoService>();
                 services.AddTransient<IDashboardService, DashboardService>();
                 services.AddTransient<IAgendaTecnicoService, AgendaTecnicoService>();
                 services.AddTransient<IPontoUsuarioService, PontoUsuarioService>();
                 services.AddTransient<IEmailService, EmailService>();
-
                 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-                // Inicializa os servicos que serao usados
-                this._agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
-
+                _agendaTecnicoService = serviceProvider.GetService<IAgendaTecnicoService>();
             }
             catch (Exception ex)
             {

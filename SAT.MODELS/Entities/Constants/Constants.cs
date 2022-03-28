@@ -77,7 +77,7 @@
 
 		// Permissoes
 		public static string PERFIL_PONTO = "3";
-		public static string SEM_NADA = "S/N";
+		public static string NENHUM_REGISTRO = "S/N";
 
 		// Clientes
 		public static int SICOOB = 68;

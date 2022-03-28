@@ -14,24 +14,24 @@ namespace SAT.SERVICES.Services
                              {
                                  Chamado = os.CodOS,
                                  NumOSCliente = os.NumOSCliente,
-                                 DataAbertura = os.DataHoraAberturaOS?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                                 DataSolicitacao = os.DataHoraSolicitacao?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                                 LimiteAtendimento = os.PrazosAtendimento?.OrderByDescending(i => i.CodOSPrazoAtendimento)?.FirstOrDefault()?.DataHoraLimiteAtendimento?.ToString("dd/MM/yy HH:mm") ?? Constants.SEM_NADA,
-                                 Status = os.StatusServico?.NomeStatusServico?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                 Intervencao = os.TipoIntervencao?.CodETipoIntervencao?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                 Tecnico = os.Tecnico?.Nome ?? Constants.SEM_NADA,
-                                 NumBanco = os.Cliente?.NumBanco ?? Constants.SEM_NADA,
-                                 NumAgencia = os.LocalAtendimento != null ? ($"{os.LocalAtendimento.NumAgencia}/{os.LocalAtendimento.DCPosto}") : Constants.SEM_NADA,
-                                 Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                 Equipamento = os.Equipamento?.NomeEquip ?? Constants.SEM_NADA,
-                                 Serie = os.EquipamentoContrato?.NumSerie ?? Constants.SEM_NADA,
-                                 Regiao = os.Regiao?.NomeRegiao?.ToUpperInvariant() ?? Constants.SEM_NADA,
+                                 DataAbertura = os.DataHoraAberturaOS?.ToString("dd/MM/yy HH:mm") ?? Constants.NENHUM_REGISTRO,
+                                 DataSolicitacao = os.DataHoraSolicitacao?.ToString("dd/MM/yy HH:mm") ?? Constants.NENHUM_REGISTRO,
+                                 LimiteAtendimento = os.PrazosAtendimento?.OrderByDescending(i => i.CodOSPrazoAtendimento)?.FirstOrDefault()?.DataHoraLimiteAtendimento?.ToString("dd/MM/yy HH:mm") ?? Constants.NENHUM_REGISTRO,
+                                 Status = os.StatusServico?.NomeStatusServico?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                 Intervencao = os.TipoIntervencao?.CodETipoIntervencao?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                 Tecnico = os.Tecnico?.Nome ?? Constants.NENHUM_REGISTRO,
+                                 NumBanco = os.Cliente?.NumBanco ?? Constants.NENHUM_REGISTRO,
+                                 NumAgencia = os.LocalAtendimento != null ? ($"{os.LocalAtendimento.NumAgencia}/{os.LocalAtendimento.DCPosto}") : Constants.NENHUM_REGISTRO,
+                                 Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                 Equipamento = os.Equipamento?.NomeEquip ?? Constants.NENHUM_REGISTRO,
+                                 Serie = os.EquipamentoContrato?.NumSerie ?? Constants.NENHUM_REGISTRO,
+                                 Regiao = os.Regiao?.NomeRegiao?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
                                  PA = os.RegiaoAutorizada?.PA ?? 0,
-                                 Autorizada = os.Autorizada?.NomeFantasia?.ToUpperInvariant() ?? Constants.SEM_NADA,
+                                 Autorizada = os.Autorizada?.NomeFantasia?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
                                  Filial = os.Filial?.NomeFilial,
-                                 SLA = os.EquipamentoContrato?.AcordoNivelServico?.NomeSLA ?? Constants.SEM_NADA,
+                                 SLA = os.EquipamentoContrato?.AcordoNivelServico?.NomeSLA ?? Constants.NENHUM_REGISTRO,
                                  Reincidencia = os.NumReincidencia ?? 0,
-                                 Defeito = os.DefeitoRelatado ?? Constants.SEM_NADA
+                                 Defeito = os.DefeitoRelatado ?? Constants.NENHUM_REGISTRO
                              });
 
             var ratSheet = os.SelectMany(os => os.RelatoriosAtendimento.Select(r =>
@@ -39,57 +39,57 @@ namespace SAT.SERVICES.Services
                              {
                                  Chamado = r.CodOS,
                                  CodRat = r.CodRAT,
-                                 NumRat = r.NumRAT ?? Constants.SEM_NADA,
-                                 Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                 Tecnico = r.Tecnico?.Nome ?? Constants.SEM_NADA,
-                                 Status = r.StatusServico?.NomeStatusServico ?? Constants.SEM_NADA,
-                                 DataInicio = r.DataHoraInicio.Date.ToString() ?? Constants.SEM_NADA,
-                                 DataSolucao = r.DataHoraSolucao.Date.ToString() ?? Constants.SEM_NADA,
+                                 NumRat = r.NumRAT ?? Constants.NENHUM_REGISTRO,
+                                 Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                 Tecnico = r.Tecnico?.Nome ?? Constants.NENHUM_REGISTRO,
+                                 Status = r.StatusServico?.NomeStatusServico ?? Constants.NENHUM_REGISTRO,
+                                 DataInicio = r.DataHoraInicio.Date.ToString() ?? Constants.NENHUM_REGISTRO,
+                                 DataSolucao = r.DataHoraSolucao.Date.ToString() ?? Constants.NENHUM_REGISTRO,
                                  Hora = r.DataHoraSolucao.ToString("HH:mm"),
-                                 TipoServico = r.TipoServico?.NomeServico ?? Constants.SEM_NADA,
-                                 Observacao = r.ObsRAT ?? Constants.SEM_NADA,
-                                 RelatoSolucao = r.RelatoSolucao ?? Constants.SEM_NADA,
+                                 TipoServico = r.TipoServico?.NomeServico ?? Constants.NENHUM_REGISTRO,
+                                 Observacao = r.ObsRAT ?? Constants.NENHUM_REGISTRO,
+                                 RelatoSolucao = r.RelatoSolucao ?? Constants.NENHUM_REGISTRO,
                              }
                         ));
 
             var ratDetalheSheet = os.SelectMany(os => os.RelatoriosAtendimento
-                                                        .SelectMany(rat => rat.RelatorioAtendimentoDetalhes
-                                                                            .Select(d =>
-                                                                                new
-                                                                                {
-                                                                                    Chamado = rat?.CodOS,
-                                                                                    Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                                                                    NumRat = rat?.CodRAT,
-                                                                                    CodTipoCausa = d.TipoCausa?.CodETipoCausa ?? Constants.SEM_NADA,
-                                                                                    TipoCausa = d.TipoCausa?.NomeTipoCausa ?? Constants.SEM_NADA,
-                                                                                    CodGrupoCausa = d.GrupoCausa?.CodEGrupoCausa ?? Constants.SEM_NADA,
-                                                                                    GrupoCausa = d.GrupoCausa?.NomeGrupoCausa ?? Constants.SEM_NADA,
-                                                                                    CodDefeito = d.Defeito?.CodEDefeito ?? Constants.SEM_NADA,
-                                                                                    Defeito = d.Defeito?.NomeDefeito ?? Constants.SEM_NADA,
-                                                                                    CodCausa = d.Causa?.CodECausa ?? Constants.SEM_NADA,
-                                                                                    Causa = d.Causa?.NomeCausa ?? Constants.SEM_NADA,
-                                                                                    CodAcao = d.Acao?.CodEAcao ?? Constants.SEM_NADA,
-                                                                                    Acao = d.Acao?.NomeAcao ?? Constants.SEM_NADA,
-                                                                                    OrigemCausa = d.CodOrigemCausa != null ? d.CodOrigemCausa.Value == 1 ? "Máquina" : "Extra Máquina" : "Causa Origem Não Informada"
-                                                                                }
-                                                                            )));
+                                    .SelectMany(rat => rat.RelatorioAtendimentoDetalhes
+                                    .Select(d =>
+                                        new
+                                        {
+                                            Chamado = rat?.CodOS,
+                                            Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                            NumRat = rat?.CodRAT,
+                                            CodTipoCausa = d.TipoCausa?.CodETipoCausa ?? Constants.NENHUM_REGISTRO,
+                                            TipoCausa = d.TipoCausa?.NomeTipoCausa ?? Constants.NENHUM_REGISTRO,
+                                            CodGrupoCausa = d.GrupoCausa?.CodEGrupoCausa ?? Constants.NENHUM_REGISTRO,
+                                            GrupoCausa = d.GrupoCausa?.NomeGrupoCausa ?? Constants.NENHUM_REGISTRO,
+                                            CodDefeito = d.Defeito?.CodEDefeito ?? Constants.NENHUM_REGISTRO,
+                                            Defeito = d.Defeito?.NomeDefeito ?? Constants.NENHUM_REGISTRO,
+                                            CodCausa = d.Causa?.CodECausa ?? Constants.NENHUM_REGISTRO,
+                                            Causa = d.Causa?.NomeCausa ?? Constants.NENHUM_REGISTRO,
+                                            CodAcao = d.Acao?.CodEAcao ?? Constants.NENHUM_REGISTRO,
+                                            Acao = d.Acao?.NomeAcao ?? Constants.NENHUM_REGISTRO,
+                                            OrigemCausa = d.CodOrigemCausa != null ? d.CodOrigemCausa.Value == 1 ? "Máquina" : "Extra Máquina" : "Causa Origem Não Informada"
+                                        }
+                                    )));
 
             var ratDetalhePecaSheet = os.SelectMany(os => os.RelatoriosAtendimento
-                                                        .SelectMany(rat => rat.RelatorioAtendimentoDetalhes
-                                                                                .SelectMany(rp => rp.RelatorioAtendimentoDetalhePecas
-                                                                                                    .Select(p =>
-                                                                                                    new
-                                                                                                    {
-                                                                                                        Chamado = rat.CodOS,
-                                                                                                        Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.SEM_NADA,
-                                                                                                        NumRat = rat.NumRAT ?? Constants.SEM_NADA,
-                                                                                                        CodAcao = rp.Acao?.CodEAcao ?? Constants.SEM_NADA,
-                                                                                                        Acao = rp.Acao?.NomeAcao ?? Constants.SEM_NADA,
-                                                                                                        CodMagnus = p.Peca.CodMagnus ?? Constants.SEM_NADA,
-                                                                                                        Peca = p.Peca.NomePeca ?? Constants.SEM_NADA,
-                                                                                                        QuantidadePecas = p.QtdePecas
-                                                                                                    }
-                                                                            ))));
+                                        .SelectMany(rat => rat.RelatorioAtendimentoDetalhes
+                                        .SelectMany(rp => rp.RelatorioAtendimentoDetalhePecas
+                                        .Select(p =>
+                                        new
+                                        {
+                                            Chamado = rat.CodOS,
+                                            Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                            NumRat = rat.NumRAT ?? Constants.NENHUM_REGISTRO,
+                                            CodAcao = rp.Acao?.CodEAcao ?? Constants.NENHUM_REGISTRO,
+                                            Acao = rp.Acao?.NomeAcao ?? Constants.NENHUM_REGISTRO,
+                                            CodMagnus = p.Peca.CodMagnus ?? Constants.NENHUM_REGISTRO,
+                                            Peca = p.Peca.NomePeca ?? Constants.NENHUM_REGISTRO,
+                                            QuantidadePecas = p.QtdePecas
+                                        }
+                                    ))));
 
             var wsOs = Workbook.Worksheets.Add("Chamados");
             wsOs.Cell(2, 1).Value = osSheet;

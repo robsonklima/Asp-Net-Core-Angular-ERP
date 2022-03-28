@@ -13,7 +13,6 @@ namespace SAT.SERVICES.Services
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IRelatorioAtendimentoRepository _ratRepo;
         private readonly IMediaAtendimentoTecnicoRepository _mediaTecnicoRepo;
-        private readonly IEmailService _emailService;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
@@ -22,8 +21,7 @@ namespace SAT.SERVICES.Services
             IOrdemServicoRepository osRepo,
             IMediaAtendimentoTecnicoRepository mediaTecnicoRepo,
             IRelatorioAtendimentoRepository ratRepo,
-            IPontoUsuarioRepository pontoUsuarioRepo,
-            IEmailService emailService
+            IPontoUsuarioRepository pontoUsuarioRepo
         )
         {
             _agendaRepo = agendaRepo;
@@ -32,7 +30,6 @@ namespace SAT.SERVICES.Services
             _ratRepo = ratRepo;
             _pontoUsuarioRepo = pontoUsuarioRepo;
             _mediaTecnicoRepo = mediaTecnicoRepo;
-            _emailService = emailService;
         }
 
         public ListViewModel ObterPorParametros(AgendaTecnicoParameters parameters)

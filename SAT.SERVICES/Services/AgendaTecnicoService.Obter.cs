@@ -284,16 +284,8 @@ namespace SAT.SERVICES.Services
                         e.OrdemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
                         e.OrdemServico.CodUsuarioManut = Constants.SISTEMA_NOME;
                         e.OrdemServico.DataHoraManut = DateTime.Now;
+                        e.OrdemServico.CodTecnico = null;
                         _osRepo.Atualizar(e.OrdemServico);
-
-                        _emailService.Enviar(new Email() {
-                            Assunto = "Exclusão de Chamado da Agenda",
-                            EmailDestinatario = "equipe.sat@perto.com.br",
-                            EmailRemetente = "equipe.sat@perto.com.br",
-                            Corpo = e.OrdemServico.CodOS.ToString() + ": " + e.OrdemServico.StatusServico.NomeStatusServico,
-                            NomeDestinatario = "SAT",
-                            NomeRemetente = "SAT"
-                        });
                     }
                 });
 

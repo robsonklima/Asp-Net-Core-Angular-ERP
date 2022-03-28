@@ -101,11 +101,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	}
 
 	async obterOrdensServico(filter: string = '') {
-		if (Object.values(this.filter.parametros).every(x => x === null || x === '')) {
-			this._snack.exibirToast("Favor aplicar seus filtros!", "error");
-			return
-		}
-
 		this.isLoading = true;
 
 		const params: OrdemServicoParameters = {

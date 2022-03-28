@@ -56,13 +56,6 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('saldo logix') }}</mat-label>
-                        <input matInput formControlName="saldoLogix" mask="separator.2" [thousandSeparator]="'.'"
-                            [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
-                            required [readonly]="loading" class.opacity-50="loading">
-                    </mat-form-field>
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -178,12 +171,21 @@
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('valor') }}</mat-label>
-                        <input matInput formControlName="valor" mask="separator.2" [thousandSeparator]="'.'"
+                        <input matInput formControlName="valorAdiantamentoSolicitado" mask="separator.2" [thousandSeparator]="'.'"
                             [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
                             required>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-9">
+                    <div class="sm:col-span-3" [hidden]="!mediaAdiantamentos">
+                        <mat-form-field class="fuse-mat-dense"> 
+                            <mat-label>{{ t('saldo logix') }}</mat-label>
+                            <input matInput formControlName="saldoLogix" mask="separator.2" [thousandSeparator]="'.'"
+                                [decimalMarker]="','" prefix="R$ " type="text" [dropSpecialCharacters]="true"
+                                required [readonly]="loading" class.opacity-50="loading">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('emails') }}</mat-label>
                         <input matInput formControlName="emails"type="text" required>
                     </mat-form-field>
@@ -203,7 +205,7 @@
                         {{ t('salvar') }}
                     </button>
 
-                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    <mat-progress-spinner *ngIf="loading" [diameter]="24" [mode]="'indeterminate'">
                     </mat-progress-spinner>
                 </div>
             </form>

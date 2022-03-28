@@ -53,7 +53,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
       codTecnico: ['', Validators.required],
       codFilial: ['', Validators.required],
       saldoLogix: ['', Validators.required],
-      valor: ['', Validators.required],
+      valorAdiantamentoSolicitado: ['', Validators.required],
       emails: ['', Validators.required],
       justificativa: [''],
     });
@@ -130,8 +130,8 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
     this.mediaAdiantamentos.maximoParaSolicitarQuinzenal = this.mediaAdiantamentos.maximoParaSolicitarQuinzenal < 0 ? 0 : this.mediaAdiantamentos.maximoParaSolicitarQuinzenal;
     this.mediaAdiantamentos.maximoParaSolicitarSemanal = this.mediaAdiantamentos.maximoParaSolicitarSemanal < 0 ? 0 : this.mediaAdiantamentos.maximoParaSolicitarSemanal;
 
-    this.form.controls['valor'].setValue(this.mediaAdiantamentos.maximoParaSolicitarMensal);
-    this.form.controls['email'].setValue(this.mediaAdiantamentos.emailDefault);
+    this.form.controls['valorAdiantamentoSolicitado'].setValue(this.mediaAdiantamentos.maximoParaSolicitarMensal);
+    this.form.controls['emails'].setValue(this.mediaAdiantamentos.emailDefault);
   }
 
   private async obterFiliais(filtro: string='') {
@@ -161,32 +161,43 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
   }
 
   public verificarJustificativaObrigatoria(): boolean {
-    return +this.form.controls['valor'].value > this.mediaAdiantamentos?.maximoParaSolicitarMensal;
+    return +this.form.controls['valorAdiantamentoSolicitado'].value > this.mediaAdiantamentos?.maximoParaSolicitarMensal;
   }
 
   public salvar() {
     if (this.verificarJustificativaObrigatoria() && !this.form.controls['justificativa'].value)
       return this._snack.exibirToast('Favor preencher a justificativa', 'error');
 
-    const conta = this.tecnico.tecnicoContas.filter(c => c.indAtivo).shift();
+    const conta = this.tecnico.tecnicoContas?.filter(c => c.indAtivo).shift();
+
+    if (!conta)
+      return this._snack.exibirToast('Conta do técnico não encontrada', 'error');
 
     this.form.disable();
     const form = this.form.getRawValue();
+    const saldoAbertoLogixMensal = form.saldoLogix;
+    const saldoAbertoLogixQuinzenal = form.saldoLogix / 2;
+    const saldoAbertoLogixSemanal = form.saldoLogix / 4;
 
     const solicitacao = {
       ...form,
+      ...this.tecnico,
+      ...this.mediaAdiantamentos,
       ...{
+        saldoAbertoLogixMensal: saldoAbertoLogixMensal,
+        saldoAbertoLogixQuinzenal: saldoAbertoLogixQuinzenal,
+        saldoAbertoLogixSemanal: saldoAbertoLogixSemanal,
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario?.codUsuario,
         banco: conta.numBanco,
         agencia: conta.numAgencia,
         contaCorrente: conta.numConta,
       },
-      ...this.tecnico
     }
 
     this._despesaAdiantamentoService.criarSolicitacao(solicitacao).subscribe(() => {
-      this._snack.exibirToast('Solicitação de adiantamento cadastrada com sucesso', 'success')
+      this._snack.exibirToast('Solicitação de adiantamento cadastrada com sucesso', 'success');
+
     }, e => {
       this._snack.exibirToast(e.message || e.error.message, 'error')
     });

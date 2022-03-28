@@ -71,7 +71,7 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(i => i.CodTecnico);
 
             builder
-                .HasMany(i => i.TecnicoConta)
+                .HasMany(i => i.TecnicoContas)
                 .WithOne()
                 .HasForeignKey("CodTecnico")
                 .HasPrincipalKey("CodTecnico");

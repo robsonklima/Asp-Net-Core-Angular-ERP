@@ -59,6 +59,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Cidade.UnidadeFederativa)
                 .Include(t => t.DespesaCartaoCombustivelTecnico)
                      .ThenInclude(t => t.DespesaCartaoCombustivel)
+                .Include(t => t.TecnicoContas)
                 .FirstOrDefault(t => t.CodTecnico == codigo);
         }
 

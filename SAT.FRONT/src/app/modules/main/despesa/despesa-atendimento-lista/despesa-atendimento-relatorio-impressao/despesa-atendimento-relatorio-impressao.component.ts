@@ -90,7 +90,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
 
   obterContaTecnico()
   {
-    this.tecnicoConta = Enumerable.from(this.despesaPeriodoTecnico.tecnico.tecnicoConta)
+    this.tecnicoConta = Enumerable.from(this.despesaPeriodoTecnico.tecnico.tecnicoContas)
       .firstOrDefault(i => i.indAtivo == statusConst.ATIVO);
   }
 

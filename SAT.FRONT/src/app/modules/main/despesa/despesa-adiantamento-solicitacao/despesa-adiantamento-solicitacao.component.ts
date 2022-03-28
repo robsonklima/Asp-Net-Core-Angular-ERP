@@ -54,7 +54,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
       codFilial: ['', Validators.required],
       saldoLogix: ['', Validators.required],
       valor: ['', Validators.required],
-      email: ['', Validators.required],
+      emails: ['', Validators.required],
       justificativa: [''],
     });
   }
@@ -168,6 +168,8 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
     if (this.verificarJustificativaObrigatoria() && !this.form.controls['justificativa'].value)
       return this._snack.exibirToast('Favor preencher a justificativa', 'error');
 
+    const conta = this.tecnico.tecnicoContas.filter(c => c.indAtivo).shift();
+
     this.form.disable();
     const form = this.form.getRawValue();
 
@@ -175,12 +177,16 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
       ...form,
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.userSession.usuario?.codUsuario
-      }
+        codUsuarioCad: this.userSession.usuario?.codUsuario,
+        banco: conta.numBanco,
+        agencia: conta.numAgencia,
+        contaCorrente: conta.numConta,
+      },
+      ...this.tecnico
     }
 
     this._despesaAdiantamentoService.criarSolicitacao(solicitacao).subscribe(() => {
-      this._snack.exibirToast('Solicitação de adiantamento cadastrada com sucesso', 'error')
+      this._snack.exibirToast('Solicitação de adiantamento cadastrada com sucesso', 'success')
     }, e => {
       this._snack.exibirToast(e.message || e.error.message, 'error')
     });

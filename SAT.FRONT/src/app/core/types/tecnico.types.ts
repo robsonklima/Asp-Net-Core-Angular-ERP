@@ -76,7 +76,7 @@ export class Tecnico {
     usuario: Usuario;
     mediaTempoAtendMin: number;
     despesaCartaoCombustivelTecnico?: DespesaCartaoCombustivelTecnico[];
-    tecnicoConta?: TecnicoConta[];
+    tecnicoContas?: TecnicoConta[];
     tecnicoCategoriaCredito?: TecnicoCategoriaCredito;
     veiculos: TecnicoVeiculo[];
     tecnicoCliente?: TecnicoCliente[];

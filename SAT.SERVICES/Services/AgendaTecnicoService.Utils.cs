@@ -55,5 +55,7 @@ namespace SAT.SERVICES.Services
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
         private DateTime FimIntervalo(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
+
+        private bool contemAgendamento (AgendaTecnico agenda) => (agenda.Tipo == AgendaTecnicoTypeEnum.OS && agenda.OrdemServico?.Agendamentos?.Count > 0);
     }
 }

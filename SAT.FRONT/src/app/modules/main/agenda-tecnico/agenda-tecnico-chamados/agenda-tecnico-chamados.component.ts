@@ -60,7 +60,11 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
   {
     this.isLoading = true;
 
-    var statusNotIn = [StatusServicoEnum.FECHADO, StatusServicoEnum.TRANSFERIDO, StatusServicoEnum.CANCELADO].join(',');
+    var statusNotIn = [
+      StatusServicoEnum.FECHADO, 
+      StatusServicoEnum.TRANSFERIDO, 
+      StatusServicoEnum.CANCELADO
+    ].join(',');
 
     this.dataSourceData = await this._ordemServicoService
       .obterPorParametros({

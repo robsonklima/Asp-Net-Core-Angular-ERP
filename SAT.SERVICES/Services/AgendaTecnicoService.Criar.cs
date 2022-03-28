@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
                 fim = inicio.AddMinutes(mediaTecnico);
             }
 
-            if (inicio > this.FimExpediente()) {
+            if (inicio > this.FimExpediente() || inicio > DateTime.Now.Add(new TimeSpan(19, 0, 0))) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                 fim = inicio.Date.Add(new TimeSpan(9, 0, 0));
             }

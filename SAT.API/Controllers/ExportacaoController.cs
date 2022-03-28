@@ -37,5 +37,11 @@ namespace SAT.API.Controllers
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ACAO);
         }
+
+        [HttpGet("Autorizada")]
+        public IActionResult ExportarAutorizada([FromQuery] AutorizadaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.AUTORIZADA);
+        }        
     }
 }

@@ -7,6 +7,8 @@ import { UserSession } from 'app/core/user/user.types';
 import { fuseAnimations } from '@fuse/animations';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { FileMime } from 'app/core/types/file.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 
 @Component({
   selector: 'app-autorizada-lista',
@@ -43,7 +45,8 @@ export class AutorizadaListaComponent implements AfterViewInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _autorizadaService: AutorizadaService
+    private _autorizadaService: AutorizadaService,
+    private _exportacaoService: ExportacaoService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -87,6 +90,12 @@ export class AutorizadaListaComponent implements AfterViewInit {
       this.isLoading = false;
       this._cdr.detectChanges();
     });
+  }
+
+  public async exportar() {
+    this.isLoading = true;
+		window.location.href = await this._exportacaoService.exportar('Autorizada', FileMime.Excel, {});
+    this.isLoading = false;
   }
 
   paginar() {

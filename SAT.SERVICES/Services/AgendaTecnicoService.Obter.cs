@@ -100,6 +100,10 @@ namespace SAT.SERVICES.Services
                         else
                         {
                             agendaDoTecnico.Cor = AgendamentoColor;
+                            var inicioAgendamento = (DateTime)agendaDoTecnico.OrdemServico.Agendamentos[agendaDoTecnico.OrdemServico.Agendamentos.Count-1].DataAgendamento;
+                            var fimAgendamento = (DateTime)inicioAgendamento.AddHours(1);
+                            agendaDoTecnico.Inicio = inicioAgendamento;
+                            agendaDoTecnico.Fim = fimAgendamento;
                             
                             eventosParaAtualizar.Add(agendaDoTecnico);
                         }

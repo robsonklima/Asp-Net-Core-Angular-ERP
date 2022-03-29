@@ -44,7 +44,7 @@ namespace SAT.SERVICES.Services
         public EquipamentoContrato Criar(EquipamentoContrato equipamentoContrato)
         {
             equipamentoContrato.CodEquipContrato = this._seqRepo.ObterContador("EquipamentoContrato");
-            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip);
+            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip.Value);
             equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
             equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
 
@@ -59,7 +59,7 @@ namespace SAT.SERVICES.Services
 
         public void Atualizar(EquipamentoContrato equipamentoContrato)
         {
-            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip);
+            var equip = _equipamentoRepo.ObterPorCodigo(equipamentoContrato.CodEquip.Value);
             equipamentoContrato.CodTipoEquip = equip.CodTipoEquip;
             equipamentoContrato.CodGrupoEquip = equip.CodGrupoEquip;
             _equipamentoContratoRepo.Atualizar(equipamentoContrato);

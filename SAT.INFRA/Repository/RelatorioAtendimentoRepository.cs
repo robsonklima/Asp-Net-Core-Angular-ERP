@@ -53,6 +53,7 @@ namespace SAT.INFRA.Repository
                 .Include(r => r.StatusServico)
                 .Include(r => r.ProtocolosSTN)
                 .Include(r => r.CheckinsCheckouts)
+                .Include(r => r.ProtocolosSTN)
                 .Include(r => r.Tecnico)
                     .ThenInclude(r => r.Usuario)
                 .Include(r => r.Tecnico)

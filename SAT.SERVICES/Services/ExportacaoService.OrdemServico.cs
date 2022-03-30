@@ -82,6 +82,10 @@ namespace SAT.SERVICES.Services
                                         {
                                             Chamado = rat.CodOS,
                                             Local = os.LocalAtendimento?.NomeLocal?.ToUpperInvariant() ?? Constants.NENHUM_REGISTRO,
+                                            Regiao = os.Regiao?.NomeRegiao?? Constants.NENHUM_REGISTRO,
+                                            Filial = os.Filial?.NomeFilial?? Constants.NENHUM_REGISTRO,
+                                            Cliente = os.Cliente?.NomeFantasia?? Constants.NENHUM_REGISTRO,
+                                            // ProtocoloSTN = rat.ProtocolosSTN != null ? "CU" : Constants.NENHUM_REGISTRO ,
                                             NumRat = rat.NumRAT ?? Constants.NENHUM_REGISTRO,
                                             CodAcao = rp.Acao?.CodEAcao ?? Constants.NENHUM_REGISTRO,
                                             Acao = rp.Acao?.NomeAcao ?? Constants.NENHUM_REGISTRO,

@@ -12,7 +12,7 @@ namespace SAT.MODELS.Entities
         public TipoEquipamento TipoEquipamento { get; set; }
         public int CodGrupoEquip { get; set; }
         public GrupoEquipamento GrupoEquipamento { get; set; }
-        public int CodEquip { get; set; }
+        public int? CodEquip { get; set; }
         public Equipamento Equipamento { get; set; }
         public int CodSLA { get; set; }
         public AcordoNivelServico AcordoNivelServico { get; set; }

@@ -53,19 +53,14 @@
             <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
                 [matTooltip]="resource.indFerias ? 'FÉRIAS' : ''">
             </div>
-            <div class="grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
-                <!-- <div>
-                    <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
-                    align-middle mbsc-counter" [matTooltip]="'Não possui ponto registrado hoje.'"
-                        *ngIf="countPontoEvents(resource) == 0">
-                        {{ "!" }}
-                    </div>
-                </div> -->
-                <div class="mr-1 ml-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
+
+            <div class="grid grid-rows-1 grid-cols-2 grid-flow-col" *ngIf="!resource.indFerias">
+                <div class="mr-1 bg-green-700 text-white py-1 px-2 rounded text-xs font-bold text-center
                             align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'">
                     {{ resource.qtdChamadosAtendidos }}
                 </div>
-                <div class="mr-1 ml-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
+
+                <div class="bg-yellow-600 text-white py-1 px-2 rounded text-xs font-bold text-center
                             align-middle mbsc-counter" [matTooltip]="'Chamados Transferidos'">
                     {{ resource.qtdChamadosTransferidos }}
                 </div>

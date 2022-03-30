@@ -62,9 +62,16 @@ namespace SAT.SERVICES.Services
 
             foreach (var usuario in usuarios)
             {
-                var agendasDoUsuario = agendas.Where(a => a.CodTecnico == usuario.CodTecnico);
-                var qtdChamadosAtendidos = agendasDoUsuario.Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO).Count();
-                var qtdChamadosTransferidos = agendasDoUsuario.Where(a => a.CodStatusServico != (int)StatusServicoEnum.FECHADO).Count();
+                var agendasDoUsuario = agendas
+                    .Where(a => a.CodTecnico == usuario.CodTecnico);
+                var qtdChamadosAtendidos = agendasDoUsuario
+                    .Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                    .GroupBy(a => a.CodOS)
+                    .Count();
+                var qtdChamadosTransferidos = agendasDoUsuario
+                    .Where(a => a.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                    .GroupBy(a => a.CodOS)
+                    .Count();
 
                 if (usuario.CodTecnico != null)
                     recursos.Add(new ViewAgendaTecnicoRecurso() {

@@ -17,7 +17,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('filial') }}</mat-label>
-                    <mat-select formControlName="codFiliais">
+                    <mat-select formControlName="codFilial">
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                             {{ filial.nomeFilial }}
                         </mat-option>
@@ -37,7 +37,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-12" *ngIf="form.controls['codFiliais'].value != ''">
+                <mat-form-field class="fuse-mat-dense sm:col-span-12" *ngIf="form.controls['codFilial'].value != ''">
                     <mat-label>{{ t('regiao') }}</mat-label>
                     <mat-select formControlName="codRegioes" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,

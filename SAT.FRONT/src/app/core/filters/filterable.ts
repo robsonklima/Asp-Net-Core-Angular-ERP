@@ -19,6 +19,15 @@ export class Filterable implements IFilterableCore {
     paginator: MatPaginator;
     sort: MatSort;
 
+    constructor(
+        protected _userService: UserService,
+        filterName: string
+    ) {
+        this.filterName = filterName;
+        this.userSession = JSON.parse(this._userService.userSession);
+        this.loadFilter();
+    }
+
     loadFilter(): void {
         this.filter = this._userService.obterFiltro(this.filterName);
 
@@ -37,12 +46,12 @@ export class Filterable implements IFilterableCore {
             if (this.filter.parametros[key] instanceof Array)
                 this.filter.parametros[key] = this.filter.parametros[key].join();
         });
-    }
 
-    constructor(protected _userService: UserService, filterName: string) {
-        this.filterName = filterName;
-        this.userSession = JSON.parse(this._userService.userSession);
-        this.loadFilter();
+        if (this.filter?.parametros.codFilial && this.userSession.usuario.codFilial)
+            this.filter.parametros.codFilial = this.userSession.usuario.codFilial;
+
+        if (this.filter?.parametros.codFiliais && this.userSession.usuario.codFilial)
+            this.filter.parametros.codFiliais = this.userSession.usuario.codFilial;
     }
 
     onSortChanged(): void {

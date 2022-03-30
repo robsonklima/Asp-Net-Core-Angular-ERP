@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { appConfig as c } from 'app/core/config/app.config'
-import { AgendaTecnico, AgendaTecnicoData, AgendaTecnicoParameters } from 'app/core/types/agenda-tecnico.types';
-import { OrdemServico } from '../types/ordem-servico.types';
+import { AgendaTecnico, AgendaTecnicoParameters, ViewAgendaTecnicoRecurso } from 'app/core/types/agenda-tecnico.types';
 
 @Injectable({
     providedIn: 'root'
@@ -39,7 +38,7 @@ export class AgendaTecnicoService
         return this._httpClient.get(`${c.api}/AgendaTecnico/Ordenar`, { params: params }).pipe(map((data: AgendaTecnico[]) => data))
     }
 
-    obterPorParametros(parameters: AgendaTecnicoParameters): Observable<AgendaTecnicoData>
+    obterPorParametros(parameters: AgendaTecnicoParameters): Observable<ViewAgendaTecnicoRecurso[]>
     {
         let params = new HttpParams()
 
@@ -49,7 +48,7 @@ export class AgendaTecnicoService
                 params = params.append(key, String(parameters[key]));
         });
 
-        return this._httpClient.get(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((data: AgendaTecnicoData) => data))
+        return this._httpClient.get(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((data: ViewAgendaTecnicoRecurso[]) => data))
     }
 
     criarAgendaTecnico(codOS: number, codTecnico: number): Observable<AgendaTecnico>

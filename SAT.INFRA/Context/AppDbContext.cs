@@ -198,6 +198,7 @@ namespace SAT.INFRA.Context
         public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
         public DbSet<ClientePeca> ClientePeca { get; set; }
         public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
+        public DbSet<ViewAgendaTecnicoEvento> ViewAgendaTecnicoEvento { get; set; }
 
 		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
@@ -325,6 +326,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<EquipamentoModulo>(new EquipamentoModuloMap().Configure);
             modelBuilder.Entity<ImportacaoConfiguracao>(new ImportacaoConfiguracaoMap().Configure);
             modelBuilder.Entity<ImportacaoTipo>(new ImportacaoTipoMap().Configure);
+            modelBuilder.Entity<ViewAgendaTecnicoEvento>(new ViewAgendaTecnicoEventoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -95,6 +95,7 @@
 		public static string COR_CINZA = "#c8c8c8";
 		public static string COR_VERMELHO = "#ff4c4c";
 		public static string COR_ROXO = "#381354";
+		public static string COR_PRETO = "#212121";
 
 		//Email
 		public static string ASSINATURA_EMAIL = @"

@@ -25,6 +25,7 @@ import { AgendaTecnicoChamadosComponent } from './agenda-tecnico-chamados/agenda
 import { AgendaTecnicoAjudaDialogComponent } from './agenda-tecnico-ajuda/agenda-tecnico-ajuda.component';
 import { AgendaTecnicoOrdenacaoDialogComponent } from './agenda-tecnico-ordenacao-dialog/agenda-tecnico-ordenacao-dialog.component';
 import { FiltroModule } from '../filtros/filtro.module';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { FiltroModule } from '../filtros/filtro.module';
         MatDialogModule,
         MatOptionModule,
         MatIconModule,
-        FiltroModule
+        FiltroModule,
+        MatProgressBarModule
     ],
     providers: [],
     bootstrap: [AgendaTecnicoComponent]

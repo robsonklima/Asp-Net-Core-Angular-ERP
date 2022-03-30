@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DateTimeExtensions } from 'app/core/extensions/date-time.extensions';
 import { Coordenada, HaversineService } from 'app/core/services/haversine.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { AgendaTecnico, AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoTipoEnum, MbscAgendaTecnicoCalendarEvent, TecnicoMaisProximo } from 'app/core/types/agenda-tecnico.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import Enumerable from 'linq';
@@ -93,7 +93,7 @@ export class AgendaTecnicoValidator
         if (eventIndex != null)
         {
             var eventoAnterior = eventosDoTecnico[eventIndex - 1];
-            if (eventoAnterior != null && eventoAnterior?.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS && eventoAtual.agendaTecnico?.tipo == AgendaTecnicoTypeEnum.OS)
+            if (eventoAnterior != null && eventoAnterior?.agendaTecnico.tipo == AgendaTecnicoTipoEnum.OS && eventoAtual.agendaTecnico?.tipo == AgendaTecnicoTipoEnum.OS)
             {
                 var minDistancia: number =
                     this.calculaDeslocamentoEmMinutos(eventoAtual.ordemServico, eventoAnterior.ordemServico);
@@ -161,7 +161,7 @@ export class AgendaTecnicoValidator
     {
         var ev = args.event;
         var events = inst.getEvents(ev.start, ev.end).filter(e => (e.resource == ev.resource && e.id != ev.id));
-        events = events.filter(e => e.agendaTecnico.tipo == AgendaTecnicoTypeEnum.OS);
+        events = events.filter(e => e.agendaTecnico.tipo == AgendaTecnicoTipoEnum.OS);
         return events.length > 0;
     }
 
@@ -174,7 +174,7 @@ export class AgendaTecnicoValidator
 
     public isTechnicianInterval(event)
     {
-        return event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO;
+        return event.agendaTecnico.tipo === AgendaTecnicoTipoEnum.INTERVALO;
     }
 
     public invalidMove(args)
@@ -184,25 +184,20 @@ export class AgendaTecnicoValidator
         return moment(args.oldEvent.start) > now && moment(args.event.start) < now;
     }
 
-    public hasChangedResource(args)
-    {
-        return args.event.resource != args.oldEvent.resource;
-    }
-
     public cantChangeInterval(args)
     {
-        return args.event.resource != args.oldEvent.resource && (args.event.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO || args.oldEvent.agendaTecnico.tipo === AgendaTecnicoTypeEnum.INTERVALO);
+        return args.event.resource != args.oldEvent.resource && (args.event.agendaTecnico.tipo === AgendaTecnicoTipoEnum.INTERVALO || args.oldEvent.agendaTecnico.tipo === AgendaTecnicoTipoEnum.INTERVALO);
     }
 
-    public getTypeColor(type: AgendaTecnicoTypeEnum): string
+    public getTypeColor(type: AgendaTecnicoTipoEnum): string
     {
         switch (type)
         {
-            case AgendaTecnicoTypeEnum.OS:
+            case AgendaTecnicoTipoEnum.OS:
                 return "#009000";
-            case AgendaTecnicoTypeEnum.PONTO:
+            case AgendaTecnicoTipoEnum.PONTO:
                 return "#C8C8C8C8";
-            case AgendaTecnicoTypeEnum.INTERVALO:
+            case AgendaTecnicoTipoEnum.INTERVALO:
                 return "#C8C8C8C8";
         }
     }
@@ -223,7 +218,7 @@ export class AgendaTecnicoValidator
             return this.agendamentoColor();
         else if (referenceTime < moment())
             return this.lateColor();
-        return this.getTypeColor(AgendaTecnicoTypeEnum.OS);
+        return this.getTypeColor(AgendaTecnicoTipoEnum.OS);
     }
 
     private getTimeFromMins(mins)

@@ -2,14 +2,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit,
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { AgendaTecnicoTypeEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnicoTipoEnum, MbscAgendaTecnicoCalendarEvent } from 'app/core/types/agenda-tecnico.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoData, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
-import Enumerable from 'linq';
 import moment from 'moment';
-import { Subject, interval, fromEvent } from 'rxjs';
-import { startWith, takeUntil, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subject, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { AgendaTecnicoValidator } from '../agenda-tecnico.validator';
 
 @Component({
@@ -87,7 +86,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
         intervencao: os.tipoIntervencao?.nomTipoIntervencao,
         regiao: os.regiaoAutorizada?.regiao?.nomeRegiao,
         autorizada: os.regiaoAutorizada?.autorizada?.nomeFantasia,
-        color: !os.agendamentos?.length ? this._validator.getTypeColor(AgendaTecnicoTypeEnum.OS) : this._validator.agendamentoColor(),
+        color: !os.agendamentos?.length ? this._validator.getTypeColor(AgendaTecnicoTipoEnum.OS) : this._validator.agendamentoColor(),
         indAgendamento: os.agendamentos?.length ? 1 : 0,
         start: moment(),
         end: moment().add(60, 'minutes'),

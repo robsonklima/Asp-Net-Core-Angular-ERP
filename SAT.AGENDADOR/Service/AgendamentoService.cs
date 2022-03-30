@@ -15,10 +15,6 @@ namespace SAT.AGENDADOR.Service
         private static void InicializaAgendamentos()
         {
             DateTime agora = DateTime.Now;
-
-            AgendarTarefa(nome: "Cria pontos no Agenda Técnico",
-                          tarefa: () => services.AgendaTecnicoService.CriaIntervalosDoDia(),
-                          intervaloEmSegundos: 30 * 60);
         }
     }
 }

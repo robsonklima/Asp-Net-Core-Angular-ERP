@@ -65,26 +65,8 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
     });
   }
 
-  private ordenar()
-  {
-    this.isLoading = true;
-    this._agendaTecnicoService.ordenarAgendaTecnico({
-      codTecnico: this.tecnico.codTecnico,
-      codUsuario: this.tecnico.usuario.codUsuario,
-      inicioPeriodoAgenda: this.weekStart,
-      fimPeriodoAgenda: this.weekEnd,
-      ordenacao: this.form.controls.codOrdenacao.value,
-      sortActive: 'nome',
-      sortDirection: 'asc'
-    }).toPromise().then(() =>
-    {
-      this.isLoading = false;
-      this.dialogRef.close(true);
-    });
-  }
-
   async confirmar()
   {
-    this.ordenar();
+    
   }
 }

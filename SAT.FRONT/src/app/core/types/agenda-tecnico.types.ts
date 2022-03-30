@@ -25,20 +25,12 @@ export interface CalendarWeekday
 
 export interface AgendaTecnicoParameters extends QueryStringParameters
 {
-    pa?: number;
-    codFiliais?: string;
+    codFilial?: number;
     codTecnicos?: string;
-    codUsuario?: string;
-    codOS?: number;
-    codTecnico?: number;
-    inicio?: string;
-    tipo?: AgendaTecnicoTypeEnum;
-    ordenacao?: AgendaTecnicoOrdenationEnum;
-    fim?: string;
-    data?: string;
-    inicioPeriodoAgenda?: string;
-    fimPeriodoAgenda?: string;
     indAtivo?: number;
+    tipo?: AgendaTecnicoTipoEnum;
+    inicio?: string;
+    fim?: string;
 }
 
 export interface AgendaTecnicoData extends Meta
@@ -49,7 +41,7 @@ export interface AgendaTecnicoData extends Meta
 export class AgendaTecnico
 {
     codAgendaTecnico?: number;
-    tipo?: AgendaTecnicoTypeEnum;
+    tipo?: AgendaTecnicoTipoEnum;
     titulo?: string;
     cor?: string;
     codTecnico: number;
@@ -66,7 +58,7 @@ export class AgendaTecnico
     codUsuarioCad: string;
 }
 
-export enum AgendaTecnicoTypeEnum
+export enum AgendaTecnicoTipoEnum
 {
     OS = 1,
     INTERVALO = 2,
@@ -94,4 +86,40 @@ export interface TecnicoMaisProximo
     codTecnicoMinDistancia: number
     ultimoAtendimentoTecnico: MbscAgendaTecnicoCalendarEvent;
     message: string;
+}
+
+export interface ViewAgendaTecnicoEvento {
+    codAgendaTecnico: number | null;
+    cor: string;
+    titulo: string;
+    editavel: boolean;
+    tipo: AgendaTecnicoTipoEnum;
+    codFilial: number;
+    codUsuario: string;
+    codTecnico: number;
+    nome: string;
+    fonePerto: string;
+    codOS: number | null;
+    codStatusServico: number | null;
+    nomeStatusServico: string;
+    nomTipoIntervencao: string;
+    nomeLocal: string;
+    clientes: string;
+    inicio: string | null;
+    fim: string | null;
+    dataHoraLimiteAtendimento: string | null;
+    dataAgendamento: string | null;
+    dataHoraCad: string;
+    codUsuarioCad: string;
+    indAtivo: number;
+}
+
+export interface ViewAgendaTecnicoRecurso {
+    id: number;
+    nome: string;
+    codUsuario: string;
+    fonePerto: string;
+    qtdChamadosTransferidos: number;
+    qtdChamadosAtendidos: number;
+    eventos: ViewAgendaTecnicoEvento[];
 }

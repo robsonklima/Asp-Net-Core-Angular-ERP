@@ -1,4 +1,4 @@
-<mat-drawer-container class="main-agenda" [hasBackdrop]="false">
+<mat-drawer-container class="w-full overflow-hidden" [hasBackdrop]="false">
     <mat-drawer class="lg:w-120 md:w-80 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-agenda-tecnico-filtro [sidenav]="sidenav"></app-agenda-tecnico-filtro>
     </mat-drawer>
@@ -12,102 +12,114 @@
         </app-agenda-tecnico-ajuda>
     </mat-drawer>
 
-    <div class="relative scheduler-scroll">
-        <div class="absolute top-2 right-5 z-99999 bg-gray-100 rounded-full">
-            <button mat-flat-button class="fuse-mat-button-rounded text-blue-500 bg-gray-100" (click)="sidenavChamados.toggle()" [matTooltip]="'Adicionar Chamado'">
-                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-            </button>
+    <div class="absolute inset-x-0 z-9999 top-0" *ngIf="loading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
 
-            <button mat-flat-button class="fuse-mat-button-rounded text-indigo-500 bg-gray-100" (click)="sidenav.toggle()" [matTooltip]="'Filtro'">
-                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:filter'"></mat-icon>
-            </button>
-    
-            <button mat-flat-button class="fuse-mat-button-rounded text-green-500 bg-gray-100" (click)="obterDados(true)" [matTooltip]="'Atualizar'">
-                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
-            </button>
-    
-            <button mat-flat-button class="fuse-mat-button-rounded text-teal-500 bg-gray-100" (click)="showHelp()" [matTooltip]="'Ajuda'">
-                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
-            </button>
-        </div>
+    <mbsc-eventcalendar class="h-200" [options]="calendarOptions" [data]="events" [resources]="resources"
+        [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate">
+    </mbsc-eventcalendar>
 
-        <mbsc-eventcalendar [options]="calendarOptions" [data]="events" [resources]="resources"
-            [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" *ngIf="!loading && resources?.length">
-        </mbsc-eventcalendar>
+    <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
+        <div class="text-center p-2" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+            <div class="md-tooltip-header">
+                <span class="md-tooltip-name-age font-bold">{{ info }}</span>
+                <br>
+                <span class="md-tooltip-time font-bold">{{ time }}</span>
 
-        <div class="loading-indicator" *ngIf="loading">
-            <mat-spinner diameter="50"></mat-spinner>
-        </div>
+                <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="selectResource">{{
+                    selectResource?.contato | fone }}</span>
+                <br>
+                <span class="md-tooltip-status md-tooltip-text" *ngIf="selectResource">
+                    {{ selectResource?.descricao }}
+                </span>
+            </div>
 
-        <div class="font-bold p-6" *ngIf="!loading && resources?.length == 0">
-            Nenhum técnico encontrado. Por favor, verifique seus filtros.
-        </div>
-
-        <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
-            <div class="text-center p-2" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
-                <div class="md-tooltip-header">
-                    <span class="md-tooltip-name-age font-bold">{{ info }}</span>
+            <div class="md-tooltip-info">
+                <div class="md-tooltip-title">
+                    <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
                     <br>
-                    <span class="md-tooltip-time font-bold">{{ time }}</span>
-
-                    <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="selectResource">{{
-                        selectResource?.contato | fone }}</span>
-                    <br>
-                    <span class="md-tooltip-status md-tooltip-text" *ngIf="selectResource">{{ selectResource?.descricao
-                        }}</span>
-                </div>
-
-                <div class="md-tooltip-info">
-                    <div class="md-tooltip-title">
-                        <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
-                        <br>
-                        <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
-                    </div>
+                    <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
                 </div>
             </div>
-        </mbsc-popup>
+        </div>
+    </mbsc-popup>
 
-        <ng-template #resourceTemplate let-resource>
-            <div class="inline-flex" [ngClass]="{'text-gray-400': resource.indFerias}">
-                <img class="md-meeting-participant-avatar" [src]="resource.img"
-                    onError="this.src='./assets/images/avatars/profile.jpg';"
-                    [ngClass]="{'opacity-10': resource.indFerias}" (mouseover)="showResourceAction(resource)"
-                    (mouseleave)="hideEventInfo()" />
-                <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
-                    [matTooltip]="resource.indFerias ? 'FÉRIAS' : ''">
+    <ng-template #resourceTemplate let-resource>
+        <div class="inline-flex" [ngClass]="{'text-gray-400': resource.indFerias}">
+            <img class="md-meeting-participant-avatar" [src]="resource.img"
+                onError="this.src='./assets/images/avatars/profile.jpg';" [ngClass]="{'opacity-10': resource.indFerias}"
+                (mouseover)="mostrarAcoesRecurso(resource)" (mouseleave)="esconderInformacoesEvento()" />
+            <div class="md-resource-details-name truncate" [innerHTML]="resource.name"
+                [matTooltip]="resource.indFerias ? 'FÉRIAS' : ''">
+            </div>
+            <div class="grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
+                <!-- <div>
+                    <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
+                    align-middle mbsc-counter" [matTooltip]="'Não possui ponto registrado hoje.'"
+                        *ngIf="countPontoEvents(resource) == 0">
+                        {{ "!" }}
+                    </div>
+                </div> -->
+                <div class="mr-1 ml-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
+                            align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'">
+                    {{ resource.qtdChamadosAtendidos }}
                 </div>
-                <div class="grid grid-rows-1 grid-cols-3 grid-flow-col" *ngIf="!resource.indFerias">
-                    <div>
-                        <div class="mr-1 ml-1 bg-yellow-400 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Não possui ponto registrado hoje.'"
-                            *ngIf="countPontoEvents(resource) == 0">
-                            {{ "!" }}
-                        </div>
-                    </div>
-                    <div class="mr-1 ml-1 bg-green-700 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados atendidos'">
-                        {{ countResourceAtendidos(resource) }}
-                    </div>
-                    <div class="mr-1 ml-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
-                        align-middle mbsc-counter" [matTooltip]="'Chamados na Agenda'">
-                        {{ countResourceTransferidos(resource) }}
-                    </div>
+                <div class="mr-1 ml-1 bg-red-300 text-black py-1 px-2 rounded text-xs font-bold text-center
+                            align-middle mbsc-counter" [matTooltip]="'Chamados Transferidos'">
+                    {{ resource.qtdChamadosTransferidos }}
                 </div>
             </div>
-        </ng-template>
+        </div>
+    </ng-template>
 
-        <ng-template #eventTemplate let-data>
-            <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden"
-                [ngStyle]="{borderColor: data.color, background: data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE' ?
-                'transparent' : data.color}">
-                <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
-                    [ngStyle]="{color: data.title == 'FIM DO EXPEDIENTE' ? 'red' : 'green', background: 'transparent'}"
-                    *ngIf="data.title == 'PONTO' || data.title == 'FIM DO EXPEDIENTE'"></span>
-                <div class="mbsc-custom-event-title"
-                    [ngStyle]="{ color: data.title == 'INTERVALO' ? 'black' : 'white'}">
-                    {{ data.title }}
-                </div>
+    <ng-template #eventTemplate let-data>
+        <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden" [ngStyle]="{
+                        borderColor: data.color, background: 
+                        data.title == 'PONTO' || 
+                        data.title == 'FIM EXPEDIENTE' || 
+                        data.title == 'CHECKIN' || 
+                        data.title == 'CHECKOUT' ? 'transparent' : data.color
+                    }">
+
+            <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
+                [ngStyle]="{color: data.title == 'FIM EXPEDIENTE' ? '#D32F2F' : '#388E3C', background: 'transparent'}"
+                *ngIf="data.title == 'PONTO' || data.title == 'FIM EXPEDIENTE'"></span>
+
+            <span class="mbsc-icon mbsc-font-icon mbsc-icon-user4"
+                [ngStyle]="{color: data.title == 'CHECKIN' ? '#0288D1' : '#388E3C', background: 'transparent'}"
+                *ngIf="data.title == 'CHECKIN'"></span>
+
+            <span class="mbsc-icon mbsc-font-icon mbsc-icon-checkmark"
+                [ngStyle]="{color: data.title == 'CHECKOUT' ? '#0288D1' : '#388E3C', background: 'transparent'}"
+                *ngIf="data.title == 'CHECKOUT'"></span>
+
+            <div class="mbsc-custom-event-title" [ngStyle]="{ color: data.title == 'INTERVALO' ? '#212121' : 'white'}">
+                {{ data.title }}
             </div>
-        </ng-template>
+        </div>
+    </ng-template>
+
+    <div class="absolute bottom-8 right-5 z-99999 bg-gray-100 rounded-full">
+        <button *ngIf="userSession.usuario?.codFilial" mat-flat-button
+            class="fuse-mat-button-rounded text-blue-500 bg-gray-100" (click)="sidenavChamados.toggle()"
+            [matTooltip]="'Adicionar Chamado'">
+            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+        </button>
+
+        <button mat-flat-button class="fuse-mat-button-rounded text-indigo-500 bg-gray-100" (click)="sidenav.toggle()"
+            [matTooltip]="'Filtro'">
+            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:filter'"></mat-icon>
+        </button>
+
+        <button mat-flat-button class="fuse-mat-button-rounded text-green-500 bg-gray-100" (click)="obterDados()"
+            [matTooltip]="'Atualizar'">
+            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+        </button>
+
+        <button mat-flat-button class="fuse-mat-button-rounded text-teal-500 bg-gray-100" (click)="mostrarAjuda()"
+            [matTooltip]="'Ajuda'">
+            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+        </button>
     </div>
 </mat-drawer-container>

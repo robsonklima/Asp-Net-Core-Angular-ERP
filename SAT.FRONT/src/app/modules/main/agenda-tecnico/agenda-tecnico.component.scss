@@ -13,15 +13,6 @@
     opacity: 1 !important;
 }
 
-.main-agenda {
-    height: 900px !important;
-}
-
-.scheduler-scroll {
-    height: 97.5% !important;
-    overflow-y: hidden;
-}
-
 .mbsc-schedule-event-range {
     display: none !important;
 }
@@ -242,13 +233,4 @@
     left: 0;
     bottom: 0;
     right: 0;
-}
-
-.layout router-outlet
-{
-    display: none !important;
-}
-
-.mbsc-calendar-controls {
-    display: none;
 }

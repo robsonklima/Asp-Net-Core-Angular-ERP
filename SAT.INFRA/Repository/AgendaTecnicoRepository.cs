@@ -3,12 +3,10 @@ using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.Enums;
-using SAT.MODELS.Helpers;
+using SAT.MODELS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SAT.INFRA.Repository
 {
@@ -38,30 +36,6 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public void AtualizarListaAsync(List<AgendaTecnico> agendas)
-        {
-            Parallel.Invoke(() =>
-            {
-                foreach (var agenda in agendas)
-                {
-                    AgendaTecnico a = _context.AgendaTecnico.FirstOrDefault(a => a.CodAgendaTecnico == agenda.CodAgendaTecnico);
-
-                    if (a != null)
-                    {
-                        _context.Entry(a).CurrentValues.SetValues(agenda);
-                    }
-                }
-                _context.SaveChanges();
-            });
-        }
-
-        public bool ExisteIntervaloNoDia(int codTecnico)
-        {
-            return _context.AgendaTecnico
-                .Any(i => i.CodTecnico == codTecnico &&
-                i.Tipo == AgendaTecnicoTypeEnum.INTERVALO && i.Inicio.Date == DateTime.Today.Date);
         }
 
         public AgendaTecnico Criar(AgendaTecnico agenda)
@@ -102,52 +76,25 @@ namespace SAT.INFRA.Repository
             return agendas.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
         }
 
-        public PagedList<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
+        public List<ViewAgendaTecnicoEvento> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = this.ObterQuery(parameters);
+            var agendas = _context.ViewAgendaTecnicoEvento.AsQueryable();
 
-            return PagedList<AgendaTecnico>.ToPagedList(agendas, parameters.PageNumber, parameters.PageSize);
-        }
-
-        public IQueryable<AgendaTecnico> ObterQuery(AgendaTecnicoParameters parameters)
-        {
-            var agendas = _context.AgendaTecnico
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.TipoIntervencao)
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.LocalAtendimento)
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.StatusServico)
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.Tecnico)
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.PrazosAtendimento)
-            .Include(i => i.OrdemServico)
-                .ThenInclude(i => i.Agendamentos)
-            .AsQueryable();
-
-            if (parameters.InicioPeriodoAgenda.HasValue && parameters.FimPeriodoAgenda.HasValue)
-                agendas = agendas.Where(ag => ag.Inicio.Date >= parameters.InicioPeriodoAgenda.Value.Date && ag.Inicio.Date <= parameters.FimPeriodoAgenda.Value.Date);
-
-            if (parameters.Tipo.HasValue)
-                agendas = agendas.Where(ag => ag.Tipo == parameters.Tipo);
-
-            if (parameters.CodTecnico.HasValue)
-                agendas = agendas.Where(ag => ag.CodTecnico == parameters.CodTecnico);
-
-            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
-            {
-                int[] tecnicos = parameters.CodTecnicos.Split(",").Select(t => int.Parse(t.Trim())).ToArray();
-                agendas = agendas.Where(ag => tecnicos.Contains(ag.CodTecnico.Value));
+            if (parameters.Inicio.HasValue && parameters.Fim.HasValue) {
+                agendas = agendas.Where(a => a.Inicio.Date >= parameters.Inicio.Value.Date && a.Fim.Date <= parameters.Fim.Value.Date);
             }
 
-            if (parameters.CodOS.HasValue)
-                agendas = agendas.Where(ag => ag.CodOS == parameters.CodOS);
+            if (parameters.CodFilial > 0) {
+                agendas = agendas.Where(a => a.CodFilial == parameters.CodFilial);
+            }
 
-            if (parameters.IndAtivo.HasValue)
-                agendas = agendas.Where(ag => ag.IndAtivo == parameters.IndAtivo);
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            {
+                int[] tecnicos = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                agendas = agendas.Where(a => tecnicos.Contains(a.CodTecnico));
+            }
 
-            return agendas.AsNoTracking();
+            return agendas.ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -21,48 +22,24 @@ namespace SAT.API.Controllers
             _agendaServ = agendaServ;
         }
 
-        [HttpGet("Agenda")]
-        public AgendaTecnico[] GetAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
-        {
-            return _agendaServ.ObterAgendaTecnico(parameters);
-        }
-
-        [HttpGet("Ordenar")]
-        public void OrdenarAgendaTecnico([FromQuery] AgendaTecnicoParameters parameters)
-        {
-            _agendaServ.OrdenarAgendaTecnico(parameters);
-        }
-
         [HttpGet]
-        public ListViewModel Get([FromQuery] AgendaTecnicoParameters parameters)
+        public List<ViewAgendaTecnicoRecurso> Get([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{codAgendaTecnico}")]
-        public AgendaTecnico Get(int codAgendaTecnico)
-        {
-            return _agendaServ.ObterPorCodigo(codAgendaTecnico);
-        }
-
         [HttpPost]
-        public AgendaTecnico Post([FromBody] AgendaTecnico evento)
+        public AgendaTecnico Post([FromBody] AgendaTecnico agenda)
         {
-            _agendaServ.Criar(evento);
+            _agendaServ.Criar(agenda);
             
-            return evento;
+            return agenda;
         }
 
-        [HttpGet("CriarOS/{codOS},{codTecnico}")]
-        public AgendaTecnico CriarAgendaTecnico(int codOS, int codTecnico)
+        [HttpGet("codAgendaTecnico")]
+        public void DeletarAgendaTecnico(int codAgendaTecnico)
         {
-            return _agendaServ.CriarAgendaTecnico(codOS, codTecnico);
-        }
-
-        [HttpGet("DeletarOS/{codOS}")]
-        public void DeletarAgendaTecnico(int codOS)
-        {
-            _agendaServ.DeletarAgendaTecnico(codOS);
+            _agendaServ.Deletar(codAgendaTecnico);
         }
 
         [HttpPut]

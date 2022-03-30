@@ -69,7 +69,7 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
   createForm(): void
   {
     this.form = this._formBuilder.group({
-      codFiliais: [undefined],
+      codFilial: [undefined],
       pas: [undefined],
       codClientes: [undefined],
       codPostos: [undefined],
@@ -97,13 +97,13 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
 
   async obterLocaisAtendimentos()
   {
-    var filialFilter = this.form.controls['codFiliais'].value;
+    var filialFilter = this.form.controls['codFilial'].value;
     var clienteFilter = this.form.controls['codClientes'].value;
     var regiaoFilter = this.form.controls['codRegioes'].value;
 
     let params: LocalAtendimentoParameters = {
       indAtivo: 1,
-      codFiliais: filialFilter,
+      codFilial: filialFilter,
       codClientes: clienteFilter,
       codRegioes: regiaoFilter,
       sortActive: 'nomeLocal',

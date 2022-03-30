@@ -83,7 +83,6 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Tecnico)
                 .Include(u => u.FiltroUsuario)
                 .Include(u => u.UsuarioSeguranca)
-                .Include(u => u.Localizacoes.OrderByDescending(loc => loc.CodLocalizacao).Take(1))
                 .AsQueryable();
 
             if (parameters.Filter != null)

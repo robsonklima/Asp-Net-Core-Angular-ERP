@@ -27,6 +27,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import { AgendaTecnico } from 'app/core/types/agenda-tecnico.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -164,27 +165,26 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					return;
 				}
 
-				this._agendamentoService.criar(data.agendamento).subscribe(
-					result =>
-					{
-						this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
+				this._agendamentoService.criar(data.agendamento).subscribe(() =>
+				{
+					this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
 
-						this._ordemServicoService.atualizar(this.os).subscribe(
-							result =>
-							{
-								this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-								this.createAgendaTecnico();
-								this.obterDados();
-							},
-							error =>
-							{
-								this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-							});
-					},
-					error =>
-					{
-						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-					});
+					this._ordemServicoService.atualizar(this.os).subscribe(
+						result =>
+						{
+							this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+							this.criarAgendaTecnico();
+							this.obterDados();
+						},
+						error =>
+						{
+							this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+						});
+				},
+				() =>
+				{
+					this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+				});
 			}
 		});
 	}
@@ -287,8 +287,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					this._ordemServicoService.atualizar(obj).subscribe(
 						() =>
 						{
+							// Deletar Agenda anterior -- TODO
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
-							this._agendaTecnicoService.deletarAgendaTecnico(this.os.codOS).toPromise().then().catch();
 							this.obterDados();
 						},
 						() =>
@@ -377,40 +377,22 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		return fotosFiltered;
 	}
 
-	private createAgendaTecnico()
+	private criarAgendaTecnico()
 	{
 		if (this.os.codTecnico == null) return;
 
-		this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, this.os.codTecnico).toPromise()
-			.then(s =>
-			{
-				if (s)
-				{
-					var notificacao: Notificacao =
-					{
-						titulo: "Agenda Técnico",
-						descricao: `O chamado ${this.os.codOS} foi alocado na Agenda Técnico.`,
-						link: './#/agenda-tecnico',
-						useRouter: true,
-						lida: 0,
-						indAtivo: statusConst.ATIVO,
-						codUsuario: this.userSession.usuario.codUsuario
-					};
-					this._notificacaoService.criar(notificacao).toPromise();
-				}
-			}).catch(
-				e =>
-				{
-					var notificacao: Notificacao =
-					{
-						titulo: "Agenda Técnico",
-						descricao: `Ocorreu um erro ao alocar o chamado ${this.os.codOS} na Agenda Técnico.`,
-						lida: 0,
-						indAtivo: statusConst.ATIVO,
-						codUsuario: this.userSession.usuario.codUsuario
-					};
-					this._notificacaoService.criar(notificacao).toPromise();
-				});
+		const agenda: AgendaTecnico = {
+			codTecnico: this.os.codTecnico,
+			codOS: this.os.codOS,
+			codUsuarioCad: this.userSession.usuario.codUsuario,
+			dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+			indAtivo: 1,
+			inicio: null,
+			fim: null,
+			indAgendamento: 0
+		  }
+	  
+		this._agendaTecnicoService.criar(agenda).subscribe(() => {});
 	}
 
 	isOrcamento()

@@ -101,6 +101,43 @@ namespace SAT.SERVICES.Services
 
         public void Criar(AgendaTecnico agenda)
         {
+            var os = this._osRepo.ObterPorCodigo(agenda.CodOS.Value);
+            var inicioPeriodo = DateTime.Now.Date.Add(new TimeSpan(0, 0, 0));
+            var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
+            var mediaTecnico = 60;
+
+            var agendas = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters() {
+                CodTecnicos = agenda.CodTecnico.ToString(),
+                Inicio = inicioPeriodo,
+                Fim = fimPeriodo
+            });
+            
+            var ultimaAgenda = agendas.Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS).OrderByDescending(a => a.Inicio).FirstOrDefault();
+            if (ultimaAgenda != null)
+                _agendaRepo.Deletar(ultimaAgenda.CodAgendaTecnico.Value);
+
+            var deslocamento = 60;
+            var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
+            inicio = inicio.AddMinutes(deslocamento);
+
+            if (this.estaNoIntervalo(inicio)) {
+                inicio = this.FimIntervalo(inicio);
+            }
+
+            var fim = inicio.AddMinutes(mediaTecnico);
+            if (this.estaNoIntervalo(fim))
+            {
+                inicio = fim.AddMinutes(deslocamento);
+                fim = inicio.AddMinutes(mediaTecnico);
+            }
+
+            if (inicio > this.FimExpediente()) {
+                inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
+                fim = inicio.Date.Add(new TimeSpan(9, 0, 0));
+            }
+
+            agenda.Inicio = inicio;
+            agenda.Fim = fim;
             _agendaRepo.Criar(agenda);
         }
 
@@ -209,5 +246,15 @@ namespace SAT.SERVICES.Services
 
             return agenda;
         }
+
+        private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
+        private DateTime InicioExpediente(DateTime? referenceTime = null) => 
+            referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
+        private DateTime FimExpediente(DateTime? referenceTime = null) => 
+            referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
+        private DateTime InicioIntervalo(DateTime? referenceTime = null) => 
+            referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
+        private DateTime FimIntervalo(DateTime? referenceTime = null) => 
+            referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
     }
 }

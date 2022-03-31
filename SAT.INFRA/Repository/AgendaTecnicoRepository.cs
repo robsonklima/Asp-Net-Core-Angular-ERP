@@ -88,6 +88,14 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.CodFilial == parameters.CodFilial);
             }
 
+            if (parameters.CodOS > 0) {
+                agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
+            }
+
+            if (parameters.IndAtivo > 0) {
+                agendas = agendas.Where(a => a.IndAtivo == parameters.IndAtivo);
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
             {
                 int[] tecnicos = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

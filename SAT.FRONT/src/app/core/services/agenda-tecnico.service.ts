@@ -12,32 +12,6 @@ export class AgendaTecnicoService
 {
     constructor (private _httpClient: HttpClient) { }
 
-    obterAgendaTecnico(parameters: AgendaTecnicoParameters): Observable<AgendaTecnico[]>
-    {
-        let params = new HttpParams()
-
-        Object.keys(parameters).forEach(key =>
-        {
-            if (parameters[key] !== undefined && parameters[key] !== null)
-                params = params.append(key, String(parameters[key]));
-        });
-
-        return this._httpClient.get(`${c.api}/AgendaTecnico/Agenda`, { params: params }).pipe(map((data: AgendaTecnico[]) => data))
-    }
-
-    ordenarAgendaTecnico(parameters: AgendaTecnicoParameters): Observable<AgendaTecnico[]>
-    {
-        let params = new HttpParams()
-
-        Object.keys(parameters).forEach(key =>
-        {
-            if (parameters[key] !== undefined && parameters[key] !== null)
-                params = params.append(key, String(parameters[key]));
-        });
-
-        return this._httpClient.get(`${c.api}/AgendaTecnico/Ordenar`, { params: params }).pipe(map((data: AgendaTecnico[]) => data))
-    }
-
     obterPorParametros(parameters: AgendaTecnicoParameters): Observable<ViewAgendaTecnicoRecurso[]>
     {
         let params = new HttpParams()
@@ -50,19 +24,7 @@ export class AgendaTecnicoService
 
         return this._httpClient.get(`${c.api}/AgendaTecnico`, { params: params }).pipe(map((data: ViewAgendaTecnicoRecurso[]) => data))
     }
-
-    criarAgendaTecnico(codOS: number, codTecnico: number): Observable<AgendaTecnico>
-    {
-        const url = `${c.api}/AgendaTecnico/CriarOS/${codOS},${codTecnico}`;
-        return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
-    }
-
-    deletarAgendaTecnico(codOS: number): Observable<AgendaTecnico>
-    {
-        const url = `${c.api}/AgendaTecnico/DeletarOS/${codOS}`;
-        return this._httpClient.get<AgendaTecnico>(url).pipe(map((obj) => obj));
-    }
-
+    
     obterPorCodigo(codAgendamento: number): Observable<AgendaTecnico> 
     {
         const url = `${c.api}/AgendaTecnico/${codAgendamento}`;

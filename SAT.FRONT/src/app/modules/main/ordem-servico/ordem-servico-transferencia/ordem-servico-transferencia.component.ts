@@ -12,9 +12,8 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { statusServicoConst } from 'app/core/types/status-servico.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
-import { NotificacaoService } from 'app/core/services/notificacao.service';
-import { Notificacao } from 'app/core/types/notificacao.types';
 import { statusConst } from 'app/core/types/status-types';
+import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
 
 @Component({
   selector: 'app-ordem-servico-transferencia',
@@ -34,8 +33,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
     private _userService: UserService,
-    private _agendaTecnicoService: AgendaTecnicoService,
-    private _notificacaoService: NotificacaoService
+    private _agendaTecnicoService: AgendaTecnicoService
   )
   {
     this.sessionData = JSON.parse(this._userService.userSession);
@@ -88,7 +86,20 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
   transferir(tecnico: Tecnico): void
   {
     this.isLoading = true;
-    this._agendaTecnicoService.criarAgendaTecnico(this.os.codOS, tecnico.codTecnico).subscribe((agenda) =>
+
+    const agenda: AgendaTecnico = {
+      codTecnico: tecnico.codTecnico,
+      codOS: this.os.codOS,
+      codUsuarioCad: this.sessionData.usuario.codUsuario,
+      dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+      indAtivo: 1,
+      inicio: moment().format('YYYY-MM-DD HH:mm:ss'),
+      fim: moment().add('hour', 1).format('YYYY-MM-DD HH:mm:ss'),
+      indAgendamento: 0,
+      tipo: AgendaTecnicoTipoEnum.OS
+    }
+
+    this._agendaTecnicoService.criar(agenda).subscribe((agenda) =>
     {
       this.os.codTecnico = tecnico.codTecnico;
       this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
@@ -105,6 +116,8 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
         this._snack.exibirToast(error, 'error');
         this._agendaTecnicoService.deletar(agenda.codAgendaTecnico);
       });
+    }, e => {
+      this._snack.exibirToast('Erro ao transferir o chamado', 'error');
     });
   }
 }

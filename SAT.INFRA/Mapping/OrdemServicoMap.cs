@@ -150,12 +150,6 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey(prop => prop.CodigoOrdemServico)
                 .HasPrincipalKey(prop => prop.CodOS);
-
-            builder
-                .HasMany(ra => ra.AgendaTecnico)
-                .WithOne(ra => ra.OrdemServico)
-                .HasForeignKey("CodOS")
-                .HasPrincipalKey("CodOS");
         }
     }
 }

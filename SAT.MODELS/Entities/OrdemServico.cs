@@ -139,7 +139,6 @@ namespace SAT.MODELS.Entities
         public List<OSPrazoAtendimento> PrazosAtendimento { get; set; }
         public List<OrdemServicoRelatorioInstalacao> OrdensServicoRelatorioInstalacao { get; set; }
         public bool? IndNumRATObrigatorio { get; set; }
-        public virtual List<AgendaTecnico> AgendaTecnico { get; set; }
         public DispBBEquipamentoContrato DispBBEquipamentoContrato { get; set; }
         public Contrato Contrato { get; set; }
         public Usuario UsuarioCadastro { get; set; }

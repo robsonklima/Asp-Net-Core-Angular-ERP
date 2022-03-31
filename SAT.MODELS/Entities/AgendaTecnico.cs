@@ -5,15 +5,14 @@ namespace SAT.MODELS.Entities
 {
     public class AgendaTecnico
     {
-        public int CodAgendaTecnico { get; set; }
+        public int? CodAgendaTecnico { get; set; }
         public int? CodTecnico { get; set; }
         public string Titulo { get; set; }
-        public DateTime Inicio { get; set; }
-        public DateTime Fim { get; set; }
+        public DateTime? Inicio { get; set; }
+        public DateTime? Fim { get; set; }
         public AgendaTecnicoTipoEnum Tipo { get; set; }
         public int IndAtivo { get; set; }
         public int? CodOS { get; set; }
-        public OrdemServico OrdemServico { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioCad { get; set; }

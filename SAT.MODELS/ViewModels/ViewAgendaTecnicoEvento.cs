@@ -19,8 +19,8 @@ namespace SAT.MODELS.ViewModels
         public string NomTipoIntervencao { get; set; }
         public string NomeLocal { get; set; }
         public string Clientes { get; set; }
-        public DateTime Inicio { get; set; }
-        public DateTime Fim { get; set; }
+        public DateTime? Inicio { get; set; }
+        public DateTime? Fim { get; set; }
         public DateTime? DataHoraLimiteAtendimento { get; set; }
         public DateTime? DataAgendamento { get; set; }
         public DateTime? DataHoraCad { get; set; }

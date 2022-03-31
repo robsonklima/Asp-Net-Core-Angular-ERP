@@ -47,9 +47,6 @@ namespace SAT.SERVICES.Services
                 agendas[i].Cor = ObterCor(agendas[i]);
                 agendas[i].Titulo = ObterTitulo(agendas[i]);
                 agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
-
-                if (agendas[i].CodAgendaTecnico == null && agendas[i].Tipo == AgendaTecnicoTipoEnum.INTERVALO)
-                    agendas[i] = InserirIntervalo(agendas[i]);
             }
 
             var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
@@ -106,34 +103,29 @@ namespace SAT.SERVICES.Services
             var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
             var mediaTecnico = 60;
 
-            var agendas = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters() {
-                CodTecnicos = agenda.CodTecnico.ToString(),
-                Inicio = inicioPeriodo,
-                Fim = fimPeriodo
-            });
-            
-            var ultimaAgenda = agendas.Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS).OrderByDescending(a => a.Inicio).FirstOrDefault();
+            var agendasDaOS = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters() {  CodOS = agenda.CodOS.Value });
+            var ultimaAgenda = agendasDaOS.Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS).OrderByDescending(a => a.Inicio).FirstOrDefault();
+
             if (ultimaAgenda != null)
                 _agendaRepo.Deletar(ultimaAgenda.CodAgendaTecnico.Value);
 
             var deslocamento = 60;
             var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
-            inicio = inicio.AddMinutes(deslocamento);
+            inicio = inicio.Value.AddMinutes(deslocamento);
 
-            if (this.estaNoIntervalo(inicio)) {
+            if (this.estaNoIntervalo(inicio.Value))
                 inicio = this.FimIntervalo(inicio);
-            }
 
-            var fim = inicio.AddMinutes(mediaTecnico);
+            var fim = inicio.Value.AddMinutes(mediaTecnico);
             if (this.estaNoIntervalo(fim))
             {
                 inicio = fim.AddMinutes(deslocamento);
-                fim = inicio.AddMinutes(mediaTecnico);
+                fim = inicio.Value.AddMinutes(mediaTecnico);
             }
 
             if (inicio > this.FimExpediente()) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
-                fim = inicio.Date.Add(new TimeSpan(9, 0, 0));
+                fim = inicio.Value.Date.Add(new TimeSpan(9, 0, 0));
             }
 
             agenda.Inicio = inicio;
@@ -228,25 +220,6 @@ namespace SAT.SERVICES.Services
             return true;
         }
     
-        private ViewAgendaTecnicoEvento InserirIntervalo(ViewAgendaTecnicoEvento agenda) {
-            var agendaTecnico = _agendaRepo.Criar(new AgendaTecnico() {
-                Inicio = agenda.Inicio,
-                Fim = agenda.Fim,
-                CodTecnico = agenda.CodTecnico,
-                DataHoraCad = DateTime.Now,
-                CodUsuarioCad = "SAT",
-                IndAtivo = 1,
-                Tipo = agenda.Tipo,
-                Titulo = agenda.Titulo
-            });
-
-            agenda.IndAtivo = 1;
-            agenda.DataHoraCad = agendaTecnico.DataHoraCad;
-            agenda.CodAgendaTecnico = agendaTecnico.CodAgendaTecnico;
-
-            return agenda;
-        }
-
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));

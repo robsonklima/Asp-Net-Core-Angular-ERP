@@ -275,14 +275,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       event.color = agenda.cor;
     }
 
-    var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
-    var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
-    
-    os.codTecnico = ag.codTecnico
-    os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-    os.codUsuarioManut = this.userSession.usuario.codUsuario;
+    if (agenda.tipo == AgendaTecnicoTipoEnum.OS) {
+      var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
+      os.codTecnico = ag.codTecnico
+      os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+      os.codUsuarioManut = this.userSession.usuario.codUsuario;
+      this._ordemServicoSvc.atualizar(os).toPromise();
+    }
 
-    this._ordemServicoSvc.atualizar(os).toPromise();
+    var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
 
     if (ag != null)
     {

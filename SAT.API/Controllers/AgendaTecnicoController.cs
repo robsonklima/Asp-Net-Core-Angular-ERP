@@ -22,7 +22,7 @@ namespace SAT.API.Controllers
             _agendaServ = agendaServ;
         }
 
-        [HttpDelete("View")]
+        [HttpGet("View")]
         public List<ViewAgendaTecnicoRecurso> GetView([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterViewPorParametros(parameters);
@@ -46,12 +46,6 @@ namespace SAT.API.Controllers
         public AgendaTecnico Put([FromBody] AgendaTecnico evento)
         {
             return _agendaServ.Atualizar(evento);
-        }
-
-        [HttpDelete("{codAgendaTecnico}")]
-        public void Delete(int codAgendaTecnico)
-        {
-            _agendaServ.Deletar(codAgendaTecnico);
         }
     }
 }

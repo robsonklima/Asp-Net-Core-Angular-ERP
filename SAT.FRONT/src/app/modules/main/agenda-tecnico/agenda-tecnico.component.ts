@@ -153,7 +153,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         }
         else if (this._validator.invalidMove(args))
         {
-          this._snack.exibirToast("O atendimento não pode ser agendado para antes da linha do tempo.", "error");
+          this._snack.exibirToast("O atendimento não pode ser alocado para antes da linha do tempo.", "error");
           return false;
         }
         else

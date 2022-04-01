@@ -39,29 +39,14 @@ namespace SAT.SERVICES.Services
 
         public List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters)
         {
+            List<ViewAgendaTecnicoRecurso> recursos = new();   
+
             var agendas = _agendaRepo.ObterViewPorParametros(parameters);
-
-            for (int i = 0; i < agendas.Count; i++)
-            {
-                agendas[i].Cor = ObterCor(agendas[i]);
-                agendas[i].Titulo = ObterTitulo(agendas[i]);
-                agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
-            }
-
-            var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
-                CodFilial = parameters.CodFilial,
-                CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
-                IndAtivo = 1,
-                PAS = parameters.PAS,
-                CodTecnicos = parameters.CodTecnicos
-            });
-
-            List<ViewAgendaTecnicoRecurso> recursos = new();
+            var usuarios = ObterUsuarios(parameters);
 
             foreach (var usuario in usuarios)
             {
-                IEnumerable<ViewAgendaTecnicoEvento> agendasDoUsuario = agendas
-                    .Where(a => a.CodTecnico == usuario.CodTecnico);
+                var agendasDoUsuario = agendas.Where(a => a.CodTecnico == usuario.CodTecnico);
 
                 for (int i = 0; i < agendasDoUsuario.Count(); i++)
                 {
@@ -70,20 +55,25 @@ namespace SAT.SERVICES.Services
 
                     if (agendas[i].FimAtendimento.HasValue)
                         agendas[i].Fim = agendas[i].FimAtendimento;
+
+                    agendas[i].Cor = ObterCor(agendas[i]);
+                    agendas[i].Titulo = ObterTitulo(agendas[i]);
+                    agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
                 }
 
                 var qtdChamadosAtendidos = agendasDoUsuario
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
                     .Count();
+
                 var qtdChamadosTransferidos = agendasDoUsuario
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
                     .Count();
 
-                if (usuario.CodTecnico != null)
+                if (usuario.CodTecnico != null) {
                     recursos.Add(new ViewAgendaTecnicoRecurso() {
-                        Id = (int)usuario.CodTecnico,
+                        Id = usuario.CodTecnico.Value,
                         Nome = usuario.NomeUsuario,
                         CodUsuario = usuario.CodUsuario,
                         FonePerto = usuario.Tecnico.FonePerto,
@@ -91,6 +81,7 @@ namespace SAT.SERVICES.Services
                         QtdChamadosTransferidos = qtdChamadosTransferidos,
                         Eventos = agendasDoUsuario
                     });
+                }
             }
 
             return recursos;
@@ -125,8 +116,6 @@ namespace SAT.SERVICES.Services
                 .OrderByDescending(a => a.Inicio)
                 .FirstOrDefault();
                 
-            DeletarAgendasAnterioresDaOS(agendasDaOS);
-
             var deslocamento = 60;
             var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
             inicio = inicio.Value.AddMinutes(deslocamento);
@@ -155,11 +144,6 @@ namespace SAT.SERVICES.Services
             agenda.Inicio = inicio;
             agenda.Fim = fim;
             _agendaRepo.Criar(agenda);
-        }
-
-        public void Deletar(int codAgendaTecnico)
-        {
-            this._agendaRepo.Deletar(codAgendaTecnico);
         }
 
         private string ObterCor(ViewAgendaTecnicoEvento agenda)
@@ -244,11 +228,14 @@ namespace SAT.SERVICES.Services
             return true;
         }
     
-        private void DeletarAgendasAnterioresDaOS(List<AgendaTecnico> agendas) {
-            foreach (var agenda in agendas)
-            {
-                _agendaRepo.Deletar(agenda.CodAgendaTecnico.Value);
-            }
+        private List<Usuario> ObterUsuarios(AgendaTecnicoParameters parameters) {
+            return _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
+                CodFilial = parameters.CodFilial,
+                CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+                IndAtivo = 1,
+                PAS = parameters.PAS,
+                CodTecnicos = parameters.CodTecnicos
+            });
         }
 
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);

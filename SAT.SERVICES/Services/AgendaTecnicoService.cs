@@ -37,9 +37,9 @@ namespace SAT.SERVICES.Services
             _usuarioRepo = usuarioRepo;
         }
 
-        public List<ViewAgendaTecnicoRecurso> ObterPorParametros(AgendaTecnicoParameters parameters)
+        public List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _agendaRepo.ObterPorParametros(parameters);
+            var agendas = _agendaRepo.ObterViewPorParametros(parameters);
 
             for (int i = 0; i < agendas.Count; i++)
             {
@@ -94,6 +94,11 @@ namespace SAT.SERVICES.Services
             }
 
             return recursos;
+        }
+
+        public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
+        {
+            return _agendaRepo.ObterPorParametros(parameters);
         }
 
         public AgendaTecnico ObterPorCodigo(int codigo)

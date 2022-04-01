@@ -1,19 +1,66 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services
 {
-	public partial class ExportacaoService
-	{
-		protected IEnumerable<object> ObterEquipamentoContrato(EquipamentoContratoParameters parameters)
-		{
-			throw new NotImplementedException();
-		}
+    public partial class ExportacaoService
+    {
+        protected void GerarPlanilhaEquipamentoContrato(EquipamentoContratoParameters parameters)
+        {
+            var equipContrato = _ecRepo.ObterPorParametros(parameters);
 
-		protected void GerarPlanilhaEquipamentoContrato(EquipamentoContratoParameters parameters)
-		{
-			throw new NotImplementedException();
-		}
-	}
+            var equipamentos = equipContrato.Select(eq => 
+											new
+											{
+												ID_Equipamento = eq.CodEquipContrato,
+												TipoEquipamento = eq.TipoEquipamento?.NomeTipoEquip,
+												GrupoEquipamento = eq.GrupoEquipamento?.NomeGrupoEquip,
+												Equipamento = eq.Equipamento?.NomeEquip ?? Constants.NENHUM_REGISTRO,
+												Serie = eq.NumSerie ?? Constants.NENHUM_REGISTRO,
+												SerieCliente= eq.NumSerieCliente ?? Constants.NENHUM_REGISTRO,
+												Cliente= eq.Cliente.NomeFantasia,
+												CNPJ_LocalAtendimento = eq.LocalAtendimento?.Cnpj ?? Constants.NENHUM_REGISTRO,
+												Contrato = eq.Contrato?.NroContrato ?? Constants.NENHUM_REGISTRO,
+												TipoContrato = eq.Contrato?.TipoContrato.NomeTipoContrato ?? Constants.NENHUM_REGISTRO,
+												Agencia = eq.LocalAtendimento?.NumAgencia ?? Constants.NENHUM_REGISTRO,
+												DC = eq.LocalAtendimento?.DCPosto ?? Constants.NENHUM_REGISTRO,
+												NomeDoLocal = eq.LocalAtendimento?.NomeLocal ?? Constants.NENHUM_REGISTRO,
+												Endereco = eq.LocalAtendimento?.Endereco ?? Constants.NENHUM_REGISTRO,
+												Cidade = eq.LocalAtendimento?.Cidade?.NomeCidade ?? Constants.NENHUM_REGISTRO,
+												UF = eq.LocalAtendimento?.Cidade?.UnidadeFederativa?.NomeUF ?? Constants.NENHUM_REGISTRO,
+												Filial = eq.Filial?.NomeFilial ?? Constants.NENHUM_REGISTRO,
+												Autorizada = eq.Autorizada?.NomeFantasia ?? Constants.NENHUM_REGISTRO,
+												Regiao = eq.Regiao?.NomeRegiao ?? Constants.NENHUM_REGISTRO,
+												SLA = eq.AcordoNivelServico?.NomeSLA ?? Constants.NENHUM_REGISTRO,
+												DistanciaPAT_Res = eq.DistanciaPatRes ?? 0,
+												PA = eq.RegiaoAutorizada?.PA ?? 0,
+												EquipamentoEmGarantia= eq.IndGarantia == 1 ? "SIM" : "NÃO",	
+												Ativo = eq.IndAtivo == 1 ? "SIM" : "NÃO",
+												ReceitaValor = eq.ValorReceita,
+												Receita = eq.IndReceita == 1 ? "SIM" : "NÃO",
+												RepasseValor = eq.ValorRepasse ?? 0,
+												Repasse = eq.IndRepasse == 1 ? "SIM" : "NÃO",
+												Instalada = eq.IndInstalacao == 1 ? "SIM" : "NÃO",
+												DataAtivação = eq.DataAtivacao?.ToString("dd/MM/yy HH:mm"),
+												DataDesativação = eq.DataDesativacao?.ToString("dd/MM/yy HH:mm"),
+												DataInicGarantia = eq.DataInicGarantia?.ToString("dd/MM/yy HH:mm"),
+												DataFimGarantia = eq.DataFimGarantia?.ToString("dd/MM/yy HH:mm"),
+												CódigoBMP = eq.CodBMP ?? Constants.NENHUM_REGISTRO,
+												Sequencia = eq.Sequencia ?? Constants.NENHUM_REGISTRO,
+												Semat = eq.IndSemat == 1 ? "SIM" : "NÃO",
+												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento,
+												RegraEquivalência = eq.Equipamento.Equivalencia.Regra,
+												ValorEquivalência = eq.Equipamento.Equivalencia.ValorCalculado
+												// MonitoramentoRemoto= "",	
+												// SoftwareEmbarcado= "",	
+											});
+
+            var wsEq = Workbook.Worksheets.Add("Equipamentos");
+            wsEq.Cell(2, 1).Value = equipamentos;
+            WriteHeaders(equipamentos.FirstOrDefault(), wsEq);
+        }
+    }
 }

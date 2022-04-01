@@ -249,7 +249,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           contato: r.fonePerto,
           qtdChamadosTransferidos: r.qtdChamadosTransferidos,
           qtdChamadosAtendidos: r.qtdChamadosAtendidos,
-          //descricao: r.clientes,
           img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${r.codUsuario}.jpg`,
         }
       }).toArray();
@@ -277,6 +276,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
+    var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
+    
+    os.codTecnico = ag.codTecnico
+    os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+    os.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+    this._ordemServicoSvc.atualizar(os).toPromise();
 
     if (ag != null)
     {

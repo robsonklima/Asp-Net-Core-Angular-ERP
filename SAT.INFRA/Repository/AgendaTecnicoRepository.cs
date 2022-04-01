@@ -76,6 +76,17 @@ namespace SAT.INFRA.Repository
             return agendas.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
         }
 
+        public List<AgendaTecnico> ObterPorOS(int codOS)
+        {
+            var agendas = _context.AgendaTecnico.AsQueryable();
+
+            if (codOS > 0) {
+                agendas = agendas.Where(a => a.CodOS == codOS);
+            }
+
+            return agendas.ToList();
+        }
+
         public List<ViewAgendaTecnicoEvento> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.ViewAgendaTecnicoEvento.AsQueryable();

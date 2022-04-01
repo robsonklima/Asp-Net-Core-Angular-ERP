@@ -41,7 +41,6 @@ namespace SAT.SERVICES.Services
         {
             var agendas = _agendaRepo.ObterPorParametros(parameters);
 
-
             for (int i = 0; i < agendas.Count; i++)
             {
                 agendas[i].Cor = ObterCor(agendas[i]);
@@ -52,15 +51,27 @@ namespace SAT.SERVICES.Services
             var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
                 CodFilial = parameters.CodFilial,
                 CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
-                IndAtivo = 1
+                IndAtivo = 1,
+                PAS = parameters.PAS,
+                CodTecnicos = parameters.CodTecnicos
             });
 
             List<ViewAgendaTecnicoRecurso> recursos = new();
 
             foreach (var usuario in usuarios)
             {
-                var agendasDoUsuario = agendas
+                IEnumerable<ViewAgendaTecnicoEvento> agendasDoUsuario = agendas
                     .Where(a => a.CodTecnico == usuario.CodTecnico);
+
+                for (int i = 0; i < agendasDoUsuario.Count(); i++)
+                {
+                    if (agendas[i].InicioAtendimento.HasValue)
+                        agendas[i].Inicio = agendas[i].InicioAtendimento;
+
+                    if (agendas[i].FimAtendimento.HasValue)
+                        agendas[i].Fim = agendas[i].FimAtendimento;
+                }
+
                 var qtdChamadosAtendidos = agendasDoUsuario
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
@@ -126,6 +137,12 @@ namespace SAT.SERVICES.Services
             if (inicio > this.FimExpediente()) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                 fim = inicio.Value.Date.Add(new TimeSpan(9, 0, 0));
+            }
+
+            var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
+            if (ultimoAgendamento != null) {
+                inicio = ultimoAgendamento;
+                fim = ultimoAgendamento.Value.AddHours(1);
             }
 
             agenda.Inicio = inicio;

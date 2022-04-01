@@ -32,6 +32,7 @@ export interface AgendaTecnicoParameters extends QueryStringParameters
     tipo?: AgendaTecnicoTipoEnum;
     inicio?: string;
     fim?: string;
+    pas?: string;
 }
 
 export interface AgendaTecnicoData extends Meta

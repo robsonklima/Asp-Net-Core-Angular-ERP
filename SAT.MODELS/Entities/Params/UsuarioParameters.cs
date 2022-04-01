@@ -12,5 +12,7 @@ namespace SAT.MODELS.Entities.Params
         public int? IndAtivo { get; set; }
         public int? CodTecnico { get; set; }
         public int? CodPontoPeriodo { get; set; }
+        public string PAS { get; set; }
+        public string CodTecnicos { get; set; }
     }
 }

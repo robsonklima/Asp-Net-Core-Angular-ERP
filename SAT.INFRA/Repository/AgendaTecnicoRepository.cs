@@ -81,7 +81,7 @@ namespace SAT.INFRA.Repository
             var agendas = _context.ViewAgendaTecnicoEvento.AsQueryable();
 
             if (parameters.Inicio.HasValue && parameters.Fim.HasValue) {
-                agendas = agendas.Where(a => a.Inicio.Value.Date >= parameters.Inicio.Value.Date && a.Fim.Value.Date <= parameters.Fim.Value.Date);
+                agendas = agendas.Where(a => a.Data.Value.Date >= parameters.Inicio.Value.Date && a.Data.Value.Date <= parameters.Fim.Value.Date);
             }
 
             if (parameters.CodFilial > 0) {

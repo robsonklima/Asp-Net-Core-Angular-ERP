@@ -108,8 +108,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       view: {
         timeline: {
           type: 'week',
-          startDay: 1,
-          endDay: 8,
+          startDay: moment().day(),
+          endDay: moment().day() + 6,
           size: 1,
           allDay: true,
           rowHeight: 'equal',
@@ -211,12 +211,14 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.loading = true;
 
     const agendaTecnicoParams: AgendaTecnicoParameters = {
-      codFilial: this.filter?.parametros?.codFilial,
-      codTecnicos: this.filter?.parametros?.codTecnicos,
-      inicio: this.inicio,
-      fim: this.fim,
-      sortActive: 'nome',
-      sortDirection: 'asc'
+      ...{
+        inicio: this.inicio,
+        fim: this.fim,
+        sortActive: 'nome',
+        sortDirection: 'asc'
+      },
+      ...this.filter?.parametros,
+      ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
     };
 
     this._agendaTecnicoSvc.obterPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
@@ -279,11 +281,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     if (ag != null)
     {
       this._snack.exibirToast("Evento atualizado com sucesso", "success");
-      event.agendaTecnico = ag;
-      var message = this._validator.validaDistanciaEntreEventos(event, this.events);
-      if (message)
-        this._snack.exibirToast(message, "info");
-
       this.loading = false;
     }
     else

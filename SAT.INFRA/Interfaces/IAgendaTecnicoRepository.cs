@@ -12,5 +12,6 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
+        List<AgendaTecnico> ObterPorOS(int codOS);
     }
 }

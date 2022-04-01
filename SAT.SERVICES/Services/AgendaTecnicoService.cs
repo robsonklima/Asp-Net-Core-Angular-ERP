@@ -114,11 +114,13 @@ namespace SAT.SERVICES.Services
             var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
             var mediaTecnico = 60;
 
-            var agendasDaOS = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters() {  CodOS = agenda.CodOS.Value });
-            var ultimaAgenda = agendasDaOS.Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS).OrderByDescending(a => a.Inicio).FirstOrDefault();
-
-            if (ultimaAgenda != null)
-                _agendaRepo.Deletar(ultimaAgenda.CodAgendaTecnico.Value);
+            var agendasDaOS = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
+            var ultimaAgenda = agendasDaOS
+                .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                .OrderByDescending(a => a.Inicio)
+                .FirstOrDefault();
+                
+            DeletarAgendasAnterioresDaOS(agendasDaOS);
 
             var deslocamento = 60;
             var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
@@ -237,6 +239,13 @@ namespace SAT.SERVICES.Services
             return true;
         }
     
+        private void DeletarAgendasAnterioresDaOS(List<AgendaTecnico> agendas) {
+            foreach (var agenda in agendas)
+            {
+                _agendaRepo.Deletar(agenda.CodAgendaTecnico.Value);
+            }
+        }
+
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));

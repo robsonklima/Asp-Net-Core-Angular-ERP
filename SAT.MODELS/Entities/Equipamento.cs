@@ -8,6 +8,7 @@
         public string CodEEquip { get; set; }
         public string NomeEquip { get; set; }
         public string DescEquip { get; set; }
+        public Equivalencia Equivalencia { get; set; }
         public GrupoEquipamento GrupoEquipamento { get; set; }
         public TipoEquipamento TipoEquipamento { get; set; }
     }

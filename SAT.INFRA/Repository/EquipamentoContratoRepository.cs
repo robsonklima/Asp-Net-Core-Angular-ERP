@@ -95,6 +95,7 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.Contrato)
                    .ThenInclude(e => e.TipoContrato)
                 .Include(e => e.Equipamento)
+                    .ThenInclude(e => e.Equivalencia)
                 .Include(e => e.ContratoEquipamento)
                 .Include(e => e.GrupoEquipamento)
                 .Include(e => e.RegiaoAutorizada)
@@ -117,6 +118,12 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodContrato.HasValue)
                 equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equips = equips.Where(os => cods.Contains(os.CodCliente));
+            }
 
             if (!string.IsNullOrEmpty(parameters.NumSerie))
                 equips = equips.Where(e => e.NumSerie == parameters.NumSerie);

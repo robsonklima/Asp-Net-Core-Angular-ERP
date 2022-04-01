@@ -44,6 +44,13 @@ namespace SAT.SERVICES.Services
             var agendas = _agendaRepo.ObterViewPorParametros(parameters);
             var usuarios = ObterUsuarios(parameters);
 
+            for (int i = 0; i < agendas.Count(); i++)
+            {
+                agendas[i].Cor = ObterCor(agendas[i]);
+                agendas[i].Titulo = ObterTitulo(agendas[i]);
+                agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
+            }
+
             foreach (var usuario in usuarios)
             {
                 var agendasDoUsuario = agendas.Where(a => a.CodTecnico == usuario.CodTecnico);
@@ -55,10 +62,6 @@ namespace SAT.SERVICES.Services
 
                     if (agendas[i].FimAtendimento.HasValue)
                         agendas[i].Fim = agendas[i].FimAtendimento;
-
-                    agendas[i].Cor = ObterCor(agendas[i]);
-                    agendas[i].Titulo = ObterTitulo(agendas[i]);
-                    agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
                 }
 
                 var qtdChamadosAtendidos = agendasDoUsuario

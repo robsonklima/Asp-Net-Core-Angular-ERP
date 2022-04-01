@@ -8,9 +8,11 @@ namespace SAT.INFRA.Interfaces
     public interface IAgendaTecnicoRepository
     {
         AgendaTecnico Criar(AgendaTecnico agenda);
-        List<ViewAgendaTecnicoEvento> ObterPorParametros(AgendaTecnicoParameters parameters);
+        List<ViewAgendaTecnicoEvento> ObterViewPorParametros(AgendaTecnicoParameters parameters);
+        List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
         void Deletar(int codigo);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
+        List<AgendaTecnico> ObterPorOS(int codOS);
     }
 }

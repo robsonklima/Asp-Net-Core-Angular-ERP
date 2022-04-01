@@ -140,6 +140,18 @@ namespace SAT.INFRA.Repository
 
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.PAS))
+            {
+                int[] pas = parameters.PAS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(u => pas.Contains(u.Tecnico.RegiaoAutorizada.PA.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            {
+                int[] codTecnicos = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(u => codTecnicos.Contains(u.Tecnico.CodTecnico.Value));
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));

@@ -108,8 +108,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       view: {
         timeline: {
           type: 'week',
-          startDay: 1,
-          endDay: 8,
+          startDay: moment().day(),
+          endDay: moment().day() + 6,
           size: 1,
           allDay: true,
           rowHeight: 'equal',
@@ -211,15 +211,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.loading = true;
 
     const agendaTecnicoParams: AgendaTecnicoParameters = {
-      codFilial: this.filter?.parametros?.codFilial,
-      codTecnicos: this.filter?.parametros?.codTecnicos,
-      inicio: this.inicio,
-      fim: this.fim,
-      sortActive: 'nome',
-      sortDirection: 'asc'
+      ...{
+        inicio: this.inicio,
+        fim: this.fim,
+        sortActive: 'nome',
+        sortDirection: 'asc'
+      },
+      ...this.filter?.parametros,
+      ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
     };
 
-    this._agendaTecnicoSvc.obterPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
+    this._agendaTecnicoSvc.obterViewPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
       this.limparListas();
       this.recursos = recursos;
       this.agendaTecnicos = _.flatMapDeep(recursos, (r) => r.eventos);
@@ -247,7 +249,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           contato: r.fonePerto,
           qtdChamadosTransferidos: r.qtdChamadosTransferidos,
           qtdChamadosAtendidos: r.qtdChamadosAtendidos,
-          //descricao: r.clientes,
           img: `https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/${r.codUsuario}.jpg`,
         }
       }).toArray();
@@ -275,15 +276,17 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
 
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
+    var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
+    
+    os.codTecnico = ag.codTecnico
+    os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+    os.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+    this._ordemServicoSvc.atualizar(os).toPromise();
 
     if (ag != null)
     {
       this._snack.exibirToast("Evento atualizado com sucesso", "success");
-      event.agendaTecnico = ag;
-      var message = this._validator.validaDistanciaEntreEventos(event, this.events);
-      if (message)
-        this._snack.exibirToast(message, "info");
-
       this.loading = false;
     }
     else

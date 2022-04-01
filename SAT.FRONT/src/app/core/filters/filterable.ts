@@ -46,12 +46,6 @@ export class Filterable implements IFilterableCore {
             if (this.filter.parametros[key] instanceof Array)
                 this.filter.parametros[key] = this.filter.parametros[key].join();
         });
-
-        if (this.filter?.parametros.codFilial && this.userSession.usuario.codFilial)
-            this.filter.parametros.codFilial = this.userSession.usuario.codFilial;
-
-        if (this.filter?.parametros.codFiliais && this.userSession.usuario.codFilial)
-            this.filter.parametros.codFiliais = this.userSession.usuario.codFilial;
     }
 
     onSortChanged(): void {

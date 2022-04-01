@@ -22,9 +22,14 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-icon-button matTooltip="{{ t('novo') }}"
+                    <button class="ml-5" mat-icon-button matTooltip="{{ t('novo') }}"
                         [routerLink]="['/ordem-servico/form']">
-                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
+
+                    <button class="ml-3" mat-icon-button matTooltip="{{ t('atualizar') }}"
+                        (click)="obterOrdensServico()">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
                     <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"

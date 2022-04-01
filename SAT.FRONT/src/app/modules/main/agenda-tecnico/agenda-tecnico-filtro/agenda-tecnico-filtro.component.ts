@@ -45,7 +45,13 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       codRegioes: [undefined]
     });
 
-    this.form.patchValue(this.filter?.parametros);
+
+    const params = {
+      ...this.filter?.parametros,
+      ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
+    }
+
+    this.form.patchValue(params);
   }
 
   async loadData(): Promise<void>

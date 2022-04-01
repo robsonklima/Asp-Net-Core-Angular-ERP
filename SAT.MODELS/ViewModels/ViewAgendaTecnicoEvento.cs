@@ -21,10 +21,13 @@ namespace SAT.MODELS.ViewModels
         public string Clientes { get; set; }
         public DateTime? Inicio { get; set; }
         public DateTime? Fim { get; set; }
+        public DateTime? Data { get; set; }
         public DateTime? DataHoraLimiteAtendimento { get; set; }
         public DateTime? DataAgendamento { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public string CodUsuarioCad { get; set; }
         public int? IndAtivo { get; set; }
+        public DateTime? InicioAtendimento { get; set; }
+        public DateTime? FimAtendimento { get; set; }
     }
 }

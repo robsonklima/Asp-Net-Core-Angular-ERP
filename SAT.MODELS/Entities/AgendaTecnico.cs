@@ -17,5 +17,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioCad { get; set; }
         public DateTime? DataHoraCad { get; set; }
+        public DateTime? Data { get; set; }
     }
 }

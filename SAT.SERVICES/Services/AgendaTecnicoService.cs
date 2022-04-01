@@ -37,10 +37,9 @@ namespace SAT.SERVICES.Services
             _usuarioRepo = usuarioRepo;
         }
 
-        public List<ViewAgendaTecnicoRecurso> ObterPorParametros(AgendaTecnicoParameters parameters)
+        public List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _agendaRepo.ObterPorParametros(parameters);
-
+            var agendas = _agendaRepo.ObterViewPorParametros(parameters);
 
             for (int i = 0; i < agendas.Count; i++)
             {
@@ -52,15 +51,27 @@ namespace SAT.SERVICES.Services
             var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
                 CodFilial = parameters.CodFilial,
                 CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
-                IndAtivo = 1
+                IndAtivo = 1,
+                PAS = parameters.PAS,
+                CodTecnicos = parameters.CodTecnicos
             });
 
             List<ViewAgendaTecnicoRecurso> recursos = new();
 
             foreach (var usuario in usuarios)
             {
-                var agendasDoUsuario = agendas
+                IEnumerable<ViewAgendaTecnicoEvento> agendasDoUsuario = agendas
                     .Where(a => a.CodTecnico == usuario.CodTecnico);
+
+                for (int i = 0; i < agendasDoUsuario.Count(); i++)
+                {
+                    if (agendas[i].InicioAtendimento.HasValue)
+                        agendas[i].Inicio = agendas[i].InicioAtendimento;
+
+                    if (agendas[i].FimAtendimento.HasValue)
+                        agendas[i].Fim = agendas[i].FimAtendimento;
+                }
+
                 var qtdChamadosAtendidos = agendasDoUsuario
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
@@ -85,6 +96,11 @@ namespace SAT.SERVICES.Services
             return recursos;
         }
 
+        public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
+        {
+            return _agendaRepo.ObterPorParametros(parameters);
+        }
+
         public AgendaTecnico ObterPorCodigo(int codigo)
         {
             return _agendaRepo.ObterPorCodigo(codigo);
@@ -103,11 +119,13 @@ namespace SAT.SERVICES.Services
             var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
             var mediaTecnico = 60;
 
-            var agendasDaOS = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters() {  CodOS = agenda.CodOS.Value });
-            var ultimaAgenda = agendasDaOS.Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS).OrderByDescending(a => a.Inicio).FirstOrDefault();
-
-            if (ultimaAgenda != null)
-                _agendaRepo.Deletar(ultimaAgenda.CodAgendaTecnico.Value);
+            var agendasDaOS = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
+            var ultimaAgenda = agendasDaOS
+                .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                .OrderByDescending(a => a.Inicio)
+                .FirstOrDefault();
+                
+            DeletarAgendasAnterioresDaOS(agendasDaOS);
 
             var deslocamento = 60;
             var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
@@ -126,6 +144,12 @@ namespace SAT.SERVICES.Services
             if (inicio > this.FimExpediente()) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                 fim = inicio.Value.Date.Add(new TimeSpan(9, 0, 0));
+            }
+
+            var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
+            if (ultimoAgendamento != null) {
+                inicio = ultimoAgendamento;
+                fim = ultimoAgendamento.Value.AddHours(1);
             }
 
             agenda.Inicio = inicio;
@@ -220,6 +244,13 @@ namespace SAT.SERVICES.Services
             return true;
         }
     
+        private void DeletarAgendasAnterioresDaOS(List<AgendaTecnico> agendas) {
+            foreach (var agenda in agendas)
+            {
+                _agendaRepo.Deletar(agenda.CodAgendaTecnico.Value);
+            }
+        }
+
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
         private DateTime InicioExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));

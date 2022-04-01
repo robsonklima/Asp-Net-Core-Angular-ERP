@@ -97,8 +97,6 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => tecnicos.Contains(a.CodTecnico));
             }
 
-            var a = agendas.ToQueryString();
-
             return agendas.ToList();
         }
 

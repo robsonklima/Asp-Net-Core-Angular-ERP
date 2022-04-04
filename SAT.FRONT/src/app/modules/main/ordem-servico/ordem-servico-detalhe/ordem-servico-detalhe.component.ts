@@ -410,6 +410,19 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this._agendaTecnicoService.criar(agenda).subscribe(() => {});
 	}
 
+	public async bloquearDesbloquearChamado() {
+		this.isLoading = true;
+
+		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
+		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
+		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+
+		await this._ordemServicoService.atualizar(this.os).toPromise();
+		await this.obterDados();
+
+		this.isLoading = false;
+	}
+
 	isOrcamento()
 	{
 		var orcamentos = [

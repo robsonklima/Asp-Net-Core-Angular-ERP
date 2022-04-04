@@ -85,6 +85,14 @@
                                     {{ t('cancelar') }}
                                 </button>
 
+                                <button mat-menu-item (click)="bloquearDesbloquearChamado()">
+                                    <mat-icon class="icon-size-5"
+                                    [class.text-red-600]="!os?.indBloqueioReincidencia"
+                                    [class.text-green-600]="os?.indBloqueioReincidencia"
+                                    [svgIcon]="os?.indBloqueioReincidencia ? 'heroicons_solid:lock-openned' : 'heroicons_solid:lock-closed'"></mat-icon>
+                                    {{ os?.indBloqueioReincidencia ? 'Desbloquear' : 'Bloquear' }}
+                                </button>
+
                                 <button mat-menu-item (click)="reabrir()"
                                     *ngIf="verificarPermissaoReabertura()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>

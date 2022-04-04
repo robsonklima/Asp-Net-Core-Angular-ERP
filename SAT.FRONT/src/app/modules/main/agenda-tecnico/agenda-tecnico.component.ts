@@ -368,7 +368,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.time = time;
     this.status = agenda.nomeStatusServico;
     this.intervencao = agenda.nomTipoIntervencao;
-    this.dataHoraLimiteAtendimento = 'FIM SLA: ' + formatDate('DD/MM/YYYY HH:mm', new Date(agenda.dataHoraLimiteAtendimento));
+    debugger
+    this.dataHoraLimiteAtendimento = agenda.dataHoraLimiteAtendimento;
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;

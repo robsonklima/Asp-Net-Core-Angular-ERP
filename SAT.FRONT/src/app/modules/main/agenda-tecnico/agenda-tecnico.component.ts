@@ -103,7 +103,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   carregarOpcoesCalendario()
-  {
+  {    
     this.calendarOptions = {
       view: {
         timeline: {
@@ -167,7 +167,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         
       },
       onEventHoverIn: (args, inst) =>
-      {
+      {     
         this.mostrarInformacoesEvento(args, inst);
       },
       onEventHoverOut: () =>
@@ -367,6 +367,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.time = time;
     this.status = agenda.nomeStatusServico;
     this.intervencao = agenda.nomTipoIntervencao;
+    this.dataHoraLimiteAtendimento = 'FIM SLA: ' + formatDate('DD/MM/YYYY HH:mm', new Date(agenda.dataHoraLimiteAtendimento));
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;
@@ -387,6 +388,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.intervencao = null;
     this.time = null;
     this.status = null;
+    this.dataHoraLimiteAtendimento = null;
     this.currentEvent = null;
     this.timer = null;
 

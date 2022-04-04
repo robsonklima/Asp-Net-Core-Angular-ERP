@@ -55,7 +55,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.sessionData?.usuario?.filial?.codFilial?.toString(),
+      codFiliais: this.os.codFilial.toString() || this.sessionData?.usuario?.filial?.codFilial?.toString(),
       filter: this.searchInputControl.nativeElement.val,
       pageSize: 20
     }

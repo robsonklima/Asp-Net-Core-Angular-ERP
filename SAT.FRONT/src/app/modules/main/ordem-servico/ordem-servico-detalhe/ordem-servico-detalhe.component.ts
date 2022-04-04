@@ -27,7 +27,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
-import { AgendaTecnico } from 'app/core/types/agenda-tecnico.types';
+import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -153,7 +153,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((data: any) =>
+		dialogRef.afterClosed().subscribe(async (data: any) =>
 		{
 			if (data)
 			{
@@ -165,21 +165,21 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					return;
 				}
 
-				this._agendamentoService.criar(data.agendamento).subscribe(() =>
+				this._agendamentoService.criar(data.agendamento).subscribe(async () =>
 				{
 					this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
 
-					this._ordemServicoService.atualizar(this.os).subscribe(
-						result =>
-						{
-							this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-							this.criarAgendaTecnico();
-							this.obterDados();
-						},
-						error =>
-						{
-							this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-						});
+					this._ordemServicoService.atualizar(this.os).subscribe(async () =>
+					{
+						this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
+						await this.removerAgendasDaOS();
+						await this.criarAgendaTecnico();
+						this.obterDados();
+					},
+					error =>
+					{
+						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+					});
 				},
 				() =>
 				{
@@ -255,13 +255,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
 		{
 			if (confirmacao)
 			{
 				var ultimoStatus = statusServicoConst.ABERTO;
 
-				this.obterHistoricoOS(this.codOS).then((historico) =>
+				this.obterHistoricoOS(this.codOS).then(async (historico) =>
 				{
 					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
@@ -283,11 +283,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					};
 
 					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
-
 					this._ordemServicoService.atualizar(obj).subscribe(
-						() =>
+						async () =>
 						{
-							// Deletar Agenda anterior -- TODO
+							await this.removerAgendasDaOS();
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 							this.obterDados();
 						},
@@ -298,6 +297,21 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				});
 			}
 		});
+	}
+
+	private async removerAgendasDaOS()
+	{
+		const agendas = await this._agendaTecnicoService
+			.obterPorParametros({ codOS: this.codOS })
+			.toPromise();
+
+		for (let agenda of agendas) {
+			agenda.indAtivo = 0;
+			agenda.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+			agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+			await this._agendaTecnicoService.atualizar(agenda).toPromise();
+		}
 	}
 
 	async reabrir()
@@ -389,10 +403,24 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			indAtivo: 1,
 			inicio: null,
 			fim: null,
-			indAgendamento: 0
+			indAgendamento: 0,
+			tipo: AgendaTecnicoTipoEnum.OS
 		  }
 	  
 		this._agendaTecnicoService.criar(agenda).subscribe(() => {});
+	}
+
+	public async bloquearDesbloquearChamado() {
+		this.isLoading = true;
+
+		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
+		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
+		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+
+		await this._ordemServicoService.atualizar(this.os).toPromise();
+		await this.obterDados();
+
+		this.isLoading = false;
 	}
 
 	isOrcamento()
@@ -416,5 +444,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	trocarTab(tab: any)
 	{
+
 	}
 }

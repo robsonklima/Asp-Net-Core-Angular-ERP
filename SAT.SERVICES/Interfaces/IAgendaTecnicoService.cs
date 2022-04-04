@@ -11,7 +11,6 @@ namespace SAT.SERVICES.Interfaces
         List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters);
         List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
-        void Deletar(int codigo);
         void Criar(AgendaTecnico agenda);
     }
 }

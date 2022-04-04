@@ -6,6 +6,8 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using SAT.MODELS.ViewModels;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -78,6 +80,16 @@ namespace SAT.INFRA.Repository
         {
             IQueryable<Tecnico> query = this.ObterQuery(parameters);
             return PagedList<Tecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public List<ViewTecnicoTempoAtendimento> ObterTempoAtendimento(int codTecnico)
+        {
+            var query = _context.ViewTecnicoTempoAtendimento.AsQueryable();
+
+            if (codTecnico > 0)
+                query = query.Where(t => t.CodTecnico == codTecnico);
+
+            return query.ToList();
         }
     }
 }

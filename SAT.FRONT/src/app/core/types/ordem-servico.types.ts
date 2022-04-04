@@ -2,7 +2,6 @@ import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
 import { Cliente } from "./cliente.types";
-import { Contrato } from "./contrato.types";
 import { EquipamentoContrato } from "./equipamento-contrato.types";
 import { Equipamento } from "./equipamento.types";
 import { Filial } from "./filial.types";

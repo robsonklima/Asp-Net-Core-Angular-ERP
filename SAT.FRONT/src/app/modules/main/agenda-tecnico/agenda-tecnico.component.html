@@ -40,6 +40,10 @@
                     <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
                     <br>
                     <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
+                    <br>                                
+                    <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
+                       Fim SLA: {{ dataHoraLimiteAtendimento | date:'dd/MM/yyyy HH:mm'}}
+                    </span>   
                 </div>
             </div>
         </div>

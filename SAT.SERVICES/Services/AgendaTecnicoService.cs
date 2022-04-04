@@ -18,6 +18,7 @@ namespace SAT.SERVICES.Services
         private readonly IRelatorioAtendimentoRepository _ratRepo;
         private readonly IMediaAtendimentoTecnicoRepository _mediaTecnicoRepo;
         private readonly IUsuarioRepository _usuarioRepo;
+        private readonly ITecnicoRepository _tecnicoRepo;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
@@ -26,7 +27,8 @@ namespace SAT.SERVICES.Services
             IMediaAtendimentoTecnicoRepository mediaTecnicoRepo,
             IRelatorioAtendimentoRepository ratRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
-            IUsuarioRepository usuarioRepo
+            IUsuarioRepository usuarioRepo,
+            ITecnicoRepository tecnicoRepo
         )
         {
             _agendaRepo = agendaRepo;
@@ -35,33 +37,26 @@ namespace SAT.SERVICES.Services
             _pontoUsuarioRepo = pontoUsuarioRepo;
             _mediaTecnicoRepo = mediaTecnicoRepo;
             _usuarioRepo = usuarioRepo;
+            _tecnicoRepo = tecnicoRepo;
         }
 
         public List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _agendaRepo.ObterViewPorParametros(parameters);
+            List<ViewAgendaTecnicoRecurso> recursos = new();   
 
-            for (int i = 0; i < agendas.Count; i++)
+            var agendas = _agendaRepo.ObterViewPorParametros(parameters);
+            var usuarios = ObterUsuarios(parameters);
+
+            for (int i = 0; i < agendas.Count(); i++)
             {
                 agendas[i].Cor = ObterCor(agendas[i]);
                 agendas[i].Titulo = ObterTitulo(agendas[i]);
                 agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
             }
 
-            var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
-                CodFilial = parameters.CodFilial,
-                CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
-                IndAtivo = 1,
-                PAS = parameters.PAS,
-                CodTecnicos = parameters.CodTecnicos
-            });
-
-            List<ViewAgendaTecnicoRecurso> recursos = new();
-
             foreach (var usuario in usuarios)
             {
-                IEnumerable<ViewAgendaTecnicoEvento> agendasDoUsuario = agendas
-                    .Where(a => a.CodTecnico == usuario.CodTecnico);
+                var agendasDoUsuario = agendas.Where(a => a.CodTecnico == usuario.CodTecnico);
 
                 for (int i = 0; i < agendasDoUsuario.Count(); i++)
                 {
@@ -76,14 +71,15 @@ namespace SAT.SERVICES.Services
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.FECHADO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
                     .Count();
+
                 var qtdChamadosTransferidos = agendasDoUsuario
                     .Where(a => a.CodStatusServico == (int)StatusServicoEnum.TRANSFERIDO && a.Tipo == AgendaTecnicoTipoEnum.OS)
                     .GroupBy(a => a.CodOS)
                     .Count();
 
-                if (usuario.CodTecnico != null)
+                if (usuario.CodTecnico != null) {
                     recursos.Add(new ViewAgendaTecnicoRecurso() {
-                        Id = (int)usuario.CodTecnico,
+                        Id = usuario.CodTecnico.Value,
                         Nome = usuario.NomeUsuario,
                         CodUsuario = usuario.CodUsuario,
                         FonePerto = usuario.Tecnico.FonePerto,
@@ -91,6 +87,7 @@ namespace SAT.SERVICES.Services
                         QtdChamadosTransferidos = qtdChamadosTransferidos,
                         Eventos = agendasDoUsuario
                     });
+                }
             }
 
             return recursos;
@@ -117,49 +114,40 @@ namespace SAT.SERVICES.Services
             var os = this._osRepo.ObterPorCodigo(agenda.CodOS.Value);
             var inicioPeriodo = DateTime.Now.Date.Add(new TimeSpan(0, 0, 0));
             var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
-            var mediaTecnico = 60;
+            var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao);
 
             var agendasDaOS = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
             var ultimaAgenda = agendasDaOS
                 .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
                 .OrderByDescending(a => a.Inicio)
                 .FirstOrDefault();
-                
-            DeletarAgendasAnterioresDaOS(agendasDaOS);
 
-            var deslocamento = 60;
-            var inicio = ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now;
-            inicio = inicio.Value.AddMinutes(deslocamento);
+            var inicio = agenda.Inicio.Value.Date == DateTime.Now.Date ? ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now : agenda.Inicio;
 
             if (this.estaNoIntervalo(inicio.Value))
                 inicio = this.FimIntervalo(inicio);
 
-            var fim = inicio.Value.AddMinutes(mediaTecnico);
+            var fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
             if (this.estaNoIntervalo(fim))
             {
-                inicio = fim.AddMinutes(deslocamento);
-                fim = inicio.Value.AddMinutes(mediaTecnico);
+                inicio = fim;
+                fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
             }
 
-            if (inicio > this.FimExpediente()) {
+            if (inicio > this.FimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
-                fim = inicio.Value.Date.Add(new TimeSpan(9, 0, 0));
+                fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
             }
 
             var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
             if (ultimoAgendamento != null) {
                 inicio = ultimoAgendamento;
-                fim = ultimoAgendamento.Value.AddHours(1);
+                fim = ultimoAgendamento.Value.AddMinutes(tempoMedioAtendimento);
             }
 
             agenda.Inicio = inicio;
             agenda.Fim = fim;
             _agendaRepo.Criar(agenda);
-        }
-
-        public void Deletar(int codAgendaTecnico)
-        {
-            this._agendaRepo.Deletar(codAgendaTecnico);
         }
 
         private string ObterCor(ViewAgendaTecnicoEvento agenda)
@@ -244,11 +232,24 @@ namespace SAT.SERVICES.Services
             return true;
         }
     
-        private void DeletarAgendasAnterioresDaOS(List<AgendaTecnico> agendas) {
-            foreach (var agenda in agendas)
-            {
-                _agendaRepo.Deletar(agenda.CodAgendaTecnico.Value);
-            }
+        private List<Usuario> ObterUsuarios(AgendaTecnicoParameters parameters) {
+            return _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
+                CodFilial = parameters.CodFilial,
+                CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+                IndAtivo = 1,
+                PAS = parameters.PAS,
+                CodTecnicos = parameters.CodTecnicos
+            });
+        }
+
+        private int ObterTempoMedioAtendimento(int codTecnico, int codTipoIntervencao) {
+            var tempos = _tecnicoRepo.ObterTempoAtendimento(codTecnico);
+            var media = tempos.Where(t => t.CodTipoIntervencao == codTipoIntervencao).FirstOrDefault();
+            
+            if (media != null)
+                return media.TempoEmMinutos;
+
+            return 60;
         }
 
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);

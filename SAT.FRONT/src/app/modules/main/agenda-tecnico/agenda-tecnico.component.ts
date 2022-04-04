@@ -103,7 +103,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   carregarOpcoesCalendario()
-  {
+  {    
     this.calendarOptions = {
       view: {
         timeline: {
@@ -153,7 +153,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         }
         else if (this._validator.invalidMove(args))
         {
-          this._snack.exibirToast("O atendimento não pode ser agendado para antes da linha do tempo.", "error");
+          this._snack.exibirToast("O atendimento não pode ser alocado para antes da linha do tempo.", "error");
           return false;
         }
         else
@@ -167,7 +167,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         
       },
       onEventHoverIn: (args, inst) =>
-      {
+      {     
         this.mostrarInformacoesEvento(args, inst);
       },
       onEventHoverOut: () =>
@@ -260,6 +260,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async atualizarAgenda(ev)
   {
     this.loading = true;
+    debugger
 
     var agenda: AgendaTecnico = ev.agendaTecnico;
     agenda.codTecnico = ev.resource;
@@ -275,14 +276,15 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       event.color = agenda.cor;
     }
 
-    var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
-    var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
-    
-    os.codTecnico = ag.codTecnico
-    os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-    os.codUsuarioManut = this.userSession.usuario.codUsuario;
+    if (agenda.tipo == AgendaTecnicoTipoEnum.OS) {
+      var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
+      os.codTecnico = agenda.codTecnico
+      os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+      os.codUsuarioManut = this.userSession.usuario.codUsuario;
+      this._ordemServicoSvc.atualizar(os).toPromise();
+    }
 
-    this._ordemServicoSvc.atualizar(os).toPromise();
+    var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
 
     if (ag != null)
     {
@@ -366,6 +368,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.time = time;
     this.status = agenda.nomeStatusServico;
     this.intervencao = agenda.nomTipoIntervencao;
+    debugger
+    this.dataHoraLimiteAtendimento = agenda.dataHoraLimiteAtendimento;
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;
@@ -386,6 +390,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.intervencao = null;
     this.time = null;
     this.status = null;
+    this.dataHoraLimiteAtendimento = null;
     this.currentEvent = null;
     this.timer = null;
 

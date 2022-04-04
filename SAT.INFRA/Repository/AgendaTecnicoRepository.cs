@@ -2,6 +2,7 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using System;
@@ -49,23 +50,6 @@ namespace SAT.INFRA.Repository
             catch (DbUpdateException ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-        public void Deletar(int codigo)
-        {
-            AgendaTecnico a = _context.AgendaTecnico.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
-
-            if (a != null)
-            {
-                try
-                {
-                    _context.AgendaTecnico.Remove(a);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
             }
         }
 

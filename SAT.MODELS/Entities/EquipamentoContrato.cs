@@ -84,6 +84,9 @@ namespace SAT.MODELS.Entities
         public DispBBCriticidade DispBBCriticidade { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
+        
+        [ForeignKey("CodContrato, CodEquip")]
+        public ContratoServico ContratoServico { get; set; }
 
         [ForeignKey("CodContrato, CodEquip")]
         public ContratoEquipamento ContratoEquipamento { get; set; }

@@ -12,7 +12,7 @@ namespace SAT.INFRA.Mapping
                 .ToTable("ContratoServico");
 
             builder
-                .HasKey(i => i.CodContratoServico);
+                .HasKey(i => new { i.CodContrato, i.CodEquip });
 
             builder
                 .HasOne(i => i.TipoServico)

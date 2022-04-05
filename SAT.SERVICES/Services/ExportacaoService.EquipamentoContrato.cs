@@ -16,12 +16,12 @@ namespace SAT.SERVICES.Services
 											new
 											{
 												ID_Equipamento = eq.CodEquipContrato,
-												TipoEquipamento = eq.TipoEquipamento?.NomeTipoEquip,
-												GrupoEquipamento = eq.GrupoEquipamento?.NomeGrupoEquip,
+												TipoEquipamento = eq.TipoEquipamento?.NomeTipoEquip ?? Constants.NENHUM_REGISTRO,
+												GrupoEquipamento = eq.GrupoEquipamento?.NomeGrupoEquip ?? Constants.NENHUM_REGISTRO,
 												Equipamento = eq.Equipamento?.NomeEquip ?? Constants.NENHUM_REGISTRO,
 												Serie = eq.NumSerie ?? Constants.NENHUM_REGISTRO,
 												SerieCliente= eq.NumSerieCliente ?? Constants.NENHUM_REGISTRO,
-												Cliente= eq.Cliente.NomeFantasia,
+												Cliente= eq.Cliente.NomeFantasia ?? Constants.NENHUM_REGISTRO,
 												CNPJ_LocalAtendimento = eq.LocalAtendimento?.Cnpj ?? Constants.NENHUM_REGISTRO,
 												Contrato = eq.Contrato?.NroContrato ?? Constants.NENHUM_REGISTRO,
 												TipoContrato = eq.Contrato?.TipoContrato.NomeTipoContrato ?? Constants.NENHUM_REGISTRO,
@@ -48,14 +48,14 @@ namespace SAT.SERVICES.Services
 												DataDesativação = eq.DataDesativacao?.ToString("dd/MM/yy HH:mm"),
 												DataInicGarantia = eq.DataInicGarantia?.ToString("dd/MM/yy HH:mm"),
 												DataFimGarantia = eq.DataFimGarantia?.ToString("dd/MM/yy HH:mm"),
-												CódigoBMP = eq.CodBMP ?? Constants.NENHUM_REGISTRO,
+												CodigoBMP = eq.CodBMP ?? Constants.NENHUM_REGISTRO,
 												Sequencia = eq.Sequencia ?? Constants.NENHUM_REGISTRO,
 												Semat = eq.IndSemat == 1 ? "SIM" : "NÃO",
-												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento,
-												RegraEquivalência = eq.Equipamento.Equivalencia.Regra,
-												ValorEquivalência = eq.Equipamento.Equivalencia.ValorCalculado
-												// MonitoramentoRemoto= "",	
-												// SoftwareEmbarcado= "",	
+												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento ?? Constants.NENHUM_REGISTRO,
+												RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
+												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0,
+												SoftwareEmbarcado = eq?.ContratoServico != null ? eq?.ContratoServico?.CodServico == 59 ? "SIM" : "NÃO" : Constants.NENHUM_REGISTRO ,
+												MonitoramentoRemoto = eq?.ContratoServico != null ? eq?.ContratoServico?.CodServico == 60 ? "SIM" : "NÃO" : Constants.NENHUM_REGISTRO ,
 											});
 
             var wsEq = Workbook.Worksheets.Add("Equipamentos");

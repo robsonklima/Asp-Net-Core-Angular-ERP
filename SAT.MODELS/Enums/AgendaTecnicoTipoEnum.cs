@@ -7,6 +7,7 @@ namespace SAT.MODELS.Enums
         PONTO = 3,
         FIM_EXPEDIENTE = 4,
         CHECKIN = 5,
-        CHECKOUT = 6
+        CHECKOUT = 6,
+        INTENCAO = 7
     }
 }

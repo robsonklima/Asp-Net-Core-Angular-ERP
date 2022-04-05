@@ -122,26 +122,31 @@ namespace SAT.SERVICES.Services
                 .OrderByDescending(a => a.Inicio)
                 .FirstOrDefault();
 
-            var inicio = agenda.Inicio.Value.Date == DateTime.Now.Date ? ultimaAgenda != null ? ultimaAgenda.Fim : DateTime.Now : agenda.Inicio;
+            var inicio = DateTime.Now;
 
-            if (this.estaNoIntervalo(inicio.Value))
+            if (ultimaAgenda != null) 
+                inicio = ultimaAgenda.Fim.Value;
+            else if (agenda != null && agenda.Inicio.HasValue)
+                inicio = agenda.Inicio.Value;
+
+            if (this.estaNoIntervalo(inicio))
                 inicio = this.FimIntervalo(inicio);
 
-            var fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
+            var fim = inicio.AddMinutes(tempoMedioAtendimento);
             if (this.estaNoIntervalo(fim))
             {
                 inicio = fim;
-                fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
+                fim = inicio.AddMinutes(tempoMedioAtendimento);
             }
 
             if (inicio > this.FimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
-                fim = inicio.Value.AddMinutes(tempoMedioAtendimento);
+                fim = inicio.AddMinutes(tempoMedioAtendimento);
             }
 
             var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
             if (ultimoAgendamento != null) {
-                inicio = ultimoAgendamento;
+                inicio = ultimoAgendamento.Value;
                 fim = ultimoAgendamento.Value.AddMinutes(tempoMedioAtendimento);
             }
 

@@ -177,8 +177,9 @@ namespace SAT.API
             services.AddTransient<IImportacaoConfiguracaoService, ImportacaoConfiguracaoService>();
             services.AddTransient<IImportacaoTipoService, ImportacaoTipoService>();
             services.AddTransient<IExportacaoService, ExportacaoService>();
+            services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
+            services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
             
-
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
             services.AddTransient<IAcordoNivelServicoService, AcordoNivelServicoService>();
@@ -292,8 +293,7 @@ namespace SAT.API
             services.AddTransient<IEquipamentoModuloService, EquipamentoModuloService>();
             services.AddTransient<IClientePecaService, ClientePecaService>();
             services.AddTransient<IClientePecaGenericaService, ClientePecaGenericaService>();
-            services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
-            services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
+            services.AddTransient<ITwilioService, TwilioService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

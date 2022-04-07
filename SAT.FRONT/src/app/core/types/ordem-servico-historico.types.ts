@@ -1,4 +1,11 @@
+import { Autorizada } from "./autorizada.types";
+import { EquipamentoContrato } from "./equipamento-contrato.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { LocalAtendimento } from "./local-atendimento.types";
+import { StatusServico } from "./status-servico.types";
+import { Tecnico } from "./tecnico.types";
+import { TipoIntervencao } from "./tipo-intervencao.types";
+import { Usuario } from "./usuario.types";
 
 export interface OrdemServicoHistorico {
     codHistOS: number;
@@ -12,6 +19,13 @@ export interface OrdemServicoHistorico {
     codCliente: number;
     codUsuarioManutencao: string;
     codAutorizada: number;
+    usuario: Usuario;
+    localAtendimento: LocalAtendimento;
+    tecnico: Tecnico;
+    autorizda: Autorizada;
+    equipamentoContrato: EquipamentoContrato;
+    tipoIntervencao: TipoIntervencao;
+    statusServico: StatusServico;
 }
 
 export interface OrdemServicoHistoricoData extends Meta {

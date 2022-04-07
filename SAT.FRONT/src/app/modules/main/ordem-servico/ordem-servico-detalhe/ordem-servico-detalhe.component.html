@@ -445,6 +445,98 @@
                             </ng-template>
                         </mat-tab>
 
+                        <!-- ATUALIZACOES -->
+                        <mat-tab [disabled]="!historico?.length">
+                            <ng-template matTabLabel>
+                                <span [class.opacity-50]="!historico?.length">
+                                    {{ t('historico') }}
+
+                                    <span class="bg-green-600 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="historico?.length">
+                                        {{ historico?.length || 0}}
+                                    </span>
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <ol>
+                                    <ng-container *ngFor="let hist of historico; let i = index">
+                                        <li class="relative flex py-6">
+                                            <ng-container *ngIf="historico.length-1 !== i">
+                                                <div class="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
+                                            </ng-container>
+
+                                            <div class="relative flex flex-auto">
+                                                <ng-container>
+                                                    <div class="flex flex-shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-green-400">
+                                                        <mat-icon
+                                                            class="icon-size-5 text-white"
+                                                            [svgIcon]="'heroicons_solid:refresh'">
+                                                        </mat-icon>
+                                                    </div>
+                                                </ng-container>
+        
+                                                <div class="flex flex-col flex-auto items-start">
+                                                    <ng-container>
+                                                        <div
+                                                            [innerHTML]="hist?.statusServico?.nomeStatusServico"></div>
+                                                    </ng-container>
+
+                                                    <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Intervenção: {{ hist.tipoIntervencao?.nomTipoIntervencao }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="hist.tecnico?.nome" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Técnico: {{ hist.tecnico?.nome }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Cliente: {{ hist.cliente?.nomeFantasia }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Local: {{ hist.localAtendimento?.nomeLocal }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="hist.equipamentoContrato?.numSerie" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Série: {{ hist.equipamentoContrato?.numSerie }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="hist.autorizada?.nomeFantasia" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Autoriada: {{ hist.autorizada?.nomeFantasia }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="hist.usuario?.nomeUsuario" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Usuário: {{ hist.usuario?.nomeUsuario }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary">
+                                                            Atualizado em: {{ hist.dataHoraCad | date:'dd/MM/yy HH:mm' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ng-container>
+                                </ol>
+                            </ng-template>
+                        </mat-tab>
+
                         <!-- RELATORIOS DE ATENDIMENTO -->
                         <mat-tab [disabled]="!os?.relatoriosAtendimento?.length">
                             <ng-template matTabLabel>
@@ -794,14 +886,14 @@
                             </ng-template>
                         </mat-tab>
                         
-                        <!-- HISTORICO -->
+                        <!-- EQUIPAMENTO -->
                         <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS">
                             <ng-template matTabLabel>
                                 <span>
-                                    {{ t('historico') }}
+                                    {{ t('equipamento') }}
                                 </span>
                             </ng-template>
 

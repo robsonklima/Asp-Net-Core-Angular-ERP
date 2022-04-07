@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -19,19 +20,28 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrdemServicoHistorico> ObterPorParametros(OrdemServicoHistoricoParameters parameters)
         {
-            var notificacaoes = _context.OrdemServicoHistorico.AsQueryable();
+            var hist = _context.OrdemServicoHistorico
+                .Include(h => h.Usuario)
+                .Include(h => h.Autorizada)
+                .Include(h => h.Tecnico)
+                .Include(h => h.Cliente)
+                .Include(h => h.LocalAtendimento)
+                .Include(h => h.EquipamentoContrato)
+                .Include(h => h.TipoIntervencao)
+                .Include(h => h.StatusServico)
+                .AsQueryable();
 
             if (parameters.CodOS != null)
             {
-                notificacaoes = notificacaoes.Where(n => n.CodOS == parameters.CodOS);
+                hist = hist.Where(n => n.CodOS == parameters.CodOS);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                notificacaoes = notificacaoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                hist = hist.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
             }
 
-            return PagedList<OrdemServicoHistorico>.ToPagedList(notificacaoes, parameters.PageNumber, parameters.PageSize);
+            return PagedList<OrdemServicoHistorico>.ToPagedList(hist, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

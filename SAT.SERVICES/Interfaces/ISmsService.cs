@@ -1,6 +1,6 @@
 namespace SAT.SERVICES.Interfaces
 {
-    public interface ITwilioService
+    public interface ISmsService
     {
         void Enviar();
     }

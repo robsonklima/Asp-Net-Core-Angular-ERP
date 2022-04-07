@@ -8,19 +8,19 @@ namespace SAT.API.Controllers
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]
-    public class TwilioController : ControllerBase
+    public class SmsController : ControllerBase
     {
-        private readonly ITwilioService _twilioService;
+        private readonly ISmsService _smsService;
 
-        public TwilioController(ITwilioService twilioService)
+        public SmsController(ISmsService smsService)
         {
-            _twilioService = twilioService;
+            _smsService = smsService;
         }
 
         [HttpGet]
         public void Get()
         {
-            _twilioService.Enviar();
+            _smsService.Enviar();
         }
     }
 }

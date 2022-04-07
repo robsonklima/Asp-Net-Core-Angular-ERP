@@ -293,7 +293,7 @@ namespace SAT.API
             services.AddTransient<IEquipamentoModuloService, EquipamentoModuloService>();
             services.AddTransient<IClientePecaService, ClientePecaService>();
             services.AddTransient<IClientePecaGenericaService, ClientePecaGenericaService>();
-            services.AddTransient<ITwilioService, TwilioService>();
+            services.AddTransient<ISmsService, SmsService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

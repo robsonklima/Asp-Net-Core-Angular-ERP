@@ -91,12 +91,15 @@ namespace SAT.INFRA.Repository
         {
             var equips = _context.EquipamentoContrato
                 .Include(e => e.LocalAtendimento)
+                    .ThenInclude(e => e.Cidade)
+                        .ThenInclude(e => e.UnidadeFederativa)
                 .Include(e => e.Cliente)
                 .Include(e => e.Contrato)
                    .ThenInclude(e => e.TipoContrato)
                 .Include(e => e.Equipamento)
                     .ThenInclude(e => e.Equivalencia)
                 .Include(e => e.ContratoEquipamento)
+                .Include(e => e.AcordoNivelServico)
                 .Include(e => e.GrupoEquipamento)
                 .Include(e => e.RegiaoAutorizada)
                 .Include(e => e.RegiaoAutorizada.Filial)

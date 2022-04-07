@@ -1,3 +1,4 @@
+import { FiltroModule } from './../../filtros/filtro.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -23,6 +24,8 @@ import { equipamentoContratoRoutes } from './equipamento-contrato.routing';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { EquipamentoContratoFiltroComponent } from './equipamento-contrato-filtro/equipamento-contrato-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -33,7 +36,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     EquipamentoContratoListaComponent,
-    EquipamentoContratoFormComponent
+    EquipamentoContratoFormComponent,
+    EquipamentoContratoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +61,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     NgxMatSelectSearchModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatMenuModule
+    MatSidenavModule,
+    MatMenuModule,
+    FiltroModule
   ]
 })
 export class EquipamentoContratoModule { }

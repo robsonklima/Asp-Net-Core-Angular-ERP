@@ -262,7 +262,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   private async atualizarAgenda(ev)
   {
     this.loading = true;
-    debugger
 
     var agenda: AgendaTecnico = ev.agendaTecnico;
     agenda.codTecnico = ev.resource;
@@ -286,6 +285,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this._ordemServicoSvc.atualizar(os).toPromise();
     }
 
+    await this.removerAgendasAnterioresDaOS(agenda);
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
 
     if (ag != null)
@@ -331,7 +331,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     os.codUsuarioManut = this.userSession.usuario.codUsuario,
     os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
     await this._ordemServicoSvc.atualizar(os).toPromise();
-
     await this.removerAgendasAnterioresDaOS(agendaTecnico);
     await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise().then(async () => {
       this._notify.toast({
@@ -371,7 +370,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.time = time;
     this.status = agenda.nomeStatusServico;
     this.intervencao = agenda.nomTipoIntervencao;
-    debugger
     this.dataHoraLimiteAtendimento = agenda.dataHoraLimiteAtendimento;
     clearTimeout(this.timer);
     this.timer = null;

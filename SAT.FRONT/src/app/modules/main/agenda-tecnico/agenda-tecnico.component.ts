@@ -222,8 +222,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
     };
 
-    //console.log(agendaTecnicoParams);
-
     this._agendaTecnicoSvc.obterViewPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
       this.limparListas();
       this.recursos = recursos;
@@ -256,6 +254,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
         }
       }).toArray();
 
+      this.loading = false;
+    }).catch(e => {
+      this._snack.exibirToast(e.error.message || e.message, 'error');
       this.loading = false;
     });
   }

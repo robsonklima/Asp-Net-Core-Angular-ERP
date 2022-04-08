@@ -16,15 +16,12 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
-import { NotificacaoService } from 'app/core/services/notificacao.service';
-import { Notificacao } from 'app/core/types/notificacao.types';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { FotoService } from 'app/core/services/foto.service';
-import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
+import { OrdemServicoHistorico, OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 import { fuseAnimations } from '@fuse/animations';
-import { statusConst } from 'app/core/types/status-types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
@@ -53,6 +50,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
+	historico: OrdemServicoHistorico[] = [];
 
 	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
 	{
@@ -67,6 +65,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	constructor (
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
+		private _osHistoricoService: OrdemServicoHistoricoService,
 		private _agendamentoService: AgendamentoService,
 		private _userService: UserService,
 		private _snack: CustomSnackbarService,
@@ -74,8 +73,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
 		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
-		private _fotoService: FotoService,
-		private _notificacaoService: NotificacaoService
+		private _fotoService: FotoService
 	)
 	{
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -99,6 +97,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = true;
 
 		await this.obterOS();
+		this.obterHistorico();
 		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
@@ -109,6 +108,18 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	private async obterOS()
 	{
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
+	}
+
+	private async obterHistorico() {
+		const historico = await this._osHistoricoService.obterPorParametros({
+			codOS: this.codOS,
+			sortDirection: 'asc',
+			sortActive: 'dataHoraCad'
+		}).toPromise();
+
+		this.historico = historico.items;
+		console.log(this.historico);
+		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>

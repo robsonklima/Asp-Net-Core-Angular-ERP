@@ -124,13 +124,18 @@ namespace SAT.SERVICES.Services
 
             var inicio = DateTime.Now;
 
-            if (ultimaAgenda != null) 
-                inicio = ultimaAgenda.Fim.Value;
-            else if (agenda != null && agenda.Inicio.HasValue)
+            if (ultimaAgenda != null) {
+                if (ultimaAgenda.Fim > DateTime.Now) {
+                    inicio = ultimaAgenda.Fim.Value;
+                }
+            }
+            else if (agenda != null && agenda.Inicio.HasValue) {
                 inicio = agenda.Inicio.Value;
+            }
 
-            if (this.estaNoIntervalo(inicio))
+            if (this.estaNoIntervalo(inicio)) {
                 inicio = this.FimIntervalo(inicio);
+            }
 
             var fim = inicio.AddMinutes(tempoMedioAtendimento);
             if (this.estaNoIntervalo(fim))
@@ -145,9 +150,12 @@ namespace SAT.SERVICES.Services
             }
 
             var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
+
             if (ultimoAgendamento != null) {
-                inicio = ultimoAgendamento.Value;
-                fim = ultimoAgendamento.Value.AddMinutes(tempoMedioAtendimento);
+                if (ultimoAgendamento > DateTime.Now) {
+                    inicio = ultimoAgendamento.Value;
+                    fim = ultimoAgendamento.Value.AddMinutes(tempoMedioAtendimento);
+                }
             }
 
             agenda.Inicio = inicio;

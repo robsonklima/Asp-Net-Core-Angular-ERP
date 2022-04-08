@@ -125,6 +125,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => u.IndAtivo == parameters.IndAtivo);
             }
 
+            if (parameters.IndFerias != null)
+            {
+                query = query.Where(u => u.Tecnico.IndFerias == parameters.IndFerias);
+            }
+
             if (parameters.CodPontoPeriodo != null)
             {
                 query = query.Where(u => u.PontosPeriodoUsuario.Any(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo));

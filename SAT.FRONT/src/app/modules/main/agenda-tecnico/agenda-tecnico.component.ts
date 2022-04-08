@@ -214,6 +214,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       ...{
         inicio: this.inicio,
         fim: this.fim,
+        indFerias: 0,
         sortActive: 'nome',
         sortDirection: 'asc'
       },

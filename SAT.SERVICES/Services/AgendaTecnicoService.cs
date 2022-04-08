@@ -254,6 +254,7 @@ namespace SAT.SERVICES.Services
                 CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
                 IndAtivo = 1,
                 PAS = parameters.PAS,
+                IndFerias = parameters.IndFerias,
                 CodTecnicos = parameters.CodTecnicos
             });
         }

@@ -12,6 +12,7 @@ namespace SAT.MODELS.Entities.Params
         public int CodOS { get; set; }
         public int? IndAtivo { get; set; }
         public AgendaTecnicoTipoEnum? Tipo { get; set; }
+        public int IndFerias { get; set; }
         public DateTime? Inicio { get; set; }
         public DateTime? Fim { get; set; }
     }

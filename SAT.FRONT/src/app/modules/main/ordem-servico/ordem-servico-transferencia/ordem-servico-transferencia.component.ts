@@ -93,8 +93,8 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       codUsuarioCad: this.sessionData.usuario.codUsuario,
       dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
       indAtivo: 1,
-      inicio: moment().format('YYYY-MM-DD HH:mm:ss'),
-      fim: moment().add('hour', 1).format('YYYY-MM-DD HH:mm:ss'),
+      inicio: null,
+      fim: null,
       indAgendamento: 0,
       tipo: AgendaTecnicoTipoEnum.OS
     }

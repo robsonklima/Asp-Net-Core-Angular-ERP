@@ -114,55 +114,52 @@ namespace SAT.SERVICES.Services
         {
             removerHistorico(agenda);
 
-            var os = this._osRepo.ObterPorCodigo(agenda.CodOS.Value);
-            var inicioPeriodo = DateTime.Now.Date.Add(new TimeSpan(0, 0, 0));
-            var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
+            var os = _osRepo.ObterPorCodigo(agenda.CodOS.Value);
             var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao);
-
-            var agendasDaOS = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
-            var ultimaAgenda = agendasDaOS
-                .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
-                .OrderByDescending(a => a.Inicio)
-                .FirstOrDefault();
+            var historicoAgenda = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
 
             var inicio = DateTime.Now;
 
-            if (ultimaAgenda != null) {
-                if (ultimaAgenda.Fim > DateTime.Now) {
-                    inicio = ultimaAgenda.Fim.Value;
-                }
-            }
-            else if (agenda != null && agenda.Inicio.HasValue) {
+            if (inicioFoiInformado(agenda)) 
                 inicio = agenda.Inicio.Value;
-            }
 
-            if (this.estaNoIntervalo(inicio)) {
-                inicio = this.FimIntervalo(inicio);
+            if (!inicioFoiInformado(agenda)) {
+                var ultimaAgenda = historicoAgenda
+                    .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                    .OrderByDescending(a => a.Inicio)
+                    .FirstOrDefault();
+
+                if (ultimaAgenda != null) 
+                    if (ultimaAgenda.Fim > DateTime.Now) 
+                        inicio = ultimaAgenda.Fim.Value.AddHours(1);
             }
+            
+            if (estaNoIntervalo(inicio))
+                inicio = fimIntervalo(inicio).AddHours(1);
 
             var fim = inicio.AddMinutes(tempoMedioAtendimento);
-            if (this.estaNoIntervalo(fim))
+            if (estaNoIntervalo(fim))
             {
-                inicio = fim;
+                inicio = fimIntervalo().AddHours(1);
                 fim = inicio.AddMinutes(tempoMedioAtendimento);
             }
 
-            if (inicio > this.FimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
+            if (inicio > fimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
                 inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                 fim = inicio.AddMinutes(tempoMedioAtendimento);
             }
 
-            var ultimoAgendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
-
-            if (ultimoAgendamento != null) {
-                if (ultimoAgendamento > DateTime.Now) {
-                    inicio = ultimoAgendamento.Value;
-                    fim = ultimoAgendamento.Value.AddMinutes(tempoMedioAtendimento);
+            var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
+            if (agendamento != null) {
+                if (agendamento > DateTime.Now) {
+                    inicio = agendamento.Value;
+                    fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
                 }
             }
 
             agenda.Inicio = inicio;
             agenda.Fim = fim;
+
             _agendaRepo.Criar(agenda);
         }
 
@@ -285,14 +282,16 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);
-        private DateTime InicioExpediente(DateTime? referenceTime = null) => 
+        private bool estaNoIntervalo(DateTime time) => time >= inicioIntervalo(time) && time <= fimIntervalo(time);
+        private DateTime inicioExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(8, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(8, 00, 0));
-        private DateTime FimExpediente(DateTime? referenceTime = null) => 
+        private DateTime fimExpediente(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(18, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(18, 00, 0));
-        private DateTime InicioIntervalo(DateTime? referenceTime = null) => 
+        private DateTime inicioIntervalo(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(12, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(12, 00, 0));
-        private DateTime FimIntervalo(DateTime? referenceTime = null) => 
+        private DateTime fimIntervalo(DateTime? referenceTime = null) => 
             referenceTime.HasValue ? referenceTime.Value.Date.Add(new TimeSpan(13, 00, 0)) : DateTime.Now.Date.Add(new TimeSpan(13, 00, 0));
+        
+        private bool inicioFoiInformado(AgendaTecnico agenda) => agenda.Inicio.HasValue;
     }
 }

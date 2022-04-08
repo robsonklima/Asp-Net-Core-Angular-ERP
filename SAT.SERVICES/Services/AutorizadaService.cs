@@ -57,7 +57,7 @@ namespace SAT.SERVICES.Services
 
         public Autorizada ObterPorCodigo(int codigo)
         {
-            throw new System.NotImplementedException();
+            return _autorizadaRepo.ObterPorCodigo(codigo);
         }
     }
 }

@@ -285,7 +285,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this._ordemServicoSvc.atualizar(os).toPromise();
     }
 
-    await this.removerAgendasAnterioresDaOS(agenda);
     var ag = await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
 
     if (ag != null)
@@ -331,7 +330,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     os.codUsuarioManut = this.userSession.usuario.codUsuario,
     os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
     await this._ordemServicoSvc.atualizar(os).toPromise();
-    await this.removerAgendasAnterioresDaOS(agendaTecnico);
     await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise().then(async () => {
       this._notify.toast({
         message: 'Registro incluído com sucesso'
@@ -420,21 +418,4 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.tooltip.close();
     }, 200);
   }
-
-  private async removerAgendasAnterioresDaOS(agenda: AgendaTecnico)
-	{
-		var agendas = await this._agendaTecnicoSvc
-			.obterPorParametros({ codOS: agenda.codOS })
-			.toPromise();
-
-    agendas = agendas.filter(a => a.codAgendaTecnico !== agenda.codAgendaTecnico);
-
-		for (let agenda of agendas) {
-			agenda.indAtivo = 0;
-			agenda.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-			agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
-
-			await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
-		}
-	}
 }

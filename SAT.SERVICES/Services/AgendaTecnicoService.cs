@@ -105,12 +105,15 @@ namespace SAT.SERVICES.Services
 
         public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
+            removerHistorico(agenda);
             _agendaRepo.Atualizar(agenda);
             return agenda;
         }
 
         public void Criar(AgendaTecnico agenda)
         {
+            removerHistorico(agenda);
+
             var os = this._osRepo.ObterPorCodigo(agenda.CodOS.Value);
             var inicioPeriodo = DateTime.Now.Date.Add(new TimeSpan(0, 0, 0));
             var fimPeriodo = DateTime.Now.Date.Add(new TimeSpan(23, 59, 59));
@@ -263,6 +266,22 @@ namespace SAT.SERVICES.Services
                 return media.TempoEmMinutos;
 
             return 60;
+        }
+
+        private void removerHistorico(AgendaTecnico agenda) {
+            var parametros = new AgendaTecnicoParameters() { CodOS = agenda.CodOS.Value };
+            
+            var agendas = _agendaRepo
+                .ObterPorParametros(parametros)
+                .Where(a => a.CodAgendaTecnico != agenda.CodAgendaTecnico);
+
+            foreach (var a in agendas)
+            {
+                a.IndAtivo = 0;
+                a.DataHoraManut = DateTime.Now;
+                a.CodUsuarioManut = Constants.SISTEMA_NOME;
+                _agendaRepo.Atualizar(a);
+            }
         }
 
         private bool estaNoIntervalo(DateTime time) => time >= this.InicioIntervalo(time) && time <= this.FimIntervalo(time);

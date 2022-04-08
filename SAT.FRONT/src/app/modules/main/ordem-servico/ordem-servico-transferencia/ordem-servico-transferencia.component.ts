@@ -99,8 +99,6 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       tipo: AgendaTecnicoTipoEnum.OS
     }
 
-    await this.removerAgendasDaOS();
-    
     this._agendaTecnicoService.criar(agenda).subscribe((agenda) =>
     {
       this.os.codTecnico = tecnico.codTecnico;
@@ -121,19 +119,4 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       this._snack.exibirToast('Erro ao transferir o chamado', 'error');
     });
   }
-
-  private async removerAgendasDaOS()
-	{
-		const agendas = await this._agendaTecnicoService
-			.obterPorParametros({ codOS: this.os.codOS })
-			.toPromise();
-
-		for (let agenda of agendas) {
-			agenda.indAtivo = 0;
-			agenda.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-			agenda.codUsuarioManut = this.sessionData.usuario.codUsuario;
-
-			await this._agendaTecnicoService.atualizar(agenda).toPromise();
-		}
-	}
 }

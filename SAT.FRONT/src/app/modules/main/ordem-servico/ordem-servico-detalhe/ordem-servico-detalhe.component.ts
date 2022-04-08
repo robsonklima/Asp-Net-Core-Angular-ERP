@@ -183,7 +183,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					this._ordemServicoService.atualizar(this.os).subscribe(async () =>
 					{
 						this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
-						await this.removerAgendasDaOS();
 						await this.criarAgendaTecnico();
 						this.obterDados();
 					},
@@ -297,7 +296,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					this._ordemServicoService.atualizar(obj).subscribe(
 						async () =>
 						{
-							await this.removerAgendasDaOS();
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 							this.obterDados();
 						},
@@ -308,21 +306,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 				});
 			}
 		});
-	}
-
-	private async removerAgendasDaOS()
-	{
-		const agendas = await this._agendaTecnicoService
-			.obterPorParametros({ codOS: this.codOS })
-			.toPromise();
-
-		for (let agenda of agendas) {
-			agenda.indAtivo = 0;
-			agenda.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
-			agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
-
-			await this._agendaTecnicoService.atualizar(agenda).toPromise();
-		}
 	}
 
 	async reabrir()

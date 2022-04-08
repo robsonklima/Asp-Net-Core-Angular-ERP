@@ -77,7 +77,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     public _dialog: MatDialog,
     private _validator: AgendaTecnicoValidator,
     private _snack: CustomSnackbarService,
-    private _ordemServicoSvc: OrdemServicoService
+    private _ordemServicoSvc: OrdemServicoService,
   )
   {
     super(_userSvc, 'agenda-tecnico');
@@ -221,6 +221,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
     };
 
+    //console.log(agendaTecnicoParams);
+
     this._agendaTecnicoSvc.obterViewPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
       this.limparListas();
       this.recursos = recursos;
@@ -330,6 +332,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
     await this._ordemServicoSvc.atualizar(os).toPromise();
 
+    await this.removerAgendasAnterioresDaOS(agendaTecnico);
     await this._agendaTecnicoSvc.criar(agendaTecnico).toPromise().then(async () => {
       this._notify.toast({
         message: 'Registro incluído com sucesso'
@@ -419,4 +422,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       this.tooltip.close();
     }, 200);
   }
+
+  private async removerAgendasAnterioresDaOS(agenda: AgendaTecnico)
+	{
+		var agendas = await this._agendaTecnicoSvc
+			.obterPorParametros({ codOS: agenda.codOS })
+			.toPromise();
+
+    agendas = agendas.filter(a => a.codAgendaTecnico !== agenda.codAgendaTecnico);
+
+		for (let agenda of agendas) {
+			agenda.indAtivo = 0;
+			agenda.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+			agenda.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+			await this._agendaTecnicoSvc.atualizar(agenda).toPromise();
+		}
+	}
 }

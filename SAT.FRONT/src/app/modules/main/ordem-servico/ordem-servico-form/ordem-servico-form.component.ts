@@ -426,7 +426,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
       RoleEnum.FILIAIS_SUPERVISOR,
       RoleEnum.FILIAL_COORDENADOR,
-      RoleEnum.FILIAL_LIDER
+      RoleEnum.FILIAL_LIDER,
+      RoleEnum.FINANCEIRO_COORDENADOR_CREDITO
     ];
 
     var podemAlterarOrcamentoFilial = [
@@ -437,7 +438,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
       RoleEnum.FILIAIS_SUPERVISOR,
       RoleEnum.FILIAL_COORDENADOR,
-      RoleEnum.FILIAL_LIDER
+      RoleEnum.FILIAL_LIDER,
+      RoleEnum.FINANCEIRO_COORDENADOR_CREDITO
     ];
 
     var perfisPodemAlterarCorretiva = [

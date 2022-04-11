@@ -65,10 +65,7 @@ export class RegiaoAutorizadaFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codRegiao;
 
     this.registrarEmitters();
-    this.obterRegioes();
-    this.obterAutorizadas();
-    this.obterCidades();
-    this.obterFiliais();
+    
 
     this.form = this._formBuilder.group({
       codRegiao: ['', Validators.required],
@@ -84,10 +81,17 @@ export class RegiaoAutorizadaFormComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe(data => {
           this.form.patchValue(data);
-          console.log(data);
-          
+          this.obterRegioes(data.regiao?.nomeRegiao);
+          this.obterAutorizadas(data.autorizada?.nomeFantasia);
+          this.obterCidades(data.cidade?.nomeCidade);
+          this.obterFiliais(data.filial?.nomeFilial);        
           this.regiaoAutorizada = data;
         })
+    } else {
+      this.obterRegioes();
+      this.obterAutorizadas();
+      this.obterCidades();
+      this.obterFiliais();
     }
   }
 
@@ -211,7 +215,7 @@ export class RegiaoAutorizadaFormComponent implements OnInit, OnDestroy {
       indAtivo: +form.indAtivo
     }
 
-    this._regiaoAutorizadaService.atualizar(obj).subscribe(() => {
+    this._regiaoAutorizadaService.atualizar(obj, this.codRegiao, this.codAutorizada, this.codFilial).subscribe(() => {
       this._snack.exibirToast("Registro atualizado com sucesso!", "success");
       this._location.back();
     })

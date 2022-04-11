@@ -43,8 +43,7 @@
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Região</mat-label>
-                        <mat-select class="min-h-10" formControlName="codRegiao"
-                            [disabled]="!regioes.length || form.disabled">
+                        <mat-select class="min-h-10" formControlName="codRegiao">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -60,8 +59,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Autorizada</mat-label>
-                        <mat-select class="min-h-10" formControlName="codAutorizada"
-                            [disabled]="!autorizadas.length || form.disabled">
+                        <mat-select class="min-h-10" formControlName="codAutorizada">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -77,8 +75,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Filial</mat-label>
-                        <mat-select class="min-h-10" formControlName="codFilial"
-                            [disabled]="!filiais.length || form.disabled">
+                        <mat-select class="min-h-10" formControlName="codFilial">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -94,8 +91,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Cidade</mat-label>
-                        <mat-select class="min-h-10" formControlName="codCidade"
-                            [disabled]="!cidades.length || form.disabled">
+                        <mat-select class="min-h-10" formControlName="codCidade">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -132,7 +128,7 @@
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button [routerLink]="['/regiao']" mat-button>
+                    <button [routerLink]="['/regiao-autorizada']" mat-button>
                         {{ t('cancelar') }}
                     </button>
 

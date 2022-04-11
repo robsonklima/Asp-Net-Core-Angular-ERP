@@ -8,7 +8,7 @@ namespace SAT.INFRA.Interfaces
     {
         PagedList<RegiaoAutorizada> ObterPorParametros(RegiaoAutorizadaParameters parameters);
         void Criar(RegiaoAutorizada regiaoAutorizada);
-        void Atualizar(RegiaoAutorizada regiaoAutorizada);
+        void Atualizar(RegiaoAutorizada regiaoAutorizada, int codRegiao, int codAutorizada, int codFilial);
         void Deletar(int codRegiao, int codAutorizada, int codFilial);
         RegiaoAutorizada ObterPorCodigo(int codRegiao, int codAutorizada, int codFilial);
     }

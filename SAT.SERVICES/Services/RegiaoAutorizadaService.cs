@@ -39,9 +39,9 @@ namespace SAT.SERVICES.Services
             return regiaoAutorizada;
         }
 
-        public void Atualizar(RegiaoAutorizada regiaoAutorizada)
+        public void Atualizar(RegiaoAutorizada regiaoAutorizada, int codRegiao, int codAutorizada, int codFilial)
         {
-            _regiaoRepo.Atualizar(regiaoAutorizada);
+            _regiaoRepo.Atualizar(regiaoAutorizada, codRegiao, codAutorizada, codFilial);
         }
 
         public RegiaoAutorizada ObterPorCodigo(int codRegiao, int codAutorizada, int codFilial)

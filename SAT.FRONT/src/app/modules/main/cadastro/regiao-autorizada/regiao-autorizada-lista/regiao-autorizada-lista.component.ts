@@ -13,18 +13,18 @@ import { RegiaoAutorizada, RegiaoAutorizadaData } from 'app/core/types/regiao-au
   templateUrl: './regiao-autorizada-lista.component.html',
   styles: [`
     .regiao-autorizada-list-grid {
-      grid-template-columns: 52px auto 146px 146px 146px 32px;
+      grid-template-columns: 68px auto 146px 146px 146px 32px;
       
       @screen sm {
-          grid-template-columns: 52px auto 146px 146px 146px 32px;
+          grid-template-columns: 68px auto 146px 146px 146px 32px;
       }
 
       @screen md {
-          grid-template-columns: 52px auto 146px 146px 146px 72px;
+          grid-template-columns: 68px auto 146px 146px 146px 72px;
       }
 
       @screen lg {
-          grid-template-columns: 52px auto 146px 146px 146px 72px;
+          grid-template-columns: 68px auto 146px 146px 146px 72px;
       }
     }  
   `],

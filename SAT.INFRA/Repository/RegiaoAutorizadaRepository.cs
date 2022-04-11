@@ -20,14 +20,17 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(RegiaoAutorizada regiaoAutorizada)
+        public void Atualizar(RegiaoAutorizada regiaoAutorizada, int codRegiao, int codAutorizada, int codFilial)
         {
             _context.ChangeTracker.Clear();
-            RegiaoAutorizada ra = _context.RegiaoAutorizada
-                                .SingleOrDefault(ra =>
-                                                 ra.CodAutorizada == regiaoAutorizada.CodAutorizada &&
-                                                 ra.CodRegiao == regiaoAutorizada.CodRegiao &&
-                                                 ra.CodFilial == regiaoAutorizada.CodFilial);
+            regiaoAutorizada.Filial = null;
+            regiaoAutorizada.Autorizada = null;
+            regiaoAutorizada.Regiao = null;
+            regiaoAutorizada.Cidade = null;
+            RegiaoAutorizada ra = _context.RegiaoAutorizada.SingleOrDefault(ra =>
+                                                                ra.CodAutorizada == codAutorizada &&
+                                                                ra.CodRegiao == codRegiao &&
+                                                                ra.CodFilial == codFilial);
 
             if (ra != null)
             {
@@ -80,11 +83,16 @@ namespace SAT.INFRA.Repository
 
         public RegiaoAutorizada ObterPorCodigo(int codRegiao, int codAutorizada, int codFilial)
         {
-            return _context.RegiaoAutorizada.SingleOrDefault(
-                ra =>
-                ra.CodAutorizada == codAutorizada &&
-                ra.CodRegiao == codRegiao &&
-                ra.CodFilial == codFilial);
+            return _context.RegiaoAutorizada
+                .Include(ra => ra.Regiao)
+                .Include(ra => ra.Autorizada)
+                .Include(ra => ra.Filial)
+                .Include(ra => ra.Cidade)
+                .SingleOrDefault(
+                    ra =>
+                    ra.CodAutorizada == codAutorizada &&
+                    ra.CodRegiao == codRegiao &&
+                    ra.CodFilial == codFilial);
         }
 
         public IQueryable<RegiaoAutorizada> ObterQuery(RegiaoAutorizadaParameters parameters)

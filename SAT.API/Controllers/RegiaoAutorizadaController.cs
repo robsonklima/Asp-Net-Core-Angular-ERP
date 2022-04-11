@@ -27,6 +27,12 @@ namespace SAT.API.Controllers
             return _regiaoAutorizadaService.ObterPorParametros(parameters);
         }
 
+        [HttpGet("{codRegiao}/{codAutorizada}/{codFilial}")]
+        public RegiaoAutorizada Get(int codRegiao, int codAutorizada, int codFilial)
+        {
+            return this._regiaoAutorizadaService.ObterPorCodigo(codRegiao, codAutorizada, codFilial);
+        }
+
         [HttpPost]
         public void Post([FromBody] RegiaoAutorizada regiaoAutorizada)
         {

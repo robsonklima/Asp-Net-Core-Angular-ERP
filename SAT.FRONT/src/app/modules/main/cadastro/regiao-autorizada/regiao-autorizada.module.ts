@@ -20,10 +20,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { RegiaoAutorizadaListaComponent } from './regiao-autorizada-lista/regiao-autorizada-lista.component';
 import { regiaoAutorizadaRoutes } from './regiao-autorizada.routing';
+import { RegiaoAutorizadaFormComponent } from './regiao-autorizada-form/regiao-autorizada-form.component';
 
 @NgModule({
   declarations: [
-    RegiaoAutorizadaListaComponent
+    RegiaoAutorizadaListaComponent,
+    RegiaoAutorizadaFormComponent
   ],
   imports: [
     CommonModule,

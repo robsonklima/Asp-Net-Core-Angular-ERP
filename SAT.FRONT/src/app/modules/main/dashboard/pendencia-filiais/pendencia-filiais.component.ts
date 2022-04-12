@@ -108,7 +108,7 @@ export class PendenciaFiliaisComponent extends Filterable implements OnInit, IFi
           data: valoresColuna
         },
         {
-          name: "Meta de Reincidência",
+          name: "Meta de Pendência",
           type: "line",
           data: valoresLinha,
           color: redColor
@@ -119,7 +119,7 @@ export class PendenciaFiliaisComponent extends Filterable implements OnInit, IFi
         enabled: false
       },
       title: {
-        text: '* Meta de Reincidência deve ser menor ou igual a ' + meta + '%'
+        text: '* Meta de Pendência deve ser menor ou igual a ' + meta + '%'
       },
       colors: [
         function ({ value }) {

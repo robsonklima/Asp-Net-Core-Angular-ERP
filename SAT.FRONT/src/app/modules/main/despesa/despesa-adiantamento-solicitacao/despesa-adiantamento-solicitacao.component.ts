@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -36,7 +37,8 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
     private _tecnicoService: TecnicoService,
     private _filialService: FilialService,
     private _despesaAdiantamentoService: DespesaAdiantamentoService,
-    private _snack: CustomSnackbarService
+    private _snack: CustomSnackbarService,
+    private _location: Location
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -197,7 +199,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
 
     this._despesaAdiantamentoService.criarSolicitacao(solicitacao).subscribe(() => {
       this._snack.exibirToast('Solicitação de adiantamento cadastrada com sucesso', 'success');
-
+      this._location.back();
     }, e => {
       this._snack.exibirToast(e.message || e.error.message, 'error')
     });

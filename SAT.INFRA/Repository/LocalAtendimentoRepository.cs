@@ -92,14 +92,34 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.TipoRota)
                 .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(parameters.Filter))
-                locais = locais.Where(
-                    l =>
-                    l.CodPosto.ToString().Contains(parameters.Filter) ||
-                    l.NomeLocal.Contains(parameters.Filter) ||
-                    l.DCPosto.Contains(parameters.Filter) ||
-                    l.NumAgencia.Contains(parameters.Filter)
-                );
+            if (!string.IsNullOrWhiteSpace(parameters.Filter)) 
+            {
+                if (parameters.Filter.Contains("/")) 
+                {
+                    var agenciaPosto = parameters.Filter.Split("/");
+
+                    if (agenciaPosto.Count() > 1) {
+                        string agencia = agenciaPosto[0];
+                        string posto = agenciaPosto[1];
+
+                        if (!string.IsNullOrWhiteSpace(agencia))
+                            locais = locais.Where(l => l.NumAgencia == agencia);
+
+                        if (!string.IsNullOrWhiteSpace(posto))
+                            locais = locais.Where(l => l.DCPosto == posto);
+                    }
+                } 
+                else
+                {
+                    locais = locais.Where(
+                        l =>
+                        l.CodPosto.ToString().Contains(parameters.Filter) ||
+                        l.NomeLocal.Contains(parameters.Filter) ||
+                        l.DCPosto.Contains(parameters.Filter) ||
+                        l.NumAgencia.Contains(parameters.Filter)
+                    );
+                }
+            }
 
             if (parameters.CodPosto.HasValue)
                 locais = locais.Where(l => l.CodPosto == parameters.CodPosto);

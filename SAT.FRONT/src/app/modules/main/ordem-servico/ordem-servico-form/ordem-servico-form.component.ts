@@ -237,6 +237,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
         pageSize: 1000,
       }).toPromise();
 
+      this.locais = [];
       this.locais = data.items.slice();
 
       if (!this.isAddMode)
@@ -263,6 +264,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy
       pageSize: 100
     }).toPromise();
 
+    this.equipamentosContrato = [];
     this.equipamentosContrato = Enumerable.from(data.items)
       .orderByDescending(i => i.indAtivo)
       .thenBy(i => i.numSerie)

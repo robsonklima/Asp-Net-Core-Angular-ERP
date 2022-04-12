@@ -33,7 +33,7 @@ namespace SAT.INFRA.Repository
                     _context.Entry(grupo).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
                     throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
                 }

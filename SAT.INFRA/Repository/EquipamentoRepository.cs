@@ -47,7 +47,7 @@ namespace SAT.INFRA.Repository
                 _context.Add(equipamento);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
             }

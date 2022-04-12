@@ -106,7 +106,6 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.RegiaoAutorizada.Autorizada)
                 .Include(e => e.RegiaoAutorizada.Regiao)
                 .Include(e => e.TipoEquipamento)
-                .Include(e => e.ContratoServico)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))

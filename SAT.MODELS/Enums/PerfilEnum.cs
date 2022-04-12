@@ -69,6 +69,7 @@ namespace SAT.MODELS.Enums {
         HELP_DESK_POS = 96,
         CLIENTE_S_ABERTURA = 97,
         CLIENTE_PEÇAS_EXPORTAÇÃO = 98,
-        PERTO_STORE = 99
+        PERTO_STORE = 99,
+        FINANCEIRO_COORDENADOR_CREDITO = 100
     }
 }

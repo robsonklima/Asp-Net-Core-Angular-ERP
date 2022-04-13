@@ -31,7 +31,7 @@
                     <ng-container>
                         <div class="grid grid-cols-1 py-3">
                             <div class="text-center text-secondary">
-                                Utilizados {{ monitoramento.emUso | number: '1.0-4' }} de {{ monitoramento.total |
+                                Utilizados {{ monitoramento.total - monitoramento.emUso | number: '1.0-4' }} de {{ monitoramento.total |
                                 number: '1.0-4' }} GB
                             </div>
                         </div>

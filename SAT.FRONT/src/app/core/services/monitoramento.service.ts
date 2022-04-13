@@ -71,7 +71,7 @@ export class MonitoramentoService
         return status.OK;
 
       case tipo.STORAGE:
-        if (((m.total - m.emUso) / m.total) * 100 <= 30)
+        if (((m.total - m.emUso) / m.total) * 100 >= 70)
           return status.DANGER;
 
         return status.OK;

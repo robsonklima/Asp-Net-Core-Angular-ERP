@@ -21,7 +21,7 @@
             </div>
             <div class="flex flex-col flex-auto mt-2 h-44">
                 <apx-chart class="flex flex-auto items-center justify-center w-full h-full" [chart]="chartPie.chart"
-                    [colors]="['#805AD5', '#B794F4']" [labels]="['Em Uso', 'Livre']"
+                    [colors]="['#B794F4', '#805AD5']" [labels]="['Livre', 'Em Uso']"
                     [plotOptions]="chartPie.plotOptions"
                     [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
                     [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
@@ -71,7 +71,7 @@
                 <apx-chart class="flex flex-auto items-center justify-center w-full h-full" [chart]="chartPie.chart"
                     [colors]="['#319795', '#4FD1C5']" [labels]="['Em Uso', 'Livre']"
                     [plotOptions]="chartPie.plotOptions"
-                    [series]="[(monitoramento.emUso / monitoramento.total) * 100, ((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100]"
+                    [series]="[((monitoramento.total - monitoramento.emUso) / monitoramento.total) * 100, (monitoramento.emUso / monitoramento.total) * 100]"
                     [states]="chartPie.states" [tooltip]="chartPie.tooltip"></apx-chart>
             </div>
             <div class="mt-8">

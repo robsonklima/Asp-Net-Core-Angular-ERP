@@ -68,10 +68,10 @@ export class MonitoramentoService
         if (ociosidade > med && ociosidade < max)
           return status.WARNING;
 
-        return status.OK;
-
-      case tipo.STORAGE:
-        if (((m.total - m.emUso) / m.total) * 100 >= 70)
+        return status.OK;     
+      
+      case tipo.STORAGE:       
+        if (((m.emUso / m.total) * 100) <= 30)
           return status.DANGER;
 
         return status.OK;

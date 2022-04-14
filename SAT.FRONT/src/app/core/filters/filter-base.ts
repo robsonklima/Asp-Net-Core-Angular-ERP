@@ -10,6 +10,7 @@ import { FiltroService } from '../services/filtro.service';
 import { CustomSnackbarService } from '../services/custom-snackbar.service';
 import Enumerable from 'linq';
 import { MatSelect } from '@angular/material/select';
+import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -124,7 +125,6 @@ export class FilterBase implements IFilterBaseCore {
     }
 
     salvar(codFiltroUsuario?: number, nomeFiltroAtualizar?: string): void {
-
         let params = {
             codUsuario: this.userSession.usuario.codUsuario,
             dadosJson: JSON.stringify(this.form.getRawValue()),
@@ -149,26 +149,21 @@ export class FilterBase implements IFilterBaseCore {
                 });
         }
         else {
-            const dialogRef = this._dialog.open(DialogSaveFilterComponent);
-            dialogRef.afterClosed().subscribe((data: any) => {
-                if (data) {
-                    this._filtroService.criar({
-                        nomeFiltro: data.nomeFiltro,
-                        ...params
-                    }).toPromise()
-                        .then(async () => {
-                            this._snack.exibirToast("Configurações de filtro criado com sucesso!", "success");
-                            this._userService.atualizaFiltrosUsuario(this.userSession.usuario).subscribe(us => {
-                                this.userSession.usuario.filtroUsuario = us.filtroUsuario;
-                                let novoCodigo = Enumerable.from(us.filtroUsuario).orderByDescending(ord => ord.codFiltroUsuario).firstOrDefault().codFiltroUsuario;
-                                this.registerUsuarioFiltro(novoCodigo);
-                                this.aplicarForm();
-                            });
-                        }).catch(() => {
-                            this._snack.exibirToast("Erro ao criar o filtro.", "error");
-                        });
-                }
-            });
+            this._filtroService.criar({
+            nomeFiltro: `FILTRO_${moment().format('yyyyMMDDHHmmsss')}`,
+                ...params
+            }).toPromise()
+                .then(async () => {
+                    this._snack.exibirToast("Configurações de filtro criado com sucesso!", "success");
+                    this._userService.atualizaFiltrosUsuario(this.userSession.usuario).subscribe(us => {
+                        this.userSession.usuario.filtroUsuario = us.filtroUsuario;
+                        let novoCodigo = Enumerable.from(us.filtroUsuario).orderByDescending(ord => ord.codFiltroUsuario).firstOrDefault().codFiltroUsuario;
+                        this.registerUsuarioFiltro(novoCodigo);
+                        this.aplicarForm();
+                    });
+                }).catch(() => {
+                    this._snack.exibirToast("Erro ao criar o filtro.", "error");
+                });
         }
     }
 

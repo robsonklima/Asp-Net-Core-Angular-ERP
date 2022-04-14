@@ -6,10 +6,10 @@ namespace SAT.MODELS.Entities.Params
 {
     public class AgendaTecnicoParameters : QueryStringParameters
     {
-        public int CodFilial { get; set; }
+        public int? CodFilial { get; set; }
         public string CodTecnicos { get; set; }
         public string PAS { get; set; }
-        public int CodOS { get; set; }
+        public int? CodOS { get; set; }
         public int? IndAtivo { get; set; }
         public AgendaTecnicoTipoEnum? Tipo { get; set; }
         public int IndFerias { get; set; }

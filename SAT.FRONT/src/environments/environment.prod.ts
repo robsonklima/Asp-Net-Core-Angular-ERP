@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    versionCheckURL: 'https://sat.perto.com.br/SAT.V2.FRONTEND/version.json'
+    apiUrl: 'https://sat.perto.com.br/SAT.V2.API/api'
 };

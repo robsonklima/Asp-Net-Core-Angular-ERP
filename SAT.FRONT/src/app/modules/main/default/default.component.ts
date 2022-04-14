@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
 import _ from 'lodash';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 

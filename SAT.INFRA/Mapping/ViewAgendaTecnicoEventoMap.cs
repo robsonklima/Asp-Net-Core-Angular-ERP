@@ -12,7 +12,6 @@ namespace SAT.INFRA.Mapping
                 .ToView("vwc_v2_agendatecnico")
                 .HasNoKey();
 
-            builder.Ignore(agenda => agenda.Cor);
             builder.Ignore(agenda => agenda.Titulo);
             builder.Ignore(agenda => agenda.Editavel);
             builder.Ignore(agenda => agenda.Clientes);

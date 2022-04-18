@@ -8,16 +8,16 @@ namespace SAT.SERVICES.Services
 {
     public class RegiaoAutorizadaService : IRegiaoAutorizadaService
     {
-        private readonly IRegiaoAutorizadaRepository _regiaoRepo;
+        private readonly IRegiaoAutorizadaRepository _regiaoAutorizadaRepo;
 
-        public RegiaoAutorizadaService(IRegiaoAutorizadaRepository regiaoRepo)
+        public RegiaoAutorizadaService(IRegiaoAutorizadaRepository regiaoAutorizadaRepo)
         {
-            _regiaoRepo = regiaoRepo;
+            _regiaoAutorizadaRepo = regiaoAutorizadaRepo;
         }
 
         public ListViewModel ObterPorParametros(RegiaoAutorizadaParameters parameters)
         {
-            var regioes = _regiaoRepo.ObterPorParametros(parameters);
+            var regioes = _regiaoAutorizadaRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
@@ -35,18 +35,18 @@ namespace SAT.SERVICES.Services
 
         public RegiaoAutorizada Criar(RegiaoAutorizada regiaoAutorizada)
         {
-            _regiaoRepo.Criar(regiaoAutorizada);
+            _regiaoAutorizadaRepo.Criar(regiaoAutorizada);
             return regiaoAutorizada;
-        }
-
-        public void Atualizar(RegiaoAutorizada regiaoAutorizada, int codRegiao, int codAutorizada, int codFilial)
-        {
-            _regiaoRepo.Atualizar(regiaoAutorizada, codRegiao, codAutorizada, codFilial);
         }
 
         public RegiaoAutorizada ObterPorCodigo(int codRegiao, int codAutorizada, int codFilial)
         {
-            return _regiaoRepo.ObterPorCodigo(codRegiao, codAutorizada, codFilial);
+            return _regiaoAutorizadaRepo.ObterPorCodigo(codRegiao, codAutorizada, codFilial);
+        }
+
+        public void Deletar(int codRegiao, int codAutorizada, int codFilial)
+        {
+         _regiaoAutorizadaRepo.Deletar(codRegiao, codAutorizada, codFilial);
         }
     }
 }

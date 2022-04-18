@@ -108,11 +108,11 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.Data.Value.Date >= parameters.Inicio.Value.Date && a.Data.Value.Date <= parameters.Fim.Value.Date);
             }
 
-            if (parameters.CodOS > 0) {
+            if (parameters.CodOS != null) {
                 agendas = agendas.Where(a => a.CodOS == parameters.CodOS);
             }
 
-            if (parameters.IndAtivo > 0) {
+            if (parameters.IndAtivo != null) {
                 agendas = agendas.Where(a => a.IndAtivo == parameters.IndAtivo);
             }
 

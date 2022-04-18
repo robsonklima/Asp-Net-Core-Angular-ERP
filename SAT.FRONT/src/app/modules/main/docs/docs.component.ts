@@ -79,12 +79,6 @@ export class DocsComponent implements OnInit, OnDestroy
                         title: 'Versões',
                         type : 'basic',
                         link : '/docs/inicio/versoes'
-                    },
-                    {
-                        id   : 'app-tecnicos',
-                        title: 'App Técnicos',
-                        type : 'basic',
-                        link : '/docs/inicio/app-tecnicos'
                     }
                 ]
             },
@@ -104,32 +98,38 @@ export class DocsComponent implements OnInit, OnDestroy
                         title: 'Ordem de Serviço',
                         type : 'basic',
                         link : '/docs/ordem-servico'
+                    },
+                    {
+                        id   : 'app-tecnicos',
+                        title: 'App Técnicos',
+                        type : 'basic',
+                        link : '/docs/app-tecnicos'
                     }
                 ]
             }
         ];
 
-        if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA) {
-            this.menuData.push({
-                id      : 'desenvolvimento',
-                title   : 'Desenvolvimento',
-                type    : 'group',
-                children: [
-                    {
-                        id   : 'arquitetura',
-                        title: 'Arquitetura',
-                        type : 'basic',
-                        link : '/docs/arquitetura'
-                    },
-                    {
-                        id   : 'publicacao',
-                        title: 'Publicação',
-                        type : 'basic',
-                        link : '/docs/publicacao'
-                    }
-                ]
-            });
-        }
+        // if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA) {
+        //     this.menuData.push({
+        //         id      : 'desenvolvimento',
+        //         title   : 'Desenvolvimento',
+        //         type    : 'group',
+        //         children: [
+        //             {
+        //                 id   : 'arquitetura',
+        //                 title: 'Arquitetura',
+        //                 type : 'basic',
+        //                 link : '/docs/arquitetura'
+        //             },
+        //             {
+        //                 id   : 'publicacao',
+        //                 title: 'Publicação',
+        //                 type : 'basic',
+        //                 link : '/docs/publicacao'
+        //             }
+        //         ]
+        //     });
+        // }
     }
 
     /**

@@ -42,9 +42,9 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
       codTecnicos: [undefined],
       codFilial: [undefined],
       pas: [undefined],
-      codRegioes: [undefined]
+      codRegioes: [undefined],
+      codOS: [undefined]
     });
-
 
     const params = {
       ...this.filter?.parametros,

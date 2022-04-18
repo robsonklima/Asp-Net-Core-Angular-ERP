@@ -49,7 +49,7 @@ namespace SAT.SERVICES.Services
 
             for (int i = 0; i < agendas.Count(); i++)
             {
-                agendas[i].Cor = ObterCor(agendas[i]);
+                agendas[i].Cor = agendas[i].Tipo == AgendaTecnicoTipoEnum.OS ? agendas[i].Cor : ObterCor(agendas[i]);
                 agendas[i].Titulo = ObterTitulo(agendas[i]);
                 agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
             }
@@ -177,7 +177,13 @@ namespace SAT.SERVICES.Services
             if (agenda.CodStatusServico == (int)StatusServicoEnum.FECHADO)
                 return Constants.COR_AZUL;
 
-            if (agenda.Fim < DateTime.Now && agenda.CodStatusServico != (int)StatusServicoEnum.FECHADO && agenda.Tipo == AgendaTecnicoTipoEnum.OS)
+            if (agenda.Fim < DateTime.Now && 
+                agenda.CodStatusServico != (int)StatusServicoEnum.FECHADO && 
+                agenda.CodStatusServico != (int)StatusServicoEnum.PECAS_PENDENTES &&
+                agenda.CodStatusServico != (int)StatusServicoEnum.PECAS_LIBERADAS &&
+                agenda.CodStatusServico != (int)StatusServicoEnum.PECA_EM_TRANSITO &&
+                agenda.CodStatusServico != (int)StatusServicoEnum.PECA_SEPARADA &&
+                agenda.Tipo == AgendaTecnicoTipoEnum.OS)
                 return Constants.COR_VERMELHO;
             
             if (agenda.DataAgendamento != null)

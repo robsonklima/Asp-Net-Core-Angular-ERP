@@ -26,7 +26,7 @@ import { IntroducaoComponent } from './inicio/introducao/introducao.component';
 import { VersoesComponent } from './inicio/introducao/versoes/versoes.component';
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
-import { AppTecnicosComponent } from './inicio/app-tecnicos/app-tecnicos.component';
+import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
 
 @NgModule({
   declarations: [

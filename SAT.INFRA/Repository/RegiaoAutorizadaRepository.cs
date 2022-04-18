@@ -20,32 +20,6 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(RegiaoAutorizada regiaoAutorizada, int codRegiao, int codAutorizada, int codFilial)
-        {
-            _context.ChangeTracker.Clear();
-            regiaoAutorizada.Filial = null;
-            regiaoAutorizada.Autorizada = null;
-            regiaoAutorizada.Regiao = null;
-            regiaoAutorizada.Cidade = null;
-            RegiaoAutorizada ra = _context.RegiaoAutorizada.SingleOrDefault(ra =>
-                                                                ra.CodAutorizada == codAutorizada &&
-                                                                ra.CodRegiao == codRegiao &&
-                                                                ra.CodFilial == codFilial);
-
-            if (ra != null)
-            {
-                try
-                {
-                    _context.Entry(ra).CurrentValues.SetValues(regiaoAutorizada);
-                    _context.SaveChanges();
-                }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
-            }
-        }
-
         public void Criar(RegiaoAutorizada regiaoAutorizada)
         {
             try

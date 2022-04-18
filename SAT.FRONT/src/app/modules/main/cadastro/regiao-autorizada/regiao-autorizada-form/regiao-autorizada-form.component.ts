@@ -201,26 +201,6 @@ export class RegiaoAutorizadaFormComponent implements OnInit, OnDestroy {
     this.filiais = data.items;
   }
 
-  salvar(): void {
-    this.isAddMode ? this.criar() : this.atualizar();
-  }
-
-  atualizar(): void {
-    const form: any = this.form.getRawValue();
-
-    let obj =
-    {
-      ... this.regiaoAutorizada,
-      ...form,
-      indAtivo: +form.indAtivo
-    }
-
-    this._regiaoAutorizadaService.atualizar(obj, this.codRegiao, this.codAutorizada, this.codFilial).subscribe(() => {
-      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-      this._location.back();
-    })
-  }
-
   criar(): void {
     const form: any = this.form.getRawValue();
 
@@ -228,7 +208,7 @@ export class RegiaoAutorizadaFormComponent implements OnInit, OnDestroy {
     {
       ... this.regiaoAutorizada,
       ...form,
-      indAtivo: +form.indAtivo
+      indAtivo: 1
     }
 
     this._regiaoAutorizadaService.criar(obj).subscribe(() => {

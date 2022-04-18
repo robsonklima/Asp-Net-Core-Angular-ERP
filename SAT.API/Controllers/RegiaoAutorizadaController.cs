@@ -39,10 +39,10 @@ namespace SAT.API.Controllers
             _regiaoAutorizadaService.Criar(regiaoAutorizada);
         }
 
-        [HttpPut("{codRegiao}/{codAutorizada}/{codFilial}")]
-        public void Put(int codRegiao, int codAutorizada, int codFilial, [FromBody] RegiaoAutorizada regiaoAutorizada)
+        [HttpDelete("{codRegiao}/{codAutorizada}/{codFilial}")]
+        public void Delete(int codRegiao, int codAutorizada, int codFilial)
         {
-            _regiaoAutorizadaService.Atualizar(regiaoAutorizada, codRegiao, codAutorizada, codFilial);
+            _regiaoAutorizadaService.Deletar(codRegiao, codAutorizada, codFilial);
         }
     }
 }

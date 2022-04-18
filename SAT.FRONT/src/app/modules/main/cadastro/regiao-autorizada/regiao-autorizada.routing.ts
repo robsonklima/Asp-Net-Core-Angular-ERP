@@ -15,9 +15,5 @@ export const regiaoAutorizadaRoutes: Route[] = [
     {
         path: 'form',
         component: RegiaoAutorizadaFormComponent,
-    },
-    {
-        path: 'form/:codRegiao/:codAutorizada/:codFilial',
-        component: RegiaoAutorizadaFormComponent,
-    },
+    }
 ];

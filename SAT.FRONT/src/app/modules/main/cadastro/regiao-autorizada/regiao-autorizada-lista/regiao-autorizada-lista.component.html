@@ -51,6 +51,9 @@
                             <div class="hidden md:block">
                                 {{ t('ativo') }}
                             </div>
+                            <div class="hidden md:block">
+                                {{ t('acoes') }}
+                            </div>
                         </div>
                     </div>
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
@@ -64,37 +67,48 @@
 
             <ng-container>
                 <ng-container *ngFor="let ra of dataSourceData?.items">
-                    <a [routerLink]="['/regiao-autorizada/form/' + ra.codRegiao + '/' + ra.codAutorizada + '/' + ra.codFilial]">
-                        <div class="regiao-autorizada-list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
-                            *transloco="let t">
-                            <div class="hidden md:block truncate">
-                                {{ ra.codRegiao }}_{{ ra.codAutorizada }}_{{ ra.codFilial }}
-                            </div>
-
-                            <div class="hidden md:block truncate">
-                                {{ ra.regiao.nomeRegiao }}
-                            </div>
-
-                            <div class="hidden md:block truncate">
-                                {{ ra.autorizada.nomeFantasia }}
-                            </div>
-
-                            <div class="hidden md:block truncate">
-                                {{ ra.cidade.nomeCidade }}
-                            </div>
-
-                            <div class="hidden md:block truncate">
-                                {{ ra.filial.nomeFilial }}
-                            </div>
-
-                            <div class="truncate">
-                                <span class="py-1 px-2 rounded text-white" [class.bg-green-600]="ra.indAtivo"
-                                    [class.bg-red-600]="!ra.indAtivo">
-                                    {{ ra.indAtivo ? 'Ativo' : 'Inativo' }}
-                                </span>
-                            </div>
+                    <div class="regiao-autorizada-list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                        *transloco="let t">
+                        <div class="hidden md:block truncate">
+                            {{ ra.codRegiao }}_{{ ra.codAutorizada }}_{{ ra.codFilial }}
                         </div>
-                    </a>
+
+                        <div class="hidden md:block truncate">
+                            {{ ra.regiao.nomeRegiao }}
+                        </div>
+
+                        <div class="hidden md:block truncate">
+                            {{ ra.autorizada.nomeFantasia }}
+                        </div>
+
+                        <div class="hidden md:block truncate">
+                            {{ ra.cidade.nomeCidade }}
+                        </div>
+
+                        <div class="hidden md:block truncate">
+                            {{ ra.filial.nomeFilial }}
+                        </div>
+
+                        <div class="truncate">
+                            <span class="py-1 px-2 rounded text-white" [class.bg-green-600]="ra.indAtivo"
+                                [class.bg-red-600]="!ra.indAtivo">
+                                {{ ra.indAtivo ? 'Ativo' : 'Inativo' }}
+                            </span>
+                        </div>
+
+                        <div class="truncate">                                       
+                            <button
+                                class="min-w-10 min-h-7 h-7 px-2 ml-4 bg-red-600 border-0"
+                                mat-stroked-button
+                                [matTooltip]="'Remover'"
+                                matTooltipPosition="above"
+                                (click)="remover(ra)">
+                                <mat-icon
+                                    class="icon-size-5 text-white"
+                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
                 </ng-container>
             </ng-container>
 

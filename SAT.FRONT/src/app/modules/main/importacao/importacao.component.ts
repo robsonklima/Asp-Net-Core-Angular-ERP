@@ -72,21 +72,6 @@ export class ImportacaoComponent implements AfterViewInit {
 	}
 
 	jsonImportacaoMap(planilhaJson: any) {
-
-		// let planilhaLinhasMap = planilhaJson.map((row) => {
-			// let importacaoCol: ImportacaoColuna[];
-			// Object.keys(row).forEach( r => importacaoCol.push({campo: r}));
-			
-			// row.forEach(element => {
-			// 	importacaoCol.push({
-			// 		campo: Object.keys(element).toString(),
-			// 		valor: element
-			// 	});
-			// });
-		// 	console.log(importacaoCol);
-		// 	console.log(row);
-		// });
-
 		let importacao: Importacao = {
 			id: 1,
 			importacaoLinhas: [{

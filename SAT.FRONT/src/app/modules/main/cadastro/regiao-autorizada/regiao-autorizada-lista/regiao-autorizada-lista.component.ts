@@ -7,24 +7,27 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { RegiaoAutorizada, RegiaoAutorizadaData } from 'app/core/types/regiao-autorizada.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
   selector: 'app-regiao-autorizada-lista',
   templateUrl: './regiao-autorizada-lista.component.html',
   styles: [`
     .regiao-autorizada-list-grid {
-      grid-template-columns: 68px auto 146px 146px 146px 32px;
+      grid-template-columns: 68px auto 146px 146px 146px 32px 56px;
       
       @screen sm {
-          grid-template-columns: 68px auto 146px 146px 146px 32px;
+          grid-template-columns: 68px auto 146px 146px 146px 32px 56px;
       }
 
       @screen md {
-          grid-template-columns: 68px auto 146px 146px 146px 72px;
+          grid-template-columns: 68px auto 146px 146px 146px 72px 56px;
       }
 
       @screen lg {
-          grid-template-columns: 68px auto 146px 146px 146px 72px;
+          grid-template-columns: 68px auto 146px 146px 146px 72px 56px;
       }
     }  
   `],
@@ -43,7 +46,9 @@ export class RegiaoAutorizadaListaComponent implements AfterViewInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _regiaoAutorizadaService: RegiaoAutorizadaService
+    private _regiaoAutorizadaService: RegiaoAutorizadaService,
+    private _dialog: MatDialog,
+    private _snack: CustomSnackbarService
   ) { }
 
   ngAfterViewInit(): void {
@@ -86,6 +91,37 @@ export class RegiaoAutorizadaListaComponent implements AfterViewInit {
       this.dataSourceData = data;
       this.isLoading = false;
       this._cdr.detectChanges();
+    });
+  }
+
+  remover(ra: RegiaoAutorizada) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover a região autorizada?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
+		{
+			if (confirmacao)
+			{
+        this.isLoading = true;
+        this._regiaoAutorizadaService
+          .deletar(ra.codRegiao, ra.codAutorizada, ra.codFilial)
+          .subscribe(() => {
+            this._snack.exibirToast(`Registro removido com sucesso`, 'success');
+            this.isLoading = false;
+            this.obterDados();
+          }, (e) => {
+            this._snack.exibirToast(e.message || e.error.message, 'error');
+            this.isLoading = false;
+          });
+      }
     });
   }
 

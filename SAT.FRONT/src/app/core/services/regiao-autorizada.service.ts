@@ -37,14 +37,6 @@ export class RegiaoAutorizadaService {
         );
     }
 
-    atualizar(regiaoAutorizada: RegiaoAutorizada, codRegiao: number, codAutorizada: number, codFilial: number): Observable<RegiaoAutorizada> {
-        const url = `${c.api}/RegiaoAutorizada/${codRegiao}/${codAutorizada}/${codFilial}`;
-        
-        return this.http.put<RegiaoAutorizada>(url, regiaoAutorizada).pipe(
-            map((obj) => obj)
-        );
-    }
-
     deletar(codRegiao: number, codAutorizada: number, codFilial: number): Observable<RegiaoAutorizada> {
         const url = `${c.api}/RegiaoAutorizada/${codRegiao}/${codAutorizada}/${codFilial}`;
         

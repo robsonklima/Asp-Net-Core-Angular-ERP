@@ -47,9 +47,6 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit
     this.despesaPeriodoTecnico.despesas = this.despesaPeriodoTecnico.despesas
       .sort((a, b) => (moment(a.relatorioAtendimento.dataHoraInicio) > moment(b.relatorioAtendimento.dataHoraInicio)) ? 1 : -1);
 
-    console.log(this.despesaPeriodoTecnico);
-    
-
     await this.obterOS();
     await this.obterAdiantamentos();
     await this.obterContaTecnico();

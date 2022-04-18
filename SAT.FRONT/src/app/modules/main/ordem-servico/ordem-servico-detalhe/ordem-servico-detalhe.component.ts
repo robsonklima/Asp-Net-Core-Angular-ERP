@@ -118,8 +118,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}).toPromise();
 
 		this.historico = historico.items;
-		console.log(this.historico);
-		
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>

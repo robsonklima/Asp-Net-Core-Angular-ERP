@@ -17,7 +17,7 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
 
-                    <mat-select formControlName="codFilial">
+                    <mat-select formControlName="codFilial" >
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                             {{ filial.nomeFilial }}
                         </mat-option>

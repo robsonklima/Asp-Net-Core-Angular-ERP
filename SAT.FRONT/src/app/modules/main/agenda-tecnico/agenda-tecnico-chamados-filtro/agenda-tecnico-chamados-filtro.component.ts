@@ -121,9 +121,12 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
   async obterFiliais()
   {
     let params: FilialParameters = {
-      indAtivo: 1,
-      sortActive: 'nomeFilial',
-      sortDirection: 'asc'
+      ...{
+        indAtivo: 1,
+        sortActive: 'nomeFilial',
+        sortDirection: 'asc'
+      },
+      ...{ codFilial: this.userSession.usuario?.codFilial }
     };
 
     const data = await this._filialSvc

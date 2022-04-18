@@ -78,6 +78,11 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
     });
 
     this.form.patchValue(this.filter?.parametros);
+
+    if (this.userSession.usuario.codFilial) {
+      this.form.controls['codFilial'].setValue(this.userSession.usuario.codFilial);
+      this.form.controls['codFilial'].disable();
+    }
   }
 
   async obterTiposIntervencao()

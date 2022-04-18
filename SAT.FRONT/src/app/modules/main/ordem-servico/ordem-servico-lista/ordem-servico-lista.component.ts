@@ -29,7 +29,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
             }
         
             @screen md {
-                grid-template-columns: 48px 92px 92px 92px 38px 36px 58px auto 58px 58px 58px 10px;
+                grid-template-columns: 48px 92px 92px 92px 38px 36px 58px 58px auto 120px 58px 10px;
             }
         
             @screen lg {

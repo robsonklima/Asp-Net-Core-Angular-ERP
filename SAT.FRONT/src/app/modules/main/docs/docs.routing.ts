@@ -5,7 +5,7 @@ import { IntroducaoComponent } from './inicio/introducao/introducao.component';
 import { SuporteComponent } from './suporte/suporte.component';
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
-import { AppTecnicosComponent } from './inicio/app-tecnicos/app-tecnicos.component';
+import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
 
 export const docsRoutes: Route[] = [
     {
@@ -31,10 +31,6 @@ export const docsRoutes: Route[] = [
                     {
                         path     : 'versoes',
                         component: VersoesComponent
-                    },
-                    {
-                        path     : 'app-tecnicos',
-                        component: AppTecnicosComponent
                     }
                 ]
             },
@@ -45,6 +41,16 @@ export const docsRoutes: Route[] = [
                         path      : '',
                         pathMatch : 'full',
                         component: AutenticacaoComponent
+                    }
+                ]
+            },
+            {
+                path    : 'app-tecnicos',
+                children: [
+                    {
+                        path      : '',
+                        pathMatch : 'full',
+                        component: AppTecnicosComponent
                     }
                 ]
             },

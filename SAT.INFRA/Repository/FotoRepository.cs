@@ -61,7 +61,7 @@ namespace SAT.INFRA.Repository
                 fotos = fotos.Where(f => f.CodOS == parameters.CodOS);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                fotos = fotos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                fotos = fotos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Foto>.ToPagedList(fotos, parameters.PageNumber, parameters.PageSize);
         }

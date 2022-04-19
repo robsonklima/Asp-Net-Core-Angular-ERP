@@ -90,7 +90,7 @@ namespace SAT.INFRA.Repository
                         t.NomeProtocolo.Contains(parameters.Filter));
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                protocolos = protocolos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                protocolos = protocolos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaProtocolo>.ToPagedList(protocolos, parameters.PageNumber, parameters.PageSize);
         }

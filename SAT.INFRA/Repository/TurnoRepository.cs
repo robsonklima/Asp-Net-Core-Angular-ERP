@@ -67,7 +67,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                turnos = turnos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                turnos = turnos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Turno>.ToPagedList(turnos, parameters.PageNumber, parameters.PageSize);

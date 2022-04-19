@@ -76,7 +76,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                tipos = tipos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                tipos = tipos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<TipoIntervencao>.ToPagedList(tipos, parameters.PageNumber, parameters.PageSize);

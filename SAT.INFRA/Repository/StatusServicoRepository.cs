@@ -95,7 +95,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                status = status.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                status = status.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             var a = status.ToQueryString();

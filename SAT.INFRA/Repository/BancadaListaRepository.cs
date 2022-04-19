@@ -29,7 +29,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                listaBancadas = listaBancadas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                listaBancadas = listaBancadas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<BancadaLista>.ToPagedList(listaBancadas, parameters.PageNumber, parameters.PageSize);

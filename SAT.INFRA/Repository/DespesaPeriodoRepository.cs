@@ -72,7 +72,7 @@ namespace SAT.INFRA.Repository
                     despesasPeriodo.Where(e => e.DataInicio >= parameters.InicioPeriodo.Value && e.DataFim <= parameters.FimPeriodo.Value);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesasPeriodo = despesasPeriodo.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesasPeriodo = despesasPeriodo.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return despesasPeriodo.AsNoTracking();
         }

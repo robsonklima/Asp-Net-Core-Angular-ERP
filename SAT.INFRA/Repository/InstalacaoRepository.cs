@@ -105,7 +105,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                instalacoes = instalacoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             //var a = instalacoes.ToQueryString();

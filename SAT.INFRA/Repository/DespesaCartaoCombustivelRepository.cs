@@ -63,7 +63,7 @@ namespace SAT.INFRA.Repository
                 cartoes = cartoes.Where(a => a.IndAtivo == parameters.IndAtivo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                cartoes = cartoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                cartoes = cartoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaCartaoCombustivel>.ToPagedList(cartoes, parameters.PageNumber, parameters.PageSize);
         }

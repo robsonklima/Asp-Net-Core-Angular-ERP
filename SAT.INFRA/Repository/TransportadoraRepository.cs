@@ -79,7 +79,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                transportadoras = transportadoras.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                transportadoras = transportadoras.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Transportadora>.ToPagedList(transportadoras, parameters.PageNumber, parameters.PageSize);

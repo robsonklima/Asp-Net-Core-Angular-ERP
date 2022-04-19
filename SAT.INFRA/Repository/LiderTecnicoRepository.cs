@@ -65,7 +65,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                lidTecnico = lidTecnico.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                lidTecnico = lidTecnico.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<LiderTecnico>.ToPagedList(lidTecnico, parameters.PageNumber, parameters.PageSize);

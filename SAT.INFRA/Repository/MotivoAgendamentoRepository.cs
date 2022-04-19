@@ -100,7 +100,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                motivos = motivos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                motivos = motivos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<MotivoAgendamento>.ToPagedList(motivos, parameters.PageNumber, parameters.PageSize);

@@ -150,7 +150,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<EquipamentoContrato>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }

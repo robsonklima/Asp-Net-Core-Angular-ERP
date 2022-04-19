@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
                 _context.DespesaItemAlerta.AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                alertas = alertas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                alertas = alertas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaItemAlerta>.ToPagedList(alertas, parameters.PageNumber, parameters.PageSize);
         }

@@ -26,7 +26,7 @@ namespace SAT.INFRA.Repository
                 monitoramentos = monitoramentos.Where(i => i.Tipo == parameters.Tipo);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                monitoramentos = monitoramentos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                monitoramentos = monitoramentos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Monitoramento>.ToPagedList(monitoramentos, parameters.PageNumber, parameters.PageSize);
         }

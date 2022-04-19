@@ -33,7 +33,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                relatorios = relatorios.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                relatorios = relatorios.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return relatorios;
         }

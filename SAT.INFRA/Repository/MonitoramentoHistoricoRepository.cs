@@ -35,7 +35,7 @@ namespace SAT.INFRA.Repository
                     i.DataHoraProcessamento.HasValue && i.DataHoraProcessamento.Value.Date == parameters.DataHoraProcessamento.Value.Date);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<MonitoramentoHistorico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

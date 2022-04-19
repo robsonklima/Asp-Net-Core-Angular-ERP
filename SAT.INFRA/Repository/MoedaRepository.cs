@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                moedas = moedas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                moedas = moedas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Moeda>.ToPagedList(moedas, parameters.PageNumber, parameters.PageSize);

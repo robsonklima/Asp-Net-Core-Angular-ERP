@@ -38,7 +38,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                hist = hist.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                hist = hist.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<OrdemServicoHistorico>.ToPagedList(hist, parameters.PageNumber, parameters.PageSize);

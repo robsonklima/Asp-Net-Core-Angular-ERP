@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
                 _context.OrcamentoStatus.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<OrcamentoStatus>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

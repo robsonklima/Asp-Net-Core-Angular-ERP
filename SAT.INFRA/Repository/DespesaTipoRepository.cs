@@ -46,7 +46,7 @@ namespace SAT.INFRA.Repository
                 despesaTipos = despesaTipos.Where(e => e.IndAtivo == parameters.IndAtivo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesaTipos = despesaTipos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesaTipos = despesaTipos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaTipo>.ToPagedList(despesaTipos, parameters.PageNumber, parameters.PageSize);
         }

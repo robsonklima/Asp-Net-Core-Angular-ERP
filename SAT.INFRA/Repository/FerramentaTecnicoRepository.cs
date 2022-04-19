@@ -59,7 +59,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                ferrTecnicos = ferrTecnicos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                ferrTecnicos = ferrTecnicos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<FerramentaTecnico>.ToPagedList(ferrTecnicos, parameters.PageNumber, parameters.PageSize);

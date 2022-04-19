@@ -64,7 +64,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<OrcamentoMaoDeObra>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);

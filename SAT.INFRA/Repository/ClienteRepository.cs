@@ -94,7 +94,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                clientes = clientes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                clientes = clientes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Cliente>.ToPagedList(clientes, parameters.PageNumber, parameters.PageSize);

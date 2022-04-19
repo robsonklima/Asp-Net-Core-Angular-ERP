@@ -103,7 +103,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                regioes = regioes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                regioes = regioes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Regiao>.ToPagedList(regioes, parameters.PageNumber, parameters.PageSize);

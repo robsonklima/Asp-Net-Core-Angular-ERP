@@ -68,7 +68,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesas = despesas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesas = despesas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Despesa>.ToPagedList(despesas, parameters.PageNumber, parameters.PageSize);
         }

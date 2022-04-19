@@ -88,7 +88,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                dispositivos = dispositivos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                dispositivos = dispositivos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<UsuarioDispositivo>.ToPagedList(dispositivos, parameters.PageNumber, parameters.PageSize);

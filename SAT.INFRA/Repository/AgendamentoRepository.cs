@@ -86,7 +86,7 @@ namespace SAT.INFRA.Repository
                 agendamentos = agendamentos.Where(a => a.CodOS == parameters.CodOS);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                agendamentos = agendamentos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                agendamentos = agendamentos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Agendamento>.ToPagedList(agendamentos, parameters.PageNumber, parameters.PageSize);
         }

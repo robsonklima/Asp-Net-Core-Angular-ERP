@@ -22,7 +22,7 @@ namespace SAT.INFRA.Repository
             var tipos = _context.DespesaAdiantamentoTipo.AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                tipos = tipos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                tipos = tipos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaAdiantamentoTipo>.ToPagedList(tipos, parameters.PageNumber, parameters.PageSize);
         }

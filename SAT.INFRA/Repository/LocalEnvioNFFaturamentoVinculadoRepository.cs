@@ -90,7 +90,7 @@ namespace SAT.INFRA.Repository
 
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-                locais = locais.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                locais = locais.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<LocalEnvioNFFaturamentoVinculado>.ToPagedList(locais, parameters.PageNumber, parameters.PageSize);
         }

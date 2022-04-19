@@ -102,7 +102,7 @@ namespace SAT.INFRA.Repository
                 cidades = cidades.Where(c => c.CodUF == parameters.CodUF);
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
-                cidades = cidades.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                cidades = cidades.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Cidade>.ToPagedList(cidades, parameters.PageNumber, parameters.PageSize);
         }

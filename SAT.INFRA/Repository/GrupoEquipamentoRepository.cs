@@ -99,7 +99,7 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
             {
-                grupos = grupos.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                grupos = grupos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<GrupoEquipamento>.ToPagedList(grupos, parameters.PageNumber, parameters.PageSize);

@@ -60,7 +60,7 @@ namespace SAT.INFRA.Repository
                     despesaAdiantamentoPeriodo.Where(e => e.DespesaAdiantamento.IndAtivo == parameters.IndAdiantamentoAtivo);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesaAdiantamentoPeriodo = despesaAdiantamentoPeriodo.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaAdiantamentoPeriodo>.ToPagedList(despesaAdiantamentoPeriodo, parameters.PageNumber, parameters.PageSize);
         }

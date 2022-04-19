@@ -87,7 +87,7 @@ namespace SAT.INFRA.Repository
             equips = AplicarFiltros(equips, parameters);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                equips = equips.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<Equipamento>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }

@@ -158,7 +158,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                slas = slas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                slas = slas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<AcordoNivelServico>.ToPagedList(slas, parameters.PageNumber, parameters.PageSize);

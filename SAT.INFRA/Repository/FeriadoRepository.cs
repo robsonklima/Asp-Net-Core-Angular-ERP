@@ -81,7 +81,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                feriados = feriados.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                feriados = feriados.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Feriado>.ToPagedList(feriados, parameters.PageNumber, parameters.PageSize);

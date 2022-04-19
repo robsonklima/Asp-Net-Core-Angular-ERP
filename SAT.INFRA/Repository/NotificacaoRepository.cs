@@ -73,7 +73,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                notificacoes = notificacoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                notificacoes = notificacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Notificacao>.ToPagedList(notificacoes, parameters.PageNumber, parameters.PageSize);

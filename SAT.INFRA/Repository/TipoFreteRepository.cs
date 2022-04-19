@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                tiposFrete = tiposFrete.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                tiposFrete = tiposFrete.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<TipoFrete>.ToPagedList(tiposFrete, parameters.PageNumber, parameters.PageSize);

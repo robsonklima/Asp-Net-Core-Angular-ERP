@@ -64,7 +64,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                formasPagamento = formasPagamento.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                formasPagamento = formasPagamento.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<FormaPagamento>.ToPagedList(formasPagamento, parameters.PageNumber, parameters.PageSize);

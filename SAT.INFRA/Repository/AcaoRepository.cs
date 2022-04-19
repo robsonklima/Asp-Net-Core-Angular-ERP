@@ -123,7 +123,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                acoes = acoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                acoes = acoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<Acao>.ToPagedList(acoes, parameters.PageNumber, parameters.PageSize);

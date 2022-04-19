@@ -80,7 +80,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                despesaItens = despesaItens.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                despesaItens = despesaItens.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaItem>.ToPagedList(despesaItens, parameters.PageNumber, parameters.PageSize);
         }

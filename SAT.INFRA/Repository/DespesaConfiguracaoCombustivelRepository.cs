@@ -50,7 +50,7 @@ namespace SAT.INFRA.Repository
                 configuracoes = configuracoes.Where(a => a.CodUf == parameters.CodUf);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                configuracoes = configuracoes.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                configuracoes = configuracoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<DespesaConfiguracaoCombustivel>.ToPagedList(configuracoes, parameters.PageNumber, parameters.PageSize);
         }

@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                pecasLista = pecasLista.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                pecasLista = pecasLista.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<PecaLista>.ToPagedList(pecasLista, parameters.PageNumber, parameters.PageSize);

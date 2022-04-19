@@ -107,7 +107,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(p => p.IndAtivo == parameters.IndAtivo.Value);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                query = query.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<PontoUsuario>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

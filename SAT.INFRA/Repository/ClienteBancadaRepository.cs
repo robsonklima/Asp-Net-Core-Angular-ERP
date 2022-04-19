@@ -72,7 +72,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                clientBancadas = clientBancadas.OrderBy(string.Format("{0} {1}", parameters.SortActive, parameters.SortDirection));
+                clientBancadas = clientBancadas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<ClienteBancada>.ToPagedList(clientBancadas, parameters.PageNumber, parameters.PageSize);

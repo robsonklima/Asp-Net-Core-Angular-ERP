@@ -32,10 +32,10 @@ namespace SAT.INFRA.Repository
                     _context.Entry(per).CurrentValues.SetValues(plantao);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -46,9 +46,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(plantao);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+                throw new Exception($"", ex);
             }
         }
 

@@ -120,7 +120,7 @@ namespace SAT.SERVICES.Services
                 removerHistorico(agenda);
 
                 var os = _osRepo.ObterPorCodigo(agenda.CodOS.Value);
-                var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao, os.CodEquip.Value);
+                var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao);
                 var historicoAgenda = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
 
                 var inicio = DateTime.Now;
@@ -167,18 +167,9 @@ namespace SAT.SERVICES.Services
 
                 _agendaRepo.Criar(agenda);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                _emailService.Enviar(new Email() {
-                    Assunto = "Erro durante o uso do SAT.V2: Criação de registro na agenda do técnico " + agenda?.CodOS ?? "",
-                    Corpo = ex.Message,
-                    EmailDestinatario = Constants.EQUIPE_SAT_EMAIL,
-                    EmailRemetente = Constants.EQUIPE_SAT_EMAIL
-                });
-
-                ReabrirOS(agenda.CodOS.Value);
-
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+                throw new Exception($"Erro ao criar agenda do técnico para a OS {agenda.CodOS}", ex);
             }
         }
 
@@ -281,10 +272,10 @@ namespace SAT.SERVICES.Services
             });
         }
 
-        private int ObterTempoMedioAtendimento(int codTecnico, int codTipoIntervencao, int codEquip) {
+        private int ObterTempoMedioAtendimento(int codTecnico, int codTipoIntervencao) {
             var tempos = _tecnicoRepo.ObterTempoAtendimento(codTecnico);
             var media = tempos
-                .Where(t => t.CodTipoIntervencao == codTipoIntervencao && t.CodEquip == codEquip)
+                .Where(t => t.CodTipoIntervencao == codTipoIntervencao)
                 .FirstOrDefault();
             
             if (media != null)
@@ -307,12 +298,6 @@ namespace SAT.SERVICES.Services
                 a.CodUsuarioManut = Constants.SISTEMA_NOME;
                 _agendaRepo.Atualizar(a);
             }
-        }
-
-        private void ReabrirOS(int CodOS) {
-            var os = _osRepo.ObterPorCodigo(CodOS);
-            os.CodStatusServico = (int)StatusServicoEnum.ABERTO;
-            _osRepo.Atualizar(os);
         }
 
         private bool estaNoIntervalo(DateTime time) => time >= inicioIntervalo(time) && time <= fimIntervalo(time);

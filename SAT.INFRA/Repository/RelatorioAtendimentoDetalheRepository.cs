@@ -36,10 +36,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(detalhe);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 

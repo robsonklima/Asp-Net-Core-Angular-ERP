@@ -211,10 +211,10 @@ namespace SAT.INFRA.Repository
                     _context.Entry(usr).CurrentValues.SetValues(usuario);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -243,10 +243,10 @@ namespace SAT.INFRA.Repository
                         throw new Exception(Constants.SENHA_INVALIDA);
                     }
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -259,9 +259,9 @@ namespace SAT.INFRA.Repository
 
                 return recuperaSenha;
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"", ex);
             }
         }
 
@@ -313,10 +313,10 @@ namespace SAT.INFRA.Repository
                     usrSeguranca.SenhaExpirada = 0;
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
     }

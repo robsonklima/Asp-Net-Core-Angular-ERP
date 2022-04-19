@@ -46,9 +46,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(pontoUsuarioData);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"", ex);
             }
         }
 
@@ -65,9 +65,9 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"", ex);
                 }
             }
         }

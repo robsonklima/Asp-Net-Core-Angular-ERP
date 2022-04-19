@@ -53,6 +53,7 @@
 		public static string SENHA_INVALIDA = "Senha inválida";
 		public static string ERRO_ALTERAR_SENHA = "Erro ao alterar a senha";
 		public static string ERRO_CONSULTAR_COORDENADAS = "Erro ao consultar as coordenadas";
+		public static string ERROR = "Ocorreu um erro";
 
 		// Filiais
 		public static int FRS = 4;

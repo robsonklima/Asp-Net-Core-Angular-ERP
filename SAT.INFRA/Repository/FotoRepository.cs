@@ -38,10 +38,10 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 

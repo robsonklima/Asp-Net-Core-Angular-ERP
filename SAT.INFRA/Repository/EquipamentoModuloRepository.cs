@@ -39,10 +39,10 @@ namespace SAT.INFRA.Repository
                     _context.Entry(linhaTabela).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -53,9 +53,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(equipamentoModulo);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+                throw new Exception($"", ex);
             }
         }
 
@@ -70,10 +70,10 @@ namespace SAT.INFRA.Repository
                     _context.EquipamentoModulo.Remove(a);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 

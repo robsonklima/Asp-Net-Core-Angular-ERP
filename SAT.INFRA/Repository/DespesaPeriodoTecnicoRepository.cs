@@ -34,9 +34,9 @@ namespace SAT.INFRA.Repository
                     _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"", ex);
                 }
             }
         }

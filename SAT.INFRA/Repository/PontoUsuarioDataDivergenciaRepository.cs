@@ -32,10 +32,10 @@ namespace SAT.INFRA.Repository
                     _context.Entry(per).CurrentValues.SetValues(pontoUsuarioDataDivergencia);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -64,10 +64,10 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 

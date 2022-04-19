@@ -33,9 +33,9 @@ namespace SAT.INFRA.Repository
                 }
                 return null;
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"", ex);
             }
         }
 
@@ -47,9 +47,9 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
                 return agenda;
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"", ex);
             }
         }
 

@@ -3,7 +3,6 @@ using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq;
@@ -27,9 +26,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(statusServico);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+                throw new Exception($"", ex);
             }
         }
 
@@ -45,9 +44,9 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
+                catch (Exception ex)
                 {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
+                    throw new Exception($"", ex);
                 }
             }
         }
@@ -63,9 +62,9 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"", ex);
                 }
             }
         }

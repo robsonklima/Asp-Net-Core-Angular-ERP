@@ -32,9 +32,9 @@ namespace SAT.INFRA.Repository
                     _context.Entry(d).CurrentValues.SetValues(despesaItem);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException ex)
+                catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"", ex);
                 }
             }
         }
@@ -57,10 +57,10 @@ namespace SAT.INFRA.Repository
                 {
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 

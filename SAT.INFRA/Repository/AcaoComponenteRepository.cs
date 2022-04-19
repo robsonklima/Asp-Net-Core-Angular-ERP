@@ -2,11 +2,9 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -41,10 +39,10 @@ namespace SAT.INFRA.Repository
                     _context.Entry(a).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 
@@ -55,9 +53,9 @@ namespace SAT.INFRA.Repository
                 _context.Add(acaoComponente);
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
-                throw new Exception(Constants.NAO_FOI_POSSIVEL_CRIAR);
+                throw;
             }
         }
 
@@ -72,10 +70,10 @@ namespace SAT.INFRA.Repository
                     _context.AcaoComponente.Remove(a);
                     _context.SaveChanges();
                 }
-                catch (DbUpdateException)
-                {
-                    throw new Exception(Constants.NAO_FOI_POSSIVEL_DELETAR);
-                }
+                catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
             }
         }
 

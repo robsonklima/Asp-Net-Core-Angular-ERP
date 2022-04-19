@@ -20,7 +20,7 @@ export interface AppConfig
 }
 
 export const appConfig: AppConfig = {
-    layout: 'classic',
+    layout: 'dense',
     scheme: 'light',
     theme: 'brand',
     api: environment.apiUrl,

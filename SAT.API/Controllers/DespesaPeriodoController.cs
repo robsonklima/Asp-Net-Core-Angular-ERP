@@ -20,7 +20,7 @@ namespace SAT.API.Controllers
         public DespesaPeriodoController(IDespesaPeriodoService despesaPeriodo) =>
             _despesaPeriodo = despesaPeriodo;
 
-        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_LIDER, RoleEnum.FILIAL_COORDENADOR, RoleEnum.FILIAIS_SUPERVISOR)]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_LIDER, RoleEnum.FILIAL_COORDENADOR, RoleEnum.FILIAIS_SUPERVISOR, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         [HttpGet]
         public ListViewModel Get([FromQuery] DespesaPeriodoParameters parameters) =>
             _despesaPeriodo.ObterPorParametros(parameters);

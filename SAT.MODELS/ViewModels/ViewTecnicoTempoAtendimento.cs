@@ -6,5 +6,6 @@ namespace SAT.MODELS.ViewModels {
         public int CodTipoIntervencao { get; set; }
         public string NomTipoIntervencao { get; set; }
         public int TempoEmMinutos { get; set; }
+        public int CodEquip { get; set; }
     }
 }

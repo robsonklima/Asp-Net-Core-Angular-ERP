@@ -31,7 +31,7 @@ namespace SAT.API.Support
             int statusCode = (int)HttpStatusCode.InternalServerError;
             var result = JsonConvert.SerializeObject(
                 new { statusCode = statusCode, errorMessage = exception.Message });
-            LoggerService.LogError(statusCode + exception.Message);
+            LoggerService.LogError(statusCode + " " + exception.Message);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
             return context.Response.WriteAsync(result);

@@ -19,6 +19,7 @@ namespace SAT.SERVICES.Services
         private readonly IMediaAtendimentoTecnicoRepository _mediaTecnicoRepo;
         private readonly IUsuarioRepository _usuarioRepo;
         private readonly ITecnicoRepository _tecnicoRepo;
+        private readonly IEmailService _emailService;
         private readonly IOrdemServicoRepository _osRepo;
 
         public AgendaTecnicoService(
@@ -28,7 +29,8 @@ namespace SAT.SERVICES.Services
             IRelatorioAtendimentoRepository ratRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
             IUsuarioRepository usuarioRepo,
-            ITecnicoRepository tecnicoRepo
+            ITecnicoRepository tecnicoRepo,
+            IEmailService emailService
         )
         {
             _agendaRepo = agendaRepo;
@@ -38,6 +40,7 @@ namespace SAT.SERVICES.Services
             _mediaTecnicoRepo = mediaTecnicoRepo;
             _usuarioRepo = usuarioRepo;
             _tecnicoRepo = tecnicoRepo;
+            _emailService = emailService;
         }
 
         public List<ViewAgendaTecnicoRecurso> ObterViewPorParametros(AgendaTecnicoParameters parameters)
@@ -112,55 +115,71 @@ namespace SAT.SERVICES.Services
 
         public void Criar(AgendaTecnico agenda)
         {
-            removerHistorico(agenda);
-
-            var os = _osRepo.ObterPorCodigo(agenda.CodOS.Value);
-            var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao);
-            var historicoAgenda = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
-
-            var inicio = DateTime.Now;
-
-            if (inicioFoiInformado(agenda)) 
-                inicio = agenda.Inicio.Value;
-
-            if (!inicioFoiInformado(agenda)) {
-                var ultimaAgenda = historicoAgenda
-                    .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
-                    .OrderByDescending(a => a.Inicio)
-                    .FirstOrDefault();
-
-                if (ultimaAgenda != null) 
-                    if (ultimaAgenda.Fim > DateTime.Now) 
-                        inicio = ultimaAgenda.Fim.Value.AddHours(1);
-            }
-            
-            if (estaNoIntervalo(inicio))
-                inicio = fimIntervalo(inicio).AddHours(1);
-
-            var fim = inicio.AddMinutes(tempoMedioAtendimento);
-            if (estaNoIntervalo(fim))
+            try
             {
-                inicio = fimIntervalo().AddHours(1);
-                fim = inicio.AddMinutes(tempoMedioAtendimento);
-            }
+                removerHistorico(agenda);
 
-            if (inicio > fimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
-                inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
-                fim = inicio.AddMinutes(tempoMedioAtendimento);
-            }
+                var os = _osRepo.ObterPorCodigo(agenda.CodOS.Value);
+                var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao, os.CodEquip.Value);
+                var historicoAgenda = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
 
-            var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
-            if (agendamento != null) {
-                if (agendamento > DateTime.Now) {
-                    inicio = agendamento.Value;
-                    fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
+                var inicio = DateTime.Now;
+
+                if (inicioFoiInformado(agenda)) 
+                    inicio = agenda.Inicio.Value;
+
+                if (!inicioFoiInformado(agenda)) {
+                    var ultimaAgenda = historicoAgenda
+                        .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
+                        .OrderByDescending(a => a.Inicio)
+                        .FirstOrDefault();
+
+                    if (ultimaAgenda != null) 
+                        if (ultimaAgenda.Fim > DateTime.Now) 
+                            inicio = ultimaAgenda.Fim.Value.AddHours(1);
                 }
+                
+                if (estaNoIntervalo(inicio))
+                    inicio = fimIntervalo(inicio).AddHours(1);
+
+                var fim = inicio.AddMinutes(tempoMedioAtendimento);
+                if (estaNoIntervalo(fim))
+                {
+                    inicio = fimIntervalo().AddHours(1);
+                    fim = inicio.AddMinutes(tempoMedioAtendimento);
+                }
+
+                if (inicio > fimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
+                    inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
+                    fim = inicio.AddMinutes(tempoMedioAtendimento);
+                }
+
+                var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
+                if (agendamento != null) {
+                    if (agendamento > DateTime.Now) {
+                        inicio = agendamento.Value;
+                        fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
+                    }
+                }
+
+                agenda.Inicio = inicio;
+                agenda.Fim = fim;
+
+                _agendaRepo.Criar(agenda);
             }
+            catch (System.Exception ex)
+            {
+                _emailService.Enviar(new Email() {
+                    Assunto = "Erro durante o uso do SAT.V2: Criação de registro na agenda do técnico " + agenda?.CodOS ?? "",
+                    Corpo = ex.Message,
+                    EmailDestinatario = Constants.EQUIPE_SAT_EMAIL,
+                    EmailRemetente = Constants.EQUIPE_SAT_EMAIL
+                });
 
-            agenda.Inicio = inicio;
-            agenda.Fim = fim;
+                ReabrirOS(agenda.CodOS.Value);
 
-            _agendaRepo.Criar(agenda);
+                throw new Exception(Constants.NAO_FOI_POSSIVEL_ATUALIZAR);
+            }
         }
 
         private string ObterCor(ViewAgendaTecnicoEvento agenda)
@@ -262,9 +281,11 @@ namespace SAT.SERVICES.Services
             });
         }
 
-        private int ObterTempoMedioAtendimento(int codTecnico, int codTipoIntervencao) {
+        private int ObterTempoMedioAtendimento(int codTecnico, int codTipoIntervencao, int codEquip) {
             var tempos = _tecnicoRepo.ObterTempoAtendimento(codTecnico);
-            var media = tempos.Where(t => t.CodTipoIntervencao == codTipoIntervencao).FirstOrDefault();
+            var media = tempos
+                .Where(t => t.CodTipoIntervencao == codTipoIntervencao && t.CodEquip == codEquip)
+                .FirstOrDefault();
             
             if (media != null)
                 return media.TempoEmMinutos;
@@ -286,6 +307,12 @@ namespace SAT.SERVICES.Services
                 a.CodUsuarioManut = Constants.SISTEMA_NOME;
                 _agendaRepo.Atualizar(a);
             }
+        }
+
+        private void ReabrirOS(int CodOS) {
+            var os = _osRepo.ObterPorCodigo(CodOS);
+            os.CodStatusServico = (int)StatusServicoEnum.ABERTO;
+            _osRepo.Atualizar(os);
         }
 
         private bool estaNoIntervalo(DateTime time) => time >= inicioIntervalo(time) && time <= fimIntervalo(time);

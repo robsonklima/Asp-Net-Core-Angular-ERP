@@ -99,7 +99,6 @@ namespace SAT.INFRA.Repository
 
             return agendas.ToList();
         }
-
         public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico.AsNoTracking().AsQueryable();

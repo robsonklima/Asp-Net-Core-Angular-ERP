@@ -15,6 +15,7 @@ namespace SAT.MODELS.Entities.Params
         public string CodStatusServicos { get; set; }
         public int? CodPerfil { get; set; }
         public int? CodAutorizada { get; set; }
+        public string CodAutorizadas { get; set; }
         public string PAS { get; set; }
         public string CodRegioes { get; set; }
         public DateTime PeriodoMediaAtendInicio { get; set; }

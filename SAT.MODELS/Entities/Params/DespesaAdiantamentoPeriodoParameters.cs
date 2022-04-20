@@ -10,5 +10,6 @@ namespace SAT.MODELS.Entities.Params
         public int? IndAdiantamentoAtivo { get; set; }
         public int? IndTecnicoLiberado { get; set; }
         public string CodFiliais { get; set; }
+        public string CodAutorizadas { get; set; }
     }
 }

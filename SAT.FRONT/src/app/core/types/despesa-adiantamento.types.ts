@@ -23,6 +23,7 @@ export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParamet
     indTecnicoLiberado?: number;
     indAtivoTecnico?: number;
     codFiliais?: string;
+    codAutorizadas?: string;
 };
 
 export interface DespesaAdiantamentoPeriodoData extends Meta

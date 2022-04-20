@@ -64,6 +64,9 @@
                                     <div>
                                         {{ t('total despesa') }}
                                     </div>
+                                    <div>
+                                        {{ t('total km') }}
+                                    </div>
                                 </div>
                                 <ng-container *ngIf="rats?.items?.length">
                                     <ng-container *ngFor="let r of rats?.items">
@@ -99,6 +102,9 @@
                                                 </div>
                                                 <div class="hidden md:block truncate font-semibold">
                                                     {{ (obterTotalDespesa(r.codRAT) ?? "0") | currency:'BRL':'symbol-narrow' }}
+                                                </div>
+                                                <div class="hidden md:block truncate font-semibold">
+                                                    {{ (obterTotalKm(r.codRAT)) ?? '0' }} Km
                                                 </div>
                                             </div>
                                         </a>

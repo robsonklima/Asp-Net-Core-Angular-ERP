@@ -37,13 +37,25 @@
 
             <div class="md-tooltip-info">
                 <div class="md-tooltip-title">
-                    <span class="md-tooltip-status md-tooltip-text">{{ intervencao }}</span>
-                    <br>
-                    <span class="md-tooltip-status md-tooltip-text font-bold">{{ status }}</span>
-                    <br>                                
-                    <span class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
+                    <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="cliente">
+                        {{ cliente }}
+                     </div>   
+
+                     <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="equipamento">
+                        {{ equipamento }}
+                     </div>
+
+                    <div class="md-tooltip-status md-tooltip-text">
+                        {{ intervencao }}
+                    </div>
+                    
+                    <div class="md-tooltip-status md-tooltip-text font-bold">
+                        {{ status }}
+                    </div>
+                    
+                    <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
                        Fim SLA: {{ dataHoraLimiteAtendimento | date:'dd/MM/yyyy HH:mm'}}
-                    </span>   
+                    </div>   
                 </div>
             </div>
         </div>

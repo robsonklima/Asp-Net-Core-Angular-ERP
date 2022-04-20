@@ -29,5 +29,7 @@ namespace SAT.MODELS.ViewModels
         public int? IndAtivo { get; set; }
         public DateTime? InicioAtendimento { get; set; }
         public DateTime? FimAtendimento { get; set; }
+        public string Cliente { get; set; }
+        public string Equipamento { get; set; }
     }
 }

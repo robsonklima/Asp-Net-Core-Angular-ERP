@@ -57,6 +57,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   info = '';
   time = '';
   status = '';
+  cliente = '';
+  equipamento = '';
   dataHoraLimiteAtendimento = '';
   selectResource: any;
   anchor: HTMLElement | undefined;
@@ -70,7 +72,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   @ViewChild('sidenavAjuda') sidenavAjuda: MatSidenav;
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _notify: Notifications,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     protected _userSvc: UserService,
@@ -103,7 +105,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   carregarOpcoesCalendario()
-  {    
+  {
     this.calendarOptions = {
       view: {
         timeline: {
@@ -135,7 +137,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           this._snack.exibirToast("O atendimento não pode ser agendado para antes da linha do tempo.", "error");
           return false;
         }
-  
+
         this.criarAgendaETranferirChamado(args.event);
         this.sidenavChamados.close();
       },
@@ -164,18 +166,19 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       },
       onCellDoubleClick: (args, inst) =>
       {
-        
+
       },
       onEventHoverIn: (args, inst) =>
-      {     
+      {
         this.mostrarInformacoesEvento(args, inst);
       },
       onEventHoverOut: () =>
       {
         this.esconderInformacoesEvento();
       },
-      onPageLoading: (event: any) => {
-        this.inicio =  moment(event.firstDay).format('yyyy-MM-DD HH:mm:ss');
+      onPageLoading: (event: any) =>
+      {
+        this.inicio = moment(event.firstDay).format('yyyy-MM-DD HH:mm:ss');
         this.fim = moment(event.lastDay).format('yyyy-MM-DD HH:mm:ss');
 
         this.obterDados();
@@ -186,12 +189,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   registerEmitters(): void
   {
     interval(5 * 60 * 1000)
-			.pipe(
-				takeUntil(this._onDestroy)
-			)
-			.subscribe(() => {
-				this.obterDados();
-			});
+      .pipe(
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(() =>
+      {
+        this.obterDados();
+      });
 
 
     this.sidenavAgenda.closedStart.subscribe(() =>
@@ -222,7 +226,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       ...{ codFilial: this.filter?.parametros?.codFilial || this.userSession.usuario?.codFilial }
     };
 
-    this._agendaTecnicoSvc.obterViewPorParametros(agendaTecnicoParams).toPromise().then(recursos => {
+    this._agendaTecnicoSvc.obterViewPorParametros(agendaTecnicoParams).toPromise().then(recursos =>
+    {
       this.limparListas();
       this.recursos = recursos;
       this.agendaTecnicos = _.flatMapDeep(recursos, (r) => r.eventos);
@@ -238,6 +243,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           color: agenda.cor,
           editable: agenda.editavel,
           resource: agenda.codTecnico,
+          cliente: agenda.cliente,
+          equipamento: agenda.equipamento
         }
       }).toArray());
 
@@ -255,7 +262,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       }).toArray();
 
       this.loading = false;
-    }).catch(e => {
+    }).catch(e =>
+    {
       this._snack.exibirToast(e.error.message || e.message, 'error');
       this.loading = false;
     });
@@ -279,7 +287,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       event.color = agenda.cor;
     }
 
-    if (agenda.tipo == AgendaTecnicoTipoEnum.OS) {
+    if (agenda.tipo == AgendaTecnicoTipoEnum.OS)
+    {
       var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
       os.codTecnico = agenda.codTecnico
       os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -332,11 +341,12 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       os.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
       os.codTecnico = agendaTecnico.codTecnico;
       os.codUsuarioManut = this.userSession.usuario.codUsuario,
-      os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
+        os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
 
       await this._ordemServicoSvc.atualizar(os).toPromise();
       this._snack.exibirToast(`Chamado transferido com sucesso`, 'success');
-    }, () => {
+    }, () =>
+    {
       this._snack.exibirToast('Erro ao transferir o chamado', 'error');
     });
   }
@@ -358,18 +368,20 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   }
 
   private mostrarInformacoesEvento(args, inst)
-  {    
+  {
     const event: any = args.event;
     const agenda: ViewAgendaTecnicoEvento = event.agendaTecnico;
     this.info = `${agenda.titulo} ${agenda.codOS || ''}`;
-    const time = (event.agendaTecnico?.tipo == AgendaTecnicoTipoEnum.PONTO || 
-      AgendaTecnicoTipoEnum.FIM_EXPEDIENTE) ? formatDate('HH:mm', new Date(event.start)) : 
+    const time = (event.agendaTecnico?.tipo == AgendaTecnicoTipoEnum.PONTO ||
+      AgendaTecnicoTipoEnum.FIM_EXPEDIENTE) ? formatDate('HH:mm', new Date(event.start)) :
       formatDate('HH:mm', new Date(event.start)) + ' - ' + formatDate('HH:mm', new Date(event.end));
     this.currentEvent = event;
     this.time = time;
     this.status = agenda.nomeStatusServico;
     this.intervencao = agenda.nomTipoIntervencao;
     this.dataHoraLimiteAtendimento = agenda.dataHoraLimiteAtendimento;
+    this.cliente = agenda.cliente;
+    this.equipamento = agenda.equipamento;
     clearTimeout(this.timer);
     this.timer = null;
     this.selectResource = null;
@@ -397,7 +409,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.tooltip.open();
   }
 
-  private limparListas() {
+  private limparListas()
+  {
     this.recursos = [];
     this.resources = [];
     this.events = [];

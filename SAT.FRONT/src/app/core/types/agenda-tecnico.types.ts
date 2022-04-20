@@ -81,6 +81,8 @@ export interface MbscAgendaTecnicoCalendarEvent extends MbscCalendarEvent
     codOS?: number;
     agendaTecnico?: AgendaTecnico;
     ordemServico?: OrdemServico;
+    cliente?: string;
+    equipamento?: string;
 }
 
 export interface TecnicoMaisProximo
@@ -115,6 +117,8 @@ export interface ViewAgendaTecnicoEvento {
     dataHoraCad: string;
     codUsuarioCad: string;
     indAtivo: number;
+    cliente: string;
+    equipamento: string;
 }
 
 export interface ViewAgendaTecnicoRecurso {

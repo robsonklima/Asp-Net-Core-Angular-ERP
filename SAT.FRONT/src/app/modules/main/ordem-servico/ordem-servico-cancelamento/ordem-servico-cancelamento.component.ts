@@ -35,6 +35,8 @@ export class OrdemServicoCancelamentoComponent {
     this.os.codStatusServico = StatusServicoEnum.CANCELADO;
     this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm');
     this.os.codUsuarioManut = this.userSession.usuario.codUsuario;
+    this.os.dataHoraCancelamento = moment().format('YYYY-MM-DD HH:mm');
+    this.os.codUsuarioCancelamento = this.userSession.usuario.codUsuario;
     
     this._osSvc.atualizar(this.os).subscribe((os: OrdemServico) => {
       this._snack.exibirToast("Chamado cancelado com sucesso!", "success");

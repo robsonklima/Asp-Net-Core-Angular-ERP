@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -21,6 +22,8 @@ namespace SAT.SERVICES.Services
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
         {
+            LoggerService.LogInfo("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));
+
             _ordemServicoRepo.Atualizar(ordemServico);
 
             return ordemServico;

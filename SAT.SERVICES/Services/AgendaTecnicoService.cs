@@ -149,7 +149,7 @@ namespace SAT.SERVICES.Services
                     fim = inicio.AddMinutes(tempoMedioAtendimento);
                 }
 
-                if (inicio > fimExpediente() && agenda.Inicio.Value.Date == DateTime.Now.Date) {
+                if (inicio > fimExpediente() && inicio == DateTime.Now.Date) {
                     inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                     fim = inicio.AddMinutes(tempoMedioAtendimento);
                 }

@@ -285,6 +285,9 @@ namespace SAT.SERVICES.Services
         }
 
         private void removerHistorico(AgendaTecnico agenda) {
+            if (agenda?.CodOS == null) 
+                return;
+
             var parametros = new AgendaTecnicoParameters() { CodOS = agenda.CodOS.Value };
             
             var agendas = _agendaRepo

@@ -48,6 +48,7 @@ namespace SAT.SERVICES.Services
                      SortActive = parameters.SortActive,
                      SortDirection = parameters.SortDirection,
                      CodFiliais = parameters.CodFiliais,
+                     CodAutorizadas = parameters.CodAutorizadas,
                      Filter = parameters.Filter,
                      PageNumber = parameters.PageNumber,
                      PageSize = parameters.PageSize

@@ -58,6 +58,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => filiais.Contains(t.CodFilial.Value));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+            {
+                int[] autorizadas = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => autorizadas.Contains(t.CodAutorizada.Value));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodTecnicos))
             {
                 int[] tecs = parameters.CodTecnicos.Split(",").Select(a => int.Parse(a.Trim())).Where(s => s > 0).Distinct().ToArray();

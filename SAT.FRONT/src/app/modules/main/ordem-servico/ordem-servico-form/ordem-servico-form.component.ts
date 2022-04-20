@@ -16,7 +16,7 @@ import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cliente } from 'app/core/types/cliente.types';
 import { Filial } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';

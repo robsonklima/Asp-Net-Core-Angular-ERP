@@ -612,6 +612,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
         codStatusServico: form.codStatusServico,
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.sessionData.usuario.codUsuario,
+        dataHoraFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? moment().format('YYYY-MM-DD HH:mm:ss') : null,
+        codUsuarioFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? this.sessionData.usuario.codUsuario : null
       }
     };
     await this._ordemServicoService.atualizar(os).toPromise();

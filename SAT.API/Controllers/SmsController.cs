@@ -17,10 +17,10 @@ namespace SAT.API.Controllers
             _smsService = smsService;
         }
 
-        [HttpGet]
-        public void Get()
+        [HttpPost]
+        public void Post([FromBody] Sms sms)
         {
-            _smsService.Enviar();
+            _smsService.Enviar(sms);
         }
     }
 }

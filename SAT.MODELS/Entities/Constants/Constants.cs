@@ -15,6 +15,8 @@
 		public static string DB_HOMOLOG = "Homolog";
 		public static int TEMPO_IISLOG_MS = 3 * 60 * 1000;
 		public static string IIS_LOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\IIS\";
+		public static string VONAGE_KEY = @"eab57cf8";
+		public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
 
 		// Status de Serviço
 		public static int TRANFERIDO = 8;

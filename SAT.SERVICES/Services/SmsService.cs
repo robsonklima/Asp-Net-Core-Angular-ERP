@@ -1,26 +1,35 @@
+using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using Vonage;
+using Vonage.Messaging;
 using Vonage.Request;
+using System.Text.RegularExpressions;
 
 namespace SAT.SERVICES.Services
 {
     public class SmsService : ISmsService
     {
-        public void Enviar()
+        public void Enviar(Sms sms)
         {
-            var credentials = Credentials.FromApiKeyAndSecret(
-                "eab57cf8",
-                "NX7ZdN7nNDrxoNyC"
-                );
-
+            var credentials = Credentials.FromApiKeyAndSecret(Constants.VONAGE_KEY, Constants.VONAGE_SECRET);
             var VonageClient = new VonageClient(credentials);
 
-            var response = VonageClient.SmsClient.SendAnSms(new Vonage.Messaging.SendSmsRequest()
+            var response = VonageClient.SmsClient.SendAnSms(new SendSmsRequest()
             {
-                To = "5551985168784",
-                From = "SAT",
-                Text = "A text message sent using the Vonage SMS API"
+                To = FormatarFone(sms.To),
+                From = sms.From,
+                Text = sms.Text
             });
+        }
+
+        private string FormatarFone(string fone) {
+            fone = Regex.Replace(fone, "[^0-9]", "");
+
+            if (!fone.Contains("+55")) 
+                fone = "+55" + fone;
+
+            return fone;
         }
     }
 }

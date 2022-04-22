@@ -67,6 +67,10 @@ export class EsqueceuSenhaComponent implements OnInit {
             )
             .subscribe((response) => {
                     if (usuario.codPerfil == PerfilEnum.FILIAL_TECNICO_DE_CAMPO) {
+                        if (!usuario.tecnico?.fonePerto) {
+                            return this._snack.exibirToast("Você não possuiu número de telefone cadastrado no sistema", "error");
+                        }
+
                         this._smsService.enviarSms({
                             from: "SAT",
                             to: usuario.tecnico?.fonePerto,

@@ -103,6 +103,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
       numOSQuarteirizada: [undefined],
       dataAberturaInicio: [undefined],
       dataAberturaFim: [undefined],
+      dataCancelamentoInicio: [undefined],
+      dataCancelamentoFim: [undefined],
       dataFechamentoInicio: [undefined],
       dataFechamentoFim: [undefined],
       pas: [undefined],

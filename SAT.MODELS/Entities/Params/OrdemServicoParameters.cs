@@ -28,6 +28,8 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? DataFechamentoFim { get; set; }
         public DateTime? DataTransfInicio { get; set; }
         public DateTime? DataTransfFim { get; set; }
+        public DateTime? DataCancelamentoInicio { get; set; }
+        public DateTime? DataCancelamentoFim { get; set; }
         public OrdemServicoIncludeEnum Include { get; set; }
         public OrdemServicoFilterEnum FilterType { get; set; }
         public string PontosEstrategicos { get; set; }

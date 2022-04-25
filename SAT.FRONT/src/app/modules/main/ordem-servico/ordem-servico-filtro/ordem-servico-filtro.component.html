@@ -206,6 +206,16 @@
                     <mat-date-range-picker #pickerSolucao></mat-date-range-picker>
                 </mat-form-field>
 
+                <!-- <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data do cancelamento') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerCancelamento">
+                        <input formControlName="dataCancelamentoInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataCancelamentoFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerCancelamento"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerCancelamento></mat-date-range-picker>
+                </mat-form-field> -->
+
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os perto') }}</mat-label>
                     <input matInput formControlName="codOS" maxlength="20">

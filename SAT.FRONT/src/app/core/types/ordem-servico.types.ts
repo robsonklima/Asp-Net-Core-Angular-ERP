@@ -194,6 +194,8 @@ export interface OrdemServicoParameters extends QueryStringParameters
     filterType?: OrdemServicoFilterEnum;
     dataHoraInicioInicio?: string;
     dataHoraInicioFim?: string;
+    dataCancelamentoInicio?: string;
+    dataCancelamentoFim?: string;
     inicioPeriodoAgenda?: string;
     fimPeriodoAgenda?: string;
     notIn_CodStatusServicos?: string;

@@ -22,7 +22,6 @@ import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geoloc
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 declare var L: any;
 
-
 @Component({
   selector: 'app-despesa-item-dialog',
   templateUrl: './despesa-item-dialog.component.html',

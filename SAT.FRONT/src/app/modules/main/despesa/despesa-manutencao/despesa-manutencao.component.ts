@@ -11,7 +11,8 @@ import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
+import { DespesaCartaoCombustivelParameters } from 'app/core/types/despesa-cartao-combustivel.types';
+import { DespesaConfiguracaoCombustivel, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaConfiguracaoData, DespesaItem, DespesaItemAlertaData } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
@@ -212,11 +213,18 @@ export class DespesaManutencaoComponent implements OnInit
 
   public async obterConfiguracaoCombustivel()
   {
-    this.despesaConfiguracaoCombustivel =
-      Enumerable.from((await this._despesaConfCombustivelSvc.obterPorParametros({
-        codFilial: this.ordemServico.codFilial,
-        codUf: this.ordemServico.localAtendimento.cidade?.codUF
-      }).toPromise())?.items).firstOrDefault();
+    const params: DespesaConfiguracaoCombustivelParameters = {
+      codFilial: this.ordemServico.codFilial,
+      codUf: this.ordemServico.localAtendimento.cidade?.codUF
+    };
+
+    const data = await this._despesaConfCombustivelSvc.obterPorParametros(params).toPromise();
+    const conf = Enumerable.from(data.items).firstOrDefault();
+
+    if (conf) 
+      this.despesaConfiguracaoCombustivel = conf;
+    else
+      this._snack.exibirToast('Não foi possível obter os valores de combustível para esta região. Favor entrar em contato com a sua filial.', 'error');
   }
 
   async obterDespesaConfiguracao()

@@ -475,6 +475,6 @@ export class DespesaItemDialogComponent implements OnInit
 
   calculaConsumoCombustivel(): number
   {
-    return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel.precoLitro;
+    return (this.despesaItemForm.value.step2.quilometragem / appConfig.autonomia_veiculo_frota) * this.despesaConfiguracaoCombustivel?.precoLitro;
   }
 }

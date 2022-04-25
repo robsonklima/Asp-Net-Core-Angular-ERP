@@ -6,7 +6,7 @@ import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
-import { Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum, DespesaTipo, DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum, DespesaTipo, DespesaTipoEnum, DespesaTipoParameters } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -80,13 +80,15 @@ export class DespesaItemDialogComponent implements OnInit
 
   private async obterTiposDespesa()
   {
-    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros({ indAtivo: statusConst.ATIVO }).toPromise()).items;
+    const params: DespesaTipoParameters = { indAtivo: statusConst.ATIVO };
+    const tipos = await this._despesaTipoSvc.obterPorParametros(params).toPromise();
+    this.tiposDespesa = tipos.items;
 
-    if (Enumerable.from(this.despesa.despesaItens)
-      .where(i => i.codDespesaTipo == DespesaTipoEnum.KM).count() == 2)
+    if (Enumerable.from(this.despesa.despesaItens).where(i => i.codDespesaTipo == DespesaTipoEnum.KM).count() == 2) {
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();
+    }
   }
 
   private criarFormularioDespesaItem()
@@ -98,7 +100,7 @@ export class DespesaItemDialogComponent implements OnInit
       step2: this._formBuilder.group({
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
-        localInicoDeslocamento: [undefined, Validators.required],
+        localInicioDeslocamento: [undefined, Validators.required],
         codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
         enderecoDestino: [this.ordemServico?.localAtendimento?.endereco, Validators.required],
         bairroDestino: [this.ordemServico?.localAtendimento?.bairro, Validators.required],
@@ -130,7 +132,8 @@ export class DespesaItemDialogComponent implements OnInit
 
   obterTipoDespesa()
   {
-    return Enumerable.from(this.tiposDespesa)
+    return Enumerable
+      .from(this.tiposDespesa)
       .firstOrDefault(i => i.codDespesaTipo == this.despesaItemForm.value.step1.codDespesaTipo)?.nomeTipo;
   }
 
@@ -439,18 +442,18 @@ export class DespesaItemDialogComponent implements OnInit
 
   private registrarEmitters()
   {
-    this.localInicoDeslocamentoEmitter();
+    this.localInicioDeslocamentoEmitter();
     this.enderecoOrigemEmitter();
   }
 
-  private localInicoDeslocamentoEmitter()
+  private localInicioDeslocamentoEmitter()
   {
-    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicoDeslocamento'].valueChanges.subscribe(() =>
+    (this.despesaItemForm.get('step2') as FormGroup).controls['localInicioDeslocamento'].valueChanges.subscribe(() =>
     {
       this.resetFields();
 
       if ((this.despesaItemForm.get('step2') as FormGroup)
-        .controls['localInicoDeslocamento'].value === "residencial")
+        .controls['localInicioDeslocamento'].value === "residencial")
       {
         this.setOrigemResidencial();
         this.isResidencial = true;

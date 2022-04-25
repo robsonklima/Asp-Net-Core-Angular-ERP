@@ -162,6 +162,8 @@ export class DespesaManutencaoComponent implements OnInit
 
   abrirDialogoDespesaItem(): void
   {
+    debugger
+
     const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
       data:
       {

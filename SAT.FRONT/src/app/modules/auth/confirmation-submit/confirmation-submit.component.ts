@@ -3,6 +3,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { SmsService } from 'app/core/services/sms.service';
 import { UsuarioDispositivoService } from 'app/core/services/usuario-dispositivo.service';
 import { statusConst } from 'app/core/types/status-types';
 import { UsuarioDispositivo } from 'app/core/types/usuario-dispositivo.types';
@@ -27,7 +28,8 @@ export class AuthConfirmationSubmitComponent implements OnInit {
         private _route: ActivatedRoute,
         private _router: Router,
         private _snack: MatSnackBar,
-        private _usuarioDispositivoSvc: UsuarioDispositivoService
+        private _usuarioDispositivoSvc: UsuarioDispositivoService,
+        private _smsService: SmsService,
     ) {}
 
     async ngOnInit() {

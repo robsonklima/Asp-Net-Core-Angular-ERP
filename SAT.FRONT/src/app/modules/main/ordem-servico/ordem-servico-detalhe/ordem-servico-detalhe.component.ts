@@ -332,8 +332,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 					}
 				  };
 			  
-				  Object.keys(obj).forEach((key) =>
-				  {
+				  Object.keys(obj).forEach((key) => {
 					typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
 				  });
 			  

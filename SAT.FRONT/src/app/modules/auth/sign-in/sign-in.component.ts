@@ -11,6 +11,8 @@ import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { SmsService } from 'app/core/services/sms.service';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
     selector: 'auth-sign-in',
@@ -35,6 +37,7 @@ export class AuthSignInComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private device: DeviceDetectorService,
         private _router: Router,
+        private _smsService: SmsService
     ) { }
 
     async ngOnInit() {
@@ -76,7 +79,7 @@ export class AuthSignInComponent implements OnInit {
             this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
         } else if (!dispositivo) {
             dispositivo = await this.cadastrarDispositivo();
-            this.enviarEmail(codUsuario, usuario, dispositivo);
+            usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         } else if (dispositivo?.indAtivo) {
             this._authService
@@ -92,9 +95,23 @@ export class AuthSignInComponent implements OnInit {
 
             this.signInForm.enable();
         } else {
-            this.enviarEmail(codUsuario, usuario, dispositivo);
+            usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
             this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
         }
+    }
+
+    private enviarSMS(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
+        this._smsService.enviarSms({
+            from: "SAT",
+            to: usuario.tecnico?.fonePerto,
+            text: `Oi ${usuario.nomeUsuario}, segue link para adicionar novo dispositivo: https://sat.perto.com.br/SAT.V2.FRONTEND/#/confirmation-submit/${dispositivo.codUsuarioDispositivo}`
+        }).subscribe(() => {
+            this._snack.exibirToast("Siga as instruções enviadas via SMS", "success");
+            this._router.navigate(['sign-in'], {});
+        }, () => {
+            this._snack.exibirToast("Não foi possível enviar as instruções via SMS para o seu telefone", "error");
+            this._router.navigate(['sign-in'], {});
+        });
     }
 
     private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {

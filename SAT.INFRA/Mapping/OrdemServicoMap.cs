@@ -20,6 +20,18 @@ namespace SAT.INFRA.Mapping
                 .Ignore(prop => prop.Alertas);
 
             builder
+                .HasOne(prop => prop.Chamado)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodOS)
+                .HasPrincipalKey(prop => prop.CodOS);
+
+            builder
+                .HasOne(prop => prop.StatusServico)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodStatusServico)
+                .HasPrincipalKey(prop => prop.CodStatusServico);
+
+            builder
                 .HasOne(prop => prop.StatusServico)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodStatusServico)

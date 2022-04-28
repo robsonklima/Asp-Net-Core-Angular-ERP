@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
     public class OrdemServico
     {
         public int CodOS { get; set; }
+        public Chamado Chamado { get; set; }
         public StatusServico StatusServico { get; set; }
         public TipoIntervencao TipoIntervencao { get; set; }
         public LocalAtendimento LocalAtendimento { get; set; }

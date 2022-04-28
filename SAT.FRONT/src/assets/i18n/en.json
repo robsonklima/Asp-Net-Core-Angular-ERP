@@ -600,5 +600,14 @@
     "valor base troca": "Base Change Value",
     "regiões autorizadas": "Region Licenced",
     "necessário agendamento com carro forte": "Required Appointment with Armored Car",
-    "atendimento sábado, domingo e feriado": "Saturday, Sunday and Holiday Service"
+    "atendimento sábado, domingo e feriado": "Saturday, Sunday and Holiday Service",
+    "estabelecimento" : "Establishment",
+    "rede" : "Network",
+    "tipo de comunicacao" : "Communication type",
+    "versao" : "Verison",
+    "data-autenticacao" : "Authentication date",
+    "simcard" : "SimCard",
+    "operadora telefonia" : "Telephone operator",
+    "ddd" : "Area code",
+    "terminal" : "Terminal"
 }

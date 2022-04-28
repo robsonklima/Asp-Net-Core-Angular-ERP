@@ -613,5 +613,14 @@
     "regiões autorizadas": "Regiões Autorizadas",
     "técnico de plantão": "Técnico de Plantão",
     "necessário agendamento com carro forte": "Necessário Agendamento com Carro Forte",
-    "atendimento sábado, domingo e feriado": "Atendimento Sábado, Domingo e Feriado"
+    "atendimento sábado, domingo e feriado": "Atendimento Sábado, Domingo e Feriado",
+    "estabelecimento" : "Estabelecimento",
+    "rede" : "Rede",
+    "tipo de comunicacao" : "Tipo de Comunicação",
+    "versao" : "Versão",
+    "data-autenticacao" : "Data de Autenticação",
+    "simcard" : "SimCard",
+    "operadora telefonia" : "Operadora de Telefonia",
+    "ddd" : "DDD",
+    "terminal" : "Terminal"
 }

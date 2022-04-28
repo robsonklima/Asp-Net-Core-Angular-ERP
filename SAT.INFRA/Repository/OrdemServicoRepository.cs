@@ -77,6 +77,7 @@ namespace SAT.INFRA.Repository
 
         public OrdemServico ObterPorCodigo(int codigo) =>
             _context.OrdemServico
+                .Include(os => os.Chamado!).DefaultIfEmpty()
                 .Include(os => os.StatusServico)
                 .Include(os => os.Filial)
                 .Include(os => os.UsuarioCadastro)
@@ -85,7 +86,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.Regiao)
                 .Include(os => os.TipoIntervencao)
                 .Include(os => os.LocalAtendimento)
-                .Include(os => os.LocalAtendimento.Cidade)
+                .Include(os => os.LocalAtendimento.Cidade) 
                 .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
                     .ThenInclude(uf => uf.DispBBRegiaoUF)
                         .ThenInclude(uf => uf.DispBBRegiao)

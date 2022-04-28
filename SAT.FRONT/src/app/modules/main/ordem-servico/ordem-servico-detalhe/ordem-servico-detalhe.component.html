@@ -134,16 +134,14 @@
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || "Não
-                                                    informado" }}
+                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Nãoinformado' }}
                                                 </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não
-                                                    informado" }}
+                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
                                                 </div>
                                             </div>
 
@@ -341,8 +339,7 @@
                                                     <span class="cursor-help"
                                                         [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
                                                         matTooltipPosition="above">
-                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não
-                                                        Informado' }}
+                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não Informado' }}
                                                     </span>
                                                 </div>
                                             </div>
@@ -359,8 +356,7 @@
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('contrato') }}</div>
                                                 <div>
-                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não
-                                                    Informado' }}
+                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
                                                 </div>
                                             </div>
 
@@ -399,6 +395,79 @@
                                         </div>
 
                                         <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">POS</div>
+                                        </div>
+
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('estabelecimento') }}</div>
+                                                <div>
+                                                    {{ os?.numAgenciaBanco }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('rede') }}</div>
+                                                <div>
+                                                    {{ os?.redeEquipamento }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('terminal') }}</div>
+                                                <div>
+                                                    {{ os?.numTerminal }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('defeito') }}</div>
+                                                <div>
+                                                    {{'os.coddefeitopos'}}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('tipo de comunicacao') }}</div>
+                                                <div>
+                                                    {{'chamado.tipocomunicacao'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('versao') }}</div>
+                                                <div>
+                                                    {{ os?.numAgenciaNI }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('data-autenticacao') }}</div>
+                                                <div>
+                                                    {{ 'ChamadoDadosAdicionais.Autenticacao join com Chamado' }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('simcard') }}</div>
+                                                <div>
+                                                    {{'ChamadoDadosAdicionais.SimCard join com Chamado'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('operadora telefonia') }}</div>
+                                                <div>
+                                                    {{'Chamado. CodOperadoraTelefonia  join chamado'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('ddd') }}</div>
+                                                <div>
+                                                    {{'ChamadoDadosAdicionais.DDD join chamado'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('numero') }}</div>
+                                                <div>
+                                                    {{'ChamadoDadosAdicionais.Numero join chamado'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
                                             <div class="text-lg font-medium">{{ t('endereco') }}</div>
                                         </div>
 
@@ -407,11 +476,11 @@
                                                 <ng-container>
                                                     <div>
                                                         {{
-                                                        os?.localAtendimento?.cep || '' + ' - ' +
                                                         os?.localAtendimento?.endereco + ' - ' +
                                                         os?.localAtendimento?.cidade?.nomeCidade + ' - ' +
                                                         os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
                                                         }}
+                                                        <p>{{'CEP: ' + os?.localAtendimento?.cep}}</p>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -580,26 +649,22 @@
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Solicitação</div>
-                                            <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM
-                                                HH:mm') : 'Não Informado' }}</div>
+                                            <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horas Gastas</div>
                                             <div>
-                                                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não
-                                                Informado' }}
+                                                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não Informado' }}
                                             </div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Horário atendimento</div>
-                                            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não
-                                                Informado' }} - {{ r?.dataHoraSolucao ?
+                                            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não Informado' }} - {{ r?.dataHoraSolucao ?
                                                 (r?.dataHoraSolucao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">Intervalo</div>
-                                            <div> {{ r?.horarioInicioIntervalo ? (r?.horarioInicioIntervalo) : 'Não
-                                                Informado' }} - {{ r?.horarioTerminoIntervalo ?
+                                            <div> {{ r?.horarioInicioIntervalo ? (r?.horarioInicioIntervalo) : 'Não Informado' }} - {{ r?.horarioTerminoIntervalo ?
                                                 (r?.horarioTerminoIntervalo) : 'Não Informado' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between py-3">

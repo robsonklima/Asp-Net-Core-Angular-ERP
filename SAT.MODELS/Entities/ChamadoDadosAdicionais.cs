@@ -13,7 +13,7 @@ namespace SAT.MODELS.Entities
         public string Numero { get; set; }
         public int CodOperadoraTelefonia { get; set; }
         public string OperadoraTelefoniaTela { get; set; }
-        public DateTime Autenticacao { get; set; }
+        public DateTime? Autenticacao { get; set; }
         public string SimCardHist { get; set; }
         public string DDDHist { get; set; }
         public string NumeroHist { get; set; }

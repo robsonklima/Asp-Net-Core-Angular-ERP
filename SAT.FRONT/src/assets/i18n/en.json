@@ -598,5 +598,7 @@
     "valor ipi": "IPI Value",
     "valor substituicao": "Replace Value",
     "valor base troca": "Base Change Value",
-    "regiões autorizadas": "Region Licenced"
+    "regiões autorizadas": "Region Licenced",
+    "residencia": "Home",
+    "hotel": "Hotel"
 }

@@ -17,11 +17,15 @@ namespace SAT.SERVICES.Services
             GoogleGeolocation model = new();
             HttpClient client = new();
 
-            var response = await client.GetAsync
-                (string.IsNullOrWhiteSpace(parameters.EnderecoCEP) ?
-                $"https://maps.googleapis.com/maps/api/geocode/json?latlng={parameters.LatitudeOrigem.Replace(',', '.')},{parameters.LongitudeOrigem.Replace(',', '.')}&key={Constants.GOOGLE_API_KEY}" :
-                $"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key={Constants.GOOGLE_API_KEY}");
+            string url = string.Empty;
+            if (!string.IsNullOrWhiteSpace(parameters.EnderecoCEP))
+                url = $"https://maps.googleapis.com/maps/api/geocode/json?address=CEP-{parameters.EnderecoCEP}-Brazil&key={Constants.GOOGLE_API_KEY}";
+            else if (!string.IsNullOrWhiteSpace(parameters.LatitudeOrigem) && !string.IsNullOrWhiteSpace(parameters.LatitudeDestino))
+                url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng={parameters.LatitudeOrigem.Replace(',', '.')},{parameters.LongitudeOrigem.Replace(',', '.')}&key={Constants.GOOGLE_API_KEY}";
+            else 
+                throw new Exception("Favor informar o endereço ou as coordenadas");
 
+            var response = await client.GetAsync(url);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -29,6 +33,9 @@ namespace SAT.SERVICES.Services
 
                 var conteudo = await response.Content.ReadAsStringAsync();
                 model = Newtonsoft.Json.JsonConvert.DeserializeObject<GoogleGeolocation>(conteudo);
+
+                if (model.results.Count() == 0)
+                    throw new Exception(Constants.NENHUM_REGISTRO);
 
                 var bairro = model.results[0].address_components.Where(ac => ac.types.Contains("sublocality")).FirstOrDefault();
                 var cidade = model.results[0].address_components.Where(ac => ac.types.Contains("administrative_area_level_2")).FirstOrDefault();

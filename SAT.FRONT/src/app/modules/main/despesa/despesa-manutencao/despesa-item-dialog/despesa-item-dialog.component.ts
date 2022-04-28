@@ -13,15 +13,16 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
 import moment from 'moment';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import 'leaflet';
 import 'leaflet-routing-machine';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { statusConst } from 'app/core/types/status-types';
-import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
+import { Geolocalizacao, GeolocalizacaoParameters, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import _ from 'lodash';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { Subject } from 'rxjs';
 declare var L: any;
 
 @Component({
@@ -46,6 +47,7 @@ export class DespesaItemDialogComponent implements OnInit {
   isValidating: boolean = false;
   kmPrevisto: number;
   tentativaKm: number = 0;
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -84,7 +86,8 @@ export class DespesaItemDialogComponent implements OnInit {
     const tipos = await this._despesaTipoSvc.obterPorParametros(params).toPromise();
     this.tiposDespesa = tipos.items;
 
-    if (this.obterDespesaItensKM().length == 2 || (this.obterDespesaItensKM().length == 1 && !this.isUltimaRATDoDia())) { // Adicionar regra de plantao
+    if (this.obterDespesaItensKM().length == 2 || (this.obterDespesaItensKM().length == 1 && !this.isUltimaRATDoDia()))
+    { // Adicionar regra de plantao
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();
@@ -100,7 +103,7 @@ export class DespesaItemDialogComponent implements OnInit {
         notaFiscal: [undefined],
         valor: [undefined, Validators.required],
         localInicioDeslocamento: [undefined],
-        localFimDeslocamento: [undefined],
+        localDestinoDeslocamento: [undefined],
         codDespesaItemAlerta: [DespesaItemAlertaEnum.Indefinido],
         enderecoDestino: [undefined, Validators.required],
         bairroDestino: [undefined, Validators.required],
@@ -121,6 +124,13 @@ export class DespesaItemDialogComponent implements OnInit {
         obs: [undefined, Validators.required],
       }),
     });
+  }
+
+  private registrarEmitters() {
+    this.localInicioDeslocamentoEmitter();
+    this.localDestinoDeslocamentoEmitter();
+    this.enderecoOrigemEmitter();
+    this.enderecoDestinoEmitter();
   }
 
   public isQuilometragem() {
@@ -205,7 +215,7 @@ export class DespesaItemDialogComponent implements OnInit {
     }));
   }
 
-  private resetFields(): void {
+  private limpaFormOrigem(): void {
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].reset();
     (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].reset();
@@ -224,13 +234,22 @@ export class DespesaItemDialogComponent implements OnInit {
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.rat.tecnico.longitude);
   }
 
+  private setDestinoResidencial(): void {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].setValue(this.rat.tecnico.endereco);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].setValue(this.rat.tecnico.bairro);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].setValue(this.rat.tecnico.cidade.nomeCidade);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].setValue(this.rat.tecnico.cidade.unidadeFederativa.siglaUF);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].setValue(this.rat.tecnico.latitude);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].setValue(this.rat.tecnico.longitude);
+  }
+
   private async setOrigemRATAnterior() {
     const index = _.findIndex(this.rats, (r) => { return r.codRAT == this.rat.codRAT });
     const tipoDespesaSelecionado = this.despesaItemForm.value.step1.codDespesaTipo;
     if (!index || tipoDespesaSelecionado !== DespesaTipoEnum.KM)
       return;
 
-    const ratAnterior = this.rats[index-1];
+    const ratAnterior = this.rats[index - 1];
     const os: OrdemServico = await this._ordemServicoSvc.obterPorCodigo(ratAnterior.codOS).toPromise();
 
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(os.localAtendimento.endereco);
@@ -239,25 +258,24 @@ export class DespesaItemDialogComponent implements OnInit {
     (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(os.localAtendimento.cidade.unidadeFederativa.siglaUF);
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(os.localAtendimento.latitude);
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(os.localAtendimento.longitude);
-    
+
     this.desabilitaFormOrigem();
   }
 
   private async setDestino() {
+    this.desabilitaFormDestino();
+
     const tipoDespesaSelecionado = this.despesaItemForm.value.step1.codDespesaTipo;
     if (tipoDespesaSelecionado !== DespesaTipoEnum.KM)
       return;
 
-    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].setValue(this.ordemServico.localAtendimento.endereco);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].setValue(this.ordemServico.localAtendimento.bairro);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].setValue(this.ordemServico.localAtendimento.cidade.nomeCidade);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].setValue(this.ordemServico.localAtendimento.cidade.unidadeFederativa.siglaUF);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].setValue(this.ordemServico.localAtendimento.latitude);
-    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].setValue(this.ordemServico.localAtendimento.longitude);
-    
-    this.desabilitaFormDestino();
+    const qtdDespesasKM = this.obterDespesaItensKM().length;
+    if (this.isUltimaRATDoDia() && qtdDespesasKM)
+      return;
+
+    this.setDestinoLocalChamado();
   }
-  
+
   private desabilitaFormOrigem() {
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].disable();
@@ -266,7 +284,7 @@ export class DespesaItemDialogComponent implements OnInit {
     (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].disable();
   }
-  
+
   private desabilitaFormDestino() {
     (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].disable();
     (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].disable();
@@ -276,25 +294,126 @@ export class DespesaItemDialogComponent implements OnInit {
     (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].disable();
   }
 
-  private registrarEmitters() {
-    this.localInicioDeslocamentoEmitter();
+  private limpaFormDestino() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].setValue('');
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].setValue('');
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].setValue('');
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].setValue('');
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].setValue('');
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].setValue('');
   }
-  
+
+  private habilitaFormOrigem() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].enable();
+  }
+
+  private habilitaFormDestino() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].enable();
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].enable();
+  }
+
+  private setOrigemLocalChamado() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].setValue(this.ordemServico.localAtendimento.endereco);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(this.ordemServico.localAtendimento.bairro);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(this.ordemServico.localAtendimento.cidade.nomeCidade);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(this.ordemServico.localAtendimento.cidade.unidadeFederativa.siglaUF);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(this.ordemServico.localAtendimento.latitude);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(this.ordemServico.localAtendimento.longitude);
+  }
+
+  private setDestinoLocalChamado() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].setValue(this.ordemServico.localAtendimento.endereco);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].setValue(this.ordemServico.localAtendimento.bairro);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].setValue(this.ordemServico.localAtendimento.cidade.nomeCidade);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].setValue(this.ordemServico.localAtendimento.cidade.unidadeFederativa.siglaUF);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].setValue(this.ordemServico.localAtendimento.latitude);
+    (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].setValue(this.ordemServico.localAtendimento.longitude);
+  }
+
   private localInicioDeslocamentoEmitter() {
     if (!this.isPrimeiraRATDoDia())
       return;
 
     (this.despesaItemForm.get('step2') as FormGroup).controls['localInicioDeslocamento'].valueChanges.subscribe(() => {
-      this.resetFields();
+      this.limpaFormOrigem();
 
-      if ((this.despesaItemForm.get('step2') as FormGroup)
-        .controls['localInicioDeslocamento'].value === "residencial")
+      if ((this.despesaItemForm.get('step2') as FormGroup).controls['localInicioDeslocamento'].value === "residencial")
       {
+        this.desabilitaFormOrigem();
         this.setOrigemResidencial();
         this.isResidencial = true;
       }
       else
+      {
+        this.habilitaFormOrigem();
         this.isResidencial = false;
+      }
+    });
+  }
+
+  private async enderecoOrigemEmitter() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoOrigem'].valueChanges.pipe(
+      filter(endereco => !!endereco),
+      debounceTime(700),
+      takeUntil(this._onDestroy),
+      map(async endereco => {
+        if (endereco && this.obterLocalInicioDeslocamento() == 'hotel') {
+          const localizacao: Geolocalizacao = await this.obterCoordenadasEndereco(endereco);
+
+          (this.despesaItemForm.get('step2') as FormGroup).controls['bairroOrigem'].setValue(localizacao.bairro);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeOrigem'].setValue(localizacao.cidade);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['ufOrigem'].setValue(localizacao.estado);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeOrigem'].setValue(localizacao.latitude);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeOrigem'].setValue(localizacao.longitude);
+        }
+      })
+    ).subscribe(() => { });
+  }
+
+  private async enderecoDestinoEmitter() {
+    (this.despesaItemForm.get('step2') as FormGroup).controls['enderecoDestino'].valueChanges.pipe(
+      filter(endereco => !!endereco),
+      debounceTime(700),
+      takeUntil(this._onDestroy),
+      map(async endereco => {
+        if (endereco && this.obterLocalFimDeslocamento() == 'hotel') {
+          const localizacao: Geolocalizacao = await this.obterCoordenadasEndereco(endereco);
+
+          (this.despesaItemForm.get('step2') as FormGroup).controls['bairroDestino'].setValue(localizacao.bairro);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['cidadeDestino'].setValue(localizacao.cidade);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['ufDestino'].setValue(localizacao.estado);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['latitudeDestino'].setValue(localizacao.latitude);
+          (this.despesaItemForm.get('step2') as FormGroup).controls['longitudeDestino'].setValue(localizacao.longitude);
+        }
+      })
+    ).subscribe(() => { });
+  }
+
+  localDestinoDeslocamentoEmitter() {
+    if (!this.isUltimaRATDoDia())
+      return;
+
+    (this.despesaItemForm.get('step2') as FormGroup).controls['localDestinoDeslocamento'].valueChanges.subscribe(() => {
+      this.limpaFormDestino();
+
+      if ((this.despesaItemForm.get('step2') as FormGroup).controls['localDestinoDeslocamento'].value === "residencial")
+      {
+        this.desabilitaFormDestino();
+        this.setDestinoResidencial();
+        this.isResidencial = true;
+      }
+      else
+        this.habilitaFormDestino();
+      this.isResidencial = false;
     });
   }
 
@@ -317,6 +436,26 @@ export class DespesaItemDialogComponent implements OnInit {
     }
   }
 
+  private async obterCoordenadasEndereco(endereco: string): Promise<Geolocalizacao> {
+    return new Promise((resolve, reject) => {
+      const params = { enderecoCep: endereco, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE };
+
+      this._geolocationService.obterPorParametros(params).subscribe((geo: Geolocalizacao) => {
+        resolve(geo);
+      }, e => {
+        reject(e);
+      });
+    });
+  }
+
+  private obterLocalInicioDeslocamento(): string {
+    return (this.despesaItemForm.get('step2') as FormGroup).controls['localInicioDeslocamento'].value;
+  }
+
+  private obterLocalFimDeslocamento(): string {
+    return (this.despesaItemForm.get('step2') as FormGroup).controls['localDestinoDeslocamento'].value;
+  }
+
   async revisar() {
     this.isValidating = true;
 
@@ -336,7 +475,7 @@ export class DespesaItemDialogComponent implements OnInit {
 
   async salvar() {
     const despesaItem: DespesaItem = this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
-    
+
     this._despesaItemSvc.criar(despesaItem)
       .subscribe(() => {
         this.despesa.despesaItens.push(despesaItem);
@@ -448,7 +587,18 @@ export class DespesaItemDialogComponent implements OnInit {
 
   onProximo(): void {
     this.configuraCamposHabilitados();
-    this.setOrigemRATAnterior();
+    this.desabilitaFormOrigem();
+
+    if (this.isUltimaRATDoDia() && this.obterDespesaItensKM().length)
+      this.setOrigemLocalChamado();
+    else
+      this.setOrigemRATAnterior();
+
     this.setDestino();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

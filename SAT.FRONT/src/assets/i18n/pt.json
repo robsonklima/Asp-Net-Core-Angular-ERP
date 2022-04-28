@@ -625,7 +625,7 @@
     "terminal" : "Terminal",
     "residencia": "Residência",
     "hotel": "Hotel",
-    "necessario agendamento com carro forte": "Necessário Agendamento com Carro Forte",
-    "atendimento sabado domingo e feriado": "Atendimento Sábado, Domingo e Feriado",
+    "necessario agendamento": "Necessário Agendamento com Carro Forte",
+    "atendimento final de semana": "Atendimento Sábado, Domingo e Feriado",
     "estado": "Estado"
 }

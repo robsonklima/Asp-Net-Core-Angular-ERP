@@ -601,6 +601,7 @@
     "regiões autorizadas": "Region Licenced",
     "residencia": "Home",
     "hotel": "Hotel",
-    "necessario agendamento com carro forte": "Required Appointment with Armored Car",
-    "atendimento sabado domingo e feriado": "Saturday, Sunday and Holiday Service"
+    "necessário agendamento com carro forte": "Required Appointment with Armored Car",
+    "atendimento sábado, domingo e feriado": "Saturday, Sunday and Holiday Service",
+    "estado": "State"
 }

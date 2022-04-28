@@ -622,5 +622,10 @@
     "simcard" : "SimCard",
     "operadora telefonia" : "Operadora de Telefonia",
     "ddd" : "DDD",
-    "terminal" : "Terminal"
+    "terminal" : "Terminal",
+    "residencia": "Residência",
+    "hotel": "Hotel",
+    "necessario agendamento com carro forte": "Necessário Agendamento com Carro Forte",
+    "atendimento sabado domingo e feriado": "Atendimento Sábado, Domingo e Feriado",
+    "estado": "Estado"
 }

@@ -1,6 +1,6 @@
-<form class="p-1 bg-card rounded" [formGroup]="despesaItemForm" *transloco="let t">
+<form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
     <mat-horizontal-stepper [linear]="true" #horizontalStepper>
-        <mat-step [formGroupName]="'step1'" [stepControl]="despesaItemForm.get('step1')" #horizontalStepperStep1>
+        <mat-step [formGroupName]="'step1'" [stepControl]="form.get('step1')" #horizontalStepperStep1>
             <ng-template matStepLabel>Tipo de despesa</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3 mt-2">
@@ -20,14 +20,13 @@
             </div>
         </mat-step>
 
-        <mat-step [formGroupName]="'step2'" [stepControl]="despesaItemForm.get('step2')" #horizontalStepperStep2>
+        <mat-step [formGroupName]="'step2'" [stepControl]="form.get('step2')" #horizontalStepperStep2>
             <ng-template matStepLabel>Dados</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
                 <div class="flex flex-col fuse-mat-dense gt-xs:flex-row" *ngIf="!isQuilometragem()">
 
                     <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3">
-                        <input matInput autocomplete="off" [formControlName]="'notaFiscal'"
-                            [placeholder]="'Nota Fiscal'">
+                        <input matInput [formControlName]="'notaFiscal'" [placeholder]="'Nota Fiscal'">
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:finger-print'"></mat-icon>
                     </mat-form-field>
 
@@ -50,7 +49,7 @@
                                     <input type="radio" value="residencial" formControlName="localInicioDeslocamento">
                                     <span>{{ t('residencia') }}</span>
                                 </label>
-    
+
                                 <label class="ml-2">
                                     <input type="radio" value="hotel" formControlName="localInicioDeslocamento">
                                     <span>{{ t('hotel') }}</span>
@@ -59,44 +58,36 @@
                         </div>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" [readonly]="isResidencial"
-                                [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'enderecoOrigem'"
-                                [placeholder]="'Endereço'">
+                            <input matInput [formControlName]="'enderecoOrigem'" [placeholder]="'Endereço'">
                         </mat-form-field>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}"
-                                    [formControlName]="'bairroOrigem'" [placeholder]="'Bairro'">
+                                <input matInput [formControlName]="'bairroOrigem'" [placeholder]="'Bairro'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}"
-                                    [formControlName]="'cidadeOrigem'" [placeholder]="'Cidade'">
+                                <input matInput [formControlName]="'cidadeOrigem'" [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'ufOrigem'"
-                                    [placeholder]="'UF'">
+                                <input matInput [formControlName]="'ufOrigem'" [placeholder]="'UF'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true"
-                                    [formControlName]="'latitudeOrigem'" [placeholder]="'Latitude'">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" readonly="true" [formControlName]="'latitudeOrigem'"
+                                    [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true"
-                                    [formControlName]="'longitudeOrigem'" [placeholder]="'Longitude'">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" readonly="true" [formControlName]="'longitudeOrigem'"
+                                    [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
 
@@ -108,51 +99,47 @@
                         <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center min-h-10">
                             <div *ngIf="mostrarOpcaoResidenciaHotelDestino()">
                                 <label>
-                                    <input type="radio" value="residencial" formControlName="localFimDeslocamento">
+                                    <input type="radio" value="residencial" formControlName="localDestinoDeslocamento">
                                     <span>{{ t('residencia') }}</span>
                                 </label>
-    
+
                                 <label class="ml-2">
-                                    <input type="radio" value="hotel" formControlName="localFimDeslocamento">
+                                    <input type="radio" value="hotel" formControlName="localDestinoDeslocamento">
                                     <span>{{ t('hotel') }}</span>
                                 </label>
                             </div>
                         </div>
 
-                        <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
-                            <input matInput autocomplete="off" [readonly]="true" [formControlName]="'enderecoDestino'"
-                                [placeholder]="'Endereço'">
+                        <mat-form-field class="flex-auto fuse-mat-dense w-full">
+                            <input matInput [formControlName]="'enderecoDestino'" [placeholder]="'Endereço'">
                         </mat-form-field>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'bairroDestino'"
-                                    [placeholder]="'Bairro'">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput [formControlName]="'bairroDestino'" [placeholder]="'Bairro'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'cidadeDestino'"
-                                    [placeholder]="'Cidade'">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput [formControlName]="'cidadeDestino'" [placeholder]="'Cidade'">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'ufDestino'"
-                                    [placeholder]="'UF'">
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput [formControlName]="'ufDestino'" [placeholder]="'UF'">
                             </mat-form-field>
                         </div>
 
-                        <div class="pointer-events-none flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
+                        <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true"
-                                    [formControlName]="'latitudeDestino'" [placeholder]="'Latitude'">
+                                <input matInput autocomplete="off" readonly="true" [formControlName]="'latitudeDestino'"
+                                    [placeholder]="'Latitude'">
                             </mat-form-field>
 
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true"
+                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
+                                <input matInput autocomplete="off" readonly="true"
                                     [formControlName]="'longitudeDestino'" [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
@@ -161,7 +148,7 @@
 
                 <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-1/2 my-3">
                     <mat-form-field class="flex-auto fuse-mat-dense w-1/2" *ngIf="isQuilometragem()">
-                        <input matInput autocomplete="off" type="number" min="0" [formControlName]="'quilometragem'"
+                        <input matInput type="number" min="0" [formControlName]="'quilometragem'"
                             [placeholder]="'Quilometragem'">
                     </mat-form-field>
                 </div>
@@ -180,7 +167,7 @@
             </div>
         </mat-step>
 
-        <mat-step [formGroupName]="'step3'" [stepControl]="despesaItemForm.get('step3')" #horizontalStepperStep3>
+        <mat-step [formGroupName]="'step3'" [stepControl]="form.get('step3')" #horizontalStepperStep3>
             <ng-template matStepLabel>Revisão</ng-template>
 
             <div class="flex justify-center items-center mt-2" *ngIf=" isValidating">
@@ -190,10 +177,10 @@
             <div *ngIf="!isQuilometragem() && !isValidating">
                 <p class="my-2 font-medium">Revisão</p>
                 <p>Tipo de despesa: {{ obterTipoDespesa() }} </p>
-                <p>Nota fiscal: {{ this.despesaItemForm.value.step2.notaFiscal ?? "Não informada" }} </p>
-                <p>Valor da despesa: {{ this.despesaItemForm.value.step2.valor | currency:'BRL':'symbol-narrow' }} </p>
+                <p>Nota fiscal: {{ this.form.value.step2.notaFiscal ?? "Não informada" }} </p>
+                <p>Valor da despesa: {{ this.form.value.step2.valor | currency:'BRL':'symbol-narrow' }} </p>
 
-                <div class="mt-4" *ngIf="this.despesaItemForm.value.step2.codDespesaItemAlerta != 0">
+                <div class="mt-4" *ngIf="this.form.value.step2.codDespesaItemAlerta != 0">
                     <p class="font-semibold">Atenção!</p>
                     <p class="font-medium mb-1">{{ obterMensagemAlerta() }}</p>
                     <mat-form-field class="flex-auto fuse-mat-dense w-full">
@@ -206,10 +193,10 @@
             <div *ngIf="isQuilometragem() && !isValidating">
                 <p class="my-2 font-medium">Revisão</p>
                 <p>Tipo de despesa: {{ obterTipoDespesa() }}</p>
-                <p>Quilometragem informada: {{ this.despesaItemForm.value.step2.quilometragem + "km" }}</p>
+                <p>Quilometragem informada: {{ this.form.value.step2.quilometragem + "km" }}</p>
                 <p>Valor da despesa: {{ calculaConsumoCombustivel() | currency:'BRL':'symbol-narrow' }}</p>
 
-                <div class="mt-4" *ngIf="this.despesaItemForm.value.step2.codDespesaItemAlerta != 0">
+                <div class="mt-4" *ngIf="this.form.value.step2.codDespesaItemAlerta != 0">
                     <p class="font-semibold">Atenção!</p>
                     <p class="font-medium mb-1">{{ obterMensagemAlerta() }}</p>
                     <mat-form-field class="flex-auto fuse-mat-dense w-full">
@@ -224,7 +211,7 @@
                 <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
                     {{ t('voltar') }}
                 </button>
-                
+
                 <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
                     [color]="'primary'" type="button" (click)="salvar()">
                     {{ t('salvar') }}

@@ -609,5 +609,10 @@
     "simcard" : "SimCard",
     "operadora telefonia" : "Telephone operator",
     "ddd" : "Area code",
-    "terminal" : "Terminal"
+    "terminal" : "Terminal",
+    "residencia": "Home",
+    "hotel": "Hotel",
+    "necessario agendamento com carro forte": "Required Appointment with Armored Car",
+    "atendimento sabado domingo e feriado": "Saturday, Sunday and Holiday Service",
+    "estado": "State"
 }

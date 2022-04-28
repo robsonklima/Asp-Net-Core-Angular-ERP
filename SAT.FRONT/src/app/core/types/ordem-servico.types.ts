@@ -1,6 +1,7 @@
 import { AgendaTecnico } from "./agenda-tecnico.types";
 import { Agendamento } from "./agendamento.types";
 import { Autorizada } from "./autorizada.types";
+import { Chamado } from "./chamado.types";
 import { Cliente } from "./cliente.types";
 import { EquipamentoContrato } from "./equipamento-contrato.types";
 import { Equipamento } from "./equipamento.types";
@@ -21,6 +22,7 @@ import { Usuario } from "./usuario.types";
 export class OrdemServico
 {
     codOS: number;
+    chamado: Chamado;
     alertas: OrdemServicoAlerta[];
     statusServico?: StatusServico;
     tipoIntervencao?: TipoIntervencao;

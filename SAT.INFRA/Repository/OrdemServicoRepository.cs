@@ -77,7 +77,15 @@ namespace SAT.INFRA.Repository
 
         public OrdemServico ObterPorCodigo(int codigo) =>
             _context.OrdemServico
-                .Include(os => os.Chamado!).DefaultIfEmpty()
+                .Include(os => os.Chamado!)
+                    .ThenInclude(ch => ch.OperadoraTelefonia)
+                    .DefaultIfEmpty()
+                .Include(os => os.Chamado!)
+                    .ThenInclude(ch => ch.DefeitoPOS)
+                    .DefaultIfEmpty()
+                .Include(os => os.Chamado!)
+                    .ThenInclude(ch => ch.ChamadoDadosAdicionais)
+                    .DefaultIfEmpty()
                 .Include(os => os.StatusServico)
                 .Include(os => os.Filial)
                 .Include(os => os.UsuarioCadastro)

@@ -399,11 +399,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="flex items-center justify-between mt-8">
+                                        <div class="flex items-center justify-between mt-8" *ngIf="os?.chamado">
                                             <div class="text-lg font-medium">POS</div>
                                         </div>
 
-                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="os?.chamado">
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('estabelecimento') }}</div>
                                                 <div>
@@ -425,13 +425,14 @@
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('defeito') }}</div>
                                                 <div>
-                                                    {{'os.coddefeitopos'}}
+                                                    {{ os?.chamado?.defeitoPOS?.nomeDefeitoPOS }}
+
                                                 </div>
                                             </div>
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('tipo de comunicacao') }}</div>
                                                 <div>
-                                                    {{'chamado.tipocomunicacao'}}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.tipoComunicacaoTela.toString() }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
@@ -443,31 +444,31 @@
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('data-autenticacao') }}</div>
                                                 <div>
-                                                    {{ 'ChamadoDadosAdicionais.Autenticacao join com Chamado' }}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.autenticacao | date:'dd/MM/yyyy HH:mm' }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('simcard') }}</div>
                                                 <div>
-                                                    {{'ChamadoDadosAdicionais.SimCard join com Chamado'}}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.simCard }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('operadora telefonia') }}</div>
                                                 <div>
-                                                    {{'Chamado. CodOperadoraTelefonia  join chamado'}}
+                                                    {{ os?.chamado?.operadoraTelefonia?.nomeOperadoraTelefonia }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('ddd') }}</div>
                                                 <div>
-                                                    {{'ChamadoDadosAdicionais.DDD join chamado'}}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.ddd }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('numero') }}</div>
                                                 <div>
-                                                    {{'ChamadoDadosAdicionais.Numero join chamado'}}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.numero }}
                                                 </div>
                                             </div>                                                                                                                         
                                         </div>

@@ -1,13 +1,13 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class Chamado
     {
         public int CodChamado { get; set; }
-        [Key]
+        public ChamadoDadosAdicionais ChamadoDadosAdicionais { get; set; }
+        public OperadoraTelefonia OperadoraTelefonia { get; set; }
+        public DefeitoPOS DefeitoPOS { get; set; }
         public int? CodOS { get; set; }
         public string NumeroOSCliente { get; set; }
         public DateTime DataHoraAbertura { get; set; }

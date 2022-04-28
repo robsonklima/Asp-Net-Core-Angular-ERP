@@ -12,6 +12,9 @@ namespace SAT.INFRA.Context
 
         public DbSet<OrdemServico> OrdemServico { get; set; }
         public DbSet<Chamado> Chamado { get; set; }
+        public DbSet<OperadoraTelefonia> OperadoraTelefonia { get; set; }
+        public DbSet<DefeitoPOS> DefeitoPOS { get; set; }
+        public DbSet<ChamadoDadosAdicionais> ChamadoDadosAdicionais { get; set; }
         public DbSet<RelatorioAtendimento> RelatorioAtendimento { get; set; }
         public DbSet<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhe { get; set; }
         public DbSet<RelatorioAtendimentoDetalhePeca> RelatorioAtendimentoDetalhePeca { get; set; }
@@ -329,6 +332,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ImportacaoTipo>(new ImportacaoTipoMap().Configure);
             modelBuilder.Entity<ViewAgendaTecnicoEvento>(new ViewAgendaTecnicoEventoMap().Configure);
             modelBuilder.Entity<ViewTecnicoTempoAtendimento>(new ViewTecnicoTempoAtendimentoMap().Configure);
+            modelBuilder.Entity<Chamado>(new ChamadoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

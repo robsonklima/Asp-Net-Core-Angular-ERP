@@ -386,13 +386,14 @@
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
-                                                <div class="text-secondary">{{ t('semat') }}</div>
+                                                <div class="text-secondary">{{ t('necessário agendamento com carro forte') }}</div>
                                                 <div>{{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}</div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
-                                                <div class="text-secondary">{{ t('fechadura') }}</div>
-                                                <div>{{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}
+                                                <div class="text-secondary">{{ t('atendimento sábado, domingo e feriado') }}</div>
+                                                <div>
+                                                    {{ os?.equipamentoContrato?.pontoEstrategico == 2 ? 'Sim' : 'Não' }}
                                                 </div>
                                             </div>
                                         </div>

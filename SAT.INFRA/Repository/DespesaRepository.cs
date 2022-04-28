@@ -24,10 +24,11 @@ namespace SAT.INFRA.Repository
             throw new NotImplementedException();
         }
 
-        public void Criar(Despesa despesa)
+        public Despesa Criar(Despesa despesa)
         {
             _context.Add(despesa);
             _context.SaveChanges();
+            return despesa;
         }
 
         public void Deletar(int codigo)

@@ -84,21 +84,35 @@ namespace SAT.SERVICES.Services
 		private void FormatSheet(IXLCells row, IXLWorksheet sheet)
 		{
 			row.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-			sheet.RangeUsed().SetAutoFilter();
-			sheet.Columns().AdjustToContents();
-			sheet.Rows().AdjustToContents();
+			sheet.RangeUsed()?.SetAutoFilter();
+			sheet.Columns()?.AdjustToContents();
+			sheet.Rows()?.AdjustToContents();
 		}
 
 		private void WriteHeaders(object entity, IXLWorksheet mainSheet)
 		{
-			int cellIndex = 1;
-			foreach (PropertyInfo prop in entity.GetType().GetProperties())
+			try
 			{
+				int cellIndex = 1;
 
-				mainSheet.Cell(1, cellIndex).Value = prop.Name;
-				cellIndex++;
+				if (entity == null)
+					return;
+
+				var properties = entity.GetType()?.GetProperties();
+
+				foreach (PropertyInfo prop in properties)
+				{
+					if (prop != null) {
+						mainSheet.Cell(1, cellIndex).Value = prop?.Name;
+						cellIndex++;
+					}
+				}
+				FormatHeader(mainSheet);	
 			}
-			FormatHeader(mainSheet);
+			catch (Exception ex)
+			{
+				throw new Exception("Ocorreu um erro ao exportar", ex);
+			}
 		}
 
 		private void FormatHeader(IXLWorksheet mainSheet)

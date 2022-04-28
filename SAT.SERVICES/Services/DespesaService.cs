@@ -22,9 +22,7 @@ namespace SAT.SERVICES.Services
 
         public Despesa Criar(Despesa despesa)
         {
-            _despesaRepo.Criar(despesa);
-
-            return despesa;
+            return _despesaRepo.Criar(despesa);
         }
 
         public void Deletar(int codigo)

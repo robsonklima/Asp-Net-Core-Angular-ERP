@@ -46,7 +46,8 @@ namespace SAT.SERVICES.Services
                     Pais = pais?.long_name,
                     Bairro = bairro?.long_name,
                     Cidade = cidade?.long_name,
-                    Estado = estado?.short_name
+                    Estado = estado?.short_name,
+                    Numero = numero?.long_name
                 };
             }
 

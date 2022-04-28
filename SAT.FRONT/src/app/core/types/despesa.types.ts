@@ -81,6 +81,7 @@ export interface DespesaItemData extends Meta
 
 export interface DespesaItemParameters extends QueryStringParameters
 {
+    codigosDespesa?: string;
 };
 
 export interface DespesaTipo

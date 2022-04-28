@@ -1,9 +1,9 @@
-<form class="p-1 bg-card rounded" [formGroup]="despesaItemForm">
+<form class="p-1 bg-card rounded" [formGroup]="despesaItemForm" *transloco="let t">
     <mat-horizontal-stepper [linear]="true" #horizontalStepper>
         <mat-step [formGroupName]="'step1'" [stepControl]="despesaItemForm.get('step1')" #horizontalStepperStep1>
             <ng-template matStepLabel>Tipo de despesa</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
-                <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3">
+                <mat-form-field class="flex-auto fuse-mat-dense gt-xs:pr-3 mt-2">
                     <mat-select formControlName="codDespesaTipo" required>
                         <mat-option *ngFor="let tipo of tiposDespesa" [value]="tipo.codDespesaTipo">
                             {{ tipo.nomeTipo }}
@@ -14,8 +14,8 @@
             <div class="flex justify-end">
                 <button class="px-8" mat-flat-button [color]="'primary'"
                     [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
-                    type="button" matStepperNext (click)="configuraCamposObrigatorios()">
-                    Próximo
+                    type="button" matStepperNext (click)="onProximo()">
+                    {{ t('proximo') }}
                 </button>
             </div>
         </mat-step>
@@ -44,15 +44,18 @@
                     <div class="min-w-1/2">
                         <div class="w-full text-center mt-4 text-2xl">Origem</div>
 
-                        <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center">
-                            <label>
-                                <input type="radio" value="residencial" formControlName="localInicioDeslocamento">
-                                <span>Residência</span>
-                            </label>
-                            <label>
-                                <input type="radio" value="hotel" formControlName="localInicioDeslocamento">
-                                <span>Hotel</span>
-                            </label>
+                        <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center min-h-10">
+                            <div *ngIf="mostrarOpcaoResidenciaHotelOrigem()">
+                                <label>
+                                    <input type="radio" value="residencial" formControlName="localInicioDeslocamento">
+                                    <span>{{ t('residencia') }}</span>
+                                </label>
+    
+                                <label class="ml-2">
+                                    <input type="radio" value="hotel" formControlName="localInicioDeslocamento">
+                                    <span>{{ t('hotel') }}</span>
+                                </label>
+                            </div>
                         </div>
 
                         <mat-form-field class="flex-auto fuse-mat-dense w-full">
@@ -67,21 +70,9 @@
                                     [ngClass]="{'pointer-events-none': isResidencial}"
                                     [formControlName]="'bairroOrigem'" [placeholder]="'Bairro'">
                             </mat-form-field>
-
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}"
-                                    [formControlName]="'complementoOrigem'" [placeholder]="'Complemento'">
-                            </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}"
-                                    [formControlName]="'numeroOrigem'" [placeholder]="'Número'">
-                            </mat-form-field>
-
                             <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [readonly]="isResidencial"
                                     [ngClass]="{'pointer-events-none': isResidencial}"
@@ -94,12 +85,6 @@
                                 <input matInput autocomplete="off" [readonly]="isResidencial"
                                     [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'ufOrigem'"
                                     [placeholder]="'UF'">
-                            </mat-form-field>
-
-                            <mat-form-field class="flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="isResidencial"
-                                    [ngClass]="{'pointer-events-none': isResidencial}" [formControlName]="'paisOrigem'"
-                                    [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
@@ -120,13 +105,18 @@
                     <div class="min-w-1/2">
                         <div class="w-full text-center mt-4 text-2xl">Destino</div>
 
-                        <div class="flex-auto space-x-4 w-full my-4 p-2">
-                            <label>
-                                <span></span>
-                            </label>
-                            <label>
-                                <span></span>
-                            </label>
+                        <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center min-h-10">
+                            <div *ngIf="mostrarOpcaoResidenciaHotelDestino()">
+                                <label>
+                                    <input type="radio" value="residencial" formControlName="localFimDeslocamento">
+                                    <span>{{ t('residencia') }}</span>
+                                </label>
+    
+                                <label class="ml-2">
+                                    <input type="radio" value="hotel" formControlName="localFimDeslocamento">
+                                    <span>{{ t('hotel') }}</span>
+                                </label>
+                            </div>
                         </div>
 
                         <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-full">
@@ -139,19 +129,9 @@
                                 <input matInput autocomplete="off" [readonly]="true" [formControlName]="'bairroDestino'"
                                     [placeholder]="'Bairro'">
                             </mat-form-field>
-
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true"
-                                    [formControlName]="'complementoDestino'" [placeholder]="'Complemento'">
-                            </mat-form-field>
                         </div>
 
                         <div class="flex flex-row justify-between  fuse-mat-dense space-x-4 w-full">
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'numeroDestino'"
-                                    [placeholder]="'Número'">
-                            </mat-form-field>
-
                             <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [readonly]="true" [formControlName]="'cidadeDestino'"
                                     [placeholder]="'Cidade'">
@@ -162,11 +142,6 @@
                             <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
                                 <input matInput autocomplete="off" [readonly]="true" [formControlName]="'ufDestino'"
                                     [placeholder]="'UF'">
-                            </mat-form-field>
-
-                            <mat-form-field class="pointer-events-none flex-auto fuse-mat-dense w-1/2">
-                                <input matInput autocomplete="off" [readonly]="true" [formControlName]="'paisDestino'"
-                                    [placeholder]="'País'">
                             </mat-form-field>
                         </div>
 
@@ -181,10 +156,10 @@
                                     [formControlName]="'longitudeDestino'" [placeholder]="'Longitude'">
                             </mat-form-field>
                         </div>
-
                     </div>
                 </div>
-                <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-1/2">
+
+                <div class="flex flex-row justify-between fuse-mat-dense space-x-4 w-1/2 my-3">
                     <mat-form-field class="flex-auto fuse-mat-dense w-1/2" *ngIf="isQuilometragem()">
                         <input matInput autocomplete="off" type="number" min="0" [formControlName]="'quilometragem'"
                             [placeholder]="'Quilometragem'">
@@ -196,6 +171,7 @@
                 <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
                     Voltar
                 </button>
+
                 <button class="px-8" mat-flat-button [color]="'primary'"
                     [disabled]="horizontalStepperStep2.stepControl.pristine || horizontalStepperStep2.stepControl.invalid"
                     type="button" (click)="revisar()" matStepperNext>
@@ -246,12 +222,12 @@
 
             <div class="flex justify-end mt-8">
                 <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
-                    Voltar
+                    {{ t('voltar') }}
                 </button>
                 
                 <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
-                    [color]="'primary'" type="button" (click)="confirmar()">
-                    Concluir
+                    [color]="'primary'" type="button" (click)="salvar()">
+                    {{ t('salvar') }}
                 </button>
             </div>
         </mat-step>

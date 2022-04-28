@@ -16,7 +16,6 @@
         public string Pais { get; set; }
         public string NumeroOrigem { get; set; }
         public string Numero { get; set; }
-        // Em minutos
         public double? Duracao { get; set; }
         public double? Distancia { get; set; }
     }

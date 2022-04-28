@@ -73,9 +73,9 @@ namespace SAT.INFRA.Repository
         {
             var despesaItens = _context.DespesaItem.AsQueryable();
 
-            if (!string.IsNullOrEmpty(parameters.CodDespesa))
+            if (!string.IsNullOrEmpty(parameters.CodigosDespesa))
             {
-                var codigos = parameters.CodDespesa.Split(",").Select(i => i.Trim()).Distinct();
+                var codigos = parameters.CodigosDespesa.Split(",").Select(i => i.Trim()).Distinct();
                 despesaItens = despesaItens.Where(t => codigos.Any(a => a == t.CodDespesa.ToString()));
             }
 

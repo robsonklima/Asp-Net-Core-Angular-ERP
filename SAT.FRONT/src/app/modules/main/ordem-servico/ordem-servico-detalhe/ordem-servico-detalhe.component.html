@@ -148,9 +148,16 @@
                                             </div>
 
                                             <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
-                                                <div class="text-secondary">{{ t('contato') }}</div>
+                                                <div class="text-secondary">{{ t('nome solicitante') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCad?.fone || os?.usuarioCad?.foneParticular || 'Não Informado' }}
+                                                    {{ os?.nomeSolicitante || 'Não Informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('telefone solicitante') }}</div>
+                                                <div>
+                                                    {{ os?.telefoneSolicitante || 'Não Informado' }}
                                                 </div>
                                             </div>
 

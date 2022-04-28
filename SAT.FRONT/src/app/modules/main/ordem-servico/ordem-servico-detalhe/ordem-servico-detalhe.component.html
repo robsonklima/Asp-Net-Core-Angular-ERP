@@ -391,9 +391,13 @@
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
-                                                <div class="text-secondary">{{ t('fechadura') }}</div>
-                                                <div>{{ os?.indLiberacaoFechaduraCofre ? 'Liberada' : 'Bloqueada' }}
+                                                <div class="text-secondary">{{ t('atendimento sábado, domingo e feriado') }}</div>
+                                                <div *ngIf="os?.equipamentoContrato?.pontoEstrategico == 2">
+                                                    Sim
                                                 </div>
+                                                <div *ngIf="os?.equipamentoContrato?.pontoEstrategico != 2">
+                                                    Não
+                                                </div>                                                
                                             </div>
                                         </div>
 

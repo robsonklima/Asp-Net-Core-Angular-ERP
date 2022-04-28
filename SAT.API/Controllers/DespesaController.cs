@@ -28,8 +28,9 @@ namespace SAT.API.Controllers
              _despesaService.ObterPorCodigo(codDespesa);
 
         [HttpPost]
-        public void Post([FromBody] Despesa despesa) =>
-            _despesaService.Criar(despesa);
+        public Despesa Post([FromBody] Despesa despesa) {
+            return _despesaService.Criar(despesa);
+        }
 
         [HttpPut]
         public void Put([FromBody] Despesa despesa) =>

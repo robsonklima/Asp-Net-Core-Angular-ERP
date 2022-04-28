@@ -7,7 +7,7 @@ namespace SAT.INFRA.Interfaces
     public interface IDespesaRepository
     {
         PagedList<Despesa> ObterPorParametros(DespesaParameters parameters);
-        void Criar(Despesa despesa);
+        Despesa Criar(Despesa despesa);
         void Deletar(int codigo);
         void Atualizar(Despesa despesa);
         Despesa ObterPorCodigo(int codigo);

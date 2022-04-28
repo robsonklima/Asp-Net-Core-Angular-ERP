@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
@@ -13,7 +13,7 @@ import { DespesaPeriodo } from 'app/core/types/despesa-periodo.types';
 import { DespesaData, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
-import { RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
+import { RelatorioAtendimentoData, RelatorioAtendimentoParameters } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
@@ -24,9 +24,9 @@ import moment from 'moment';
 	styles: [`
         .list-grid-despesa-atendimento-relatorio {
             grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px;
-            /* @screen sm { grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px; }
+            @screen sm { grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px; }
             @screen md { grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px; }
-            @screen lg { grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px; } */
+            @screen lg { grid-template-columns: 60px 72px 72px 70px auto 75px 80px 75px 80px 100px 100px; }
         }
     `],
 	encapsulation: ViewEncapsulation.None,
@@ -61,7 +61,8 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 	async ngOnInit() {
 		await this.obterDados();
 
-		if (this.sort && this.paginator) {
+		if (this.sort && this.paginator)
+		{
 			this.sort.disableClear = true;
 			this._cdr.markForCheck();
 
@@ -84,13 +85,16 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 	}
 
 	private async obterRATs() {
-		this.rats = this.codTecnico != null ?
-			(await this._relatorioAtendimentoSvc.obterPorParametros
-				({
-					codTecnicos: this.codTecnico,
-					dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
-					dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
-				}).toPromise()) : null;
+		if (!this.codTecnico) 
+			return;
+
+		const params: RelatorioAtendimentoParameters = {
+			codTecnicos: this.codTecnico,
+			dataInicio: moment(this.periodo.dataInicio).format('yyyy-MM-DD HH:mm:ss'),
+			dataSolucao: moment(this.periodo.dataFim).format('yyyy-MM-DD HH:mm:ss')
+		};
+
+		this.rats = await this._relatorioAtendimentoSvc.obterPorParametros(params).toPromise();
 	}
 
 	private async obterDespesas() {
@@ -170,7 +174,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 	}
 
 	public obterTotalKm(codRAT?: number) {
-			
+
 		return Enumerable.from(this.despesas.items)
 			.where(d => d.codRAT == codRAT)
 			.sum(d => Enumerable.from(d.despesaItens)

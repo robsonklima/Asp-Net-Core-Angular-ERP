@@ -20,8 +20,9 @@ namespace SAT.API.Controllers
             _despesaItemService = despesaItemService;
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] DespesaItemParameters parameters) =>
-            _despesaItemService.ObterPorParametros(parameters);
+        public ListViewModel Get([FromQuery] DespesaItemParameters parameters) {
+            return _despesaItemService.ObterPorParametros(parameters);
+        }
 
         [HttpGet("{codDespesaItem}")]
         public DespesaItem Get(int codDespesaItem) =>

@@ -4,6 +4,6 @@ namespace SAT.MODELS.Entities.Params
 {
     public class DespesaItemParameters : QueryStringParameters
     {
-        public string CodDespesa { get; set; }
+        public string CodigosDespesa { get; set; }
     }
 }

@@ -73,37 +73,37 @@
                                         <a [routerLink]="'despesa/'+r.codRAT">
                                             <div class="list-grid-despesa-atendimento-relatorio grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ r.codOS ?? "---" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ r.numRAT  ?? "---" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ obterOSCliente(r.codOS) ?? "---" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (obterNomeCliente(r.codOS) | uppercase) ?? "---"}}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (obterLocalAtendimento(r.codOS) | uppercase) ?? "---" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (r.dataHoraInicio | date:'dd/MM/yyyy') ?? "--" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (r.dataHoraInicio | date:'HH:mm') ?? "--" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (r.dataHoraSolucao | date:'dd/MM/yyyy') ?? "--" }}
                                                 </div>
-                                                <div class="hidden md:block truncate">
+                                                <div class="truncate">
                                                     {{ (r.dataHoraSolucao | date:'HH:mm') ?? "--" }}
                                                 </div>
-                                                <div class="hidden md:block truncate font-semibold">
+                                                <div class="truncate font-semibold">
                                                     {{ (obterTotalDespesa(r.codRAT) ?? "0") | currency:'BRL':'symbol-narrow' }}
                                                 </div>
-                                                <div class="hidden md:block truncate font-semibold">
+                                                <div class="truncate font-semibold">
                                                     {{ (obterTotalKm(r.codRAT)) ?? '0' }} Km
                                                 </div>
                                             </div>

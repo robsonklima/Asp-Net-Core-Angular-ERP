@@ -11,12 +11,11 @@ import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-
 import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { DespesaCartaoCombustivelParameters } from 'app/core/types/despesa-cartao-combustivel.types';
 import { DespesaConfiguracaoCombustivel, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
-import { Despesa, DespesaConfiguracaoData, DespesaItem, DespesaItemAlertaData } from 'app/core/types/despesa.types';
+import { Despesa, DespesaConfiguracao, DespesaConfiguracaoData, DespesaConfiguracaoParameters, DespesaItem, DespesaItemAlertaData, DespesaParameters } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
-import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { RelatorioAtendimento, RelatorioAtendimentoParameters } from 'app/core/types/relatorio-atendimento.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -32,8 +31,7 @@ import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-d
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaManutencaoComponent implements OnInit
-{
+export class DespesaManutencaoComponent implements OnInit {
   isLoading: boolean;
   isDespesaLoading: boolean;
   sort: any;
@@ -43,15 +41,16 @@ export class DespesaManutencaoComponent implements OnInit
   despesa: Despesa;
   despesaItens: DespesaItem[] = [];
   rat: RelatorioAtendimento;
+  rats: RelatorioAtendimento[] = [];
   ordemServico: OrdemServico;
   displayedColumns: string[] = ['codDespesaItem', 'despesaTipo', 'numNF', 'quilometragem', 'valorTotal', 'acao'];
   userSession: UserSession;
   despesaConfiguracaoCombustivel: DespesaConfiguracaoCombustivel
-  despesaConfiguracao: DespesaConfiguracaoData;
+  despesaConfiguracao: DespesaConfiguracao;
   despesaItemAlerta: DespesaItemAlertaData;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
 
-  constructor (
+  constructor(
     public _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
@@ -64,15 +63,13 @@ export class DespesaManutencaoComponent implements OnInit
     private _despesaConfiguracaoService: DespesaConfiguracaoService,
     private _despesaItemAlertaService: DespesaItemAlertaService,
     private _despesaConfCombustivelSvc: DespesaConfiguracaoCombustivelService,
-    private _dialog: MatDialog)
-  {
+    private _dialog: MatDialog) {
     this.userSession = JSON.parse(this._userService.userSession);
     this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
     this.codDespesaPeriodo = +this._route.snapshot.paramMap.get('codDespesaPeriodo');
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.isDespesaLoading = false;
     this.isLoading = false;
 
@@ -83,8 +80,7 @@ export class DespesaManutencaoComponent implements OnInit
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() =>
-      {
+      this.sort.sortChange.subscribe(() => {
         this.obterDados();
       });
     }
@@ -92,8 +88,7 @@ export class DespesaManutencaoComponent implements OnInit
     this._cdr.detectChanges();
   }
 
-  public async obterDados()
-  {
+  public async obterDados() {
     this.isLoading = true;
 
     await this.obterRAT();
@@ -103,39 +98,48 @@ export class DespesaManutencaoComponent implements OnInit
     await this.obterConfiguracaoCombustivel();
     await this.obterDespesaConfiguracao();
     await this.obterDespesaItemAlertas();
+    await this.obterRATs();
 
     this.isLoading = false;
   }
 
-  private async obterDespesaPeriodoTecnico()
-  {
+  private async obterDespesaPeriodoTecnico() {
     this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
       codTecnico: this.rat.codTecnico.toString(),
       codDespesaPeriodo: this.codDespesaPeriodo
     }).toPromise()).items[0];
   }
 
-  private async obterRAT()
-  {
+  private async obterRAT() {
     this.rat = (await this._relatorioAtendimentoSvc.obterPorCodigo(this.codRAT).toPromise());
   }
 
-  private async obterOS()
-  {
+  private async obterOS() {
     this.ordemServico = (await this._ordemServicoSvc.obterPorCodigo(this.rat.codOS).toPromise());
   }
 
-  private async obterDespesa()
-  {
+  private async obterRATs() {
+    const params: RelatorioAtendimentoParameters = {
+      dataInicio: this.rat.dataHoraInicio,
+      dataSolucao: this.rat.dataHoraSolucao,
+      codTecnicos: this.rat.codTecnico.toString(),
+      sortActive: "dataHoraInicio",
+      sortDirection: "ASC"
+    };
+
+    const data = await this._relatorioAtendimentoSvc.obterPorParametros(params).toPromise();
+    this.rats = data.items;
+  }
+
+  private async obterDespesa() {
     this.isDespesaLoading = true;
-    this.despesa = (await this._despesaSvc.obterPorParametros({ codRATs: this.codRAT.toString() }).toPromise()).items[0];
+    this.despesa = (await this._despesaSvc.obterPorParametros({ codRATs: this.codRAT.toString() }).toPromise()).items.shift();
     this.despesaItens = Enumerable.from(this.despesa?.despesaItens).orderByDescending(i => i.codDespesaItem).toArray();
     this.despesaItens = Enumerable.from(this.despesaItens).where(i => i.indAtivo === 1).toArray();
     this.isDespesaLoading = false;
   }
 
-  private async criaDespesa()
-  {
+  private async criaDespesa() {
     var despesa: Despesa =
     {
       codRAT: this.rat.codRAT,
@@ -148,44 +152,42 @@ export class DespesaManutencaoComponent implements OnInit
       dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
     };
 
-    this.despesa = (await this._despesaSvc.criar(despesa).toPromise());
+    this.despesa = await this._despesaSvc.criar(despesa).toPromise();
   }
 
-  async lancarDespesaItem()
-  {
-    if (!this.despesa) {
-      this.criaDespesa().finally(() => this.abrirDialogoDespesaItem());
-    } else {
+  async lancarDespesaItem() {
+    if (!this.despesa)
+    {
+      await this.criaDespesa();
+      this.abrirDialogoDespesaItem();
+    } else
+    {
       this.abrirDialogoDespesaItem();
     }
   }
 
-  abrirDialogoDespesaItem(): void
-  {
-    debugger
-
+  abrirDialogoDespesaItem(): void {
     const dialogRef = this._dialog.open(DespesaItemDialogComponent, {
       data:
       {
         codDespesa: this.despesa.codDespesa,
         ordemServico: this.ordemServico,
         rat: this.rat,
+        rats: this.rats,
         despesa: this.despesa,
         despesaConfiguracaoCombustivel: this.despesaConfiguracaoCombustivel,
-        despesaConfiguracao: this.despesaConfiguracao?.items.shift(),
+        despesaConfiguracao: this.despesaConfiguracao,
         despesaItemAlerta: this.despesaItemAlerta
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
         this.obterDespesa();
     });
   }
 
-  public excluirDespesaItem(di: DespesaItem)
-  {
+  public excluirDespesaItem(di: DespesaItem) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -197,24 +199,20 @@ export class DespesaManutencaoComponent implements OnInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
-        this._despesaItemSvc.deletar(di.codDespesaItem).subscribe(() =>
-        {
+        this._despesaItemSvc.deletar(di.codDespesaItem).subscribe(() => {
           this._snack.exibirToast('Despesa removida com sucesso!', 'success');
           this.obterDespesa();
-        }, e =>
-        {
+        }, e => {
           this._snack.exibirToast('Erro ao remover despesa', 'error');
         })
       }
     });
   }
 
-  public async obterConfiguracaoCombustivel()
-  {
+  public async obterConfiguracaoCombustivel() {
     const params: DespesaConfiguracaoCombustivelParameters = {
       codFilial: this.ordemServico.codFilial,
       codUf: this.ordemServico.localAtendimento.cidade?.codUF
@@ -223,22 +221,19 @@ export class DespesaManutencaoComponent implements OnInit
     const data = await this._despesaConfCombustivelSvc.obterPorParametros(params).toPromise();
     const conf = Enumerable.from(data.items).firstOrDefault();
 
-    if (conf) 
+    if (conf)
       this.despesaConfiguracaoCombustivel = conf;
     else
       this._snack.exibirToast('Não foi possível obter os valores de combustível para esta região. Favor entrar em contato com a sua filial.', 'error');
   }
 
-  async obterDespesaConfiguracao()
-  {
-    this.despesaConfiguracao =
-      (await this._despesaConfiguracaoService.obterPorParametros({
-        indAtivo: statusConst.ATIVO
-      }).toPromise());
+  async obterDespesaConfiguracao() {
+    const params: DespesaConfiguracaoParameters = { indAtivo: statusConst.ATIVO };
+    const data = await this._despesaConfiguracaoService.obterPorParametros(params).toPromise();
+    this.despesaConfiguracao = data.items.shift();
   }
 
-  async obterDespesaItemAlertas()
-  {
+  async obterDespesaItemAlertas() {
     this.despesaItemAlerta =
       (await this._despesaItemAlertaService.obterPorParametros({}).toPromise());
   }

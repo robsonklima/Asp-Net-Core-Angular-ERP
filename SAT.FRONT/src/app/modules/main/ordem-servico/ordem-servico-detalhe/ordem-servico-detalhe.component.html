@@ -443,14 +443,17 @@
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('data-autenticacao') }}</div>
-                                                <div>
+                                                <div *ngIf="os?.chamado?.chamadoDadosAdicionais?.autenticacao">
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.autenticacao | date:'dd/MM/yyyy HH:mm' }}
+                                                </div>
+                                                <div *ngIf="!os?.chamado?.chamadoDadosAdicionais?.autenticacao">
+                                                    {{ 'Não Informado'}}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('simcard') }}</div>
                                                 <div>
-                                                    {{ os?.chamado?.chamadoDadosAdicionais?.simCard }}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.simCard || 'Não Informado' }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
@@ -462,13 +465,13 @@
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('ddd') }}</div>
                                                 <div>
-                                                    {{ os?.chamado?.chamadoDadosAdicionais?.ddd }}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.ddd || 'Não Informado' }}
                                                 </div>
                                             </div>                                                                                                                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('numero') }}</div>
                                                 <div>
-                                                    {{ os?.chamado?.chamadoDadosAdicionais?.numero }}
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.numero || 'Não Informado' }}
                                                 </div>
                                             </div>                                                                                                                         
                                         </div>

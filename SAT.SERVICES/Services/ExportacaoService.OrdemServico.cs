@@ -31,7 +31,8 @@ namespace SAT.SERVICES.Services
                                  Filial = os.Filial?.NomeFilial,
                                  SLA = os.EquipamentoContrato?.AcordoNivelServico?.NomeSLA ?? Constants.NENHUM_REGISTRO,
                                  Reincidencia = os.NumReincidencia ?? 0,
-                                 Defeito = os.DefeitoRelatado ?? Constants.NENHUM_REGISTRO
+                                 Defeito = os.DefeitoRelatado ?? Constants.NENHUM_REGISTRO,
+                                 Fechamento = os.DataHoraFechamento,
                              });
 
             var ratSheet = os.SelectMany(os => os.RelatoriosAtendimento.Select(r =>
@@ -49,6 +50,8 @@ namespace SAT.SERVICES.Services
                                  TipoServico = r.TipoServico?.NomeServico ?? Constants.NENHUM_REGISTRO,
                                  Observacao = r.ObsRAT ?? Constants.NENHUM_REGISTRO,
                                  RelatoSolucao = r.RelatoSolucao ?? Constants.NENHUM_REGISTRO,
+                                 Checkin = r.CheckinsCheckouts.Where(c => c.Tipo == "CHECKIN")?.FirstOrDefault()?.DataHoraCadSmartphone.ToString() ?? Constants.NENHUM_REGISTRO,
+                                 Checkout = r.CheckinsCheckouts.Where(c => c.Tipo == "CHECKOUT")?.FirstOrDefault()?.DataHoraCadSmartphone.ToString() ?? Constants.NENHUM_REGISTRO
                              }
                         ));
 

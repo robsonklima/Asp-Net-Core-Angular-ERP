@@ -36,10 +36,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => os.RelatoriosAtendimento.Any(r => r.DataHoraInicio.Date >= parameters.DataHoraInicioInicio.Value.Date &&
                                     r.DataHoraInicio.Date <= parameters.DataHoraInicioFim.Value.Date));
 
-            // if (parameters.DataCancelamentoInicio.HasValue && parameters.DataCancelamentoFim.HasValue)
-            //     query = query.Where(os => os.DataHoraCancelamento.Value.Date >= parameters.DataCancelamentoInicio.Value.Date
-            //         && os.DataHoraCancelamento.Value.Date <= parameters.DataCancelamentoFim.Value.Date);
-
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
 

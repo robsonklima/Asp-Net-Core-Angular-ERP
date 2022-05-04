@@ -156,10 +156,8 @@ namespace SAT.SERVICES.Services
 
                 var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
                 if (agendamento != null) {
-                    if (agendamento > DateTime.Now) {
-                        inicio = agendamento.Value;
-                        fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
-                    }
+                    inicio = agendamento.Value;
+                    fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
                 }
 
                 agenda.Inicio = inicio;

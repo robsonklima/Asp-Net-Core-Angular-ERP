@@ -8,8 +8,7 @@ import { ApexOptions } from 'ng-apexcharts';
   selector: 'app-disponibilidade',
   templateUrl: './disponibilidade.component.html'
 })
-export class DisponibilidadeComponent implements OnInit
-{
+export class DisponibilidadeComponent implements OnInit {
   historico: any = { labels: [], cpu: [], memory: [] }
   opcoesDatas: any[] = [];
   chartLine: ApexOptions;
@@ -20,18 +19,13 @@ export class DisponibilidadeComponent implements OnInit
     private _monitoramentoHistoricoService: MonitoramentoHistoricoService
   ) { }
 
-  async ngOnInit()
-  {
-    await this.obterDados(this.dataAtual);
-    this.obterOpcoesDatas();
+  async ngOnInit() {
+    this.obterDados(this.dataAtual).then(() => this.obterOpcoesDatas());
   }
 
-  private obterDados(data: string = ''): Promise<any>
-  {
-    return new Promise((resolve, reject) =>
-    {
+  private obterDados(data: string = ''): Promise<any> {
+    return new Promise((resolve, reject) => {
       this.loading = true;
-
       if (data) this.dataAtual = data;
 
       this._monitoramentoHistoricoService.obterPorParametros({
@@ -39,25 +33,30 @@ export class DisponibilidadeComponent implements OnInit
         dataHoraProcessamento: this.dataAtual,
         sortActive: "dataHoraProcessamento",
         sortDirection: "asc",
-      }).subscribe((data) =>
-      {
-        this.historico.labels = data.items.map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
-        this.historico.cpu = data.items.filter(d => d.tipo === 'CPU').map((cpu) => cpu.emUso);
-        this.historico.memory = data.items.filter(d => d.tipo === 'MEMORY').map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
+      }).subscribe((data) => {
+        console.log(data);
+        
+
+        this.historico.labels = data.items.filter(d => d.tipo == 'CPU').map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
+        this.historico.cpu = data.items.filter(d => d.tipo == 'CPU').map((cpu) => cpu.emUso);
+        this.historico.memory = data.items.filter(d => d.tipo == 'MEMORY').map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
+
+        console.log(this.historico.labels);
+        console.log(this.historico.cpu);
+        console.log(this.historico.memory);
+        
 
         this.prepararDadosGraficos();
         this.loading = false;
         resolve(data);
-      }, () =>
-      {
+      }, () => {
         this.loading = false;
         reject();
       });
     })
   }
 
-  private prepararDadosGraficos()
-  {
+  private prepararDadosGraficos() {
     this.chartLine = {
       series: [
         {
@@ -111,8 +110,7 @@ export class DisponibilidadeComponent implements OnInit
         min: 0,
         max: 100,
         labels: {
-          formatter: (value) =>
-          {
+          formatter: (value) => {
             return value + "%";
           }
         }
@@ -127,19 +125,17 @@ export class DisponibilidadeComponent implements OnInit
     };
   }
 
-  pesquisarDadosPorData(data: string)
-  {
+  pesquisarDadosPorData(data: string) {
     this.obterDados(data);
   }
 
-  obterOpcoesDatas()
-  {
-      for (let i = 4; i >= 0; i--)
-      {
-          this.opcoesDatas.push({
-              data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
-              prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
-          });
-      }
+  obterOpcoesDatas() {
+    for (let i = 4; i >= 0; i--)
+    {
+      this.opcoesDatas.push({
+        data: moment().add(-i, 'days').format('yyyy-MM-DD HH:mm:ss'),
+        prompt: moment().add(-i, 'days').locale('pt').format('dddd').replace('-feira', '')
+      });
+    }
   }
 }

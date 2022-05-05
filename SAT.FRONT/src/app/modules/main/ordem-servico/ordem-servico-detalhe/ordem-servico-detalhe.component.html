@@ -134,7 +134,7 @@
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
-                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Nãoinformado' }}
+                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Não informado' }}
                                                 </div>
                                             </div>
 
@@ -484,12 +484,23 @@
                                             <div class="py-3">
                                                 <ng-container>
                                                     <div>
-                                                        {{
-                                                        os?.localAtendimento?.endereco + ' - ' +
-                                                        os?.localAtendimento?.cidade?.nomeCidade + ' - ' +
-                                                        os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
-                                                        }}
-                                                        <p>{{'CEP: ' + os?.localAtendimento?.cep}}</p>
+                                                        <span>Logradouro:</span>
+                                                        {{ os?.localAtendimento?.endereco || 'Não Informado' }}
+                                                    </div>
+
+                                                    <div>
+                                                        <span>Cidade:</span>
+                                                        {{ os?.localAtendimento?.cidade?.nomeCidade || 'Não Informado' }}
+                                                    </div>
+
+                                                    <div>
+                                                        <span>UF:</span>
+                                                        {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'Não Informado' }}
+                                                    </div>
+                                                        
+                                                    <div>
+                                                        <span>CEP:</span>
+                                                        {{ os?.localAtendimento?.cep || 'Não Informado' }}
                                                     </div>
                                                 </ng-container>
                                             </div>

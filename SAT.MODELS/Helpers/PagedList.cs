@@ -29,9 +29,9 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize, comparer);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception("Erro ao Listar Dados", ex);
             }
         }
 

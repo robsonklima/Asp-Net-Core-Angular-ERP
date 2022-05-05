@@ -305,8 +305,6 @@ namespace SAT.INFRA.Repository
 						.Include(os => os.RelatoriosAtendimento)
 							.ThenInclude(os => os.Tecnico)
 							.Include(os => os.RelatoriosAtendimento)
-								.ThenInclude(r => r.CheckinsCheckouts)
-							.Include(os => os.RelatoriosAtendimento)
 								.ThenInclude(os => os.StatusServico)
 							.Include(os => os.RelatoriosAtendimento)
 								.ThenInclude(os => os.TipoServico)

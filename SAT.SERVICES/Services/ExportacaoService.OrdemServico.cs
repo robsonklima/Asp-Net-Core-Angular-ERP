@@ -51,8 +51,6 @@ namespace SAT.SERVICES.Services
                                  Observacao = r.ObsRAT ?? Constants.NENHUM_REGISTRO,
                                  RelatoSolucao = r.RelatoSolucao ?? Constants.NENHUM_REGISTRO,
                                  DataCadastro = r.DataHoraCad,
-                                 Checkin = r.CheckinsCheckouts.Where(c => c.Tipo == "CHECKIN")?.FirstOrDefault()?.DataHoraCadSmartphone.ToString() ?? Constants.NENHUM_REGISTRO,
-                                 Checkout = r.CheckinsCheckouts.Where(c => c.Tipo == "CHECKOUT")?.FirstOrDefault()?.DataHoraCadSmartphone.ToString() ?? Constants.NENHUM_REGISTRO
                              }
                         ));
 

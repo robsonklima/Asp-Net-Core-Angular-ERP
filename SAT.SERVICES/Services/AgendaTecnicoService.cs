@@ -149,17 +149,15 @@ namespace SAT.SERVICES.Services
                     fim = inicio.AddMinutes(tempoMedioAtendimento);
                 }
 
-                if (inicio > fimExpediente() && inicio == DateTime.Now.Date) {
+                if (inicio > fimExpediente() && inicio.Date == DateTime.Now.Date) {
                     inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                     fim = inicio.AddMinutes(tempoMedioAtendimento);
                 }
 
                 var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
                 if (agendamento != null) {
-                    if (agendamento > DateTime.Now) {
-                        inicio = agendamento.Value;
-                        fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
-                    }
+                    inicio = agendamento.Value;
+                    fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
                 }
 
                 agenda.Inicio = inicio;

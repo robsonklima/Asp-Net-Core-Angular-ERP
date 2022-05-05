@@ -30,16 +30,17 @@ namespace SAT.API.Controllers
              _despesaPeriodo.ObterPorCodigo(codDespesaPeriodo);
 
         [HttpPost]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Post([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Criar(despesa);
 
         [HttpPut]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Put([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Atualizar(despesa);
 
         [HttpDelete("{codDespesaPeriodo}")]
+        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Delete(int codDespesaPeriodo) =>
             _despesaPeriodo.Deletar(codDespesaPeriodo);
     }

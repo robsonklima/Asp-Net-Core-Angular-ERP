@@ -1,0 +1,649 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.88542in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.71875in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.42708in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.30208in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.22in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Ano/Mês</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Modelo</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Parque</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Qtd Chamados</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Quebra Geral</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.21in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="AnoMes">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!AnoMes.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>AnoMes</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Modelo">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Modelo.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Modelo</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Parque">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Parque.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Parque</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="QtdChamados">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!QtdChamados.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>QtdChamados</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="QuebraGeral">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!QuebraGeral.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>QuebraGeral</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Details_Group">
+                <DataElementName>Detail</DataElementName>
+              </Group>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+              <DataElementName>Detail_Collection</DataElementName>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Height>0.43in</Height>
+        <Width>7.33333in</Width>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>0.43in</Height>
+    <Style />
+  </Body>
+  <Width>7.33333in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>214ca63c-f976-469e-b867-765a6af0bbed</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@CodEquip">
+            <Value>=Parameters!CodEquip.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ANOMES">
+            <Value>=Parameters!ANOMES.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CodContrato">
+            <Value>=Parameters!CodContrato.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT		AnoMes, Modelo, count(CodEquipContrato) Parque, sum(qtd) QtdChamados, 
+			cast((cast(sum(qtd) as float) / cast(count(CodEquipContrato) as float)) as decimal(10,2)) * 100 QuebraGeral
+FROM		(
+					SELECT		Parque_Resumo.AnoMes, Parque_Resumo.CodEquip, Parque_Resumo.CodContrato, 
+								CASE WHEN CHARINDEX(' -', Equipamento.NomeEquip) &lt; 1
+										THEN Equipamento.NomeEquip
+										ELSE LEFT(Equipamento.NomeEquip, CHARINDEX(' -', Equipamento.NomeEquip) - 1)
+								END AS Modelo,
+								Parque_Resumo.CodEquipContrato, 
+								(
+									SELECT			COUNT(1) 
+									FROM			OS 
+									WHERE			OS.CodEquipContrato IN (Parque_Resumo.CodEquipContrato) 
+									AND				CAST(dbo.insertZero(MONTH(DataHoraCad),2) AS VARCHAR) = substring(CAST(Parque_Resumo.AnoMes AS VARCHAR),5,2)
+									AND				YEAR(DataHoraCad) = substring(CAST(Parque_Resumo.AnoMes AS VARCHAR),1,4)
+									AND				OS.CodTipoIntervencao = 2
+								) qtd
+					FROM         Parque_Resumo
+					INNER JOIN	Equipamento ON Parque_Resumo.CodEquip = Equipamento.CodEquip
+					WHERE		Parque_Resumo.CodCliente = 68
+					AND			Parque_Resumo.IndAtivo = 1	   
+			) D
+WHERE       AnoMes IN (@ANOMES)
+AND			CodEquip IN (@CodEquip)
+AND			CodContrato IN (@CodContrato)
+GROUP BY	AnoMes, Modelo</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="AnoMes">
+          <DataField>AnoMes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Modelo">
+          <DataField>Modelo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Parque">
+          <DataField>Parque</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="QtdChamados">
+          <DataField>QtdChamados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="QuebraGeral">
+          <DataField>QuebraGeral</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsAnoMes">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT		AnoMes
+FROM		(
+				SELECT		CAST(YEAR(Getdate()) AS varchar) + CAST(DBO.INSERTZERO((MONTH(GETDATE())),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-1,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-1,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-2,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-2,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-3,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-3,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-4,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-4,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-5,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-5,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-6,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-6,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-7,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-7,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-8,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-8,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-9,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-9,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-10,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-10,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-11,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-11,Getdate()))),2) AS varchar) AnoMes
+				UNION
+				SELECT		CAST(YEAR(DATEADD( MM,-12,Getdate())) AS varchar) + CAST(DBO.INSERTZERO((MONTH(DATEADD( MM,-12,Getdate()))),2) AS varchar) AnoMes
+			) AS Dados
+ORDER BY    AnoMes DESC</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="AnoMes">
+          <DataField>AnoMes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsContrato">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>Select		CodContrato, NomeContrato from Contrato WHERE CodCliente = 68 and indativo = 1 order by NomeContrato ASC
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="CodContrato">
+          <DataField>CodContrato</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NomeContrato">
+          <DataField>NomeContrato</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsModelo">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>Select		codEquip, NomeEquip 
+from		Equipamento 
+where		CodEquip IN (select distinct CodEquip From EquipamentoContrato where Codcliente = 68)
+order by	NomeEquip ASC
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="codEquip">
+          <DataField>codEquip</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NomeEquip">
+          <DataField>NomeEquip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="ANOMES">
+      <DataType>String</DataType>
+      <Prompt>Ano/Mês:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DsAnoMes</DataSetName>
+          <ValueField>AnoMes</ValueField>
+          <LabelField>AnoMes</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CodEquip">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DsModelo</DataSetName>
+          <ValueField>codEquip</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Modelo:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DsModelo</DataSetName>
+          <ValueField>codEquip</ValueField>
+          <LabelField>NomeEquip</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CodContrato">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DsContrato</DataSetName>
+          <ValueField>CodContrato</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Contrato:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DsContrato</DataSetName>
+          <ValueField>CodContrato</ValueField>
+          <LabelField>NomeContrato</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>ab11a3e8-ccb3-481b-9c09-b8683cb93238</rd:ReportID>
+</Report>

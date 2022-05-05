@@ -1,0 +1,905 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="List1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>6.98958in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.97778in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Rectangle Name="List1_Contents">
+                      <ReportItems>
+                        <Tablix Name="table1">
+                          <TablixBody>
+                            <TablixColumns>
+                              <TablixColumn>
+                                <Width>1in</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>1.38542in</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>3.09375in</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>1.09375in</Width>
+                              </TablixColumn>
+                            </TablixColumns>
+                            <TablixRows>
+                              <TablixRow>
+                                <Height>0.22in</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox1">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Filial</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                  <FontSize>11pt</FontSize>
+                                                  <FontWeight>Bold</FontWeight>
+                                                  <Color>White</Color>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>#1c3a70</BackgroundColor>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="textbox2">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Chamados Mês</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                  <FontSize>11pt</FontSize>
+                                                  <FontWeight>Bold</FontWeight>
+                                                  <Color>White</Color>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>textbox2</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>#1c3a70</BackgroundColor>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="textbox3">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Chamados Abertos Mais que 10 Dias</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                  <FontSize>11pt</FontSize>
+                                                  <FontWeight>Bold</FontWeight>
+                                                  <Color>White</Color>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>textbox3</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>#1c3a70</BackgroundColor>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="textbox4">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Percentual</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                  <FontSize>11pt</FontSize>
+                                                  <FontWeight>Bold</FontWeight>
+                                                  <Color>White</Color>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>textbox4</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>#1c3a70</BackgroundColor>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                              <TablixRow>
+                                <Height>0.21in</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox5">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!Filial.Value</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox5</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="ChamadosMes">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!ChamadosMes.Value</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>ChamadosMes</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="ChamadosForaDoPrazoMaior10Dias">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!ChamadosForaDoPrazoMaior10Dias.Value</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>ChamadosForaDoPrazoMaior10Dias</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Percentual">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!Percentual.Value</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Percentual</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                              <TablixRow>
+                                <Height>0.25in</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox6">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>TOTAL GERAL</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox6</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox7">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Sum(Fields!ChamadosMes.Value)</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox7</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox8">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Sum(Fields!ChamadosForaDoPrazoMaior10Dias.Value)</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox8</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox9">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=FormatNumber(Sum(Fields!ChamadosForaDoPrazoMaior10Dias.Value)/Sum(Fields!ChamadosMes.Value)*100,2)</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Center</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox9</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                            </TablixRows>
+                          </TablixBody>
+                          <TablixColumnHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                              <TablixMember />
+                              <TablixMember />
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixColumnHierarchy>
+                          <TablixRowHierarchy>
+                            <TablixMembers>
+                              <TablixMember>
+                                <KeepWithGroup>After</KeepWithGroup>
+                                <RepeatOnNewPage>true</RepeatOnNewPage>
+                                <KeepTogether>true</KeepTogether>
+                              </TablixMember>
+                              <TablixMember>
+                                <Group Name="table1_Details_Group">
+                                  <DataElementName>Detail</DataElementName>
+                                </Group>
+                                <TablixMembers>
+                                  <TablixMember />
+                                </TablixMembers>
+                                <DataElementName>Detail_Collection</DataElementName>
+                                <DataElementOutput>Output</DataElementOutput>
+                                <KeepTogether>true</KeepTogether>
+                              </TablixMember>
+                              <TablixMember>
+                                <KeepWithGroup>Before</KeepWithGroup>
+                              </TablixMember>
+                            </TablixMembers>
+                          </TablixRowHierarchy>
+                          <DataSetName>DataSet1</DataSetName>
+                          <Top>0.29778in</Top>
+                          <Height>0.68in</Height>
+                          <Width>6.57292in</Width>
+                          <Style />
+                        </Tablix>
+                        <Textbox Name="Tipo">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="Tipo intervenção: " + Fields!Tipo.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>14pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Tipo</rd:DefaultName>
+                          <Height>0.27in</Height>
+                          <Width>6.57292in</Width>
+                          <ZIndex>1</ZIndex>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </ReportItems>
+                      <KeepTogether>true</KeepTogether>
+                      <Style />
+                    </Rectangle>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="list1_Tipo">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Tipo.Value</GroupExpression>
+                </GroupExpressions>
+                <PageBreak>
+                  <BreakLocation>Between</BreakLocation>
+                </PageBreak>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Tipo.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <PageBreak>
+          <BreakLocation>End</BreakLocation>
+        </PageBreak>
+        <Height>0.97778in</Height>
+        <Width>6.98958in</Width>
+        <Style>
+          <FontFamily>Tahoma</FontFamily>
+          <FontSize>14pt</FontSize>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>0.97778in</Height>
+    <Style />
+  </Body>
+  <Width>6.98958in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>cfd7bdc4-fcdd-4347-b7d8-a67ee5cd9602</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ANO">
+            <Value>=Parameters!ANO.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Tipo">
+            <Value>=Parameters!Tipo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@MES">
+            <Value>=Parameters!MES.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>DECLARE			@DataFiltro1 DATETIME
+DECLARE			@DataFiltro2 DATETIME
+SET				@DataFiltro1 = CAST((@ANO + '-' +  @MES + '-' + '01') AS DATETIME)
+SET				@DataFiltro2 = CAST(((CASE @MES WHEN 12 THEN CAST((@ANO + 1) AS VARCHAR) ELSE @ANO END) + '-' + (CASE @MES WHEN 12 THEN '01' ELSE DBO.INSERTZERO((@MES + 1),2) END) + '-' + '01') AS DATETIME)
+
+SELECT			@Tipo AS Tipo,
+				Filial,
+				CASE @Tipo 
+					WHEN 'Corretivas' THEN CorrMes
+					WHEN 'Orçamentos' THEN OrcMes
+					WHEN 'Ambas' THEN CorrMes + OrcMes
+					ELSE 0
+				END AS ChamadosMes,
+				CASE @Tipo 
+					WHEN 'Corretivas' THEN CorrMaior10Dias
+					WHEN 'Orçamentos' THEN OrcMaior10Dias
+					WHEN 'Ambas' THEN CorrMaior10Dias + OrcMaior10Dias
+					ELSE 0
+				END AS ChamadosForaDoPrazoMaior10Dias,
+				CAST((
+						CASE @Tipo 
+							WHEN 'Corretivas' THEN CAST(CorrMaior10Dias AS FLOAT) / CASE WHEN CorrMes = 0 THEN 1 ELSE CAST(CorrMes AS FLOAT) END * 100.00
+							WHEN 'Orçamentos' THEN CAST(OrcMaior10Dias AS FLOAT) / CASE WHEN OrcMes = 0 THEN 1 ELSE CAST(OrcMes AS FLOAT) END * 100.00
+							WHEN 'Ambas' THEN (CAST(CorrMaior10Dias AS FLOAT) + CAST(OrcMaior10Dias AS FLOAT)) 
+											  / CASE WHEN OrcMes + CorrMes = 0 THEN 1 ELSE (CAST(CorrMes AS FLOAT) + CAST(OrcMes AS FLOAT)) END * 100
+							ELSE 0
+						END
+					) AS DECIMAL(10,2)
+				) AS Percentual
+FROM			(
+					SELECT	FI.NomeFilial AS Filial,
+							(			
+								SELECT			COUNT(OS.CodOS) AS CorrMaior10Dias
+								FROM			OS
+								INNER JOIN		StatusServico ON OS.CodStatusServico = StatusServico.CodStatusServico
+								INNER JOIN		TipoIntervencao ON OS.CodTipoIntervencao = TipoIntervencao.CodTipoIntervencao
+								INNER JOIN		Autorizada ON OS.CodAutorizada = Autorizada.CodAutorizada
+								INNER JOIN		Regiao ON OS.CodRegiao = Regiao.CodRegiao
+								INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+								INNER JOIN		LocalAtendimento ON OS.CodPosto = LocalAtendimento.CodPosto
+								INNER JOIN		Cidade ON LocalAtendimento.CodCidade = Cidade.CodCidade
+								INNER JOIN		UF ON Cidade.CodUF = UF.CodUF
+								LEFT OUTER JOIN	Equipamento ON OS.CodEquip = Equipamento.CodEquip
+								LEFT OUTER JOIN	EquipamentoContrato ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+								LEFT OUTER JOIN	SLA ON EquipamentoContrato.CodSLA = SLA.CodSLA
+								LEFT OUTER JOIN	Filial ON OS.CodFilial = Filial.CodFilial
+								WHERE			(1 = 1)
+								AND		        OS.CodStatusServico &lt;&gt; 2
+								AND		        OS.CodTipoIntervencao = 2
+								AND				OS.CodFilial = FI.CodFilial
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+								AND				OS.DataHoraAberturaOS BETWEEN @DataFiltro1 AND @DataFiltro2
+								AND				(
+													(
+														DATEADD(DD,10, OS.DataHoraAberturaOS) &lt; OS.DataHoraFechamento
+														AND 
+														OS.CodStatusServico = 3
+													) 
+													OR 
+													(
+														OS.DataHoraAberturaOS &lt; DATEADD(DD,-10, GETDATE())
+														AND
+														OS.CodStatusServico NOT IN (2,3)
+													)
+												)
+							) AS CorrMaior10Dias,
+							(
+								SELECT			COUNT(OS.CodOS) AS OrcMaior10Dias 
+								FROM			OS
+								INNER JOIN		StatusServico ON OS.CodStatusServico = StatusServico.CodStatusServico
+								INNER JOIN		TipoIntervencao ON OS.CodTipoIntervencao = TipoIntervencao.CodTipoIntervencao
+								INNER JOIN		Autorizada ON OS.CodAutorizada = Autorizada.CodAutorizada
+								INNER JOIN		Regiao ON OS.CodRegiao = Regiao.CodRegiao
+								INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+								INNER JOIN		LocalAtendimento ON OS.CodPosto = LocalAtendimento.CodPosto
+								INNER JOIN		Cidade ON LocalAtendimento.CodCidade = Cidade.CodCidade
+								INNER JOIN		UF ON Cidade.CodUF = UF.CodUF
+								LEFT OUTER JOIN	Equipamento ON OS.CodEquip = Equipamento.CodEquip
+								LEFT OUTER JOIN	EquipamentoContrato ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+								LEFT OUTER JOIN	SLA ON EquipamentoContrato.CodSLA = SLA.CodSLA
+								LEFT OUTER JOIN	Filial ON OS.CodFilial = Filial.CodFilial
+								WHERE			(1 = 1)
+								AND		        OS.CodStatusServico &lt;&gt; 2
+								AND		        OS.CodTipoIntervencao IN (5, 17, 18, 19, 20)
+								AND				OS.CodFilial = FI.CodFilial
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+								AND				OS.DataHoraAberturaOS BETWEEN @DataFiltro1 AND @DataFiltro2
+								AND				(
+													(
+														DATEADD(DD,10, OS.DataHoraAberturaOS) &lt; OS.DataHoraFechamento
+														AND 
+														OS.CodStatusServico = 3
+													) 
+													OR 
+													(
+														OS.DataHoraAberturaOS &lt; DATEADD(DD,-10, GETDATE())
+														AND
+														OS.CodStatusServico NOT IN (2,3,16)
+													)
+												)
+							) AS OrcMaior10Dias,
+							(
+								SELECT			COUNT(OS.CodOS) AS CorrMes
+								FROM			OS
+								INNER JOIN		StatusServico ON OS.CodStatusServico = StatusServico.CodStatusServico
+								INNER JOIN		TipoIntervencao ON OS.CodTipoIntervencao = TipoIntervencao.CodTipoIntervencao
+								INNER JOIN		Autorizada ON OS.CodAutorizada = Autorizada.CodAutorizada
+								INNER JOIN		Regiao ON OS.CodRegiao = Regiao.CodRegiao
+								INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+								INNER JOIN		LocalAtendimento ON OS.CodPosto = LocalAtendimento.CodPosto
+								INNER JOIN		Cidade ON LocalAtendimento.CodCidade = Cidade.CodCidade
+								INNER JOIN		UF ON Cidade.CodUF = UF.CodUF
+								LEFT OUTER JOIN	Equipamento ON OS.CodEquip = Equipamento.CodEquip
+								LEFT OUTER JOIN	EquipamentoContrato ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+								LEFT OUTER JOIN	SLA ON EquipamentoContrato.CodSLA = SLA.CodSLA
+								LEFT OUTER JOIN	Filial ON OS.CodFilial = Filial.CodFilial
+								WHERE			(1 = 1)
+								AND		        OS.CodStatusServico &lt;&gt; 2
+								AND		        OS.CodTipoIntervencao = 2
+								AND				OS.CodFilial = FI.CodFilial
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+								AND				OS.DataHoraAberturaOS BETWEEN @DataFiltro1 AND @DataFiltro2
+							)  AS CorrMes,
+							(
+								SELECT			COUNT(OS.CodOS) AS OrcMes 
+								FROM			OS
+								INNER JOIN		StatusServico ON OS.CodStatusServico = StatusServico.CodStatusServico
+								INNER JOIN		TipoIntervencao ON OS.CodTipoIntervencao = TipoIntervencao.CodTipoIntervencao
+								INNER JOIN		Autorizada ON OS.CodAutorizada = Autorizada.CodAutorizada
+								INNER JOIN		Regiao ON OS.CodRegiao = Regiao.CodRegiao
+								INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+								INNER JOIN		LocalAtendimento ON OS.CodPosto = LocalAtendimento.CodPosto
+								INNER JOIN		Cidade ON LocalAtendimento.CodCidade = Cidade.CodCidade
+								INNER JOIN		UF ON Cidade.CodUF = UF.CodUF
+								LEFT OUTER JOIN	Equipamento ON OS.CodEquip = Equipamento.CodEquip
+								LEFT OUTER JOIN	EquipamentoContrato ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+								LEFT OUTER JOIN	SLA ON EquipamentoContrato.CodSLA = SLA.CodSLA
+								LEFT OUTER JOIN	Filial ON OS.CodFilial = Filial.CodFilial
+								WHERE			(1 = 1)
+								AND		        OS.CodStatusServico &lt;&gt; 2
+								AND		        OS.CodTipoIntervencao IN (5, 17, 18, 19, 20)
+								AND				OS.CodFilial = FI.CodFilial
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+								AND				EquipamentoContrato.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+								AND				OS.DataHoraAberturaOS BETWEEN @DataFiltro1 AND @DataFiltro2
+							) AS OrcMes
+					FROM	FILIAL FI
+					WHERE	FI.IndAtivo = 1
+					AND		FI.CodFiliAL &lt;&gt; 21
+				) AS DADOS</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ChamadosMes">
+          <DataField>ChamadosMes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Filial">
+          <DataField>Filial</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ChamadosForaDoPrazoMaior10Dias">
+          <DataField>ChamadosForaDoPrazoMaior10Dias</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Percentual">
+          <DataField>Percentual</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Ano">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>WITH Anos AS
+(
+  SELECT 2018 AS IdAno
+  UNION ALL
+  SELECT IdAno + 1
+  FROM Anos
+  WHERE IdAno &lt; YEAR(GETDATE())
+)
+SELECT * FROM Anos
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="IdAno">
+          <DataField>IdAno</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Mes">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>WITH Meses AS
+(
+  SELECT 1 AS IdMes
+  UNION ALL
+  SELECT IdMes + 1
+  FROM Meses
+  WHERE IdMes &lt; 12
+)
+SELECT dbo.insertZero(IdMes, 2) IdMes FROM Meses
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="IdMes">
+          <DataField>IdMes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Tipo">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT 'Corretivas' AS Tipo
+UNION 
+SELECT 'Orçamentos' AS Tipo
+UNION 
+SELECT 'Ambas' AS Tipo</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="MES">
+      <DataType>String</DataType>
+      <Prompt>Mês:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Mes</DataSetName>
+          <ValueField>IdMes</ValueField>
+          <LabelField>IdMes</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="ANO">
+      <DataType>String</DataType>
+      <Prompt>Ano:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Ano</DataSetName>
+          <ValueField>IdAno</ValueField>
+          <LabelField>IdAno</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Tipo">
+      <DataType>String</DataType>
+      <Prompt>Tipo Intervenção:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Tipo</DataSetName>
+          <ValueField>Tipo</ValueField>
+          <LabelField>Tipo</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>pt-BR</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>2eb58101-4458-483f-b612-0e29ff161f42</rd:ReportID>
+</Report>

@@ -1,0 +1,853 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:DataSourceID>b1d4bb87-bb9d-44d4-9873-cac79fe50174</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <BottomMargin>2.5cm</BottomMargin>
+  <RightMargin>2.5cm</RightMargin>
+  <PageWidth>21cm</PageWidth>
+  <ReportParameters>
+    <ReportParameter Name="IndAtivo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ativas?</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SIM</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>NÃO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="IndRepasse">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Com Repasse?</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SIM</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>NÃO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CodEquip">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Modelo:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsModelo</DataSetName>
+          <ValueField>CodEquip</ValueField>
+          <LabelField>NomeEquip</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CodAutorizada">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Autorizada:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsAutorizada</DataSetName>
+          <ValueField>CodAutorizada</ValueField>
+          <LabelField>NomeFantasia</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="ValorDespesa">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Repasse Unit:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsValorDespesa</DataSetName>
+          <ValueField>ValorDespesa</ValueField>
+          <LabelField>ValorDespesa</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Times New Roman</FontFamily>
+          <FontWeight>700</FontWeight>
+          <FontSize>8pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Height>0.5cm</Height>
+        <Value>="PRÉVIA REPASSE - " + First(Fields!DataFinal.Value, "dsDataRelatorio")</Value>
+      </Textbox>
+      <Table Name="table1">
+        <Footer>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <ZIndex>14</ZIndex>
+                      <Style>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BackgroundColor>MidnightBlue</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>TOTAL GERAL</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox5">
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BackgroundColor>MidnightBlue</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox10">
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BackgroundColor>MidnightBlue</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox12">
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BackgroundColor>MidnightBlue</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!QtdEquip.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox16">
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <ZIndex>10</ZIndex>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BackgroundColor>MidnightBlue</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=FormatNumber(Sum(Fields!Repasse.Value))</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+          </TableRows>
+        </Footer>
+        <DataSetName>SAT</DataSetName>
+        <Top>0.5cm</Top>
+        <TableGroups>
+          <TableGroup>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox9">
+                          <rd:DefaultName>textbox9</rd:DefaultName>
+                          <ZIndex>9</ZIndex>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <TextAlign>Left</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <FontFamily>Times New Roman</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <BorderColor>
+                              <Default>DimGray</Default>
+                            </BorderColor>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <Color>White</Color>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!NomeFantasia.Value + " TOTAL"</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox11">
+                          <rd:DefaultName>textbox11</rd:DefaultName>
+                          <ZIndex>8</ZIndex>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <TextAlign>Left</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <FontFamily>Times New Roman</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <BorderColor>
+                              <Default>DimGray</Default>
+                            </BorderColor>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <Color>White</Color>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>
+                          </Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox13">
+                          <rd:DefaultName>textbox13</rd:DefaultName>
+                          <ZIndex>7</ZIndex>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <FontFamily>Times New Roman</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <BorderColor>
+                              <Default>DimGray</Default>
+                            </BorderColor>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <Color>White</Color>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>
+                          </Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox14">
+                          <rd:DefaultName>textbox14</rd:DefaultName>
+                          <ZIndex>6</ZIndex>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <FontFamily>Times New Roman</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <BorderColor>
+                              <Default>DimGray</Default>
+                            </BorderColor>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <Color>White</Color>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(Fields!QtdEquip.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox15">
+                          <rd:DefaultName>textbox15</rd:DefaultName>
+                          <ZIndex>5</ZIndex>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <FontFamily>Times New Roman</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <BorderColor>
+                              <Default>DimGray</Default>
+                            </BorderColor>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <Color>White</Color>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>=FormatNumber(Sum(Fields!Repasse.Value))</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.5cm</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+            <Sorting>
+              <SortBy>
+                <SortExpression>=Fields!NomeFantasia.Value</SortExpression>
+                <Direction>Ascending</Direction>
+              </SortBy>
+            </Sorting>
+            <Grouping Name="table1_NomeFantasia">
+              <GroupExpressions>
+                <GroupExpression>=Fields!NomeFantasia.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+        </TableGroups>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="NomeFantasia">
+                      <rd:DefaultName>NomeFantasia</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!NomeFantasia.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="NomeEquip">
+                      <rd:DefaultName>NomeEquip</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!NomeEquip.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ValorDespesa">
+                      <rd:DefaultName>ValorDespesa</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=FormatNumber(Fields!ValorDespesa.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="QtdEquip">
+                      <rd:DefaultName>QtdEquip</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!QtdEquip.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Repasse">
+                      <rd:DefaultName>Repasse</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=FormatNumber(Fields!Repasse.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontFamily>Times New Roman</FontFamily>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <CanShrink>true</CanShrink>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <ZIndex>19</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Autorizada</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox4">
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <ZIndex>18</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Modelo</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox6">
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>17</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Repasse Unit</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox7">
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <ZIndex>16</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Qtd Equiptos</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox8">
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>15</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>8pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Repasse</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>5.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.25cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.25cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.75cm</Width>
+          </TableColumn>
+        </TableColumns>
+      </Table>
+    </ReportItems>
+    <Height>2.5cm</Height>
+  </Body>
+  <rd:ReportID>c1fa261a-c247-419b-a1c6-108cd7889109</rd:ReportID>
+  <LeftMargin>2.5cm</LeftMargin>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		Autorizada.NomeFantasia, EQ.NomeEquip, vwc_EquipamentoContrato.ValorDespesa, 
+		COUNT(vwc_EquipamentoContrato.CodEquipContrato) AS QtdEquip, 
+		(vwc_EquipamentoContrato.ValorDespesa * COUNT(vwc_EquipamentoContrato.CodEquipContrato)) AS Repasse
+FROM		vwc_EquipamentoContrato
+INNER JOIN	Autorizada ON vwc_EquipamentoContrato.CodAutorizada = Autorizada.CodAutorizada
+INNER JOIN	TipoEquipamento TE ON vwc_EquipamentoContrato.CodTipoEquip = TE.CodTipoEquip
+INNER JOIN	Cliente CL ON vwc_EquipamentoContrato.CodCliente = CL.CodCliente
+INNER JOIN	Contrato CO ON vwc_EquipamentoContrato.CodContrato = CO.CodContrato
+INNER JOIN	Equipamento EQ ON vwc_EquipamentoContrato.CodEquip = EQ.CodEquip AND vwc_EquipamentoContrato.CodTipoEquip = EQ.CodTipoEquip
+WHERE		(1 = 1)
+AND		(vwc_EquipamentoContrato.IndAtivo IN (@IndAtivo))
+AND		(vwc_EquipamentoContrato.IndRepasse IN (@IndRepasse))
+AND		(vwc_EquipamentoContrato.ValorDespesa IN (@ValorDespesa))
+AND		(vwc_EquipamentoContrato.CodEquip IN (@CodEquip))
+AND		(vwc_EquipamentoContrato.CodAutorizada IN (@CodAutorizada))
+GROUP BY	Autorizada.NomeFantasia, EQ.NomeEquip, vwc_EquipamentoContrato.ValorDespesa
+ORDER BY	Autorizada.NomeFantasia, EQ.NomeEquip</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IndAtivo">
+            <Value>=Parameters!IndAtivo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IndRepasse">
+            <Value>=Parameters!IndRepasse.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ValorDespesa">
+            <Value>=Parameters!ValorDespesa.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CodEquip">
+            <Value>=Parameters!CodEquip.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CodAutorizada">
+            <Value>=Parameters!CodAutorizada.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="NomeFantasia">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NomeFantasia</DataField>
+        </Field>
+        <Field Name="NomeEquip">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NomeEquip</DataField>
+        </Field>
+        <Field Name="ValorDespesa">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>ValorDespesa</DataField>
+        </Field>
+        <Field Name="QtdEquip">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>QtdEquip</DataField>
+        </Field>
+        <Field Name="Repasse">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>Repasse</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAutorizada">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT CodAutorizada, NomeFantasia + CASE WHEN IndAtivo = 0 THEN ' - Inativo' ELSE '' END AS NomeFantasia FROM Autorizada ORDER BY NomeFantasia</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="CodAutorizada">
+          <DataField>CodAutorizada</DataField>
+        </Field>
+        <Field Name="NomeFantasia">
+          <DataField>NomeFantasia</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsModelo">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT CodEquip, NomeEquip FROM Equipamento ORDER BY NomeEquip</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="CodEquip">
+          <DataField>CodEquip</DataField>
+        </Field>
+        <Field Name="NomeEquip">
+          <DataField>NomeEquip</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsValorDespesa">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT DISTINCT CAST(ValorDespesa AS VARCHAR) AS ValorDespesa FROM vwc_EquipamentoContrato ORDER BY CAST(ValorDespesa AS VARCHAR)</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="ValorDespesa">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>ValorDespesa</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsDataRelatorio">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		CASE WHEN (CAST(MONTH(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS INTEGER) &lt; 10) 
+			THEN
+			'0' +
+			CAST(CAST(MONTH(DATEADD(DAY,0,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR)
+			+'/'+
+			CAST(YEAR(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR) AS VARCHAR)
+			ELSE
+			CAST(CAST(MONTH(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR)
+			+'/'+
+			CAST(YEAR(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR) AS VARCHAR)
+			END AS DataFinal</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="DataFinal">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>DataFinal</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Width>17.25cm</Width>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <Language>pt-BR</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

@@ -1,0 +1,1042 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <rd:DataSourceID>8baecba9-5b8f-4018-b6df-38fa8c7af089</rd:DataSourceID>
+      <DataSourceReference>SAT</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>2.5cm</RightMargin>
+  <LeftMargin>2.5cm</LeftMargin>
+  <BottomMargin>2.5cm</BottomMargin>
+  <rd:ReportID>ad30b42a-6d59-4ff5-806e-57f2cc980912</rd:ReportID>
+  <PageWidth>21cm</PageWidth>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Fields>
+        <Field Name="Relatorio">
+          <DataField>Relatorio</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cliente">
+          <DataField>Cliente</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Contrato">
+          <DataField>Contrato</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Modelo">
+          <DataField>Modelo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CodigoPai">
+          <DataField>CodigoPai</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTD">
+          <DataField>QTD</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Perc">
+          <DataField>Perc</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT Relatorio
+	 , ('Cliente: ' + Cliente) AS Cliente
+	 , ('Contrato: ' + Contrato) AS Contrato
+	 , ('Modelo: ' + Modelo) AS Modelo
+	 , ('Código Pai: ' + CodigoPai) AS CodigoPai
+	 , Tipo
+	 , QTD
+	 , Perc
+FROM
+	((SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'INSTALAÇÕES' AS Relatorio
+		   , 'Equipamentos Instalados' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , '100.00' AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'INSTALAÇÕES' AS Relatorio
+		   , 'Equipamentos OK' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , cast((cast(count(DISTINCT OSRelatorioInstalacao.CodOS) AS DECIMAL(10, 2)) / (SELECT cast(count(DISTINCT OSR1.CodOS) AS DECIMAL(10, 2))
+																						  FROM
+																							  OSRelatorioInstalacao OSR1
+																							  INNER JOIN OS OS1
+																								  ON OSR1.codOS = OS1.CodOS
+																							  INNER JOIN EquipamentoContrato AS EC
+																								  ON OS1.CodEquipContrato = EC.CodEquipContrato
+																							  INNER JOIN Contrato C
+																								  ON EC.CodContrato = C.CodContrato
+																						  WHERE
+																							  OS1.CodCliente = OS.CodCliente
+																							  AND OS1.codEquip = OS.codEquip
+																							  AND C.CodContrato = Contrato.CodContrato) * '100.00') AS DECIMAL(10, 2)) Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS NOT IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+											  FROM
+												  OSRelatorioInstalacao
+											  WHERE
+												  indStatus = 0
+												  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'INSTALAÇÕES' AS Relatorio
+		   , 'Equipamentos NÃO OK' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , cast((cast(count(DISTINCT OSRelatorioInstalacao.CodOS) AS DECIMAL(10, 2)) / (SELECT cast(count(DISTINCT OSR1.CodOS) AS DECIMAL(10, 2))
+																						  FROM
+																							  OSRelatorioInstalacao OSR1
+																							  INNER JOIN OS OS1
+																								  ON OSR1.codOS = OS1.CodOS
+																							  INNER JOIN EquipamentoContrato AS EC
+																								  ON OS1.CodEquipContrato = EC.CodEquipContrato
+																							  INNER JOIN Contrato C
+																								  ON EC.CodContrato = C.CodContrato
+																						  WHERE
+																							  OS1.CodCliente = OS.CodCliente
+																							  AND OS1.codEquip = OS.codEquip
+																							  AND C.CodContrato = Contrato.CodContrato) * '100.00') AS DECIMAL(10, 2)) Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR  TIPO' AS Relatorio
+		   , 'Funcionais(Eletrônicos)' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , cast((cast(count(DISTINCT OSRelatorioInstalacao.CodOS) AS DECIMAL(10, 2)) / (SELECT cast(count(DISTINCT OSR1.CodOS) AS DECIMAL(10, 2))
+																						  FROM
+																							  OSRelatorioInstalacao OSR1
+																							  INNER JOIN OS OS1
+																								  ON OSR1.codOS = OS1.CodOS
+																							  INNER JOIN EquipamentoContrato AS EC
+																								  ON OS1.CodEquipContrato = EC.CodEquipContrato
+																							  INNER JOIN Contrato C
+																								  ON EC.CodContrato = C.CodContrato
+																						  WHERE
+																							  OS1.CodCliente = OS.CodCliente
+																							  AND OS1.codEquip = OS.codEquip
+																							  AND C.CodContrato = Contrato.CodContrato
+																							  AND OSR1.codOSRelatorioInstalacaoItem = 7
+																							  AND OSR1.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+																												 FROM
+																													 OSRelatorioInstalacao
+																												 WHERE
+																													 indStatus = 0
+																													 AND codOSRelatorioInstalacaoItem &lt;&gt; 7)) * '100.00') AS DECIMAL(10, 2)) Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		  AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 7
+		  AND OSRelatorioInstalacao.indStatus = 1
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR  TIPO' AS Relatorio
+		   , 'Não Funcionais(Mecânicos)' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , cast((cast(count(DISTINCT OSRelatorioInstalacao.CodOS) AS DECIMAL(10, 2)) / (SELECT cast(count(DISTINCT OSR1.CodOS) AS DECIMAL(10, 2))
+																						  FROM
+																							  OSRelatorioInstalacao OSR1
+																							  INNER JOIN OS OS1
+																								  ON OSR1.codOS = OS1.CodOS
+																							  INNER JOIN EquipamentoContrato AS EC
+																								  ON OS1.CodEquipContrato = EC.CodEquipContrato
+																							  INNER JOIN Contrato C
+																								  ON EC.CodContrato = C.CodContrato
+																						  WHERE
+																							  OS1.CodCliente = OS.CodCliente
+																							  AND OS1.codEquip = OS.codEquip
+																							  AND C.CodContrato = Contrato.CodContrato
+																							  AND OSR1.codOSRelatorioInstalacaoItem = 7
+																							  AND OSR1.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+																												 FROM
+																													 OSRelatorioInstalacao
+																												 WHERE
+																													 indStatus = 0
+																													 AND codOSRelatorioInstalacaoItem &lt;&gt; 7)) * '100.00') AS DECIMAL(10, 2)) Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		  AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 7
+		  AND OSRelatorioInstalacao.indStatus &lt;&gt; 1
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Embalagem' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 1
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Aparência externa do Equipamento' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 2
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Cabos Externos e Internos' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 3
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Fixação dos Módulos' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 4
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Sistema Operacional e Aplicativos Instalados' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 5
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM' AS Relatorio
+		   , 'Teste após Instalação' AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+										  FROM
+											  OSRelatorioInstalacao
+										  WHERE
+											  indStatus = 0
+											  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		 AND OSRelatorioInstalacao.codOSRelatorioInstalacaoItem = 6
+		 AND OSRelatorioInstalacao.indStatus = 0
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+	 ) UNION
+	 (SELECT Cliente.NomeFantasia AS Cliente
+		   , Equipamento.NomeEquip AS Modelo
+		   , Contrato.NomeContrato AS Contrato
+		   , ContratoEquipamento.CodMagnus AS CodigoPai
+		   , 'RELATOS INFORMADOS NAS NÃO CONFORMIDADES' AS Relatorio
+		   , OSRelatorioInstalacao.Detalhe AS Tipo
+		   , count(DISTINCT OSRelatorioInstalacao.CodOS) AS QTD
+		   , NULL AS Perc
+	  FROM
+		  OSRelatorioInstalacao
+		  INNER JOIN OS
+			  ON OSRelatorioInstalacao.codOS = OS.CodOS
+		  INNER JOIN Cliente
+			  ON OS.codCliente = Cliente.CodCliente
+		  INNER JOIN Equipamento
+			  ON OS.codEquip = Equipamento.CodEquip
+		  INNER JOIN EquipamentoContrato
+			  ON OS.CodEquipContrato = EquipamentoContrato.CodEquipContrato
+		  INNER JOIN Contrato
+			  ON EquipamentoContrato.CodContrato = Contrato.CodContrato
+		  INNER JOIN ContratoEquipamento
+			  ON EquipamentoContrato.CodContrato = ContratoEquipamento.CodContrato AND EquipamentoContrato.CodEquip = ContratoEquipamento.CodEquip
+	  WHERE
+		  OSRelatorioInstalacao.codOS IN (SELECT DISTINCT OSRelatorioInstalacao.CodOS
+											  FROM
+												  OSRelatorioInstalacao
+											  WHERE
+												  indStatus = 0
+												  AND codOSRelatorioInstalacaoItem &lt;&gt; 7)
+		  AND OSRelatorioInstalacao.Detalhe IS NOT NULL
+		  AND OSRelatorioInstalacao.Detalhe &lt;&gt; ''
+	  GROUP BY
+		  Cliente.NomeFantasia
+		, OS.codCliente
+		, Contrato.NomeContrato
+		, Contrato.CodContrato
+		, Equipamento.NomeEquip
+		, OS.codEquip
+		, ContratoEquipamento.CodMagnus
+		, OSRelatorioInstalacao.Detalhe
+	 )) AS Dados
+WHERE
+	Modelo NOT LIKE 'POS%'
+ORDER BY
+	1
+  , 2
+  , 3
+  , 4
+  , 5</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Width>24.5cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <List Name="List1">
+        <Sorting>
+          <SortBy>
+            <SortExpression>=Fields!Cliente.Value</SortExpression>
+            <Direction>Ascending</Direction>
+          </SortBy>
+        </Sorting>
+        <DataSetName>SAT</DataSetName>
+        <ReportItems>
+          <List Name="List2">
+            <Sorting>
+              <SortBy>
+                <SortExpression>=Fields!Contrato.Value</SortExpression>
+                <Direction>Ascending</Direction>
+              </SortBy>
+            </Sorting>
+            <DataSetName>SAT</DataSetName>
+            <ReportItems>
+              <List Name="List3">
+                <Sorting>
+                  <SortBy>
+                    <SortExpression>=Fields!Modelo.Value</SortExpression>
+                    <Direction>Ascending</Direction>
+                  </SortBy>
+                </Sorting>
+                <DataSetName>SAT</DataSetName>
+                <ReportItems>
+                  <Textbox Name="Modelo">
+                    <rd:DefaultName>Modelo</rd:DefaultName>
+                    <Top>2.28968cm</Top>
+                    <Width>12.69841cm</Width>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>700</FontWeight>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                    <ZIndex>3</ZIndex>
+                    <CanGrow>true</CanGrow>
+                    <Height>0.53333cm</Height>
+                    <Value>=Fields!Modelo.Value</Value>
+                  </Textbox>
+                  <List Name="List4">
+                    <Sorting>
+                      <SortBy>
+                        <SortExpression>=Fields!CodigoPai.Value</SortExpression>
+                        <Direction>Ascending</Direction>
+                      </SortBy>
+                    </Sorting>
+                    <ZIndex>2</ZIndex>
+                    <DataSetName>SAT</DataSetName>
+                    <ReportItems>
+                      <Textbox Name="CodigoPai">
+                        <rd:DefaultName>CodigoPai</rd:DefaultName>
+                        <Width>12.69841cm</Width>
+                        <Style>
+                          <FontFamily>Tahoma</FontFamily>
+                          <FontSize>12pt</FontSize>
+                          <FontWeight>700</FontWeight>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                        <ZIndex>2</ZIndex>
+                        <CanGrow>true</CanGrow>
+                        <Height>0.53333cm</Height>
+                        <Value>=Fields!CodigoPai.Value</Value>
+                      </Textbox>
+                      <Table Name="table1">
+                        <ZIndex>1</ZIndex>
+                        <DataSetName>SAT</DataSetName>
+                        <Top>1.26984cm</Top>
+                        <TableGroups>
+                          <TableGroup>
+                            <Grouping Name="table1_Relatorio">
+                              <GroupExpressions>
+                                <GroupExpression>=Fields!Relatorio.Value</GroupExpression>
+                              </GroupExpressions>
+                            </Grouping>
+                            <Sorting>
+                              <SortBy>
+                                <SortExpression>=Fields!Relatorio.Value</SortExpression>
+                                <Direction>Ascending</Direction>
+                              </SortBy>
+                            </Sorting>
+                            <Header>
+                              <TableRows>
+                                <TableRow>
+                                  <TableCells>
+                                    <TableCell>
+                                      <ReportItems>
+                                        <Textbox Name="Relatorio">
+                                          <rd:DefaultName>Relatorio</rd:DefaultName>
+                                          <Style>
+                                            <Color>White</Color>
+                                            <BackgroundColor>#60759b</BackgroundColor>
+                                            <BorderColor>
+                                              <Default>DimGray</Default>
+                                            </BorderColor>
+                                            <BorderStyle>
+                                              <Default>Solid</Default>
+                                            </BorderStyle>
+                                            <FontFamily>Tahoma</FontFamily>
+                                            <FontSize>12pt</FontSize>
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                          <ZIndex>7</ZIndex>
+                                          <CanGrow>true</CanGrow>
+                                          <Value>=Fields!Relatorio.Value</Value>
+                                        </Textbox>
+                                      </ReportItems>
+                                    </TableCell>
+                                    <TableCell>
+                                      <ReportItems>
+                                        <Textbox Name="textbox7">
+                                          <rd:DefaultName>textbox7</rd:DefaultName>
+                                          <Style>
+                                            <Color>White</Color>
+                                            <BackgroundColor>#60759b</BackgroundColor>
+                                            <BorderColor>
+                                              <Default>DimGray</Default>
+                                            </BorderColor>
+                                            <BorderStyle>
+                                              <Default>Solid</Default>
+                                            </BorderStyle>
+                                            <FontFamily>Tahoma</FontFamily>
+                                            <FontSize>12pt</FontSize>
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                          <ZIndex>6</ZIndex>
+                                          <CanGrow>true</CanGrow>
+                                          <Value>
+                                          </Value>
+                                        </Textbox>
+                                      </ReportItems>
+                                    </TableCell>
+                                    <TableCell>
+                                      <ReportItems>
+                                        <Textbox Name="textbox8">
+                                          <rd:DefaultName>textbox8</rd:DefaultName>
+                                          <Style>
+                                            <Color>White</Color>
+                                            <BackgroundColor>#60759b</BackgroundColor>
+                                            <BorderColor>
+                                              <Default>DimGray</Default>
+                                            </BorderColor>
+                                            <BorderStyle>
+                                              <Default>Solid</Default>
+                                            </BorderStyle>
+                                            <FontFamily>Tahoma</FontFamily>
+                                            <FontSize>12pt</FontSize>
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                          <ZIndex>5</ZIndex>
+                                          <CanGrow>true</CanGrow>
+                                          <Value>
+                                          </Value>
+                                        </Textbox>
+                                      </ReportItems>
+                                    </TableCell>
+                                    <TableCell>
+                                      <ReportItems>
+                                        <Textbox Name="textbox9">
+                                          <rd:DefaultName>textbox9</rd:DefaultName>
+                                          <Style>
+                                            <Color>White</Color>
+                                            <BackgroundColor>#60759b</BackgroundColor>
+                                            <BorderColor>
+                                              <Default>DimGray</Default>
+                                            </BorderColor>
+                                            <BorderStyle>
+                                              <Default>Solid</Default>
+                                            </BorderStyle>
+                                            <FontFamily>Tahoma</FontFamily>
+                                            <FontSize>12pt</FontSize>
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                          <ZIndex>4</ZIndex>
+                                          <CanGrow>true</CanGrow>
+                                          <Value>
+                                          </Value>
+                                        </Textbox>
+                                      </ReportItems>
+                                    </TableCell>
+                                  </TableCells>
+                                  <Height>0.53333cm</Height>
+                                </TableRow>
+                              </TableRows>
+                            </Header>
+                          </TableGroup>
+                        </TableGroups>
+                        <Width>22.25cm</Width>
+                        <Details>
+                          <TableRows>
+                            <TableRow>
+                              <TableCells>
+                                <TableCell>
+                                  <ReportItems>
+                                    <Textbox Name="textbox3">
+                                      <rd:DefaultName>textbox3</rd:DefaultName>
+                                      <Style>
+                                        <BorderColor>
+                                          <Default>DimGray</Default>
+                                        </BorderColor>
+                                        <BorderStyle>
+                                          <Default>Solid</Default>
+                                        </BorderStyle>
+                                        <FontFamily>Tahoma</FontFamily>
+                                        <FontSize>12pt</FontSize>
+                                        <PaddingLeft>2pt</PaddingLeft>
+                                        <PaddingRight>2pt</PaddingRight>
+                                        <PaddingTop>2pt</PaddingTop>
+                                        <PaddingBottom>2pt</PaddingBottom>
+                                      </Style>
+                                      <ZIndex>3</ZIndex>
+                                      <CanGrow>true</CanGrow>
+                                      <Value>
+                                      </Value>
+                                    </Textbox>
+                                  </ReportItems>
+                                </TableCell>
+                                <TableCell>
+                                  <ReportItems>
+                                    <Textbox Name="Tipo">
+                                      <rd:DefaultName>Tipo</rd:DefaultName>
+                                      <Style>
+                                        <BorderColor>
+                                          <Default>DimGray</Default>
+                                        </BorderColor>
+                                        <BorderStyle>
+                                          <Default>Solid</Default>
+                                        </BorderStyle>
+                                        <FontFamily>Tahoma</FontFamily>
+                                        <FontSize>12pt</FontSize>
+                                        <PaddingLeft>2pt</PaddingLeft>
+                                        <PaddingRight>2pt</PaddingRight>
+                                        <PaddingTop>2pt</PaddingTop>
+                                        <PaddingBottom>2pt</PaddingBottom>
+                                      </Style>
+                                      <ZIndex>2</ZIndex>
+                                      <CanGrow>true</CanGrow>
+                                      <Value>=Fields!Tipo.Value</Value>
+                                    </Textbox>
+                                  </ReportItems>
+                                </TableCell>
+                                <TableCell>
+                                  <ReportItems>
+                                    <Textbox Name="QTD">
+                                      <rd:DefaultName>QTD</rd:DefaultName>
+                                      <Style>
+                                        <BorderColor>
+                                          <Default>DimGray</Default>
+                                        </BorderColor>
+                                        <BorderStyle>
+                                          <Default>Solid</Default>
+                                        </BorderStyle>
+                                        <FontFamily>Tahoma</FontFamily>
+                                        <FontSize>12pt</FontSize>
+                                        <PaddingLeft>2pt</PaddingLeft>
+                                        <PaddingRight>2pt</PaddingRight>
+                                        <PaddingTop>2pt</PaddingTop>
+                                        <PaddingBottom>2pt</PaddingBottom>
+                                      </Style>
+                                      <ZIndex>1</ZIndex>
+                                      <CanGrow>true</CanGrow>
+                                      <Value>=Fields!QTD.Value</Value>
+                                    </Textbox>
+                                  </ReportItems>
+                                </TableCell>
+                                <TableCell>
+                                  <ReportItems>
+                                    <Textbox Name="Perc">
+                                      <rd:DefaultName>Perc</rd:DefaultName>
+                                      <Style>
+                                        <BorderColor>
+                                          <Default>DimGray</Default>
+                                        </BorderColor>
+                                        <BorderStyle>
+                                          <Default>Solid</Default>
+                                        </BorderStyle>
+                                        <FontFamily>Tahoma</FontFamily>
+                                        <FontSize>12pt</FontSize>
+                                        <PaddingLeft>2pt</PaddingLeft>
+                                        <PaddingRight>2pt</PaddingRight>
+                                        <PaddingTop>2pt</PaddingTop>
+                                        <PaddingBottom>2pt</PaddingBottom>
+                                      </Style>
+                                      <CanGrow>true</CanGrow>
+                                      <Value>=Fields!Perc.Value</Value>
+                                    </Textbox>
+                                  </ReportItems>
+                                </TableCell>
+                              </TableCells>
+                              <Height>0.53333cm</Height>
+                            </TableRow>
+                          </TableRows>
+                        </Details>
+                        <TableColumns>
+                          <TableColumn>
+                            <Width>7.75cm</Width>
+                          </TableColumn>
+                          <TableColumn>
+                            <Width>10cm</Width>
+                          </TableColumn>
+                          <TableColumn>
+                            <Width>2.25cm</Width>
+                          </TableColumn>
+                          <TableColumn>
+                            <Width>2.25cm</Width>
+                          </TableColumn>
+                        </TableColumns>
+                        <Height>1.06666cm</Height>
+                      </Table>
+                      <Textbox Name="textbox1">
+                        <rd:DefaultName>textbox1</rd:DefaultName>
+                        <Top>2.75cm</Top>
+                        <Width>22.25cm</Width>
+                        <Style>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                        <CanGrow>true</CanGrow>
+                        <Value>OBS: A quantidade apresentada na RELAÇÃO DAS NÃO CONFORMIDADES POR ITEM e nos RELATOS INFORMADOS NAS NÃO CONFORMIDADES podem não bater com os totais demonstrados na RELAÇÃO DAS NÃO CONFORMIDADES POR TIPO, pois um equipamento pode apresentar mais de um defeito. </Value>
+                      </Textbox>
+                    </ReportItems>
+                    <Top>3.05952cm</Top>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                    </Style>
+                    <Grouping Name="list1_CodigoPai">
+                      <GroupExpressions>
+                        <GroupExpression>=Fields!CodigoPai.Value</GroupExpression>
+                      </GroupExpressions>
+                      <PageBreakAtEnd>true</PageBreakAtEnd>
+                    </Grouping>
+                  </List>
+                  <Textbox Name="Contrato">
+                    <rd:DefaultName>Contrato</rd:DefaultName>
+                    <Top>1.5cm</Top>
+                    <Width>12.69841cm</Width>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>700</FontWeight>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                    <ZIndex>1</ZIndex>
+                    <CanGrow>true</CanGrow>
+                    <Height>0.60952cm</Height>
+                    <Value>=Fields!Contrato.Value</Value>
+                  </Textbox>
+                  <Textbox Name="Cliente">
+                    <rd:DefaultName>Cliente</rd:DefaultName>
+                    <Top>0.5cm</Top>
+                    <Width>12.69841cm</Width>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>700</FontWeight>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Height>0.68571cm</Height>
+                    <Value>=Fields!Cliente.Value</Value>
+                  </Textbox>
+                </ReportItems>
+                <Style>
+                  <FontFamily>Tahoma</FontFamily>
+                </Style>
+                <Grouping Name="list1_Modelo">
+                  <GroupExpressions>
+                    <GroupExpression>=Fields!Modelo.Value</GroupExpression>
+                  </GroupExpressions>
+                  <PageBreakAtEnd>true</PageBreakAtEnd>
+                </Grouping>
+              </List>
+            </ReportItems>
+            <Style>
+              <FontFamily>Tahoma</FontFamily>
+              <FontSize>12pt</FontSize>
+            </Style>
+            <Grouping Name="list1_Contrato">
+              <GroupExpressions>
+                <GroupExpression>=Fields!Contrato.Value</GroupExpression>
+              </GroupExpressions>
+              <PageBreakAtEnd>true</PageBreakAtEnd>
+            </Grouping>
+          </List>
+        </ReportItems>
+        <Style>
+          <FontFamily>Tahoma</FontFamily>
+          <FontSize>14pt</FontSize>
+        </Style>
+        <Grouping Name="list1_Cliente">
+          <GroupExpressions>
+            <GroupExpression>=Fields!Cliente.Value</GroupExpression>
+          </GroupExpressions>
+          <PageBreakAtEnd>true</PageBreakAtEnd>
+        </Grouping>
+      </List>
+    </ReportItems>
+    <Height>7.55952cm</Height>
+  </Body>
+  <Language>en-US</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

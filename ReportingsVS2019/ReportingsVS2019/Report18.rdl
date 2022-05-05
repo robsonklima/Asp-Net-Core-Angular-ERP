@@ -1,0 +1,640 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>9e3f5408-7f8b-4684-8610-4d5c7568fd35</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>DECLARE			@DataFiltro DATETIME
+DECLARE			@DataFiltro3 DATETIME
+SET				@DataFiltro = (
+									SELECT		CAST((CAST(MONTH(DATEADD(MONTH, -12, GETDATE())) AS VARCHAR)
+												+'/'+
+												'01'
+												+'/'+
+												CAST(YEAR(DATEADD(MONTH, -12, GETDATE())) AS VARCHAR)) AS DATETIME)
+							   )
+SET				@DataFiltro3 = (
+									SELECT		CAST((CAST(MONTH(DATEADD(MONTH, 0, GETDATE())) AS VARCHAR)
+												+'/'+
+												'01'
+												+'/'+
+												CAST(YEAR(DATEADD(MONTH, 0, GETDATE())) AS VARCHAR)) AS DATETIME)
+								)
+
+(
+SELECT			NomeFilial AS Filial,
+				AnoMes, 
+				SUM(ChamadosMesPecasPendentes) AS ChamadosPendentes,
+				SUM(ChamadosMes) AS Chamados,
+				CAST((
+					  (
+								CAST((
+										CAST(SUM(ChamadosMesPecasPendentes)AS FLOAT)
+										/
+										CAST(SUM(ChamadosMes)AS FLOAT)
+									)AS FLOAT)
+									* 
+									100.00
+							)
+				) AS DECIMAL(10,1)
+				) AS SLA
+FROM 			(
+					SELECT	 		Filial.NomeFilial,
+									(	
+										CAST(YEAR(Atendimentos.DataHoraAberturaOS) AS VARCHAR) +
+										CAST((DBO.INSERTZERO(MONTH(Atendimentos.DataHoraAberturaOS),2))AS VARCHAR)
+									) AS AnoMes,
+									ISNULL((
+										SELECT		COUNT(*)
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+									),0) AS ChamadosMes,
+									ISNULL((
+										SELECT		COUNT(*)
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			RAT.CodStatusServico = 7
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+									),0) AS ChamadosMesPecasPendentes
+					FROM			OS AS Atendimentos
+					INNER JOIN		Filial ON Atendimentos.CodFilial = Filial.CodFilial
+					WHERE			(1=1)
+					AND				Atendimentos.CodFilial NOT IN (3, 7, 21)
+					AND				Atendimentos.CodStatusServico NOT IN (2)
+					AND				(
+										SELECT		TOP 1 RAT.CodTecnico
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+										ORDER BY	RAT.CodRAT DESC
+									) IN (SELECT CodTecnico FROM Tecnico WHERE IndAtivo = 1)
+				) AS DADOS
+GROUP BY		AnoMes,NomeFilial
+)
+UNION
+(
+SELECT			'Média Brasil' AS Filial,
+				AnoMes, 
+				SUM(ChamadosMesPecasPendentes) AS ChamadosPendentes,
+				SUM(ChamadosMes) AS Chamados,
+				CAST((
+					  (
+								CAST((
+										CAST(SUM(ChamadosMesPecasPendentes)AS FLOAT)
+										/
+										CAST(SUM(ChamadosMes)AS FLOAT)
+									)AS FLOAT)
+									* 
+									100.00
+							)
+				) AS DECIMAL(10,1)
+				) AS SLA
+FROM 			(
+					SELECT	 		Filial.NomeFilial,
+									(	
+										CAST(YEAR(Atendimentos.DataHoraAberturaOS) AS VARCHAR) +
+										CAST((DBO.INSERTZERO(MONTH(Atendimentos.DataHoraAberturaOS),2))AS VARCHAR)
+									) AS AnoMes,
+									ISNULL((
+										SELECT		COUNT(*)
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+									),0) AS ChamadosMes,
+									ISNULL((
+										SELECT		COUNT(*)
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			RAT.CodStatusServico = 7
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+									),0) AS ChamadosMesPecasPendentes
+					FROM			OS AS Atendimentos
+					INNER JOIN		Filial ON Atendimentos.CodFilial = Filial.CodFilial
+					WHERE			(1=1)
+					AND				Atendimentos.CodFilial NOT IN (3, 7, 21)
+					AND				Atendimentos.CodStatusServico NOT IN (2)
+					AND				(
+										SELECT		TOP 1 RAT.CodTecnico
+										FROM		RAT
+										INNER JOIN	OS ON OS.CodOS = RAT.CodOS
+										WHERE		RAT.CodStatusServico NOT IN (2)
+										AND			RAT.CodOS = Atendimentos.CodOS
+										AND			(OS.CodAutorizada IN (select CodAutorizada from Autorizada where RazaoSocial like 'PERTO AT%' AND IndAtivo = 1))
+										AND			(OS.DataHoraAberturaOS between (@DataFiltro) and (@DataFiltro3))  
+										ORDER BY	RAT.CodRAT DESC
+									) IN (SELECT CodTecnico FROM Tecnico WHERE IndAtivo = 1)
+				) AS DADOS
+GROUP BY		AnoMes
+)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Filial">
+          <DataField>Filial</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AnoMes">
+          <DataField>AnoMes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ChamadosPendentes">
+          <DataField>ChamadosPendentes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Chamados">
+          <DataField>Chamados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SLA">
+          <DataField>SLA</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="matrix7">
+            <TablixCorner>
+              <TablixCornerRows>
+                <TablixCornerRow>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="textbox33">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Ano/Mês              </Value>
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Center</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <ZIndex>3</ZIndex>
+                        <Style>
+                          <Border>
+                            <Color>DimGray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                </TablixCornerRow>
+              </TablixCornerRows>
+            </TablixCorner>
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.25cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.09021cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.11667cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>1.11774cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="SLA">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>PERC</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>SLA</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox41">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>CHAMADOS</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox41</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox42">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>CHAMADOS PENDENTES</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox42</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#60759b</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.53333cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox34">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!SLA.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Chamados">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Chamados.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Chamados</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ChamadosPendentes">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!ChamadosPendentes.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ChamadosPendentes</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DimGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="matrix7_ColumnGroup1">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Filial.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Filial.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>0.53333cm</Size>
+                    <CellContents>
+                      <Textbox Name="textbox32">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!Filial.Value</Value>
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Center</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <ZIndex>2</ZIndex>
+                        <Style>
+                          <Border>
+                            <Color>DimGray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#60759b</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>4cm</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox39">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox39</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>DimGray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#60759b</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="matrix7_RowGroup1">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!AnoMes.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!AnoMes.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>4cm</Size>
+                    <CellContents>
+                      <Textbox Name="textbox31">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!AnoMes.Value</Value>
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Center</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <ZIndex>1</ZIndex>
+                        <Style>
+                          <Border>
+                            <Color>DimGray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#60759b</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <RepeatColumnHeaders>true</RepeatColumnHeaders>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
+            <DataSetName>DataSet1</DataSetName>
+            <Height>2.1844cm</Height>
+            <Width>9.45688cm</Width>
+            <Style />
+          </Tablix>
+        </ReportItems>
+        <Height>0.86in</Height>
+        <Style />
+      </Body>
+      <Width>3.72318in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Language>pt-BR</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>cfd0ee18-1332-46d6-aa85-37dcdf357135</rd:ReportID>
+</Report>

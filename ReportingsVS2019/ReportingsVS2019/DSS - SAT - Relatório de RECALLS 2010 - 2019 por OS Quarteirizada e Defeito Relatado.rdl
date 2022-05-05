@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="matrix1">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox3">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox3</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                  <ColSpan>3</ColSpan>
+                </CellContents>
+              </TablixCornerCell>
+              <TablixCornerCell />
+              <TablixCornerCell />
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.55208in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.21in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!QTDOS.Value)</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_Ano">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Ano.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Ano.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>0.21in</Size>
+                <CellContents>
+                  <Textbox Name="Ano">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Ano.Value</Value>
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Ano</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_Cliente">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Cliente.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Cliente.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>1.47917in</Size>
+                <CellContents>
+                  <Textbox Name="Cliente">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Cliente.Value</Value>
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Cliente</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="matrix1_NumOSQuarteirizada">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!NumOSQuarteirizada.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!NumOSQuarteirizada.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>1.52083in</Size>
+                    <CellContents>
+                      <Textbox Name="NumOSQuarteirizada">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!NumOSQuarteirizada.Value</Value>
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>NumOSQuarteirizada</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>DimGray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightSteelBlue</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="matrix1_DefeitoRelatado">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!DefeitoRelatado.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!DefeitoRelatado.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixHeader>
+                        <Size>7.07292in</Size>
+                        <CellContents>
+                          <Textbox Name="DefeitoRelatado">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!DefeitoRelatado.Value</Value>
+                                    <Style>
+                                      <FontFamily>Tahoma</FontFamily>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>DefeitoRelatado</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>DimGray</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>#cad8ea</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <DataElementOutput>Output</DataElementOutput>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                  </TablixMembers>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixMember>
+              </TablixMembers>
+              <DataElementOutput>Output</DataElementOutput>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>DataSet1</DataSetName>
+        <Height>0.42in</Height>
+        <Width>10.625in</Width>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>0.42in</Height>
+    <Style />
+  </Body>
+  <Width>10.625in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>dcb21203-d2f3-4c9d-b5e9-03d593810fa0</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT		*
+FROM		(
+				SELECT			Cliente.NomeFantasia AS Cliente, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS) AS Ano,
+								COUNT(DISTINCT OS.CodOS) AS QTDOS
+				FROM			(
+									SELECT *
+									FROM
+									(
+										SELECT *
+										FROM OS
+										UNION ALL
+										SELECT *
+										FROM OS_ARQ_MORTO
+										WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.CODOS = OS_ARQ_MORTO.CODOS)
+									) AS X
+								) AS OS
+				INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+				WHERE			OS.CodTipoIntervencao = 1
+				AND				OS.CodStatusServico &lt;&gt; 2
+				AND				OS.DataHoraAberturaOS &gt;= '2010-01-01 00:00:00.000'
+				AND				OS.CodCliente &lt;&gt; 88
+				AND				OS.CodFilial NOT IN (7, 21)
+				AND				OS.CodCliente &lt;&gt; 220
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+				GROUP BY		Cliente.NomeFantasia, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS)
+				UNION
+				SELECT			Cliente.NomeFantasia AS Cliente, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS) AS Ano,
+								COUNT(DISTINCT OS.CodOS) AS QTDOS
+				FROM			(
+									SELECT *
+									FROM
+									(
+										SELECT *
+										FROM OS
+										UNION ALL
+										SELECT *
+										FROM OS_ARQ_MORTO
+										WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.CODOS = OS_ARQ_MORTO.CODOS)
+									) AS X
+								) AS OS
+				INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+				WHERE			OS.CodTipoIntervencao = 1
+				AND				OS.CodStatusServico &lt;&gt; 2
+				AND				OS.DataHoraAberturaOS &gt;= '2010-01-01 00:00:00.000'
+				AND				OS.CodCliente = 88
+				AND				OS.CodFilial NOT IN (7, 21)
+				AND				OS.CodCliente &lt;&gt; 220
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+				AND				OS.NumOSQuarteirizada IS NULL
+				GROUP BY		Cliente.NomeFantasia, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS)
+				UNION
+				SELECT			Cliente.NomeFantasia AS Cliente, 'Num Pedido' NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS) AS Ano,
+								COUNT(DISTINCT OS.CodOS) AS QTDOS
+				FROM			(
+									SELECT *
+									FROM
+									(
+										SELECT *
+										FROM OS
+										UNION ALL
+										SELECT *
+										FROM OS_ARQ_MORTO
+										WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.CODOS = OS_ARQ_MORTO.CODOS)
+									) AS X
+								) AS OS
+				INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+				WHERE			OS.CodTipoIntervencao = 1
+				AND				OS.CodStatusServico &lt;&gt; 2
+				AND				OS.DataHoraAberturaOS &gt;= '2010-01-01 00:00:00.000'
+				AND				OS.CodCliente = 88
+				AND				OS.CodFilial NOT IN (7, 21)
+				AND				OS.CodCliente &lt;&gt; 220
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+				AND				(
+									OS.NumOSQuarteirizada LIKE '1%'
+									OR OS.NumOSQuarteirizada LIKE '2%'
+									OR OS.NumOSQuarteirizada LIKE '3%'
+									OR OS.NumOSQuarteirizada LIKE '4%'
+									OR OS.NumOSQuarteirizada LIKE '5%'
+								)
+				GROUP BY		Cliente.NomeFantasia, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS)
+				UNION
+				SELECT			Cliente.NomeFantasia AS Cliente, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS) AS Ano,
+								COUNT(DISTINCT OS.CodOS) AS QTDOS
+				FROM			(
+									SELECT *
+									FROM
+									(
+										SELECT *
+										FROM OS
+										UNION ALL
+										SELECT *
+										FROM OS_ARQ_MORTO
+										WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.CODOS = OS_ARQ_MORTO.CODOS)
+									) AS X
+								) AS OS
+				INNER JOIN		Cliente ON OS.CodCliente = Cliente.CodCliente
+				WHERE			OS.CodTipoIntervencao = 1
+				AND				OS.CodStatusServico &lt;&gt; 2
+				AND				OS.DataHoraAberturaOS &gt;= '2010-01-01 00:00:00.000'
+				AND				OS.CodCliente = 88
+				AND				OS.CodFilial NOT IN (7, 21)
+				AND				OS.CodCliente &lt;&gt; 220
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+				AND				OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+				AND				(
+									OS.NumOSQuarteirizada NOT LIKE '1%'
+									AND OS.NumOSQuarteirizada NOT LIKE '2%'
+									AND OS.NumOSQuarteirizada NOT LIKE '3%'
+									AND OS.NumOSQuarteirizada NOT LIKE '4%'
+									AND OS.NumOSQuarteirizada NOT LIKE '5%'
+								)
+				GROUP BY		Cliente.NomeFantasia, OS.NumOSQuarteirizada, OS.DefeitoRelatado, YEAR(OS.DataHoraAberturaOS)
+			) AS DADOS
+ORDER BY	Ano, Cliente, NumOSQuarteirizada,  DefeitoRelatado</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Cliente">
+          <DataField>Cliente</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NumOSQuarteirizada">
+          <DataField>NumOSQuarteirizada</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DefeitoRelatado">
+          <DataField>DefeitoRelatado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Ano">
+          <DataField>Ano</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="QTDOS">
+          <DataField>QTDOS</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>9e7f0b8c-1997-4d8b-9279-9174d2a6f3ef</rd:ReportID>
+</Report>

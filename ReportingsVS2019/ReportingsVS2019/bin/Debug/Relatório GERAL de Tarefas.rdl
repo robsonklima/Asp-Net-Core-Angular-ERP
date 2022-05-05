@@ -1,0 +1,1917 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:DataSourceID>1abcc92d-f67b-4c60-900b-7a6181c47f4e</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <BottomMargin>2.5cm</BottomMargin>
+  <RightMargin>2.5cm</RightMargin>
+  <PageWidth>21cm</PageWidth>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Table Name="table2">
+        <DataSetName>DsTotalHoras</DataSetName>
+        <Top>2cm</Top>
+        <ZIndex>2</ZIndex>
+        <Width>17.75cm</Width>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox23">
+                      <rd:DefaultName>textbox23</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontWeight>700</FontWeight>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Status.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox20">
+                      <rd:DefaultName>textbox20</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontWeight>700</FontWeight>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!QtdTarefas.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox21">
+                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontWeight>700</FontWeight>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_TOTAL.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox22">
+                      <rd:DefaultName>textbox22</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontWeight>700</FontWeight>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Horas_Faltantes.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.53333cm</Height>
+            </TableRow>
+          </TableRows>
+          <Sorting>
+            <SortBy>
+              <SortExpression>=Fields!Status.Value</SortExpression>
+              <Direction>Ascending</Direction>
+            </SortBy>
+          </Sorting>
+        </Details>
+        <Style>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox44">
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Status Tarefas</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox45">
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Qtd Tarefas</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox46">
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Horas Previsão</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox47">
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Horas Faltantes</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.55873cm</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>4.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4.25cm</Width>
+          </TableColumn>
+        </TableColumns>
+      </Table>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <ZIndex>1</ZIndex>
+        <Width>62cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+          <FontSize>18pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Height>0.8381cm</Height>
+        <Value>Relatório Geral de Tarefas</Value>
+      </Textbox>
+      <Table Name="table1">
+        <DataSetName>SAT</DataSetName>
+        <Top>0.8381cm</Top>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Cód">
+                      <rd:DefaultName>Cód</rd:DefaultName>
+                      <ZIndex>19</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Cód.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Código_Trace">
+                      <rd:DefaultName>Código_Trace</rd:DefaultName>
+                      <ZIndex>18</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Código_Trace.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Prioridade">
+                      <rd:DefaultName>Prioridade</rd:DefaultName>
+                      <ZIndex>17</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Prioridade.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox12">
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>16</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Data_Cadastro.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Status">
+                      <rd:DefaultName>Status</rd:DefaultName>
+                      <ZIndex>15</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Status.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox42">
+                      <rd:DefaultName>textbox42</rd:DefaultName>
+                      <ZIndex>14</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Solicitante.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox39">
+                      <rd:DefaultName>textbox39</rd:DefaultName>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Módulo.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Requisitos">
+                      <rd:DefaultName>Requisitos</rd:DefaultName>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Requisitos.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Complexidade">
+                      <rd:DefaultName>Complexidade</rd:DefaultName>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Complexidade.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox25">
+                      <rd:DefaultName>textbox25</rd:DefaultName>
+                      <ZIndex>10</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Urgência.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Tecnologia">
+                      <rd:DefaultName>Tecnologia</rd:DefaultName>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Tecnologia.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox28">
+                      <rd:DefaultName>textbox28</rd:DefaultName>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Tipo.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Análise_DRS_20_">
+                      <rd:DefaultName>Previsão_Análise_DRS_20_</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Análise_DRS_20_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Análise_DET_10_">
+                      <rd:DefaultName>Previsão_Análise_DET_10_</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Análise_DET_10_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Desenvolvimento_70_">
+                      <rd:DefaultName>Previsão_Desenvolvimento_70_</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Desenvolvimento_70_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Teste_15_">
+                      <rd:DefaultName>Previsão_Teste_15_</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Teste_15_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Homologação_3_">
+                      <rd:DefaultName>Previsão_Homologação_3_</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Homologação_3_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_Implantação_3_">
+                      <rd:DefaultName>Previsão_Implantação_3_</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_Implantação_3_.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Previsão_TOTAL">
+                      <rd:DefaultName>Previsão_TOTAL</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Previsão_TOTAL.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox19">
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Horas_Faltantes.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.53333cm</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <ZIndex>38</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Cód</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <ZIndex>37</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Trace</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox4">
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <ZIndex>36</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Prior</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox10">
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <ZIndex>35</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Dt Cad</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox5">
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>34</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Status</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox41">
+                      <rd:DefaultName>textbox41</rd:DefaultName>
+                      <ZIndex>33</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Solicitante</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox38">
+                      <rd:DefaultName>textbox38</rd:DefaultName>
+                      <ZIndex>32</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Módulo</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox6">
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>31</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Requisitos</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox7">
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <ZIndex>30</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Compl</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox24">
+                      <rd:DefaultName>textbox24</rd:DefaultName>
+                      <ZIndex>29</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Urgência</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox8">
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>28</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Tecnolog</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox9">
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <ZIndex>27</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Tipo</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox11">
+                      <rd:DefaultName>textbox11</rd:DefaultName>
+                      <ZIndex>26</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#ffc080</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Prev Análise
+DRS(16%) DET(08%)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox13">
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <ZIndex>25</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#ff8080</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Previsão
+Desenv(58%)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox14">
+                      <rd:DefaultName>textbox14</rd:DefaultName>
+                      <ZIndex>24</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#8080ff</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Previsão
+Test(12%)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox15">
+                      <rd:DefaultName>textbox15</rd:DefaultName>
+                      <ZIndex>23</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#8080ff</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Previsão
+Homolog(3%)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox16">
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <ZIndex>22</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#8080ff</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Previsão
+Implant(3%)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox17">
+                      <rd:DefaultName>textbox17</rd:DefaultName>
+                      <ZIndex>21</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#00c000</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>TOTAL</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox18">
+                      <ZIndex>20</ZIndex>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <FontSize>11pt</FontSize>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <Color>White</Color>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>Faltantes</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.55873cm</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.75cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>5.75cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>11.27646cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.25cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.75cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.75cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4.25cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3.77646cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>4cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.75cm</Width>
+          </TableColumn>
+        </TableColumns>
+        <Height>1.09206cm</Height>
+      </Table>
+    </ReportItems>
+    <Height>3.09206cm</Height>
+  </Body>
+  <rd:ReportID>4ebe9dbe-cd3d-497a-b908-3d832db85b1f</rd:ReportID>
+  <LeftMargin>2.5cm</LeftMargin>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT				Tarefas.CodTarefa AS Cód, ISNULL(CAST(Tarefas.NumCodTrace AS Varchar), '-') AS 'Código Trace',
+					ISNULL(CAST(Tarefas.NumPriorizacao AS Varchar), '-') AS Prioridade, 
+					CONVERT(VARCHAR(10),Tarefas.DataHoraCadastro,103) AS 'Data Cadastro',
+					TarefasStatus.nomeTarefaStatusAbrev AS 'Status', 
+					Usuario.NomeUsuario AS Solicitante,
+					TarefasModulos.NomeTarefaModuloAbrev AS 'Módulo', 
+                    Tarefas.tituloTarefa AS Requisitos, 
+					CASE Tarefas.complexidade 
+						WHEN 1 THEN 'BAIXA'
+						WHEN 2 THEN 'MÉDIA'
+						WHEN 3 THEN 'ALTA'
+						ELSE '-'
+					END AS Complexidade,
+					CASE Tarefas.UrgenciaUsuario 
+						WHEN 1 THEN 'BAIXA'
+						WHEN 2 THEN 'MÉDIA'
+						WHEN 3 THEN 'ALTA'
+						ELSE '-'
+					END AS 'Urgência',
+					CASE Tarefas.Tecnologia 
+						WHEN 'ASP' THEN 'ASP'
+						WHEN 'SQL' THEN 'SQLServer'
+						WHEN 'NET' THEN 'ASP.NET'
+						WHEN 'REL' THEN 'Relatório'
+						ELSE 'Outros'
+					END AS Tecnologia,
+					CASE Tarefas.TipoSolucao
+						WHEN 'D' THEN 'Desenv'
+						WHEN 'S' THEN 'Suporte'
+						WHEN 'SD' THEN 'Sup/Des'
+						WHEN 'R' THEN 'Rotina'
+						ELSE 'Outros'
+					END AS Tipo,
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN(previsao)) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN(previsao * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN(previsao * 60 * 8.8))
+						END
+					) AS 'Esforço',
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.24))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.24) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.24) * 60 * 8.8))
+						END
+					) AS 'Previsão Análise 30%',--24%
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.16))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.16) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.16) * 60 * 8.8))
+						END
+					) AS 'Previsão Análise DRS 20%',--16%
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.08))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.08) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.08) * 60 * 8.8))
+						END
+					) AS 'Previsão Análise DET 10%',--8%
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.58))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.58) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.58) * 60 * 8.8))
+						END
+					) AS 'Previsão Desenvolvimento 70%',--58%
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.12))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.12) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.12) * 60 * 8.8))
+						END
+					) AS 'Previsão Teste 15%',--12%
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03) * 60 * 8.8))
+						END
+					) AS 'Previsão Homologação 3%',
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao * 0.03) * 60 * 8.8))
+						END
+					) AS 'Previsão Implantação 3%',
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN
+								(select dbo.FN_CONVMIN((previsao))) 
+							WHEN 2 THEN
+								(select dbo.FN_CONVMIN((previsao) * 60))
+							WHEN 3 THEN
+								(select dbo.FN_CONVMIN((previsao) * 60 * 8.8))
+						END
+					) AS 'Previsão TOTAL',
+					(
+						CASE tipoPrevisao 
+							WHEN 1 THEN(
+											select dbo.FN_CONVMIN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao)
+																 )	
+										)
+							WHEN 2 THEN	(
+											select dbo.FN_CONVMIN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao * 60)			
+																 )	
+										)
+							WHEN 3 THEN	(
+											select dbo.FN_CONVMIN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	((previsao * 1.21) * 60 * 8.8)		
+																 )	
+										)
+						END
+					) AS 'Horas Faltantes'
+FROM				TarefasTipos 
+RIGHT OUTER JOIN	Tarefas 
+INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+					TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+LEFT OUTER JOIN		Filial 
+RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+WHERE				(1=1)
+--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+AND					(Tarefas.CodTarefaStatus NOT IN (4,5))</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="Cód">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>Cód</DataField>
+        </Field>
+        <Field Name="Código_Trace">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Código Trace</DataField>
+        </Field>
+        <Field Name="Prioridade">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Prioridade</DataField>
+        </Field>
+        <Field Name="Data_Cadastro">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Data Cadastro</DataField>
+        </Field>
+        <Field Name="Status">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="Solicitante">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Solicitante</DataField>
+        </Field>
+        <Field Name="Módulo">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Módulo</DataField>
+        </Field>
+        <Field Name="Requisitos">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Requisitos</DataField>
+        </Field>
+        <Field Name="Complexidade">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Complexidade</DataField>
+        </Field>
+        <Field Name="Urgência">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Urgência</DataField>
+        </Field>
+        <Field Name="Tecnologia">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Tecnologia</DataField>
+        </Field>
+        <Field Name="Tipo">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Tipo</DataField>
+        </Field>
+        <Field Name="Esforço">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Esforço</DataField>
+        </Field>
+        <Field Name="Previsão_Análise_30_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Análise 30%</DataField>
+        </Field>
+        <Field Name="Previsão_Análise_DRS_20_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Análise DRS 20%</DataField>
+        </Field>
+        <Field Name="Previsão_Análise_DET_10_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Análise DET 10%</DataField>
+        </Field>
+        <Field Name="Previsão_Desenvolvimento_70_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Desenvolvimento 70%</DataField>
+        </Field>
+        <Field Name="Previsão_Teste_15_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Teste 15%</DataField>
+        </Field>
+        <Field Name="Previsão_Homologação_3_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Homologação 3%</DataField>
+        </Field>
+        <Field Name="Previsão_Implantação_3_">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão Implantação 3%</DataField>
+        </Field>
+        <Field Name="Previsão_TOTAL">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão TOTAL</DataField>
+        </Field>
+        <Field Name="Horas_Faltantes">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Horas Faltantes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsTotalHoras">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		'TOTAL' AS 'Status',
+			COUNT(*) AS QtdTarefas,
+			(select dbo.FN_CONVMIN(SUM(PrevTOTAL))) AS 'Previsão TOTAL',
+			(select dbo.FN_CONVMIN(SUM(HorasFalt))) AS 'Horas Faltantes'
+			FROM
+				(
+					SELECT				(
+											CASE tipoPrevisao 
+												WHEN 1 THEN
+													(previsao)
+												WHEN 2 THEN
+													((previsao) * 60)
+												WHEN 3 THEN
+													((previsao) * 60 * 8.8)
+											END
+										) AS PrevTOTAL,
+										(
+											CASE tipoPrevisao 
+												WHEN 1 THEN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao)
+															)
+												WHEN 2 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao * 60)			
+															)
+												WHEN 3 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	((previsao) * 60 * 8.8)		
+															)
+											END
+										) AS HorasFalt
+					FROM				TarefasTipos 
+					RIGHT OUTER JOIN	Tarefas 
+					INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+					INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+										TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+					LEFT OUTER JOIN		Filial 
+					RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+					WHERE				(1=1)
+					--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+					AND					(Tarefas.CodTarefaStatus NOT IN (4,5))
+				) AS HORAS
+UNION ALL
+SELECT		'Aberta' AS 'Status',
+			COUNT(*) AS QtdTarefas,
+			ISNULL((select dbo.FN_CONVMIN(SUM(PrevTOTAL))),'00:00') AS 'Previsão TOTAL',
+			ISNULL((select dbo.FN_CONVMIN(SUM(HorasFalt))),'00:00') AS 'Horas Faltantes'
+			FROM
+				(
+					SELECT				(
+											CASE tipoPrevisao 
+												WHEN 1 THEN
+													(previsao)
+												WHEN 2 THEN
+													((previsao) * 60)
+												WHEN 3 THEN
+													((previsao) * 60 * 8.8)
+											END
+										) AS PrevTOTAL,
+										(
+											CASE tipoPrevisao 
+												WHEN 1 THEN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao)
+															)
+												WHEN 2 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao * 60)			
+															)
+												WHEN 3 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	((previsao) * 60 * 8.8)		
+															)
+											END
+										) AS HorasFalt
+					FROM				TarefasTipos 
+					RIGHT OUTER JOIN	Tarefas 
+					INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+					INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+										TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+					LEFT OUTER JOIN		Filial 
+					RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+					WHERE				(1=1)
+					--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+					AND					(Tarefas.CodTarefaStatus NOT IN (4,5))
+					AND					(Tarefas.CodTarefaStatus = 1)
+				) AS HORAS
+UNION ALL
+SELECT		'Em desenv' AS 'Status',
+			COUNT(*) AS QtdTarefas,
+			ISNULL((select dbo.FN_CONVMIN(SUM(PrevTOTAL))),'00:00') AS 'Previsão TOTAL',
+			ISNULL((select dbo.FN_CONVMIN(SUM(HorasFalt))),'00:00') AS 'Horas Faltantes'
+			FROM
+				(
+					SELECT				(
+											CASE tipoPrevisao 
+												WHEN 1 THEN
+													(previsao)
+												WHEN 2 THEN
+													((previsao) * 60)
+												WHEN 3 THEN
+													((previsao) * 60 * 8.8)
+											END
+										) AS PrevTOTAL,
+										(
+											CASE tipoPrevisao 
+												WHEN 1 THEN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao)
+															)
+												WHEN 2 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao * 60)			
+															)
+												WHEN 3 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	((previsao) * 60 * 8.8)		
+															)
+											END
+										) AS HorasFalt
+					FROM				TarefasTipos 
+					RIGHT OUTER JOIN	Tarefas 
+					INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+					INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+										TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+					LEFT OUTER JOIN		Filial 
+					RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+					WHERE				(1=1)
+					--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+					AND					(Tarefas.CodTarefaStatus NOT IN (4,5))
+					AND					(Tarefas.CodTarefaStatus = 2)
+				) AS HORAS
+--UNION ALL
+--SELECT		'Em teste' AS 'Status',
+--			COUNT(*) AS QtdTarefas,
+--			ISNULL((select dbo.FN_CONVMIN(SUM(PrevTOTAL))),'00:00') AS 'Previsão TOTAL',
+--			ISNULL((select dbo.FN_CONVMIN(SUM(HorasFalt))),'00:00') AS 'Horas Faltantes'
+--			FROM
+--				(
+--					SELECT				(
+--											CASE tipoPrevisao 
+--												WHEN 1 THEN
+--													(previsao)
+--												WHEN 2 THEN
+--													((previsao) * 60)
+--												WHEN 3 THEN
+--													((previsao) * 60 * 8.8)
+--											END
+--										) AS PrevTOTAL,
+--										(
+--											CASE tipoPrevisao 
+--												WHEN 1 THEN(
+--																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+--																	*
+--																	(previsao)
+--															)
+--												WHEN 2 THEN	(
+--																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+--																	*
+--																	(previsao * 60)			
+--															)
+--												WHEN 3 THEN	(
+--																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+--																	*
+--																	((previsao) * 60 * 8.8)		
+--															)
+--											END
+--										) AS HorasFalt
+--					FROM				TarefasTipos 
+--					RIGHT OUTER JOIN	Tarefas 
+--					INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+--					INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+--										TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+--					LEFT OUTER JOIN		Filial 
+--					RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+--					WHERE				(1=1)
+--					--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+--					AND					(Tarefas.CodTarefaStatus NOT IN (4,5))
+--					AND					(Tarefas.CodTarefaStatus = 3)
+--				) AS HORAS
+UNION ALL
+SELECT		'Pausada' AS 'Status',
+			COUNT(*) AS QtdTarefas,
+			ISNULL((select dbo.FN_CONVMIN(SUM(PrevTOTAL))),'00:00') AS 'Previsão TOTAL',
+			ISNULL((select dbo.FN_CONVMIN(SUM(HorasFalt))),'00:00') AS 'Horas Faltantes'
+			FROM
+				(
+					SELECT				(
+											CASE tipoPrevisao 
+												WHEN 1 THEN
+													(previsao)
+												WHEN 2 THEN
+													((previsao) * 60)
+												WHEN 3 THEN
+													((previsao) * 60 * 8.8)
+											END
+										) AS PrevTOTAL,
+										(
+											CASE tipoPrevisao 
+												WHEN 1 THEN(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao)
+															)
+												WHEN 2 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	(previsao * 60)			
+															)
+												WHEN 3 THEN	(
+																	CAST((CAST((100 - porcentagemconclusao) AS DECIMAL(10,2)) / '100.00') AS DECIMAL(10,2))
+																	*
+																	((previsao) * 60 * 8.8)		
+															)
+											END
+										) AS HorasFalt
+					FROM				TarefasTipos 
+					RIGHT OUTER JOIN	Tarefas 
+					INNER JOIN			TarefasStatus ON Tarefas.codTarefaStatus = TarefasStatus.codTarefaStatus 
+					INNER JOIN			TarefasModulos ON Tarefas.codTarefaModulo = TarefasModulos.codTarefaModulo ON 
+										TarefasTipos.codTarefaTipo = Tarefas.codTarefaTipo 
+					LEFT OUTER JOIN		Filial 
+					RIGHT OUTER JOIN	Usuario ON Filial.CodFilial = Usuario.CodFilial ON Tarefas.codUsuario = Usuario.CodUsuario
+					WHERE				(1=1)
+					--AND					((Tarefas.IndLista IS NULL) OR (Tarefas.IndLista &lt;&gt; 1))
+					AND					(Tarefas.CodTarefaStatus NOT IN (4,5))
+					AND					(Tarefas.CodTarefaStatus = 6)
+				) AS HORAS</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="Status">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="QtdTarefas">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>QtdTarefas</DataField>
+        </Field>
+        <Field Name="Previsão_TOTAL">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Previsão TOTAL</DataField>
+        </Field>
+        <Field Name="Horas_Faltantes">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Horas Faltantes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Width>64.80292cm</Width>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <Language>en-US</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

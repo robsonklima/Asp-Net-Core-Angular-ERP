@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="matrix1">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox3">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>2018/MÊS</Value>
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Center</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox3</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixCornerCell>
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.70833in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.21in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Qtde.Value)</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_Mes">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Mes.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Mes.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>0.21in</Size>
+                <CellContents>
+                  <Textbox Name="Mes">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Mes.Value</Value>
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Center</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Mes</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_Tipo">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Tipo.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Tipo.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>2.25in</Size>
+                <CellContents>
+                  <Textbox Name="Tipo">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Tipo.Value</Value>
+                            <Style>
+                              <FontFamily>Tahoma</FontFamily>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Center</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Tipo</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>DimGray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>DataSet1</DataSetName>
+        <Height>0.42in</Height>
+        <Width>2.95833in</Width>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>0.42in</Height>
+    <Style />
+  </Body>
+  <Width>2.95833in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>ec49c835-486e-47fd-bcc9-1ee1433557e2</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT			Mes, Indice, Tipo,
+				SUM(Qtde) AS Qtde
+FROM 			(
+					SELECT				DBO.insertZero(MONTH(OS.DataHoraFechamento),2) AS Mes, 1 AS Indice, 
+										CASE WHEN TipoIntervencao.CodTipoIntervencao IN (5,17,18,19,20)
+												THEN 'ORÇAMENTO'
+												ELSE TipoIntervencao.NomTipointervencao 
+										END AS Tipo,
+										COUNT(DISTINCT OS.CodOS) AS Qtde
+					FROM				OS
+					INNER JOIN			TipoIntervencao ON OS.CodTipoIntervencao = TipoIntervencao.CodTipoIntervencao
+					WHERE				OS.CodStatusServico = 3
+					AND					OS.DataHoraFechamento &gt; DATEADD(DD,10, OS.DataHoraAberturaOS)
+					AND					OS.CodTipoIntervencao IN (2,5,17,18,19,20)
+					AND					YEAR(OS.DataHoraAberturaOS) = '2018'
+					AND					OS.CodFilial NOT IN (7, 21)
+					AND					OS.CodCliente &lt;&gt; 220
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+					GROUP BY			MONTH(OS.DataHoraFechamento), TipoIntervencao.CodTipoIntervencao, TipoIntervencao.NomTipointervencao
+				) AS Dados
+GROUP BY		Mes, Indice, Tipo
+ORDER BY		Mes, Indice</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Mes">
+          <DataField>Mes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Indice">
+          <DataField>Indice</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Qtde">
+          <DataField>Qtde</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet2">
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandText>SELECT			Mes, Indice, Tipo,
+				SUM(Qtde) AS Qtde
+FROM 			(					
+					SELECT				DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS Mes, 4 AS Indice, 'DSR Qtde de Atendimentos' AS Tipo,
+										COUNT(DISTINCT RAT.CodRAT) AS Qtde 
+					FROM				OS
+					INNER JOIN			RAT ON OS.CodOS = RAT.CodOS
+					INNER JOIN			Parque_Resumo ON OS.CodEquipContrato = Parque_Resumo.CodEquipContrato
+					INNER JOIN			Cliente ON OS.CodCliente = Cliente.CodCliente
+					WHERE				OS.CodCliente IN (197, 202, 76, 475, 166, 256, 444)
+					AND					OS.CodStatusServico &lt;&gt; 2
+					AND					YEAR(OS.DataHoraAberturaOS) = '2017'
+					AND					Parque_Resumo.AnoMes = CAST(YEAR(OS.DataHoraAberturaOS) AS VARCHAR) + CAST(DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS VARCHAR)
+					AND					OS.CodFilial NOT IN (7, 21)
+					AND					OS.CodCliente &lt;&gt; 220
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+					--AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+					GROUP BY			MONTH(OS.DataHoraAberturaOS)
+
+					UNION
+
+					SELECT				DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS Mes, 5 AS Indice, 'GAR Qtde de Atendimentos' AS Tipo,
+										COUNT(DISTINCT RAT.CodRAT) AS Qtde 
+					FROM				OS
+					INNER JOIN			RAT ON OS.CodOS = RAT.CodOS
+					INNER JOIN			Parque_Resumo ON OS.CodEquipContrato = Parque_Resumo.CodEquipContrato
+					INNER JOIN			Cliente ON OS.CodCliente = Cliente.CodCliente
+					WHERE				OS.CodStatusServico &lt;&gt; 2
+					AND					YEAR(OS.DataHoraAberturaOS) = '2017'
+					AND					Parque_Resumo.AnoMes = CAST(YEAR(OS.DataHoraAberturaOS) AS VARCHAR) + CAST(DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS VARCHAR)
+					AND					Parque_Resumo.IndGarantia = 1
+					AND					OS.CodFilial NOT IN (7, 21)
+					AND					OS.CodCliente &lt;&gt; 220
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+					--AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+					GROUP BY			MONTH(OS.DataHoraAberturaOS)
+
+					UNION
+
+					SELECT				DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS Mes, 6 AS Indice, 'LOC Qtde de Atendimentos' AS Tipo,
+										COUNT(DISTINCT RAT.CodRAT) AS Qtde 
+					FROM				OS
+					INNER JOIN			RAT ON OS.CodOS = RAT.CodOS
+					INNER JOIN			Parque_Resumo ON OS.CodEquipContrato = Parque_Resumo.CodEquipContrato
+					INNER JOIN			Cliente ON OS.CodCliente = Cliente.CodCliente
+					INNER JOIN			Contrato ON Parque_Resumo.CodContrato = Contrato.CodContrato
+					WHERE				OS.CodStatusServico &lt;&gt; 2
+					AND					YEAR(OS.DataHoraAberturaOS) = '2017'
+					AND					Parque_Resumo.AnoMes = CAST(YEAR(OS.DataHoraAberturaOS) AS VARCHAR) + CAST(DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS VARCHAR)
+					AND					Contrato.CodTipoContrato = 4
+					AND					OS.CodFilial NOT IN (7, 21)
+					AND					OS.CodCliente &lt;&gt; 220
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+					--AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+					GROUP BY			MONTH(OS.DataHoraAberturaOS)				
+					
+					UNION 
+
+					SELECT				DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS Mes, 4 AS Indice, 'Qtd de Total de Atendimentos (Todos clientes MAN, GAR E LOC)' AS Tipo,
+										COUNT(DISTINCT RAT.CodRAT) AS Qtde 
+					FROM				OS
+					INNER JOIN			RAT ON OS.CodOS = RAT.CodOS
+					INNER JOIN			Parque_Resumo ON OS.CodEquipContrato = Parque_Resumo.CodEquipContrato
+					INNER JOIN			Cliente ON OS.CodCliente = Cliente.CodCliente
+					WHERE				OS.CodStatusServico &lt;&gt; 2
+					AND					YEAR(OS.DataHoraAberturaOS) = '2017'
+					AND					Parque_Resumo.AnoMes = CAST(YEAR(OS.DataHoraAberturaOS) AS VARCHAR) + CAST(DBO.insertZero(MONTH(OS.DataHoraAberturaOS),2) AS VARCHAR)
+					AND					OS.CodFilial NOT IN (7, 21)
+					AND					OS.CodCliente &lt;&gt; 220
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'POS%')
+					AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PERTOS%')
+					--AND					OS.CodEquip NOT IN (SELECT CodEquip FROM Equipamento WHERE NomeEquip LIKE 'PIN%')
+					GROUP BY			MONTH(OS.DataHoraAberturaOS)															
+				) AS Dados
+GROUP BY		Mes, Indice, Tipo
+ORDER BY		Mes, Indice</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Mes">
+          <DataField>Mes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Indice">
+          <DataField>Indice</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Qtde">
+          <DataField>Qtde</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Language>pt-BR</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>1767f1b5-1a1c-4ea5-a4ac-be7f1db3c713</rd:ReportID>
+</Report>

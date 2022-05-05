@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:DataSourceID>39d3279c-3513-424d-976a-479a004ea957</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <BottomMargin>2.5cm</BottomMargin>
+  <RightMargin>2.5cm</RightMargin>
+  <PageWidth>21cm</PageWidth>
+  <ReportParameters>
+    <ReportParameter Name="IndAtivo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ativo:</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SIM</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>NÃO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="IndReceita">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Receita:</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SIM</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>NÃO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="AnoMes">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsAnoMesCorrente</DataSetName>
+          <ValueField>AnoMes</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ano Mês Fechamento</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsAnoMes</DataSetName>
+          <ValueField>AnoMes</ValueField>
+          <LabelField>AnoMes</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Times New Roman</FontFamily>
+          <FontWeight>700</FontWeight>
+          <FontSize>8pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Height>0.5cm</Height>
+        <Value>="RESUMO DE PARQUE POR MODELO - " &amp; Left(Parameters!AnoMes.Value(0),4) &amp; "/"&amp; ((CInt(Left(Parameters!AnoMes.Value(0),4))) + 1)</Value>
+      </Textbox>
+      <Matrix Name="matrix1">
+        <MatrixColumns>
+          <MatrixColumn>
+            <Width>2cm</Width>
+          </MatrixColumn>
+        </MatrixColumns>
+        <RowGroupings>
+          <RowGrouping>
+            <Width>7.5cm</Width>
+            <DynamicRows>
+              <ReportItems>
+                <Textbox Name="NomeTipoEquip">
+                  <rd:DefaultName>NomeTipoEquip</rd:DefaultName>
+                  <ZIndex>4</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Left</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>LightGrey</Default>
+                    </BorderColor>
+                    <BackgroundColor>#6e9eca</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!NomeTipoEquip.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="textbox5">
+                    <rd:DefaultName>textbox5</rd:DefaultName>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Left</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>LightGrey</Default>
+                      </BorderColor>
+                      <BackgroundColor>#6e9eca</BackgroundColor>
+                      <Color>White</Color>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>TOTAL GERAL</Value>
+                  </Textbox>
+                </ReportItems>
+              </Subtotal>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!NomeTipoEquip.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_NomeTipoEquip">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!NomeTipoEquip.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+          <RowGrouping>
+            <Width>7.25cm</Width>
+            <DynamicRows>
+              <ReportItems>
+                <Textbox Name="NomeGrupoEquip">
+                  <rd:DefaultName>NomeGrupoEquip</rd:DefaultName>
+                  <ZIndex>3</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Left</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>LightGrey</Default>
+                    </BorderColor>
+                    <BackgroundColor>SlateGray</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!NomeGrupoEquip.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="textbox6">
+                    <rd:DefaultName>textbox6</rd:DefaultName>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Left</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>LightGrey</Default>
+                      </BorderColor>
+                      <BackgroundColor>SlateGray</BackgroundColor>
+                      <Color>White</Color>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>=Fields!NomeTipoEquip.Value + " Total"</Value>
+                  </Textbox>
+                </ReportItems>
+              </Subtotal>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!NomeGrupoEquip.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_NomeGrupoEquip">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!NomeGrupoEquip.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+        </RowGroupings>
+        <ColumnGroupings>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <ReportItems>
+                <Textbox Name="AnoMes">
+                  <rd:DefaultName>AnoMes</rd:DefaultName>
+                  <ZIndex>5</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Center</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>LightGrey</Default>
+                    </BorderColor>
+                    <BackgroundColor>#6e9eca</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!AnoMes.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!AnoMes.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_AnoMes">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!AnoMes.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.5cm</Height>
+          </ColumnGrouping>
+        </ColumnGroupings>
+        <DataSetName>SAT</DataSetName>
+        <Top>0.5cm</Top>
+        <Corner>
+          <ReportItems>
+            <Textbox Name="textbox3">
+              <rd:DefaultName>textbox3</rd:DefaultName>
+              <ZIndex>6</ZIndex>
+              <Style>
+                <BorderStyle>
+                  <Default>Solid</Default>
+                </BorderStyle>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingBottom>2pt</PaddingBottom>
+                <FontFamily>Tahoma</FontFamily>
+                <BorderColor>
+                  <Default>LightGrey</Default>
+                </BorderColor>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <Value>
+              </Value>
+            </Textbox>
+          </ReportItems>
+        </Corner>
+        <MatrixRows>
+          <MatrixRow>
+            <Height>0.5cm</Height>
+            <MatrixCells>
+              <MatrixCell>
+                <ReportItems>
+                  <Textbox Name="textbox2">
+                    <rd:DefaultName>textbox2</rd:DefaultName>
+                    <ZIndex>2</ZIndex>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Right</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>LightGrey</Default>
+                      </BorderColor>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>=Sum(Fields!QtdEquiptos.Value)</Value>
+                  </Textbox>
+                </ReportItems>
+              </MatrixCell>
+            </MatrixCells>
+          </MatrixRow>
+        </MatrixRows>
+      </Matrix>
+    </ReportItems>
+    <Height>2cm</Height>
+  </Body>
+  <rd:ReportID>c7b2e971-47ec-41f4-bd58-e370ecda9a78</rd:ReportID>
+  <LeftMargin>2.5cm</LeftMargin>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		TE.NomeTipoEquip, GE.NomeGrupoEquip, VPR.AnoMes, 
+		COUNT(VPR.CodEquip) AS QtdEquiptos
+FROM		vwc_Parque_Resumo VPR
+INNER JOIN	Cliente CL ON VPR.CodCliente = CL.CodCliente
+INNER JOIN	Contrato CO ON VPR.CodContrato = CO.CodContrato
+INNER JOIN	GrupoEquipamento GE ON VPR.CodGrupoEquip = GE.CodGrupoEquip
+INNER JOIN	TipoEquipamento TE ON VPR.CodTipoEquip = TE.CodTipoEquip
+INNER JOIN	Equipamento EQ ON VPR.CodEquip = EQ.CodEquip
+		AND TE.CodTipoEquip = EQ.CodTipoEquip
+WHERE		(1=1)
+AND		(VPR.IndAtivo IN (@IndAtivo))
+AND		(VPR.IndReceita IN (@IndReceita))
+AND		(VPR.AnoMes IN (@AnoMes))
+GROUP BY	TE.NomeTipoEquip, GE.NomeGrupoEquip, VPR.AnoMes
+ORDER BY	TE.NomeTipoEquip, GE.NomeGrupoEquip, VPR.AnoMes</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IndAtivo">
+            <Value>=Parameters!IndAtivo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IndReceita">
+            <Value>=Parameters!IndReceita.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@AnoMes">
+            <Value>=Parameters!AnoMes.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="NomeTipoEquip">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NomeTipoEquip</DataField>
+        </Field>
+        <Field Name="NomeGrupoEquip">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NomeGrupoEquip</DataField>
+        </Field>
+        <Field Name="AnoMes">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>AnoMes</DataField>
+        </Field>
+        <Field Name="QtdEquiptos">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>QtdEquiptos</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAnoMes">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT DISTINCT AnoMes FROM Parque_Resumo ORDER BY AnoMes</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="AnoMes">
+          <DataField>AnoMes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAnoMesCorrente">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT DISTINCT TOP 13 (AnoMes) FROM Parque_Resumo ORDER BY AnoMes DESC</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="AnoMes">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>AnoMes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Width>16.75cm</Width>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <Language>en-US</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

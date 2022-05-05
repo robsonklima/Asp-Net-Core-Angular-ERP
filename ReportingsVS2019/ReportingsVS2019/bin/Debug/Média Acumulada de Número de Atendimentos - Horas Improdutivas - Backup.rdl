@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <rd:DataSourceID>9640d45f-d27a-4854-a1ed-f8d593e07ffc</rd:DataSourceID>
+      <DataSourceReference>SAT</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <rd:ReportID>7f57ba0f-0f6e-4ff3-ace7-80f78b617b91</rd:ReportID>
+  <Width>6in</Width>
+  <Body>
+    <Height>0.76in</Height>
+    <ColumnSpacing>0.5in</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <Style>
+          <FontFamily>Tahoma</FontFamily>
+          <FontSize>18pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <Value>Média Acumulada de Número de Atendimentos - Horas Improdutivas</Value>
+        <CanGrow>true</CanGrow>
+        <Height>0.33in</Height>
+      </Textbox>
+      <Table Name="table1">
+        <Top>0.33in</Top>
+        <Style />
+        <Header>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Value>nome filial</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <Value>media acum atend tecnico anual calc</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox4">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <Value>media acum atend tecnico mensal calc</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox5">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <Value>media tempo solucao horas</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox6">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <Value>horas utilizadas</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox7">
+                      <Style>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>White</Color>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <Value>horas nao utilizadas</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.22in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.22in</Height>
+            </TableRow>
+          </TableRows>
+        </Header>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="nome_filial">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>nome_filial</rd:DefaultName>
+                      <Value>=Fields!nome_filial.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="media_acum_atend_tecnico_anual_calc">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>media_acum_atend_tecnico_anual_calc</rd:DefaultName>
+                      <Value>=Fields!media_acum_atend_tecnico_anual_calc.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="media_acum_atend_tecnico_mensal_calc">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>media_acum_atend_tecnico_mensal_calc</rd:DefaultName>
+                      <Value>=Fields!media_acum_atend_tecnico_mensal_calc.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="media_tempo_solucao_horas">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>media_tempo_solucao_horas</rd:DefaultName>
+                      <Value>=Fields!media_tempo_solucao_horas.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="horas_utilizadas">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>horas_utilizadas</rd:DefaultName>
+                      <Value>=Fields!horas_utilizadas.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="horas_nao_utilizadas">
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>10pt</FontSize>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <BorderColor>
+                          <Default>DimGray</Default>
+                        </BorderColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <rd:DefaultName>horas_nao_utilizadas</rd:DefaultName>
+                      <Value>=Fields!horas_nao_utilizadas.Value</Value>
+                      <CanGrow>true</CanGrow>
+                      <Height>0.21in</Height>
+                      <Width>1in</Width>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.21in</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <TableColumns>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1in</Width>
+          </TableColumn>
+        </TableColumns>
+        <DataSetName>DataSet1</DataSetName>
+      </Table>
+    </ReportItems>
+  </Body>
+  <Language>en-US</Language>
+  <LeftMargin>1in</LeftMargin>
+  <RightMargin>1in</RightMargin>
+  <TopMargin>1in</TopMargin>
+  <BottomMargin>1in</BottomMargin>
+  <PageWidth>8.5in</PageWidth>
+  <PageHeight>11in</PageHeight>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Fields>
+        <Field Name="nome_filial">
+          <DataField>nome_filial</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="media_acum_atend_tecnico_anual_calc">
+          <DataField>media_acum_atend_tecnico_anual_calc</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="media_acum_atend_tecnico_mensal_calc">
+          <DataField>media_acum_atend_tecnico_mensal_calc</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="media_tempo_solucao_horas">
+          <DataField>media_tempo_solucao_horas</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="horas_utilizadas">
+          <DataField>horas_utilizadas</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="horas_nao_utilizadas">
+          <DataField>horas_nao_utilizadas</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>SAT</DataSourceName>
+        <CommandType>Text</CommandType>
+        <CommandText>/****** Object: [???]    Script Date: 19/05/2016 10:23:42 Author: Robson Lima ******/
+SELECT nome_filial
+
+	 -- Quantidade de atendimentos dividido pela quantidade de dias úteis anual
+	 , cast(media_acum_atend_tecnico_anual AS FLOAT) / (CASE cast(dias_uteis_por_tecnico_anual AS FLOAT)
+		   WHEN 0 THEN
+			   1
+		   ELSE
+			   dias_uteis_por_tecnico_anual
+	   END) AS media_acum_atend_tecnico_anual_calc
+
+	 -- Quantidade de atendimentos dividido pela quantidade de dias úteis mensal
+	 , cast(media_acum_atend_tecnico_mensal AS FLOAT) / (CASE cast(dias_uteis_por_tecnico_mensal AS FLOAT)
+		   WHEN 0 THEN
+			   1
+		   ELSE
+			   dias_uteis_por_tecnico_mensal
+	   END) AS media_acum_atend_tecnico_mensal_calc
+
+	 -- soma de (dataSolucaoRat - dataInicioRat) dividido pela quantidade de RATs nos ultimos 30 dias do tecnico
+	 , dbo.FN_CONVMIN(media_tempo_solucao) AS media_tempo_solucao_horas
+
+
+	 , dbo.FN_CONVMIN(cast(cast(media_acum_atend_tecnico_mensal AS FLOAT) / (CASE cast(dias_uteis_por_tecnico_mensal AS FLOAT)
+		   WHEN 0 THEN
+			   1
+		   ELSE
+			   dias_uteis_por_tecnico_mensal
+	   END) * media_tempo_solucao AS INT)) AS horas_utilizadas
+
+	 -- 8:48 menos horas_utilizadas
+	 , dbo.FN_CONVMIN(528 - (cast(cast(media_acum_atend_tecnico_mensal AS FLOAT) / (CASE cast(dias_uteis_por_tecnico_mensal AS FLOAT)
+		   WHEN 0 THEN
+			   1
+		   ELSE
+			   dias_uteis_por_tecnico_mensal
+	   END) * media_tempo_solucao AS INT))) AS horas_nao_utilizadas
+
+FROM
+	(SELECT Filial.NomeFilial AS nome_filial
+		  , Tecnico.Nome AS nome_tecnico
+
+		  -- Descrever o bloco
+		  , CASE
+				WHEN Tecnico.DataAdmissao &gt;= (getdate() - 365) THEN
+					dbo.fc_VerificaDiasUteis(Tecnico.DataAdmissao, getdate())
+				ELSE
+					dbo.fc_VerificaDiasUteis(getdate() - 365, getdate())
+			END AS dias_uteis_por_tecnico_anual
+
+		  -- Descrever o bloco
+		  , (SELECT count(*)
+			 FROM
+				 RAT
+				 INNER JOIN OS
+					 ON OS.CodOS = RAT.CodOS
+			 WHERE
+				 (1 = 1)
+				 AND RAT.CodTecnico = Tecnico.CodTecnico
+				 -- somente os com tipo de intervencao: corretiva
+				 AND OS.CodTipoIntervencao IN (2)
+				 AND OS.DataHoraCad &gt; (getdate() - 365)) AS media_acum_atend_tecnico_anual
+		  , CASE
+				WHEN Tecnico.DataAdmissao &gt;= (getdate() - 30) THEN
+					dbo.fc_VerificaDiasUteis(Tecnico.DataAdmissao, getdate())
+				ELSE
+					dbo.fc_VerificaDiasUteis(getdate() - 30, getdate())
+			END AS dias_uteis_por_tecnico_mensal
+
+		  -- Descrever o bloco
+		  , (SELECT count(*)
+			 FROM
+				 RAT
+				 INNER JOIN OS
+					 ON OS.CodOS = RAT.CodOS
+			 WHERE
+				 (1 = 1)
+				 AND RAT.CodTecnico = Tecnico.CodTecnico
+				 -- somente os com tipo de intervencao: corretiva
+				 AND OS.CodTipoIntervencao IN (2)
+				 AND OS.DataHoraCad &gt; (getdate() - 30)) AS media_acum_atend_tecnico_mensal
+
+		  -- Descrever o bloco
+		  , isnull((SELECT sum(datediff(MINUTE, DataHoraInicio, DataHoraSolucao)) / isnull((SELECT count(codrat)
+																							FROM
+																								rat
+																								INNER JOIN OS
+																									ON OS.codos = RAT.codos
+																							WHERE
+																								RAT.DataHoraCad &gt; (getdate() - 30)
+																								AND RAT.CodTecnico = Tecnico.CodTecnico
+																								-- somente os com tipo de intervencao: corretiva
+																								AND OS.CodTipoIntervencao IN (2)), 1)
+					FROM
+						rat
+						INNER JOIN OS
+							ON OS.codos = RAT.codos
+					WHERE
+						RAT.DataHoraCad &gt; (getdate() - 30)
+						AND RAT.CodTecnico = Tecnico.CodTecnico
+						-- somente os com tipo de intervencao: corretiva
+						AND OS.CodTipoIntervencao IN (2)), 0) AS media_tempo_solucao
+	 FROM
+		 Tecnico
+		 INNER JOIN Filial
+			 ON Tecnico.CodFilial = Filial.CodFilial
+		 INNER JOIN Usuario
+			 ON Usuario.CodTecnico = Tecnico.CodTecnico
+	 WHERE
+		 (1 = 1)
+		 AND Tecnico.IndAtivo = 1
+		 AND Usuario.IndAtivo = 1
+		 -- somente usuarios com perfil tecnico
+		 AND Usuario.CodPerfil = 35
+		 -- desconsidera tecnicos abstratos, ex.: ivan medina
+		 AND Tecnico.CodTecnico NOT IN (1763, 1382)) AS dados
+WHERE
+	nome_filial IN (@nomeFilial)
+ORDER BY
+	nome_filial ASC
+  , nome_tecnico ASC</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <QueryParameters>
+          <QueryParameter Name="@nomeFilial">
+            <Value>=Parameters!nomeFilial.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <Timeout>0</Timeout>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="nomeFilial">
+      <DataType>String</DataType>
+      <Prompt>nome Filial</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+</Report>

@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:DataSourceID>b376cb8c-52c4-4c64-99c7-7bea9e58f84c</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <BottomMargin>2.5cm</BottomMargin>
+  <RightMargin>2.5cm</RightMargin>
+  <PageWidth>21cm</PageWidth>
+  <ReportParameters>
+    <ReportParameter Name="MESAUX">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DsMesAtual</DataSetName>
+          <ValueField>Mes</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>MES:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DsMes</DataSetName>
+          <ValueField>IdMes</ValueField>
+          <LabelField>IdMes</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="ANOAUX">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DsAnoAtual</DataSetName>
+          <ValueField>ANO</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ANO:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DsAno</DataSetName>
+          <ValueField>IdAno</ValueField>
+          <LabelField>IdAno</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+          <FontSize>18pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Height>0.8381cm</Height>
+        <Value>CEF Relatório de SLA - Percentual</Value>
+      </Textbox>
+      <Matrix Name="matrix1">
+        <MatrixColumns>
+          <MatrixColumn>
+            <Width>2.53968cm</Width>
+          </MatrixColumn>
+        </MatrixColumns>
+        <RowGroupings>
+          <RowGrouping>
+            <Width>2.53968cm</Width>
+            <DynamicRows>
+              <ReportItems>
+                <Textbox Name="SiglaUF">
+                  <rd:DefaultName>SiglaUF</rd:DefaultName>
+                  <ZIndex>1</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Tahoma</FontFamily>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>#60759b</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!SiglaUF.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!SiglaUF.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_SiglaUF">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!SiglaUF.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+        </RowGroupings>
+        <ColumnGroupings>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <ReportItems>
+                <Textbox Name="DataPercentual">
+                  <rd:DefaultName>DataPercentual</rd:DefaultName>
+                  <ZIndex>2</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Tahoma</FontFamily>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>#60759b</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!DataPercentual.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!DataPercentual.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_DataPercentual">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!DataPercentual.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.53333cm</Height>
+          </ColumnGrouping>
+        </ColumnGroupings>
+        <DataSetName>SAT</DataSetName>
+        <Top>0.8381cm</Top>
+        <Width>5.07936cm</Width>
+        <Corner>
+          <ReportItems>
+            <Textbox Name="textbox3">
+              <rd:DefaultName>textbox3</rd:DefaultName>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <BorderStyle>
+                  <Default>Solid</Default>
+                </BorderStyle>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingBottom>2pt</PaddingBottom>
+                <FontFamily>Tahoma</FontFamily>
+                <BorderColor>
+                  <Default>DimGray</Default>
+                </BorderColor>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <Value>
+              </Value>
+            </Textbox>
+          </ReportItems>
+        </Corner>
+        <MatrixRows>
+          <MatrixRow>
+            <Height>0.53333cm</Height>
+            <MatrixCells>
+              <MatrixCell>
+                <ReportItems>
+                  <Textbox Name="textbox2">
+                    <rd:DefaultName>textbox2</rd:DefaultName>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontWeight>=IIF(Fields!SiglaUF.Value = "TOTAL", "Bold","Normal")</FontWeight>
+                      <BorderColor>
+                        <Default>DimGray</Default>
+                      </BorderColor>
+                      <BackgroundColor>=IIF(Fields!SiglaUF.Value = "TOTAL", "#60759b","Transparent")</BackgroundColor>
+                      <Color>=IIF(Fields!Percentual.Value &gt;= 90 AND Fields!SiglaUF.Value &lt;&gt; "TOTAL", "Green", IIF (Fields!SiglaUF.Value = "TOTAL", "White","Red"))</Color>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>=Sum(Fields!Percentual.Value)</Value>
+                  </Textbox>
+                </ReportItems>
+              </MatrixCell>
+            </MatrixCells>
+          </MatrixRow>
+        </MatrixRows>
+      </Matrix>
+    </ReportItems>
+    <Height>1.90476cm</Height>
+  </Body>
+  <rd:ReportID>43666769-7ff2-452b-886e-680265a8b643</rd:ReportID>
+  <LeftMargin>2.5cm</LeftMargin>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>DECLARE			@MES VARCHAR(2)
+DECLARE			@ANO VARCHAR(4) 
+SET				@MES = DBO.INSERTZERO((@MESAUX),2)
+SET				@ANO = @ANOAUX
+
+DECLARE			@DataFinal DATETIME
+SET				@DataFinal = (CASE WHEN(CAST(@MES AS INT) = (SELECT MONTH(GETDATE())))
+									THEN
+										(SELECT CAST((CAST(YEAR(GETDATE()) AS VARCHAR) + '-' + CAST(MONTH(GETDATE()) AS VARCHAR) + '-' + CAST(DAY(GETDATE()) AS VARCHAR) + ' 00:00:00.000') AS DATETIME))
+
+									ELSE
+										(CONVERT(DateTime, @ANO + '-' + @MES + '-' + CAST(DAY(DATEADD(d,-1,DATEADD(M,1,CONVERT(DATETIME,@ANO + @MES + '01')))) AS VARCHAR) + ' 00:00:00.000'))
+									END
+							)
+
+EXEC			pr_PercentualSLA_CEF
+				@DataFinal
+
+EXEC			pr_PercentualSLA_CEF_Total
+				@DataFinal
+
+SELECT			SiglaUF, CONVERT(VARCHAR, DataPercentual, 103) AS DataPercentual, Percentual
+FROM			TempSLACEF
+WHERE			DataPercentual  BETWEEN 
+				(CASE WHEN (CAST(@MES AS INT) = (SELECT MONTH(GETDATE())))
+					THEN
+							(CASE	(SELECT DAY(GETDATE())) 
+								WHEN 1 THEN
+									(SELECT CAST((CAST(YEAR(GETDATE()) AS VARCHAR) + '-' + CAST((MONTH(GETDATE()) - 1) AS VARCHAR) + '-' + '01' + ' 00:00:00.000') AS DATETIME))
+								   ELSE			
+									(SELECT CAST((CAST(YEAR(GETDATE()) AS VARCHAR) + '-' + CAST((MONTH(GETDATE())) AS VARCHAR) + '-' + '01' + ' 00:00:00.000') AS DATETIME))
+								   END
+							)
+					ELSE
+							(CONVERT(DateTime, @ANO + '-' + @MES + '-' + '01' + ' 00:00:00.000'))
+					END
+				)
+				AND 
+				(CASE WHEN(CAST(@MES AS INT) = (SELECT MONTH(GETDATE())))
+					THEN
+						(SELECT CAST((CAST(YEAR(GETDATE()) AS VARCHAR) + '-' + CAST(MONTH(GETDATE()) AS VARCHAR) + '-' + CAST(DAY(GETDATE()) AS VARCHAR) + ' 00:00:00.000') AS DATETIME))
+
+					ELSE
+						(CONVERT(DateTime, @ANO + '-' + @MES + '-' + CAST(DAY(DATEADD(d,-1,DATEADD(M,1,CONVERT(DATETIME,@ANO + @MES + '01')))) AS VARCHAR) + ' 00:00:00.000'))
+					END
+				)
+ORDER BY		2,1</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@MESAUX">
+            <Value>=Parameters!MESAUX.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ANOAUX">
+            <Value>=Parameters!ANOAUX.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="SiglaUF">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>SiglaUF</DataField>
+        </Field>
+        <Field Name="DataPercentual">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>DataPercentual</DataField>
+        </Field>
+        <Field Name="Percentual">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>Percentual</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsMes">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>WITH Meses AS
+(
+  SELECT 1 AS IdMes
+  UNION ALL
+  SELECT IdMes + 1
+  FROM Meses
+  WHERE IdMes &lt; 12
+)
+SELECT * FROM Meses</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="IdMes">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>IdMes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsAno">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>WITH Anos AS
+(
+  SELECT 2008 AS IdAno
+  UNION ALL
+  SELECT IdAno + 1
+  FROM Anos
+  WHERE IdAno &lt; 2012
+)
+SELECT * FROM Anos</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="IdAno">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>IdAno</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsMesAtual">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT MONTH(GETDATE()) AS Mes</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="Mes">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>Mes</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DsAnoAtual">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT YEAR(GETDATE()) AS ANO</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="ANO">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>ANO</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Width>12.69841cm</Width>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <Language>en-US</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

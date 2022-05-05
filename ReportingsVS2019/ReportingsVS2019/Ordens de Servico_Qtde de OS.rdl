@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SAT">
+      <DataSourceReference>SAT</DataSourceReference>
+      <rd:DataSourceID>1cf08936-b11e-45c2-8591-e1ee44b6d175</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <BottomMargin>2.5cm</BottomMargin>
+  <RightMargin>2.5cm</RightMargin>
+  <PageWidth>21cm</PageWidth>
+  <ReportParameters>
+    <ReportParameter Name="CodFilial">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Filial:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsFilial</DataSetName>
+          <ValueField>CodFilial</ValueField>
+          <LabelField>NomeFilial</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CodAutorizada">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Autorizada:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsAutorizada</DataSetName>
+          <ValueField>CodAutorizada</ValueField>
+          <LabelField>NomeFantasia</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="DataInicio">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsPeriodo</DataSetName>
+          <ValueField>DataInicial</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Data Inicial:</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DataFim">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsPeriodoFinal</DataSetName>
+          <ValueField>DataFinal</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Data Final:</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Times New Roman</FontFamily>
+          <FontWeight>700</FontWeight>
+          <FontSize>8pt</FontSize>
+          <Color>#1c3a70</Color>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Height>0.5cm</Height>
+        <Value>="Quantidade de Ordens de Serviço - " &amp; First(Fields!AnoInicioAnoFim.Value, "dsAnoInicioAnoFimRel")</Value>
+      </Textbox>
+      <Matrix Name="matrix1">
+        <MatrixColumns>
+          <MatrixColumn>
+            <Width>1.49695cm</Width>
+          </MatrixColumn>
+        </MatrixColumns>
+        <RowGroupings>
+          <RowGrouping>
+            <Width>1.77285cm</Width>
+            <DynamicRows>
+              <ReportItems>
+                <Textbox Name="Filial">
+                  <rd:DefaultName>Filial</rd:DefaultName>
+                  <ZIndex>3</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Left</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>#60759b</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!Filial.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="textbox5">
+                    <rd:DefaultName>textbox5</rd:DefaultName>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Left</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>DimGray</Default>
+                      </BorderColor>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <Color>White</Color>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>Total</Value>
+                  </Textbox>
+                </ReportItems>
+              </Subtotal>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!Filial.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_Filial">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Filial.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+          <RowGrouping>
+            <Width>8.23325cm</Width>
+            <DynamicRows>
+              <ReportItems>
+                <Textbox Name="Autorizada">
+                  <rd:DefaultName>Autorizada</rd:DefaultName>
+                  <ZIndex>2</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Left</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>LightSteelBlue</BackgroundColor>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!Autorizada.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!Autorizada.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_Autorizada">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Autorizada.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+        </RowGroupings>
+        <ColumnGroupings>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <ReportItems>
+                <Textbox Name="Ano_Ordem_Servico">
+                  <rd:DefaultName>Ano_Ordem_Servico</rd:DefaultName>
+                  <ZIndex>6</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Center</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>#60759b</BackgroundColor>
+                    <Color>White</Color>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!Ano_Ordem_Servico.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="textbox4">
+                    <rd:DefaultName>textbox4</rd:DefaultName>
+                    <ZIndex>5</ZIndex>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Center</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>DimGray</Default>
+                      </BorderColor>
+                      <BackgroundColor>#60759b</BackgroundColor>
+                      <Color>White</Color>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>TOTAL</Value>
+                  </Textbox>
+                </ReportItems>
+              </Subtotal>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!Ano_Ordem_Servico.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_Ano_Ordem_Servico">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Ano_Ordem_Servico.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.5cm</Height>
+          </ColumnGrouping>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <ReportItems>
+                <Textbox Name="Mes_Ordem_Servico">
+                  <rd:DefaultName>Mes_Ordem_Servico</rd:DefaultName>
+                  <ZIndex>4</ZIndex>
+                  <Style>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <TextAlign>Center</TextAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <BorderColor>
+                      <Default>DimGray</Default>
+                    </BorderColor>
+                    <BackgroundColor>LightSteelBlue</BackgroundColor>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                  </Style>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!Mes_Ordem_Servico.Value</Value>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!Mes_Ordem_Servico.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix1_Mes_Ordem_Servico">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Mes_Ordem_Servico.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.5cm</Height>
+          </ColumnGrouping>
+        </ColumnGroupings>
+        <DataSetName>SAT</DataSetName>
+        <Top>0.5cm</Top>
+        <Corner>
+          <ReportItems>
+            <Textbox Name="textbox3">
+              <rd:DefaultName>textbox3</rd:DefaultName>
+              <ZIndex>7</ZIndex>
+              <Style>
+                <BorderStyle>
+                  <Default>Solid</Default>
+                </BorderStyle>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingBottom>2pt</PaddingBottom>
+                <FontFamily>Tahoma</FontFamily>
+                <BorderColor>
+                  <Default>DimGray</Default>
+                </BorderColor>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <Value>
+</Value>
+            </Textbox>
+          </ReportItems>
+        </Corner>
+        <Style>
+          <FontFamily>Times New Roman</FontFamily>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <MatrixRows>
+          <MatrixRow>
+            <Height>0.5cm</Height>
+            <MatrixCells>
+              <MatrixCell>
+                <ReportItems>
+                  <Textbox Name="textbox2">
+                    <rd:DefaultName>textbox2</rd:DefaultName>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <TextAlign>Right</TextAlign>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>8pt</FontSize>
+                      <BorderColor>
+                        <Default>DimGray</Default>
+                      </BorderColor>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                    </Style>
+                    <CanGrow>true</CanGrow>
+                    <Value>=Sum(Fields!QtdOS.Value)</Value>
+                  </Textbox>
+                </ReportItems>
+              </MatrixCell>
+            </MatrixCells>
+          </MatrixRow>
+        </MatrixRows>
+      </Matrix>
+    </ReportItems>
+    <Height>2.5cm</Height>
+  </Body>
+  <rd:ReportID>0316d03f-1385-4c02-abe3-39c25b857b40</rd:ReportID>
+  <LeftMargin>2.5cm</LeftMargin>
+  <DataSets>
+    <DataSet Name="SAT">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		Filial.NomeFilial AS Filial, Autorizada.NomeFantasia AS Autorizada, COUNT(vwc_OS.CodOS) AS QtdOS, 
+		CAST(YEAR(vwc_OS.DataHoraAberturaOS)AS VARCHAR) AS Ano_Ordem_Servico, 
+		CASE WHEN (MONTH(vwc_OS.DataHoraAberturaOS) &lt;10) THEN '0' + CAST(MONTH(vwc_OS.DataHoraAberturaOS)AS VARCHAR) ELSE CAST(MONTH(vwc_OS.DataHoraAberturaOS)AS VARCHAR) END AS Mes_Ordem_Servico 
+FROM		dbo.vwc_OrdemServico vwc_OS
+LEFT OUTER JOIN	Filial ON vwc_OS.CodFilial = Filial.CodFilial
+LEFT OUTER JOIN	Autorizada ON vwc_OS.CodAutorizada = Autorizada.CodAutorizada
+WHERE		(1 = 1)
+AND		(vwc_OS.CodFilial IN (@CodFilial))
+AND		(vwc_OS.CodAutorizada IN (@CodAutorizada))
+AND		(vwc_OS.DataHoraAberturaOS &gt;= (@DataInicio + ' 00:00:00.000'))
+AND		(vwc_OS.DataHoraAberturaOS &lt;= (@DataFim + ' 23:59:59.999'))
+GROUP BY	Filial.NomeFilial, Autorizada.NomeFantasia, CAST(YEAR(vwc_OS.DataHoraAberturaOS)AS VARCHAR), CAST(MONTH(vwc_OS.DataHoraAberturaOS)AS INTEGER)
+ORDER BY                Filial.NomeFilial, Autorizada.NomeFantasia, CAST(YEAR(vwc_OS.DataHoraAberturaOS)AS VARCHAR), CAST(MONTH(vwc_OS.DataHoraAberturaOS)AS INTEGER)</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@CodFilial">
+            <Value>=Parameters!CodFilial.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CodAutorizada">
+            <Value>=Parameters!CodAutorizada.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DataInicio">
+            <Value>=Parameters!DataInicio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DataFim">
+            <Value>=Parameters!DataFim.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="Filial">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Filial</DataField>
+        </Field>
+        <Field Name="Autorizada">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Autorizada</DataField>
+        </Field>
+        <Field Name="QtdOS">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>QtdOS</DataField>
+        </Field>
+        <Field Name="Ano_Ordem_Servico">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Ano_Ordem_Servico</DataField>
+        </Field>
+        <Field Name="Mes_Ordem_Servico">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Mes_Ordem_Servico</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsFilial">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT CodFilial, NomeFilial 
+FROM Filial 
+WHERE NomeFilial like 'F%'
+ORDER BY NomeFilial</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="CodFilial">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>CodFilial</DataField>
+        </Field>
+        <Field Name="NomeFilial">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NomeFilial</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAutorizada">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT CodAutorizada, NomeFantasia + CASE WHEN IndAtivo = 0 THEN ' - Inativo' ELSE '' END AS NomeFantasia FROM Autorizada ORDER BY NomeFantasia</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="CodAutorizada">
+          <DataField>CodAutorizada</DataField>
+        </Field>
+        <Field Name="NomeFantasia">
+          <DataField>NomeFantasia</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsPeriodo">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		CAST('1'
+			+'/'+
+			'1'
+			+'/'+
+			CAST(YEAR(DATEADD(DAY,-365,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR) AS DATETIME) 
+			AS DataInicial</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="DataInicial">
+          <rd:TypeName>System.DateTime</rd:TypeName>
+          <DataField>DataInicial</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsPeriodoFinal">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		CAST(CAST(MONTH(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR)
+			+'/'+
+			CAST(DAY(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR)
+			+'/'+
+			CAST(YEAR(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR) AS DATETIME) AS 
+			DataFinal</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="DataFinal">
+          <rd:TypeName>System.DateTime</rd:TypeName>
+          <DataField>DataFinal</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAnoInicioAnoFimRel">
+      <Query>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+        <CommandText>SELECT		CAST(
+			CAST(YEAR(DATEADD(DAY,-365,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR)
+			+'/'+
+			CAST(YEAR(DATEADD(DAY,-1,(DATEADD(MONTH,0,CONVERT(CHAR(08),GETDATE(),126)+'01')))) AS VARCHAR) AS VARCHAR) AS 
+			AnoInicioAnoFim</CommandText>
+        <DataSourceName>SAT</DataSourceName>
+      </Query>
+      <Fields>
+        <Field Name="AnoInicioAnoFim">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>AnoInicioAnoFim</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Width>13cm</Width>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <Language>pt-BR</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

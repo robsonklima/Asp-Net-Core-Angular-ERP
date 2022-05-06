@@ -42,9 +42,9 @@ export class DisponibilidadeTecnicosComponent implements OnInit {
     this.totalInativos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosInativos);
     this.totalTecnicos = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.tecnicosTotal);
     this.totalOsNaoTransf = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.qtdOSNaoTransferidasCorretivas);
-    this.totalMediaAtendimento = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTecnicoDiaTodasIntervencoes);
-    this.totalMediaAtendimentoCorretivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTecnicoDiaCorretivas);
-    this.totalMediaAtendimentoPreventivo = Enumerable.from(this.disponibilidadeTecnicosModel).sum(s => s.mediaAtendimentoTecnicoDiaPreventivas);
+    this.totalMediaAtendimento = Enumerable.from(this.disponibilidadeTecnicosModel).average(s => s.mediaAtendimentoTecnicoDiaTodasIntervencoes);
+    this.totalMediaAtendimentoCorretivo = Enumerable.from(this.disponibilidadeTecnicosModel).average(s => s.mediaAtendimentoTecnicoDiaCorretivas);
+    this.totalMediaAtendimentoPreventivo = Enumerable.from(this.disponibilidadeTecnicosModel).average(s => s.mediaAtendimentoTecnicoDiaPreventivas);
 
     this.disponibilidadeTecnicosModel = Enumerable.from(this.disponibilidadeTecnicosModel).orderBy(o => o.filial).toArray();
     this.loading = false;

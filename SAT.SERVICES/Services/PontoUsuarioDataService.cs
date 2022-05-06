@@ -362,15 +362,15 @@ namespace SAT.SERVICES.Services
                         TimeSpan horarioFim = TimeSpan.Parse(pontoData.PontosUsuario[i + 1].DataHoraRegistro.ToString("HH:mm"));
                         horarioRealizado += horarioFim.Subtract(horarioInicio);
                     }
-
+                    
                     horarioExtra = horarioRealizado.Subtract(horarioJornadaDiaria);
 
-                    if (horarioExtra <= horarioTolerancia)
-                    {
+                    if (horarioExtra <= horarioTolerancia) {
                         horarioExtra = TimeSpan.Zero;
+                    } else {
+                        horarioExtra = (horarioRealizado > horarioDia ? horarioRealizado.Subtract(horarioJornadaDiaria) : TimeSpan.Zero);                        
                     }
 
-                    horarioExtra = (horarioRealizado > horarioDia ? horarioRealizado.Subtract(horarioJornadaDiaria) : TimeSpan.Zero);
                     pontosData[index].HorasExtras = horarioExtra;
                 }
             }

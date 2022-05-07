@@ -16,14 +16,14 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './orcamento-lista.component.html',
   styles: [`
         .list-grid-orcamentos {
-            grid-template-columns: 48px 72px 48px 80px 118px 118px auto 72px 138px 120px 248px 70px 120px;
+            grid-template-columns: 48px 72px 48px 80px 118px 118px auto 72px 48px 120px 248px 70px 120px;
             
             @screen md {
-              grid-template-columns: 48px 72px 48px 80px 118px 72px auto 148px 138px 120px;
+              grid-template-columns: 48px 72px 48px 80px 118px 72px auto 148px 48px 120px;
             }
 
             @screen lg {
-              grid-template-columns: 48px 72px 48px 80px 118px 118px auto 72px 138px 120px 248px 70px 120px;
+              grid-template-columns: 48px 72px 48px 80px 118px 118px auto 72px 48px 120px 148px 70px 120px;
           }
         }
     `],

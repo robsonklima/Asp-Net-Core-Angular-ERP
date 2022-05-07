@@ -23,30 +23,27 @@ import moment from 'moment';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrcamentoImpressaoComponent implements OnInit
-{
+export class OrcamentoImpressaoComponent implements OnInit {
   codOrcamento: number;
   orcamento: Orcamento;
   os: OrdemServico;
   filial: Filial;
   loading: boolean;
 
-  constructor (
+  constructor(
     private _orcService: OrcamentoService,
     private _osService: OrdemServicoService,
     private _filialService: FilialService,
     private _route: ActivatedRoute,
   ) { }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.loading = true;
     this.codOrcamento = +this._route.snapshot.paramMap.get('codOrc');
 
     await this._orcService.obterPorCodigo(this.codOrcamento)
       .subscribe(
-        async (successData) =>
-        {
+        async (successData) => {
           this.orcamento = successData;
           this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
           this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
@@ -56,8 +53,7 @@ export class OrcamentoImpressaoComponent implements OnInit
       );
   }
 
-  print()
-  {
+  print() {
     var contentToPrint = document.getElementById("print-area").innerHTML;
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
@@ -67,8 +63,7 @@ export class OrcamentoImpressaoComponent implements OnInit
     windowPopup.document.close();
   }
 
-  obterData()
-  {
+  obterData() {
     return moment().format('DD/MM/yy');
   }
 }

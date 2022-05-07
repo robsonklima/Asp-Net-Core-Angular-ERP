@@ -1,4 +1,4 @@
-        <button class="add-button" (click)="print()" [disabled]="loading">
+        <button class="print-button" (click)="print()" [disabled]="loading">
             <mat-icon [svgIcon]="'heroicons_outline:printer'" class="text-white"></mat-icon>
         </button>
         <div class="flex-auto h-full text-center" *transloco="let t">
@@ -14,17 +14,20 @@
                             <div class="text-xl font-semibold leading-5 mb-1">
                                 {{ 'ORÇAMENTO DE SERVIÇOS EXTRAS' | uppercase }}
                             </div>
+
                             <div class="text-base font-semibold leading-5">
                                 {{ filial?.nomeFilial + ' - ' + filial?.endereco | uppercase }}
                             </div>
+
                             <div class="text-base font-semibold leading-5 mb-1">
                                 {{ filial?.fone | fone }}
                             </div>
+
                             <div class="text-lg font-semibold leading-5">
                                 {{ orcamento?.numero + " - " + obterData() | uppercase }}
                             </div>
-
                         </div>
+
                         <div
                             class="grid col-span-6 auto-cols-max grid-flow-col gap-x-8 -mr-16 py-6 px-8 rounded-l-2xl bg-accent dark">
                             <div class="place-self-center w-24">

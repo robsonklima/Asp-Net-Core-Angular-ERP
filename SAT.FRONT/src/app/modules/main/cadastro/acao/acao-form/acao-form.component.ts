@@ -31,7 +31,7 @@ export class AcaoFormComponent implements OnInit, OnDestroy {
     private _acaoService: AcaoService,
     private _snack: CustomSnackbarService,
     private _location: Location,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -98,8 +98,8 @@ export class AcaoFormComponent implements OnInit, OnDestroy {
       this._snack.exibirToast("Registro criado com sucesso!", "success");
       this._location.back();
     })
-
   }
+
   ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();

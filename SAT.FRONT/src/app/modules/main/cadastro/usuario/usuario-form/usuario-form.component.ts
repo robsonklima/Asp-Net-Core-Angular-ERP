@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CargoService } from 'app/core/services/cargo.service';
@@ -48,6 +48,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   userSession: UsuarioSessao;
   senhaNaoConfere: boolean;
+  formErrors: string[] = [];
   protected _onDestroy = new Subject<void>();
 
   public codUsuarioExiste: boolean = false;
@@ -105,15 +106,16 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codUsuario;
     this.buscandoCEP = false;
     this.inicializarForm();
+    this.registrarEmitters();
 
     this.paises = await this._paisService.obterPaises();
     this.cargos = await this._cargoService.obterCargos();
     this.perfis = await this._perfilService.obterPerfis();
     this.filiais = (await this._filialService.obterPorParametros({
-        sortActive: 'nomeFilial',
-        sortDirection: 'asc',
-        indAtivo: 1,
-        pageSize: 1000,
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      indAtivo: 1,
+      pageSize: 1000,
     }).toPromise()).items;
     this.tecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1, naoVinculados: 1 }).toPromise()).items;
     this.transportadoras = (await ((this._transportadoraService.obterPorParametros({ indAtivo: 1 })).toPromise())).items;
@@ -121,8 +123,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.obterClientes();
 
     this.form.controls['indAtivo'].setValue(true);
-    // Forçar o chrome a limpar os campos que coloca quando tem preenchimento automático
-    //this.form.controls['codUsuario'].setValue('');
     this.form.controls['senha'].setValue(null);
 
     if (!this.isAddMode) {
@@ -218,7 +218,9 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       codTurno: [undefined],
       codFilialPonto: [undefined]
     });
+  }
 
+  private registrarEmitters() {
     this.form.controls['nomeUsuario'].valueChanges.pipe(
       filter(text => !!text),
       tap(() => { }),

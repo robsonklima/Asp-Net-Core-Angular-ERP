@@ -83,7 +83,6 @@
                     <!-- INFORMAÇÕES PESSOAIS -->
 
                     <!-- INFORMAÇÕES DE ENDEREÇO -->
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>
                             CEP
@@ -98,7 +97,7 @@
                         <mat-label>
                             {{ t('endereco numero') }}
                         </mat-label>
-                        <input [formControlName]="'endereco'" maxlength="60" matInput>
+                        <input [formControlName]="'endereco'" maxlength="250" matInput>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
@@ -152,13 +151,11 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-
                     <!-- INFORMAÇÕES DE ENDEREÇO -->
 
                 </div>
 
                 <!-- INFORMAÇÕES DE CONTATO -->
-
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Contato</p>
                 </div>
@@ -290,7 +287,7 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Relacionar ao técnico</mat-label>
                         <mat-select class="min-h-10" formControlName="codTecnico"
                             [disabled]="!tecnicos.length || form.disabled">
@@ -301,7 +298,7 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label> Relacionar ao cliente</mat-label>
                         <mat-select formControlName="codCliente" multiple="false">
                             <mat-option>
@@ -316,7 +313,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8" *ngIf="contratos.length > 0">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="contratos.length > 0">
                         <mat-label>Contratos (visualizar apenas chamados do contrato)</mat-label>
                         <mat-select formControlName="codContrato" multiple="true">
                             <mat-option>
@@ -331,7 +328,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Acesso à peças</mat-label>
                         <mat-select class="min-h-10" formControlName="codPeca">
                             <mat-option [value]="1"> Peças Filial </mat-option>
@@ -340,7 +337,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Transportadora</mat-label>
                         <mat-select formControlName="codTransportadora" multiple="false">
                             <mat-option>
@@ -352,13 +349,11 @@
                     </mat-form-field>
 
                 </div>
-
                 <!-- INFORMAÇÕES DE VINCULOS -->
 
                 <!-- INFORMAÇÕES GERAIS -->
-
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">Informações gerais</p>
+                    <p class="text-lg font-medium">Informações Gerais</p>
                 </div>
 
                 <div
@@ -382,48 +377,50 @@
                             Registrar Apenas Equip. POS
                         </mat-checkbox>
                     </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b" *ngIf="isAddMode">
+                    <p class="text-lg font-medium">Senha</p>
+                </div>
+
+                <div
+                    *ngIf="isAddMode"
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <!-- Nova Senha -->
-                    <div *ngIf="isAddMode">
-                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                            <mat-label>{{ t('nova senha') }}</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                            <input [formControlName]="'senha'" type="password" autocomplete='off' autocorrect='off'
-                                autocapitalize='none' spellcheck='false' matInput>
-                        </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nova senha') }}</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                        <input [formControlName]="'senha'" type="password" autocomplete='off' autocorrect='off'
+                            autocapitalize='none' spellcheck='false' matInput>
+                    </mat-form-field>
 
-                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                            <mat-label>Confirmar senha</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
-                            <input [formControlName]="'confirmarSenha'" type="password" autocomplete='off'
-                                autocorrect='off' autocapitalize='none' spellcheck='false' matInput>
-                        </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>Confirmar senha</mat-label>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                        <input [formControlName]="'confirmarSenha'" type="password" autocomplete='off'
+                            autocorrect='off' autocapitalize='none' spellcheck='false' matInput>
+                    </mat-form-field>
 
 
-                        <div class="sm:col-span-12">
-                            <span class="mt-1 text-md text-red-500" *ngIf="senhaNaoConfere">
-                                A confirmação de senha não confere
-                            </span>
+                    <div class="sm:col-span-12">
+                        <span class="mt-1 text-md text-red-500" *ngIf="senhaNaoConfere">
+                            A confirmação de senha não confere
+                        </span>
 
-                            <div class="mt-1 text-md text-hint">
-                                {{ t('orientacoes senha') }}
-                            </div>
+                        <div class="mt-1 text-md text-hint">
+                            {{ t('orientacoes senha') }}
                         </div>
                     </div>
                     <!-- Nova Senha -->
-
                 </div>
 
                 <!-- INFORMAÇÕES GERAIS -->
-
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-
                     <button class="px-6" mat-button [color]="'warn'" *ngIf="usuarioBloqueado" (click)="desbloquear()">
-                        <span>
-                            Desbloquear
-                        </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
+                        Desbloquear
+                        <mat-progress-spinner 
+                            *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                     </button>
 
                     <button [routerLink]="['/usuario']" mat-button>
@@ -435,8 +432,8 @@
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
+                        <mat-progress-spinner 
+                            *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                     </button>
                 </div>
             </form>

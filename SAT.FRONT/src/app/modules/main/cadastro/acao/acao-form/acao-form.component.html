@@ -42,21 +42,21 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <mat-label>{{ t('nome') }}</mat-label>
+                        <mat-label>
+                            {{ t('nome') }}
+                            <span class="text-red-600" 
+                                *ngIf="form.controls['nomeAcao'].invalid && form.controls['nomeAcao'].errors.required">*</span>
+                        </mat-label>
                         <input matInput formControlName="nomeAcao">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                        <mat-label>{{ t('abreviacao') }}</mat-label>
+                        <mat-label>
+                            {{ t('abreviacao') }}
+                            <span class="text-red-600" 
+                                *ngIf="form.controls['codEAcao'].invalid && form.controls['codEAcao'].errors.required">*</span>
+                        </mat-label>
                         <input matInput formControlName="codEAcao" maxlength="3" mask="000">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:bookmark'"></mat-icon>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">

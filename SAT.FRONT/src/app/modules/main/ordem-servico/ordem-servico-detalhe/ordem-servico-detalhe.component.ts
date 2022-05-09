@@ -237,17 +237,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	}
 
 	public verificarPermissaoReabertura(): boolean {
-		if (this.os?.codStatusServico === StatusServicoEnum.FECHADO)
+		if (this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
-		if (this.os?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
-			return true;
-		
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.PV_COORDENADOR_DE_CONTRATO)
 			return true;
-		
+			
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN)
 			return true;
+			
+		if (this.os?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
+			return true;	
 
 		return false;
 	}

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SAT_REPORT">
-  <ConnectionProperties>
-    <Extension>SQL</Extension>
-    <ConnectString>Data Source=10.2.2.3,53953\DWSAT</ConnectString>
-  </ConnectionProperties>
-  <DataSourceID>f56732ac-18a1-4abf-96d4-6b462e3e668b</DataSourceID>
-</RptDataSource>

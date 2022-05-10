@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SAT">
-  <ConnectionProperties>
-    <Extension>SQL</Extension>
-    <ConnectString>Data Source=satdbprod.perto.com.br;Initial Catalog=SAT;MultipleActiveResultSets=True;Replication=False;Connect Timeout=360;Context Connection=False</ConnectString>
-  </ConnectionProperties>
-  <DataSourceID>d5f42f91-d432-4c62-8753-7660e5313474</DataSourceID>
-</RptDataSource>

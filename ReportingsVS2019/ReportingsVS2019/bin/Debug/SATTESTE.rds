@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SATTESTE">
-  <ConnectionProperties>
-    <Extension>SQL</Extension>
-    <ConnectString>Data Source=10.2.2.23;Initial Catalog=SAT;MultipleActiveResultSets=True;Replication=False;Context Connection=False</ConnectString>
-  </ConnectionProperties>
-  <DataSourceID>1a476a5c-5395-4cf8-9c49-225100f543d9</DataSourceID>
-</RptDataSource>

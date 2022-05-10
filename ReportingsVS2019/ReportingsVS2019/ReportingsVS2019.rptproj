@@ -843,6 +843,7 @@
     <Report Include="Relatório de SLA - SafePark.rdl" />
     <Report Include="Relatório de SLA - Sicoob.rdl" />
     <Report Include="Relatório de SLA - SICREDI - Ivan.rdl" />
+    <Report Include="Relatório de SLA - Sicredi POS.rdl" />
     <Report Include="Relatório de SLA - Sicredi.rdl" />
     <Report Include="Relatório de SLA - STV.rdl" />
     <Report Include="Relatório de SLA - TTE - TCC - TDS.rdl" />

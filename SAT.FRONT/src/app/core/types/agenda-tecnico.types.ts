@@ -66,7 +66,10 @@ export enum AgendaTecnicoTipoEnum
     OS = 1,
     INTERVALO = 2,
     PONTO = 3,
-    FIM_EXPEDIENTE = 4
+    FIM_EXPEDIENTE = 4,
+    CHECKIN = 5,
+    CHECKOUT = 6,
+    INTENCAO = 7
 }
 
 export enum AgendaTecnicoOrdenationEnum

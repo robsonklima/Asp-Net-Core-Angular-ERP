@@ -6,7 +6,7 @@
     </div>
 </div>
 <div mat-dialog-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" *ngIf="relatorios.length">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
         <ng-container matColumnDef="dataHoraInicio">
             <th mat-header-cell *matHeaderCellDef>Início</th>
             <td mat-cell *matCellDef="let row"> {{ row.dataHoraInicio | date:'HH:mm' }} </td>
@@ -29,37 +29,22 @@
             <td mat-cell *matCellDef="let row"> {{ row.numRAT }} </td>
         </ng-container>
     
-        <ng-container matColumnDef="local">
-            <th mat-header-cell *matHeaderCellDef>Local</th>
-            <td mat-cell *matCellDef="let row"> {{ row.local }} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="cidade">
-            <th mat-header-cell *matHeaderCellDef>Cidade</th>
-            <td mat-cell *matCellDef="let row"> {{ row.cidade }} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="uf">
-            <th mat-header-cell *matHeaderCellDef>UF</th>
-            <td mat-cell *matCellDef="let row"> {{ row.uf }} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="inicioIntervalo">
+        <ng-container matColumnDef="horarioInicioIntervalo">
             <th mat-header-cell *matHeaderCellDef>Início Interv.</th>
-            <td mat-cell *matCellDef="let row"> {{ row.inicioIntervalo || '--' }} </td>
+            <td mat-cell *matCellDef="let row"> {{ row.horarioInicioIntervalo || '--' }} </td>
         </ng-container>
     
-        <ng-container matColumnDef="fimIntervalo">
+        <ng-container matColumnDef="horarioTerminoIntervalo">
             <th mat-header-cell *matHeaderCellDef>Fim Interv.</th>
-            <td mat-cell *matCellDef="let row"> {{ row.fimIntervalo || '--' }} </td>
-        </ng-container>
+            <td mat-cell *matCellDef="let row"> {{ row.horarioTerminoIntervalo || '--' }} </td>
+        </ng-container>-->
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> 
     </table>
 
     <div *transloco="let t" class='flex items-center justify-center'>
-        <div class="p-4" *ngIf="!relatorios.length">
+        <div class="p-4" *ngIf="!dataSource.length">
             <p *ngIf="!loading">{{ t('nenhum registro encontrado') }}</p>
         </div>
 

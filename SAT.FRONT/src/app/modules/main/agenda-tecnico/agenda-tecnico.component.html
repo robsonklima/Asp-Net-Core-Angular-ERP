@@ -87,22 +87,12 @@
         <div class="mbsc-ios mbsc-schedule-event-background mbsc-timeline-event-background overflow-hidden" [ngStyle]="{
                         borderColor: data.color, background: 
                         data.title == 'PONTO' || 
-                        data.title == 'FIM EXPEDIENTE' || 
-                        data.title == 'CHECKIN' || 
-                        data.title == 'CHECKOUT' ? 'transparent' : data.color
+                        data.title == 'FIM EXPEDIENTE' ? 'transparent' : data.color
                     }">
 
             <span class="mbsc-icon mbsc-font-icon mbsc-icon-clock"
                 [ngStyle]="{color: data.title == 'FIM EXPEDIENTE' ? '#D32F2F' : '#388E3C', background: 'transparent'}"
                 *ngIf="data.title == 'PONTO' || data.title == 'FIM EXPEDIENTE'"></span>
-
-            <span class="mbsc-icon mbsc-font-icon mbsc-icon-user4"
-                [ngStyle]="{color: data.title == 'CHECKIN' ? '#0288D1' : '#388E3C', background: 'transparent'}"
-                *ngIf="data.title == 'CHECKIN'"></span>
-
-            <span class="mbsc-icon mbsc-font-icon mbsc-icon-checkmark"
-                [ngStyle]="{color: data.title == 'CHECKOUT' ? '#0288D1' : '#388E3C', background: 'transparent'}"
-                *ngIf="data.title == 'CHECKOUT'"></span>
 
             <div class="mbsc-custom-event-title text-black" [ngStyle]="{ color: data.title == 'INTERVALO' ? '#212121' : 'white'}">
                 {{ data.title }}

@@ -45,11 +45,10 @@
 
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                    <!-- INFORMAÇÕES PESSOAIS -->
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                        <mat-label>{{ t('nome') }}</mat-label>
+                        <mat-label>
+                            {{ t('nome') }}
+                        </mat-label>
                         <input matInput formControlName="nomeUsuario">
                         <mat-error>
                             {{ t('preencher campo') }}
@@ -80,9 +79,6 @@
                         <input [formControlName]="'cpf'" maxlength="14" mask="000.000.000-00" matInput>
                     </mat-form-field>
 
-                    <!-- INFORMAÇÕES PESSOAIS -->
-
-                    <!-- INFORMAÇÕES DE ENDEREÇO -->
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>
                             CEP
@@ -151,15 +147,11 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-                    <!-- INFORMAÇÕES DE ENDEREÇO -->
-
                 </div>
 
-                <!-- INFORMAÇÕES DE CONTATO -->
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Contato</p>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
@@ -183,14 +175,9 @@
                     </mat-form-field>
                 </div>
 
-                <!-- INFORMAÇÕES DE CONTATO -->
-
-                <!-- INFORMAÇÕES CORPORATIVAS -->
-
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Corporativo</p>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
@@ -276,14 +263,9 @@
 
                 </div>
 
-                <!-- INFORMAÇÕES DE CORPORATIVAS -->
-
-                <!-- INFORMAÇÕES VINCULOS -->
-
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Vinculos</p>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
@@ -349,13 +331,10 @@
                     </mat-form-field>
 
                 </div>
-                <!-- INFORMAÇÕES DE VINCULOS -->
-
-                <!-- INFORMAÇÕES GERAIS -->
+                
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Informações Gerais</p>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
@@ -386,8 +365,6 @@
                 <div
                     *ngIf="isAddMode"
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                    <!-- Nova Senha -->
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nova senha') }}</mat-label>
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
@@ -412,10 +389,8 @@
                             {{ t('orientacoes senha') }}
                         </div>
                     </div>
-                    <!-- Nova Senha -->
                 </div>
 
-                <!-- INFORMAÇÕES GERAIS -->
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button class="px-6" mat-button [color]="'warn'" *ngIf="usuarioBloqueado" (click)="desbloquear()">
                         Desbloquear

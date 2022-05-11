@@ -42,6 +42,10 @@
                                         </th>
                                         <th scope="col"
                                             class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            OS Med/Tec
+                                        </th>                                        
+                                        <th scope="col"
+                                            class="px-6 text-md font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Pend
                                         </th>
                                         <th scope="col"
@@ -75,6 +79,10 @@
                                         </td>
                                         <td
                                             class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
+                                            {{ data.osMedTec }}%
+                                        </td>                                        
+                                        <td
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ data.pendencia }}%
                                         </td>
                                         <td
@@ -95,8 +103,12 @@
                                         </td>
                                         <td
                                             class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
+                                            {{ indicadoresFiliaisTotal.osMedTec }}%
+                                        </td>                                        
+                                        <td
+                                            class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.pendencia }}%
-                                        </td>
+                                        </td>                                        
                                         <td
                                             class="px-6 text-xl whitespace-nowrap dark:text-gray-400">
                                             {{ indicadoresFiliaisTotal.reincidencia }}%

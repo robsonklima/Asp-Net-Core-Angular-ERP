@@ -126,31 +126,9 @@
               </ng-template>
             </mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('BBTS Multa Regiões')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Multa Regiões</span>
-              </ng-template>
-
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Valores Multa - Regiões
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto">
-                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="true"></app-disponibilidade-bbts-regioes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
-
             <mat-tab *ngIf="verificarPermissaoSlide('BBTS Multa Disponibilidade')">
               <ng-template mat-tab-label>
-                <span class="text-teal-600">Multa Disponibilidade</span>
+                <span class="text-teal-600">BBTS Multa Disponibilidade</span>
               </ng-template>
 
               <ng-template matTabContent>
@@ -159,33 +137,11 @@
                     class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                       <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Multa Disponibilidade
+                        BBTS Multa Disponibilidade
                       </div>
                     </div>
                     <div class="flex flex-col flex-auto">
                       <app-disponibilidade-bbts-multa></app-disponibilidade-bbts-multa>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
-            
-            <mat-tab *ngIf="verificarPermissaoSlide('Média Global')">
-              <ng-template mat-tab-label>
-                <span class="text-pink-600">Média Global</span>
-              </ng-template>
-
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Média Global de Atendimentos Técnicos por Dia <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-media-global-atendimento-tecnico></app-media-global-atendimento-tecnico>
                     </div>
                   </div>
                 </div>

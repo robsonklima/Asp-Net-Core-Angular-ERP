@@ -7,9 +7,9 @@
             <th>Técnicos inativos</th>
             <th>Total</th>
             <th>OS não transferidas (corretivas)</th>
-            <th>Média atendimento por dia (todas intervenções)</th>
-            <th>Média atendimento por dia (corretivas)</th>
-            <th>Média atendimento por dia (preventivas)</th>
+            <th>OS não transferidas (preventivas)</th>
+            <th>OS não transferidas (orç. aprovado) </th>
+            <th>OS não transferidas (recall/up grade)</th>
         </tr>
     </thead>
     <tbody>
@@ -20,9 +20,9 @@
             <td>{{data.tecnicosInativos}}</td>
             <td>{{data.tecnicosTotal}}</td>
             <td>{{data.qtdOSNaoTransferidasCorretivas}}</td>
-            <td>{{data.mediaAtendimentoTecnicoDiaTodasIntervencoes | number:'1.1-1'}}</td>
-            <td>{{data.mediaAtendimentoTecnicoDiaCorretivas| number:'1.1-1'}}</td>
-            <td>{{data.mediaAtendimentoTecnicoDiaPreventivas| number:'1.1-1'}}</td>
+            <td>{{data.qtdOSNaoTransferidasPreventivas}}</td>
+            <td>{{data.qtdOSNaoTransferidasOrcamentoAprovado}}</td>
+            <td>{{data.qtdOSNaoTransferidasOrcamentoRecallUpGrade}}</td>
         </tr>
     </tbody>
     <tfoot>
@@ -33,9 +33,9 @@
             <td>{{totalInativos}}</td>
             <td>{{totalTecnicos}}</td>
             <td>{{totalOsNaoTransf}}</td>
-            <td>{{totalMediaAtendimento| number:'1.1-1'}}</td>
-            <td>{{totalMediaAtendimentoCorretivo| number:'1.1-1'}}</td>
-            <td>{{totalMediaAtendimentoPreventivo| number:'1.1-1'}}</td>
+            <td>{{totalOsNaoTransfPreventivas}}</td>
+            <td>{{totalOsNaoTransfOrcamentoAprovado}}</td>
+            <td>{{totalOsNaoTransfRecallUpGrade}}</td>
         </tr>
     </tfoot>
 </table>

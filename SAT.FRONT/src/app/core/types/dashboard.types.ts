@@ -102,6 +102,7 @@ export class ViewDashboardIndicadoresFiliais {
 	pendencia: number;
 	reincidencia: number;
 	spa: number;
+	osMedTec: number;
 }
 
 export class ViewDashboardChamadosMaisAntigosCorretivas {
@@ -156,9 +157,9 @@ export class ViewDashboardDisponibilidadeTecnicos {
 	tecnicosInativos?: number;
 	tecnicosTotal?: number;
 	qtdOSNaoTransferidasCorretivas?: number;
-	mediaAtendimentoTecnicoDiaTodasIntervencoes?: number;
-	mediaAtendimentoTecnicoDiaCorretivas?: number;
-	mediaAtendimentoTecnicoDiaPreventivas?: number;
+	qtdOSNaoTransferidasPreventivas?: number;
+	qtdOSNaoTransferidasOrcamentoAprovado?: number;
+	qtdOSNaoTransferidasOrcamentoRecallUpGrade?: number;
 }
 
 export class ViewDashboardDisponibilidadeTecnicosMediaGlobal {

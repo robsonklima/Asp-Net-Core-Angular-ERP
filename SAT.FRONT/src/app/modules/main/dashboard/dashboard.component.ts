@@ -107,9 +107,7 @@ export class DashboardComponent implements AfterViewInit {
           'Equipamentos Reincidentes',
           'Pendência Filiais',
           'Pendência Técnicos',
-          'Peças Faltantes Filiais',
           'Peças Mais Faltantes',
-          'Top Peças Faltantes',
           'Densidade',
         ];
 

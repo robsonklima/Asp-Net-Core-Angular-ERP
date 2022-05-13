@@ -55,7 +55,15 @@
                     
                     <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="dataHoraLimiteAtendimento">
                        Fim SLA: {{ dataHoraLimiteAtendimento | date:'dd/MM/yyyy HH:mm'}}
-                    </div>   
+                    </div>
+
+                    <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="checkin">
+                        Checkin: {{ checkin | date:'HH:mm' }}
+                    </div>  
+
+                    <div class="md-tooltip-status md-tooltip-text font-bold" *ngIf="checkout">
+                        Checkout: {{ checkout | date:'HH:mm' }}
+                    </div>                      
                 </div>
             </div>
         </div>

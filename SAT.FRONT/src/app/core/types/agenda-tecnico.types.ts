@@ -122,6 +122,8 @@ export interface ViewAgendaTecnicoEvento {
     indAtivo: number;
     cliente: string;
     equipamento: string;
+    checkin: string;
+    checkout: string;
 }
 
 export interface ViewAgendaTecnicoRecurso {

@@ -20,6 +20,8 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import _ from 'lodash';
 import { takeUntil } from 'rxjs/operators';
+import { CheckinCheckoutService } from 'app/core/services/checkin-checout.service';
+import { CheckinCheckout, CheckinCheckoutTipo } from 'app/core/types/checkin-checkout.types';
 registerLocaleData(localePt, 'pt');
 
 setOptions({
@@ -60,6 +62,9 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   cliente = '';
   equipamento = '';
   dataHoraLimiteAtendimento = '';
+  checkin = '';
+  checkout = '';
+  checkinCheckout: CheckinCheckout[] = [];
   selectResource: any;
   anchor: HTMLElement | undefined;
   timer: any;
@@ -80,6 +85,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     private _validator: AgendaTecnicoValidator,
     private _snack: CustomSnackbarService,
     private _ordemServicoSvc: OrdemServicoService,
+    private _checkinCheckoutSvc: CheckinCheckoutService,
   )
   {
     super(_userSvc, 'agenda-tecnico');
@@ -367,8 +373,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     }
   }
 
-  private mostrarInformacoesEvento(args, inst)
+  private async mostrarInformacoesEvento(args, inst)
   {
+    this.checkin = null;
+    this.checkout = null;
+
     const event: any = args.event;
     const agenda: ViewAgendaTecnicoEvento = event.agendaTecnico;
     this.info = `${agenda.titulo} ${agenda.codOS || ''}`;
@@ -386,6 +395,11 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.timer = null;
     this.selectResource = null;
     this.anchor = args.domEvent.target;
+    const checkinCheckout = await this._checkinCheckoutSvc
+      .obterPorParametros({codOS: agenda.codOS, codUsuarioTecnico: agenda.codUsuario}).toPromise();    
+    this.checkin = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKIN).shift()?.dataHoraCadSmartphone;
+    this.checkout = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKOUT).shift()?.dataHoraCadSmartphone;
+
     this.tooltip.open();
   }
 

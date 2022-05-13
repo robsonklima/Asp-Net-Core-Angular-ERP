@@ -179,6 +179,7 @@ namespace SAT.API
             services.AddTransient<IExportacaoService, ExportacaoService>();
             services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
             services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
+            services.AddTransient<ICheckinCheckoutRepository, CheckinCheckoutRepository>();
             
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -293,6 +294,7 @@ namespace SAT.API
             services.AddTransient<IEquipamentoModuloService, EquipamentoModuloService>();
             services.AddTransient<IClientePecaService, ClientePecaService>();
             services.AddTransient<IClientePecaGenericaService, ClientePecaGenericaService>();
+            services.AddTransient<ICheckinCheckoutService, CheckinCheckoutService>();            
             services.AddTransient<ISmsService, SmsService>();
 
             // Utils Services

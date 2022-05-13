@@ -61,6 +61,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   searching: boolean;
   loading: boolean = true;
 
+  public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
+	{
+		return TipoIntervencaoEnum;
+	}
+
   public get perfilEnum(): typeof RoleEnum
 	{
 		return RoleEnum;
@@ -632,6 +637,28 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
     return retorno;
   }
+
+  public verificarPermissaoReabertura(): boolean {
+		if (
+            this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
+            &&
+            ( 
+              this.sessionData.usuario.perfil?.codPerfil === this.perfilEnum.PV_COORDENADOR_DE_CONTRATO
+              ||
+              this.sessionData.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN
+            )
+       )
+			return true;
+
+    if (
+        this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
+        &&
+        this.ordemServico?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO
+      )
+      return true;  
+
+		return false;
+	}
 
   ngOnDestroy() {
     this._onDestroy.next();

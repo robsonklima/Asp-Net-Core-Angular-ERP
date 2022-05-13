@@ -245,7 +245,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN)
 			return true;
-			
+
 		if (this.os?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
 			return true;	
 

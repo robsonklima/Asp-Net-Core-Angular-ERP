@@ -407,12 +407,11 @@
                         </span>
                         <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
                         </mat-progress-spinner>
-                    </button>
+                    </button>                
 
                     <button
                         class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="reabrir()"
-                        *ngIf="relatorioAtendimento?.codStatusServico === 3 && ordemServico.codStatusServico !== 3 &&
-                        (sessionData.usuario.perfil?.codPerfil === perfilEnum.ADMIN || sessionData.usuario.perfil?.codPerfil === perfilEnum.PV_COORDENADOR_DE_CONTRATO)">
+                        *ngIf="verificarPermissaoReabertura()">
                         {{ t('reabrir') }}
                     </button>
                 </div>

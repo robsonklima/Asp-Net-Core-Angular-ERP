@@ -395,10 +395,13 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
     this.timer = null;
     this.selectResource = null;
     this.anchor = args.domEvent.target;
-    const checkinCheckout = await this._checkinCheckoutSvc
-      .obterPorParametros({codOS: agenda.codOS, codUsuarioTecnico: agenda.codUsuario}).toPromise();    
-    this.checkin = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKIN).shift()?.dataHoraCadSmartphone;
-    this.checkout = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKOUT).shift()?.dataHoraCadSmartphone;
+
+    if (agenda.tipo == AgendaTecnicoTipoEnum.OS) {
+      const checkinCheckout = await this._checkinCheckoutSvc
+        .obterPorParametros({codOS: agenda.codOS, codUsuarioTecnico: agenda.codUsuario}).toPromise();    
+      this.checkin = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKIN).shift()?.dataHoraCadSmartphone;
+      this.checkout = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKOUT).shift()?.dataHoraCadSmartphone;
+    }
 
     this.tooltip.open();
   }

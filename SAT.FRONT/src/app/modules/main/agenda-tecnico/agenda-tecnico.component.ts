@@ -78,7 +78,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
   protected _onDestroy = new Subject<void>();
 
   constructor(
-    private _notify: Notifications,
     private _agendaTecnicoSvc: AgendaTecnicoService,
     protected _userSvc: UserService,
     public _dialog: MatDialog,
@@ -121,8 +120,8 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
           size: 1,
           allDay: true,
           rowHeight: 'equal',
-          startTime: '07:00',
-          endTime: '20:00',
+          startTime: '05:00',
+          endTime: '22:00',
         },
       },
       dragToMove: true,

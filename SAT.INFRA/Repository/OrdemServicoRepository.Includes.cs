@@ -305,6 +305,8 @@ namespace SAT.INFRA.Repository
 								.ThenInclude(os => os.AcordoNivelServico)
 							.Include(os => os.EquipamentoContrato)
                             	.ThenInclude(os => os.Contrato)
+							.Include(os => os.EquipamentoContrato)
+                            	.ThenInclude(os => os.Cliente)
 							.Include(os => os.Regiao)
 							.Include(os => os.RelatoriosAtendimento)
                             	.ThenInclude(os => os.Tecnico)

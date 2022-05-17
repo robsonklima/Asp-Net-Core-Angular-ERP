@@ -52,7 +52,7 @@ namespace SAT.SERVICES.Services
 
             for (int i = 0; i < agendas.Count(); i++)
             {
-                agendas[i].Cor = agendas[i].Tipo == AgendaTecnicoTipoEnum.OS ? agendas[i].Cor : ObterCor(agendas[i]);
+                agendas[i].Cor = ObterCor(agendas[i]);
                 agendas[i].Titulo = ObterTitulo(agendas[i]);
                 agendas[i].Editavel = ObterPermissaoEdicao(agendas[i]);
             }
@@ -182,40 +182,10 @@ namespace SAT.SERVICES.Services
             if (agenda.Tipo == AgendaTecnicoTipoEnum.FIM_EXPEDIENTE)
                 return Constants.COR_PRETO;
 
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.FECHADO)
-                return Constants.COR_AZUL;
-
-            if (agenda.Fim < DateTime.Now && 
-                agenda.CodStatusServico != (int)StatusServicoEnum.FECHADO && 
-                agenda.CodStatusServico != (int)StatusServicoEnum.PECAS_PENDENTES &&
-                agenda.CodStatusServico != (int)StatusServicoEnum.PECAS_LIBERADAS &&
-                agenda.CodStatusServico != (int)StatusServicoEnum.PECA_EM_TRANSITO &&
-                agenda.CodStatusServico != (int)StatusServicoEnum.PECA_SEPARADA &&
-                agenda.Tipo == AgendaTecnicoTipoEnum.OS)
-                return Constants.COR_VERMELHO;
-            
-            if (agenda.DataAgendamento != null)
-                return Constants.COR_ROXO;
-
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.PECA_FALTANTE)
-                return Constants.COR_ROSA;
-
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.PECAS_PENDENTES)
-                return Constants.COR_ROSA;
-
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.PECA_EM_TRANSITO)
-                return Constants.COR_ROSA;
-
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.PECAS_LIBERADAS)
-                return Constants.COR_TERRA;
-
             if (agenda.Tipo == AgendaTecnicoTipoEnum.INTERVALO)
                 return Constants.COR_CINZA;
-            
-            if (agenda.CodStatusServico == (int)StatusServicoEnum.PARCIAL)
-                return Constants.COR_VERDE_CLARO;
 
-            return Constants.COR_VERDE_ESCURO;
+            return agenda.Cor;
         }
 
         private string ObterTitulo(ViewAgendaTecnicoEvento agenda) {

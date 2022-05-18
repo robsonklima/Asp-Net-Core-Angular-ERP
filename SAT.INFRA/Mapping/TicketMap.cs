@@ -8,7 +8,7 @@ namespace SAT.INFRA.Mapping {
         public void Configure(EntityTypeBuilder<Ticket> builder)
         {
             builder.ToTable("Ticket");
-            builder.HasIndex(t => t.CodTicket);
+            builder.HasKey(i => new { i.CodTicket });
         }
     }
 }

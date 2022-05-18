@@ -1,10 +1,8 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities {
     public class Ticket
     {
-        [Key]
         public int CodTicket { get; set; }
         public string CodUsuario { get; set; }
         public int CodModulo { get; set; }

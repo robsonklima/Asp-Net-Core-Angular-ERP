@@ -208,6 +208,7 @@ namespace SAT.INFRA.Context
 		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -336,6 +337,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewAgendaTecnicoEvento>(new ViewAgendaTecnicoEventoMap().Configure);
             modelBuilder.Entity<ViewTecnicoTempoAtendimento>(new ViewTecnicoTempoAtendimentoMap().Configure);
             modelBuilder.Entity<Chamado>(new ChamadoMap().Configure);
+            modelBuilder.Entity<Ticket>(new TicketMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

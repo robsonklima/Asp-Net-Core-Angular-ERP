@@ -639,23 +639,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   public verificarPermissaoReabertura(): boolean {
+    debugger
+
 		if (
             this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
-            &&
-            ( 
-              this.sessionData.usuario.perfil?.codPerfil === this.perfilEnum.PV_COORDENADOR_DE_CONTRATO
-              ||
-              this.sessionData.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN
-            )
        )
 			return true;
-
-    if (
-        this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
-        &&
-        this.ordemServico?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO
-      )
-      return true;  
 
 		return false;
 	}

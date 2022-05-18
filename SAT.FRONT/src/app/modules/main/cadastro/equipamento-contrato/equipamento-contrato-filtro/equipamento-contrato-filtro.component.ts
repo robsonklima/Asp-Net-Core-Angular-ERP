@@ -44,7 +44,6 @@ v
   }
 
   loadData(): void {
-    debugger
     this.obterClientes();
     this.obterContratos();
 

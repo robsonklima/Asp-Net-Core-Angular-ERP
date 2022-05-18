@@ -188,6 +188,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ViewDashboardIndicadoresDetalhadosReincidenciaRegiao { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
+        public DbSet<ViewExportacaoChamadosUnificado> ViewExportacaoChamadosUnificado { get; set; }
         public DbSet<FormaPagamento> FormaPagamento { get; set; }
         public DbSet<Moeda> Moeda { get; set; }
         public DbSet<PecaLista> PecaLista { get; set; }
@@ -207,6 +208,7 @@ namespace SAT.INFRA.Context
 		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -306,6 +308,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao>(new ViewDashboardIndicadoresDetalhadosReincidenciaRegiaoMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPerformance>(new ViewDashboardIndicadoresDetalhadosPerformanceMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosChamadosAntigos>(new ViewDashboardIndicadoresDetalhadosChamadosAntigosMap().Configure);
+            modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);
@@ -334,6 +337,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewAgendaTecnicoEvento>(new ViewAgendaTecnicoEventoMap().Configure);
             modelBuilder.Entity<ViewTecnicoTempoAtendimento>(new ViewTecnicoTempoAtendimentoMap().Configure);
             modelBuilder.Entity<Chamado>(new ChamadoMap().Configure);
+            modelBuilder.Entity<Ticket>(new TicketMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -180,6 +180,7 @@ namespace SAT.API
             services.AddTransient<IImportacaoTipoRepository, ImportacaoTipoRepository>();
             services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
             services.AddTransient<ICheckinCheckoutRepository, CheckinCheckoutRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
             
             // Services
             services.AddTransient<IAcaoService, AcaoService>();

@@ -80,7 +80,7 @@ export class AuthSignInComponent implements OnInit {
         } else if (!dispositivo) {
             dispositivo = await this.cadastrarDispositivo();
             usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
-            this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
+            this._router.navigate(['confirmation-required']);
         } else if (dispositivo?.indAtivo) {
             this._authService
                 .signIn(codUsuario, senha)
@@ -96,7 +96,7 @@ export class AuthSignInComponent implements OnInit {
             this.signInForm.enable();
         } else {
             usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
-            this._router.navigate(['confirmation-required'], { state: { email: usuario.email } });
+            this._router.navigate(['confirmation-required']);
         }
     }
 

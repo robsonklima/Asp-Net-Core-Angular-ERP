@@ -9,6 +9,8 @@ import { Cliente, ClienteParameters } from '../../../../../core/types/cliente.ty
 import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
+import { ContratoService } from 'app/core/services/contrato.service';
 
 
 @Component({
@@ -21,12 +23,15 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
   clientes: Cliente[] = [];  
   clienteFilterCtrl: FormControl = new FormControl();
-  
+  contratos: Contrato[] = [];
+  contratoFilterCtrl: FormControl = new FormControl();
+    
   protected _onDestroy = new Subject<void>();
 v
   constructor(
     
     private _clienteService: ClienteService,
+    private _contratoService: ContratoService,
     protected _userService: UserService,    
     protected _formBuilder: FormBuilder
   ) {
@@ -39,7 +44,9 @@ v
   }
 
   loadData(): void {
+    debugger
     this.obterClientes();
+    this.obterContratos();
 
     this.clienteFilterCtrl.valueChanges
     .pipe(
@@ -49,6 +56,16 @@ v
     )
     .subscribe(() => {
       this.obterClientes(this.clienteFilterCtrl.value);
+    });
+
+    this.contratoFilterCtrl.valueChanges
+    .pipe(
+      takeUntil(this._onDestroy),
+      debounceTime(700),
+      distinctUntilChanged()
+    )
+    .subscribe(() => {
+      this.obterContratos(this.contratoFilterCtrl.value);
     });
   }
 
@@ -75,6 +92,24 @@ v
       .toPromise();
 
     this.clientes = data.items;
+  }
+
+  async obterContratos(filtro: string = '') {
+    var clienteFilter = this.form.controls['codClientes'].value;
+    let params: ContratoParameters = {
+      filter: filtro,
+      indAtivo: statusConst.ATIVO,
+      codClientes: clienteFilter,
+      sortActive: 'nomeContrato',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
+
+    const data = await this._contratoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.contratos = data.items;
   }
 
   limpar() {

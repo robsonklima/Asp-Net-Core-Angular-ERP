@@ -6,6 +6,8 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using System;
+using System.Collections.Generic;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.INFRA.Repository
 {
@@ -73,6 +75,17 @@ namespace SAT.INFRA.Repository
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
             return query.AsNoTracking();
+
+        }
+        public List<ViewExportacaoChamadosUnificado> ObterPorView(OrdemServicoParameters parameters)
+        {
+            var viewExportOs = _context.ViewExportacaoChamadosUnificado.Where(table => table.CodStatusServico == 1 && table.CodFilial == 4).ToList();
+
+            IQueryable<ViewExportacaoChamadosUnificado> query = _context.ViewExportacaoChamadosUnificado.AsQueryable();
+
+            query = AplicarFiltroPadraoView(query, parameters);
+
+            return PagedList<ViewExportacaoChamadosUnificado>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
 
         public OrdemServico ObterPorCodigo(int codigo) =>
@@ -94,7 +107,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.Regiao)
                 .Include(os => os.TipoIntervencao)
                 .Include(os => os.LocalAtendimento)
-                .Include(os => os.LocalAtendimento.Cidade) 
+                .Include(os => os.LocalAtendimento.Cidade)
                 .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
                     .ThenInclude(uf => uf.DispBBRegiaoUF)
                         .ThenInclude(uf => uf.DispBBRegiao)

@@ -75,6 +75,7 @@ export interface ContratoParameters extends QueryStringParameters
     codTipoContrato?: number;
     indAtivo?: number;
     codCliente?: number;
+    codClientes?: string;
     filter?: string;
 };
 

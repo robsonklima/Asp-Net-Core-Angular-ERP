@@ -209,6 +209,9 @@ namespace SAT.INFRA.Context
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
+        public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
+        public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -338,6 +341,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewTecnicoTempoAtendimento>(new ViewTecnicoTempoAtendimentoMap().Configure);
             modelBuilder.Entity<Chamado>(new ChamadoMap().Configure);
             modelBuilder.Entity<Ticket>(new TicketMap().Configure);
+            modelBuilder.Entity<DispBBBloqueioOS>(new DispBBBloqueioOSMap().Configure);
+            modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

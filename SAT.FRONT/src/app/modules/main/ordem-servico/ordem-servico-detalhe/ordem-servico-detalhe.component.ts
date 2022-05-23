@@ -422,7 +422,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	}
 
 	async obterDispBBBloqueioOS() {
-		debugger
 		let params: DispBBBloqueioOSParameters = {
 		  indAtivo: 1,
 		  codOS: this.os.codOS

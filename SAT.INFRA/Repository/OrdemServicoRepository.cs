@@ -88,8 +88,8 @@ namespace SAT.INFRA.Repository
             return PagedList<ViewExportacaoChamadosUnificado>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
 
-        public OrdemServico ObterPorCodigo(int codigo) =>
-            _context.OrdemServico
+        public OrdemServico ObterPorCodigo(int codigo) {
+            return _context.OrdemServico
                 .Include(os => os.Chamado!)
                     .ThenInclude(ch => ch.OperadoraTelefonia)
                     .DefaultIfEmpty()
@@ -136,7 +136,6 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.Tecnico)
                 .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.PrazosAtendimento)
-                .Include(os => os.Intencoes)
                 .Include(os => os.Agendamentos)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.ProtocolosSTN)
@@ -180,5 +179,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(orc => orc.OrcamentoMotivo)
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
+        }
+
     }
 }

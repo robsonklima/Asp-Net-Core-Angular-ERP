@@ -25,6 +25,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
+import { DispBBBloqueioOS, DispBBBloqueioOSParameters } from 'app/core/types/DispBBBloqueioOS.types';
+import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -51,6 +53,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
 	historico: OrdemServicoHistorico[] = [];
+	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
 
 	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
 	{
@@ -73,7 +76,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
 		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
-		private _fotoService: FotoService
+		private _fotoService: FotoService,
+		private _dispBBBloqueioOSService: DispBBBloqueioOSService
 	)
 	{
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -101,6 +105,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
+		//this.obterDispBBBloqueioOS();
 		
 		this.isLoading = false;
 	}
@@ -404,6 +409,36 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	}
 
 	public async bloquearDesbloquearChamado() {
+		this.isLoading = true;
+
+		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
+		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
+		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+
+		await this._ordemServicoService.atualizar(this.os).toPromise();
+		await this.obterDados();
+
+		this.isLoading = false;
+	}
+
+	async obterDispBBBloqueioOS() {
+		debugger
+		let params: DispBBBloqueioOSParameters = {
+		  indAtivo: 1,
+		  codOS: this.os.codOS
+		}
+	
+		const data = await this._dispBBBloqueioOSService
+		  .obterPorParametros(params)
+		  .toPromise();
+	
+		this.dispBBBloqueioOS = data.items;
+
+		console.log(this.dispBBBloqueioOS);
+		
+	  }
+
+	public async desbloqueioRATBBTS() {
 		this.isLoading = true;
 
 		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;

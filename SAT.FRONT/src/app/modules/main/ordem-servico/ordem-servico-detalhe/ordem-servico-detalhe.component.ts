@@ -105,7 +105,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();		
-		//this.obterDispBBBloqueioOS();		
+		this.obterDispBBBloqueioOS();		
 		this.isLoading = false;
 	}
 

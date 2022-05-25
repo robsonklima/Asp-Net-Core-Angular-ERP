@@ -342,7 +342,10 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
   isLider()
   {
     return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER ||
-      this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN;
+      this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN ||
+      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER_DE_SETOR ||
+      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_COORDENADOR
+      ;
   };
   isEmAnalise()
   {

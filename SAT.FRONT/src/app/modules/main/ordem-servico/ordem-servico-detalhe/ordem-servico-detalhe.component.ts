@@ -98,15 +98,14 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 	private async obterDados()
 	{
-		this.isLoading = true;
+		this.isLoading = true;0
 
 		await this.obterOS();
 		this.obterHistorico();
 		this.obterAgendamentos();
 		this.obterFotosRAT();
-		this.obterQtdLaudos();
-		//this.obterDispBBBloqueioOS();
-		
+		this.obterQtdLaudos();		
+		//this.obterDispBBBloqueioOS();		
 		this.isLoading = false;
 	}
 

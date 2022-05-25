@@ -212,7 +212,9 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
   }
 
   isTecnico() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_TECNICO_DE_CAMPO; };
-  isLider() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER || 
-    this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN };
+  isLider() { return  this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER || 
+                      this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN ||
+                      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_COORDENADOR ||
+                      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER_DE_SETOR};
   isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
 }

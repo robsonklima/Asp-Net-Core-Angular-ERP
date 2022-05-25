@@ -1,24 +1,32 @@
+
 using NLog;
+using SAT.SERVICES.Interfaces;
 
-namespace SAT.TASKS
+namespace SAT.TASKS;
+public class Worker : BackgroundService
 {
-    public sealed class Worker : BackgroundService
+    private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+    private readonly IEquipamentoContratoService _eqService;
+
+    public Worker(
+        IEquipamentoContratoService eqService) =>
+        (_eqService) = (eqService);
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        public TesteEquip _te;
-
-        public Worker(TesteEquip testeEquip)
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _te = testeEquip;
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                _te.LogEquip();
-
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                var equip = _eqService.ObterPorCodigo(493530);
+                _logger.Warn("Equipamento Encontrado: " + equip.Equipamento.NomeEquip);
             }
+            catch (System.Exception ex)
+            {
+                _logger.Error("Caiu no Catch: " + ex.Message);
+            }
+
+            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
 }

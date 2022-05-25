@@ -1,26 +1,42 @@
-using SAT.SERVICES.Interfaces;
-using SAT.SERVICES.Services;
-using Microsoft.AspNetCore.Hosting;
-using SAT.TASKS;
 using SAT.INFRA.Context;
 using Microsoft.EntityFrameworkCore;
+using Autofac;
+using SAT.IOC;
+using Autofac.Extensions.DependencyInjection;
+using SAT.TASKS;
+using Microsoft.AspNetCore.Builder;
+using SAT.MODELS.Entities.Constants;
+using NLog;
+using NLog.Web;
+
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .UseWindowsService(options =>
     {
-        options.ServiceName = "SAT.V2 TASKS";
+        options.ServiceName = "SAT.TASKS";
     })
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
         services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer("Data Source=satdbprod.perto.com.br;Initial Catalog=SAT;User Id=satweb;Password=Nkhq8297b589a2c4;Connection Timeout=3600;",
+                options => options.UseSqlServer(context.Configuration.GetConnectionString(Constants.DB_PROD),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
-        services.AddScoped<IEquipamentoContratoService, EquipamentoContratoService>();
-        services.AddTransient<TesteEquip>();
+        services.AddHttpContextAccessor();
+        services.AddMvc();
+        services.AddSession();
+
+        services.Configure<IISOptions>(o =>
+        {
+            o.ForwardClientCertificate = false;
+        });
+
         services.AddHostedService<Worker>();
     })
+    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))
+    .UseNLog()
     .Build();
 
 await host.RunAsync();
-

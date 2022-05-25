@@ -15,6 +15,16 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+        {
+            "name": ".NET Core Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/SAT.TASKS/bin/Debug/net6.0/win-x64/SAT.TASKS.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/SAT.TASKS",
+            "stopAtEntry": false,
         }
     ]
 }

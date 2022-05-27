@@ -48,9 +48,11 @@ namespace SAT.SERVICES.Services
             }
 
             alertas = ObterAvisoChamadoVisualizado(os, alertas);
-            if (os.CodEquipContrato != null) {
+            if (os.CodEquipContrato != null)
+            {
                 alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
                 alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
+                alertas = ObterAvisoBaterias(os, alertas);
             }
 
             return alertas;
@@ -222,6 +224,63 @@ namespace SAT.SERVICES.Services
 
             listaAlertas.Add(alerta);
 
+            return listaAlertas;
+        }
+
+        private List<Alerta> ObterAvisoBaterias(OrdemServico os, List<Alerta> listaAlertas)
+        {
+            var gerarAlerta = false;
+
+            switch (os.CodCliente)
+            {
+                case Constants.CLIENTE_BB:
+
+                    if (os.CodEquip == Constants.TAART_290_02_309 ||
+                        os.CodEquip == Constants.TAASF_290_02_047 ||
+                        os.CodEquip == Constants.TAAMC_290_02_049)
+                    {
+                        gerarAlerta = true;
+                    }
+
+                    break;
+                case Constants.CLIENTE_BANRISUL:
+                    break;
+                case Constants.CLIENTE_SAFRA:
+                    break;
+                case Constants.CLIENTE_CEF:
+                    break;
+                case Constants.CLIENTE_SICOOB:
+                    break;
+                case Constants.CLIENTE_SICREDI:
+                    break;
+                case Constants.CLIENTE_BANCO_DA_AMAZONIA:
+                    break;
+                case Constants.CLIENTE_BRB:
+                    break;
+                case Constants.CLIENTE_ITAU:
+                    break;
+                case Constants.CLIENTE_BANESTES:
+                    break;
+                case Constants.CLIENTE_BANPARA:
+                    break;
+                case Constants.CLIENTE_SAQUE_PAGUE:
+                    break;
+                default:
+                    break;
+            }
+
+            if (gerarAlerta)
+            {
+                var alerta = new Alerta
+                {
+                    Titulo = "Alerta de Teclado - Verificar bateria",
+                    Descricao = new List<string>(),
+                    Tipo = Constants.WARNING
+                };
+
+                alerta.Descricao.Add("Revisar a bateria do teclado, se detectarmos baterias diferentes da marca TEKCELL devemos trocar para este fornecedor.");
+                listaAlertas.Add(alerta);
+            }
             return listaAlertas;
         }
     }

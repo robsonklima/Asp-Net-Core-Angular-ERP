@@ -105,7 +105,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();		
-		this.obterDispBBBloqueioOS();		
+		//this.obterDispBBBloqueioOS();		
 		this.isLoading = false;
 	}
 
@@ -420,7 +420,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.isLoading = false;
 	}
 
-	async obterDispBBBloqueioOS() {
+	private async obterDispBBBloqueioOS() {		
 		let params: DispBBBloqueioOSParameters = {
 		  indAtivo: 1,
 		  codOS: this.os.codOS

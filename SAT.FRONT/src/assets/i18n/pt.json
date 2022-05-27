@@ -627,5 +627,7 @@
     "hotel": "Hotel",
     "necessario agendamento": "Necessário Agendamento com Carro Forte",
     "atendimento final de semana": "Atendimento Sábado, Domingo e Feriado",
-    "estado": "Estado"
+    "estado": "Estado",
+    "log": "Log",
+    "oss do equipamento": "OSs do Equipamento"
 }

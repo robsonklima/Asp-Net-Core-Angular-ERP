@@ -614,5 +614,7 @@
     "hotel": "Hotel",
     "necessario agendamento": "Required Appointment with Armored Car",
     "atendimento final de semana": "Saturday, Sunday and Holiday Service",
-    "estado": "State"
+    "estado": "State",
+    "log": "Log",
+    "oss do equipamento": "SOs equipment"
 }

@@ -539,7 +539,7 @@
                         <mat-tab [disabled]="!historico?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!historico?.length">
-                                    {{ t('historico') }}
+                                    {{ t('log') }}
 
                                     <span class="bg-green-600 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
                                         *ngIf="historico?.length">
@@ -984,7 +984,7 @@
                                    userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS">
                             <ng-template matTabLabel>
                                 <span>
-                                    {{ t('equipamento') }}
+                                    {{ t('oss do equipamento') }}
                                 </span>
                             </ng-template>
 

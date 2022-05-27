@@ -12,6 +12,7 @@ export class DispBBBloqueioOSService {
   constructor(private http: HttpClient) {}
 
   obterPorParametros(parameters: DispBBBloqueioOSParameters): Observable<DispBBBloqueioOSData> {
+
     let params = new HttpParams();
 
     Object.keys(parameters).forEach(key => {

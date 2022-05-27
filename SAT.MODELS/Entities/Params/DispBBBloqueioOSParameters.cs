@@ -5,5 +5,7 @@ namespace SAT.MODELS.Entities.Params
     public class DispBBBloqueioOSParameters : QueryStringParameters
     {
         public int? CodOS { get; set; }
+
+        public int? IndAtivo { get; set; }
     }
 }

@@ -42,24 +42,23 @@ namespace SAT.SERVICES.Services
         }
 
         public Importacao Importar(Importacao importacao)
-        { 
+        {
 
-            //switch (importacao.Id)
-            //{
-            //    case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
+            switch (importacao.Id)
+            {
+                case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
 
-            //        return AtualizacaoInstalacao(JsonConvert.DeserializeObject<List<ImportacaoInstalacao>>(importacao.JsonImportacao));
+                    return AtualizacaoInstalacao(importacao);
 
-            //    case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
+                case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
 
-            //        return AberturaChamadosEmMassa(JsonConvert.DeserializeObject<List<ImportacaoAberturaOrdemServico>>(importacao.JsonImportacao));
+                    return AberturaChamadosEmMassa(importacao);
 
-            //    default:
+                default:
 
-            //        return null;
-            
-            return importacao;
+                    return null;
 
-        }    
+            }
+        }
     }
 }

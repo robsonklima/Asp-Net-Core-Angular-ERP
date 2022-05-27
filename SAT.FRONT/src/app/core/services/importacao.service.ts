@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Importacao, ImportacaoAberturaOrdemServico } from '../types/importacao.types';
+import { Importacao } from '../types/importacao.types';
 
 @Injectable({
 	providedIn: 'root'

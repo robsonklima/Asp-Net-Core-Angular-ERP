@@ -1,9 +1,11 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Importacao, ImportacaoAberturaOrdemServico } from './../../../core/types/importacao.types';
+import { Importacao } from './../../../core/types/importacao.types';
 import { Component, AfterViewInit } from '@angular/core';
 import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-configuracao.service';
 import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service copy';
 import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
+import { ImportacaoService } from 'app/core/services/importacao.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-importacao',
@@ -13,7 +15,7 @@ import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 export class ImportacaoComponent implements AfterViewInit {
 	isLoading: boolean = false;
 	planilhaConfig: any;
-	planilha: ImportacaoAberturaOrdemServico[];
+	planilha: any;
 	idPlanilha: number;
 	importacaoTipos: ImportacaoTipo[];
 	codImportacaoTipo: number;
@@ -22,6 +24,8 @@ export class ImportacaoComponent implements AfterViewInit {
 	constructor(
 		private _importacaoConfService: ImportacaoConfiguracaoService,
 		private _importacaoTipoService: ImportacaoTipoService,
+		private _importacaoService: ImportacaoService,
+		private _snack: CustomSnackbarService,
 		public _dialog: MatDialog
 
 	) { }
@@ -30,17 +34,17 @@ export class ImportacaoComponent implements AfterViewInit {
 		this.obterDados();
 	}
 
-	async obterDados(){
+	async obterDados() {
 		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({}).toPromise()).items
 	}
 
 	async configura(codImportacaoTipo: number) {
 		this.codImportacaoTipo = codImportacaoTipo;
-		const config = (await this._importacaoConfService.obterPorParametros({codImportacaoTipo: codImportacaoTipo}).toPromise()).items;
+		const config = (await this._importacaoConfService.obterPorParametros({ codImportacaoTipo: codImportacaoTipo }).toPromise()).items;
 
 		let configData = config.map((conf) => {
 			return {
-				
+
 				dados: {
 					[conf.propriedade]: ''
 				},
@@ -52,9 +56,9 @@ export class ImportacaoComponent implements AfterViewInit {
 				}
 			}
 		});
-		
+
 		let dadosMap = [{}]
-		configData.map(({dados}) => dados).forEach(dado => {
+		configData.map(({ dados }) => dados).forEach(dado => {
 			dadosMap[0][Object.keys(dado)[0]] = '';
 		});
 
@@ -62,35 +66,36 @@ export class ImportacaoComponent implements AfterViewInit {
 		this.planilhaConfig = {
 			id: codImportacaoTipo,
 			dados: dadosMap,
-			colunas: configData.map(({colunas}) => colunas)
+			colunas: configData.map(({ colunas }) => colunas)
 		}
 	}
 
 	retornaPlanilha(json: any) {
-		this.jsonImportacaoMap(json);	
 		this.planilha = json;
 	}
 
-	jsonImportacaoMap(planilhaJson: any) {
-		let importacao: Importacao = {
-			id: 1,
-			importacaoLinhas: [{
-				importacaoColunas: [{
-					campo: '',
-					valor: ''
-				}],
-				erro: 0,
-				mensagem: ''
-			}]
-		}
 
-		return importacao;
-	}
+	enviarDados() {
+		this._snack.exibirToast('Funcionalidade não implementada','warning');
 
-	async enviarDados() {
+		const importacaoLinhas = this.planilha.map(lines => {
+			return Object.entries(lines).map(prop => {
+				return {
+					campo: prop.shift(),
+					valor: prop.pop()
+				}
+			});
+		}).map(col => {
+			return {
+				importacaoColuna: col
+			}
+		});
+
+
 		// this._importacaoService.importar({
 		// 	id: this.idPlanilha,
-		// 	jsonImportacao: JSON.stringify(this.planilha)
+		// 	importacaoLinhas: importacaoLinhas
 		// }).subscribe();
 	}
 }
+

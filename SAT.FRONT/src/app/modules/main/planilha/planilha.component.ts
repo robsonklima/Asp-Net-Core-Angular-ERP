@@ -14,7 +14,6 @@ export class PlanilhaComponent implements AfterViewInit {
 
 	@ViewChild("spreadsheet") spreadsheet: ElementRef;
 	@Input() data: object = {};
-	@Input() indExport: number = 0;
 	@Output() sheetData = new EventEmitter<any>();
 
 	table: any;
@@ -26,18 +25,11 @@ export class PlanilhaComponent implements AfterViewInit {
 	) { }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (this.indExport == 0) {
+		this.dados = this.data['dados'];
+		this.colunas = this.data['colunas'];
 
-			this.dados = this.data['dados'];
-			this.colunas = this.data['colunas'];
-
-			this.spreadsheet.nativeElement.innerHTML = '';
-			this.criaPlanilha();
-		}
-		else {
-
-		}
-
+		this.spreadsheet.nativeElement.innerHTML = '';
+		this.criaPlanilha();
 	}
 
 	ngAfterViewInit() {
@@ -48,7 +40,7 @@ export class PlanilhaComponent implements AfterViewInit {
 	criaPlanilha() {
 		let me = this;
 		this.table = jspreadsheet(this.spreadsheet.nativeElement, {
-			onafterchanges: function (x,y,cell,table) {
+			onafterchanges: function (x, y, cell, table) {
 				me.sheetData.emit(me.table.getJson());
 			},
 			data: this.dados,

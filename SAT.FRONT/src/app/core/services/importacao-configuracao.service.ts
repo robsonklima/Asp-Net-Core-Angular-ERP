@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { ImportacaoAberturaOrdemServico } from '../types/importacao.types';
 import { ImportacaoConfiguracao, ImportacaoConfiguracaoData, ImportacaoConfiguracaoParameters } from '../types/importacao-configuracao.type';
 
 @Injectable({

@@ -10,8 +10,9 @@ namespace SAT.SERVICES.Services
 {
     public partial class ImportacaoService : IImportacaoService
     {
-        //private List<string> AberturaChamadosEmMassa(List<ImportacaoAberturaOrdemServico> importacaoOs)
-        //{
+        private Importacao AberturaChamadosEmMassa(Importacao importacao)
+        {
+            return new Importacao();
         //    var osMensagem = new List<string>();
 
         //    importacaoOs.Where(o => o.CodEquipContrato is not null)
@@ -90,6 +91,6 @@ namespace SAT.SERVICES.Services
 
         //    sb.Append(Constants.ASSINATURA_EMAIL);
         //    return sb.ToString();
-        //}
+        }
     }
 }

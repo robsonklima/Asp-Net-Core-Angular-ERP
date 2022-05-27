@@ -4,6 +4,7 @@ using SAT.MODELS.Helpers;
 using System;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
+using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
@@ -38,7 +39,16 @@ namespace SAT.INFRA.Repository
 
         public PagedList<DispBBBloqueioOS> ObterPorParametros(DispBBBloqueioOSParameters parameters)
         {
-            throw new NotImplementedException();
+            var dispBBBloqueioOS = _context.DispBBBloqueioOS.AsQueryable();
+
+             if (parameters.CodOS.HasValue)
+                dispBBBloqueioOS = dispBBBloqueioOS.Where(d => d.CodOS == parameters.CodOS);
+
+             if (parameters.IndAtivo.HasValue)
+                dispBBBloqueioOS = dispBBBloqueioOS.Where(d => d.IndAtivo == parameters.IndAtivo);
+
+             return PagedList<DispBBBloqueioOS>.ToPagedList(dispBBBloqueioOS, parameters.PageNumber, parameters.PageSize);
+
         }
     }
 }

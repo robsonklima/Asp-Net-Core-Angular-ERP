@@ -181,6 +181,7 @@ namespace SAT.API
             services.AddTransient<IImportacaoConfiguracaoRepository, ImportacaoConfiguracaoRepository>();
             services.AddTransient<ICheckinCheckoutRepository, CheckinCheckoutRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IDispBBBloqueioOSRepository, DispBBBloqueioOSRepository>();
             
             // Services
             services.AddTransient<IAcaoService, AcaoService>();
@@ -297,6 +298,7 @@ namespace SAT.API
             services.AddTransient<IClientePecaGenericaService, ClientePecaGenericaService>();
             services.AddTransient<ICheckinCheckoutService, CheckinCheckoutService>();            
             services.AddTransient<ISmsService, SmsService>();
+            services.AddTransient<IDispBBBloqueioOSService, DispBBBloqueioOSService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

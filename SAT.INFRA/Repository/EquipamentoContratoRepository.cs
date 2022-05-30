@@ -102,9 +102,11 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.AcordoNivelServico)
                 .Include(e => e.GrupoEquipamento)
                 .Include(e => e.RegiaoAutorizada)
-                .Include(e => e.RegiaoAutorizada.Filial)
-                .Include(e => e.RegiaoAutorizada.Autorizada)
-                .Include(e => e.RegiaoAutorizada.Regiao)
+                    .ThenInclude(e => e.Filial)
+                .Include(e => e.RegiaoAutorizada)
+                    .ThenInclude(e => e.Autorizada)
+                .Include(e => e.RegiaoAutorizada)
+                    .ThenInclude(e => e.Regiao)
                 .Include(e => e.TipoEquipamento)
                 .AsQueryable();
 

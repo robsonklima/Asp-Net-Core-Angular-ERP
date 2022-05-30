@@ -1,4 +1,6 @@
-﻿namespace SAT.MODELS.Entities.Constants
+﻿using System.Collections.Generic;
+
+namespace SAT.MODELS.Entities.Constants
 {
     public class Constants
     {
@@ -161,5 +163,13 @@
                                                 Perto S.A. – Tecnologia para Bancos e Varejo<br> 
                                                 Ramal (51) 2126-6944<br> 
                                                 Whatsapp: (51) 997144990<br>";
+        
+        //Dicionários
+        public static Dictionary<string,string> CONVERSOR_IMPORTACAO_INSTALACAO = new Dictionary<string, string>
+            {
+                { "NumSerie", "CodEquipContrato" },
+                { "NfVenda", "CodInstalNFVenda" },
+                { "NfVendaData", "CodInstalNFVenda" }
+            };
     }
 }

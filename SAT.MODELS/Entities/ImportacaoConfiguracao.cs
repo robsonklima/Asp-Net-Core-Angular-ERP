@@ -12,5 +12,6 @@
 		public string Mascara { get; set; }
 		public string Decimal { get; set; }
 		public string Render { get; set; }
+		public string Editor { get; set; }
 	}
 }

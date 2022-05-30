@@ -76,8 +76,6 @@ export class ImportacaoComponent implements AfterViewInit {
 
 
 	enviarDados() {
-		this._snack.exibirToast('Funcionalidade não implementada','warning');
-
 		const importacaoLinhas = this.planilha.map(lines => {
 			return Object.entries(lines).map(prop => {
 				return {
@@ -90,11 +88,11 @@ export class ImportacaoComponent implements AfterViewInit {
 				importacaoColuna: col
 			}
 		});
-
-		// this._importacaoService.importar({
-		// 	id: this.idPlanilha,
-		// 	importacaoLinhas: importacaoLinhas
-		// }).subscribe();
+		
+		this._importacaoService.importar({
+			id: this.idPlanilha,
+			importacaoLinhas: importacaoLinhas
+		}).subscribe();
 	}
 }
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SAT.SERVICES.Services
         private readonly ISequenciaRepository _sequenciaRepo;
         private readonly ILocalAtendimentoRepository _localAtendimentoRepo;
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
+        private readonly IInstalacaoRepository _instalacaoRepo;
         private readonly IHttpContextAccessor _contextAcecssor;
         private readonly IEmailService _emailService;
         private readonly IUsuarioService _usuarioService;
@@ -27,6 +29,7 @@ namespace SAT.SERVICES.Services
             ISequenciaRepository sequenciaRepo,
             ILocalAtendimentoRepository localAtendimentoRepo,
             IEquipamentoContratoRepository equipamentoContratoRepo,
+            IInstalacaoRepository instalacaoRepo,
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
             IUsuarioService usuarioService
@@ -36,6 +39,7 @@ namespace SAT.SERVICES.Services
             _sequenciaRepo = sequenciaRepo;
             _localAtendimentoRepo = localAtendimentoRepo;
             _equipamentoContratoRepo = equipamentoContratoRepo;
+            _instalacaoRepo = instalacaoRepo;
             _contextAcecssor = httpContextAccessor;
             _emailService = emailService;
             _usuarioService = usuarioService;

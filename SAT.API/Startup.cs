@@ -131,6 +131,7 @@ namespace SAT.API
             services.AddTransient<ITicketLogPedidoCreditoRepository, TicketLogPedidoCreditoRepository>();
             services.AddTransient<ITurnoRepository, TurnoRepository>();
             services.AddTransient<IInstalacaoRepository, InstalacaoRepository>();
+            services.AddTransient<IInstalacaoNFVendaRepository, InstalacaoNFVendaRepository>();
             services.AddTransient<IInstalacaoLoteRepository, InstalacaoLoteRepository>();
             services.AddTransient<IFiltroRepository, FiltroRepository>();
             services.AddTransient<INotificacaoRepository, NotificacaoRepository>();

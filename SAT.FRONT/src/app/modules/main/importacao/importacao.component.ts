@@ -79,8 +79,8 @@ export class ImportacaoComponent implements AfterViewInit {
 		const importacaoLinhas = this.planilha.map(lines => {
 			return Object.entries(lines).map(prop => {
 				return {
-					campo: prop.shift(),
-					valor: prop.pop()
+					campo: prop[0].trim(),
+					valor: prop[1]
 				}
 			});
 		}).map(col => {

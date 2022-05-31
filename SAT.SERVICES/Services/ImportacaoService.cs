@@ -20,6 +20,7 @@ namespace SAT.SERVICES.Services
         private readonly ILocalAtendimentoRepository _localAtendimentoRepo;
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
         private readonly IInstalacaoRepository _instalacaoRepo;
+        private readonly IInstalacaoNFVendaRepository _instalacaoNFVendaRepo;
         private readonly IHttpContextAccessor _contextAcecssor;
         private readonly IEmailService _emailService;
         private readonly IUsuarioService _usuarioService;
@@ -30,6 +31,7 @@ namespace SAT.SERVICES.Services
             ILocalAtendimentoRepository localAtendimentoRepo,
             IEquipamentoContratoRepository equipamentoContratoRepo,
             IInstalacaoRepository instalacaoRepo,
+            IInstalacaoNFVendaRepository instalacaoNFVendaRepo,
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
             IUsuarioService usuarioService
@@ -40,6 +42,7 @@ namespace SAT.SERVICES.Services
             _localAtendimentoRepo = localAtendimentoRepo;
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _instalacaoRepo = instalacaoRepo;
+            _instalacaoNFVendaRepo = instalacaoNFVendaRepo;
             _contextAcecssor = httpContextAccessor;
             _emailService = emailService;
             _usuarioService = usuarioService;

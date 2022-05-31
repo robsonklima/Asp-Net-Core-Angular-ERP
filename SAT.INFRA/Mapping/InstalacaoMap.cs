@@ -31,11 +31,11 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey<Equipamento>(i => i.CodEquip)
                 .HasPrincipalKey<Instalacao>(i => i.CodEquip);
 
-            builder
-                .HasOne(i => i.EquipamentoContrato)
-                .WithOne()
-                .HasForeignKey<EquipamentoContrato>(i => i.CodEquipContrato)
-                .HasPrincipalKey<Instalacao>(i => i.CodEquipContrato);
+            // builder
+            //     .HasOne(i => i.EquipamentoContrato)
+            //     .WithOne()
+            //     .HasForeignKey<EquipamentoContrato>(i => i.CodEquipContrato)
+            //     .HasPrincipalKey<Instalacao>(i => i.CodEquipContrato);
 
             builder
                 .HasOne(i => i.InstalacaoLote)

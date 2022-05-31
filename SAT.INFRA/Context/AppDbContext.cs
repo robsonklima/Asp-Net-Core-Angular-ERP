@@ -120,6 +120,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoLote> InstalacaoLote { get; set; }
         public DbSet<InstalacaoRessalva> InstalacaoRessalva { get; set; }
         public DbSet<InstalacaoMotivoRes> InstalacaoMotivoRes { get; set; }
+        public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
@@ -228,6 +229,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DespesaCartaoCombustivelTecnico>(new DespesaCartaoCombustivelTecnicoMap().Configure);
             modelBuilder.Entity<TecnicoConta>(new TecnicoContaMap().Configure);
             modelBuilder.Entity<Instalacao>(new InstalacaoMap().Configure);
+            modelBuilder.Entity<InstalacaoNFVenda>(new InstalacaoNFVendaMap().Configure);
             modelBuilder.Entity<Laudo>(new LaudoMap().Configure);
             modelBuilder.Entity<LaudoStatus>(new LaudoStatusMap().Configure);
             modelBuilder.Entity<LaudoSituacao>(new LaudoSituacaoMap().Configure);

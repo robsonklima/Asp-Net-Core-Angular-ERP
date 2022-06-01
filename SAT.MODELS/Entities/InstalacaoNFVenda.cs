@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("InstalNfvenda")]
     public class InstalacaoNFVenda
     {
-        [Key]
         public int CodInstalNfvenda { get; set; }
         public int CodCliente { get; set; }
         public int NumNFVenda { get; set; }

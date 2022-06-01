@@ -27,13 +27,12 @@ export class PlanilhaComponent implements AfterViewInit {
 	ngOnChanges(changes: SimpleChanges) {
 		this.dados = this.data['dados'];
 		this.colunas = this.data['colunas'];
-
+		
 		this.spreadsheet.nativeElement.innerHTML = '';
 		this.criaPlanilha();
 	}
 
 	ngAfterViewInit() {
-
 		this.criaPlanilha();
 	}
 

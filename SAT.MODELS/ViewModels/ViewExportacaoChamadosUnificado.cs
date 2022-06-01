@@ -13,6 +13,7 @@ namespace SAT.MODELS.ViewModels
         public DateTime? DataHoraSolicitacao { get; set; }
         public DateTime? DataAgendamento { get; set; }
         public DateTime? DataHoraSolucao { get; set; }
+        public string StatusSLAOS { get; set; }
         public string StatusOS { get; set; }
         public int? CodStatusServico { get; set; }
         public string Intervencao { get; set; }
@@ -43,6 +44,7 @@ namespace SAT.MODELS.ViewModels
         public int? CodEquipContrato { get; set; }
         public int? CodContrato { get; set; }
         public string NumSerie { get; set; }
+        public int? NumReincidencia { get; set; }
         public string NumSerieCliente { get; set; }
         public string PontoEstrategico { get; set; }
         public string SLA { get; set; }

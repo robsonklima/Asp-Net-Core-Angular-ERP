@@ -11,6 +11,8 @@ import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { ContratoService } from 'app/core/services/contrato.service';
+import { TipoContrato, TipoContratoParameters } from 'app/core/types/tipo-contrato.types';
+import { TipoContratoService } from 'app/core/services/tipo-contrato.service';
 
 
 @Component({
@@ -25,13 +27,16 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
   clienteFilterCtrl: FormControl = new FormControl();
   contratos: Contrato[] = [];
   contratoFilterCtrl: FormControl = new FormControl();
+  tipoContratos: TipoContrato[] = [];
+  tipoContratoFilterCtrl: FormControl = new FormControl();
     
   protected _onDestroy = new Subject<void>();
-v
+
   constructor(
     
     private _clienteService: ClienteService,
     private _contratoService: ContratoService,
+    private _tipoContratoService: TipoContratoService,
     protected _userService: UserService,    
     protected _formBuilder: FormBuilder
   ) {
@@ -45,33 +50,15 @@ v
 
   loadData(): void {
     this.obterClientes();
-    this.obterContratos();
-
-    this.clienteFilterCtrl.valueChanges
-    .pipe(
-      takeUntil(this._onDestroy),
-      debounceTime(700),
-      distinctUntilChanged()
-    )
-    .subscribe(() => {
-      this.obterClientes(this.clienteFilterCtrl.value);
-    });
-
-    this.contratoFilterCtrl.valueChanges
-    .pipe(
-      takeUntil(this._onDestroy),
-      debounceTime(700),
-      distinctUntilChanged()
-    )
-    .subscribe(() => {
-      this.obterContratos(this.contratoFilterCtrl.value);
-    });
+    this.registrarEmitters();
   }
 
   createForm(): void {
     this.form = this._formBuilder.group({
       codClientes: [undefined],  
-      indAtivo: [undefined]
+      indAtivo: [undefined],
+      codTipoContratos: [undefined],
+      codContratos: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);
@@ -93,7 +80,22 @@ v
     this.clientes = data.items;
   }
 
-  async obterContratos(filtro: string = '') {
+  async obterTipoContratos(filtro: string = '') {
+    let params: TipoContratoParameters = {
+      filter: filtro,
+      sortActive: 'nomeTipoContrato',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
+
+    const data = await this._tipoContratoService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.tipoContratos = data.items;
+  }
+
+  async obterContratos(filtro: string = '') { 
     var clienteFilter = this.form.controls['codClientes'].value;
     let params: ContratoParameters = {
       filter: filtro,
@@ -118,6 +120,41 @@ v
       this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
       this.form.controls['codFiliais'].disable();
     }
+  }
+
+  private registrarEmitters() {
+    
+    console.log(this.form.controls['codClientes'].value);
+
+    this.form.controls['codClientes'].valueChanges
+    .pipe(
+      takeUntil(this._onDestroy),
+      debounceTime(700),
+      distinctUntilChanged()
+    )
+    .subscribe((codClientes: any[]) => {
+      this.obterContratos(codClientes.join(','));
+    });
+
+    this.clienteFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterClientes(this.clienteFilterCtrl.value);
+      });
+
+    this.contratoFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterContratos(this.contratoFilterCtrl.value);
+      });
   }
 
   ngOnDestroy() {

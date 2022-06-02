@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { ImportacaoColuna } from './../../../core/types/importacao.types';
 import { Component, ElementRef, ViewChild, AfterViewInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Importacao } from 'app/core/types/importacao.types';
@@ -27,7 +27,6 @@ export class PlanilhaComponent implements AfterViewInit {
 	ngOnChanges(changes: SimpleChanges) {
 		this.dados = this.data['dados'];
 		this.colunas = this.data['colunas'];
-		
 		this.spreadsheet.nativeElement.innerHTML = '';
 		this.criaPlanilha();
 	}

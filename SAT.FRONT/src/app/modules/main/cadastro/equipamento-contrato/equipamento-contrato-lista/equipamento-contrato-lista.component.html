@@ -38,8 +38,10 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid">
-                            <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                matSort matSortDisableClear *transloco="let t">
+                            <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                z-10 sticky top-0 grid gap-4 py-2 px-4 md:px- shadow text-xs font-semibold
+                                text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 matSort matSortDisableClear
+                                *transloco="let t">
                                 <div class="md:block" [mat-sort-header]="'codEquipContrato'">
                                     {{ t('codigo') }}
                                 </div>
@@ -64,7 +66,7 @@
                                 <div class="md:block">
                                     {{ t('autorizada') }}
                                 </div>
-                                <div [mat-sort-header]="'indAtivo'">
+                                <div [mat-sort-header]="'indAtivo'" class="items-center pl-2">
                                     {{ t('ativo') }}
                                 </div>
                             </div>
@@ -72,7 +74,7 @@
                         <mat-paginator [hidden]="!dataSourceData?.items?.length"
                             class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                             [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                            [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                            [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
                             (page)="paginar()">
                         </mat-paginator>
                     </ng-container>
@@ -81,7 +83,7 @@
                 <ng-container>
                     <ng-container *ngFor="let equip of dataSourceData?.items">
                         <a [routerLink]="['/equipamento-contrato/form/' + equip.codEquipContrato]">
-                            <div class="list-grid-contrato grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                            <div class="list-grid-contrato grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
                                 *transloco="let t">
                                 <div class="flex">
                                     {{ equip.codEquipContrato || t('nao informado') }}
@@ -107,11 +109,8 @@
                                 <div class="flex truncate">
                                     {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('nao informado') }}
                                 </div>
-                                <div class="truncate">
-                                    <span class="py-1 px-2 rounded text-white" [class.bg-green-600]="equip.indAtivo"
-                                        [class.bg-red-600]="!equip.indAtivo">
-                                        {{ equip.indAtivo ? 'Ativo' : 'Inativo' }}
-                                    </span>
+                                <div class="truncate rounded text-white text-center" [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
+                                    {{ equip.indAtivo ? 'Ativo' : 'Inativo' }}
                                 </div>
                             </div>
                         </a>

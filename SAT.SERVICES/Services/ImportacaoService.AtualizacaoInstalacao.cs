@@ -16,7 +16,7 @@ namespace SAT.SERVICES.Services
 
         private Importacao AtualizacaoInstalacao(Importacao importacao)
         {
-            var instList = new List<Instalacao>();
+            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
             importacao.ImportacaoLinhas
                         .Where(line =>
@@ -56,26 +56,30 @@ namespace SAT.SERVICES.Services
                                         }
                                         catch (System.Exception ex)
                                         {
-                                            Mensagem.Add($"Erro ao mapear as colunas. Código: {inst.CodInstalacao} Campo: {col.Campo}");
+                                            line.Mensagem = $"Erro ao mapear as colunas. Código: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                                            line.Erro = true;
+                                            Mensagem.Add(line.Mensagem);
+                                            return;
                                         }
                                     });
-                            instList.Add(inst);
+                            try
+                            {
+                                inst.CodUsuarioManut = usuario.CodUsuario;
+                                inst.DataHoraManut = DateTime.Now;
+                                _instalacaoRepo.Atualizar(inst);
+
+                                line.Mensagem = $"Implantação: {inst.CodInstalacao} atualizado com sucesso.";
+                                line.Erro = false;
+                                Mensagem.Add(line.Mensagem);
+
+                            }
+                            catch (System.Exception ex)
+                            {
+                                line.Mensagem = $"Erro ao atualizar! Código:{inst.CodInstalacao}. Mensagem: {ex.Message}";
+                                line.Erro = true;
+                                Mensagem.Add(line.Mensagem);
+                            }
                         });
-
-            instList.ForEach(inst =>
-            {
-                try
-                {
-                    _instalacaoRepo.Atualizar(inst);
-                    Mensagem.Add($"Implantação: {inst.CodInstalacao} atualizado com sucesso.");
-                }
-                catch (System.Exception ex)
-                {
-                    Mensagem.Add($"Erro ao atualizar! Código:{inst.CodInstalacao}. Mensagem: {ex.Message}");
-                }
-            });
-
-            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
             var email = new Email
             {
@@ -91,7 +95,7 @@ namespace SAT.SERVICES.Services
 
             _emailService.Enviar(email);
 
-            return new Importacao();
+            return importacao;
         }
 
         private dynamic ConverterValor(ImportacaoColuna coluna, Instalacao inst)
@@ -121,7 +125,7 @@ namespace SAT.SERVICES.Services
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);
                     return inst.CodInstalNFVenda;
                 default:
-                    return 0;
+                    return null;
             }
         }
     }

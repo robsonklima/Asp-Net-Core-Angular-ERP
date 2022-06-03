@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { Importacao } from './../../../core/types/importacao.types';
 import { Component, AfterViewInit } from '@angular/core';
@@ -38,13 +39,12 @@ export class ImportacaoComponent implements AfterViewInit {
 		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({}).toPromise()).items
 	}
 
-	async configura(codImportacaoTipo: number) {
+	async configura(codImportacaoTipo: number, dados: any = null) {
 		this.codImportacaoTipo = codImportacaoTipo;
 		const config = (await this._importacaoConfService.obterPorParametros({ codImportacaoTipo: codImportacaoTipo }).toPromise()).items;
 
 		let configData = config.map((conf) => {
 			return {
-
 				dados: {
 					[conf.propriedade]: ''
 				},
@@ -65,7 +65,7 @@ export class ImportacaoComponent implements AfterViewInit {
 		this.idPlanilha = codImportacaoTipo;
 		this.planilhaConfig = {
 			id: codImportacaoTipo,
-			dados: dadosMap,
+			dados: dados ?? dadosMap,
 			colunas: configData.map(({ colunas }) => colunas)
 		}
 	}
@@ -76,6 +76,8 @@ export class ImportacaoComponent implements AfterViewInit {
 
 
 	enviarDados() {
+		this.isLoading = true;
+
 		const importacaoLinhas = this.planilha.map(lines => {
 			return Object.entries(lines).map(prop => {
 				return {
@@ -92,7 +94,15 @@ export class ImportacaoComponent implements AfterViewInit {
 		this._importacaoService.importar({
 			id: this.idPlanilha,
 			importacaoLinhas: importacaoLinhas
-		}).subscribe();
+		}).subscribe(r => {
+			this.isLoading = false;
+
+			let dados: any[] = r.importacaoLinhas.filter(line => line.erro == 1);
+			dados.length > 0 
+					//? this._snack.exibirAlerta('Implantação concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes' ) 
+					? this._snack.exibirToast('Implantação concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
+					: this._snack.exibirToast('Atualização realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
+		});
 	}
 }
 

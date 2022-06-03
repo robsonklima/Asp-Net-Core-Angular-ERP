@@ -98,9 +98,10 @@ namespace SAT.INFRA.Repository
                 contratos = contratos.Where(c => c.IndAtivo == parameters.IndAtivo);
             }
 
-            if (parameters.CodCliente != null)
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
-                contratos = contratos.Where(c => c.CodCliente == parameters.CodCliente);
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                contratos = contratos.Where(os => cods.Contains(os.CodCliente));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

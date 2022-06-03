@@ -50,6 +50,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 	loadData(): void {
 		this.obterClientes();
+		this.obterTipoContratos();
 		this.registrarEmitters();
 	}
 
@@ -115,7 +116,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	}
 
 	private registrarEmitters() {
-	this.clienteFilterCtrl.valueChanges
+		this.clienteFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
@@ -135,6 +136,16 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			)
 			.subscribe(() => {
 				this.obterContratos(this.contratoFilterCtrl.value);
+			});
+
+		this.tipoContratoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterContratos(this.tipoContratoFilterCtrl.value);
 			});
 	}
 

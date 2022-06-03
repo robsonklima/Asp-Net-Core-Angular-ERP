@@ -20,7 +20,7 @@ import { EquipamentoContratoService } from 'app/core/services/equipamento-contra
 		/* language=SCSS */
 		`
     .list-grid-contrato {
-      grid-template-columns: 72px 150px 150px 150px auto 50px 200px 100px 50px;
+      grid-template-columns: 80px 80px 100px 180px 130px auto 50px 160px 90px 50px;
       
       /* @screen sm {
           grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;

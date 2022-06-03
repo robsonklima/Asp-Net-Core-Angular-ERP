@@ -55,6 +55,9 @@
                                     {{ t('contrato') }}
                                 </div>
                                 <div class="md:block">
+                                    {{ t('tipo contrato') }}
+                                </div>
+                                <div class="md:block">
                                     {{ t('modelo') }}
                                 </div>
                                 <div class="md:block">
@@ -96,6 +99,9 @@
                                 </div>
                                 <div class="flex truncate">
                                     {{ equip.contrato?.nomeContrato || t('nao informado') }}
+                                </div>
+                                <div class="flex truncate">
+                                    {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('nao informado') }}
                                 </div>
                                 <div class="flex truncate">
                                     {{ equip.equipamento?.nomeEquip || t('nao informado') }}

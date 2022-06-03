@@ -130,6 +130,12 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(os => cods.Contains(os.CodCliente));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodTipoContratos))
+            {
+                int[] cods = parameters.CodTipoContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equips = equips.Where(equip => cods.Contains(equip.Contrato.TipoContrato.CodTipoContrato));
+            }
+
             if (!string.IsNullOrEmpty(parameters.NumSerie))
                 equips = equips.Where(e => e.NumSerie == parameters.NumSerie);
 

@@ -40,7 +40,21 @@
                             {{ contrato.nomeContrato }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>                
+                </mat-form-field>    
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('tipo contrato') }}</mat-label>
+                    <mat-select formControlName="codTipoContratos" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoContratoFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let tipoContrato of tipoContratos" [value]="tipoContrato.codTipoContrato">
+                            {{ tipoContrato.nomeTipoContrato }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>    
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
